@@ -1,0 +1,19 @@
+<div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="{{ .Site.BaseURL }}"><h1>{{ .Site.Title }}</h1></a>
+      <p class="lead">
+      {{ with .Site.Params.description }} {{.}} {{ else }}A collection of all my notes and elucidations. {{end}}
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="{{ .Site.BaseURL }}"><u>Home</u></a> </li>
+      {{ range .Site.Menus.main -}}
+        <li><a href="{{.URL}}"><u> {{ .Name }} </u></a></li>
+      {{- end }}
+    </ul>
+
+    <p>Made with <a href="http://gohugo.io">❤️</a> by <a href="https://github.com/abhishekarya1">Abhishek Arya</a>.</p>
+  </div>
+</div>
