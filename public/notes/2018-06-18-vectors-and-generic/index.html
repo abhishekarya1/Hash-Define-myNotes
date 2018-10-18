@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.40.1" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>STL - Vectors and Generic Programming &middot; #Define</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="https://mystash.github.io/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://mystash.github.io/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://mystash.github.io/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://mystash.github.io/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="#Define" />
+
+  
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://mystash.github.io/"><h1>#Define</h1></a>
+      <p class="lead">
+      A collection of all my notes and elucidations. 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://mystash.github.io/"><u>Home</u></a> </li>
+      <li><a href="/notes/2018-07-08-all/"><u> All Programming Notes </u></a></li>
+    </ul>
+
+    <p>Made with <a href="http://gohugo.io">❤️</a> by <a href="https://github.com/abhishekarya1">Abhishek Arya</a>.</p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>STL - Vectors and Generic Programming</h1>
+  <span class="post-date">Mon, Jun 18, 2018</span>
+  
+
+<h3 id="vectors">Vectors</h3>
+
+<p>They are data structures in C++ just like arrays but they have size that is capped only by the amount of space we can possibly allocate.</p>
+
+<ul>
+<li>Header files:
+<code>
+#include&lt;vector&gt;
+</code></li>
+<li>Declaration:
+<code>
+vector&lt;int&gt; v;    // vector&lt;data_type&gt; name;
+</code>
+As Function Parameter Passed by Reference:
+<code>
+int func(int n, vector&lt;int&gt; &amp;v)  {    }
+</code></li>
+</ul>
+
+<h4 id="built-in-functions">Built in Functions</h4>
+
+<ul>
+<li><strong>v.push_back(x)</strong> - Pushes the element(x) inside the vector.</li>
+<li><strong>v.pop_back(x)</strong> - Pops the element(x) from the vector.</li>
+<li><strong>v.reserve(100)</strong> - Reserves a vector space of 100.</li>
+<li><strong>v.size()</strong> - Returns size of the vector.</li>
+</ul>
+
+<p>For more functions, refer <a href="http://www.cplusplus.com/reference/vector/vector/">here</a>.</p>
+
+<h3 id="generic-programming-in-c">Generic Programming in C++</h3>
+
+<ul>
+<li><strong>Placeholders</strong> in templates get replaced by a data type.</li>
+</ul>
+
+<h4 id="generic-data-types-and-function-templates">Generic Data Types and  Function Templates</h4>
+
+<p>To declare a generic data type.</p>
+
+<pre><code>template&lt;typename T&gt; or template&lt;class T&gt;
+</code></pre>
+
+<ul>
+<li>Usage:</li>
+</ul>
+
+<pre><code>#include&lt;iostream&gt;
+
+using namespace std;
+
+template &lt;typename T&gt;
+T bigger(T a, T b)        // Generic Function with a generic Return Type
+{
+    if(a &gt; b) return a;
+    else return b;
+}
+
+int main()
+{
+    cout &lt;&lt; bigger(14.2,7.2);
+}
+
+OUTPUT : 14.2
+</code></pre>
+
+<ul>
+<li>With Multiple Placeholders:</li>
+</ul>
+
+<pre><code>#include&lt;iostream&gt;
+
+using namespace std;
+
+template &lt;typename X, typename Y&gt;
+Y bigger(X a, Y b)        // Generic Function with a generic Return Type (X)
+{
+    if(a &gt; b) return a;
+    else return b;
+}
+
+int main()
+{
+    cout &lt;&lt; bigger(14.2,7);
+}
+
+OUTPUT : 14
+</code></pre>
+
+<p>We can also use the below syntax:</p>
+
+<pre><code>template&lt;typename T&gt;
+class Vector{
+    T arr[100];
+}
+
+class Me{
+    int roll_no;
+    char name[10];
+}
+
+int main(){
+    Vector&lt;int&gt; v1;                 // Associating Constructor of Class Vector and type int and Making the whole as another object (v1)
+
+    Vector&lt;Me&gt; v2;                  // Associating another class object (type) and making the whole as an object (v2)
+
+    char arr_char[] = {'a','b','c'};
+  print&lt;char&gt;(arr_char, 3);
+
+  print&lt;char&gt;(arr_char, 3, compareInt);         // Function call for a specific data type specified by [function_name&lt;data_type&gt;(para,meter,s)]
+}
+</code></pre>
+
+<p>Let&rsquo;s see another example -</p>
+
+<pre><code>class Elephant{
+public:
+    int wt;
+    char name[20];
+};
+
+template&lt;typename T, typename Y &gt;
+void print(T arr[], int n, Y printCriteria){            // Y is a function type
+    for(int i = 0; i &lt; n; ++i){
+        printCriteria(arr[i]);                                      // printMyElephant(arr[i])
+    }
+    cout &lt;&lt; endl;
+}
+
+void printMyElephant(Elephant E){
+    cout &lt;&lt; E.wt &lt;&lt; &quot; &quot; &lt;&lt; E.name &lt;&lt; endl;
+}
+
+int main(){
+        Elephant E[] = {                                    // Array of objects
+        {1600, &quot;Hachi&quot;},
+        {1500, &quot;Rocky&quot;},
+        {1000, &quot;Jumbo&quot;}
+    };
+
+print(E, 3, printMyElephant);       // Passed whole function
+}
+</code></pre>
+
+<p>In the above example we created a function for comparing Elephants. Since our compiler didn&rsquo;t know how to print Elephants, we passed that function to our generic function to print any values adding another parameter for it and the value in <code>print()</code> got bounded during compile-time to <code>printMyElephant()</code> that we passed in our call.</p>
+
+<h4 id="class-templates">Class Templates</h4>
+
+<p>Since we can also pass into out Generic type the objects of class.
+We have to be careful as the algorithms that work flawlessly for data types might not work for an object.
+Ex - How do you compare two objects? What is the result of this? - <code>Car c &gt; Pen p;</code>.</p>
+
+<p>We need to build a Generic system that frees our algorithm from implementation and truly make us achieve generic nature across all types.</p>
+
+<pre><code>class VectorInt{
+    int arr[100];
+};
+
+class VectorChar{
+    char arr[100];
+};
+
+template &lt;typename T&gt;
+class Vector{            // Generic Class
+    T arr[100];         // Array has elements of type T
+};
+
+class Elephant{
+    int wt;
+    char name[100];
+};
+
+
+int main(){
+    // VectorInt vint;   // container of ints (object)
+    // VectorChar vchar;   // container of chars (object)
+
+    Vector&lt;int&gt; v1;
+    Vector&lt;char&gt; v2;   
+    Vector&lt;Elephant&gt; v3;      // Vector containing Elephant data type
+}
+</code></pre>
+
+<p>More <a href="https://medium.com/coding-blocks/generic-programming-in-c-a-conceptual-overview-446f1ee89287">here</a>.</p>
+
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>All Programming Notes &middot; #Define</title>
+  <title>Important Points &middot; #Define</title>
 
   
   <link type="text/css" rel="stylesheet" href="https://mystash.github.io/css/print.css" media="print">
@@ -49,17 +49,52 @@
 
     <div class="content container">
     <div class="post">
-  <h1>All Programming Notes</h1>
-  <span class="post-date">Fri, Jun 1, 2018</span>
+  <h1>Important Points</h1>
+  <span class="post-date">Wed, Jun 6, 2018</span>
   
 
-<h3 id="links-for-all-programming-notes">Links for all programming notes.</h3>
+<ul>
+<li>Arrays are always passed by reference, be it character array(string) in C++.</li>
+</ul>
 
-<p><a href="/notes/2018-06-01-day-4/">[Day-4] - Functions and Arrays</a></p>
+<h2 id="cin">cin</h2>
 
-<p><a href="/notes/2018-06-03-day-5/">[Day-5] - Reference and Array Sorting Algorithms</a></p>
+<ul>
+<li>cin ifnores whitespaces and reads only non-whitespace characters, cin reads from a file known as &lsquo;stdin&rsquo;&ldquo;istream&rdquo; and cin can be <em>invalidated</em> by supplying value of a type that is not expected, cin gets invalidated and never takes any input throughout the rest of the program.</li>
+</ul>
 
-<p><a href="/cb/Class 5 (as PDF).pdf">PDF Download</a></p>
+<pre><code>return cin;     //will return false if cin has been invalidated before
+</code></pre>
+
+<p>We can <em>re-validate</em> <code>cin by cin.clear();</code>.</p>
+
+<ul>
+<li>Enter or &lsquo;\n&rsquo; is a valid character and is written into and read from the istream file just as other characters, but it is also a delimiter for cin and cin.getline().</li>
+</ul>
+
+<h2 id="cin-get">cin.get()</h2>
+
+<ul>
+<li>it taks only one input at a time and that <strong><em>includes</em></strong> whitespaces.</li>
+</ul>
+
+<h2 id="cin-getline">cin.getline()</h2>
+
+<pre><code>char str[100];
+cin.getline(str,90,'$')  //cin.getline(storage_string_name, max_size, 'delimiter_character')    [max_size&lt;str_size]
+</code></pre>
+
+<ul>
+<li>Delimiter is not read by cin.getline().</li>
+<li>By default delimiter is &lsquo;\n&rsquo; aka newline character/Enter.</li>
+</ul>
+
+<pre><code>cin.getline(str,90); // default delimiter`
+</code></pre>
+
+<ul>
+<li>cin.getline() will not ignore whitespaces and wil go onto read until delimiter, charaters from the file after the delimiter will not be read.</li>
+</ul>
 
 </div>
 

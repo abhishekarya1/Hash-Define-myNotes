@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
 
-  <title>Categories &middot; #Define</title>
+  <title>.[Day-5] Reference and Array Sorting Algorithms &middot; #Define</title>
 
   
   <link type="text/css" rel="stylesheet" href="https://mystash.github.io/css/print.css" media="print">
@@ -23,7 +23,7 @@
   <link rel="shortcut icon" href="/favicon.png">
 
   
-  <link href="https://mystash.github.io/categories/index.xml" rel="alternate" type="application/rss+xml" title="#Define" />
+  <link href="" rel="alternate" type="application/rss+xml" title="#Define" />
 
   
 </head>
@@ -48,9 +48,48 @@
 </div>
 
     <div class="content container">
-    <ul class="posts">
+    <div class="post">
+  <h1>.[Day-5] Reference and Array Sorting Algorithms</h1>
+  <span class="post-date">Sun, Jun 3, 2018</span>
+  
 
+<h3 id="pass-by-reference">Pass by Reference</h3>
+
+<pre><code>void myswap(int &amp;n1, int &amp;n2) //formal parameters           /*Called Function        Pass by Reference*/
+{
+    int temp=n1;
+    n1=n2;
+    n2=temp;
+}
+
+int main()                              // Calling Function
+{
+    int a,b;
+    cin&gt;&gt;a&gt;&gt;b;
+    myswap(a,b);    //arguments or actual parameters        // Function call independent of pass method
+    cout&lt;&lt;a&lt;&lt;&quot; &quot;&lt;&lt;b;
+
+}   
+</code></pre>
+
+<blockquote>
+<ul>
+<li><strong>Pass by Value</strong> - New variables are created<br /></li>
+<li><strong>Pass by Reference</strong> - New variables are <em>not</em> created, new names are given to the existing <em>variables</em>.</li>
 </ul>
+</blockquote>
+
+<h3 id="algorithms">Algorithms</h3>
+
+<pre><code>1. Sorting an Array
+    a. Bubble Sort
+    b. Insertion Sort
+    c. Selection Sort
+</code></pre>
+
+</div>
+
+
     </div>
 
     
