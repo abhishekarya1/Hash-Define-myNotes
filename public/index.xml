@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>#Define</title>
+    <link>https://me.abyssaltech.xyz/</link>
+    <description>Recent content on #Define</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <lastBuildDate>Fri, 01 Jun 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="https://me.abyssaltech.xyz/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>All Coding Blocks Notes</title>
+      <link>https://me.abyssaltech.xyz/notes/2018-07-08-all/</link>
+      <pubDate>Fri, 01 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://me.abyssaltech.xyz/notes/2018-07-08-all/</guid>
+      <description>Here are the links for all the notes from Coding Blocks. [Day-4] - Functions and Arrays</description>
+    </item>
+    
+    <item>
+      <title>CB[Day-4] Functions and Arrays</title>
+      <link>https://me.abyssaltech.xyz/notes/2018-06-01-day-4/</link>
+      <pubDate>Fri, 01 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://me.abyssaltech.xyz/notes/2018-06-01-day-4/</guid>
+      <description>Precedence of Operators  Division and Multiplication has same priority/precedence - to resolve, we use associativity (Left-to-Right).  Arrays  Arrays are Garbage Declared, Zero Initialized. Bound Checking is not done in C++, no compilation error when ArrayOutOfBound.  Errors  Logical Errors - Difficult to Debug. Semantics Errors - aka Compile Time Errors. Runtime Errors - Pass the Compilation but program fails during Runtime.like dividing by 0.  Undefined Behaviour No behaviour can be defined beforehand even in the same environment.</description>
+    </item>
+    
+  </channel>
+</rss>
