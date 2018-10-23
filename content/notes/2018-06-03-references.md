@@ -1,5 +1,5 @@
 ---
-title: .[Day-5] Reference and Array Sorting Algorithms
+title: Reference and Array Sorting Algorithms
 date: 2018-06-03
 ---
 

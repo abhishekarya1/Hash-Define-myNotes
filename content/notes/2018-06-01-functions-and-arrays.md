@@ -1,5 +1,5 @@
 ---
-title: .[Day-4] Functions and Arrays
+title: Functions and Arrays
 date: 2018-06-01
 ---
 
