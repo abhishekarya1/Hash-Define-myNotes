@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.48" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Pointers &middot; #Define</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="https://me.abyssaltech.xyz/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://me.abyssaltech.xyz/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://me.abyssaltech.xyz/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://me.abyssaltech.xyz/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="#Define" />
+
+  
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://me.abyssaltech.xyz/"><h1>#Define</h1></a>
+      <p class="lead">
+      A collection of all my notes and elucidations. 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://me.abyssaltech.xyz/"><u>Home</u></a> </li>
+      <li><a href="/notes/2018-07-08-all/"><u> All Programming Notes </u></a></li>
+    </ul>
+
+    <p>Made with <a href="http://gohugo.io">❤️</a> by <a href="https://github.com/abhishekarya1">Abhishek Arya</a>.</p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>Pointers</h1>
+  <span class="post-date">Sat, Jun 9, 2018</span>
+  
+
+<h3 id="address">Address</h3>
+
+<ul>
+<li>There exists one more data type called as &ldquo;Address Data Type&rdquo; which is used to store data.</li>
+<li>It has certain limitations in arithmetic operations that can be done with it and it is often represented as a Hex value.</li>
+<li>It behaves much like a real-world address.</li>
+<li>Address of anything is basically its starting address location (address). e.g. Arrays, etc&hellip;</li>
+</ul>
+
+<h3 id="meaning-and-syntax">Meaning and Syntax</h3>
+
+<ul>
+<li><code>int *ptr = &amp;x;</code> - This statement creates a variable named &ldquo;ptr&rdquo; that stores address (data type) of the integer variable &lsquo;x&rsquo; - ptr is also called a <strong>Pointer</strong>.</li>
+<li>The <code>*</code> operator is called a <strong>value at</strong> operator, and another operator <code>&amp;</code> is called <strong>address of</strong> operator.</li>
+<li>The above statement is same as writing - <code>int *ptr = &amp;x;</code></li>
+<li>x here can contain any value e.g. <code>x = 20;</code></li>
+<li>We refer to the address <code>ptr</code> and value at ptr by <code>*ptr</code>.</li>
+<li>There are two ways to define pointers, pick one ans follow throughout your program.</li>
+</ul>
+
+<pre><code>int* ptr = x;       // Asterisk with data-type
+int *ptr = y;       // Asterisk with pointer name
+</code></pre>
+
+<ul>
+<li><code>int *ptr = x;</code> or <code>int *ptr = 10;</code> will lead to compile-time error because we&rsquo;re trying to assign integer value to a pointer data type.</li>
+</ul>
+
+<pre><code>#include&lt;iostream&gt;
+
+using namespace std;
+
+int main()
+{
+    int x = 10;
+    int* ptr = &amp;x;
+    cout &lt;&lt; ptr;        // will print address of x
+    cout &lt;&lt; *ptr;       // will print 10
+}
+</code></pre>
+
+<ul>
+<li><strong>DO NOT</strong> declare pointers (create pointers and leave them without initializing them). <code>int *ptr;</code> Doing this will lead to <strong>undefined behaviour</strong> as a garbage address value will be assigned to <code>ptr</code> and if it does not lie in our program&rsquo;s allloted address space then the program will crash (Segmentation Fault).</li>
+<li><strong>Segmentation Fault</strong> - Whenever we try to access an invalid or unavailable location.</li>
+<li>Contexts of the * symbol -
+
+<ul>
+<li><em>Declaration</em> - <code>int *ptr = &amp;x;</code></li>
+<li><u><strong>Dereferencing</strong></u> - <code>int *ptr = &amp;x;</code></li>
+<li><em>Multiplication</em> - <code>x * y</code></li>
+</ul></li>
+<li>Only <code>0</code> or <code>NULL</code> can be typed as address for a pointer initialization.</li>
+</ul>
+
+<h3 id="size-of-a-pointer">Size of a Pointer</h3>
+
+<p>A pointer is just another variable storing the address of others, so no matter what datatype it is pointing to, they are of same size - <strong>ALWAYS</strong>.</p>
+
+<h3 id="pointer-arithmetic">Pointer Arithmetic</h3>
+
+<ul>
+<li><strong>Addition and Multiplication</strong> - Pointer addition is not valid as the result of the addition is an address that may or may not be valid (Implementation Defined).</li>
+<li><strong>Division and Modulo</strong> - Not valid.</li>
+<li><strong>Subtraction</strong> - <code>ptr2 - ptr1</code> yields a result specifying how many elements can be accomodated between <code>ptr2</code> and <code>ptr1</code>, hence only pointers of <strong>same data type</strong> can be substracted.</li>
+<li><strong>Pointer added with and integer</strong> - <code>ptr + 10</code> yields a result that is 10 elements further from the given address (initial value of ptr).</li>
+</ul>
+
+<h3 id="pointers-and-arrays">Pointers and Arrays</h3>
+
+<pre><code>  int arr[5] = {10, 20, 30, 40, 50};
+     cout &lt;&lt; arr;       // arr is address of array, first element address, note that how only the name is enough     
+     cout &lt;&lt; &amp;arr[0];   // address of the first element of array
+     cout &lt;&lt; &amp;arr;      // arr is address of ARRAY
+     cout &lt;&lt; arr[0];    // arr[0]
+     cout &lt;&lt; (&amp;arr[3]) - (&amp;arr[0]);     // 2 = (Starting address of 3rd element - Starting address of 0th element)
+     cout &lt;&lt; &amp;arr[3] - &amp;arr[1];     // 1
+</code></pre>
+
+<p>When refering to the array with its name only e.g. <code>Arya</code> insted of <code>Arya[]</code>, we are implying that we want address of the array, which is nothing but the address of the first element itself.
+If we do <code>cout &lt;&lt; Arya;</code>, we&rsquo;ll get the address value equal to <code>cout &lt;&lt; Arya[0]</code>.</p>
+
+<h3 id="pointers-and-character-arrays">Pointers and Character Arrays</h3>
+
+<pre><code>  char carr[5] = &quot;abcd&quot;;
+     cout &lt;&lt; carr;      // abcd, will print everything from given address to '\0'
+     cout &lt;&lt; &amp;carr[2];      // c d
+     cout &lt;&lt; carr[2];       //  c
+     cout &lt;&lt; (int*)&amp;carr[2];        // some address of carr[2]
+     cout &lt;&lt; &amp;carr[3] - &amp;carr[1];       // 2
+</code></pre>
+
+<p><strong>NOTICE</strong> - <code>cout</code> in case <code>&amp;carr[2]</code> that the output is <code>c d</code>, this is because <code>cout&lt;&lt;</code> is designed such that is prints values at addresses fed to it until a <code>'\0'</code> is encountered. In <code>print((int*)&amp;carr[2])</code> the address get typecasted to a pointer type and hence converts to the address of the second element of the character array.</p>
+
+<h3 id="pointers-and-functions">Pointers and Functions</h3>
+
+<p>In the below code, the two function definitions are exactly the same, as implicitly, only a pointer to the array is passed to the function definition as they are always passed by reference.</p>
+
+<pre><code>int func2(int* arr){
+
+}
+ 
+int func1(int arr[]){
+
+}
+</code></pre>
+
+<h3 id="pointer-arrays">Pointer Arrays</h3>
+
+<p><code>int (*ptr)[10]</code> represents a pointer array of size 10.</p>
+
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>
