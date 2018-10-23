@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.48" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Object-Oriented Programming in C&#43;&#43; &middot; #Define</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="https://me.abyssaltech.xyz/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://me.abyssaltech.xyz/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://me.abyssaltech.xyz/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://me.abyssaltech.xyz/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="#Define" />
+
+  
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://me.abyssaltech.xyz/"><h1>#Define</h1></a>
+      <p class="lead">
+      A collection of all my notes and elucidations. 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://me.abyssaltech.xyz/"><u>Home</u></a> </li>
+      <li><a href="/notes/2018-07-08-all/"><u> All Programming Notes </u></a></li>
+    </ul>
+
+    <p>Made with <a href="http://gohugo.io">❤️</a> by <a href="https://github.com/abhishekarya1">Abhishek Arya</a>.</p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>Object-Oriented Programming in C&#43;&#43;</h1>
+  <span class="post-date">Mon, Jun 18, 2018</span>
+  
+
+<h2 id="goals">Goals</h2>
+
+<p>Everything in the real-world has a name and a functionality associated with it.
+Ex - A name of an object is &ldquo;Dog&rdquo;, it can have various parameters like breed, length, height, or the functions it can perform like running, eating, sleeping.</p>
+
+<p>What we can do is that we can create objects of a Dog and then whenever we want to store different information about any Dog, we can use that object again and again.</p>
+
+<p>Everything that has an independent existence in real-life is called an <strong>Object</strong>, it can also be called as an <strong>Instance</strong> of a class.</p>
+
+<p>A <strong>Class</strong> is the blueprint for an object that tells the compiler how and what our object and its properties and functions are.</p>
+
+<pre><code>// Define Blueprint
+
+class Car
+{
+	public:
+		int price;
+		int model_no;				// Data Member
+
+		bool isRunning();		// Function
+};
+
+int main()
+{
+	Car c;	// To create object just like we declare a variable of a type
+	cout &lt;&lt; sizeof(c); 	// c is an object of 8 bytes
+	cout &lt;&lt; sizeof(Car); 	// 8 bytes because sizeof() returns size of the object when it'll be created
+	// A class is just a piece of code and is nothing without its object
+
+	Car R[100];  // Array of Cars
+}
+</code></pre>
+
+<p>The properties (variables) like name and size are called as <strong>Data Members</strong>.</p>
+
+<pre><code>int num;
+char name[20];
+</code></pre>
+
+<p>The functions and tasks associated are called <strong>Functions</strong>.</p>
+
+<pre><code>int nRotations();
+bool isRunning();
+</code></pre>
+
+<h3 id="dot-operator">Dot(.) Operator</h3>
+
+<p>Used to access Data Members and Functions.</p>
+
+<pre><code>Car c;
+c.name = &quot;BMW&quot;;
+c.model_no = 1991;
+c.isRunning();
+</code></pre>
+
+<h3 id="access-modifiers">Access Modifiers</h3>
+
+<ol>
+<li><strong>private</strong> - By Default C++ has all data members and functions as Private.
+They cannot be accessed by functions not part of the class.</li>
+<li><strong>public</strong> - They can be accessed anywhere.
+<code>
+class Pen
+{
+	public:
+	string name;
+	string colour;
+}
+</code></li>
+<li><strong>protected</strong></li>
+</ol>
+
+<h3 id="getters-and-setters">Getters and Setters</h3>
+
+<p><strong>Getters</strong> are used to get the value of a data member.</p>
+
+<p><strong>Setters</strong> are used to set the value of a data member.</p>
+
+<pre><code>class Car
+{
+    string name;  
+};
+
+int main()
+{
+    Car c;
+    c.name=&quot;Audi&quot;; 	// directly accessing a private data member not allowed
+}
+
+</code></pre>
+
+<p>We can use getters and setters to access and modify private data members as shown below.</p>
+
+<pre><code>class Car
+{
+    private:
+    int year;
+
+    public:
+    void setYear(int y)		// Setter Function
+    {
+        year=y;
+    }
+
+    int getYear()				// Getter Function
+    {
+        return year;
+    }
+
+};
+
+int main()
+{
+    Car c;
+    c.setYear(2006);			// Setter Function Call
+    cout &lt;&lt; c.getYear();	// Getter Function Call
+}
+
+</code></pre>
+
+<h3 id="memory-allocation">Memory allocation</h3>
+
+<p>Every Object and Data Member gets allocated a space, but Functions have a <strong>common memory across all objects</strong>.</p>
+
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>

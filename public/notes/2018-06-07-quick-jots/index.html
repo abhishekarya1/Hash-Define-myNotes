@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en-us" lang="en-us">
+<head>
+  <link href="http://gmpg.org/xfn/11" rel="profile">
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <meta name="generator" content="Hugo 0.48" />
+
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+
+  <title>Quick Jots &middot; #Define</title>
+
+  
+  <link type="text/css" rel="stylesheet" href="https://me.abyssaltech.xyz/css/print.css" media="print">
+  <link type="text/css" rel="stylesheet" href="https://me.abyssaltech.xyz/css/poole.css">
+  <link type="text/css" rel="stylesheet" href="https://me.abyssaltech.xyz/css/syntax.css">
+  <link type="text/css" rel="stylesheet" href="https://me.abyssaltech.xyz/css/hyde.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Abril+Fatface|PT+Sans:400,400i,700">
+
+
+  
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+  <link rel="shortcut icon" href="/favicon.png">
+
+  
+  <link href="" rel="alternate" type="application/rss+xml" title="#Define" />
+
+  
+</head>
+
+  <body class=" ">
+  <div class="sidebar">
+  <div class="container sidebar-sticky">
+    <div class="sidebar-about">
+      <a href="https://me.abyssaltech.xyz/"><h1>#Define</h1></a>
+      <p class="lead">
+      A collection of all my notes and elucidations. 
+      </p>
+    </div>
+
+    <ul class="sidebar-nav">
+      <li><a href="https://me.abyssaltech.xyz/"><u>Home</u></a> </li>
+      <li><a href="/notes/2018-07-08-all/"><u> All Programming Notes </u></a></li>
+    </ul>
+
+    <p>Made with <a href="http://gohugo.io">❤️</a> by <a href="https://github.com/abhishekarya1">Abhishek Arya</a>.</p>
+  </div>
+</div>
+
+    <div class="content container">
+    <div class="post">
+  <h1>Quick Jots</h1>
+  <span class="post-date">Thu, Jun 7, 2018</span>
+  <ul>
+<li>The most significant dimension of an array is optional while defining a function with array as an argument.</li>
+</ul>
+
+<pre><code>int example(int arr[][3][3], int n) { }     // Function Definition
+</code></pre>
+
+<ul>
+<li>Short-circuit Evaluation</li>
+</ul>
+
+<pre><code>while(i &lt; len &amp;&amp; arr[i] == 100)     // if first condition is false, second is never evaluated
+
+while(i &lt; len || arr[i] == 100)     // if first condition is true, second is never evaluated
+</code></pre>
+
+<pre><code>while(i &lt; len &amp;&amp; arr[i] == 100)
+while(arr[i] == 100 &amp;&amp; i &lt; len)     // both these statements are not equivalent as second returns a segmentation fault, because the first is evaluated first        
+</code></pre>
+
+</div>
+
+
+    </div>
+
+    
+  </body>
+</html>
