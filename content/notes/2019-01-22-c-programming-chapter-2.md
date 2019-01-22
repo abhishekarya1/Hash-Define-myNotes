@@ -316,8 +316,10 @@ x = f() + g();		//not sure which ammong f() or g() is evaluated first
 printf("%sd %d\n", ++n, power(2, n));	//Different compiler, different results, based on what is evaluated first
 ```
 
-Don't try and write highly implementation-defined code in C. They are not covered in standard.
+- Don't write any code that depends upon the order of evaluation. They are not covered in the standard.
 
 ```c
-a[i] = i++;	 //subscript is the old value of i or new?
+a[i] = i++;	 //Subscript is the old value of i or new?
+
+//Ans - Compilers can interpret it in different ways and generate different answers based on the interpretation.
 ```

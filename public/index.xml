@@ -21,13 +21,34 @@
     </item>
     
     <item>
+      <title>Chapter 3 - Control Flow</title>
+      <link>https://me.abyssaltech.xyz/notes/2019-01-22-c-programming-chapter-3/</link>
+      <pubDate>Tue, 22 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://me.abyssaltech.xyz/notes/2019-01-22-c-programming-chapter-3/</guid>
+      <description>Chapter 3 - Control Flow Statements and Blocks  An expression like i+2, i++, or printf(...) terminated by a ; becomes a statement in C. Braces { and } are used to group statements inside a compound statement or a block.  If-Else  In if-else the else part is optional. if checks the numeric value of an expression after evaluating it.  We might do -
+if(x) //non-zero value implicitly means true //instead of if(x !</description>
+    </item>
+    
+    <item>
+      <title>Chapter 4 - Functions and Program Structure</title>
+      <link>https://me.abyssaltech.xyz/notes/2019-01-22-c-programming-chapter-4/</link>
+      <pubDate>Tue, 22 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://me.abyssaltech.xyz/notes/2019-01-22-c-programming-chapter-4/</guid>
+      <description>Chapter 4 - Functions and Program Structure  Advantages of using Functions -  Large computing tasks can be separated into smaller ones, so long as no function is split. Abstraction Easing the pain of making chanfges to code Source program can be stored across multiple files Code reusability   Basics of Functions return-type function-name(argument declarations) { declarations and statements //body }   If the return type is omitted during function declaration, it is assumed to be int.</description>
+    </item>
+    
+    <item>
       <title>C Programming</title>
       <link>https://me.abyssaltech.xyz/notes/2019-01-21-c-programming-dennis-ritchie/</link>
       <pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate>
       
       <guid>https://me.abyssaltech.xyz/notes/2019-01-21-c-programming-dennis-ritchie/</guid>
       <description>Preface &amp;amp; Chapter 1: A Tutorial Introduction
-Chapter 2: Types, Operators, and Expressions</description>
+Chapter 2: Types, Operators, and Expressions
+Chapter 3: Control Flow
+Chapter 4: Functions and Program Structure</description>
     </item>
     
     <item>

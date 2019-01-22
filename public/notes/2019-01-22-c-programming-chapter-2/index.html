@@ -593,9 +593,13 @@ if((x &amp; MASK) == 0) ...
 printf(&quot;%sd %d\n&quot;, ++n, power(2, n));   //Different compiler, different results, based on what is evaluated first
 </code></pre>
 
-<p>Don&rsquo;t try and write highly implementation-defined code in C. They are not covered in standard.</p>
+<ul>
+<li>Don&rsquo;t write any code that depends upon the order of evaluation. They are not covered in the standard.</li>
+</ul>
 
-<pre><code class="language-c">a[i] = i++;  //subscript is the old value of i or new?
+<pre><code class="language-c">a[i] = i++;  //Subscript is the old value of i or new?
+
+//Ans - Compilers can interpret it in different ways and generate different answers based on the interpretation.
 </code></pre>
 
 </div>
