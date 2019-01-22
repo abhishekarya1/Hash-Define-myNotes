@@ -100,7 +100,7 @@ printf("%3.2f\n", );	// atleast 3 wide, 2 after decimal point
 
 ```
 
-The width in the integer part does not actually play a part as eividient from below.
+The width in the integer part does not actually play a part as evident from below.
 
 ```c
 #include<stdio.h>
