@@ -94,10 +94,35 @@ printf("%6d \n", );		// integer has 6 digits width
 
 printf("%.3f\n", );		// float can have any width integer part but decimal part has a limit of 3 digits
 		
-printf("%.0f\n", );		//supresses printing of decimal point and the fraction part 
+printf("%.0f\n", );		//supresses printing of the decimal point and the fractional part 
 
 printf("%3.2f\n", );	// atleast 3 wide, 2 after decimal point
 
+```
+
+The width in the integer part does not actually play a part as eividient from below.
+
+```c
+#include<stdio.h>
+
+int main()
+{
+	float n = 656.56789;
+	
+	int m = 251;
+
+	printf("%2.3f\n", n);
+
+	printf("%2d\n", m);
+
+	printf("%.0f\n", n);
+
+	return 0;
+}
+
+Output: 656.568			//rounded off to only 3 decimal places
+		251				//no effect
+		657				//whole decimal part rounded off with no digit left after decimal
 ```
 
 - Symbolic Constants

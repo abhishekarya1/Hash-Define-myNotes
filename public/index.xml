@@ -6,10 +6,19 @@
     <description>Recent content on #Define</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Tue, 23 Oct 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 21 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="https://me.abyssaltech.xyz/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>C Programming</title>
+      <link>https://me.abyssaltech.xyz/notes/2019-01-21-c-programming-dennis-ritchie/</link>
+      <pubDate>Mon, 21 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>https://me.abyssaltech.xyz/notes/2019-01-21-c-programming-dennis-ritchie/</guid>
+      <description>Preface What C gets right.  C is a general-purpose programming language. It is not a very high level language, nor a big one. It was originally designed for and implemented on the UNIX operating system. Very useful for writing operating system, compilers and system programs and hence it is also called a &amp;ldquo;systems programming language&amp;rdquo;. Many important ideas in C stem from BCPL and B. [BCPL -&amp;gt; B -&amp;gt; C] BCPL and B are &amp;ldquo;typeless&amp;rdquo; languages, they don&amp;rsquo;t have data types defined.</description>
+    </item>
     
     <item>
       <title>Todo</title>
@@ -119,7 +128,7 @@ What we can do is that we can create objects of a Dog and then whenever we want 
     </item>
     
     <item>
-      <title>All Programming Notes</title>
+      <title>All Notes</title>
       <link>https://me.abyssaltech.xyz/notes/2018-07-08-all/</link>
       <pubDate>Fri, 01 Jun 2018 00:00:00 +0000</pubDate>
       
