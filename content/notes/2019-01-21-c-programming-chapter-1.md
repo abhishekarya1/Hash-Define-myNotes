@@ -37,26 +37,7 @@ formatted input and output, memory allocation, string manipulation, etc. This li
 - `main()` - The program begins executing at the beginning of main and there must be atleast one in the program.
 - `"Hello, world"` - a sequence of characters in double quotes is called a _string constant_ or _character string_ or _string literal_.
 
-
-	| Escape Sequence | Function          
-	| --------------- | ---------------   
- 	| \n              | Newline character   
-	| \t  		      | Tab character                 
-	| \b  		      | Backspace character          
-	| \"              | Double quotes       
-	| \\\\     | Backslash itself    
-
-
 - `/*.....*/` - Multi-line comment.
-
-	| Data type    | Size (in Bytes)    | Range             |
-	| ------       | ---------------	| -------           |
- 	| int          | 2  				|	-32768 to +32767|
-	| float        | 4   				| 	10<sup>-38</sup> to 10<sup>+38</sup>  |	
- 	| char         | 1  				|	                |	
-	| long integer | atleast 4   		| 					|
-	| short integer|            		| 					|
-	| double       | 8   				| 					|
 
 **The above sizes are machine-dependent.**
 

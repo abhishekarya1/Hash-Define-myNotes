@@ -3,6 +3,11 @@
   xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
   <url>
+    <loc>https://me.abyssaltech.xyz/notes/2019-01-22-c-programming-chapter-2/</loc>
+    <lastmod>2019-01-22T00:00:00+00:00</lastmod>
+  </url>
+  
+  <url>
     <loc>https://me.abyssaltech.xyz/notes/2019-01-21-c-programming-dennis-ritchie/</loc>
     <lastmod>2019-01-21T00:00:00+00:00</lastmod>
   </url>
@@ -83,7 +88,7 @@
   
   <url>
     <loc>https://me.abyssaltech.xyz/</loc>
-    <lastmod>2019-01-21T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
@@ -94,7 +99,7 @@
   
   <url>
     <loc>https://me.abyssaltech.xyz/notes/</loc>
-    <lastmod>2019-01-21T00:00:00+00:00</lastmod>
+    <lastmod>2019-01-22T00:00:00+00:00</lastmod>
     <priority>0</priority>
   </url>
   
