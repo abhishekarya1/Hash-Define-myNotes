@@ -1,7 +1,8 @@
 +++
-title = "Chapter 1 - A Tutorial Introduction"
+title = "A Tutorial Introduction"
 date =  2019-01-21T23:16:53+05:30
 weight = 2
+pre = "<b>1. </b>"
 +++
 
 - `main()` - The program begins executing at the beginning of main and there must be atleast one in the program.

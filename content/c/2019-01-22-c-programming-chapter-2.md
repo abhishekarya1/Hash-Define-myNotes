@@ -1,7 +1,8 @@
 +++
-title = "Chapter 2 - Types, Operators, and Expressions "
+title = "Types, Operators, and Expressions "
 date =  2019-01-22T23:16:53+05:30
 weight = 3
+pre = "<b>2. </b>"
 +++
 
 ### Variables
