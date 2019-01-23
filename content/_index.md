@@ -11,12 +11,17 @@ chapter = true
 
 by [abhishek_arya](https://www.github.com/abhishekarya1)
 
-<br> 
 <br>
 
-Blog: [Abyssal Tech](https://www.abyssaltech.xyz)
 
-Email: [abhishekarya102@gmail.com](mailto:abhishekarya102@gmail.com)
+{{% button href="https://www.abyssaltech.xyz" icon="fas fa-pen" %}} Visit Blog{{% /button %}} &nbsp;
+{{% button href="mailto:abhishekarya102@gmail.com" icon="fas fa-envelope" %}} Email{{% /button %}}
 
+![uses-git](https://forthebadge.com/images/badges/uses-git.svg)
+![powered-by-responsibility](https://forthebadge.com/images/badges/powered-by-responsibility.svg)
+
+<br>
+
+{{%expand "I'm Feeling Lucky" %}}You're Awesome! {{% /expand%}}
 
  
