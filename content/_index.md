@@ -12,5 +12,5 @@ A collection of all my notes and elucidations by [abhishek_arya](https://www.git
 {{% button href="https://abyssaltech.xyz" icon="fas fa-pen" %}} Visit Blog{{% /button %}} &nbsp;
 {{% button href="mailto:abhishekarya102@gmail.com" icon="fas fa-envelope" %}} Email{{% /button %}}
 
-![uses-git](https://forthebadge.com/images/badges/uses-git.svg)
-![powered-by-responsibility](https://forthebadge.com/images/badges/powered-by-responsibility.svg)
+[![uses-git](/images/uses-git.svg "Of course!")](https://github.com/abhishekarya1/Hash-Define-myNotes)
+![powered-by-responsibility](/images/powered-by-responsibility.svg "Yup, That's Right")

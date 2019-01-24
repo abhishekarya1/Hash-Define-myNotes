@@ -6,11 +6,12 @@ pre = "<b>4. </b>"
 +++
 
 ### Some advantages of using functions
-	- Large computing tasks can be separated into smaller ones, so long as no function is split.
-	- Abstraction
-	- Easing the pain of making chanfges to code
-	- Source program can be stored across multiple files
-	- Code reusability
+
+- Large computing tasks can be separated into smaller ones, so long as no function is split.
+- Abstraction
+- Easing the pain of making chanfges to code
+- Source program can be stored across multiple files
+- Code reusability
 
 ### Basics of Functions
 
