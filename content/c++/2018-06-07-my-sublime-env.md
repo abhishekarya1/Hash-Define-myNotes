@@ -30,6 +30,8 @@ Keyboard Shortcut: Ctrl+Shift+P -> Install Packages -> "Package Name"
  - For Inserting HTML Tags: _write tagname_ and then press Tab
  - For Multiple Coloumns: Alt + Shift + _number of coloumns_ (max. = 4, nos. after that for various display modes)
  - Focus on Single Coloumn: Ctrl + _number of coloumn_
+ - Jump to the closing/opening braces of a block: Ctrl + M
+ - List all functions: Ctrl + R
 
 ### Snippets in Sublime
 Tools -> Developer -> New Snippet...
