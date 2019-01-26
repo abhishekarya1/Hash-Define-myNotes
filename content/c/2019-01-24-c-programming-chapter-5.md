@@ -137,4 +137,24 @@ int arr[10][10];	//no. of rows = 10, no. of coloumns = 10
 
 ![Multi-dimensional Array](/img/multi_dim_array.png)
 
-- 
+- When passing a multi-dimensional array as function parameter - 
+
+```c
+int func(int arr[5][5]) { ... }
+
+//or
+
+int func(int arr[][5]) { ... }
+
+//or
+
+int func(int (*arr)[5]) { ... }
+```
+
+**Only the first dimension can be skipped.**
+
+### Initialization of Pointer Arrays
+
+![](/img/pointer_array_init.png)
+
+### 
