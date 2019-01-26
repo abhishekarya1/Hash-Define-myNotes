@@ -155,6 +155,8 @@ int func(int (*arr)[5]) { ... }
 
 ### Initialization of Pointer Arrays
 
+Pointer arrays have to be initialized before they can be used.
+
 ![](/img/pointer_array_init.png)
 
 ### Pointers vs. Multi-dimensional Arrays
@@ -166,7 +168,16 @@ int a[10][20];	//Multi-dimensional array having 10 pointers, each pointing to ar
 int *b[10];		//pointer array of size 10, which can point anywhere
 ```
 
-- Pointer arrays have an advantage that they can point anywhere and there is no storage that must be set aside unlike multi-dimensional arrays.
+- Pointer arrays have an advantage that they can point anywhere and there is no storage that must be set aside unlike multi-dimensional arrays. This saves space.
 
 ![pointer_array](/img/pointer_array.png)
 ![md_array](/img/md_array.png)
+
+### Command-line Arguments
+
+- In an environment using C, we can pass command-line arguments to a program when it begins executing.
+- `int argc` (argument count) and `char *argv` (argument vector) are used for this.
+- By convention, with `argv[0]` a program is called so `argc` = 1.
+- By convention, `argv[argc]` is a null pointer (=0).
+
+![Command-line Arguments](/img/cl_args.png)
