@@ -69,21 +69,14 @@ x = *(p + i);
 x = p[i];
 ```
 
-The assignment `p = &a[0];` is the same as `p = a`.
-
-```c
-char s[];
-
-//is equivalent to
-
-char *s;
-```
-
-An arary name is not a variable so expressions like - `arr = p` and `arr++` are illegal.
-
 ![](/img/p_array.png)
 
 ![](/img/p_pointer.png)
+
+The assignment `p = &a[0];` is the same as `p = a`.
+
+
+An arary name is not a variable so expressions like - `arr = p` and `arr++` are illegal.
 
 - As **Function Parameter** -
 
