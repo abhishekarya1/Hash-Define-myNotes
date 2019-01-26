@@ -81,6 +81,10 @@ char *s;
 
 An arary name is not a variable so expressions like - `arr = p` and `arr++` are illegal.
 
+![](/img/p_array.png)
+
+![](/img/p_pointer.png)
+
 - As **Function Parameter** -
 
 ```c
