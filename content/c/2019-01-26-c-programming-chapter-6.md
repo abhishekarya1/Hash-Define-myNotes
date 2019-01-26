@@ -122,4 +122,20 @@ struct point {
 * p -> str; // this accesses location popinted to by str
 ```
 
+## Arrays of Structures
+- Each element of array is a structure.
+
+```c
+struct key {
+
+	int count;
+	char *word;
+
+} keytab[NKEYS];
+```
+
+- Initialization - 
+
+![Arrays of Structures](/img/arr_struct.png)
+
 - 
