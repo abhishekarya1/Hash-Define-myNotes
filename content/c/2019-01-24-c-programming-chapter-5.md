@@ -180,4 +180,20 @@ int *b[10];		//pointer array of size 10, which can point anywhere
 - By convention, with `argv[0]` a program is called so `argc` = 1.
 - By convention, `argv[argc]` is a null pointer (=0).
 
+- `echo hello, world` is represented as - 
+
 ![Command-line Arguments](/img/cl_args.png)
+
+### Pointer to Functions
+
+- We can have pointer to functions and not use the signature with the pointer name as it is known throughout the program just like an array's size.
+
+```c
+int (*func)();	//pointer to function returning an integer
+```
+
+### Complicated Declarations
+
+![Complicated Declarations image](/img/cd.png)
+
+
