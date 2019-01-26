@@ -122,7 +122,7 @@ struct point {
 * p -> str; // this accesses location popinted to by str
 ```
 
-## Arrays of Structures
+### Arrays of Structures
 - Each element of array is a structure.
 
 ```c
@@ -138,4 +138,4 @@ struct key {
 
 ![Arrays of Structures](/img/arr_struct.png)
 
-- 
+### Pointers to Structures
