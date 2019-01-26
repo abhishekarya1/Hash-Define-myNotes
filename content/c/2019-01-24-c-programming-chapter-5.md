@@ -69,7 +69,7 @@ x = *(p + i);
 x = p[i];
 ```
 
-![](/img/p_array.png)
+![](/img/array.png)
 
 ![](/img/p_pointer.png)
 
@@ -157,4 +157,16 @@ int func(int (*arr)[5]) { ... }
 
 ![](/img/pointer_array_init.png)
 
-### 
+### Pointers vs. Multi-dimensional Arrays
+
+```c
+
+int a[10][20];	//Multi-dimensional array having 10 pointers, each pointing to array of 20 elements
+
+int *b[10];		//pointer array of size 10, which can point anywhere
+```
+
+- Pointer arrays have an advantage that they can point anywhere and there is no storage that must be set aside unlike multi-dimensional arrays.
+
+![pointer_array](/img/pointer_array.png)
+![md_array](/img/md_array.png)
