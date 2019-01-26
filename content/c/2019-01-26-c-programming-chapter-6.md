@@ -107,4 +107,19 @@ struct point origin;
 pp -> x;
 ```
 
+- **Precedence of `->` operator is the Highest.**
+
+```c
+
+struct point {
+
+	int x;
+	char *str;
+} *p;
+
+++ p -> x; // this increments x, not p
+
+* p -> str; // this accesses location popinted to by str
+```
+
 - 
