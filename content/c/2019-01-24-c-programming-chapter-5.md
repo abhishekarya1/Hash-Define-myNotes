@@ -92,7 +92,7 @@ func(int *a) {...}
 ``` 
 
 ### Address Arithmetic
-- Pointers can be added with constants.
+- Pointers can be added or subtracted with integer constants.
 - Pointers from the same array (of the same type) can be subtracted.
 - Pointers can be assigned to another pointer variable of the same kind.
 - Pointers and integers are not interchangable with `0` being an execption.
@@ -115,3 +115,16 @@ int *p = NULL;
 p < q;  //this is true if p referes to an earlier element in an array, p and q must belong to the same array
 ```
 
+- We cannot assign any pointer except `void*` to the pointer of another type without a cast.
+
+### Character Pointers and Functions
+
+```c
+char amessage[] = "now is the time";	/* an array */
+
+char *pmessage = "now is the time";		/* a pointer */
+```
+
+![](/img/string_pointer.png)
+
+- 
