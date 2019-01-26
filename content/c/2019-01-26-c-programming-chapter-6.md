@@ -139,3 +139,24 @@ struct key {
 ![Arrays of Structures](/img/arr_struct.png)
 
 ### Pointers to Structures
+
+- A function can return a pointer to a `struct`.
+
+```c
+struct key *binsearch(int x, int y);
+```
+
+- Don't assume that the size of a structure is the sum of sizes of its members.
+
+```c
+struct {
+
+	char c;
+	int i;
+};			//its size can be 8, not 5
+```
+
+`sizeof()` returns the exact value.
+
+### Self-referential Structures
+- 
