@@ -52,4 +52,45 @@ void swap(int *x, int *y)
 ```
 
 ### Pointers and Arrays
+- An array name is equivalent to the pointer to the first element. Ex - `arr` is same as `&arr[0]`.
+
+```c
+int a[10];
+
+int *p = &a[0];
+
+//then to reach the ith element we can do - 
+
+int x;
+x = *(p + i);
+
+//this all is same as doing - 
+
+x = p[i];
+```
+
+The assignment `p = &a[0];` is the same as `p = a`.
+
+```c
+char s[];
+
+//is equivalent to
+
+char *s;
+```
+
+- As **Functions Parameters** -
+
+```c
+func(int a[]) {...}
+
+//can also be written as -
+
+func(int *a) {...}
+``` 
+
+### Address Arithmetic
+- Pointers can be added with constants.
+- Pointers from the same array (of the same type) can be subtracted.
+- Pointers can be assigned to another pointer variable of the same kind.
 - 
