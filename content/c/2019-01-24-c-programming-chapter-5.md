@@ -124,4 +124,17 @@ char *pmessage = "now is the time";		/* a pointer */
 
 ![](/img/string_pointer.png)
 
+### Pointer Arrays; Pointers to Pointers
+
+- An array where each element is a pointer to another location.
+
+### Multi-dimensional Arrays
+
+```c
+int arr[10][10];	//no. of rows = 10, no. of coloumns = 10
+``` 
+- A multi-dimensional array can be thought of as an array where each element is in itself an array.
+
+![Multi-dimensional Array](/img/multi_dim_array.png)
+
 - 
