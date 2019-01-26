@@ -79,7 +79,9 @@ char s[];
 char *s;
 ```
 
-- As **Functions Parameters** -
+An arary name is not a variable so expressions like - `arr = p` and `arr++` are illegal.
+
+- As **Function Parameter** -
 
 ```c
 func(int a[]) {...}
@@ -93,4 +95,23 @@ func(int *a) {...}
 - Pointers can be added with constants.
 - Pointers from the same array (of the same type) can be subtracted.
 - Pointers can be assigned to another pointer variable of the same kind.
-- 
+- Pointers and integers are not interchangable with `0` being an execption.
+
+```c
+int *p = 0;  //valid
+
+if(*p == 0) //valid
+```
+
+```c
+//we can also use NULL defined in <stdio.h>
+
+int *p = NULL;
+```
+- Pointer Comparisons are valid if they belong to the same array.
+
+```c
+
+p < q;  //this is true if p referes to an earlier element in an array, p and q must belong to the same array
+```
+
