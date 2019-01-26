@@ -195,5 +195,3 @@ int (*func)();	//pointer to function returning an integer
 ### Complicated Declarations
 
 ![Complicated Declarations image](/img/cd.png)
-
-
