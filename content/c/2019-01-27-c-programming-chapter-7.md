@@ -114,4 +114,16 @@ int putc(int c, FILE *fp)
 - `int fclose(FILE *fp)` is the inverse of `fopen`, it breaks the connection between the file pointer and the external name that was established by `fopen`, freeing the file pointer for another file.
 
 ### Error Handling - Stderr and Exit
-- 
+- The function `ferror` returns non-zero if an error occurred on the stream `fp`.
+
+```c
+int ferror(FILE *fp)
+```
+
+- The function `feof(FILE *)` is analogous to `ferror`; it returns non-zero if end of file has occurred on the specified file.
+
+```c
+int feof(FILE *fp)
+```
+
+### Line Input and Output
