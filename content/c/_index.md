@@ -7,6 +7,6 @@ pre = "<i class='devicon-c-plain'></i> "
 +++
 
 
-# The C Programming Language
+# C Programming Notes
 
-Short notes from the book by Brian W. Kernighan and Dennis M. Ritchie
+Short notes from various sources.
