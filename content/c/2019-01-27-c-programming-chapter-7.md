@@ -127,3 +127,33 @@ int feof(FILE *fp)
 ```
 
 ### Line Input and Output
+- `fgets` is similar to the `getline` function.
+
+```c
+char *fgets(char *line, int maxline, FILE *fp)
+```
+
+- `fgets` reads the next input line (including the newline) from file `fp` into the character array line; at most `maxline-1` characters will be read. The resulting line is terminated with `'\0'`. Normally `fgets` returns line; on end of file or error it returns `NULL`. (Our `getline` returns the line length, which is a more useful value; zero means end of file.)
+
+- `fputs` writes a line to a file.
+
+```c
+int fputs(char *line, FILE *fp)
+```
+It returns `EOF` if an error occurs, and non-negative otherwise.
+
+- The library functions `gets` and `puts` are similar to `fgets` and `fputs`, but operate on `stdin` and `stdout`. Confusingly, `gets` deletes the terminating `'\n'`, and `puts` adds it.
+
+### Miscellaneous Functions
+
+#### String Operations
+
+| Function 		| Use
+|-------------	| -------------
+|strcat(s,t)	|concatenate t to end of s
+|strncat(s,t,n)	|concatenate n characters of t to end of s
+|strcmp(s,t)	|return negative, zero, or positive for s < t, s == t, s > t
+|strncmp(s,t,n)	|same as strcmp but only in first n characters
+|strcpy(s,t)	|copy t to s
+|strncpy(s,t,n)	|copy at most n characters of t to s
+|strlen(s)		|return length of s
