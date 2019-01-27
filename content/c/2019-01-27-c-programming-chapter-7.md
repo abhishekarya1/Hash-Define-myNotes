@@ -146,7 +146,9 @@ It returns `EOF` if an error occurs, and non-negative otherwise.
 
 ### Miscellaneous Functions
 
-#### String Operations
+#### String Operations - `<string.h>`
+
+- In the following, `s` and `t` are `char *`, and `c` and `n` are `ints`.
 
 | Function 		| Use
 |-------------	| -------------
@@ -159,3 +161,71 @@ It returns `EOF` if an error occurs, and non-negative otherwise.
 |strlen(s)		|return length of s
 |strchr(s,c)	|return pointer to first c in s, or NULL if not present
 |strrchr(s,c)	|return pointer to last c in s, or NULL if not present
+
+#### Character Class Testing and Conversion - `<ctype.h>`
+
+- In the following, `c` is an `int` that can be represented as an `unsigned char` or `EOF`. The function returns `int`.
+
+| Function 		| Use
+|-------------	| -------------
+|isalpha(c)		|non-zero if c is alphabetic, 0 if not
+|isupper(c)		|non-zero if c is upper case, 0 if not
+|islower(c)		|non-zero if c is lower case, 0 if not
+|isdigit(c)		|non-zero if c is digit, 0 if not
+|isalnum(c)		|non-zero if isalpha(c) or isdigit(c), 0 if not
+|isspace(c)		|non-zero if c is blank, tab, newline, return, formfeed, vertical tab
+|toupper(c)		|return c converted to upper case
+|tolower(c)		|return c converted to lower case
+
+#### Ungetc
+
+```c
+int ungetc(int c, FILE *fp)
+```
+- `ungetc` pushes the character `c` back onto file `fp`, and returns either `c`, or `EOF` for an error. Only one character of pushback is guaranteed per file. `ungetc` may be used with any of the input functions like `scanf`, `getc`, or `getchar`.
+
+#### Command Execution
+- The function `system(char *s)` executes the command contained in the character string `s`, then resumes execution of the current program.
+
+As a trivial example, on UNIX systems, the statement
+```c
+system("date");
+```
+causes the program date to be run; it prints the date and time of day on the standard output. system returns a system-dependent integer status from the command executed.
+
+#### Storage Management
+
+- `malloc`
+
+```c
+void *malloc(size_t n)
+```
+returns a pointer to n bytes of uninitialized storage, or NULL if the request cannot be satisfied.
+
+- `calloc`
+
+```c
+void *calloc(size_t n, size_t size)
+```
+returns a pointer to enough free space for an array of n objects of the specified size, or NULL if the request cannot be satisfied. The storage is initialized to zero.
+
+- `free`
+
+```c
+free(p)
+```
+frees the space pointed to by `p`, where `p` was originally obtained by a call to `malloc` or `calloc`.
+
+#### Mathematical Functions - `<math.h>`
+
+| Function 		| Use
+|-------------	| -------------
+|sin(x)			|sine of x, x in radians
+|cos(x)			|cosine of x, x in radians
+|atan2(y,x)		|arctangent of y/x, in radians
+|exp(x)			|exponential function e<sup>x</sup>
+|log(x)			|natural (base e) logarithm of x (x>0)
+|log10(x)		|common (base 10) logarithm of x (x>0)
+|pow(x,y)		|x<sup>y</sup>
+|sqrt(x)		|square root of x (x>0)
+|fabs(x)		|absolute value of x
