@@ -34,6 +34,7 @@ int main()
 
 Standard does not specifies the order in which the function designator, arguments, and subexpressions within the arguments are evaluated in a function call (6.5.2.2). It is <mark>unspecified behaviour</mark>.
 
+### int keyword in C
 
 - `int` has (1 sign bit + 31 data bits), 1 bit is reserved to store sign that can be + (_sign_bit = 0_) or - (_sign_bit = 1_).
 - MinGW specifies `int` size as 4 byte (32 bits)
@@ -41,6 +42,43 @@ Standard does not specifies the order in which the function designator, argument
 
 ```c
 int num=2147483647; 	//binary representation = 1111111111111111111111111111111
+```
 
-### int keyword in C
 - If we try to store any number greater than 2147483647 into an `int` type variable then we will lose information.
+
+### void main() or main()
+
+- Don't write void main() as standard ISO C++ and C99 both specify that return type of `main()` must be `int`.
+- Don't just write `main()` without any return type as ISO C++ and C99 forbids it.
+
+They might work on many compilers though.
+
+### int main() or int main (void)
+
+- In C++, it doesn't matter, both means the same.
+
+- In C, for backwards compatibility, we allow a function signature to have undefined number of parameters. So that it may be called with any number of arguments.
+
+```c
+int fun() { ... }		// undfined parameters
+
+int main()
+{
+	fun("abhi", 2, 45);		// valid in C, not in C++
+	
+	return 0;
+}
+``` 
+
+```c
+void fun(void) { ... } 
+
+int main(void) 
+{ 
+	fun("abhi", 2, 45); 	// fails to compile in both C and C++
+
+	return 0; 
+} 
+```
+
+### 
