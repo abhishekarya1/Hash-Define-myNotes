@@ -157,3 +157,5 @@ It returns `EOF` if an error occurs, and non-negative otherwise.
 |strcpy(s,t)	|copy t to s
 |strncpy(s,t,n)	|copy at most n characters of t to s
 |strlen(s)		|return length of s
+|strchr(s,c)	|return pointer to first c in s, or NULL if not present
+|strrchr(s,c)	|return pointer to last c in s, or NULL if not present
