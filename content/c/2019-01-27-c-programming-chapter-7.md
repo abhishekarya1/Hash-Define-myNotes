@@ -61,3 +61,24 @@ int sprintf(char *string, char *format, arg1, arg2, ...);
 `sprintf` formats the arguments in `arg1`, `arg2`, etc., according to format as before, but places the result in string instead of the standard output; string must be big enough to receive the result.
 
 ### Formatted Input - Scanf
+
+```c
+int scanf(char *format, ...);
+```
+
+- `scanf` reads characters from the standard input, interprets them according to the specification in format, and stores the results through the remaining arguments.
+- It returns as its value the number of successfully matched and assigned input items. This can be used to decide how many items were found. On the end of file, `EOF` is returned; note that this is different from `0`, which means that the next input character does not match the first specification in the format string.
+
+```c
+int sscanf(char *string, char *format, arg1, arg2, ...)
+```
+ - `sscanf` - It scans the string according to the format in format and stores the resulting values through `arg1`, `arg2`, etc. These arguments must be pointers.
+
+ ```c
+int day, year;
+char monthname[20];
+
+scanf("%d %s %d", &day, monthname, &year);		//No & is used with monthname, since an array name is a pointer
+```
+
+### File Access
