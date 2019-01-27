@@ -60,3 +60,36 @@ int main()
 	- A **Macro processor** is a program that copies a stream of text from one place to another, making a systematic set of replacements as it does so.
 	- A **Dynamic linker** is the part of an operating system that loads and links the shared libraries.
 	- The C preprocessor is a micro processor that is used by compiler to transform your code before compilation. It is called **micro pre-processor** because it allows us to add macros.
+
+### Line Splicing in C/C++
+
+Lines terminated by a single `/` are spliced together with the next line very early in the process of translation.
+
+```c
+// C program to illustrate the concept of Line splicing. 
+#include <stdio.h> 
+int main() 
+{ 
+	// Line Splicing\ 
+	printf("Hello GFG\n"); 
+	printf("welcome"); 
+	return (0); 
+} 
+
+```
+**OUTPUT: welcome**
+
+- Line splicing is used when defining a  macro which contains multiple lines.
+
+```c
+#include <stdio.h> 
+#define MAX(a, b) \
+		if(a>b) \
+			printf("%d\n", a);
+int main() 
+{ 
+	MAX(5, 2);
+} 
+```
+
+**OUTPUT: 5**
