@@ -82,3 +82,36 @@ scanf("%d %s %d", &day, monthname, &year);		//No & is used with monthname, since
 ```
 
 ### File Access
+```c
+FILE *fp;
+FILE *fopen(char *name, char *mode);
+```
+
+This says that `fp` is a pointer to a `FILE`, and `fopen` returns a pointer to a `FILE`.
+
+```c
+fp = fopen(name, mode);
+```
+
+The first argument of `fopen` is a character string containing the name of the file. The second argument is the `mode`, also a character string, which indicates how one intends to use the file. Allowable modes include read (`r`), write (`w`), and append (`a`).
+
+If a file that does not exist is opened for writing or appending, it is created if possible. Opening an existing file for writing causes the old contents to be discarded, while opening for appending preserves them. Trying to read a file that does not exist is an error, and there may be other causes of error as well, like trying to read a file when you don't have permission. If there is any error, `fopen` will return `NULL`.
+
+- `getc` returns the next character from the stream referred to by `fp`; it returns `EOF` for end of file or error.
+
+```c 
+int getc(FILE *fp)
+```
+
+- `putc` is an output function:
+- `putc` writes the character `c` to the file `fp` and returns the character written, or `EOF` if an error occurs.
+
+```c 
+int putc(int c, FILE *fp)
+```
+- When a C program is started, the operating system environment is responsible for opening three files and providing pointers for them. These files are the standard input, the standard output, and the standard error; the corresponding file pointers are called `stdin`, `stdout`, and `stderr`, and are declared in `<stdio.h>`. Normally `stdin` is connected to the keyboard and `stdout` and `stderr` are connected to the screen.
+
+- `int fclose(FILE *fp)` is the inverse of `fopen`, it breaks the connection between the file pointer and the external name that was established by `fopen`, freeing the file pointer for another file.
+
+### Error Handling - Stderr and Exit
+- 
