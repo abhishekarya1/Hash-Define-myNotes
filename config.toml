@@ -1,4 +1,4 @@
-baseURL = "https://me.abyssaltech.xyz/"
+baseURL = "https://notes.abyssaltech.xyz/"
 languageCode = "en-us"
 title = "#Define"
 theme = "hugo-theme-learn"
