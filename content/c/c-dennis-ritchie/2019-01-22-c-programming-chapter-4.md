@@ -205,6 +205,7 @@ char name[] = {'t', 'w', 'o'}
 ```c
 #undef func
 ```
+- The preprocessing operator '#' is used to convert a string argument into a string constant.
 - Use `#` preceeding a replacement text to and it will be expanded as a quoted string `"..."`.
 
 ```c
@@ -220,7 +221,7 @@ printf("x/y" " = /f\n", x/y);
 printf("x/y = %f\n", x/y);
 ```
 
-- If a macro has `##` adjacent to arguments, in the expansion white spaces will be removed and arguments will be replaced with actual ones, Ex - 
+- If a macro has `##` adjacent to arguments, in the expansion white spaces will be removed and arguments will be concatenated. Ex - 
 
 ```c
 #define paste(first, second) first ## second
