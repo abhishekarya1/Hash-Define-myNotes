@@ -1,13 +1,12 @@
 +++
-title = "Tips"
+title = "Useful Stuff"
 date =  2019-01-27T22:27:43+05:30
 weight = 1
-pre = "<b>1. </b>"
 +++
 
-- After the pre-processing is over, all the undefined macros are initialized with default value 0.
+- **After the pre-processing is over, all the undefined macros are initialized with default value 0**.
 
-- Inline Functions in C
+### Inline Functions in C
 
 ```c
 inline int square(int x) { return x*x; } 
@@ -26,7 +25,7 @@ return 0;
 
 Used in a header file to avoid its inclusion more than once.
 
-- Interesting Case
+### An Interesting Case
 
 ```c
 #include<stdio.h>
