@@ -229,3 +229,6 @@ frees the space pointed to by `p`, where `p` was originally obtained by a call t
 |pow(x,y)		|x<sup>y</sup>
 |sqrt(x)		|square root of x (x>0)
 |fabs(x)		|absolute value of x
+
+#### Random Number generation
+The function `rand()` computes a sequence of pseudo-random integers in the range zero to `RAND_MAX`, which is defined in `<stdlib.h>`.
