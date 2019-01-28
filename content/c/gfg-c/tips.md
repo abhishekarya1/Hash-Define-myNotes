@@ -96,4 +96,42 @@ int main()
 
 Link: https://www.geeksforgeeks.org/how-linkers-resolve-multiply-defined-global-symbols/
 
-### 
+### Scope Question?
+
+```c
+#include <stdio.h>
+int main()
+{
+  int x = 1, y = 2, z = 3;
+  printf(" x = %d, y = %d, z = %d n", x, y, z);
+  {
+       int x = 10;
+       float y = 20;
+       printf(" x = %d, y = %f, z = %d n", x, y, z);
+       {
+             int z = 100;
+             printf(" x = %d, y = %f, z = %d n", x, y, z);
+       }
+  }
+  return 0;
+}
+```
+
+**OUTPUT:  x = 1, y = 2, z = 3
+ 		   x = 10, y = 20.000000, z = 3
+ 		   x = 10, y = 20.000000, z = 100**
+
+### Octal number starts with a 0
+
+```c
+int main()
+{
+  int x = 032;
+  printf("%d", x);
+  return 0;
+}
+```
+**OUTPUT: 26**
+
+### Signals in C
+Link: https://www.geeksforgeeks.org/program-error-signals/
