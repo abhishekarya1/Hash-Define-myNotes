@@ -142,3 +142,7 @@ C allows a global variable to be declared again **only** when the first declarat
 ### Initialization of global and static variables in C
 - In C, `static` and `global` variables are initialized by the compiler itself. Therefore, they **must** be initialized with a **constant value**.
 - The above mentioned property does not apply to C++.
+
+### Scope vs. Linkage and Internal Linkage and External Linkage in C
+
+Link: https://www.geeksforgeeks.org/internal-linkage-external-linkage-c/
