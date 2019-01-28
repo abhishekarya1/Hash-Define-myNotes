@@ -77,19 +77,43 @@ int func(void) {...}
 - **External variables** have program scope.
 - **Declaration** announces the properties of a variable while a **Definition** also causes storage to be set aside.
 
-Same program in different files:
+1. A declaration can be done any number of times but definition only once.
+2. `extern` keyword is used to extend the visibility of variables/functions.
+3. Since functions are visible throughout the program by default. The use of `extern` is not needed in function declaration/definition. Its use is redundant.
+4. When extern is used with a variable, it’s only declared not defined. Ex - In `extern int a;`, a is not assigned any value and using it throws an error in compilation.
+5. As an exception, when an `extern` variable is declared with initialization, it is taken as the definition of the variable as well. Ex - `extern int a = 4;`
+
+Program in different files:
 
 ```c
 file1 - 
 
-extern int p;	//declared wherever required
-extern float q;
+
+int p = 4;		// external variables are defined only once
+float q;
 
 file2 - 
 
-int p;		//external variables are defined only once
-float q;
+extern int p;	// declared wherever required
+extern float q;
 
+```
+
+```c
+// filename: 'file1.c'
+int a; 
+int main(void) 
+{ 
+	a = 2; 
+} 
+
+// filename: file2.c 
+// When this file is linked with 'file1.c', functions of this file can access 'a' 
+extern int a; 
+int myfun() 
+{ 
+	a = 2; 
+} 
 ```
 
 ### Header Files
@@ -114,7 +138,56 @@ int getch(void) { ... }
 void ungetch(int c) { ... }
 ```
 - `static` can also be used for functions. the functions declared `static` will be invisible to the functions in the other files of the same program.
-- `static` can also be used for local variables and are invisible to other functions but they remain (retain value) there even when we enter and leave functions (they are initialized the first time we enter a function) unlike automatic variables which are initialized everytime we call the function.
+- `static` can also be used for local variables and are invisible to other functions but they remain (retain value) there even when we enter and leave functions (they are initialized the first time we enter a function, and never leave that value even if we try to change it) unlike automatic variables which are initialized everytime we call the function.
+
+```c
+int main() 
+{
+	int x = 3;
+	while (x > 0) 
+    { 
+        static int y = 5; 	// ignored after first iteration/initialization
+        y++; 
+  
+        printf("The value of y is %d\n", y); 
+        x--; 
+    } 
+}
+```
+**OUTPUT: The value of y is 6**
+		**The value of y is 7**
+		**The value of y is 8**
+
+### How are variables scoped in C – Static or Dynamic?
+In C, variables are always [statically (or lexically) scoped](http://en.wikipedia.org/wiki/Scope_%28programming%29#Lexical_scoping) i.e., binding of a variable can be determined by program text and is independent of the run-time function call stack.
+
+For example, output for the below program is `0`, i.e., the value returned by `f()` is not dependent on who is calling it. `f()` always returns the value of global variable `x`.
+
+```c
+# include <stdio.h> 
+
+int x = 0; 
+
+int f() 
+{ 
+	return x; 
+}
+
+int g() 
+{ 
+	int x = 1; 
+	return f(); 
+} 
+
+int main() 
+{ 
+	printf("%d", g()); 
+	printf("\n"); 
+	getchar(); 
+} 
+
+```
+**OUTPUT: 0**
 
 ### Register Variables
 - Variables specified using the `register` qualifier are an indication to the compiler that they will be used frequently and it should store them in registers which are only a few.
@@ -144,9 +217,9 @@ f(register unsigned m, register long n)
 int x;
 int y;
 
-func(double x)
+func(int x)
 {
-	double y;
+	int y;
 	...
 }
 ```
