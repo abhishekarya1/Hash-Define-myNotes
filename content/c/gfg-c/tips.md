@@ -135,3 +135,8 @@ int main()
 
 ### Signals in C
 Link: https://www.geeksforgeeks.org/program-error-signals/
+
+### Reinitializing Global Variables in C
+C allows a global variable to be declared again **only** when the first declaration doesn't initialize the variable.
+
+### 
