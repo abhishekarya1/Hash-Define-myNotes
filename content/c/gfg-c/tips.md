@@ -139,4 +139,6 @@ Link: https://www.geeksforgeeks.org/program-error-signals/
 ### Reinitializing Global Variables in C
 C allows a global variable to be declared again **only** when the first declaration doesn't initialize the variable.
 
-### 
+### Initialization of global and static variables in C
+- In C, `static` and `global` variables are initialized by the compiler itself. Therefore, they **must** be initialized with a **constant value**.
+- The above mentioned property does not apply to C++.
