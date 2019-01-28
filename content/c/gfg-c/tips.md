@@ -55,10 +55,9 @@ int main()
 
 **OUTPUT: 5**
 
--   The translator which performs macro calls expansion is called **Macro pre - processor**.
-	- A **Macro processor** is a program that copies a stream of text from one place to another, making a systematic set of replacements as it does so.
+-   The translator which performs macro calls expansion is called **Macro pre-processor**.
+	- A **Macro-processor** is a program that copies a stream of text from one place to another, making a systematic set of replacements as it does so.
 	- A **Dynamic linker** is the part of an operating system that loads and links the shared libraries.
-	- The C preprocessor is a micro processor that is used by compiler to transform your code before compilation. It is called **micro pre-processor** because it allows us to add macros.
 
 ### Line Splicing in C/C++
 
@@ -92,3 +91,9 @@ int main()
 ```
 
 **OUTPUT: 5**
+
+### How Linkers Resolve Global Symbols Defined at Multiple Places?
+
+Link: https://www.geeksforgeeks.org/how-linkers-resolve-multiply-defined-global-symbols/
+
+### 
