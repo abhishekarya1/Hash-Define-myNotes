@@ -96,30 +96,8 @@ int main()
 
 Link: https://www.geeksforgeeks.org/how-linkers-resolve-multiply-defined-global-symbols/
 
-### Scope Question?
-
-```c
-#include <stdio.h>
-int main()
-{
-  int x = 1, y = 2, z = 3;
-  printf(" x = %d, y = %d, z = %d n", x, y, z);
-  {
-       int x = 10;
-       float y = 20;
-       printf(" x = %d, y = %f, z = %d n", x, y, z);
-       {
-             int z = 100;
-             printf(" x = %d, y = %f, z = %d n", x, y, z);
-       }
-  }
-  return 0;
-}
-```
-
-**OUTPUT:  x = 1, y = 2, z = 3
- 		   x = 10, y = 20.000000, z = 3
- 		   x = 10, y = 20.000000, z = 100**
+### Scope Question
+C uses lexicographic/static scope that can be seen by the programmer as if he is substituting values in place of variables in code. Not determined at the runtime, through runtime stack.
 
 ### Octal number starts with a 0
 
@@ -146,3 +124,19 @@ C allows a global variable to be declared again **only** when the first declarat
 ### Scope vs. Linkage and Internal Linkage and External Linkage in C
 
 Link: https://www.geeksforgeeks.org/internal-linkage-external-linkage-c/
+
+### (9/5) in C is and int
+Consider - 
+
+```c
+#include <stdio.h>
+ 
+int main()
+{
+   float c = 5.0;
+   printf ("Temperature in Fahrenheit is %.2f", (9/5)*c + 32);
+   return 0;
+}
+```
+
+**OUTPUT: Temperature in Fahrenheit is 37.00**

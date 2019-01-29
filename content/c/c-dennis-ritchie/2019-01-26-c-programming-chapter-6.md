@@ -202,6 +202,12 @@ In the program that follows, we can use `Length` in place of `int` as a new type
 Length x, y;
 ```
 
+- `typedef` in C basically works as an alias.
+	- `typedef` can be used to alias compound data types such as struct and union.
+	- `typedef` can be used to alias both compound data types and pointer to these compound types.
+	- `typedef` can be used to alias a function pointer.
+	- `typedef` can be used to alias an array.
+
 ### Unions
 - A _union_ is a variable that may hold multiple variables of any type and size.
 

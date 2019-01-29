@@ -22,6 +22,17 @@ pre = "<b>2. </b>"
 
 - `signed` and `unsigned` applies to `int` and `char` data types.
 
+- `int` will be automatically assumed for unspecified.
+
+Examples - 
+
+```c
+signed s;
+unsigned u;
+long l;
+long long ll;
+```
+
 ```c
 short int n;
 
