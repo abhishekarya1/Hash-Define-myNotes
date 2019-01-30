@@ -155,7 +155,9 @@ Objects declared as `volatile` are omitted from optimization because their value
 
 ### sizeof() returns type size_t which is the largest unsigned type on that machine, usually `unsigned long int`
 
-### Don't use gets() or any other function for unlimited input
+### Don't use gets(), Format string vulnerabilities
+
+Link: https://www.geeksforgeeks.org/format-string-vulnerability-and-prevention-with-example/
 
 ```c
 char buf[8]; /* tiny buffer, easy to overflow */
