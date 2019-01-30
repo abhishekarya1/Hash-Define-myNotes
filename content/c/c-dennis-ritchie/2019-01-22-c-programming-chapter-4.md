@@ -99,6 +99,9 @@ extern float q;
 
 ```
 
+**Command Line command to link both Files together - `gcc file1.c file2.c`**
+
+
 ```c
 // filename: 'file1.c'
 int a; 

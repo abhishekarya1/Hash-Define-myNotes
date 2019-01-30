@@ -140,3 +140,43 @@ int main()
 ```
 
 **OUTPUT: Temperature in Fahrenheit is 37.00**
+
+### Const Qualifier in C with Pointers
+
+Up Qualification / Down Qualification
+
+Link: https://www.geeksforgeeks.org/const-qualifier-in-c/
+
+### Volatile Qualifier in C
+
+Objects declared as `volatile` are omitted from optimization because their values can be changed by code outside the scope of current code at any time. The system always reads the current value of a volatile object from the memory location rather than keeping its value in temporary register at the point it is requested, even if a previous instruction asked for a value from the same object.
+
+### Typedef is a storage-specifier in C. The onlt storage specifier allowed inside a function parameter is `register`.
+
+### sizeof() returns type size_t which is the largest unsigned type on that machine, usually `unsigned long int`
+
+### Don't use gets() or any other function for unlimited input
+
+```c
+char buf[8]; /* tiny buffer, easy to overflow */
+
+printf("What is your name?\n");
+scanf("%s", buf); /* WRONG */
+scanf("%7s", buf); /* RIGHT */
+```
+
+If the user enters a string longer than 7 characters (- 1 for the null terminator), memory behind the buffer buf will be overwritten. This results in undefined behavior. Malicious hackers often exploit this in order to overwrite the return address, and change it to the address of the hacker's malicious code.
+
+Check below note from Linux man page.
+
+Never use gets(). Because it is impossible to tell without knowing the data in advance how many characters gets() will read, and because gets() will continue to store characters past the end of the buffer, it is extremely dangerous to use. It has been used to break computer security. Use fgets() instead. Also see this post.
+
+### Implicit type conversions always convert from lower(smaller) data type to higher(bigger) data type. Be careful when comparing signed int and unsigned int as signed will get converted to unisgned (2's complement if overflow) and the sign will be lost.
+
+### 0.1 is non-terminating recurring in binary, 0.5 is not, it is just 0.1 in binary. 
+So, 0.5 is same in `float` as well as `double` but 0.1 is `truncated` to 23 bits after decimal in `float` and to 52 bits in `double`.
+
+### Dynamic Scoping Vs Static Scoping
+Link: https://stackoverflow.com/questions/19461503/dynamic-and-static-scoping-program-differences/19461570
+
+### 
