@@ -181,4 +181,5 @@ So, 0.5 is same in `float` as well as `double` but 0.1 is `truncated` to 23 bits
 ### Dynamic Scoping Vs Static Scoping
 Link: https://stackoverflow.com/questions/19461503/dynamic-and-static-scoping-program-differences/19461570
 
-### 
+### MIND BLOWING - Q:4, 5, 6, 10, 19, 20
+Link: https://www.geeksforgeeks.org/c-language-2-gq/input-and-output-gq/
