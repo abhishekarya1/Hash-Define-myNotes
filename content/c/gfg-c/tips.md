@@ -6,6 +6,8 @@ weight = 1
 
 - **After the pre-processing is over, all the undefined macros are initialized with default value 0**.
 
+- **All global stuff - pointers, variables of all types and with any modifiers are initialized with 0 (NULL for Pointers).**
+
 ### Inline Functions in C
 
 ```c
