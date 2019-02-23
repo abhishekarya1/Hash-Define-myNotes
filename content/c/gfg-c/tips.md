@@ -155,6 +155,8 @@ Objects declared as `volatile` are omitted from optimization because their value
 
 ### sizeof() returns type size_t which is the largest unsigned type on that machine, usually `unsigned long int`
 
+### sizeof() is done at compile time.
+
 ### Don't use gets(), Format string vulnerabilities
 
 Link: https://www.geeksforgeeks.org/format-string-vulnerability-and-prevention-with-example/
