@@ -187,3 +187,16 @@ Link: https://stackoverflow.com/questions/19461503/dynamic-and-static-scoping-pr
 
 ### MIND BLOWING - Q:4, 5, 6, 10, 19, 20
 Link: https://www.geeksforgeeks.org/c-language-2-gq/input-and-output-gq/
+
+
+### One more way to initialize array - 
+
+```c
+int arr[50] = {0,1,2,[47]=47,48,49};
+
+This is allowed in C as per standard. Basically, it’ll initialize arr[0], arr[1], arr[2], arr[47], arr[48] and arr[49] to 0,1,2,47,48 and 49 respectively. The remaining elements of the array would be initialized to 0.
+```
+
+### Q: 14, 15, 16, 17
+
+Link: https://www.geeksforgeeks.org/c-language-2-gq/structure-union-gq/
