@@ -50,3 +50,19 @@ Link:: https://www.quora.com/Is-there-a-way-to-compile-and-run-C++-in-Sublime-Te
 Used to change with what compiler does sublime compile and other command-line options
 
 Link: https://www.thecrazyprogrammer.com/2017/04/how-to-run-c-and-c-program-in-sublime-text.html	
+
+### subl - command line access
+
+- Open sublime just by typing `subl` in terminal and pressing Enter
+- Create a new file by typing `subl file_name.cc` in terminal and pressing Enter
+
+Open start menu,
+
+1. Type Edit environment variables
+2. Open the option Edit the system environment variables
+3. Click Environment variables... button
+4. There you see two boxes, in System Variables box find path variable
+5. Click Edit
+6. a window pops up, click New
+7. Type the Directory path of your .exe or batch file ( Directory means exclude the file name from path)
+8. Click Ok on all open windows and ~~restart your system~~ restart the command prompt.
