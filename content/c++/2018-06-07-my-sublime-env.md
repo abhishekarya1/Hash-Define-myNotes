@@ -45,3 +45,8 @@ Tools -> Build System -> New Build System...
 Link:: https://www.quora.com/Is-there-a-way-to-compile-and-run-C++-in-Sublime-Text
 
 	> MyC++Build.sublime-bulid
+	
+### Build Systems
+Used to change with what compiler does sublime compile and other command-line options
+
+Link: https://www.thecrazyprogrammer.com/2017/04/how-to-run-c-and-c-program-in-sublime-text.html	
