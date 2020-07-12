@@ -9,7 +9,7 @@ chapter = true
 
 A collection of all my notes and elucidations by [abhishek_arya](https://www.github.com/abhishekarya1).
 
-{{% button href="https://abyssaltech.xyz" icon="fas fa-pen" %}} Visit Blog{{% /button %}} &nbsp;
+{{% button href="https://abhishekarya1.github.io" icon="fas fa-pen" %}} Visit Blog{{% /button %}} &nbsp;
 {{% button href="mailto:abhishekarya102@gmail.com" icon="fas fa-envelope" %}} Email{{% /button %}}
 
 [![uses-git](/images/uses-git.svg "Of course!")](https://github.com/abhishekarya1/Hash-Define-myNotes)

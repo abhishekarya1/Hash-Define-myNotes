@@ -1,4 +1,4 @@
-baseURL = "https://notes.abyssaltech.xyz/"
+baseURL = "https://hashdefine.netlify.app/"
 languageCode = "en-us"
 title = "#Define"
 theme = "hugo-theme-learn"
@@ -11,7 +11,7 @@ home = [ "HTML", "RSS", "JSON"]
   # Author of the site, will be used in meta information
   author = "Abhishek Arya"
   # Description of the site, will be used in meta information
-  description = "My notes and elucidations."
+  description = "My notes and elucidations revolving around programming."
   # Set this to true to disable copy-to-clipboard button for inline code.
   disableInlineCopyToClipBoard = true
   # Order sections in menu by "weight" or "title". Default to "weight"
@@ -28,7 +28,7 @@ weight = 10
 [[menu.shortcuts]]
 name = "<i class='fas fa-laptop-code'></i> Blog"
 identifier = "myblog"
-url = "https://abyssaltech.xyz"
+url = "https://abhishekarya1.github.io"
 weight = 11
 
 [[menu.shortcuts]]
