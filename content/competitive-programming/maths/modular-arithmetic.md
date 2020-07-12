@@ -21,7 +21,7 @@ pre = "<b>2.</b> "
 
 **In Programming:**
 
-- If y completely divides x, the result of the expression `x % y` is 0.
+- If x completely divides y, the result of the expression `y % x` is 0.
 - If y is not completely divisible by x, then the result will be the remainder in the range `[1, x-1]`.
 - If x is 0, then division by zero is a `compile-time error`.
 
@@ -70,6 +70,25 @@ The above solution may lead to overflow as we multipled them and `even when we'r
 long long ans;
 ans = ( (a % n) * (b % n) ) % n;
 ```
+
+### Congruence
+
+```
+if (a mod n) = (b mod n), then
+a ≡ b (mod n)
+```
+
+```
+Some Observations regaarding a ≡ b (mod n):
+
+1. a = k * n + b
+2. (a - b) is a multiple of n
+```
+
+
+
+
+
 
 ### References
 1. https://brilliant.org/number-theory <br>
