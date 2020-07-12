@@ -8,7 +8,7 @@ pre = "<i class='fas fa-code'></i> "
 
 # Maths for CP
 
-A collection of useful concepts and code algorithms for CP Maths.
+A collection of useful maths concepts and algorithms.
 
 ### References
 <center>[GeeksforGeeks](https://www.geeksforgeeks.org/mathematical-algorithms/)</center> 

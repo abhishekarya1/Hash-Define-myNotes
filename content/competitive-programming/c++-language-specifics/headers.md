@@ -100,3 +100,26 @@ This command produces a binary file test from the source code `test.cpp`. The
 compiler follows the C++11 standard (`-std=c++11`), optimizes the code (`-O2`),
 and shows warnings about possible errors (`-Wall`)
 
+#### memset()
+- To set all values in a memory block to a specified value.
+- Signature: `void * memset ( void * ptr, int value, size_t num );`
+
+```cpp
+#include <bits/stdc++.h>
+
+#define FR(n) for(int i=0;i<n;i++)
+
+using namespace std;
+
+int main()
+{
+ 
+	int hash[26];
+
+	memset(hash, 0, sizeof(hash));		//no need of for loop to set values
+
+	FR(26) cout << hash[i] << " ";		//0 0 0 0 0 0 ... 26 times
+
+    return 0;
+}
+```
