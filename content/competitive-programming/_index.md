@@ -6,10 +6,13 @@ chapter = true
 pre = "<i class='devicon-devicon-plain'></i> "
 +++
 
-### Tips, Tricks, and Reference Notes
-
 # Competitive Programming in C++
 
 Addictive and fun.
+
+
+### References
+[Competitive Programming 3 by Steven Halim](#)
+[Competitive Programmer’s Handbook by Antti Laaksonen](https://cses.fi/book/book.pdf)
 
  

@@ -1,5 +1,5 @@
 +++
-title = "Headers"
+title = "Basics"
 date =  2020-07-12T11:45:09+05:30
 weight = 2
 pre = "<b>0. </b>"
