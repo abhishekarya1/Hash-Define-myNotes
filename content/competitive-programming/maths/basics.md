@@ -47,7 +47,7 @@ else cout << "Odd";
 
 ```cpp
 if(n & 1) cout << "Odd";
-else cout << "Even";
+if(~ n & 1) cout << "Even";     //else
 ```
 
 ### Big Integers
