@@ -2,7 +2,7 @@
 title = "Primes"
 date =  2020-07-12T13:09:11+05:30
 weight = 3
-pre = "<b>1.</b> "
+pre = "<b>2.</b> "
 +++
 
 ### Basics and Theorems

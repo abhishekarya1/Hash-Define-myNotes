@@ -2,7 +2,7 @@
 title = "Modular Arithmetic"
 date =  2020-07-12T13:09:11+05:30
 weight = 4
-pre = "<b>2.</b> "
+pre = "<b>3.</b> "
 +++
 
 ### Remainders and % Operator
@@ -12,7 +12,9 @@ pre = "<b>2.</b> "
 15 mod 7 = 1
 12 mod 5 = 2
 16 mod 4 = 0
+2 mod 6 = 2
 
+-1 mod 5 = -1 => 4		//do 1 mod 5 and add negative sign
 -15 mod 7 = -1 => 6
 -12 mod 5 = -2 => 3
 12 mod -5 = 2 => -3
@@ -49,7 +51,7 @@ int ans = ((a - b) % mod + mod) % mod;	//slower than previous way as it increase
 ```
 
 #### Modulo Division
-Identity: `(a / b) mod m = (a x (inverse of b if exists)) mod m`. Finding modulo for division is not always possible.
+Identity: `(a / b) % m = ( ( a % m ) * ( 1/b ) % m ) % m`. Finding modulo for division is not always possible.
 
 #### Modulo Exponentiation
 
@@ -81,8 +83,18 @@ a ≡ b (mod n)
 ```
 Some Observations regaarding a ≡ b (mod n):
 
-1. a = k * n + b
+1. a = k * n + b 	//b need not be the remainder of a/n
+
 2. (a - b) is a multiple of n
+```
+
+**Congruence modulo is an equivalence relation for (mod C):** It is reflexive, symmetric, and transitive.
+```
+Reflexive: A ≡ A (mod N)
+
+Symmetric: if A ≡ B (mod N) then B ≡ A (mod N)
+
+Transitive: if A ≡ B (mod N) and B ≡ C (mod N) then A ≡ C (mod N)
 ```
 
 
