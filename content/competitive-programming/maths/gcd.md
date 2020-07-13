@@ -103,6 +103,8 @@ Use formula in *property 2* above.
 
 
 ## Euclidean Algorithm
+Based on the fact that: `If a, b, q, r are integers such that a = b * q + r, then gcd(a, b) = gcd(b, r).`
+
 ```
 gcd(a, b) =	a,		if b = 0
 		
@@ -110,7 +112,7 @@ gcd(a, b) =	a,		if b = 0
 ```
 
 ## Extended Euclidean Algorithm
-EA can find *gcd(a, b)*, but EEA can also find coefficients `x` and `y` such that: `x * a + y * b = gcd(a, b)` 
+EA can find *gcd(a, b)*, but EEA can also find coefficients that exist `x` and `y` such that: `x * a + y * b = gcd(a, b)`  **(Bézout's identity (or Bézout's lemma))**
 
 ```
 x = y1
@@ -138,4 +140,12 @@ int gcd (int a, int b, int &x, int &y) {
 ## References
 1. https://procoderforu.com/gcd/<br>
 2. https://www.geeksforgeeks.org/c-program-find-gcd-hcf-two-numbers/ <br>
-3. https://cp-algorithms.com
+3. https://cp-algorithms.com <br>
+	i. [Euclidean Algorithm](https://cp-algorithms.com/algebra/euclid-algorithm.html) <br>
+	ii. [Extended Euclidean Algorithm](https://cp-algorithms.com/algebra/extended-euclid-algorithm.html) 
+4. [Brillant Wiki](https://brilliant.org/number-theory/) <br>
+	i. [GCD](https://brilliant.org/wiki/greatest-common-divisor/) <br>
+	ii. [LCM](https://brilliant.org/wiki/lowest-common-multiple/) <br>
+	iii. [Euclidean Algorithm](https://brilliant.org/wiki/euclidean-algorithm/) <br>
+	iv. [Bézout's identity](https://brilliant.org/wiki/bezouts-identity/) <br>
+	v. [Extended Euclidean Algorithm](https://brilliant.org/wiki/extended-euclidean-algorithm/)

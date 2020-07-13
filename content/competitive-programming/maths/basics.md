@@ -5,6 +5,35 @@ weight = 1
 pre = "<b>0.</b> "
 +++
 
+### Peano Axioms
+Link: https://en.wikipedia.org/wiki/Peano_axioms
+
+### Fundamental Theorem Of Arithmetic
+The fundamental theorem of arithmetic (FTA), also called *the unique factorization theorem*, states that `every integer greater than 1 either is prime itself or is the product of a unique combination of prime numbers`.
+
+**1 is not considered prime because we lose uniqueness in factorization if we consider it a prime:**
+```
+25 = 5 * 5 * 1
+   = 5 * 5 * 1 * 1
+   = 5 * 5 * 1 * 1 * 1
+   ... no unique factorization
+```
+
+#### Uses
+1. Calculate no. of prime factors
+2. Calculate no. of even factors 
+3. Calculate no. of odd factors
+4. Sum of even factors
+5. Sum of odd factors
+
+### Euclid's Theorems
+
+#### Theorem 1: Euclid's Division Lemma
+According to Euclid's Division Lemma, `if we have two positive integers a and b, then there exist unique integers q and r which satisfies the condition a = bq + r where 0 ≤ r < b.` The basis of the Euclidean division algorithm is Euclid's division lemma.
+
+#### Theorem 2: There are infinitely many primes
+
+
 ### Odd & Even Numbers
 - Even numbers are of the form `2k`, and odd numbers are of the form `2k+1` for k = 0, 1, 2, 3...
 - Even numbers are also called `Parity 0` integers and odd numbers are called `Parity 1` integers. 
@@ -138,3 +167,6 @@ int main()
 
 return 0;
 ```
+
+
+### Find the number of trailing zeroes in a number or a factorial
