@@ -41,6 +41,7 @@ This algorithm again takes `O(max(a, b))` time in worst case because if *b = 1*,
 This is basically reduction of larger number into smaller by subtraction.
 
 ```cpp
+//Recursive
 int GCD(int a, int b){
 	if(a == 0) return b;
 	if(b == 0) return a;
@@ -49,6 +50,20 @@ int GCD(int a, int b){
 
 	if(a > b) return GCD(a - b, b);
 	else return GCD(a, b - a);	
+}
+```
+
+```cpp
+//Iterative
+int GCD(int a, int b){
+	while(a != b)
+	{
+		if(a > b) a = a - b;
+
+		else b = b - a;
+	}
+
+	return a;
 }
 ```
 
@@ -62,11 +77,26 @@ int GCD(int a, int b){
 This is basically reduction of larger number into smaller by modulo.
 
 ```cpp
+//Recursive
 int GCD(int a, int b)
 {
 	if(b == 0) return a;
 
 	return GCD(b, a % b);		//don't forget to swap
+}
+```
+
+```cpp
+//Iterative
+int GCD(int a, int b)
+{
+	while(b)
+	{
+		a %=b;
+		swap(a, b);
+	}
+
+	return a;
 }
 ```
 
