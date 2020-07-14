@@ -1,5 +1,5 @@
 +++
-title = "Primes"
+title = "Prime Numbers"
 date =  2020-07-12T13:09:11+05:30
 weight = 4
 pre = "<b>3.</b> "
