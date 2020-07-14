@@ -8,22 +8,22 @@ pre = "<b>2.</b> "
 ### Reducing Fractions
 
 ```	
- n					        n / gcd(n, d)
+ n	                    n / gcd(n, d)
 --- => Reduced Fraction => ---------------
- d						    d / gcd(n, d)
+ d	                    d / gcd(n, d)
 ```
 
 ### GCD and LCM of fractions
 
 ```
-	   GCD (all numerators)
-GCD = ------------------------
-	   LCM (all denominators)
+	GCD (all numerators)
+GCD = -------------------------
+	LCM (all denominators)
 
 
-	   LCM (all numerators)
-LCM = ------------------------
-	   GCD (all denominators)
+	LCM (all numerators)
+LCM = -------------------------
+	GCD (all denominators)
 ```
 
 ### LCM of factorial and its neighbors

@@ -69,3 +69,8 @@ int main()
 
 ### LCM
 Since C++17, `std::lcm(a, b)` 
+
+### Swap
+`swap(a, b)`
+### Minimum and Maximum
+`min(a, b)` and `max(a, b)`

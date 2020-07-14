@@ -1,8 +1,8 @@
 +++
 title = "Primes"
 date =  2020-07-12T13:09:11+05:30
-weight = 4
-pre = "<b>3.</b> "
+weight = 5
+pre = "<b>4.</b> "
 +++
 
 ### Basics and Theorems
