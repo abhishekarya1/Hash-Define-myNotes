@@ -20,11 +20,13 @@ The fundamental theorem of arithmetic (FTA), also called *the unique factorizati
 ```
 
 #### Uses
-1. Calculate no. of prime factors
-2. Calculate no. of even factors 
-3. Calculate no. of odd factors
-4. Sum of even factors
-5. Sum of odd factors
+We can easily calculate:
+1. No. of divisors
+2. No. of prime factors
+3. No. of even factors 
+4. No. of odd factors
+5. Sum of even factors
+6. Sum of odd factors
 
 ### Euclid's Theorems
 
@@ -169,4 +171,82 @@ return 0;
 ```
 
 
-### Find the number of trailing zeroes in a number or a factorial
+### Binary Exponentiation
+`Time = O(log n)`
+
+_a<sup>n</sup>_ implies that we have to multiply _a_, exactly _n-1_ times with itself to evaluate it. Ex - _2<sup>3</sup>_ = _2_ * _2_ * _2_.
+
+We can do this with only order of _log n_ multiplications by using binary representation of _n_ as -
+```
+2^13 = 2^(1101) = 2^8 * 2^4 * 2^0
+```
+
+Since the binary representation of _n_ has _floor(log n) + 1_ bits, hence O(_log n_) time.
+
+**Halving and then squaring:**
+```cpp
+long binpow(long a, long b)
+{
+	if(b == 0) return 1;
+
+	long half = binpow(a, b/2);
+
+	if(b&1)
+		return half * half * a;
+	else
+		return half * half;
+}
+```
+
+**Squaring and then halving:**
+```cpp
+long binpow(long a, long b)
+{
+	if(b == 0) return 1;
+
+	long sq = a * a;
+
+	if(b&1)
+		return a * binpow(sq, b/2);
+	else 
+		return binpow(sq, b/2);
+}
+```
+
+**For negative _b_ and floating point _a_:**
+
+```cpp
+float binpow(long a, long b)		//float
+{
+	if(b == 0) return 1;
+
+	float half = binpow(a, b/2);		//float
+
+	if(b % 2 == 0) 
+		return half * half;
+	else 
+	{
+		if(b > 0) return a * half * half;
+		else
+			return (half * half) / a;		//this 
+	}
+}
+```
+
+#### Calculating big exponential mods (a<sup>b</sup> mod m)
+Mod every multiplication operation.
+
+```cpp
+//Iterative exponent mod (faster and efficient)
+long binpow(long a, long b, long m) {
+    a %= m;
+    long res = 1;
+    while (b > 0) {
+        if (b & 1)
+            res = (res * a) % m;
+        a = (a * a) % m;
+        b >>= 1;
+    }
+    return res;
+}
+```
