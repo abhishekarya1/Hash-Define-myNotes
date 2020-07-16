@@ -60,12 +60,16 @@ Similarly 32 is a 5-Almost Prime Number (32 = 2\*2\*2\*2\*2) and so is 72 (2\*2\
 
 19. **Circular Prime -** A prime number is a Circular Prime Number if all of its possible rotations are itself prime numbers.
 
+20. **Permutable Prime -** A Permutable prime number is that number which after switching the position of digits through any permutation is also prime. Some of the permutable prime numbers are 2, 3, 5, 7, 11, etc.
+
 ### Primality Tests
 
 #### 1. School Method
+Uses the fact that a composite number must have atleast one _prime_ factor till _sqrt(n)_ (obviously).
 
 Link: https://www.geeksforgeeks.org/primality-test-set-1-introduction-and-school-method/
 
+`Time = O(√n)`
 ```cpp
 //School Method. Time = O(sqrt(n))
 bool isPrime(int n)
@@ -75,6 +79,50 @@ bool isPrime(int n)
 	for(int i = 2; i*i <= n; i++)		//better than using sqrt()
 	{
 		if(n % i == 0) return false;
+	}
+
+	return true;
+}
+```
+
+#### 1.1 Optimized School Method
+
+`Time = O(√n)`
+
+**Optimization:** We can check only odd numbers after 2 in the range 3 to sqrt(n).
+
+```cpp
+bool isPrime(int n) 
+{ 
+    // check if n is a multiple of 2 
+    if (n % 2 == 0) 
+        return false; 
+  
+    // if not, then just check the odds 
+    for (int i = 3; i * i <= n; i += 2)  
+        if (n % i == 0) 
+            return false;     
+    return true; 
+} 
+```
+
+**Optimization:** We can check only numbers of the form _6k±1_ in the range 2 to sqrt(n).
+
+```cpp
+bool isPrimeOptimized(int n)
+{
+	if(n <= 1) return false;
+	if(n <= 3) return true;
+
+	//remove multiples of 2 and 3
+	if(n % 2 == 0 || n % 3 == 0)
+		return false;
+
+	//from 5 check all multiples of the form 6k±1 (prime factors only)
+	for (int i = 5; i*i <= n; i += 6)
+	{
+		if(n % i == 0 && n % (i+2) == 0)
+			return false;
 	}
 
 	return true;
@@ -109,6 +157,8 @@ Link: https://www.geeksforgeeks.org/lucas-primality-test/
 Link: https://www.geeksforgeeks.org/primality-test-set-5using-lucas-lehmer-series/
 
 #### 7. AKS Primality Test
+[Galactic Algorithm](https://en.wikipedia.org/wiki/Galactic_algorithm)
+
 Link: https://www.geeksforgeeks.org/aks-primality-test/
 
 #### 8. Wilson's Theorem
@@ -116,6 +166,8 @@ Link: https://www.geeksforgeeks.org/wilsons-theorem/
 Link: https://www.geeksforgeeks.org/implementation-of-wilson-primality-test/
 
 #### 9. Vantieghems Theorem for Primality Test
+Checks primes only till 11.
+
 Link: https://www.geeksforgeeks.org/vantieghems-theorem-primality-test/
 
 #### 10. Lehmann's Primality Test
@@ -129,7 +181,7 @@ Link: https://www.geeksforgeeks.org/lehmanns-primality-test/
 Complexity Analysis: https://www.geeksforgeeks.org/how-is-the-time-complexity-of-sieve-of-eratosthenes-is-nloglogn/
 
 **Algorithm:** <br>
-1. Create a list of numbers from 1 to n, and mark all as 1, mark 1 as 0 <br>
+1. Create a list of numbers from 1 to n (size = n+1), and mark all as 1/true, mark 1 as 0 <br>
 2. Start from 2 and, <br>
 3. Check if 1, if it is then mark all its multiples from i\*i till n as 0 <br>
 4. Repeat this while i <= sqrt(n)
@@ -151,9 +203,70 @@ void primeSieve(int n)
 		if (s[i] == 1)
 			cout << i << " ";
 }
+```
+
+#### Sieve of Eratosthenes in 0(n) time complexity
+
+Link: https://www.geeksforgeeks.org/sieve-eratosthenes-0n-time-complexity/
+
+#### Sieve Of Sundaram
+`Time = O(n log n)` (Slower than linear Eratosthenes)
+
+**Algorithm:** <br>
+SOS can find all primes upto _2\*n+2_ for a given _n_. <br>
+1. Calculate _newN = (n-1)/2_, Make a sieve of size _nNew+1_ and mark all in sieve as _false_, <br>
+2. Mark all numbers of the form _i + j + 2ij_ as _true_ where _1 <= i <= j_, <br>
+3. Print 2,
+4. Remaining primes are of the form _2i + 1_ where i is index of NOT (false) marked numbers. So print _2*i + 1_ for all _i_
+   such that _sieve[i]_ is _false_. 
+
+```cpp
+bool sieveSundaram(int n)
+{
+	int nNew = (n - 1) / 2;
+
+	bool s[nNew + 1];
+	memset(s, false, sizeof(s));
+
+	// Main logic of Sundaram.  Mark all numbers of the
+	// form i + j + 2*i*j as true where 1 <= i <= j
+	for (int i = 1; i <= nNew; i++)
+		for (int j = i; (i + j + 2 * i * j) <= nNew; j++)
+			s[i + j + 2 * i * j] = true;
+
+	// Print 2
+	if (n > 2)
+		cout << 2 << " ";
+
+	// Print other primes. Remaining primes are of the form
+	// 2*i + 1 such that marked[i] is false.
+	for (int i = 1; i <= nNew; i++)
+		if (s[i] == false)
+			cout << 2 * i + 1 << " ";
+
+  return 0;
+}
 
 ```
 
+### Goldbach's Conjecture and Applications
+
+```cpp
+//Loop for checking and printing all prime sum pairs
+for (int i = 2; i <= n/2; ++i)
+	{
+		if(isPrime(i) && isPrime(n - i))		// if(s[i] && s[n-i])
+			{
+				cout << i << ", " << (n - i);
+			}
+	}
+```
+
+#### Application
+1. Express even number as sum of two primes (Direct application) <br>
+2. [Express odd number as sum of atmost three primes](https://www.geeksforgeeks.org/express-odd-number-sum-prime-numbers/) <br>
+3. [If N can be expressed as sum of four primes](https://www.geeksforgeeks.org/n-expressed-sum-4-prime-numbers/) <br>
+4. [If N can be written as sum of K prime numbers](https://www.geeksforgeeks.org/check-number-can-written-sum-k-prime-numbers/)
 ### References
 1. https://www.geeksforgeeks.org/mathematical-algorithms/mathematical-algorithms-prime-numbers-primality-tests/ <br>
 2. https://procoderforu.com/prime-numbers
