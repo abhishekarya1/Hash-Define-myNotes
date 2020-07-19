@@ -25,10 +25,12 @@ AND (`&`) - Used to "mask" bits, it can check for set bits and we can mask a num
 <br>
 OR (`|`) - Used to set bits.
 <br>
-NOT (`~`) - 2's complement of a number.
+NOT (`~`) - 1's complement of a number.
 <br>
-XOR (`^`) - Exclusivity between two numbers' bits.
+XOR (`^`) - Exclusivity between two numbers' bits. Toggling bits.
 <br>
 LEFT SHIFT (`<<`) - Left shift performed _k_ times multiplies the number by _2<sup>k</sup>_.
 <br>
 RIGHT SHIFT (`<<`) - Right shift performed _k_ times divides the number by _2<sup>k</sup>_.
+
+**2's Complement of _n_ = _-n_**

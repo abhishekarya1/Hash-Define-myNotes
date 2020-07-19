@@ -8,7 +8,9 @@ pre = "<b>4.</b> "
 **Recall:** [Fundamental Theorem Of Arithmetic](/competitive-programming/maths/basics/#fundamental-theorem-of-arithmetic)
 
 ### Important Points
-##### The number of divisors is odd only for Perfect Squares.
+1. The number of divisors is odd only for perfect square numbers. For the rest, the count is even. Use `floor(sqrt(b)) - ceil(sqrt(a)) + 1` to calculate all perfect square numbers between _a_ and _b_.
+2. Only a prime's square has exactly 3 distinct factors i.e. _1_, _p_, and _p<sup>2</sup>_.
+3. 
 
 ### Finding Divisors
 
@@ -58,7 +60,7 @@ int sumDiv(int n)
         }
     }
 
-    return sum+1;
+    return sum + 1;     //as we started loop from 2 to avoid adding n itself
 }
 ```
 
@@ -82,8 +84,55 @@ void printPrimeFactors(int n)
 }
 ```
 
-##### Using Sieve O(log n)
+##### Using Sieve in O(log n) time
 Link: https://www.geeksforgeeks.org/prime-factorization-using-sieve-olog-n-multiple-queries/
+
+{{% notice info %}}
+The idea is to store the Smallest Prime Factor (SPF) for every number in a separate array. Then to calculate the prime factorization of the given number by dividing the given number repeatedly with its smallest prime factor till it becomes 1 and storing the quotient in every step. Those quotients are prime factors of the number.
+{{% /notice %}}
+
+```cpp
+void factorSieve(int n, bool* s, int* spf)
+{
+    s[0] = s[1] = false;
+    spf[1] = 1;
+    for (int i = 2; i <= n; i++)    //notice i<=n
+    {
+        if (s[i])
+        {
+            spf[i] = i;     //change
+            for (int j = i * i; j <= n; j += i)
+            {
+                s[j] = false;
+                if (spf[j] == -1) spf[j] = i;   //change
+            }
+        }
+    }
+}
+
+int main()
+{
+
+    int n;
+    cin >> n;
+
+    bool s[n + 1];
+    int spf[n + 1];
+    memset(s, true, sizeof(s));
+    memset(spf, -1, sizeof(spf));
+        
+    factorSieve(n, s, spf);
+
+    //main logic
+    while (n != 1)
+    {
+        cout << spf[n] << " ";
+        n /= spf[n];
+    }
+
+    return 0;
+}
+```
 
 ##### Pollard's Rho Algorithm
 Link: https://www.geeksforgeeks.org/pollards-rho-algorithm-prime-factorization/
