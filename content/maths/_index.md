@@ -1,9 +1,9 @@
 +++
 title = "Maths for CP"
 date = 2020-07-12T11:30:30+05:30
-weight = 1
+weight = 5
 chapter = true
-pre = "<i class='fas fa-code'></i> "
+pre = "<i class='devicon-devicon-plain'></i> "
 +++
 
 # Maths for CP

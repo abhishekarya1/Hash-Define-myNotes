@@ -39,9 +39,8 @@ freopen("input.txt", "r", stdin);
 freopen("output.txt", "w", stdout);
 ```
 
-
 ### memset()
-- To set all values in a memory block to a specified value.
+- To set all values in a memory block to a specified value. It works bytewise, so we can only set values `0`, `-1`, and `true/false`.
 - Signature: `void * memset ( void * ptr, int value, size_t num );`
 
 ```cpp
@@ -68,9 +67,15 @@ int main()
 `__gcd(a, b)` in `<algorithms>`
 
 ### LCM
-Since C++17, `std::lcm(a, b)` 
+Since C++17, `std::lcm(a, b)` in `<numeric>` 
+
+### Sort
+`sort(arr, arr+n)`
+
+`sort(v.begin(), v.end()`
 
 ### Swap
 `swap(a, b)`
+
 ### Minimum and Maximum
 `min(a, b)` and `max(a, b)`

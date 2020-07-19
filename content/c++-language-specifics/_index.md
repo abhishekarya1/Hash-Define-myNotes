@@ -1,9 +1,9 @@
 +++
-title = "C++ Language Specifics for CP"
+title = "C++ Language Specifics"
 date = 2020-07-12T11:30:30+05:30
-weight = 1
+weight = 4
 chapter = true
-pre = "<i class='fas fa-code'></i> "
+pre = "<i class='devicon-devicon-plain'></i> "
 +++
 
 # C++ CP
