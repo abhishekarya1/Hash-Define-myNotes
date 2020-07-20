@@ -13,9 +13,9 @@ pre = "<b>1.</b> "
 5. Checking is number is power of 4. `single set bit having even number of 0s on its right side`
 6. Checking is number is power of 2. `n & (n - 1) will be 0`
 7. Modulus division by a number (n) of the form _2<sup>k</sup>_ (d). `n & (d-1)`, so in place of _(n % 4)_ we can write _(n & 3)_.
-8. Rotating bits. Left - `n << k | n >> (32-k)` and Right = `n >> k | n << (32-k)`
+8. Rotating bits. Left = `n << k | n >> (32-k)` and Right = `n >> k | n << (32-k)`
 9. Multiplying with 3.5. `2x + x + x/2` = `(x << 1) + x + (x >> 1)`
-10. Multiplying with 7. `8x - x` = `(x << 3) - x` 
+10. Multiplying with 7. `8x - x` = `(x << 3) - x`
 11. Counting bits to be flipped to convert A to B (Bit Difference). This is `number of set bits in A ^ B`.
 12. Finding position of rightmost set bit. `Do 2's complement, & with original number, take log2(ANDresult)` = `log2(n & -n) + 1`
 13. Finding Binary Representation of a decimal number. [Link](https://www.geeksforgeeks.org/binary-representation-of-a-given-number/)

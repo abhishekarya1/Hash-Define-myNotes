@@ -10,7 +10,9 @@ pre = "<b>4.</b> "
 ### Important Points
 1. The number of divisors is odd only for perfect square numbers. For the rest, the count is even. Use `floor(sqrt(b)) - ceil(sqrt(a)) + 1` to calculate all perfect square numbers between _a_ and _b_.
 2. Only a prime's square has exactly 3 distinct factors i.e. _1_, _p_, and _p<sup>2</sup>_.
-3. 
+3. Power of a prime _p_ in _n!_ is given by Legendre's Factorization of n! => `Power of p in n! = floor(n/p) + floor(n/p^2) + floor(n/p^3)..... till p^k > n`. We can also calculate prime signature by finding out the exponents for each prime starting from 2 till p <= sqrt(n).
+4. Maximum occurring divisor in an interval is 2.
+5. Common divisors of two numbers are divisors of their GCD.
 
 ### Finding Divisors
 
@@ -64,7 +66,49 @@ int sumDiv(int n)
 }
 ```
 
-#### Prime Factorization
+**Sieve Based Method:**
+
+`Time = O(len)` where _len_ is the number of divisors, and 
+
+`Space = O(MAX)`
+
+```cpp
+const int MAX = 1e5;
+
+vector<int> divisor[MAX + 1];   //array of vectors
+
+void divisorSieve()
+{
+    for (int i = 1; i <= MAX; i++)
+    {
+        for (int j = i; j <= MAX; j += i)
+        {
+            divisor[j].push_back(i);
+        }
+    }
+}
+
+void printDiv(int n)
+{
+
+    for (int j = 0; j < divisor[n].size(); j++)
+    {
+        cout << divisor[n][j] << " ";
+    }
+}
+
+int main() {
+
+    int n = 10;
+    //cin >> n;
+
+    divisorSieve();
+
+    printDiv(n);
+}
+```
+
+### Prime Factorization
 
 `Time = O(√n)`
 
@@ -84,7 +128,7 @@ void printPrimeFactors(int n)
 }
 ```
 
-##### Using Sieve in O(log n) time
+#### Using Sieve in O(log n) time
 Link: https://www.geeksforgeeks.org/prime-factorization-using-sieve-olog-n-multiple-queries/
 
 {{% notice info %}}
@@ -137,7 +181,7 @@ int main()
 ##### Pollard's Rho Algorithm
 Link: https://www.geeksforgeeks.org/pollards-rho-algorithm-prime-factorization/
 
-#### Applications
+### Applications
 
 **Prime Signature -** https://mathworld.wolfram.com/PrimeSignature.html
 
@@ -149,7 +193,7 @@ Link: https://www.handakafunda.com/number-system-concepts-for-cat-even-factors-o
 4. Sum of Even/Odd factors
 5. Sum of all factors divisible by a number
 
-#### Types of Numbers based on Divisors
+### Types of Numbers based on Divisors
 1. [Smith Numbers](https://www.geeksforgeeks.org/smith-number/) - Composite numbers with sum of prime factors equal to sum of digits in the number. <br>
 2. [Sphenic Numbers](https://www.geeksforgeeks.org/sphenic-number/) - A positive integer having exactly three distinct prime factors. Alternatively, it is a product of exactly three distinct primes. Every sphenic number will have exactly 8 divisors. <br>
 3. [Hoax Numbers](https://www.geeksforgeeks.org/hoax-number/) - Similar to Smith numbers but here factors must be distinct. Some Hoax Numbers are Smith Numbers. <br>
@@ -162,4 +206,6 @@ Link: https://www.handakafunda.com/number-system-concepts-for-cat-even-factors-o
 10. [Betrothed numbers](https://www.geeksforgeeks.org/betrothed-numbers/ ) - Betrothed numbers are two positive numbers such that the sum of the proper divisors of either number is one more than (or one plus) the value of the other number. _n1 = sum2 - 1_ and _n2 = sum1 - 1_. <br>
 11. [k-Rough Number or k-Jagged Number](https://www.geeksforgeeks.org/k-rough-number-k-jagged-number/) - A k-rough or k-jagged number is a number whose smallest prime factor is greater than or equal to the number ‘k’. <br>
 12. [Amicable Pair](https://www.geeksforgeeks.org/check-amicable-pair/) - Two different numbers so related that the sum of the proper divisors of each is equal to the other number. <br>
-13. [Friendly Pair](https://www.geeksforgeeks.org/check-given-two-number-friendly-pair-not/) - Two numbers whose ratio of sum of divisors and number itself is equal.
+13. [Friendly Pair](https://www.geeksforgeeks.org/check-given-two-number-friendly-pair-not/) - Two numbers whose ratio of sum of divisors and number itself is equal. <br>
+14. [P-Smooth Number or P-friable Number](https://www.geeksforgeeks.org/p-smooth-numbers-p-friable-number/) - An integer is _P–smooth_ number if the _largest Prime factor of that number <= p_. 1 is considered (by OEIS) as P–smooth number for any possible value of P because it does not have any prime factor. <br>
+15. [k-Hyperperfect Number](https://www.geeksforgeeks.org/determine-whether-a-given-number-is-a-hyperperfect-number/) - A number _n_ is called _k-hyperperfect_ if: _n = 1 + k ∑idi_ where all _di_ are the proper divisors of _n_. Taking _k = 1_ will give us _perfect numbers_. <br>
