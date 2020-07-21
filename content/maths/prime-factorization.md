@@ -13,6 +13,7 @@ pre = "<b>4.</b> "
 3. Power of a prime _p_ in _n!_ is given by Legendre's Factorization of n! => `Power of p in n! = floor(n/p) + floor(n/p^2) + floor(n/p^3)..... till p^k > n`. We can also calculate prime signature by finding out the exponents for each prime starting from 2 till p <= sqrt(n).
 4. Maximum occurring divisor in an interval is 2.
 5. Common divisors of two numbers are divisors of their GCD.
+6. Numbers which gets divided by both _n_ **and** _m_ upto _q_ => _q / LCM(n, m)_, Numbers that get divided by _n_ **or** _m_ upto _q_ => _(q / m + q / n - q / LCM(n, m))_.
 
 ### Finding Divisors
 
