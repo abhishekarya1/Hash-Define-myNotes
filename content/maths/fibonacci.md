@@ -93,22 +93,23 @@ int fib(int n) {
 } 
 ```
 
-### Some Interesting Facts
+### Some Interesting Facts.
 1. To check if a number (_n_) is fibonacci or not - If either or both of _5n<sup>2</sup>+4_ and _5n<sup>2</sup>-4_ are perfect squares, then _n_ is a fibonacci number.
-2. The series of last digits repeats with a cycle length of 60.
+2. The series of last digits of numbers in Fibonacci sequence repeats with a cycle length of 60. Infact, Fibonacci sequence is periodic wrt Modulo.
 3. _F(n-1) \* F(n+1) – F(n) \* F(n) = (-1)<sup>n</sup>_. **(Cassini's Identity)**
-
-10. gcd(F<sub>a</sub>, F<sub>b</sub>) = F<sub>gcd(a, b)</sub> 
-13. Every 3-rd Fibonacci number is a multiple of 2, every 4-th Fibonacci number is a multiple of 3, every 5-th Fibonacci number is a multiple of 5, every 6-th Fibonacci number is a multiple of 8.
+4. gcd(F<sub>a</sub>, F<sub>b</sub>) = F<sub>gcd(a, b)</sub> 
+5. 
 
 [More Here](http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibmaths.html)
 
-### Zeckendorf's Theorem (Fibonacci Coding)
-It states that every positive integer can be written uniquely as a sum of distinct non-neighbouring Fibonacci numbers. Ex = 30 = 21 8 1, and  41 = 34 5 2.
+### Zeckendorf's Theorem & Fibonacci Coding
+Zeckendorf's Theorem states that every positive integer can be written uniquely as a sum of distinct non-neighbouring Fibonacci numbers. Ex = 30 = 21 8 1, and  41 = 34 5 2.
 
-Fibonacci coding is used in place of binary representation in data processing and communications.
+Fibonacci coding is used in place of binary representation to represent positive numbers in data processing and communications. One important observation about this representation is, **number of 1s in the Fibonacci representation tends to be much less than the number of 1s in the binary representation**. Hence if in any application where it is more costly to store a 1 than to store a 0, it would make sense to use the fibonacci representation.
 
 ```
+//Greedy Algorithm to print Fibonacci representation of a number
+
 1) Let n be input number
 
 2) While n > 0
@@ -117,7 +118,44 @@ Fibonacci coding is used in place of binary representation in data processing an
      b) n = n - f 
 ```
 
-[Link](https://www.geeksforgeeks.org/zeckendorfs-theorem-non-neighbouring-fibonacci-representation/)
+```cpp
+int smallestFib(int n)
+{
+	if (n == 0) return 0;
+	if (n == 1) return 1;
+
+	int a = 0, b = 1, c = 1;
+	while (c <= n)		//change
+	{
+		c = a + b;
+		a = b;
+		b = c;
+	}
+
+	return a;
+}
+
+int main() {
+	int n = 30;
+
+	int i = 0;
+	while (n > 0)		//change
+	{
+		i = smallestFib(n);
+		cout << i << " ";
+		n = n - i;
+	}
+
+}
+
+```
+
+[Link#1](https://www.geeksforgeeks.org/zeckendorfs-theorem-non-neighbouring-fibonacci-representation/) <br>
+[Link#2](https://www.geeksforgeeks.org/fibonacci-coding/)
+
+### Modular Nature of Fibonacci
+Fibonacci series is always periodic under modular representation i.e. _F (mod m)_ will repeat after a certain period and the cycle will repeat too. [Examples](https://www.geeksforgeeks.org/nth-multiple-number-fibonacci-series/)
+
 
 ### References
 1. [GeeksforGeeks](https://www.geeksforgeeks.org/mathematical-algorithms/#fibonacci)<br>
