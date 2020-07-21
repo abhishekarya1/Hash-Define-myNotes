@@ -7,6 +7,8 @@ pre = "<b>5.</b> "
 
 In mathematics, the Fibonacci numbers, commonly denoted _F<sub>n</sub>_, form a sequence, called the _Fibonacci sequence_, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is, **_F<sub>0</sub> = 0_, _F<sub>1</sub> = 1_,** and **_F<sub>n</sub> = F<sub>n-1</sub> + F<sub>n-2</sub>_** for **_n > 1_**. Sequence = 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, ...
 
+**Negative :** The Fibonacci sequence also works below 0. It has alternating + and - accordingly. Ex - ..., −8, 5, −3, 2, −1, 1, 0. Which is basically, **_F<sub>−n</sub> = (−1)<sup>n+1</sup> * F<sub>n</sub>_** for **_n > 1_**.
+
 They also appear in biological settings, such as branching in trees, the arrangement of leaves on a stem, the fruit sprouts of a pineapple, the flowering of an artichoke, an uncurling fern, and the arrangement of a pine cone's bracts.
 
 ### Finding nth Fibonacci Number
@@ -94,13 +96,12 @@ int fib(int n) {
 ```
 
 ### Some Interesting Facts.
-1. To check if a number (_n_) is fibonacci or not - If either or both of _5n<sup>2</sup>+4_ and _5n<sup>2</sup>-4_ are perfect squares, then _n_ is a fibonacci number.
+1. To check if a number (_n_) is fibonacci or not - If either or both of **_5n<sup>2</sup>+4_** and **_5n<sup>2</sup>-4_** are perfect squares, then _n_ is a fibonacci number.
 2. The series of last digits of numbers in Fibonacci sequence repeats with a cycle length of 60. Infact, Fibonacci sequence is periodic wrt Modulo.
-3. _F(n-1) \* F(n+1) – F(n) \* F(n) = (-1)<sup>n</sup>_. **(Cassini's Identity)**
+3. **Cassini's Identity -**_F(n-1) \* F(n+1) – F(n) \* F(n) = (-1)<sup>n</sup>_. 
 4. gcd(F<sub>a</sub>, F<sub>b</sub>) = F<sub>gcd(a, b)</sub> 
-5. 
-
-[More Here](http://www.maths.surrey.ac.uk/hosted-sites/R.Knott/Fibonacci/fibmaths.html)
+5. **Fibonorial -** In mathematics, the Fibonorial _n!<sub>F</sub>_, also called the Fibonacci factorial, where _n_ is a non-negative integer, is defined as the product of the first _n_ positive Fibonacci numbers.
+6. [Hosoya's Triangle](https://www.geeksforgeeks.org/hosoyas-triangle/) - Follows four seed relations - `H(0, 0) = H(1, 0) = H(1, 1) = H(2, 1) = 1` and two recurrnce relations - `H(n, j) = H(n - 1, j) + H(n - 2, j)` and for the last element in current row `H(n, j) = H(n - 1, j - 1) + H(n - 2, j - 2)`.
 
 ### Zeckendorf's Theorem & Fibonacci Coding
 Zeckendorf's Theorem states that every positive integer can be written uniquely as a sum of distinct non-neighbouring Fibonacci numbers. Ex = 30 = 21 8 1, and  41 = 34 5 2.
