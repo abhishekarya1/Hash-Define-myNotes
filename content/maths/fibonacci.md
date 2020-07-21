@@ -97,7 +97,7 @@ int fib(int n) {
 
 ### Some Interesting Facts.
 1. To check if a number (_n_) is fibonacci or not - If either or both of **_5n<sup>2</sup>+4_** and **_5n<sup>2</sup>-4_** are perfect squares, then _n_ is a fibonacci number.
-2. The series of last digits of numbers in Fibonacci sequence repeats with a cycle length of 60. Infact, Fibonacci sequence is periodic wrt Modulo.
+2. The series of last digits of numbers in Fibonacci sequence repeats with a cycle length of 60. Infact, Fibonacci sequence is periodic wrt Modulo. [Application](https://www.geeksforgeeks.org/efficient-way-check-whether-n-th-fibonacci-number-multiple-10/)
 3. **Cassini's Identity -**_F(n-1) \* F(n+1) – F(n) \* F(n) = (-1)<sup>n</sup>_. 
 4. gcd(F<sub>a</sub>, F<sub>b</sub>) = F<sub>gcd(a, b)</sub> 
 5. **Fibonorial -** In mathematics, the Fibonorial _n!<sub>F</sub>_, also called the Fibonacci factorial, where _n_ is a non-negative integer, is defined as the product of the first _n_ positive Fibonacci numbers.
@@ -155,8 +155,9 @@ int main() {
 [Link#2](https://www.geeksforgeeks.org/fibonacci-coding/)
 
 ### Modular Nature of Fibonacci
-Fibonacci series is always periodic under modular representation i.e. _F (mod m)_ will repeat after a certain period and the cycle will repeat too. [Examples](https://www.geeksforgeeks.org/nth-multiple-number-fibonacci-series/)
+Fibonacci series is always periodic under modular representation i.e. _F (mod m)_ will repeat after a certain period and the cycle will repeat too. This means we can find numbers diisible by a given number (_m_) at regular intervals in the Fibonacci sequence. [Examples](https://www.geeksforgeeks.org/nth-multiple-number-fibonacci-series/)
 
+The period is calle the [Pisano period](https://www.geeksforgeeks.org/fibonacci-number-modulo-m-and-pisano-period/).
 
 ### References
 1. [GeeksforGeeks](https://www.geeksforgeeks.org/mathematical-algorithms/#fibonacci)<br>
