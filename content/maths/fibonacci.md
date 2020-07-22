@@ -96,6 +96,7 @@ int fib(int n) {
 ```
 
 ### Some Interesting Facts.
+0. Sum of Fibonacci numbers (S<sub>i</sub>) till n<sup>th</sup> Fibonacci number (F<sub>n</sub>) => **S<sub>n</sub> = F<sub>n+2</sub> - 1**.  
 1. To check if a number (_n_) is fibonacci or not - If either or both of **_5n<sup>2</sup>+4_** and **_5n<sup>2</sup>-4_** are perfect squares, then _n_ is a fibonacci number.
 2. The series of last digits of numbers in Fibonacci sequence repeats with a cycle length of 60. Infact, Fibonacci sequence is periodic wrt Modulo. [Application](https://www.geeksforgeeks.org/efficient-way-check-whether-n-th-fibonacci-number-multiple-10/)
 3. **Cassini's Identity -**_F(n-1) \* F(n+1) – F(n) \* F(n) = (-1)<sup>n</sup>_. 
@@ -157,7 +158,31 @@ int main() {
 ### Modular Nature of Fibonacci
 Fibonacci series is always periodic under modular representation i.e. _F (mod m)_ will repeat after a certain period and the cycle will repeat too. This means we can find numbers diisible by a given number (_m_) at regular intervals in the Fibonacci sequence. [Examples](https://www.geeksforgeeks.org/nth-multiple-number-fibonacci-series/)
 
+### Even Fibonacci Numbers
+Using modular nature of the sequence, we can find period for numbers divisible by 2 (even numbers). That comes out to be 3 i.e. every third number in the Fibonacci sequence is divisible by 2. We can then [come up](https://www.geeksforgeeks.org/nth-even-fibonacci-number/) with the recurrence relation to calculate n<sup>th</sup> even Fibonacci number as:
+
+```
+Recurrence for Even Fibonacci sequence is:
+     EFn = 4(EFn-1) + (EFn-2)
+
+with seed values,
+     EF0 = 0 and EF1 = 2.
+
+EFn represents n'th term in Even Fibonacci sequence.
+```
+
 The period is calle the [Pisano period](https://www.geeksforgeeks.org/fibonacci-number-modulo-m-and-pisano-period/).
+
+### Leonardo Number
+
+Sequence of numbers given by the recurrence:
+![](https://wikimedia.org/api/rest_v1/media/math/render/svg/1beebdb9513cdfab48e5fa364b1ccd270037d256)
+
+The first few Leonardo Numbers are 1, 1, 3, 5, 9, 15, 25, 41, 67, 109, 177, 287, 465, 753, 1219, 1973, 3193, 5167, 8361, ...
+
+The Leonardo numbers are related to the Fibonacci numbers by below relation:
+![](https://wikimedia.org/api/rest_v1/media/math/render/svg/5823964b316f295045ead649e62f7ecde2758bf8)
+
 
 ### References
 1. [GeeksforGeeks](https://www.geeksforgeeks.org/mathematical-algorithms/#fibonacci)<br>
