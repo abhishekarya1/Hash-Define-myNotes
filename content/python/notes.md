@@ -1,7 +1,7 @@
 +++
 title = "Notes"
 date =  2020-11-24T13:22:35+05:30
-weight = 5
+weight = 1
 +++
 
 ```python
