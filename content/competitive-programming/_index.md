@@ -1,9 +1,9 @@
 +++
 title = "Competitive Programming"
 date = 2020-07-12T11:30:30+05:30
-weight = 3
+weight = 4
 chapter = true
-pre = "<i class='devicon-devicon-plain'></i> "
+pre = "👨‍💻 "
 +++
 
 # Competitive Programming in C++

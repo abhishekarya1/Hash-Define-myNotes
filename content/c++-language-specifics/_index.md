@@ -1,7 +1,7 @@
 +++
 title = "C++ Language Specifics"
 date = 2020-07-12T11:30:30+05:30
-weight = 4
+weight = 3
 chapter = true
 pre = "<i class='devicon-devicon-plain'></i> "
 +++

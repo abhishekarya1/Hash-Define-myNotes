@@ -265,7 +265,7 @@ con.execute("create table Employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name 
 con.close()  
 ```
 
-### 
+###
 
 
 
@@ -280,8 +280,3 @@ con.close()
 
 
 
-
-## References
-1. https://www.javatpoint.com/flask-tutorial
-2. https://www.packtpub.com/product/the-ultimate-flask-course-video/9781839219924
-3. https://flask.palletsprojects.com/en/1.1.x/quickstart/
