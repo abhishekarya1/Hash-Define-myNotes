@@ -181,13 +181,9 @@ $ git clone <https://github.com/user/repository.git>
 # Fork - Create a linked remote copy.
 
 # PR (Pull Request) - A request to a change that can be either merged or rejected.
-$ 
 
+# We can also add collaborator so that they don't have to PR everytime
 
-
-
-
-
-
-
+# Controlling Collaboration
+	# Protect Branches - Add branch protection rules from browser
 ```
