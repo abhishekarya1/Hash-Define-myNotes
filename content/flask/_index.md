@@ -3,7 +3,7 @@ title = "Flask"
 date =  2020-11-28T22:33:22+05:30
 weight = 8
 chapter = true
-pre = "<i class='devicon-devicon-plain'></i> "
+pre = "<i class='fas fa-flask'></i> "
 +++
 
 # Flask Micro-Framework
