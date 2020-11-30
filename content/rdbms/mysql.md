@@ -1,7 +1,7 @@
 +++
 title = "MySQL"
 date =  2020-11-29T18:25:50+05:30
-weight = 1
+weight = 2
 pre = "<i class='devicon-mysql-plain'></i> "
 +++
 
