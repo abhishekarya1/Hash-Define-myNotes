@@ -51,7 +51,7 @@ A tip disclaimer
 
 ```
 {{%/* notice warning */%}}
-A warning disclaimer
+An warning disclaimer
 {{%/* /notice */%}}
 ```
 

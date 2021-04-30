@@ -5,7 +5,7 @@
 [build.environment]
   HUGO_THEME = "repo"
   HUGO_THEMESDIR = "/opt/build"
-  HUGO_VERSION = "0.72.0"
+  HUGO_VERSION = "0.50"
 
 [context.production.environment]
   HUGO_BASEURL = "https://learn.netlify.com/"
@@ -21,3 +21,4 @@
 
 [context.branch-deploy.environment]
   HUGO_ENABLEGITINFO = "true"
+
