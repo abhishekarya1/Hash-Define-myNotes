@@ -3,10 +3,10 @@
   command = "hugo"
 
 [build.environment]
-  HUGO_THEME = "repo"
+  HUGO_THEME = "learn"
   HUGO_ENV = "development"
-  HUGO_THEMESDIR = "/opt/build"
-  HUGO_VERSION = "0.72.0"
+  HUGO_THEMESDIR = "/themes"
+  HUGO_VERSION = "0.82.0"
 
 [context.production.environment]
   HUGO_BASEURL = "https://hashdefine.netlify.app/"
