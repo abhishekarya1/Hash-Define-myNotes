@@ -51,7 +51,7 @@ if __name__ == '__main__':
 #One
 $ python app.py
 
-#Two - by default, it works only when file is named "app.py"
+#Two, onnly works out-of-the-box when file is named "app.py"
 $ flask run
 
 #otherwise set env variable, use "set" on Windows instead of "export"
@@ -89,7 +89,7 @@ def index():
 
 '''
 The former is like a directory path, it will fetch and open path for us in both '/path/' and '/path' scenarios..
-while latter is more like a file path, if we go to 'localhost:5000/path/', it will fail to find the correct one and give 404 error
+while latter is more like a file path, if we do '/path/', it will fail to find the correct one and give 404 error
 '''
 ```
 		
@@ -153,7 +153,7 @@ app.config['DEBUG'] = True
 ```python
 # Keeps data persistent throughout webpages
 # Implemented in Flask using just a simple dictionary
-from flask import session
+
 # Set secret_key
 app.secret_key = 'anything'
 # alternate way --> app.config['SECRET_KEY'] = 'anything'
@@ -190,7 +190,6 @@ request.cookies.get('name')
 render_template('login.html', user=user)
 #vars are optional
 ```
-
 ```html
 <h3> Username is: {{user}} </h3>
 ```
@@ -247,24 +246,6 @@ By default, if we have anything in `base.html`'s body block, it will be overwrit
 {{% notice info %}}
 This is two way though, we can now access variables available on our page on `another.html` too.
 {{% /notice %}}
-
-## Flask Bootstrap
-[Official Guide](https://pythonhosted.org/Flask-Bootstrap/basic-usage.html)
-
-```sh
-$ pip install flask-bootstrap
-```
-
-```python
-from flask import Flask
-from flask_bootstrap import Bootstrap
-
-app = Flask(__name__)
-Bootstrap(app)
-
-# further code...
-```
-
 ## Database
 #### sqlite setup
 ```bash
@@ -274,12 +255,6 @@ Bootstrap(app)
 users
 #insert into ...
 ```
-
-Shortcut:
-```bash
->>> sqlite3 < schema	#schema is a simple text file containing our create table command(s)
-```
-
 Or use a python script
 ```python
 import sqlite3  
@@ -290,51 +265,11 @@ con.execute("create table Employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name 
 con.close()  
 ```
 
-```python
-# Standard Helper Procedures
-from flask import g
-import sqlite3
-def connect_db():
-    sql = sqlite3.connect('/path/to/data.db')
-    sql.row_factory = sqlite3.Row
-    return sql
-
-def get_db():
-    if not hasattr(g, 'sqlite_db'):
-        g.sqlite_db = connect_db()
-    return g.sqlite_db
+###
 
 
-# Below goes in the manifest file
-@app.teardown_appcontext
-def close_db(error):
-    if hasattr(g, 'sqlite_db'):
-        g.sqlite_db.close()
 
 
-# Querying and commiting
-db = get_db()
-result = db.execute('SELECT ? FROM Employee', (name,))	#second argument is either a tuple or a list        
-db.commit()
-full_output = result.fetchall()
-#single_row = result.fetchone()
-#db.rollback()
-```
-
-### Best security practices
-```python
-# Use turly random string as secret key for sessions
-import os
-
-app.config['SECRET_KEY'] = os.urandom(24)	#generates random string
-```
-
-```python
-# Always hash passwords before storing them in the database
-from werkzeug.security import generate_password_hash, check_password_hash
-# generate_password_hash(request.form['password'], method='sha256')
-# check_password_hash(request.form['password'], query_result['password']) 
-```
 
 
 
