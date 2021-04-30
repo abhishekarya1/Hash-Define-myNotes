@@ -4,21 +4,24 @@
 
 [build.environment]
   HUGO_THEME = "learn"
-  HUGO_ENV = "development"
+  HUGO_ENV = "production"
   HUGO_THEMESDIR = "/themes"
   HUGO_VERSION = "0.82.0"
 
 [context.production.environment]
   HUGO_BASEURL = "https://hashdefine.netlify.app/"
+  HUGO_VERSION = "0.82.0"
 
 [context.deploy-preview]
   command = "hugo -s exampleSite -b $DEPLOY_PRIME_URL"
 
 [context.deploy-preview.environment]
   HUGO_ENABLEGITINFO = "true"
+  HUGO_VERSION = "0.82.0"
 
 [context.branch-deplpy]
   command = "hugo -s exampleSite -b $DEPLOY_PRIME_URL"
 
 [context.branch-deploy.environment]
   HUGO_ENABLEGITINFO = "true"
+  HUGO_VERSION = "0.82.0"
