@@ -9,6 +9,7 @@ weight = 1
 - [Regex For Noobs (like me!) - An Illustrated Guide - Janmeppe](https://www.janmeppe.com/blog/regex-for-noobs/)
 - [Regex Course - Launch School](https://launchschool.com/books/regex/read/introduction)
 - [Learn Regex The Easy Way - GitHub](https://github.com/ziishaned/learn-regex/blob/master/README.md)
+- [Regular Expressions - Grymoire](https://www.grymoire.com/Unix/Regular.html)
 
 ## Practice
 - [HackerRank - Regex](https://www.hackerrank.com/domains/regex)
