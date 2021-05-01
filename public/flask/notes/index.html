@@ -1,0 +1,3433 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.82.1" />
+    <meta name="description" content="My notes and elucidations revolving around programming.">
+<meta name="author" content="Abhishek Arya">
+
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <title>Flask :: #Define</title>
+
+    
+    <link href="/css/nucleus.css?1619856148" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1619856148" rel="stylesheet">
+    <link href="/css/hybrid.css?1619856148" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1619856148" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1619856148" rel="stylesheet">
+    <link href="/css/auto-complete.css?1619856148" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1619856148" rel="stylesheet">
+    <link href="/css/theme.css?1619856148" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1619856148" rel="stylesheet">
+    
+    <link href="/css/theme-blue.css?1619856148" rel="stylesheet">
+    
+    
+
+    <script src="/js/jquery-3.3.1.min.js?1619856148"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+        :not(pre) > code + span.copy-to-clipboard {
+            display: none;
+        }
+      
+    </style>
+    
+<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+
+
+  </head>
+  <body class="" data-url="/flask/notes/">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="https://hashdefine.netlify.app/">
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="50mm"
+   height="15mm"
+   viewBox="0 0 100 35"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="er.svg"
+   inkscape:export-filename="C:\Users\Abhishek\Documents\GitHub\Hash-Define-myNotes\static\images\text4487.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="-7.5772008"
+     inkscape:cy="345.5202"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-262)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:Neuton;-inkscape-font-specification:Neuton;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="-0.37797296"
+       y="288.68454"
+       id="text4487"
+       inkscape:export-filename="C:\Users\Abhishek\Documents\GitHub\Hash-Define-myNotes\static\images\text4487.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         sodipodi:role="line"
+         id="tspan4485"
+         x="-0.37797296"
+         y="288.68454"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:25.39999962px;font-family:'Fira Code';-inkscape-font-specification:'Fira Code Medium';letter-spacing:-0.79374999px;stroke-width:0.26458332;fill:#ffffff;fill-opacity:1">#define</tspan></text>
+  </g>
+</svg>
+
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/js/lunr.min.js?1619856148"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1619856148"></script>
+<script type="text/javascript">
+    
+        var baseurl = "https:\/\/hashdefine.netlify.app\/";
+    
+</script>
+<script type="text/javascript" src="/js/search.js?1619856148"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c/" title="C Programming" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c/">
+          <i class='devicon-c-plain'></i> C Programming
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c/c-dennis-ritchie/" title="C Programming by Dennis Ritchie" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c/c-dennis-ritchie/">
+          <i class='fas fa-code'></i> C Programming by Dennis Ritchie
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-21-preface/" title="Preface" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-21-preface/">
+        <b>0. </b>Preface
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-21-c-programming-chapter-1/" title="A Tutorial Introduction" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-21-c-programming-chapter-1/">
+        <b>1. </b>A Tutorial Introduction
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-2/" title="Types, Operators, and Expressions " class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-2/">
+        <b>2. </b>Types, Operators, and Expressions 
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-3/" title="Control Flow" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-3/">
+        <b>3. </b>Control Flow
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-4/" title="Functions and Program Structure" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-4/">
+        <b>4. </b>Functions and Program Structure
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-24-c-programming-chapter-5/" title="Pointers and Arrays" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-24-c-programming-chapter-5/">
+        <b>5. </b>Pointers and Arrays
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-26-c-programming-chapter-6/" title="Structures" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-26-c-programming-chapter-6/">
+        <b>6. </b>Structures
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-27-c-programming-chapter-7/" title="Input and Output" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-27-c-programming-chapter-7/">
+        <b>7. </b>Input and Output
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c/gfg-c/" title="C - GeeksforGeeks" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c/gfg-c/">
+          <i class='fas fa-code'></i> C - GeeksforGeeks
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/tips/" title="Useful Stuff" class="dd-item ">
+        <a href="/c/gfg-c/tips/">
+        Useful Stuff
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/string_functions/" title="Character and String Functions" class="dd-item ">
+        <a href="/c/gfg-c/string_functions/">
+        Character and String Functions
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/stdio/" title="Some &lt;stdio.h&gt; I/O Functions" class="dd-item ">
+        <a href="/c/gfg-c/stdio/">
+        Some &lt;stdio.h&gt; I/O Functions
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/struct_alignment/" title="Structure Alignment, Padding and Packing" class="dd-item ">
+        <a href="/c/gfg-c/struct_alignment/">
+        Structure Alignment, Padding and Packing
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/functions_in_c/" title="Functions_in_C" class="dd-item ">
+        <a href="/c/gfg-c/functions_in_c/">
+        Functions_in_C
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/pointer_in_c/" title="Pointers in C" class="dd-item ">
+        <a href="/c/gfg-c/pointer_in_c/">
+        Pointers in C
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/behaviour_in_c/" title="Undefined, Unspecified, and Implementation-Defined Behavior in C" class="dd-item ">
+        <a href="/c/gfg-c/behaviour_in_c/">
+        Undefined, Unspecified, and Implementation-Defined Behavior in C
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c&#43;&#43;/" title="C&#43;&#43; Programming" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c&#43;&#43;/">
+          <i class='devicon-cplusplus-plain'></i> C&#43;&#43; Programming
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-01-functions-and-arrays/" title="Functions and Arrays" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-01-functions-and-arrays/">
+        Functions and Arrays
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-const/" title="Const" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-const/">
+        Const
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-constructors-destructors/" title="Constructors and Destructors" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-constructors-destructors/">
+        Constructors and Destructors
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-oops-in-c&#43;&#43;/" title="Object-Oriented Programming in C&#43;&#43;" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-oops-in-c&#43;&#43;/">
+        Object-Oriented Programming in C&#43;&#43;
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-vectors-and-generic/" title="STL - Vectors and Generic Programming" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-vectors-and-generic/">
+        STL - Vectors and Generic Programming
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-strings/" title="STL - Strings" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-strings/">
+        STL - Strings
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-10-bitwise-and-recursion/" title="Bitwise Operations and Recursion" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-10-bitwise-and-recursion/">
+        Bitwise Operations and Recursion
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-09-pointers/" title="Pointers" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-09-pointers/">
+        Pointers
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-07-my-sublime-env/" title="My Sublime Environment for Coding" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-07-my-sublime-env/">
+        My Sublime Environment for Coding
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-07-quick-jots/" title="Quick Jots" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-07-quick-jots/">
+        Quick Jots
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-07-imp/" title="Important Points" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-07-imp/">
+        Important Points
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-03-references/" title="Reference and Array Sorting Algorithms" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-03-references/">
+        Reference and Array Sorting Algorithms
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-07-08-all/" title="All Notes" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-07-08-all/">
+        All Notes
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c&#43;&#43;-language-specifics/" title="C&#43;&#43; Language Specifics" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c&#43;&#43;-language-specifics/">
+          <i class='devicon-devicon-plain'></i> C&#43;&#43; Language Specifics
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;-language-specifics/basics/" title="Headers, Macros, and Compiler Flags" class="dd-item ">
+        <a href="/c&#43;&#43;-language-specifics/basics/">
+        <b>0. </b>Headers, Macros, and Compiler Flags
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;-language-specifics/useful-functions/" title="Useful Functions" class="dd-item ">
+        <a href="/c&#43;&#43;-language-specifics/useful-functions/">
+        <b>1. </b>Useful Functions
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/competitive-programming/" title="Competitive Programming" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/competitive-programming/">
+          👨‍💻 Competitive Programming
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/maths/" title="Maths for CP" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/maths/">
+          🧮 Maths for CP
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/basics/" title="Basics" class="dd-item ">
+        <a href="/maths/basics/">
+        <b>0.</b> Basics
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/gcd/" title="GCD, LCM, and Euclidean Algorithm" class="dd-item ">
+        <a href="/maths/gcd/">
+        <b>1.</b> GCD, LCM, and Euclidean Algorithm
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/gcd-adv/" title="GCD and LCM Advanced" class="dd-item ">
+        <a href="/maths/gcd-adv/">
+        <b>2.</b> GCD and LCM Advanced
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/primes/" title="Prime Numbers" class="dd-item ">
+        <a href="/maths/primes/">
+        <b>3.</b> Prime Numbers
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/prime-factorization/" title="Prime Factorization and Divisors" class="dd-item ">
+        <a href="/maths/prime-factorization/">
+        <b>4.</b> Prime Factorization and Divisors
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/fibonacci/" title="Fibonacci Numbers" class="dd-item ">
+        <a href="/maths/fibonacci/">
+        <b>5.</b> Fibonacci Numbers
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/divisibility/" title="Divisibility" class="dd-item ">
+        <a href="/maths/divisibility/">
+        <b>6.</b> Divisibility
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/modular-arithmetic/" title="Modular Arithmetic" class="dd-item ">
+        <a href="/maths/modular-arithmetic/">
+        <b>6.</b> Modular Arithmetic
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/bit/" title="Bitwise Algorithms" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/bit/">
+          <i class='fas fa-microchip'></i> Bitwise Algorithms
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/bit/basics/" title="Basics" class="dd-item ">
+        <a href="/bit/basics/">
+        <b>0.</b> Basics
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/bit/applications/" title="Applications" class="dd-item ">
+        <a href="/bit/applications/">
+        <b>1.</b> Applications
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/python/" title="Python Notes" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/python/">
+          <i class='devicon-python-plain'></i> Python Notes
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/python/notes/" title="Notes" class="dd-item ">
+        <a href="/python/notes/">
+        Notes
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/python/oops/" title="OOP" class="dd-item ">
+        <a href="/python/oops/">
+        OOP
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/python/adv/" title="Advanced" class="dd-item ">
+        <a href="/python/adv/">
+        Advanced
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/flask/" title="Flask" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/flask/">
+          <i class='fas fa-flask'></i> Flask
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/flask/notes/" title="Flask" class="dd-item active">
+        <a href="/flask/notes/">
+        Flask
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/git/" title="Git" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/git/">
+          <i class='devicon-git-plain'></i> Git
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/git/notes/" title="Git" class="dd-item ">
+        <a href="/git/notes/">
+        Git
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/rdbms/" title="RDBMS" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/rdbms/">
+          <i class='fas fa-table'></i> RDBMS
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rdbms/concepts/" title="Concepts" class="dd-item ">
+        <a href="/rdbms/concepts/">
+        <i class='far fa-lightbulb'></i> Concepts
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rdbms/mysql/" title="MySQL" class="dd-item ">
+        <a href="/rdbms/mysql/">
+        <i class='devicon-mysql-plain'></i> MySQL
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rdbms/postgresql/" title="PostgreSQL" class="dd-item ">
+        <a href="/rdbms/postgresql/">
+        <i class='devicon-postgresql-plain'></i> PostgreSQL
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/nosql/" title="NoSQL Databases" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/nosql/">
+          <i class='fas fa-database'></i> NoSQL Databases
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/nosql/architecture/" title="Architecture" class="dd-item ">
+        <a href="/nosql/architecture/">
+        <i class='fas fa-sitemap'></i> Architecture
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/nosql/mongodb/" title="MongoDB" class="dd-item ">
+        <a href="/nosql/mongodb/">
+        <i class='devicon-mongodb-plain'></i> MongoDB
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/regex/" title="Regex" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/regex/">
+           Regex
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/regex/resources/" title="Resources" class="dd-item ">
+        <a href="/regex/resources/">
+        Resources
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/regex/notes/" title="Notes" class="dd-item ">
+        <a href="/regex/notes/">
+        Notes
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/linux-and-tools/" title="Linux and Tools" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/linux-and-tools/">
+           Linux and Tools
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/linux-and-tools/terminal/" title="Terminal" class="dd-item ">
+        <a href="/linux-and-tools/terminal/">
+        Terminal
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/linux-and-tools/awk/" title="Awk" class="dd-item ">
+        <a href="/linux-and-tools/awk/">
+        Awk
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/linux-and-tools/shell-scripting/" title="Shell Scripting" class="dd-item ">
+        <a href="/linux-and-tools/shell-scripting/">
+        Shell Scripting
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="https://github.com/abhishekarya1"><i class='fab fa-github'></i> Github </a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://abhishekarya1.github.io"><i class='fas fa-laptop-code'></i> Blog</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://hashdefine.netlify.app/credits"><i class='fas fa-bullhorn'></i> Credits</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <p>Built with <a href="https://github.com/matcornic/hugo-theme-learn"><i class="fas fa-heart"></i></a> from <a href="https://getgrav.org">Grav</a> and <a href="https://gohugo.io/">Hugo</a></p>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>#define HOME</a> > <a href='/flask/'>Flask</a> > Flask
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li><a href="#setup">Setup</a></li>
+    <li><a href="#flask">Flask</a>
+      <ul>
+        <li><a href="#basic-app-module-structure">Basic App Module Structure</a></li>
+        <li><a href="#two-ways-to-run-flask-apps">Two ways to run Flask apps</a></li>
+        <li><a href="#__main__"><strong>main</strong></a></li>
+        <li><a href="#app-routing">App Routing</a></li>
+        <li><a href="#redirection">Redirection</a></li>
+        <li><a href="#http-methods">HTTP Methods</a></li>
+        <li><a href="#configuration-config">Configuration (config)</a></li>
+        <li><a href="#sessions">Sessions</a></li>
+        <li><a href="#cookies">Cookies</a></li>
+      </ul>
+    </li>
+    <li><a href="#jinja-templating">Jinja Templating</a>
+      <ul>
+        <li><a href="#static-files">Static Files</a></li>
+        <li><a href="#template-inheritence">Template Inheritence</a></li>
+      </ul>
+    </li>
+    <li><a href="#flask-bootstrap">Flask Bootstrap</a></li>
+    <li><a href="#database">Database</a>
+      <ul>
+        <li></li>
+        <li><a href="#best-security-practices">Best security practices</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Flask
+            </h1>
+          
+
+        
+
+
+<h2 id="setup">Setup</h2>
+<ol>
+<li>Create a virtual environment</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ python -m venv /path/to/new/virtual/environment
+
+<span style="color:#75715e">#OR</span>
+
+$ py -m venv /path/to/new/virtual/environment
+</code></pre></div><ol start="2">
+<li>Activate the virtual environment</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cd venv_folder/Scripts
+$ activate.bat
+</code></pre></div><ol start="3">
+<li>Come back to flask app root dir</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ cd ..
+$ cd ..
+$ pwd	<span style="color:#75715e">#my_flask_app</span>
+</code></pre></div><ol start="4">
+<li>Install Flask</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">$ pip install flask
+</code></pre></div><h2 id="flask">Flask</h2>
+<h3 id="basic-app-module-structure">Basic App Module Structure</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Flask
+
+app <span style="color:#f92672">=</span> Flask(__name__)
+
+<span style="color:#75715e">#app routes go here</span>
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+	app<span style="color:#f92672">.</span>run()
+</code></pre></div><h3 id="two-ways-to-run-flask-apps">Two ways to run Flask apps</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash"><span style="color:#75715e">#One</span>
+$ python app.py
+
+<span style="color:#75715e">#Two - by default, it works only when file is named &#34;app.py&#34;</span>
+$ flask run
+
+<span style="color:#75715e">#otherwise set env variable, use &#34;set&#34; on Windows instead of &#34;export&#34;</span>
+$ export FLASK_APP<span style="color:#f92672">=</span>main.py 
+
+<span style="color:#75715e">#we can also enable debug mode like this</span>
+$ export FLASK_DEBUG<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>
+</code></pre></div><h3 id="__main__"><strong>main</strong></h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Syntax: app.run(host, port, debug, options)  </span>
+app<span style="color:#f92672">.</span>run(<span style="color:#e6db74">&#39;127.0.0.5&#39;</span>, <span style="color:#e6db74">&#39;4567&#39;</span>, debug<span style="color:#f92672">=</span>True, options)  
+</code></pre></div><h3 id="app-routing">App Routing</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;path/that/triggers/the/method&#39;</span>)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">foobar</span>():
+	<span style="color:#66d9ef">pass</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#we can have multiple routes for single method</span>
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/&#39;</span>)
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;home&#39;</span>)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>():
+	<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Homepage&#39;</span>
+</code></pre></div><h4 id="point-to-note">Point to Note</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/path/&#39;</span>)
+<span style="color:#75715e">#is different from</span>
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/path&#39;</span>)
+
+<span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">The former is like a directory path, it will fetch and open path for us in both &#39;/path/&#39; and &#39;/path&#39; scenarios..
+</span><span style="color:#e6db74">while latter is more like a file path, if we go to &#39;localhost:5000/path/&#39;, it will fail to find the correct one and give 404 error
+</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+</code></pre></div><h4 id="dynamic-parameters-in-url">Dynamic Parameters in URL</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#we can also have dynamic parameters in url</span>
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/&lt;name&gt;&#39;</span>)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(name):
+	<span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Welcome, &#39;</span> <span style="color:#f92672">+</span> name	
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#we can enforce strict typing too, &#39;str&#39; works with all types but &#39;int&#39; won&#39;t take in strings, as expected</span>
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/&lt;int:age&gt;&#39;</span>)
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">index</span>(age):
+	<span style="color:#66d9ef">return</span> f<span style="color:#e6db74">&#39;You are {age}&#39;</span>
+
+<span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">string: default
+</span><span style="color:#e6db74">int: used to convert the string to the integer
+</span><span style="color:#e6db74">float: used to convert the string to the float.
+</span><span style="color:#e6db74">path: It can accept the slashes given in the URL.
+</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#we can create url rule/route/trigger for an existing method using &#34;add_url_rule()&#34;</span>
+<span style="color:#75715e"># Syntax: add_url_rule(&lt;url rule&gt;, &lt;endpoint&gt;, &lt;view function&gt;)</span>
+add_url_rule(<span style="color:#e6db74">&#39;/new_home&#39;</span>, <span style="color:#e6db74">&#39;home2&#39;</span>, index)    
+</code></pre></div><h3 id="redirection">Redirection</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#vars are optional</span>
+redirect(url_for(<span style="color:#e6db74">&#39;another_method_name&#39;</span>, var<span style="color:#f92672">=</span><span style="color:#ae81ff">1</span>, <span style="color:#f92672">...</span>))
+</code></pre></div><h3 id="http-methods">HTTP Methods</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Default method is GET</span>
+
+<span style="color:#75715e"># Specifying expected methods in approute</span>
+<span style="color:#a6e22e">@app.route</span>(<span style="color:#e6db74">&#39;/path&#39;</span>, methods<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;GET&#39;</span>,<span style="color:#e6db74">&#39;POST&#39;</span>])
+
+<span style="color:#75715e"># Check method with which function was called</span>
+<span style="color:#66d9ef">if</span> request<span style="color:#f92672">.</span>method <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;POST&#39;</span>: <span style="color:#66d9ef">pass</span>
+
+<span style="color:#75715e"># Data retrieval with POST</span>
+var <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>form[<span style="color:#e6db74">&#39;data&#39;</span>]
+
+<span style="color:#75715e"># Data retrieval with GET</span>
+var <span style="color:#f92672">=</span> request<span style="color:#f92672">.</span>args<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;data&#39;</span>) 
+</code></pre></div><h3 id="configuration-config">Configuration (config)</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e">#config is an in-built dictionary in Flask, we set values in it</span>
+app<span style="color:#f92672">.</span>config[<span style="color:#e6db74">&#39;DEBUG&#39;</span>] <span style="color:#f92672">=</span> True
+</code></pre></div><h3 id="sessions">Sessions</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Keeps data persistent throughout webpages</span>
+<span style="color:#75715e"># Implemented in Flask using just a simple dictionary</span>
+<span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> session
+<span style="color:#75715e"># Set secret_key</span>
+app<span style="color:#f92672">.</span>secret_key <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;anything&#39;</span>
+<span style="color:#75715e"># alternate way --&gt; app.config[&#39;SECRET_KEY&#39;] = &#39;anything&#39;</span>
+
+<span style="color:#75715e"># Add value</span>
+session[<span style="color:#e6db74">&#39;name&#39;</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Abhishek&#39;</span>
+
+<span style="color:#75715e"># Check if the value is in session</span>
+<span style="color:#66d9ef">if</span> <span style="color:#e6db74">&#39;name&#39;</span> <span style="color:#f92672">in</span> session: <span style="color:#66d9ef">pass</span>
+
+<span style="color:#75715e"># Close session</span>
+session<span style="color:#f92672">.</span>pop(<span style="color:#e6db74">&#39;name&#39;</span>, None)
+</code></pre></div><h3 id="cookies">Cookies</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># We always set them on the response objects and send them to store on client side in a txt form,</span>
+<span style="color:#75715e"># contrary to session which is sever side storage</span>
+
+<span style="color:#75715e"># Make response object</span>
+resObj <span style="color:#f92672">=</span> make_response(<span style="color:#f92672">&lt;</span>h1<span style="color:#f92672">&gt;</span> Cookie <span style="color:#f92672">is</span> set <span style="color:#f92672">in</span> browser<span style="color:#960050;background-color:#1e0010">!</span> <span style="color:#f92672">&lt;/</span>h1<span style="color:#f92672">&gt;</span>)
+
+<span style="color:#75715e"># Set cookies on it</span>
+resObj<span style="color:#f92672">.</span>set_cookie(<span style="color:#e6db74">&#39;name&#39;</span>, <span style="color:#e6db74">&#39;Abhishek&#39;</span>)
+
+<span style="color:#75715e"># Access cookies wherever needed</span>
+request<span style="color:#f92672">.</span>cookies<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#39;name&#39;</span>)
+</code></pre></div><h2 id="jinja-templating">Jinja Templating</h2>
+<ul>
+<li>Templates goes into <code>app-folder/templates/</code></li>
+<li>Static files like CSS and JS files go into <code>app-folder/static/</code></li>
+</ul>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">render_template(<span style="color:#e6db74">&#39;login.html&#39;</span>, user<span style="color:#f92672">=</span>user)
+<span style="color:#75715e">#vars are optional</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">h3</span>&gt; Username is: {{user}} &lt;/<span style="color:#f92672">h3</span>&gt;
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">{{ }} for variables <span style="color:#960050;background-color:#1e0010">&amp;</span> expressions
+
+{%  %} for blocks, if-else, loops
+{% end--- %}
+</code></pre></div><h3 id="static-files">Static Files</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">&lt;<span style="color:#f92672">img</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ url_for(&#39;static&#39;, filename=&#39;images/mylogo.png&#39;) }}&#34;</span>&gt;
+&lt;<span style="color:#f92672">link</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;spreadsheet&#34;</span> <span style="color:#a6e22e">src</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;{{ url_for(&#39;static&#39;, filename=&#39;css/main.css&#39;) }}&#34;</span>&gt;
+</code></pre></div><h3 id="template-inheritence">Template Inheritence</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html"><span style="color:#75715e">&lt;!-- base.html --&gt;</span>
+<span style="color:#75715e">&lt;!DOCTYPE html&gt;</span>
+&lt;<span style="color:#f92672">html</span>&gt;
+&lt;<span style="color:#f92672">head</span>&gt;
+	&lt;<span style="color:#f92672">title</span>&gt;{% block title %}{% endblock %}&lt;/<span style="color:#f92672">title</span>&gt;
+&lt;/<span style="color:#f92672">head</span>&gt;
+&lt;<span style="color:#f92672">body</span>&gt;
+	{% block title %}{% endblock %}	
+&lt;/<span style="color:#f92672">body</span>&gt;
+&lt;/<span style="color:#f92672">html</span>&gt;
+</code></pre></div><p><code>{% block title %} {% endblock %}</code> acts as a placeholder</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">{% extends &#39;base.html&#39; %}
+
+{% block title %} Homepage {% endblock %}	
+
+{% block title %} &lt;<span style="color:#f92672">h2</span>&gt; This is page body. &lt;/<span style="color:#f92672">h2</span>&gt; {% endblock %}	
+</code></pre></div><p>By default, if we have anything in <code>base.html</code>&rsquo;s body block, it will be overwritten completely. To retain it, use <code>super()</code> in child&rsquo;s block.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">{% block title %} 
+{% super() %}
+&lt;<span style="color:#f92672">h2</span>&gt; This is page body. &lt;/<span style="color:#f92672">h2</span>&gt; 
+{% endblock %}	
+</code></pre></div><h4 id="including-content-from-another-webpage">Including content from another webpage</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-html" data-lang="html">{% include &#39;another.html&#39; %}
+</code></pre></div>
+<div class="notices info" ><p>This is two way though, we can now access variables available on our page on <code>another.html</code> too.</p>
+</div>
+
+<h2 id="flask-bootstrap">Flask Bootstrap</h2>
+<p><a href="https://pythonhosted.org/Flask-Bootstrap/basic-usage.html">Official Guide</a></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-sh" data-lang="sh">$ pip install flask-bootstrap
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> Flask
+<span style="color:#f92672">from</span> flask_bootstrap <span style="color:#f92672">import</span> Bootstrap
+
+app <span style="color:#f92672">=</span> Flask(__name__)
+Bootstrap(app)
+
+<span style="color:#75715e"># further code...</span>
+</code></pre></div><h2 id="database">Database</h2>
+<h4 id="sqlite-setup">sqlite setup</h4>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt;&gt;&gt; sqlite3 data.db
+&gt;&gt;&gt; create table users<span style="color:#f92672">(</span>id integer primary key autoincrement, name text, location text<span style="color:#f92672">)</span>;
+&gt;&gt;&gt; .tables
+users
+<span style="color:#75715e">#insert into ...</span>
+</code></pre></div><p>Shortcut:</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-bash" data-lang="bash">&gt;&gt;&gt; sqlite3 &lt; schema	<span style="color:#75715e">#schema is a simple text file containing our create table command(s)</span>
+</code></pre></div><p>Or use a python script</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#f92672">import</span> sqlite3  
+con <span style="color:#f92672">=</span> sqlite3<span style="color:#f92672">.</span>connect(<span style="color:#e6db74">&#34;employee.db&#34;</span>)  
+<span style="color:#75715e">#print(&#34;Database opened successfully&#34;)  </span>
+con<span style="color:#f92672">.</span>execute(<span style="color:#e6db74">&#34;create table Employees (id INTEGER PRIMARY KEY AUTOINCREMENT, name TEXT NOT NULL, email TEXT UNIQUE NOT NULL, address TEXT NOT NULL)&#34;</span>)  
+<span style="color:#75715e">#print(&#34;Table created successfully&#34;)  </span>
+con<span style="color:#f92672">.</span>close()  
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Standard Helper Procedures</span>
+<span style="color:#f92672">from</span> flask <span style="color:#f92672">import</span> g
+<span style="color:#f92672">import</span> sqlite3
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">connect_db</span>():
+    sql <span style="color:#f92672">=</span> sqlite3<span style="color:#f92672">.</span>connect(<span style="color:#e6db74">&#39;/path/to/data.db&#39;</span>)
+    sql<span style="color:#f92672">.</span>row_factory <span style="color:#f92672">=</span> sqlite3<span style="color:#f92672">.</span>Row
+    <span style="color:#66d9ef">return</span> sql
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_db</span>():
+    <span style="color:#66d9ef">if</span> <span style="color:#f92672">not</span> hasattr(g, <span style="color:#e6db74">&#39;sqlite_db&#39;</span>):
+        g<span style="color:#f92672">.</span>sqlite_db <span style="color:#f92672">=</span> connect_db()
+    <span style="color:#66d9ef">return</span> g<span style="color:#f92672">.</span>sqlite_db
+
+
+<span style="color:#75715e"># Below goes in the manifest file</span>
+<span style="color:#a6e22e">@app.teardown_appcontext</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">close_db</span>(error):
+    <span style="color:#66d9ef">if</span> hasattr(g, <span style="color:#e6db74">&#39;sqlite_db&#39;</span>):
+        g<span style="color:#f92672">.</span>sqlite_db<span style="color:#f92672">.</span>close()
+
+
+<span style="color:#75715e"># Querying and commiting</span>
+db <span style="color:#f92672">=</span> get_db()
+result <span style="color:#f92672">=</span> db<span style="color:#f92672">.</span>execute(<span style="color:#e6db74">&#39;SELECT ? FROM Employee&#39;</span>, (name,))	<span style="color:#75715e">#second argument is either a tuple or a list        </span>
+db<span style="color:#f92672">.</span>commit()
+full_output <span style="color:#f92672">=</span> result<span style="color:#f92672">.</span>fetchall()
+<span style="color:#75715e">#single_row = result.fetchone()</span>
+<span style="color:#75715e">#db.rollback()</span>
+</code></pre></div><h3 id="best-security-practices">Best security practices</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Use turly random string as secret key for sessions</span>
+<span style="color:#f92672">import</span> os
+
+app<span style="color:#f92672">.</span>config[<span style="color:#e6db74">&#39;SECRET_KEY&#39;</span>] <span style="color:#f92672">=</span> os<span style="color:#f92672">.</span>urandom(<span style="color:#ae81ff">24</span>)	<span style="color:#75715e">#generates random string</span>
+</code></pre></div><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python"><span style="color:#75715e"># Always hash passwords before storing them in the database</span>
+<span style="color:#f92672">from</span> werkzeug.security <span style="color:#f92672">import</span> generate_password_hash, check_password_hash
+<span style="color:#75715e"># generate_password_hash(request.form[&#39;password&#39;], method=&#39;sha256&#39;)</span>
+<span style="color:#75715e"># check_password_hash(request.form[&#39;password&#39;], query_result[&#39;password&#39;]) </span>
+</code></pre></div>
+
+<footer class="footline">
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/flask/" title="Flask"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="/git/" title="Git" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/js/clipboard.min.js?1619856148"></script>
+    <script src="/js/perfect-scrollbar.min.js?1619856148"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1619856148"></script>
+    <script src="/js/jquery.sticky.js?1619856148"></script>
+    <script src="/js/featherlight.min.js?1619856148"></script>
+    <script src="/js/highlight.pack.js?1619856148"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/modernizr.custom-3.6.0.js?1619856148"></script>
+    <script src="/js/learn.js?1619856148"></script>
+    <script src="/js/hugo-learn.js?1619856148"></script>
+
+    <link href="/mermaid/mermaid.css?1619856148" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1619856148"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+
+  </body>
+</html>
+

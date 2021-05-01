@@ -1,0 +1,4282 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.82.1" />
+    <meta name="description" content="My notes and elucidations revolving around programming.">
+<meta name="author" content="Abhishek Arya">
+
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <title>Notes :: #Define</title>
+
+    
+    <link href="/css/nucleus.css?1619856148" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1619856148" rel="stylesheet">
+    <link href="/css/hybrid.css?1619856148" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1619856148" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1619856148" rel="stylesheet">
+    <link href="/css/auto-complete.css?1619856148" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1619856148" rel="stylesheet">
+    <link href="/css/theme.css?1619856148" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1619856148" rel="stylesheet">
+    
+    <link href="/css/theme-blue.css?1619856148" rel="stylesheet">
+    
+    
+
+    <script src="/js/jquery-3.3.1.min.js?1619856148"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+        :not(pre) > code + span.copy-to-clipboard {
+            display: none;
+        }
+      
+    </style>
+    
+<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+
+
+  </head>
+  <body class="" data-url="/python/notes/">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="https://hashdefine.netlify.app/">
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="50mm"
+   height="15mm"
+   viewBox="0 0 100 35"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="er.svg"
+   inkscape:export-filename="C:\Users\Abhishek\Documents\GitHub\Hash-Define-myNotes\static\images\text4487.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="-7.5772008"
+     inkscape:cy="345.5202"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-262)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:Neuton;-inkscape-font-specification:Neuton;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="-0.37797296"
+       y="288.68454"
+       id="text4487"
+       inkscape:export-filename="C:\Users\Abhishek\Documents\GitHub\Hash-Define-myNotes\static\images\text4487.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         sodipodi:role="line"
+         id="tspan4485"
+         x="-0.37797296"
+         y="288.68454"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:25.39999962px;font-family:'Fira Code';-inkscape-font-specification:'Fira Code Medium';letter-spacing:-0.79374999px;stroke-width:0.26458332;fill:#ffffff;fill-opacity:1">#define</tspan></text>
+  </g>
+</svg>
+
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/js/lunr.min.js?1619856148"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1619856148"></script>
+<script type="text/javascript">
+    
+        var baseurl = "https:\/\/hashdefine.netlify.app\/";
+    
+</script>
+<script type="text/javascript" src="/js/search.js?1619856148"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c/" title="C Programming" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c/">
+          <i class='devicon-c-plain'></i> C Programming
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c/c-dennis-ritchie/" title="C Programming by Dennis Ritchie" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c/c-dennis-ritchie/">
+          <i class='fas fa-code'></i> C Programming by Dennis Ritchie
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-21-preface/" title="Preface" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-21-preface/">
+        <b>0. </b>Preface
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-21-c-programming-chapter-1/" title="A Tutorial Introduction" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-21-c-programming-chapter-1/">
+        <b>1. </b>A Tutorial Introduction
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-2/" title="Types, Operators, and Expressions " class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-2/">
+        <b>2. </b>Types, Operators, and Expressions 
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-3/" title="Control Flow" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-3/">
+        <b>3. </b>Control Flow
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-4/" title="Functions and Program Structure" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-4/">
+        <b>4. </b>Functions and Program Structure
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-24-c-programming-chapter-5/" title="Pointers and Arrays" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-24-c-programming-chapter-5/">
+        <b>5. </b>Pointers and Arrays
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-26-c-programming-chapter-6/" title="Structures" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-26-c-programming-chapter-6/">
+        <b>6. </b>Structures
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-27-c-programming-chapter-7/" title="Input and Output" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-27-c-programming-chapter-7/">
+        <b>7. </b>Input and Output
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c/gfg-c/" title="C - GeeksforGeeks" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c/gfg-c/">
+          <i class='fas fa-code'></i> C - GeeksforGeeks
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/tips/" title="Useful Stuff" class="dd-item ">
+        <a href="/c/gfg-c/tips/">
+        Useful Stuff
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/string_functions/" title="Character and String Functions" class="dd-item ">
+        <a href="/c/gfg-c/string_functions/">
+        Character and String Functions
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/stdio/" title="Some &lt;stdio.h&gt; I/O Functions" class="dd-item ">
+        <a href="/c/gfg-c/stdio/">
+        Some &lt;stdio.h&gt; I/O Functions
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/struct_alignment/" title="Structure Alignment, Padding and Packing" class="dd-item ">
+        <a href="/c/gfg-c/struct_alignment/">
+        Structure Alignment, Padding and Packing
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/functions_in_c/" title="Functions_in_C" class="dd-item ">
+        <a href="/c/gfg-c/functions_in_c/">
+        Functions_in_C
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/pointer_in_c/" title="Pointers in C" class="dd-item ">
+        <a href="/c/gfg-c/pointer_in_c/">
+        Pointers in C
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/behaviour_in_c/" title="Undefined, Unspecified, and Implementation-Defined Behavior in C" class="dd-item ">
+        <a href="/c/gfg-c/behaviour_in_c/">
+        Undefined, Unspecified, and Implementation-Defined Behavior in C
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c&#43;&#43;/" title="C&#43;&#43; Programming" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c&#43;&#43;/">
+          <i class='devicon-cplusplus-plain'></i> C&#43;&#43; Programming
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-01-functions-and-arrays/" title="Functions and Arrays" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-01-functions-and-arrays/">
+        Functions and Arrays
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-const/" title="Const" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-const/">
+        Const
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-constructors-destructors/" title="Constructors and Destructors" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-constructors-destructors/">
+        Constructors and Destructors
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-oops-in-c&#43;&#43;/" title="Object-Oriented Programming in C&#43;&#43;" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-oops-in-c&#43;&#43;/">
+        Object-Oriented Programming in C&#43;&#43;
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-vectors-and-generic/" title="STL - Vectors and Generic Programming" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-vectors-and-generic/">
+        STL - Vectors and Generic Programming
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-strings/" title="STL - Strings" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-strings/">
+        STL - Strings
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-10-bitwise-and-recursion/" title="Bitwise Operations and Recursion" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-10-bitwise-and-recursion/">
+        Bitwise Operations and Recursion
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-09-pointers/" title="Pointers" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-09-pointers/">
+        Pointers
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-07-my-sublime-env/" title="My Sublime Environment for Coding" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-07-my-sublime-env/">
+        My Sublime Environment for Coding
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-07-quick-jots/" title="Quick Jots" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-07-quick-jots/">
+        Quick Jots
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-07-imp/" title="Important Points" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-07-imp/">
+        Important Points
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-03-references/" title="Reference and Array Sorting Algorithms" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-03-references/">
+        Reference and Array Sorting Algorithms
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-07-08-all/" title="All Notes" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-07-08-all/">
+        All Notes
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c&#43;&#43;-language-specifics/" title="C&#43;&#43; Language Specifics" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c&#43;&#43;-language-specifics/">
+          <i class='devicon-devicon-plain'></i> C&#43;&#43; Language Specifics
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;-language-specifics/basics/" title="Headers, Macros, and Compiler Flags" class="dd-item ">
+        <a href="/c&#43;&#43;-language-specifics/basics/">
+        <b>0. </b>Headers, Macros, and Compiler Flags
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;-language-specifics/useful-functions/" title="Useful Functions" class="dd-item ">
+        <a href="/c&#43;&#43;-language-specifics/useful-functions/">
+        <b>1. </b>Useful Functions
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/competitive-programming/" title="Competitive Programming" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/competitive-programming/">
+          👨‍💻 Competitive Programming
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/maths/" title="Maths for CP" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/maths/">
+          🧮 Maths for CP
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/basics/" title="Basics" class="dd-item ">
+        <a href="/maths/basics/">
+        <b>0.</b> Basics
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/gcd/" title="GCD, LCM, and Euclidean Algorithm" class="dd-item ">
+        <a href="/maths/gcd/">
+        <b>1.</b> GCD, LCM, and Euclidean Algorithm
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/gcd-adv/" title="GCD and LCM Advanced" class="dd-item ">
+        <a href="/maths/gcd-adv/">
+        <b>2.</b> GCD and LCM Advanced
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/primes/" title="Prime Numbers" class="dd-item ">
+        <a href="/maths/primes/">
+        <b>3.</b> Prime Numbers
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/prime-factorization/" title="Prime Factorization and Divisors" class="dd-item ">
+        <a href="/maths/prime-factorization/">
+        <b>4.</b> Prime Factorization and Divisors
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/fibonacci/" title="Fibonacci Numbers" class="dd-item ">
+        <a href="/maths/fibonacci/">
+        <b>5.</b> Fibonacci Numbers
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/divisibility/" title="Divisibility" class="dd-item ">
+        <a href="/maths/divisibility/">
+        <b>6.</b> Divisibility
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/modular-arithmetic/" title="Modular Arithmetic" class="dd-item ">
+        <a href="/maths/modular-arithmetic/">
+        <b>6.</b> Modular Arithmetic
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/bit/" title="Bitwise Algorithms" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/bit/">
+          <i class='fas fa-microchip'></i> Bitwise Algorithms
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/bit/basics/" title="Basics" class="dd-item ">
+        <a href="/bit/basics/">
+        <b>0.</b> Basics
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/bit/applications/" title="Applications" class="dd-item ">
+        <a href="/bit/applications/">
+        <b>1.</b> Applications
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/python/" title="Python Notes" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/python/">
+          <i class='devicon-python-plain'></i> Python Notes
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/python/notes/" title="Notes" class="dd-item active">
+        <a href="/python/notes/">
+        Notes
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/python/oops/" title="OOP" class="dd-item ">
+        <a href="/python/oops/">
+        OOP
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/python/adv/" title="Advanced" class="dd-item ">
+        <a href="/python/adv/">
+        Advanced
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/flask/" title="Flask" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/flask/">
+          <i class='fas fa-flask'></i> Flask
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/flask/notes/" title="Flask" class="dd-item ">
+        <a href="/flask/notes/">
+        Flask
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/git/" title="Git" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/git/">
+          <i class='devicon-git-plain'></i> Git
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/git/notes/" title="Git" class="dd-item ">
+        <a href="/git/notes/">
+        Git
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/rdbms/" title="RDBMS" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/rdbms/">
+          <i class='fas fa-table'></i> RDBMS
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rdbms/concepts/" title="Concepts" class="dd-item ">
+        <a href="/rdbms/concepts/">
+        <i class='far fa-lightbulb'></i> Concepts
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rdbms/mysql/" title="MySQL" class="dd-item ">
+        <a href="/rdbms/mysql/">
+        <i class='devicon-mysql-plain'></i> MySQL
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rdbms/postgresql/" title="PostgreSQL" class="dd-item ">
+        <a href="/rdbms/postgresql/">
+        <i class='devicon-postgresql-plain'></i> PostgreSQL
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/nosql/" title="NoSQL Databases" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/nosql/">
+          <i class='fas fa-database'></i> NoSQL Databases
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/nosql/architecture/" title="Architecture" class="dd-item ">
+        <a href="/nosql/architecture/">
+        <i class='fas fa-sitemap'></i> Architecture
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/nosql/mongodb/" title="MongoDB" class="dd-item ">
+        <a href="/nosql/mongodb/">
+        <i class='devicon-mongodb-plain'></i> MongoDB
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/regex/" title="Regex" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/regex/">
+           Regex
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/regex/resources/" title="Resources" class="dd-item ">
+        <a href="/regex/resources/">
+        Resources
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/regex/notes/" title="Notes" class="dd-item ">
+        <a href="/regex/notes/">
+        Notes
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/linux-and-tools/" title="Linux and Tools" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/linux-and-tools/">
+           Linux and Tools
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/linux-and-tools/terminal/" title="Terminal" class="dd-item ">
+        <a href="/linux-and-tools/terminal/">
+        Terminal
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/linux-and-tools/awk/" title="Awk" class="dd-item ">
+        <a href="/linux-and-tools/awk/">
+        Awk
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/linux-and-tools/shell-scripting/" title="Shell Scripting" class="dd-item ">
+        <a href="/linux-and-tools/shell-scripting/">
+        Shell Scripting
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="https://github.com/abhishekarya1"><i class='fab fa-github'></i> Github </a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://abhishekarya1.github.io"><i class='fas fa-laptop-code'></i> Blog</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://hashdefine.netlify.app/credits"><i class='fas fa-bullhorn'></i> Credits</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <p>Built with <a href="https://github.com/matcornic/hugo-theme-learn"><i class="fas fa-heart"></i></a> from <a href="https://getgrav.org">Grav</a> and <a href="https://gohugo.io/">Hugo</a></p>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>#define HOME</a> > <a href='/python/'>Python Notes</a> > Notes
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents"></nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Notes
+            </h1>
+          
+
+        
+
+
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-python" data-lang="python">
+
+<span style="color:#75715e"># Single line comments start with a number symbol.</span>
+
+<span style="color:#e6db74">&#34;&#34;&#34; Multiline strings can be written
+</span><span style="color:#e6db74">    using three &#34;s or &#39;s, and are often used
+</span><span style="color:#e6db74">    as documentation.
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+
+<span style="color:#75715e">####################################################</span>
+<span style="color:#75715e">## 1. Primitive Datatypes and Operators</span>
+<span style="color:#75715e">####################################################</span>
+
+<span style="color:#75715e"># Numbers are objects</span>
+
+<span style="color:#75715e">#Integer Literals</span>
+a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0b1010</span> <span style="color:#75715e">#Binary Literals (0b / 0B)</span>
+b <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span> <span style="color:#75715e">#Decimal Literal</span>
+c <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>o310 <span style="color:#75715e">#Octal Literal (0c / 0C)</span>
+d <span style="color:#f92672">=</span> <span style="color:#ae81ff">0x12c</span> <span style="color:#75715e">#Hexadecimal Literal (0x / 0X)</span>
+
+<span style="color:#75715e">#Float Literal</span>
+float_1 <span style="color:#f92672">=</span> <span style="color:#ae81ff">10.5</span> 
+float_2 <span style="color:#f92672">=</span> <span style="color:#ae81ff">1.5e2</span>
+
+<span style="color:#75715e">#Complex Literal </span>
+x <span style="color:#f92672">=</span> <span style="color:#ae81ff">3.14j</span>
+y <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span><span style="color:#f92672">+</span><span style="color:#ae81ff">6j</span>
+<span style="color:#66d9ef">print</span>(x, x<span style="color:#f92672">.</span>imag, x<span style="color:#f92672">.</span>real)	<span style="color:#75715e">#3.14j 3.14 0.0</span>
+<span style="color:#66d9ef">print</span>(y, y<span style="color:#f92672">.</span>imag, y<span style="color:#f92672">.</span>real)	<span style="color:#75715e">#(3+6j) 6.0 3.0</span>
+
+<span style="color:#75715e"># Math is what you would expect</span>
+<span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>   <span style="color:#75715e"># =&gt; 2</span>
+<span style="color:#ae81ff">8</span> <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>   <span style="color:#75715e"># =&gt; 7</span>
+<span style="color:#ae81ff">10</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>  <span style="color:#75715e"># =&gt; 20</span>
+<span style="color:#ae81ff">35</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">5</span>  <span style="color:#75715e"># =&gt; 7.0</span>
+
+<span style="color:#75715e"># Integer division rounds down (floor) for both positive and negative numbers, unlike truncate C/C++</span>
+<span style="color:#ae81ff">5</span> <span style="color:#f92672">//</span> <span style="color:#ae81ff">3</span>       <span style="color:#75715e"># =&gt; 1</span>
+<span style="color:#f92672">-</span><span style="color:#ae81ff">5</span> <span style="color:#f92672">//</span> <span style="color:#ae81ff">3</span>      <span style="color:#75715e"># =&gt; -2</span>
+<span style="color:#ae81ff">5.0</span> <span style="color:#f92672">//</span> <span style="color:#ae81ff">3.0</span>   <span style="color:#75715e"># =&gt; 1.0 # works on floats too</span>
+<span style="color:#f92672">-</span><span style="color:#ae81ff">5.0</span> <span style="color:#f92672">//</span> <span style="color:#ae81ff">3.0</span>  <span style="color:#75715e"># =&gt; -2.0</span>
+
+<span style="color:#75715e"># The result of division is always a float</span>
+<span style="color:#ae81ff">10.0</span> <span style="color:#f92672">/</span> <span style="color:#ae81ff">3</span>  <span style="color:#75715e"># =&gt; 3.3333333333333335</span>
+
+<span style="color:#75715e"># Modulo operation</span>
+<span style="color:#ae81ff">7</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">3</span>   <span style="color:#75715e"># =&gt; 1</span>
+<span style="color:#75715e"># i % j have the same sign as j, unlike C</span>
+<span style="color:#f92672">-</span><span style="color:#ae81ff">7</span> <span style="color:#f92672">%</span> <span style="color:#ae81ff">3</span>  <span style="color:#75715e"># =&gt; 2</span>
+
+<span style="color:#75715e"># Exponentiation (x**y, x to the yth power)</span>
+<span style="color:#ae81ff">2</span><span style="color:#f92672">**</span><span style="color:#ae81ff">3</span>  <span style="color:#75715e"># =&gt; 8</span>
+
+<span style="color:#75715e"># Enforce precedence with parentheses</span>
+<span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>    <span style="color:#75715e"># =&gt; 7</span>
+(<span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> <span style="color:#ae81ff">3</span>) <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>  <span style="color:#75715e"># =&gt; 8</span>
+
+<span style="color:#75715e"># Boolean values are primitives (Note: the capitalization)</span>
+True   <span style="color:#75715e"># =&gt; True</span>
+False  <span style="color:#75715e"># =&gt; False</span>
+
+<span style="color:#75715e"># Boolean Operators</span>
+<span style="color:#75715e"># Note &#34;and&#34; and &#34;or&#34; are case-sensitive</span>
+True <span style="color:#f92672">and</span> False  <span style="color:#75715e"># =&gt; False</span>
+False <span style="color:#f92672">or</span> True   <span style="color:#75715e"># =&gt; True</span>
+<span style="color:#f92672">not</span> True   <span style="color:#75715e"># =&gt; False</span>
+<span style="color:#f92672">not</span> False  <span style="color:#75715e"># =&gt; True</span>
+
+<span style="color:#75715e"># True and False are actually 1 and 0 but with different keywords</span>
+True <span style="color:#f92672">+</span> True <span style="color:#75715e"># =&gt; 2</span>
+True <span style="color:#f92672">*</span> <span style="color:#ae81ff">8</span>    <span style="color:#75715e"># =&gt; 8</span>
+False <span style="color:#f92672">-</span> <span style="color:#ae81ff">5</span>   <span style="color:#75715e"># =&gt; -5</span>
+
+<span style="color:#75715e"># Comparison operators look at the numerical value of True and False</span>
+<span style="color:#ae81ff">0</span> <span style="color:#f92672">==</span> False  <span style="color:#75715e"># =&gt; True</span>
+<span style="color:#ae81ff">1</span> <span style="color:#f92672">==</span> True   <span style="color:#75715e"># =&gt; True</span>
+<span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> True   <span style="color:#75715e"># =&gt; False</span>
+<span style="color:#f92672">-</span><span style="color:#ae81ff">5</span> <span style="color:#f92672">!=</span> False <span style="color:#75715e"># =&gt; True</span>
+
+<span style="color:#75715e"># Using boolean logical operators on ints casts them to booleans for evaluation, but their non-cast value is returned</span>
+<span style="color:#75715e"># Don&#39;t mix up with bool(ints) and bitwise and/or (&amp;,|)</span>
+bool(<span style="color:#ae81ff">0</span>)     <span style="color:#75715e"># =&gt; False</span>
+bool(<span style="color:#ae81ff">4</span>)     <span style="color:#75715e"># =&gt; True</span>
+bool(<span style="color:#f92672">-</span><span style="color:#ae81ff">6</span>)    <span style="color:#75715e"># =&gt; True</span>
+<span style="color:#ae81ff">0</span> <span style="color:#f92672">and</span> <span style="color:#ae81ff">2</span>     <span style="color:#75715e"># =&gt; 0</span>
+<span style="color:#f92672">-</span><span style="color:#ae81ff">5</span> <span style="color:#f92672">or</span> <span style="color:#ae81ff">0</span>     <span style="color:#75715e"># =&gt; -5</span>
+
+<span style="color:#75715e">#Comparisons</span>
+<span style="color:#f92672">&lt;</span> <span style="color:#f92672">&gt;</span> <span style="color:#f92672">&lt;=</span> <span style="color:#f92672">&gt;=</span> <span style="color:#f92672">==</span> <span style="color:#f92672">!=</span>
+
+<span style="color:#75715e"># Seeing whether a value is in a range</span>
+<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">and</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>  <span style="color:#75715e"># =&gt; True</span>
+<span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">and</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>  <span style="color:#75715e"># =&gt; False</span>
+<span style="color:#75715e"># Chaining makes this look nicer</span>
+<span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span>  <span style="color:#75715e"># =&gt; True</span>
+<span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">2</span>  <span style="color:#75715e"># =&gt; False</span>
+
+<span style="color:#75715e">#Assignments can also be chained</span>
+a <span style="color:#f92672">=</span> b <span style="color:#f92672">=</span> c <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+a, b, c <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span> <span style="color:#75715e">#Tuple Unpacking</span>
+
+<span style="color:#75715e">#Identity operators (is/ is not) compares by object id() </span>
+<span style="color:#75715e"># (is vs. ==) is checks if two variables refer to the same object, but == checks</span>
+<span style="color:#75715e"># if the objects pointed to have the same values.</span>
+a <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]  <span style="color:#75715e"># Point a at a new list, [1, 2, 3, 4]</span>
+b <span style="color:#f92672">=</span> a             <span style="color:#75715e"># Point b at what a is pointing to</span>
+b <span style="color:#f92672">is</span> a            <span style="color:#75715e"># =&gt; True, a and b refer to the same object</span>
+b <span style="color:#f92672">==</span> a            <span style="color:#75715e"># =&gt; True, a&#39;s and b&#39;s objects are equal</span>
+b <span style="color:#f92672">=</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>]  <span style="color:#75715e"># Point b at a new list, [1, 2, 3, 4]</span>
+b <span style="color:#f92672">is</span> a            <span style="color:#75715e"># =&gt; False, a and b do not refer to the same object</span>
+b <span style="color:#f92672">==</span> a            <span style="color:#75715e"># =&gt; True, a&#39;s and b&#39;s objects are equal</span>
+
+<span style="color:#75715e">#Mutable objects such as Dict, List, Sets will have id() that is different even if they have same data inside</span>
+<span style="color:#75715e">#Immutable objects such as Numbers, strings, tuples, etc... have same id() for objects that have same data. Ex - 3, (1,2), &#39;Abhi&#39; </span>
+
+<span style="color:#75715e">#Membership Operator (auto-loops over collections)</span>
+<span style="color:#f92672">in</span>
+<span style="color:#f92672">not</span> <span style="color:#f92672">in</span>
+
+<span style="color:#75715e">#Bitwise Operators</span>
+<span style="color:#f92672">&amp;</span> <span style="color:#f92672">|</span> <span style="color:#f92672">~</span> <span style="color:#f92672">^</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#f92672">&gt;&gt;</span>
+<span style="color:#75715e"># Strings are created with &#34; or &#39;</span>
+<span style="color:#e6db74">&#34;This is a string.&#34;</span>
+<span style="color:#e6db74">&#39;This is also a string.&#39;</span>
+
+<span style="color:#75715e">#String literals</span>
+unicode <span style="color:#f92672">=</span> <span style="color:#e6db74">u</span><span style="color:#e6db74">&#34;</span><span style="color:#ae81ff">\u00dc</span><span style="color:#e6db74">nic</span><span style="color:#ae81ff">\u00f6</span><span style="color:#e6db74">de&#34;</span>	<span style="color:#75715e"># =&gt; Ünicöde</span>
+raw_str <span style="color:#f92672">=</span> <span style="color:#e6db74">r</span><span style="color:#e6db74">&#34;raw \n string&#34;</span>	<span style="color:#75715e"># =&gt; raw \n string</span>
+
+<span style="color:#75715e"># Strings can be added too</span>
+<span style="color:#e6db74">&#34;Hello &#34;</span> <span style="color:#f92672">+</span> <span style="color:#e6db74">&#34;world!&#34;</span>  <span style="color:#75715e"># =&gt; &#34;Hello world!&#34;</span>
+<span style="color:#75715e"># String literals (but not variables) can be concatenated without using &#39;+&#39;</span>
+<span style="color:#e6db74">&#34;Hello &#34;</span> <span style="color:#e6db74">&#34;world!&#34;</span>    <span style="color:#75715e"># =&gt; &#34;Hello world!&#34;</span>
+<span style="color:#75715e">#Multiplication on strings</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;hey&#39;</span> <span style="color:#f92672">*</span> <span style="color:#ae81ff">2</span>)	<span style="color:#75715e"># =&gt; heyhey</span>
+<span style="color:#75715e"># A string can be treated like a list of characters</span>
+<span style="color:#e6db74">&#34;Hello world!&#34;</span>[<span style="color:#ae81ff">0</span>]  <span style="color:#75715e"># =&gt; &#39;H&#39;</span>
+
+<span style="color:#75715e">#But they are an immutable collection</span>
+<span style="color:#e6db74">&#34;Hello&#34;</span>[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;u&#34;</span>	<span style="color:#75715e">#TypeError: assigment not supported</span>
+
+<span style="color:#75715e"># You can find the length of a string</span>
+len(<span style="color:#e6db74">&#34;This is a string&#34;</span>)  <span style="color:#75715e"># =&gt; 16</span>
+
+<span style="color:#75715e">#Formatting</span>
+<span style="color:#75715e">#C-like</span>
+name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Abhi&#39;</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;My name is: </span><span style="color:#e6db74">%s</span><span style="color:#e6db74">&#39;</span> <span style="color:#f92672">%</span>name) <span style="color:#75715e"># =&gt; My name is: Abhi (notice no comma)</span>
+<span style="color:#75715e">#format() function of String object</span>
+name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Abhishek&#39;</span>
+title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Arya&#39;</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;My name is: {} {}&#39;</span><span style="color:#f92672">.</span>format(name, title)) <span style="color:#75715e"># =&gt; My name is: Abhishek Arya</span>
+<span style="color:#75715e">#Keyword arguments are allowed just like any other function</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;My name is: {} {}&#39;</span><span style="color:#f92672">.</span>format(title <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Arya&#39;</span>, name<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Abhishek&#39;</span>)) <span style="color:#75715e"># =&gt; My name is: Abhishek Arya</span>
+<span style="color:#75715e"># f-strings (in Python 3.6+)</span>
+name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Arya&#34;</span>
+f<span style="color:#e6db74">&#34;He said his name is {name}.&#34;</span> <span style="color:#75715e"># =&gt; &#34;He said his name is Arya.&#34;</span>
+<span style="color:#75715e"># You can basically put any Python expression inside the braces and it will be output in the string.</span>
+f<span style="color:#e6db74">&#34;{name} is {len(name)} characters long.&#34;</span> <span style="color:#75715e"># =&gt; &#34;Arya is 4 characters long.&#34;</span>
+
+<span style="color:#75715e"># None is an object</span>
+None  <span style="color:#75715e"># =&gt; None</span>
+
+<span style="color:#75715e"># Don&#39;t use the equality &#34;==&#34; symbol to compare objects to None</span>
+<span style="color:#75715e"># Use &#34;is&#34; instead. This checks for equality of object identity.</span>
+<span style="color:#e6db74">&#34;etc&#34;</span> <span style="color:#f92672">is</span> None  <span style="color:#75715e"># =&gt; False</span>
+None <span style="color:#f92672">is</span> None   <span style="color:#75715e"># =&gt; True</span>
+
+<span style="color:#75715e"># None, 0, and empty strings/lists/dicts/tuples all evaluate to False.</span>
+<span style="color:#75715e"># All other values are True</span>
+bool(<span style="color:#ae81ff">0</span>)   <span style="color:#75715e"># =&gt; False</span>
+bool(<span style="color:#e6db74">&#34;&#34;</span>)  <span style="color:#75715e"># =&gt; False</span>
+bool([])  <span style="color:#75715e"># =&gt; False</span>
+bool({})  <span style="color:#75715e"># =&gt; False</span>
+bool(())  <span style="color:#75715e"># =&gt; False</span>
+
+<span style="color:#75715e">####################################################</span>
+<span style="color:#75715e">## 2. Variables and Collections</span>
+<span style="color:#75715e">####################################################</span>
+
+<span style="color:#75715e"># Python has a print function</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;I&#39;m Python. Nice to meet you!&#34;</span>)  <span style="color:#75715e"># =&gt; I&#39;m Python. Nice to meet you!</span>
+
+<span style="color:#75715e"># By default the print function also prints out a newline (\n) character at the end.</span>
+<span style="color:#75715e"># Use the optional argument end to change the end string.</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Hello, World&#34;</span>, end<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;!&#34;</span>)  <span style="color:#75715e"># =&gt; Hello, World!</span>
+<span style="color:#75715e"># sep for custom separator delimiters</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Hello&#34;</span>, <span style="color:#e6db74">&#34;Bye&#34;</span>, sep<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;&amp;&#34;</span>)  <span style="color:#75715e"># =&gt; Hello&amp;Bye (only works if there&#39;s a comma in between strings)</span>
+
+<span style="color:#75715e"># Simple way to get input data from console</span>
+input_string_var <span style="color:#f92672">=</span> input(<span style="color:#e6db74">&#34;Enter some data: &#34;</span>) <span style="color:#75715e"># Returns the data as a string by default</span>
+input_int_var <span style="color:#f92672">=</span> int(input(<span style="color:#e6db74">&#34;Enter a number: &#34;</span>)) <span style="color:#75715e"># Returns the data as an integer</span>
+
+<span style="color:#75715e"># There are no declarations, only assignments.</span>
+<span style="color:#75715e"># Convention is to use lower_case_with_underscores</span>
+some_var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+<span style="color:#66d9ef">print</span>(some_var)  <span style="color:#75715e"># =&gt; 5</span>
+
+<span style="color:#75715e"># Accessing a previously unassigned variable is an exception.</span>
+<span style="color:#75715e"># See Control Flow to learn more about exception handling.</span>
+some_unknown_var  <span style="color:#75715e"># Raises a NameError</span>
+
+<span style="color:#75715e"># if can be used as an expression</span>
+<span style="color:#75715e"># Equivalent of C&#39;s &#39;?:&#39; ternary operator</span>
+<span style="color:#e6db74">&#34;yay!&#34;</span> <span style="color:#66d9ef">if</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">1</span> <span style="color:#66d9ef">else</span> <span style="color:#e6db74">&#34;nay!&#34;</span>  <span style="color:#75715e"># =&gt; &#34;nay!&#34;</span>
+
+<span style="color:#75715e"># Lists store sequences</span>
+li <span style="color:#f92672">=</span> []
+<span style="color:#75715e"># You can start with a prefilled list</span>
+other_li <span style="color:#f92672">=</span> [<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>]
+
+<span style="color:#75715e"># Add stuff to the end of a list with append</span>
+li<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">1</span>)    <span style="color:#75715e"># li is now [1]</span>
+li<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">2</span>)    <span style="color:#75715e"># li is now [1, 2]</span>
+li<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">4</span>)    <span style="color:#75715e"># li is now [1, 2, 4]</span>
+li<span style="color:#f92672">.</span>append(<span style="color:#ae81ff">3</span>)    <span style="color:#75715e"># li is now [1, 2, 4, 3]</span>
+<span style="color:#75715e"># Remove from a given index with pop, returns popped element</span>
+popped_element <span style="color:#f92672">=</span> li<span style="color:#f92672">.</span>pop()        <span style="color:#75715e"># =&gt; 3 and li is now [1, 2, 4]</span>
+popped_element <span style="color:#f92672">=</span> li<span style="color:#f92672">.</span>pop(<span style="color:#ae81ff">1</span>)        <span style="color:#75715e"># =&gt; 2 and li is now [1, 4]</span>
+
+<span style="color:#75715e"># Access a list like you would any array</span>
+li[<span style="color:#ae81ff">0</span>]   <span style="color:#75715e"># =&gt; 1</span>
+<span style="color:#75715e"># Negative indices start from -1, to look at the last element</span>
+li[<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]  <span style="color:#75715e"># =&gt; 3</span>
+
+<span style="color:#75715e"># Looking out of bounds is an IndexError</span>
+li[<span style="color:#ae81ff">4</span>]  <span style="color:#75715e"># Raises an IndexError</span>
+
+<span style="color:#75715e"># You can look at ranges with slice syntax.</span>
+<span style="color:#75715e"># The start index is included, the end index is not</span>
+<span style="color:#75715e"># (It&#39;s a closed/open range for you mathy types.)</span>
+li[<span style="color:#ae81ff">1</span>:<span style="color:#ae81ff">3</span>]   <span style="color:#75715e"># Return list from index 1 to 3 =&gt; [2, 4]</span>
+li[<span style="color:#ae81ff">2</span>:]    <span style="color:#75715e"># Return list starting from index 2 =&gt; [4, 3]</span>
+li[:<span style="color:#ae81ff">3</span>]    <span style="color:#75715e"># Return list from beginning until index 3  =&gt; [1, 2, 4]</span>
+li[::<span style="color:#ae81ff">2</span>]   <span style="color:#75715e"># Return list selecting every second entry =&gt; [1, 4]</span>
+li[::<span style="color:#f92672">-</span><span style="color:#ae81ff">1</span>]  <span style="color:#75715e"># Return list in reverse order =&gt; [3, 4, 2, 1]</span>
+<span style="color:#75715e"># Use any combination of these to make advanced slices</span>
+<span style="color:#75715e"># li[start:end:step]</span>
+
+<span style="color:#75715e"># Make a one layer deep copy using slices</span>
+li2 <span style="color:#f92672">=</span> li[:]  <span style="color:#75715e"># =&gt; li2 = [1, 2, 4, 3] but (li2 is li) will result in false.</span>
+
+<span style="color:#75715e"># Remove arbitrary elements from a list with &#34;del&#34;</span>
+<span style="color:#66d9ef">del</span> li[<span style="color:#ae81ff">2</span>]  <span style="color:#75715e"># li is now [1, 2, 3]</span>
+
+<span style="color:#75715e"># Remove first occurrence of a value</span>
+li<span style="color:#f92672">.</span>remove(<span style="color:#ae81ff">2</span>)  <span style="color:#75715e"># li is now [1, 3]</span>
+li<span style="color:#f92672">.</span>remove(<span style="color:#ae81ff">2</span>)  <span style="color:#75715e"># Raises a ValueError as 2 is not in the list</span>
+
+<span style="color:#75715e"># Insert an element at a specific index</span>
+li<span style="color:#f92672">.</span>insert(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>)  <span style="color:#75715e"># li is now [1, 2, 3] again</span>
+
+<span style="color:#75715e"># Get the index of the first item found matching the argument</span>
+li<span style="color:#f92672">.</span>index(<span style="color:#ae81ff">2</span>)  <span style="color:#75715e"># =&gt; 1</span>
+li<span style="color:#f92672">.</span>index(<span style="color:#ae81ff">4</span>)  <span style="color:#75715e"># Raises a ValueError as 4 is not in the list</span>
+
+<span style="color:#75715e"># You can add lists</span>
+<span style="color:#75715e"># Note: values for li and for other_li are not modified.</span>
+li <span style="color:#f92672">+</span> other_li  <span style="color:#75715e"># =&gt; [1, 2, 3, 4, 5, 6]</span>
+
+<span style="color:#75715e"># Concatenate lists with &#34;extend()&#34;</span>
+li<span style="color:#f92672">.</span>extend(other_li)  <span style="color:#75715e"># Now li is [1, 2, 3, 4, 5, 6]</span>
+li<span style="color:#f92672">.</span>extend([<span style="color:#ae81ff">7</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">9</span>])  <span style="color:#75715e"># Now li is [1, 2, 3, 4, 5, 6, 7, 8, 9]</span>
+
+<span style="color:#75715e"># Check for existence in a list with &#34;in&#34;, it performs search on entire collection</span>
+<span style="color:#ae81ff">1</span> <span style="color:#f92672">in</span> li  <span style="color:#75715e"># =&gt; True</span>
+
+<span style="color:#75715e"># Examine the length with &#34;len()&#34;</span>
+len(li)  <span style="color:#75715e"># =&gt; 6</span>
+
+
+<span style="color:#75715e"># Tuples are like lists but are immutable.</span>
+tup <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)
+tup[<span style="color:#ae81ff">0</span>]      <span style="color:#75715e"># =&gt; 1</span>
+tup[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>  <span style="color:#75715e"># Raises a TypeError</span>
+
+<span style="color:#75715e"># We can change mutable elements of an immutable collection</span>
+n_tuple <span style="color:#f92672">=</span> (<span style="color:#e6db74">&#34;mouse&#34;</span>, [<span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>], (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>))
+n_tuple[<span style="color:#ae81ff">1</span>][<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>
+<span style="color:#66d9ef">print</span>(n_tuple)	<span style="color:#75715e"># =&gt; (&#39;mouse&#39;, [3, 4, 5], (1, 2, 3))</span>
+
+<span style="color:#75715e"># Note that a tuple of length one has to have a comma after the last element but</span>
+<span style="color:#75715e"># tuples of other lengths, even zero, do not.</span>
+type((<span style="color:#ae81ff">1</span>))   <span style="color:#75715e"># =&gt; &lt;class &#39;int&#39;&gt;</span>
+type((<span style="color:#ae81ff">1</span>,))  <span style="color:#75715e"># =&gt; &lt;class &#39;tuple&#39;&gt;</span>
+type(())    <span style="color:#75715e"># =&gt; &lt;class &#39;tuple&#39;&gt;</span>
+
+<span style="color:#75715e"># You can do most of the list operations on tuples too</span>
+len(tup)         <span style="color:#75715e"># =&gt; 3</span>
+tup <span style="color:#f92672">+</span> (<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>)  <span style="color:#75715e"># =&gt; (1, 2, 3, 4, 5, 6)</span>
+tup[:<span style="color:#ae81ff">2</span>]          <span style="color:#75715e"># =&gt; (1, 2)</span>
+<span style="color:#ae81ff">2</span> <span style="color:#f92672">in</span> tup         <span style="color:#75715e"># =&gt; True</span>
+
+<span style="color:#75715e"># You can unpack tuples (or lists) into variables</span>
+a, b, c <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)  <span style="color:#75715e"># a is now 1, b is now 2 and c is now 3</span>
+<span style="color:#75715e"># You can also do extended unpacking</span>
+a, <span style="color:#f92672">*</span>b, c <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>)  <span style="color:#75715e"># a is now 1, b is now [2, 3] and c is now 4</span>
+<span style="color:#75715e"># Tuples are created by default if you leave out the parentheses</span>
+d, e, f <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>  <span style="color:#75715e"># tuple 4, 5, 6 is unpacked into variables d, e and f</span>
+<span style="color:#75715e"># respectively such that d = 4, e = 5 and f = 6</span>
+<span style="color:#75715e"># Now look how easy it is to swap two values</span>
+e, d <span style="color:#f92672">=</span> d, e  <span style="color:#75715e"># d is now 5 and e is now 4</span>
+
+
+<span style="color:#75715e"># Dictionaries store mappings from keys to values</span>
+empty_dict <span style="color:#f92672">=</span> {}
+<span style="color:#75715e"># Here is a prefilled dictionary</span>
+filled_dict <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;one&#34;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#e6db74">&#34;two&#34;</span>: <span style="color:#ae81ff">2</span>, <span style="color:#e6db74">&#34;three&#34;</span>: <span style="color:#ae81ff">3</span>}
+
+<span style="color:#75715e"># Note keys for dictionaries have to be immutable types. This is to ensure that</span>
+<span style="color:#75715e"># the key can be converted to a constant hash value for quick look-ups.</span>
+<span style="color:#75715e"># Immutable types include ints, floats, strings, tuples.</span>
+invalid_dict <span style="color:#f92672">=</span> {[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>]: <span style="color:#e6db74">&#34;123&#34;</span>}  <span style="color:#75715e"># =&gt; Raises a TypeError: unhashable type: &#39;list&#39;</span>
+valid_dict <span style="color:#f92672">=</span> {(<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>):[<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>]}   <span style="color:#75715e"># Values can be of any type, however.</span>
+
+<span style="color:#75715e"># Look up values with []</span>
+filled_dict[<span style="color:#e6db74">&#34;one&#34;</span>]  <span style="color:#75715e"># =&gt; 1</span>
+
+<span style="color:#75715e"># Get all keys as an iterable with &#34;keys()&#34;. We need to wrap the call in list()</span>
+<span style="color:#75715e"># to turn it into a list. We&#39;ll talk about those later.  Note - for Python</span>
+<span style="color:#75715e"># versions &lt;3.7, dictionary key ordering is not guaranteed. Your results might</span>
+<span style="color:#75715e"># not match the example below exactly. However, as of Python 3.7, dictionary</span>
+<span style="color:#75715e"># items maintain the order at which they are inserted into the dictionary.</span>
+list(filled_dict<span style="color:#f92672">.</span>keys())  <span style="color:#75715e"># =&gt; [&#34;three&#34;, &#34;two&#34;, &#34;one&#34;] in Python &lt;3.7</span>
+list(filled_dict<span style="color:#f92672">.</span>keys())  <span style="color:#75715e"># =&gt; [&#34;one&#34;, &#34;two&#34;, &#34;three&#34;] in Python 3.7+</span>
+
+
+<span style="color:#75715e"># Get all values as an iterable with &#34;values()&#34;. Once again we need to wrap it</span>
+<span style="color:#75715e"># in list() to get it out of the iterable. Note - Same as above regarding key</span>
+<span style="color:#75715e"># ordering.</span>
+list(filled_dict<span style="color:#f92672">.</span>values())  <span style="color:#75715e"># =&gt; [3, 2, 1]  in Python &lt;3.7</span>
+list(filled_dict<span style="color:#f92672">.</span>values())  <span style="color:#75715e"># =&gt; [1, 2, 3] in Python 3.7+</span>
+
+<span style="color:#66d9ef">print</span>(list(filled_dict<span style="color:#f92672">.</span>items())	<span style="color:#75715e"># =&gt; [(&#39;one&#39;, 1), (&#39;two&#39;, 2), (&#39;three&#39;, 3)]</span>
+
+<span style="color:#75715e"># Check for existence of keys only in a dictionary with &#34;in&#34;</span>
+<span style="color:#e6db74">&#34;one&#34;</span> <span style="color:#f92672">in</span> filled_dict  <span style="color:#75715e"># =&gt; True</span>
+<span style="color:#ae81ff">1</span> <span style="color:#f92672">in</span> filled_dict      <span style="color:#75715e"># =&gt; False</span>
+
+<span style="color:#75715e"># Looking up a non-existing key is a KeyError</span>
+filled_dict[<span style="color:#e6db74">&#34;four&#34;</span>]  <span style="color:#75715e"># KeyError</span>
+
+<span style="color:#75715e"># Use &#34;get()&#34; method to avoid the KeyError</span>
+filled_dict<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;one&#34;</span>)      <span style="color:#75715e"># =&gt; 1</span>
+filled_dict<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;four&#34;</span>)     <span style="color:#75715e"># =&gt; None</span>
+<span style="color:#75715e"># The get method supports a default argument when the value is missing</span>
+filled_dict<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;one&#34;</span>, <span style="color:#ae81ff">4</span>)   <span style="color:#75715e"># =&gt; 1</span>
+filled_dict<span style="color:#f92672">.</span>get(<span style="color:#e6db74">&#34;four&#34;</span>, <span style="color:#ae81ff">4</span>)  <span style="color:#75715e"># =&gt; 4</span>
+
+<span style="color:#75715e"># &#34;setdefault()&#34; inserts into a dictionary only if the given key isn&#39;t present</span>
+filled_dict<span style="color:#f92672">.</span>setdefault(<span style="color:#e6db74">&#34;five&#34;</span>, <span style="color:#ae81ff">5</span>)  <span style="color:#75715e"># filled_dict[&#34;five&#34;] is set to 5</span>
+filled_dict<span style="color:#f92672">.</span>setdefault(<span style="color:#e6db74">&#34;five&#34;</span>, <span style="color:#ae81ff">6</span>)  <span style="color:#75715e"># filled_dict[&#34;five&#34;] is still 5</span>
+
+<span style="color:#75715e"># Adding to a dictionary</span>
+filled_dict<span style="color:#f92672">.</span>update({<span style="color:#e6db74">&#34;four&#34;</span>:<span style="color:#ae81ff">4</span>})  <span style="color:#75715e"># =&gt; {&#34;one&#34;: 1, &#34;two&#34;: 2, &#34;three&#34;: 3, &#34;four&#34;: 4}</span>
+filled_dict[<span style="color:#e6db74">&#34;four&#34;</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">4</span>         <span style="color:#75715e"># another way to add to dict</span>
+
+<span style="color:#75715e"># Remove keys from a dictionary with del</span>
+<span style="color:#66d9ef">del</span> filled_dict[<span style="color:#e6db74">&#34;one&#34;</span>]  <span style="color:#75715e"># Removes the key &#34;one&#34; from filled dict</span>
+
+<span style="color:#75715e"># From Python 3.5 you can also use the additional unpacking options</span>
+{<span style="color:#e6db74">&#39;a&#39;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#f92672">**</span>{<span style="color:#e6db74">&#39;b&#39;</span>: <span style="color:#ae81ff">2</span>}}  <span style="color:#75715e"># =&gt; {&#39;a&#39;: 1, &#39;b&#39;: 2}</span>
+{<span style="color:#e6db74">&#39;a&#39;</span>: <span style="color:#ae81ff">1</span>, <span style="color:#f92672">**</span>{<span style="color:#e6db74">&#39;a&#39;</span>: <span style="color:#ae81ff">2</span>}}  <span style="color:#75715e"># =&gt; {&#39;a&#39;: 2}</span>
+
+
+
+<span style="color:#75715e"># Sets store ... well sets (unordered and unique items)</span>
+empty_set <span style="color:#f92672">=</span> set()
+<span style="color:#75715e"># Initialize a set with a bunch of values. Yeah, it looks a bit like a dict. Sorry.</span>
+some_set <span style="color:#f92672">=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>}  <span style="color:#75715e"># some_set is now {1, 2, 3, 4}</span>
+
+<span style="color:#75715e"># Similar to keys of a dictionary, elements of a set have to be immutable.</span>
+invalid_set <span style="color:#f92672">=</span> {[<span style="color:#ae81ff">1</span>], <span style="color:#ae81ff">1</span>}  <span style="color:#75715e"># =&gt; Raises a TypeError: unhashable type: &#39;list&#39;</span>
+valid_set <span style="color:#f92672">=</span> {(<span style="color:#ae81ff">1</span>,), <span style="color:#ae81ff">1</span>}
+
+<span style="color:#75715e"># Add one more item to the set</span>
+filled_set <span style="color:#f92672">=</span> some_set
+filled_set<span style="color:#f92672">.</span>add(<span style="color:#ae81ff">5</span>)  <span style="color:#75715e"># filled_set is now {1, 2, 3, 4, 5}</span>
+<span style="color:#75715e"># Sets do not have duplicate elements</span>
+filled_set<span style="color:#f92672">.</span>add(<span style="color:#ae81ff">5</span>)  <span style="color:#75715e"># it remains as before {1, 2, 3, 4, 5}</span>
+
+<span style="color:#75715e"># Do set intersection with &amp;</span>
+other_set <span style="color:#f92672">=</span> {<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>}
+filled_set <span style="color:#f92672">&amp;</span> other_set  <span style="color:#75715e"># =&gt; {3, 4, 5}</span>
+
+<span style="color:#75715e"># Do set union with |</span>
+filled_set <span style="color:#f92672">|</span> other_set  <span style="color:#75715e"># =&gt; {1, 2, 3, 4, 5, 6}</span>
+
+<span style="color:#75715e"># Do set difference with -</span>
+{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>} <span style="color:#f92672">-</span> {<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>}  <span style="color:#75715e"># =&gt; {1, 4}</span>
+
+<span style="color:#75715e"># Do set symmetric difference with ^</span>
+{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>} <span style="color:#f92672">^</span> {<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">5</span>}  <span style="color:#75715e"># =&gt; {1, 4, 5}</span>
+
+<span style="color:#75715e"># Check if set on the left is a superset of set on the right</span>
+{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>} <span style="color:#f92672">&gt;=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>} <span style="color:#75715e"># =&gt; False</span>
+
+<span style="color:#75715e"># Check if set on the left is a subset of set on the right</span>
+{<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>} <span style="color:#f92672">&lt;=</span> {<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>} <span style="color:#75715e"># =&gt; True</span>
+
+<span style="color:#75715e"># Check for existence in a set with in</span>
+<span style="color:#ae81ff">2</span> <span style="color:#f92672">in</span> filled_set   <span style="color:#75715e"># =&gt; True</span>
+<span style="color:#ae81ff">10</span> <span style="color:#f92672">in</span> filled_set  <span style="color:#75715e"># =&gt; False</span>
+
+<span style="color:#75715e"># Make a one layer deep copy</span>
+filled_set <span style="color:#f92672">=</span> some_set<span style="color:#f92672">.</span>copy()  <span style="color:#75715e"># filled_set is {1, 2, 3, 4, 5}</span>
+filled_set <span style="color:#f92672">is</span> some_set        <span style="color:#75715e"># =&gt; False</span>
+
+<span style="color:#75715e"># Frozensets also exist which are just immutable sets</span>
+A <span style="color:#f92672">=</span> frozenset([<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>])
+B <span style="color:#f92672">=</span> frozenset([<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>])
+
+A<span style="color:#f92672">.</span>isdisjoint(B) <span style="color:#75715e"># =&gt; False</span>
+A<span style="color:#f92672">.</span>difference(B) <span style="color:#75715e"># =&gt; frozenset({1, 2})</span>
+A <span style="color:#f92672">|</span> B <span style="color:#75715e"># =&gt; frozenset({1, 2, 3, 4, 5, 6})</span>
+A<span style="color:#f92672">.</span>add(<span style="color:#ae81ff">3</span>) <span style="color:#75715e"># =&gt; AttributeError: &#39;frozenset&#39; object has no attribute &#39;add&#39;</span>
+
+<span style="color:#75715e">####################################################</span>
+<span style="color:#75715e">## 3. Control Flow</span>
+<span style="color:#75715e">####################################################</span>
+
+<span style="color:#75715e"># Let&#39;s just make a variable</span>
+some_var <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+
+<span style="color:#75715e"># Here is an if statement. Indentation is significant in Python!</span>
+<span style="color:#75715e"># Convention is to use four spaces, not tabs.</span>
+<span style="color:#75715e"># This prints &#34;some_var is smaller than 10&#34;</span>
+<span style="color:#66d9ef">if</span> some_var <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">10</span>:
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;some_var is totally bigger than 10.&#34;</span>)
+<span style="color:#66d9ef">elif</span> some_var <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">10</span>:    <span style="color:#75715e"># This elif clause is optional.</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;some_var is smaller than 10.&#34;</span>)
+<span style="color:#66d9ef">else</span>:                  <span style="color:#75715e"># This is optional too.</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;some_var is indeed 10.&#34;</span>)
+
+
+<span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">For loops iterate over lists
+</span><span style="color:#e6db74">prints:
+</span><span style="color:#e6db74">    dog is a mammal
+</span><span style="color:#e6db74">    cat is a mammal
+</span><span style="color:#e6db74">    mouse is a mammal
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+<span style="color:#66d9ef">for</span> animal <span style="color:#f92672">in</span> [<span style="color:#e6db74">&#34;dog&#34;</span>, <span style="color:#e6db74">&#34;cat&#34;</span>, <span style="color:#e6db74">&#34;mouse&#34;</span>]:
+    <span style="color:#75715e"># You can use format() to interpolate formatted strings</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;{} is a mammal&#34;</span><span style="color:#f92672">.</span>format(animal))
+
+<span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">&#34;range(number)&#34; returns an iterable of numbers
+</span><span style="color:#e6db74">from zero to the given number
+</span><span style="color:#e6db74">prints:
+</span><span style="color:#e6db74">    0
+</span><span style="color:#e6db74">    1
+</span><span style="color:#e6db74">    2
+</span><span style="color:#e6db74">    3
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">4</span>):
+    <span style="color:#66d9ef">print</span>(i)
+
+<span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">&#34;range(lower, upper)&#34; returns an iterable of numbers
+</span><span style="color:#e6db74">from the lower number to the upper number
+</span><span style="color:#e6db74">prints:
+</span><span style="color:#e6db74">    4
+</span><span style="color:#e6db74">    5
+</span><span style="color:#e6db74">    6
+</span><span style="color:#e6db74">    7
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">8</span>):
+    <span style="color:#66d9ef">print</span>(i)
+
+<span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">&#34;range(lower, upper, step)&#34; returns an iterable of numbers
+</span><span style="color:#e6db74">from the lower number to the upper number, while incrementing
+</span><span style="color:#e6db74">by step. If step is not indicated, the default value is 1.
+</span><span style="color:#e6db74">prints:
+</span><span style="color:#e6db74">    4
+</span><span style="color:#e6db74">    6
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">8</span>, <span style="color:#ae81ff">2</span>):
+    <span style="color:#66d9ef">print</span>(i)
+
+<span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">To loop over a list, and retrieve both the index and the value of each item in the list
+</span><span style="color:#e6db74">prints:
+</span><span style="color:#e6db74">    0 dog
+</span><span style="color:#e6db74">    1 cat
+</span><span style="color:#e6db74">    2 mouse
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+animals <span style="color:#f92672">=</span> [<span style="color:#e6db74">&#34;dog&#34;</span>, <span style="color:#e6db74">&#34;cat&#34;</span>, <span style="color:#e6db74">&#34;mouse&#34;</span>]
+<span style="color:#66d9ef">for</span> i, value <span style="color:#f92672">in</span> enumerate(animals):
+    <span style="color:#66d9ef">print</span>(i, value)
+<span style="color:#66d9ef">else</span>: <span style="color:#66d9ef">pass</span>
+<span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">While loops go until a condition is no longer met.
+</span><span style="color:#e6db74">prints:
+</span><span style="color:#e6db74">    0
+</span><span style="color:#e6db74">    1
+</span><span style="color:#e6db74">    2
+</span><span style="color:#e6db74">    3
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+x <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+<span style="color:#66d9ef">while</span> x <span style="color:#f92672">&lt;</span> <span style="color:#ae81ff">4</span>:
+    <span style="color:#66d9ef">print</span>(x)
+    x <span style="color:#f92672">+=</span> <span style="color:#ae81ff">1</span>  <span style="color:#75715e"># Shorthand for x = x + 1</span>
+
+<span style="color:#66d9ef">break</span> <span style="color:#66d9ef">continue</span> <span style="color:#75715e">#works the same</span>
+<span style="color:#75715e"># Both &#34;for&#34; and &#34;while&#34; loops have an optional &#34;else:&#34;&#34; part which executes only when the loop condition becomes &#34;False&#34; </span>
+<span style="color:#75715e">#(by default always at the end of the loop), but we can skip the &#34;else&#34; part by using &#34;break&#34; inside the loop</span>
+
+<span style="color:#75715e"># Handle exceptions with a try/except block</span>
+<span style="color:#66d9ef">try</span>:
+    <span style="color:#75715e"># Use &#34;raise&#34; to raise an error</span>
+    <span style="color:#66d9ef">raise</span> <span style="color:#a6e22e">IndexError</span>(<span style="color:#e6db74">&#34;This is an index error&#34;</span>)
+<span style="color:#66d9ef">except</span> <span style="color:#a6e22e">IndexError</span> <span style="color:#66d9ef">as</span> e:
+    <span style="color:#66d9ef">pass</span>                 <span style="color:#75715e"># Pass is just a no-op. Usually you would do recovery here.</span>
+<span style="color:#66d9ef">except</span> (<span style="color:#a6e22e">TypeError</span>, <span style="color:#a6e22e">NameError</span>):
+    <span style="color:#66d9ef">pass</span>                 <span style="color:#75715e"># Multiple exceptions can be handled together, if required.</span>
+<span style="color:#66d9ef">else</span>:                    <span style="color:#75715e"># Optional clause to the try/except block. Must follow all except blocks</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;All good!&#34;</span>)   <span style="color:#75715e"># Runs only if the code in try raises no exceptions</span>
+<span style="color:#66d9ef">finally</span>:                 <span style="color:#75715e">#  Execute under all circumstances</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;We can clean up resources here&#34;</span>)
+
+<span style="color:#75715e"># Instead of try/finally to cleanup resources you can use a with statement</span>
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;myfile.txt&#34;</span>) <span style="color:#66d9ef">as</span> f:
+    <span style="color:#66d9ef">for</span> line <span style="color:#f92672">in</span> f:
+        <span style="color:#66d9ef">print</span>(line)
+
+<span style="color:#75715e"># Writing to a file</span>
+contents <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;aa&#34;</span>: <span style="color:#ae81ff">12</span>, <span style="color:#e6db74">&#34;bb&#34;</span>: <span style="color:#ae81ff">21</span>}
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;myfile1.txt&#34;</span>, <span style="color:#e6db74">&#34;w+&#34;</span>) <span style="color:#66d9ef">as</span> file:
+    file<span style="color:#f92672">.</span>write(str(contents))        <span style="color:#75715e"># writes a string to a file</span>
+
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#34;myfile2.txt&#34;</span>, <span style="color:#e6db74">&#34;w+&#34;</span>) <span style="color:#66d9ef">as</span> file:
+    file<span style="color:#f92672">.</span>write(json<span style="color:#f92672">.</span>dumps(contents)) <span style="color:#75715e"># writes an object to a file</span>
+
+<span style="color:#75715e"># Reading from a file</span>
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;myfile1.txt&#39;</span>, <span style="color:#e6db74">&#34;r+&#34;</span>) <span style="color:#66d9ef">as</span> file:
+    contents <span style="color:#f92672">=</span> file<span style="color:#f92672">.</span>read()           <span style="color:#75715e"># reads a string from a file</span>
+<span style="color:#66d9ef">print</span>(contents)
+<span style="color:#75715e"># print: {&#34;aa&#34;: 12, &#34;bb&#34;: 21}</span>
+
+<span style="color:#66d9ef">with</span> open(<span style="color:#e6db74">&#39;myfile2.txt&#39;</span>, <span style="color:#e6db74">&#34;r+&#34;</span>) <span style="color:#66d9ef">as</span> file:
+    contents <span style="color:#f92672">=</span> json<span style="color:#f92672">.</span>load(file)       <span style="color:#75715e"># reads a json object from a file</span>
+<span style="color:#66d9ef">print</span>(contents)
+<span style="color:#75715e"># print: {&#34;aa&#34;: 12, &#34;bb&#34;: 21}</span>
+
+<span style="color:#75715e"># Don&#39;t forget to close files</span>
+file<span style="color:#f92672">.</span>close()
+
+
+
+<span style="color:#75715e">####################################################</span>
+<span style="color:#75715e">## 4. Functions</span>
+<span style="color:#75715e">####################################################</span>
+
+<span style="color:#75715e"># Use &#34;def&#34; to create new functions</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">add</span>(x, y):
+	<span style="color:#e6db74">&#34;&#34;&#34;optional docstring that can be referenced by func_name.__doc__&#34;&#34;&#34;</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;x is {} and y is {}&#34;</span><span style="color:#f92672">.</span>format(x, y))
+    <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> y  <span style="color:#75715e"># Return values with a return statement</span>
+
+<span style="color:#66d9ef">return</span> <span style="color:#75715e">#returns None</span>
+
+<span style="color:#75715e"># Define functions with optional default arguments</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">foo</span>(x, y<span style="color:#f92672">=</span><span style="color:#e6db74">&#39;Welcome&#39;</span>)	<span style="color:#75715e"># Default argument y</span>
+	<span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> <span style="color:#e6db74">&#39; &#39;</span> <span style="color:#f92672">+</span> y
+foo(<span style="color:#e6db74">&#39;Hi&#39;</span>)	<span style="color:#75715e"># =&gt; Hi Welcome</span>
+foo(<span style="color:#e6db74">&#39;Hello&#39;</span>, <span style="color:#e6db74">&#39;Bonjour&#39;</span>)	<span style="color:#75715e"># =&gt; Hello Bonjour</span>
+
+<span style="color:#75715e"># Calling functions with parameters</span>
+add(<span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>)  <span style="color:#75715e"># =&gt; prints out &#34;x is 5 and y is 6&#34; and returns 11</span>
+
+<span style="color:#75715e"># Another way to call functions is with keyword arguments</span>
+add(y<span style="color:#f92672">=</span><span style="color:#ae81ff">6</span>, x<span style="color:#f92672">=</span><span style="color:#ae81ff">5</span>)  <span style="color:#75715e"># Keyword arguments can arrive in any order.</span>
+
+<span style="color:#75715e"># You can define functions that take a variable number of</span>
+<span style="color:#75715e"># positional arguments, stores all arguments in a tuple as in &#34;args&#34; below</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">varargs</span>(<span style="color:#f92672">*</span>args):
+    <span style="color:#66d9ef">return</span> args
+
+varargs(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>)  <span style="color:#75715e"># =&gt; (1, 2, 3)</span>
+
+<span style="color:#75715e"># You can define functions that take a variable number of</span>
+<span style="color:#75715e"># keyword arguments, as well</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">keyword_args</span>(<span style="color:#f92672">**</span>kwargs):
+    <span style="color:#66d9ef">return</span> kwargs
+
+<span style="color:#75715e"># Let&#39;s call it to see what happens, kwargs is a dictionary here</span>
+keyword_args(big<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;foot&#34;</span>, loch<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;ness&#34;</span>)  <span style="color:#75715e"># =&gt; {&#34;big&#34;: &#34;foot&#34;, &#34;loch&#34;: &#34;ness&#34;}</span>
+
+
+<span style="color:#75715e"># You can do both at once, if you like</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">all_the_args</span>(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+    <span style="color:#66d9ef">print</span>(args)
+    <span style="color:#66d9ef">print</span>(kwargs)
+<span style="color:#e6db74">&#34;&#34;&#34;
+</span><span style="color:#e6db74">all_the_args(1, 2, a=3, b=4) prints:
+</span><span style="color:#e6db74">    (1, 2)
+</span><span style="color:#e6db74">    {&#34;a&#34;: 3, &#34;b&#34;: 4}
+</span><span style="color:#e6db74">&#34;&#34;&#34;</span>
+
+<span style="color:#75715e"># When calling functions, you can do the opposite of args/kwargs!</span>
+<span style="color:#75715e"># Use * to expand tuples and use ** to expand kwargs.</span>
+args <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>)
+kwargs <span style="color:#f92672">=</span> {<span style="color:#e6db74">&#34;a&#34;</span>: <span style="color:#ae81ff">3</span>, <span style="color:#e6db74">&#34;b&#34;</span>: <span style="color:#ae81ff">4</span>}
+all_the_args(<span style="color:#f92672">*</span>args)            <span style="color:#75715e"># equivalent to all_the_args(1, 2, 3, 4)</span>
+all_the_args(<span style="color:#f92672">**</span>kwargs)         <span style="color:#75715e"># equivalent to all_the_args(a=3, b=4)</span>
+all_the_args(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)  <span style="color:#75715e"># equivalent to all_the_args(1, 2, 3, 4, a=3, b=4)</span>
+
+<span style="color:#75715e"># Returning multiple values (with tuple assignments, basically a tuple is returned from swap() which is unpacked into x, y)</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">swap</span>(x, y):
+    <span style="color:#66d9ef">return</span> y, x  <span style="color:#75715e"># Return multiple values as a tuple without the parenthesis.</span>
+                 <span style="color:#75715e"># (Note: parenthesis have been excluded but can be included)</span>
+
+x <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>
+y <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>
+x, y <span style="color:#f92672">=</span> swap(x, y)     <span style="color:#75715e"># =&gt; x = 2, y = 1</span>
+<span style="color:#75715e"># (x, y) = swap(x,y)  # Again parenthesis have been excluded but can be included.</span>
+
+<span style="color:#75715e"># Function Scope ---&gt; LEGB (Local, Enclosing, Global, Built-in)</span>
+x <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">set_x</span>(num):
+    <span style="color:#75715e"># Local var x not the same as global variable x</span>
+    x <span style="color:#f92672">=</span> num    <span style="color:#75715e"># =&gt; new local var created with value = 43</span>
+    <span style="color:#66d9ef">print</span>(x)   <span style="color:#75715e"># =&gt; 43</span>
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">set_global_x</span>(num):
+    <span style="color:#66d9ef">global</span> x   <span style="color:#75715e"># =&gt; declaring global var x in local scope</span>
+    <span style="color:#66d9ef">print</span>(x)   <span style="color:#75715e"># =&gt; 5</span>
+    x <span style="color:#f92672">=</span> num    <span style="color:#75715e"># global var x is now set to 66</span>
+    <span style="color:#66d9ef">print</span>(x)   <span style="color:#75715e"># =&gt; 66</span>
+
+set_x(<span style="color:#ae81ff">43</span>)
+set_global_x(<span style="color:#ae81ff">66</span>)
+
+<span style="color:#75715e">#nonlocal (Enclosing Scope) (changes the enclosing scope vars)</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">outer</span>():
+    x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;local&#34;</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">inner</span>():
+        nonlocal x
+        x <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;nonlocal&#34;</span>
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;inner:&#34;</span>, x)
+
+    inner()
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;outer:&#34;</span>, x)
+
+outer() 
+<span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">#inner: nonlocal
+</span><span style="color:#e6db74">#outer: nonlocal
+</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+
+<span style="color:#75715e">#global inside inner function (creates and sets a new global var)</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">foo</span>():
+    x <span style="color:#f92672">=</span> <span style="color:#ae81ff">20</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">bar</span>():
+        <span style="color:#66d9ef">global</span> x
+        x <span style="color:#f92672">=</span> <span style="color:#ae81ff">25</span>
+    
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Before calling bar: &#34;</span>, x)
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;Calling bar now&#34;</span>)
+    bar()
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;After calling bar: &#34;</span>, x)
+
+foo()
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;x in main: &#34;</span>, x)
+
+<span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">Before calling bar: 20
+</span><span style="color:#e6db74">Calling bar now
+</span><span style="color:#e6db74">After calling bar: 20
+</span><span style="color:#e6db74">x in main: 25
+</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+
+<span style="color:#75715e"># Python has first class functions (functions defined inside other functions)</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">create_adder</span>(x):
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">adder</span>(y):
+        <span style="color:#66d9ef">return</span> x <span style="color:#f92672">+</span> y
+    <span style="color:#66d9ef">return</span> adder
+
+add_10 <span style="color:#f92672">=</span> create_adder(<span style="color:#ae81ff">10</span>)
+add_10(<span style="color:#ae81ff">3</span>)   <span style="color:#75715e"># =&gt; 13</span>
+
+<span style="color:#75715e"># There are also anonymous functions (lambda args: body), notice there is no return</span>
+(<span style="color:#66d9ef">lambda</span> x: x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">2</span>)(<span style="color:#ae81ff">3</span>)                  <span style="color:#75715e"># =&gt; True</span>
+(<span style="color:#66d9ef">lambda</span> x, y: x <span style="color:#f92672">**</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">+</span> y <span style="color:#f92672">**</span> <span style="color:#ae81ff">2</span>)(<span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>)  <span style="color:#75715e"># =&gt; 5</span>
+
+<span style="color:#75715e"># There are built-in higher order functions</span>
+list(map(add_10, [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]))          <span style="color:#75715e"># =&gt; [11, 12, 13]</span>
+list(map(max, [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>], [<span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">1</span>]))  <span style="color:#75715e"># =&gt; [4, 2, 3]</span>
+
+list(filter(<span style="color:#66d9ef">lambda</span> x: x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">5</span>, [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>]))  <span style="color:#75715e"># =&gt; [6, 7]</span>
+
+<span style="color:#75715e"># We can use list comprehensions for nice maps and filters</span>
+<span style="color:#75715e"># List comprehension stores the output as a list which can itself be a nested list</span>
+[add_10(i) <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> [<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">2</span>, <span style="color:#ae81ff">3</span>]]         <span style="color:#75715e"># =&gt; [11, 12, 13]</span>
+[x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> [<span style="color:#ae81ff">3</span>, <span style="color:#ae81ff">4</span>, <span style="color:#ae81ff">5</span>, <span style="color:#ae81ff">6</span>, <span style="color:#ae81ff">7</span>] <span style="color:#66d9ef">if</span> x <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">5</span>]  <span style="color:#75715e"># =&gt; [6, 7]</span>
+
+<span style="color:#75715e"># You can construct set and dict comprehensions as well.</span>
+{x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> <span style="color:#e6db74">&#39;abcddeef&#39;</span> <span style="color:#66d9ef">if</span> x <span style="color:#f92672">not</span> <span style="color:#f92672">in</span> <span style="color:#e6db74">&#39;abc&#39;</span>}  <span style="color:#75715e"># =&gt; {&#39;d&#39;, &#39;e&#39;, &#39;f&#39;}</span>
+{x: x<span style="color:#f92672">**</span><span style="color:#ae81ff">2</span> <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> range(<span style="color:#ae81ff">5</span>)}  <span style="color:#75715e"># =&gt; {0: 0, 1: 1, 2: 4, 3: 9, 4: 16}</span>
+
+
+<span style="color:#75715e">####################################################</span>
+<span style="color:#75715e">## 5. Modules and Packages</span>
+<span style="color:#75715e">####################################################</span>
+
+<span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">Functions.
+</span><span style="color:#e6db74">Modules -&gt; .py file containing statements and functions
+</span><span style="color:#e6db74">Packages -&gt; folder having a module named __init__.py inside of it
+</span><span style="color:#e6db74">&#39;&#39;&#39;</span>
+
+<span style="color:#75715e"># You can import modules</span>
+<span style="color:#f92672">import</span> math
+<span style="color:#66d9ef">print</span>(math<span style="color:#f92672">.</span>sqrt(<span style="color:#ae81ff">16</span>))  <span style="color:#75715e"># =&gt; 4.0</span>
+
+<span style="color:#75715e"># You can get specific functions from a module</span>
+<span style="color:#f92672">from</span> math <span style="color:#f92672">import</span> ceil, floor
+<span style="color:#66d9ef">print</span>(ceil(<span style="color:#ae81ff">3.7</span>))   <span style="color:#75715e"># =&gt; 4.0</span>
+<span style="color:#66d9ef">print</span>(floor(<span style="color:#ae81ff">3.7</span>))  <span style="color:#75715e"># =&gt; 3.0</span>
+
+<span style="color:#75715e"># You can import all functions from a module.</span>
+<span style="color:#75715e"># Warning: this is not recommended</span>
+<span style="color:#f92672">from</span> math <span style="color:#f92672">import</span> <span style="color:#f92672">*</span>
+
+<span style="color:#75715e"># You can shorten module names</span>
+<span style="color:#f92672">import</span> math <span style="color:#f92672">as</span> m
+math<span style="color:#f92672">.</span>sqrt(<span style="color:#ae81ff">16</span>) <span style="color:#f92672">==</span> m<span style="color:#f92672">.</span>sqrt(<span style="color:#ae81ff">16</span>)  <span style="color:#75715e"># =&gt; True</span>
+
+<span style="color:#75715e"># Import specific functions from a non-init module in a package</span>
+<span style="color:#f92672">from</span> package.subPackage.subPackage1 <span style="color:#f92672">import</span> foo, bar
+
+<span style="color:#75715e"># Python modules are just ordinary Python files. You</span>
+<span style="color:#75715e"># can write your own, and import them. The name of the</span>
+<span style="color:#75715e"># module is the same as the name of the file.</span>
+
+<span style="color:#75715e"># You can find out which functions and attributes</span>
+<span style="color:#75715e"># are defined in a module.</span>
+<span style="color:#f92672">import</span> math
+dir(math)
+
+<span style="color:#75715e"># If you have a Python script named math.py in the same</span>
+<span style="color:#75715e"># folder as your current script, the file math.py will</span>
+<span style="color:#75715e"># be loaded instead of the built-in Python module.</span>
+<span style="color:#75715e"># This happens because the local folder has priority</span>
+<span style="color:#75715e"># over Python&#39;s built-in libraries.</span>
+
+<span style="color:#75715e"># Default module search is in the given order, we can add our own directories in sys.path </span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> sys
+<span style="color:#f92672">&gt;&gt;&gt;</span> sys<span style="color:#f92672">.</span>path
+[<span style="color:#e6db74">&#39;&#39;</span>,
+<span style="color:#e6db74">&#39;C:</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">Python33</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">Lib</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">idlelib&#39;</span>,
+<span style="color:#e6db74">&#39;C:</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">Windows</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">system32</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">python33.zip&#39;</span>,
+<span style="color:#e6db74">&#39;C:</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">Python33</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">DLLs&#39;</span>,
+<span style="color:#e6db74">&#39;C:</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">Python33</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">lib&#39;</span>,
+<span style="color:#e6db74">&#39;C:</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">Python33&#39;</span>,
+<span style="color:#e6db74">&#39;C:</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">Python33</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">lib</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">site-packages&#39;</span>]
+
+<span style="color:#75715e"># Reloading a module</span>
+<span style="color:#75715e"># This module shows the effect of multiple imports and reload</span>
+
+<span style="color:#75715e">#my_module.py</span>
+<span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;This code got executed&#34;</span>)
+
+<span style="color:#75715e">#Now we see the effect of multiple imports.</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> my_module
+This code got executed
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> my_module
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> my_module
+
+<span style="color:#75715e">#Reloading with imp.reload(module_name)</span>
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> imp
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> my_module
+This code got executed
+<span style="color:#f92672">&gt;&gt;&gt;</span> <span style="color:#f92672">import</span> my_module
+<span style="color:#f92672">&gt;&gt;&gt;</span> imp<span style="color:#f92672">.</span>reload(my_module)
+This code got executed
+<span style="color:#f92672">&lt;</span>module <span style="color:#e6db74">&#39;my_module&#39;</span> <span style="color:#f92672">from</span> <span style="color:#e6db74">&#39;.</span><span style="color:#ae81ff">\\</span><span style="color:#e6db74">my_module.py&#39;</span><span style="color:#f92672">&gt;</span>
+
+<span style="color:#75715e">####################################################</span>
+<span style="color:#75715e">## 6. Classes and OOP</span>
+<span style="color:#75715e">####################################################</span>
+
+<span style="color:#75715e"># We use the &#34;class&#34; statement to create a class</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Human</span>:
+
+    <span style="color:#75715e"># A class attribute. It is shared by all instances of this class</span>
+    species <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;H. sapiens&#34;</span>
+
+    <span style="color:#75715e"># Basic initializer, this is called when this class is instantiated.</span>
+    <span style="color:#75715e"># Note that the double leading and trailing underscores denote objects</span>
+    <span style="color:#75715e"># or attributes that are used by Python but that live in user-controlled</span>
+    <span style="color:#75715e"># namespaces. Methods(or objects or attributes) like: __init__, __str__,</span>
+    <span style="color:#75715e"># __repr__ etc. are called special methods (or sometimes called dunder methods)</span>
+    <span style="color:#75715e"># You should not invent such names on your own.</span>
+    <span style="color:#66d9ef">def</span> __init__(self, naam):
+        <span style="color:#75715e"># Assign the argument to the instance&#39;s name attribute</span>
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> naam
+
+        <span style="color:#75715e"># Implicit decalration, and Initialization of property</span>
+        self<span style="color:#f92672">.</span>_age <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>
+
+    <span style="color:#75715e"># An instance method. All methods take &#34;self&#34; as the first argument </span>
+    <span style="color:#75715e"># as it is the first argument that is passed implicitly during the function call</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">say</span>(self, msg):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;{name}: {message}&#34;</span><span style="color:#f92672">.</span>format(name<span style="color:#f92672">=</span>self<span style="color:#f92672">.</span>name, message<span style="color:#f92672">=</span>msg))
+
+    <span style="color:#75715e"># Another instance method</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sing</span>(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;yo... yo... microphone check... one two... one two...&#39;</span>
+
+    <span style="color:#75715e"># A class method is shared among all instances</span>
+    <span style="color:#75715e"># They are called with the calling class as the first argument</span>
+    <span style="color:#a6e22e">@classmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">get_species</span>(cls):
+        <span style="color:#66d9ef">return</span> cls<span style="color:#f92672">.</span>species
+
+    <span style="color:#75715e"># A static method is called without a class or instance reference</span>
+    <span style="color:#a6e22e">@staticmethod</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">grunt</span>():
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;*grunt*&#34;</span>
+
+    <span style="color:#75715e"># A property is just like a getter.</span>
+    <span style="color:#75715e"># It turns the method age() into an read-only attribute of the same name.</span>
+    <span style="color:#75715e"># There&#39;s no need to write trivial getters and setters in Python, though.</span>
+    <span style="color:#a6e22e">@property</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">age</span>(self):
+        <span style="color:#66d9ef">return</span> self<span style="color:#f92672">.</span>_age
+
+    <span style="color:#75715e"># This allows the property to be set</span>
+    <span style="color:#a6e22e">@age.setter</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">age</span>(self, age):
+        self<span style="color:#f92672">.</span>_age <span style="color:#f92672">=</span> age
+
+    <span style="color:#75715e"># This allows the property to be deleted</span>
+    <span style="color:#a6e22e">@age.deleter</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">age</span>(self):
+        <span style="color:#66d9ef">del</span> self<span style="color:#f92672">.</span>_age
+
+
+<span style="color:#75715e"># When a Python interpreter reads a source file it executes all its code.</span>
+<span style="color:#75715e"># This __name__ check makes sure this code block is only executed when this</span>
+<span style="color:#75715e"># module is the main program.</span>
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    <span style="color:#75715e"># Instantiate a class</span>
+    i <span style="color:#f92672">=</span> Human(naam<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Ian&#34;</span>)
+    i<span style="color:#f92672">.</span>say(<span style="color:#e6db74">&#34;hi&#34;</span>)                     <span style="color:#75715e"># &#34;Ian: hi&#34;</span>
+    j <span style="color:#f92672">=</span> Human(<span style="color:#e6db74">&#34;Joel&#34;</span>)
+    Human<span style="color:#f92672">.</span>say(j, <span style="color:#e6db74">&#34;hello&#34;</span>)           <span style="color:#75715e"># &#34;Joel: hello&#34;</span>
+    <span style="color:#75715e"># i and j are instances of type Human, or in other words: they are Human objects</span>
+    <span style="color:#e6db74">&#39;&#39;&#39;
+</span><span style="color:#e6db74">    object.func() 	#self is passed implicitly
+</span><span style="color:#e6db74">    &lt;-- OR --&gt;
+</span><span style="color:#e6db74">    Classname.func(object)	#explicit object passing
+</span><span style="color:#e6db74">    &#39;&#39;&#39;</span>
+    <span style="color:#75715e"># Call our class method</span>
+    i<span style="color:#f92672">.</span>say(i<span style="color:#f92672">.</span>get_species())          <span style="color:#75715e"># &#34;Ian: H. sapiens&#34;</span>
+    <span style="color:#75715e"># Change the shared attribute</span>
+    Human<span style="color:#f92672">.</span>species <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;H. neanderthalensis&#34;</span>
+    i<span style="color:#f92672">.</span>say(i<span style="color:#f92672">.</span>get_species())          <span style="color:#75715e"># =&gt; &#34;Ian: H. neanderthalensis&#34;</span>
+    j<span style="color:#f92672">.</span>say(j<span style="color:#f92672">.</span>get_species())          <span style="color:#75715e"># =&gt; &#34;Joel: H. neanderthalensis&#34;</span>
+
+    <span style="color:#75715e"># Call the static method</span>
+    <span style="color:#66d9ef">print</span>(Human<span style="color:#f92672">.</span>grunt())            <span style="color:#75715e"># =&gt; &#34;*grunt*&#34;</span>
+
+    <span style="color:#75715e"># Static methods can be called by instances too</span>
+    <span style="color:#66d9ef">print</span>(i<span style="color:#f92672">.</span>grunt())                <span style="color:#75715e"># =&gt; &#34;*grunt*&#34;</span>
+
+    <span style="color:#75715e"># Update the property for this instance</span>
+    i<span style="color:#f92672">.</span>age <span style="color:#f92672">=</span> <span style="color:#ae81ff">42</span>
+    <span style="color:#75715e"># Get the property</span>
+    i<span style="color:#f92672">.</span>say(i<span style="color:#f92672">.</span>age)                    <span style="color:#75715e"># =&gt; &#34;Ian: 42&#34;</span>
+    j<span style="color:#f92672">.</span>say(j<span style="color:#f92672">.</span>age)                    <span style="color:#75715e"># =&gt; &#34;Joel: 0&#34;</span>
+    <span style="color:#75715e"># Delete the property</span>
+    <span style="color:#66d9ef">del</span> i<span style="color:#f92672">.</span>age
+    <span style="color:#75715e"># i.age                         # =&gt; this would raise an AttributeError</span>
+
+
+<span style="color:#75715e">####################################################</span>
+<span style="color:#75715e">## 6.1 Inheritance</span>
+<span style="color:#75715e">####################################################</span>
+
+<span style="color:#75715e"># Inheritance allows new child classes to be defined that inherit methods and</span>
+<span style="color:#75715e"># variables from their parent class.</span>
+
+<span style="color:#75715e"># Using the Human class defined above as the base or parent class, we can</span>
+<span style="color:#75715e"># define a child class, Superhero, which inherits the class variables like</span>
+<span style="color:#75715e"># &#34;species&#34;, &#34;name&#34;, and &#34;age&#34;, as well as methods, like &#34;sing&#34; and &#34;grunt&#34;</span>
+<span style="color:#75715e"># from the Human class, but can also have its own unique properties.</span>
+
+<span style="color:#75715e"># To take advantage of modularization by file you could place the classes above in their own files,</span>
+<span style="color:#75715e"># say, human.py</span>
+
+<span style="color:#75715e"># To import functions from other files use the following format</span>
+<span style="color:#75715e"># from &#34;filename-without-extension&#34; import &#34;function-or-class&#34;</span>
+
+<span style="color:#f92672">from</span> human <span style="color:#f92672">import</span> Human
+
+
+<span style="color:#75715e"># Specify the parent class(es) as parameters to the class definition</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Superhero</span>(Human):
+
+    <span style="color:#75715e"># If the child class should inherit all of the parent&#39;s definitions without</span>
+    <span style="color:#75715e"># any modifications, you can just use the &#34;pass&#34; keyword (and nothing else)</span>
+    <span style="color:#75715e"># but in this case it is commented out to allow for a unique child class:</span>
+    <span style="color:#75715e"># pass</span>
+
+    <span style="color:#75715e"># Child classes can override their parents&#39; attributes</span>
+    species <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Superhuman&#39;</span>
+
+    <span style="color:#75715e"># Children automatically inherit their parent class&#39;s constructor including</span>
+    <span style="color:#75715e"># its arguments, but can also define additional arguments or definitions</span>
+    <span style="color:#75715e"># and override its methods such as the class constructor.</span>
+    <span style="color:#75715e"># This constructor inherits the &#34;name&#34; argument from the &#34;Human&#34; class and</span>
+    <span style="color:#75715e"># adds the &#34;superpower&#34; and &#34;movie&#34; arguments:</span>
+    <span style="color:#66d9ef">def</span> __init__(self, name, movie<span style="color:#f92672">=</span>False,
+                 superpowers<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#34;super strength&#34;</span>, <span style="color:#e6db74">&#34;bulletproofing&#34;</span>]):
+
+        <span style="color:#75715e"># add additional class attributes:</span>
+        self<span style="color:#f92672">.</span>fictional <span style="color:#f92672">=</span> True
+        self<span style="color:#f92672">.</span>movie <span style="color:#f92672">=</span> movie
+        <span style="color:#75715e"># be aware of mutable default values, since defaults are shared</span>
+        self<span style="color:#f92672">.</span>superpowers <span style="color:#f92672">=</span> superpowers
+
+        <span style="color:#75715e"># The &#34;super&#34; function lets you access the parent class&#39;s methods</span>
+        <span style="color:#75715e"># that are overridden by the child, in this case, the __init__ method.</span>
+        <span style="color:#75715e"># This calls the parent class constructor:</span>
+        super()<span style="color:#f92672">.</span>__init__(name)
+
+    <span style="color:#75715e"># override the sing method</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sing</span>(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;Dun, dun, DUN!&#39;</span>
+
+    <span style="color:#75715e"># add an additional instance method</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">boast</span>(self):
+        <span style="color:#66d9ef">for</span> power <span style="color:#f92672">in</span> self<span style="color:#f92672">.</span>superpowers:
+            <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#34;I wield the power of {pow}!&#34;</span><span style="color:#f92672">.</span>format(pow<span style="color:#f92672">=</span>power))
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    sup <span style="color:#f92672">=</span> Superhero(name<span style="color:#f92672">=</span><span style="color:#e6db74">&#34;Tick&#34;</span>)
+
+    <span style="color:#75715e"># Instance type checks</span>
+    <span style="color:#66d9ef">if</span> isinstance(sup, Human):
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;I am human&#39;</span>)
+    <span style="color:#66d9ef">if</span> type(sup) <span style="color:#f92672">is</span> Superhero:
+        <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;I am a superhero&#39;</span>)
+
+    <span style="color:#75715e"># Get the Method Resolution search Order used by both getattr() and super()</span>
+    <span style="color:#75715e"># This attribute is dynamic and can be updated</span>
+    <span style="color:#66d9ef">print</span>(Superhero<span style="color:#f92672">.</span>__mro__)    <span style="color:#75715e"># =&gt; (&lt;class &#39;__main__.Superhero&#39;&gt;,</span>
+                                <span style="color:#75715e"># =&gt; &lt;class &#39;human.Human&#39;&gt;, &lt;class &#39;object&#39;&gt;)</span>
+
+    <span style="color:#75715e"># Calls parent method but uses its own class attribute</span>
+    <span style="color:#66d9ef">print</span>(sup<span style="color:#f92672">.</span>get_species())    <span style="color:#75715e"># =&gt; Superhuman</span>
+
+    <span style="color:#75715e"># Calls overridden method</span>
+    <span style="color:#66d9ef">print</span>(sup<span style="color:#f92672">.</span>sing())           <span style="color:#75715e"># =&gt; Dun, dun, DUN!</span>
+
+    <span style="color:#75715e"># Calls method from Human</span>
+    sup<span style="color:#f92672">.</span>say(<span style="color:#e6db74">&#39;Spoon&#39;</span>)            <span style="color:#75715e"># =&gt; Tick: Spoon</span>
+
+    <span style="color:#75715e"># Call method that exists only in Superhero</span>
+    sup<span style="color:#f92672">.</span>boast()                 <span style="color:#75715e"># =&gt; I wield the power of super strength!</span>
+                                <span style="color:#75715e"># =&gt; I wield the power of bulletproofing!</span>
+
+    <span style="color:#75715e"># Inherited class attribute</span>
+    sup<span style="color:#f92672">.</span>age <span style="color:#f92672">=</span> <span style="color:#ae81ff">31</span>
+    <span style="color:#66d9ef">print</span>(sup<span style="color:#f92672">.</span>age)              <span style="color:#75715e"># =&gt; 31</span>
+
+    <span style="color:#75715e"># Attribute that only exists within Superhero</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Am I Oscar eligible? &#39;</span> <span style="color:#f92672">+</span> str(sup<span style="color:#f92672">.</span>movie))
+
+<span style="color:#75715e">####################################################</span>
+<span style="color:#75715e">## 6.2 Multiple Inheritance</span>
+<span style="color:#75715e">####################################################</span>
+
+<span style="color:#75715e"># Another class definition</span>
+<span style="color:#75715e"># bat.py</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Bat</span>:
+
+    species <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Baty&#39;</span>
+
+    <span style="color:#66d9ef">def</span> __init__(self, can_fly<span style="color:#f92672">=</span>True):
+        self<span style="color:#f92672">.</span>fly <span style="color:#f92672">=</span> can_fly
+
+    <span style="color:#75715e"># This class also has a say method</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">say</span>(self, msg):
+        msg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;... ... ...&#39;</span>
+        <span style="color:#66d9ef">return</span> msg
+
+    <span style="color:#75715e"># And its own method as well</span>
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sonar</span>(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;))) ... (((&#39;</span>
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    b <span style="color:#f92672">=</span> Bat()
+    <span style="color:#66d9ef">print</span>(b<span style="color:#f92672">.</span>say(<span style="color:#e6db74">&#39;hello&#39;</span>))
+    <span style="color:#66d9ef">print</span>(b<span style="color:#f92672">.</span>fly)
+
+
+<span style="color:#75715e"># And yet another class definition that inherits from Superhero and Bat</span>
+<span style="color:#75715e"># superhero.py</span>
+<span style="color:#f92672">from</span> superhero <span style="color:#f92672">import</span> Superhero
+<span style="color:#f92672">from</span> bat <span style="color:#f92672">import</span> Bat
+
+<span style="color:#75715e"># Define Batman as a child that inherits from both Superhero and Bat</span>
+<span style="color:#66d9ef">class</span> <span style="color:#a6e22e">Batman</span>(Superhero, Bat):
+
+    <span style="color:#66d9ef">def</span> __init__(self, <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+        <span style="color:#75715e"># Typically to inherit attributes you have to call super:</span>
+        <span style="color:#75715e"># super(Batman, self).__init__(*args, **kwargs)</span>
+        <span style="color:#75715e"># However we are dealing with multiple inheritance here, and super()</span>
+        <span style="color:#75715e"># only works with the next base class in the MRO list.</span>
+        <span style="color:#75715e"># So instead we explicitly call __init__ for all ancestors.</span>
+        <span style="color:#75715e"># The use of *args and **kwargs allows for a clean way to pass arguments,</span>
+        <span style="color:#75715e"># with each parent &#34;peeling a layer of the onion&#34;.</span>
+        Superhero<span style="color:#f92672">.</span>__init__(self, <span style="color:#e6db74">&#39;anonymous&#39;</span>, movie<span style="color:#f92672">=</span>True,
+                           superpowers<span style="color:#f92672">=</span>[<span style="color:#e6db74">&#39;Wealthy&#39;</span>], <span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+        Bat<span style="color:#f92672">.</span>__init__(self, <span style="color:#f92672">*</span>args, can_fly<span style="color:#f92672">=</span>False, <span style="color:#f92672">**</span>kwargs)
+        <span style="color:#75715e"># override the value for the name attribute</span>
+        self<span style="color:#f92672">.</span>name <span style="color:#f92672">=</span> <span style="color:#e6db74">&#39;Sad Affleck&#39;</span>
+
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">sing</span>(self):
+        <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#39;nan nan nan nan nan batman!&#39;</span>
+
+
+<span style="color:#66d9ef">if</span> __name__ <span style="color:#f92672">==</span> <span style="color:#e6db74">&#39;__main__&#39;</span>:
+    sup <span style="color:#f92672">=</span> Batman()
+
+    <span style="color:#75715e"># Get the Method Resolution search Order used by both getattr() and super().</span>
+    <span style="color:#75715e"># This attribute is dynamic and can be updated</span>
+    <span style="color:#66d9ef">print</span>(Batman<span style="color:#f92672">.</span>__mro__)       <span style="color:#75715e"># =&gt; (&lt;class &#39;__main__.Batman&#39;&gt;,</span>
+                                <span style="color:#75715e"># =&gt; &lt;class &#39;superhero.Superhero&#39;&gt;,</span>
+                                <span style="color:#75715e"># =&gt; &lt;class &#39;human.Human&#39;&gt;,</span>
+                                <span style="color:#75715e"># =&gt; &lt;class &#39;bat.Bat&#39;&gt;, &lt;class &#39;object&#39;&gt;)</span>
+
+    <span style="color:#75715e"># Calls parent method but uses its own class attribute</span>
+    <span style="color:#66d9ef">print</span>(sup<span style="color:#f92672">.</span>get_species())    <span style="color:#75715e"># =&gt; Superhuman</span>
+
+    <span style="color:#75715e"># Calls overridden method</span>
+    <span style="color:#66d9ef">print</span>(sup<span style="color:#f92672">.</span>sing())           <span style="color:#75715e"># =&gt; nan nan nan nan nan batman!</span>
+
+    <span style="color:#75715e"># Calls method from Human, because inheritance order matters</span>
+    sup<span style="color:#f92672">.</span>say(<span style="color:#e6db74">&#39;I agree&#39;</span>)          <span style="color:#75715e"># =&gt; Sad Affleck: I agree</span>
+
+    <span style="color:#75715e"># Call method that exists only in 2nd ancestor</span>
+    <span style="color:#66d9ef">print</span>(sup<span style="color:#f92672">.</span>sonar())          <span style="color:#75715e"># =&gt; ))) ... (((</span>
+
+    <span style="color:#75715e"># Inherited class attribute</span>
+    sup<span style="color:#f92672">.</span>age <span style="color:#f92672">=</span> <span style="color:#ae81ff">100</span>
+    <span style="color:#66d9ef">print</span>(sup<span style="color:#f92672">.</span>age)              <span style="color:#75715e"># =&gt; 100</span>
+
+    <span style="color:#75715e"># Inherited attribute from 2nd ancestor whose default value was overridden.</span>
+    <span style="color:#66d9ef">print</span>(<span style="color:#e6db74">&#39;Can I fly? &#39;</span> <span style="color:#f92672">+</span> str(sup<span style="color:#f92672">.</span>fly)) <span style="color:#75715e"># =&gt; Can I fly? False</span>
+
+
+
+<span style="color:#75715e">####################################################</span>
+<span style="color:#75715e">## 7. Advanced</span>
+<span style="color:#75715e">####################################################</span>
+
+<span style="color:#75715e"># Generators help you make lazy code.</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">double_numbers</span>(iterable):
+    <span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> iterable:
+        <span style="color:#66d9ef">yield</span> i <span style="color:#f92672">+</span> i
+
+<span style="color:#75715e"># Generators are memory-efficient because they only load the data needed to</span>
+<span style="color:#75715e"># process the next value in the iterable. This allows them to perform</span>
+<span style="color:#75715e"># operations on otherwise prohibitively large value ranges.</span>
+<span style="color:#75715e"># NOTE: `range` replaces `xrange` in Python 3.</span>
+<span style="color:#66d9ef">for</span> i <span style="color:#f92672">in</span> double_numbers(range(<span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">900000000</span>)):  <span style="color:#75715e"># `range` is a generator.</span>
+    <span style="color:#66d9ef">print</span>(i)
+    <span style="color:#66d9ef">if</span> i <span style="color:#f92672">&gt;=</span> <span style="color:#ae81ff">30</span>:
+        <span style="color:#66d9ef">break</span>
+
+<span style="color:#75715e"># Just as you can create a list comprehension, you can create generator</span>
+<span style="color:#75715e"># comprehensions as well.</span>
+values <span style="color:#f92672">=</span> (<span style="color:#f92672">-</span>x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>])
+<span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> values:
+    <span style="color:#66d9ef">print</span>(x)  <span style="color:#75715e"># prints -1 -2 -3 -4 -5 to console/terminal</span>
+
+<span style="color:#75715e"># You can also cast a generator comprehension directly to a list.</span>
+values <span style="color:#f92672">=</span> (<span style="color:#f92672">-</span>x <span style="color:#66d9ef">for</span> x <span style="color:#f92672">in</span> [<span style="color:#ae81ff">1</span>,<span style="color:#ae81ff">2</span>,<span style="color:#ae81ff">3</span>,<span style="color:#ae81ff">4</span>,<span style="color:#ae81ff">5</span>])
+gen_to_list <span style="color:#f92672">=</span> list(values)
+<span style="color:#66d9ef">print</span>(gen_to_list)  <span style="color:#75715e"># =&gt; [-1, -2, -3, -4, -5]</span>
+
+
+<span style="color:#75715e"># Decorators</span>
+<span style="color:#75715e"># In this example `beg` wraps `say`. If say_please is True then it</span>
+<span style="color:#75715e"># will change the returned message.</span>
+<span style="color:#f92672">from</span> functools <span style="color:#f92672">import</span> wraps
+
+
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">beg</span>(target_function):
+    <span style="color:#a6e22e">@wraps</span>(target_function)
+    <span style="color:#66d9ef">def</span> <span style="color:#a6e22e">wrapper</span>(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs):
+        msg, say_please <span style="color:#f92672">=</span> target_function(<span style="color:#f92672">*</span>args, <span style="color:#f92672">**</span>kwargs)
+        <span style="color:#66d9ef">if</span> say_please:
+            <span style="color:#66d9ef">return</span> <span style="color:#e6db74">&#34;{} {}&#34;</span><span style="color:#f92672">.</span>format(msg, <span style="color:#e6db74">&#34;Please! I am poor :(&#34;</span>)
+        <span style="color:#66d9ef">return</span> msg
+
+    <span style="color:#66d9ef">return</span> wrapper
+
+
+<span style="color:#a6e22e">@beg</span>
+<span style="color:#66d9ef">def</span> <span style="color:#a6e22e">say</span>(say_please<span style="color:#f92672">=</span>False):
+    msg <span style="color:#f92672">=</span> <span style="color:#e6db74">&#34;Can you buy me a beer?&#34;</span>
+    <span style="color:#66d9ef">return</span> msg, say_please
+
+
+<span style="color:#66d9ef">print</span>(say())                 <span style="color:#75715e"># Can you buy me a beer?</span>
+<span style="color:#66d9ef">print</span>(say(say_please<span style="color:#f92672">=</span>True))  <span style="color:#75715e"># Can you buy me a beer? Please! I am poor :(</span>
+
+
+</code></pre></div>
+
+<footer class="footline">
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/python/" title="Python Notes"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="/python/oops/" title="OOP" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/js/clipboard.min.js?1619856148"></script>
+    <script src="/js/perfect-scrollbar.min.js?1619856148"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1619856148"></script>
+    <script src="/js/jquery.sticky.js?1619856148"></script>
+    <script src="/js/featherlight.min.js?1619856148"></script>
+    <script src="/js/highlight.pack.js?1619856148"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/modernizr.custom-3.6.0.js?1619856148"></script>
+    <script src="/js/learn.js?1619856148"></script>
+    <script src="/js/hugo-learn.js?1619856148"></script>
+
+    <link href="/mermaid/mermaid.css?1619856148" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1619856148"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+
+  </body>
+</html>
+

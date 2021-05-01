@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Maths for CP on #Define</title>
+    <link>https://hashdefine.netlify.app/maths/</link>
+    <description>Recent content in Maths for CP on #Define</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sun, 12 Jul 2020 11:30:30 +0530</lastBuildDate><atom:link href="https://hashdefine.netlify.app/maths/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Basics</title>
+      <link>https://hashdefine.netlify.app/maths/basics/</link>
+      <pubDate>Sun, 12 Jul 2020 13:09:11 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/basics/</guid>
+      <description>Peano Axioms Link: https://en.wikipedia.org/wiki/Peano_axioms
+Fundamental Theorem Of Arithmetic The fundamental theorem of arithmetic (FTA), also called the unique factorization theorem, states that every integer greater than 1 either is prime itself or is the product of a unique combination of prime numbers.
+1 is not considered prime because we lose uniqueness in factorization if we consider it a prime:
+25 = 5 * 5 * 1= 5 * 5 * 1 * 1= 5 * 5 * 1 * 1 * 1.</description>
+    </item>
+    
+    <item>
+      <title>GCD, LCM, and Euclidean Algorithm</title>
+      <link>https://hashdefine.netlify.app/maths/gcd/</link>
+      <pubDate>Mon, 13 Jul 2020 11:52:11 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/gcd/</guid>
+      <description>GCD GCD (Greatest Common Divisor) or HCF (Highest Common Factor) of n numbers n1, n2, n3, &amp;hellip; is defined as largest number g which divides all of them. Ex - GCD(15, 20) = 5, GCD(6,7) = 1.
+Properties   GCD(a, b) &amp;lt;= min(a, b)
+  GCD(a, b) &amp;gt;= 1
+  GCD(a, b) = GCD(|a|, |b|)
+  For any non-zero m ∈ Z, GCD(ma, mb) = |m| * GCD(a, b)</description>
+    </item>
+    
+    <item>
+      <title>GCD and LCM Advanced</title>
+      <link>https://hashdefine.netlify.app/maths/gcd-adv/</link>
+      <pubDate>Mon, 13 Jul 2020 20:56:22 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/gcd-adv/</guid>
+      <description>Reducing Fractions  n	n / gcd(n, d)--- =&amp;gt; Reduced Fraction =&amp;gt; ---------------d	d / gcd(n, d)GCD and LCM of fractions 	GCD (all numerators)GCD = -------------------------LCM (all denominators)LCM (all numerators)LCM = -------------------------GCD (all denominators)LCM of factorial and its neighbors LCM (n-1)!, n!, and (n+1)! is (n+1)!
+GCD and LCM follow Distributive Property gcd(a, lcm(b, c)) = lcm(gcd(a, b), gcd(a, c)) lcm(a, gcd(b, c)) = gcd(lcm(a, b), lcm(a, c)).</description>
+    </item>
+    
+    <item>
+      <title>Prime Numbers</title>
+      <link>https://hashdefine.netlify.app/maths/primes/</link>
+      <pubDate>Sun, 12 Jul 2020 13:09:11 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/primes/</guid>
+      <description>Properties, Conjectures and Theorems Definition: A prime number is a number greater than 1 that has exactly two positive integer divisors, 1 and itself.
+1 is neither a prime, nor a composite. 2 is the only even prime. Only consecutive primes are 2 and 3. Every prime number can represented in form of 6n±1 except 2 and 3, where n is natural number. There are infinitely many primes. Prime Number Theorem - The number of primes till n are approximately equal to n /ln (n) when n is large.</description>
+    </item>
+    
+    <item>
+      <title>Prime Factorization and Divisors</title>
+      <link>https://hashdefine.netlify.app/maths/prime-factorization/</link>
+      <pubDate>Tue, 14 Jul 2020 14:21:29 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/prime-factorization/</guid>
+      <description>Recall: Fundamental Theorem Of Arithmetic
+Important Points  The number of divisors is odd only for perfect square numbers. For the rest, the count is even. Use floor(sqrt(b)) - ceil(sqrt(a)) + 1 to calculate all perfect square numbers between a and b. Only a prime&amp;rsquo;s square has exactly 3 distinct factors i.e. 1, p, and p2. Power of a prime p in n! is given by Legendre&amp;rsquo;s Factorization of n! =&amp;gt; Power of p in n!</description>
+    </item>
+    
+    <item>
+      <title>Fibonacci Numbers</title>
+      <link>https://hashdefine.netlify.app/maths/fibonacci/</link>
+      <pubDate>Tue, 21 Jul 2020 17:02:15 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/fibonacci/</guid>
+      <description>In mathematics, the Fibonacci numbers, commonly denoted Fn, form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is, F0= 0, F1= 1, and Fn= Fn-1+ Fn-2 for n &amp;gt; 1. Sequence = 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, &amp;hellip;
+Negative : The Fibonacci sequence also works below 0.</description>
+    </item>
+    
+    <item>
+      <title>Divisibility</title>
+      <link>https://hashdefine.netlify.app/maths/divisibility/</link>
+      <pubDate>Wed, 22 Jul 2020 19:51:16 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/divisibility/</guid>
+      <description>Divisibility Rules  2n, 5n, and 10n- Check if the last n digits are divisible. 3 and 9 - Check if digital sum is divisible. 6 - Check if number is divisible by both 2 and 3. 7 - Subtract twice the last digit from the remaining number and check divisibility again. Another method is triplet method (make triplets from right and do alternate +/- and check the result for divisibility by 7 again&amp;hellip; this is useful for very large numbers).</description>
+    </item>
+    
+    <item>
+      <title>Modular Arithmetic</title>
+      <link>https://hashdefine.netlify.app/maths/modular-arithmetic/</link>
+      <pubDate>Sun, 12 Jul 2020 13:09:11 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/modular-arithmetic/</guid>
+      <description>Remainders and % Operator In Maths:
+15 mod 7 = 112 mod 5 = 216 mod 4 = 02 mod 6 = 2-1 mod 5 = -1 =&amp;gt; 4	//do 1 mod 5 and add negative sign-15 mod 7 = -1 =&amp;gt; 6-12 mod 5 = -2 =&amp;gt; 312 mod -5 = 2 =&amp;gt; -316 mod -4 = 0In Programming:
+ If x completely divides y, the result of the expression y % x is 0.</description>
+    </item>
+    
+  </channel>
+</rss>

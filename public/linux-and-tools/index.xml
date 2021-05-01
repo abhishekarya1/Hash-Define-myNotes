@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Linux and Tools on #Define</title>
+    <link>https://hashdefine.netlify.app/linux-and-tools/</link>
+    <description>Recent content in Linux and Tools on #Define</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sat, 01 May 2021 00:32:20 +0530</lastBuildDate><atom:link href="https://hashdefine.netlify.app/linux-and-tools/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Terminal</title>
+      <link>https://hashdefine.netlify.app/linux-and-tools/terminal/</link>
+      <pubDate>Sat, 01 May 2021 00:31:24 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/linux-and-tools/terminal/</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    
+    <item>
+      <title>Awk</title>
+      <link>https://hashdefine.netlify.app/linux-and-tools/awk/</link>
+      <pubDate>Sat, 01 May 2021 00:31:56 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/linux-and-tools/awk/</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    
+    <item>
+      <title>Shell Scripting</title>
+      <link>https://hashdefine.netlify.app/linux-and-tools/shell-scripting/</link>
+      <pubDate>Sat, 01 May 2021 00:31:34 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/linux-and-tools/shell-scripting/</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    
+  </channel>
+</rss>

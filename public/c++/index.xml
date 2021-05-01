@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>C&#43;&#43; Programming on #Define</title>
+    <link>https://hashdefine.netlify.app/c&#43;&#43;/</link>
+    <description>Recent content in C&#43;&#43; Programming on #Define</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Tue, 22 Jan 2019 23:12:30 +0530</lastBuildDate><atom:link href="https://hashdefine.netlify.app/c++/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Functions and Arrays</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-01-functions-and-arrays/</link>
+      <pubDate>Fri, 01 Jun 2018 23:15:53 +0520</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-01-functions-and-arrays/</guid>
+      <description>Precedence of Operators  Division and Multiplication has same priority/precedence - to resolve, we use associativity (Left-to-Right).  Arrays  Arrays are Garbage Declared, Zero Initialized. Bound Checking is not done in C++, no compilation error when ArrayOutOfBound.  Errors  Logical Errors - Difficult to Debug. Semantics Errors - aka Compile Time Errors. Runtime Errors - Pass the Compilation but program fails during Runtime.like dividing by 0.  Undefined Behaviour No behaviour can be defined beforehand even in the same environment.</description>
+    </item>
+    
+    <item>
+      <title>Const</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-const/</link>
+      <pubDate>Mon, 18 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-const/</guid>
+      <description>Constant Data Members Data Members declared with cont keyword cannot be re-initialised. They must be initialized once. They can be declared once and initialised once.
+const int x; // Declarationx = 90; // InitialisationInitialisation List Any const data member must be initialised in Initialisation List.
+Car():name(NULL), year(1991){}Car(int price, int m):price(p), model(m) // Memory allocated to variables before entering the body of the constructor{}Constant Functions Those functions that do not update data members of a class.</description>
+    </item>
+    
+    <item>
+      <title>Constructors and Destructors</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-constructors-destructors/</link>
+      <pubDate>Mon, 18 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-constructors-destructors/</guid>
+      <description>Constructors Every class comes with four hidden functions.
+ Default Constructor Parameterized Constructor Copy Constructors Destructor  Default Constructors  They have the same name as the class and do not have any return type. They are provided implicitly and they initialise with 0.  class me{me(){// they have nothing inside}}Parameterized Constructors If we write something inside and parameterize it, then it is called parameterized constructor.</description>
+    </item>
+    
+    <item>
+      <title>Object-Oriented Programming in C&#43;&#43;</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-oops-in-c&#43;&#43;/</link>
+      <pubDate>Mon, 18 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-oops-in-c&#43;&#43;/</guid>
+      <description>Goals Everything in the real-world has a name and a functionality associated with it. Ex - A name of an object is &amp;ldquo;Dog&amp;rdquo;, it can have various parameters like breed, length, height, or the functions it can perform like running, eating, sleeping.
+What we can do is that we can create objects of a Dog and then whenever we want to store different information about any Dog, we can use that object again and again.</description>
+    </item>
+    
+    <item>
+      <title>STL - Vectors and Generic Programming</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-vectors-and-generic/</link>
+      <pubDate>Mon, 18 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-vectors-and-generic/</guid>
+      <description>Vectors They are data structures in C++ just like arrays but they have size that is capped only by the amount of space we can possibly allocate.
+ Header files:  #include&amp;lt;vector&amp;gt; Declaration:  vector&amp;lt;int&amp;gt; v; // vector&amp;lt;data_type&amp;gt; name;As Function Parameter Passed by Reference:
+int func(int n, vector&amp;lt;int&amp;gt; &amp;amp;v) { }Built in Functions  v.push_back(x) - Pushes the element(x) inside the vector. v.pop_back(x) - Pops the element(x) from the vector.</description>
+    </item>
+    
+    <item>
+      <title>STL - Strings</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-strings/</link>
+      <pubDate>Mon, 18 Jun 2018 00:00:00 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-strings/</guid>
+      <description>Strings string is an in-built class in C++.
+string name;string s(&amp;quot;Abhishek&amp;quot;);string s1 = &amp;quot;Abhishek&amp;quot;;string s3;getline(cin, s3);For further info, refer here.</description>
+    </item>
+    
+    <item>
+      <title>Bitwise Operations and Recursion</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-10-bitwise-and-recursion/</link>
+      <pubDate>Sun, 10 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-10-bitwise-and-recursion/</guid>
+      <description>BITWISE Operator &amp;gt;&amp;gt; Right Shift Operator - results in 2^(number of times shifted)&amp;lt;&amp;lt; Left Shift Operator  Bitwise AND (&amp;amp;) yields an integer value. Bitwise OR (|) yields an integer value. Bitwise XOR (^) yields either 0 or 1. To identify if the last bit is SET(=1), AND(&amp;amp;) the number with 1.  Recursion int factorial(int n){if(n==0)	// Base Case{return 1;}int smallFact = factorial(n-1);	// Recurrence RelationFact = smallFact * n;return Fact;}</description>
+    </item>
+    
+    <item>
+      <title>Pointers</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-09-pointers/</link>
+      <pubDate>Sat, 09 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-09-pointers/</guid>
+      <description>Address  There exists one more data type called as &amp;ldquo;Address Data Type&amp;rdquo; which is used to store data. It has certain limitations in arithmetic operations that can be done with it and it is often represented as a Hex value. It behaves much like a real-world address. Address of anything is basically its starting address location (address). e.g. Arrays, etc&amp;hellip;  Meaning and Syntax  int *ptr = &amp;amp;x; - This statement creates a variable named &amp;ldquo;ptr&amp;rdquo; that stores address (data type) of the integer variable &amp;lsquo;x&amp;rsquo; - ptr is also called a Pointer.</description>
+    </item>
+    
+    <item>
+      <title>My Sublime Environment for Coding</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-07-my-sublime-env/</link>
+      <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-07-my-sublime-env/</guid>
+      <description>Preliminaries  Download and copy /MinGW/bin path to the Environment Variables. Download Link - www.cb.lk/compile Setup Guide. Link - https://medium.com/@aggarwaldeepak/c-learning-environment-3df85a46784b  Sublime Packages Keyboard Shortcut: Ctrl+Shift+P -&amp;gt; Install Packages -&amp;gt; &amp;ldquo;Package Name&amp;rdquo;
+ SublimeAStyleFormatter Terminal Wakatime  More Keyboard Shortcuts  For Building/Compiling: Ctrl+B For Powershell Terminal: Ctrl+Shift+T For Auto-formatting the code: Ctrl+Alt+F For New Tab: Ctrl+N For Closing Current Tab: Ctrl+W For Saving Current: Ctrl+S For Saving As.. Current: Ctrl+Shift+S For Switching Tabs: Ctrl + Tab For Scrolling Up/Down: Ctrl + Up/Down Key For Inserting HTML Tags: write tagname and then press Tab For Multiple Coloumns: Alt + Shift + number of coloumns (max.</description>
+    </item>
+    
+    <item>
+      <title>Quick Jots</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-07-quick-jots/</link>
+      <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-07-quick-jots/</guid>
+      <description> The most significant dimension of an array is optional while defining a function with array as an argument.  int example(int arr[][3][3], int n) { }	// Function Definition Short-circuit Evaluation  while(i &amp;lt; len &amp;amp;&amp;amp; arr[i] == 100)	// if first condition is false, second is never evaluatedwhile(i &amp;lt; len || arr[i] == 100)	// if first condition is true, second is never evaluatedwhile(i &amp;lt; len &amp;amp;&amp;amp; arr[i] == 100)while(arr[i] == 100 &amp;amp;&amp;amp; i &amp;lt; len) // both these statements are not equivalent as second returns a segmentation fault, because the first is evaluated first	</description>
+    </item>
+    
+    <item>
+      <title>Important Points</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-07-imp/</link>
+      <pubDate>Wed, 06 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-07-imp/</guid>
+      <description>Arrays are always passed by reference, be it character array(string) in C++.  cin  cin ifnores whitespaces and reads only non-whitespace characters, cin reads from a file known as &amp;lsquo;stdin&amp;rsquo;&amp;ldquo;istream&amp;rdquo; and cin can be invalidated by supplying value of a type that is not expected, cin gets invalidated and never takes any input throughout the rest of the program.  return cin; //will return false if cin has been invalidated beforeWe can re-validate cin by cin.</description>
+    </item>
+    
+    <item>
+      <title>Reference and Array Sorting Algorithms</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-03-references/</link>
+      <pubDate>Sun, 03 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-03-references/</guid>
+      <description>Pass by Reference void myswap(int &amp;amp;n1, int &amp;amp;n2) //formal parameters	/*Called Function	Pass by Reference*/{int temp=n1;n1=n2;n2=temp;}int main()	// Calling Function{int a,b;cin&amp;gt;&amp;gt;a&amp;gt;&amp;gt;b;myswap(a,b);	//arguments or actual parameters	// Function call independent of pass methodcout&amp;lt;&amp;lt;a&amp;lt;&amp;lt;&amp;quot; &amp;quot;&amp;lt;&amp;lt;b;}	  Pass by Value - New variables are created	- Pass by Reference	- New variables are not created, new names are given to the existing variables.</description>
+    </item>
+    
+    <item>
+      <title>All Notes</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-07-08-all/</link>
+      <pubDate>Fri, 01 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-07-08-all/</guid>
+      <description>Links for all programming notes. [Day-] - Functions and Arrays
+[Day-] - Reference and Array Sorting Algorithms
+[PDF Download](/cb/Class 5 (as PDF).pdf)</description>
+    </item>
+    
+  </channel>
+</rss>

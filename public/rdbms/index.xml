@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>RDBMS on #Define</title>
+    <link>https://hashdefine.netlify.app/rdbms/</link>
+    <description>Recent content in RDBMS on #Define</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Sun, 29 Nov 2020 18:22:01 +0530</lastBuildDate><atom:link href="https://hashdefine.netlify.app/rdbms/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Concepts</title>
+      <link>https://hashdefine.netlify.app/rdbms/concepts/</link>
+      <pubDate>Mon, 30 Nov 2020 14:13:02 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/rdbms/concepts/</guid>
+      <description>Concurrency Control &amp;amp; ACID in Transactions Transactions and their ACID Properties: link
+Atomicity is ensured by: commit and rollback TCL operations of DBMS. We ensure Consistency and Isolation by the following means.
+Transaction States Concurrency and its advantages Concurrency: When two or more transactions are allowed to proceed together. They may be executed out-of-order or in partial order, without affecting the final outcome.
+Advantages: Less waiting time, less response time, better utilization of resources, increased efficiency.</description>
+    </item>
+    
+    <item>
+      <title>MySQL</title>
+      <link>https://hashdefine.netlify.app/rdbms/mysql/</link>
+      <pubDate>Sun, 29 Nov 2020 18:25:50 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/rdbms/mysql/</guid>
+      <description>SQL (Structured Query Language)  Always case-insensitive (even table and attributes names) Semicolon ; to indicate command termination are mandatory in MySQL terminal # and -- (single-line comments) /* */ (multi-line commnents) RDBMS language  Glossary  Attributes, Fields (Columns), Degree (no. of attributes) Tuple (Rows), Cardinality (no. of tuples) DDL (create, alter, truncate) DML (insert, delete, update) DCL (grant, revoke) DQL (select) TCL (rollback, commit, savepoint)  Storage Engines https://www.</description>
+    </item>
+    
+    <item>
+      <title>PostgreSQL</title>
+      <link>https://hashdefine.netlify.app/rdbms/postgresql/</link>
+      <pubDate>Sun, 29 Nov 2020 18:27:24 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/rdbms/postgresql/</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    
+  </channel>
+</rss>

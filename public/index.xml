@@ -1,0 +1,580 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>#define HOME on #Define</title>
+    <link>https://hashdefine.netlify.app/</link>
+    <description>Recent content in #define HOME on #Define</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-US</language>
+    <lastBuildDate>Wed, 23 Jan 2019 23:12:30 +0530</lastBuildDate><atom:link href="https://hashdefine.netlify.app/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Terminal</title>
+      <link>https://hashdefine.netlify.app/linux-and-tools/terminal/</link>
+      <pubDate>Sat, 01 May 2021 00:31:24 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/linux-and-tools/terminal/</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    
+    <item>
+      <title>Resources</title>
+      <link>https://hashdefine.netlify.app/regex/resources/</link>
+      <pubDate>Sat, 01 May 2021 00:24:43 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/regex/resources/</guid>
+      <description>Web Resources  Regex For Noobs (like me!) - An Illustrated Guide - Janmeppe Regex Course - Launch School Learn Regex The Easy Way - GitHub  Practice  HackerRank - Regex RegexGolf RegexOne Regex101 - Quiz Regex Crossword  Testing and Visualisation  Match Testing  RegexPal Regex101    Visualisation  Regexper Debuggex    Interesting Stuff  TNW - Javascript regular expressions aren&amp;rsquo;t that daunting — here&amp;rsquo;s how to design your own My favorite regex of all time Regex that only matches itself The Many Uses of Regex  Cheat Sheets  Regular Expressions Cheat Sheet Regex Cheat Sheet MIT Cheat Sheet Regular Expressions Cheat Sheet by DaveChild  Resource Lists &amp;amp; References  RexEgg regular-expressions.</description>
+    </item>
+    
+    <item>
+      <title>Concepts</title>
+      <link>https://hashdefine.netlify.app/rdbms/concepts/</link>
+      <pubDate>Mon, 30 Nov 2020 14:13:02 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/rdbms/concepts/</guid>
+      <description>Concurrency Control &amp;amp; ACID in Transactions Transactions and their ACID Properties: link
+Atomicity is ensured by: commit and rollback TCL operations of DBMS. We ensure Consistency and Isolation by the following means.
+Transaction States Concurrency and its advantages Concurrency: When two or more transactions are allowed to proceed together. They may be executed out-of-order or in partial order, without affecting the final outcome.
+Advantages: Less waiting time, less response time, better utilization of resources, increased efficiency.</description>
+    </item>
+    
+    <item>
+      <title>Architecture</title>
+      <link>https://hashdefine.netlify.app/nosql/architecture/</link>
+      <pubDate>Sun, 29 Nov 2020 12:22:53 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/nosql/architecture/</guid>
+      <description>RDMS vs NoSQL  NoSQL does not store data in tables/relations and is often distributed/sharded. A NoSQL database has flexible schema. Data is stored in many ways which means it can be document-oriented, column-oriented, graph-based or organized as a KeyValue store. Sometimes called &amp;ldquo;Not only SQL&amp;rdquo; to emphasize the fact that they may support SQL-like query languages. Inherent horizontal scaling, as opposed to inherent vertical scaling in RDBMS. Complex queries like joins are very hard in NoSQL.</description>
+    </item>
+    
+    <item>
+      <title>Git</title>
+      <link>https://hashdefine.netlify.app/git/notes/</link>
+      <pubDate>Sat, 28 Nov 2020 15:05:03 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/git/notes/</guid>
+      <description>Git SCM notes Basics  Many platforms use Git VCS (version control system), some are GitHub, Bitbucket, etc.. https://www.geeksforgeeks.org/centralized-vs-distributed-version-control-which-one-should-we-choose/  Glossary  Working Tree - home directory structure .git - folder hidden in home directory that contains info for git to work, ex. config, etc&amp;hellip; States in Git - Untracked, Modified, Staged, Commited HEAD - only one head is active at a given time, though we can have mutiple heads.  Git # Setup $ git config --global user.</description>
+    </item>
+    
+    <item>
+      <title>Flask</title>
+      <link>https://hashdefine.netlify.app/flask/notes/</link>
+      <pubDate>Thu, 26 Nov 2020 21:35:21 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/flask/notes/</guid>
+      <description>Setup  Create a virtual environment  $ python -m venv /path/to/new/virtual/environment #OR $ py -m venv /path/to/new/virtual/environment Activate the virtual environment  $ cd venv_folder/Scripts $ activate.bat Come back to flask app root dir  $ cd .. $ cd .. $ pwd	#my_flask_app Install Flask  $ pip install flask Flask Basic App Module Structure from flask import Flask app = Flask(__name__) #app routes go here if __name__ == &amp;#39;__main__&amp;#39;: app.</description>
+    </item>
+    
+    <item>
+      <title>Notes</title>
+      <link>https://hashdefine.netlify.app/python/notes/</link>
+      <pubDate>Tue, 24 Nov 2020 13:22:35 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/python/notes/</guid>
+      <description># Single line comments start with a number symbol. &amp;#34;&amp;#34;&amp;#34; Multiline strings can be written using three &amp;#34;s or &amp;#39;s, and are often used as documentation. &amp;#34;&amp;#34;&amp;#34; #################################################### ## 1. Primitive Datatypes and Operators #################################################### # Numbers are objects #Integer Literals a = 0b1010 #Binary Literals (0b / 0B) b = 100 #Decimal Literal c = 0o310 #Octal Literal (0c / 0C) d = 0x12c #Hexadecimal Literal (0x / 0X) #Float Literal float_1 = 10.</description>
+    </item>
+    
+    <item>
+      <title>Basics</title>
+      <link>https://hashdefine.netlify.app/bit/basics/</link>
+      <pubDate>Sun, 19 Jul 2020 10:17:43 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/bit/basics/</guid>
+      <description>Bitwise Operators in C/C++ AND (&amp;amp;), OR (|), NOT (~), XOR (^), LEFT SHIFT (&amp;lt;&amp;lt;), RIGHT SHIFT (&amp;gt;&amp;gt;)
+The left shift and right shift operators should not be used for negative numbers. If any of the operands is a negative number, it results in undefined behaviour. For example results of both -1 &amp;lt;&amp;lt; 1 and 1 &amp;lt;&amp;lt; -1 is undefined.
+Also, if the number is shifted more than the size of integer, the behaviour is undefined.</description>
+    </item>
+    
+    <item>
+      <title>Basics</title>
+      <link>https://hashdefine.netlify.app/maths/basics/</link>
+      <pubDate>Sun, 12 Jul 2020 13:09:11 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/basics/</guid>
+      <description>Peano Axioms Link: https://en.wikipedia.org/wiki/Peano_axioms
+Fundamental Theorem Of Arithmetic The fundamental theorem of arithmetic (FTA), also called the unique factorization theorem, states that every integer greater than 1 either is prime itself or is the product of a unique combination of prime numbers.
+1 is not considered prime because we lose uniqueness in factorization if we consider it a prime:
+25 = 5 * 5 * 1= 5 * 5 * 1 * 1= 5 * 5 * 1 * 1 * 1.</description>
+    </item>
+    
+    <item>
+      <title>Headers, Macros, and Compiler Flags</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;-language-specifics/basics/</link>
+      <pubDate>Sun, 12 Jul 2020 11:45:09 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;-language-specifics/basics/</guid>
+      <description>One header to include every standard library #include&amp;lt;bits/stdc++.h&amp;gt; Also includes unnecessary stuff and increases length of code for compilation. Saves time during typing. Not portable as it&amp;rsquo;s not part of the C++ standard. Available in GCC but not in all others.  Macros and typedef #define LL long long #define ULL unsigned long long #define LD long double  #define MOD 1e9+7 OR
+typedef long long LL; typedef unsigned long long ULL; typedef long double LD; Usage:</description>
+    </item>
+    
+    <item>
+      <title>Useful Stuff</title>
+      <link>https://hashdefine.netlify.app/c/gfg-c/tips/</link>
+      <pubDate>Sun, 27 Jan 2019 22:27:43 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/gfg-c/tips/</guid>
+      <description>After the pre-processing is over, all the undefined macros are initialized with default value 0.
+  All global stuff - pointers, variables of all types and with any modifiers are initialized with 0 (NULL for Pointers).
+  Inline Functions in C inline int square(int x) { return x*x; } int main() { int x = 36/square(6); printf(&amp;#34;%d&amp;#34;, x); return 0; } // OUTPUT: 1   A .</description>
+    </item>
+    
+    <item>
+      <title>Preface</title>
+      <link>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-21-preface/</link>
+      <pubDate>Mon, 21 Jan 2019 23:15:53 +0520</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-21-preface/</guid>
+      <description>What C gets right.  C is a general-purpose programming language. It is not a very high level language, nor a big one. It was originally designed for and implemented on the UNIX operating system. Very useful for writing operating system, compilers and system programs and hence it is also called a &amp;ldquo;systems programming language&amp;rdquo;. Many important ideas in C stem from BCPL and B. [BCPL -&amp;gt; B -&amp;gt; C] BCPL and B are &amp;ldquo;typeless&amp;rdquo; languages, they don&amp;rsquo;t have data types defined.</description>
+    </item>
+    
+    <item>
+      <title>Functions and Arrays</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-01-functions-and-arrays/</link>
+      <pubDate>Fri, 01 Jun 2018 23:15:53 +0520</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-01-functions-and-arrays/</guid>
+      <description>Precedence of Operators  Division and Multiplication has same priority/precedence - to resolve, we use associativity (Left-to-Right).  Arrays  Arrays are Garbage Declared, Zero Initialized. Bound Checking is not done in C++, no compilation error when ArrayOutOfBound.  Errors  Logical Errors - Difficult to Debug. Semantics Errors - aka Compile Time Errors. Runtime Errors - Pass the Compilation but program fails during Runtime.like dividing by 0.  Undefined Behaviour No behaviour can be defined beforehand even in the same environment.</description>
+    </item>
+    
+    <item>
+      <title>Awk</title>
+      <link>https://hashdefine.netlify.app/linux-and-tools/awk/</link>
+      <pubDate>Sat, 01 May 2021 00:31:56 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/linux-and-tools/awk/</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    
+    <item>
+      <title>Notes</title>
+      <link>https://hashdefine.netlify.app/regex/notes/</link>
+      <pubDate>Sat, 01 May 2021 00:24:54 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/regex/notes/</guid>
+      <description>Regex pronunciation: &amp;ldquo;Redj-ex&amp;rdquo;
+Regex in programming languages C++11 onwards (&amp;lt;regex&amp;gt; header), Python, Java, Javascript, PHP, Java, etc&amp;hellip;
+C++ Regex is written in the form of a string inside double-quotes (&amp;quot;&amp;quot;)
+regex foo(&amp;#34;Geek[a-zA-Z]+&amp;#34;); //foo is the object of regex Javascript &amp;amp; Ruby Regex is written within forward slashes (/regex/)
+var str = &amp;#39;cat&amp;#39;; if (str.match(/a/)) { console.log(&amp;#34;matched &amp;#39;a&amp;#39;&amp;#34;); } if (str.match(/x/)) { console.log(&amp;#34;matched &amp;#39;x&amp;#39;&amp;#34;); }  Basic Match Example#0
+ Meta Characters Reserved chars.</description>
+    </item>
+    
+    <item>
+      <title>MySQL</title>
+      <link>https://hashdefine.netlify.app/rdbms/mysql/</link>
+      <pubDate>Sun, 29 Nov 2020 18:25:50 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/rdbms/mysql/</guid>
+      <description>SQL (Structured Query Language)  Always case-insensitive (even table and attributes names) Semicolon ; to indicate command termination are mandatory in MySQL terminal # and -- (single-line comments) /* */ (multi-line commnents) RDBMS language  Glossary  Attributes, Fields (Columns), Degree (no. of attributes) Tuple (Rows), Cardinality (no. of tuples) DDL (create, alter, truncate) DML (insert, delete, update) DCL (grant, revoke) DQL (select) TCL (rollback, commit, savepoint)  Storage Engines https://www.</description>
+    </item>
+    
+    <item>
+      <title>MongoDB</title>
+      <link>https://hashdefine.netlify.app/nosql/mongodb/</link>
+      <pubDate>Sun, 29 Nov 2020 14:21:43 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/nosql/mongodb/</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    
+    <item>
+      <title>OOP</title>
+      <link>https://hashdefine.netlify.app/python/oops/</link>
+      <pubDate>Tue, 24 Nov 2020 15:16:54 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/python/oops/</guid>
+      <description>&amp;#39;&amp;#39;&amp;#39; Class Object Object Variable Class Attribute/Data member (Static variable) Instance Methods Class Methods Static Methods Instance Instantiation self -&amp;gt; instance reference cls -&amp;gt; class reference Inner Classes &amp;#39;&amp;#39;&amp;#39; # The need for &amp;#34;self&amp;#34;  class Car: pass obj = Car()	#Insantiation, Instance = obj obj.brand = &amp;#39;Audi&amp;#39; obj.type = &amp;#39;Sports&amp;#39; obj.price = 5000000 print(obj.brand, obj.type, obj.price)	# =&amp;gt; Audi Sports 5000000 # We can &amp;#39;automate&amp;#39; this variable creation using &amp;#34;self&amp;#34; to refer to calling object  class Car: def __init__(self): self.</description>
+    </item>
+    
+    <item>
+      <title>Applications</title>
+      <link>https://hashdefine.netlify.app/bit/applications/</link>
+      <pubDate>Sun, 19 Jul 2020 11:05:21 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/bit/applications/</guid>
+      <description>Applications  Finding single element that occurs odd number of times in an array. Detect if two integers have opposite signs. (x ^ y) &amp;lt; 0 Adding 1 to number without using + operator. xPlusOne = -(~x), since ~x = -(x+1) holds. Turn off the rightmost set bit. n &amp;amp; (n - 1) Checking is number is power of 4. single set bit having even number of 0s on its right side Checking is number is power of 2.</description>
+    </item>
+    
+    <item>
+      <title>Useful Functions</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;-language-specifics/useful-functions/</link>
+      <pubDate>Mon, 13 Jul 2020 20:16:51 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;-language-specifics/useful-functions/</guid>
+      <description>Faster I/O printf/scanf is faster than cout/cin, but we can make cout/cin as faster by using below trick or simply use print/scanf in C++.
+ ios_base::sync_with_stdio(false); cin.tie(NULL); OR
+ios::sync_with_stdio(0); cin.tie(0);  Note that the newline &amp;ldquo;\n&amp;rdquo; works faster than endl, because endl always causes a flush operation.
+ Explanation: Every C++ standard stream is synced with the corresponding standard C stream before program starts. We can stop synchronization by passing argument to ios::sync_with_stdio() as 0 or false.</description>
+    </item>
+    
+    <item>
+      <title>GCD, LCM, and Euclidean Algorithm</title>
+      <link>https://hashdefine.netlify.app/maths/gcd/</link>
+      <pubDate>Mon, 13 Jul 2020 11:52:11 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/gcd/</guid>
+      <description>GCD GCD (Greatest Common Divisor) or HCF (Highest Common Factor) of n numbers n1, n2, n3, &amp;hellip; is defined as largest number g which divides all of them. Ex - GCD(15, 20) = 5, GCD(6,7) = 1.
+Properties   GCD(a, b) &amp;lt;= min(a, b)
+  GCD(a, b) &amp;gt;= 1
+  GCD(a, b) = GCD(|a|, |b|)
+  For any non-zero m ∈ Z, GCD(ma, mb) = |m| * GCD(a, b)</description>
+    </item>
+    
+    <item>
+      <title>A Tutorial Introduction</title>
+      <link>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-21-c-programming-chapter-1/</link>
+      <pubDate>Mon, 21 Jan 2019 23:16:53 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-21-c-programming-chapter-1/</guid>
+      <description>main() - The program begins executing at the beginning of main and there must be atleast one in the program.
+  &amp;quot;Hello, world&amp;quot; - a sequence of characters in double quotes is called a string constant or character string or string literal.
+  /*.....*/ - Multi-line comment.
+  The above sizes are machine-dependent.
+  Storing foating point number in int truncates it (i.e. strores only the integer part).</description>
+    </item>
+    
+    <item>
+      <title>Shell Scripting</title>
+      <link>https://hashdefine.netlify.app/linux-and-tools/shell-scripting/</link>
+      <pubDate>Sat, 01 May 2021 00:31:34 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/linux-and-tools/shell-scripting/</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    
+    <item>
+      <title>PostgreSQL</title>
+      <link>https://hashdefine.netlify.app/rdbms/postgresql/</link>
+      <pubDate>Sun, 29 Nov 2020 18:27:24 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/rdbms/postgresql/</guid>
+      <description>Lorem Ipsum.</description>
+    </item>
+    
+    <item>
+      <title>Advanced</title>
+      <link>https://hashdefine.netlify.app/python/adv/</link>
+      <pubDate>Wed, 25 Nov 2020 11:49:03 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/python/adv/</guid>
+      <description>&amp;#39;&amp;#39;&amp;#39; Iterable Iterator Generator Closures Decorator Property RegEx &amp;#39;&amp;#39;&amp;#39; # Iterable -&amp;gt; objects that implement __iter__ and __next__.The function range() returns an iterator and for loop performs next() on it automatically. # Python offers a fundamental abstraction called the Iterable. # An iterable is an object that can be treated as a sequence. # The object returned by the range function, is an iterable. filled_dict = {&amp;#34;one&amp;#34;: 1, &amp;#34;two&amp;#34;: 2, &amp;#34;three&amp;#34;: 3} our_iterable = filled_dict.</description>
+    </item>
+    
+    <item>
+      <title>GCD and LCM Advanced</title>
+      <link>https://hashdefine.netlify.app/maths/gcd-adv/</link>
+      <pubDate>Mon, 13 Jul 2020 20:56:22 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/gcd-adv/</guid>
+      <description>Reducing Fractions  n	n / gcd(n, d)--- =&amp;gt; Reduced Fraction =&amp;gt; ---------------d	d / gcd(n, d)GCD and LCM of fractions 	GCD (all numerators)GCD = -------------------------LCM (all denominators)LCM (all numerators)LCM = -------------------------GCD (all denominators)LCM of factorial and its neighbors LCM (n-1)!, n!, and (n+1)! is (n+1)!
+GCD and LCM follow Distributive Property gcd(a, lcm(b, c)) = lcm(gcd(a, b), gcd(a, c)) lcm(a, gcd(b, c)) = gcd(lcm(a, b), lcm(a, c)).</description>
+    </item>
+    
+    <item>
+      <title>Character and String Functions</title>
+      <link>https://hashdefine.netlify.app/c/gfg-c/string_functions/</link>
+      <pubDate>Mon, 04 Feb 2019 16:33:46 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/gfg-c/string_functions/</guid>
+      <description>Some Character Functions from &amp;lt;ctype.h&amp;gt; Mostly, internally, the ASCII value of the character is passed as argument and returns int other than zero if true, else return 0.
+  isprint() - Printable character is not a control character, they can be seen on screen
+  iscntrl() - Control character like &amp;lsquo;\n&amp;rsquo; and &amp;lsquo;\r&amp;rsquo;
+  islower() - Check lower-case
+  isupper() - Check uper-case
+  isgraph() - Graphic character other than space</description>
+    </item>
+    
+    <item>
+      <title>Types, Operators, and Expressions </title>
+      <link>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-2/</link>
+      <pubDate>Tue, 22 Jan 2019 23:16:53 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-2/</guid>
+      <description>Variables  The first haracter must be a letter. Underscore(_) is a letter. Library functions have variable names that start with an underescore. Uppercase and lowercase letters are distinct, X is not the same as x.  Data Type and Sizes    Data type Keyword Size (in Bytes) Range     Character char 1    Integer int 2 -32768 to +32767   Single-precision floating point float 4 10-38to 10+38   Double-precision floating point double 8     Qualifiers can also be applied to these data types.</description>
+    </item>
+    
+    <item>
+      <title>Prime Numbers</title>
+      <link>https://hashdefine.netlify.app/maths/primes/</link>
+      <pubDate>Sun, 12 Jul 2020 13:09:11 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/primes/</guid>
+      <description>Properties, Conjectures and Theorems Definition: A prime number is a number greater than 1 that has exactly two positive integer divisors, 1 and itself.
+1 is neither a prime, nor a composite. 2 is the only even prime. Only consecutive primes are 2 and 3. Every prime number can represented in form of 6n±1 except 2 and 3, where n is natural number. There are infinitely many primes. Prime Number Theorem - The number of primes till n are approximately equal to n /ln (n) when n is large.</description>
+    </item>
+    
+    <item>
+      <title>Some &lt;stdio.h&gt; I/O Functions</title>
+      <link>https://hashdefine.netlify.app/c/gfg-c/stdio/</link>
+      <pubDate>Thu, 07 Feb 2019 18:27:47 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/gfg-c/stdio/</guid>
+      <description>Basic &amp;lt;stdio.h&amp;gt; I/O Functions Formatted I/O int printf(const char *format, ...); int fprintf(FILE *stream, const char *format, ...); int sprintf (char *str, const char *format, ...); printf() family returns negative value if an output error or an encoding error. int scanf (const char *format, ...); int fscanf (FILE *stream, const char *format, ...); int sscanf (const char *str, const char *format, ...); scanf() family returns EOF if input failure occurs before the first receiving argument was assigned.</description>
+    </item>
+    
+    <item>
+      <title>Structure Alignment, Padding and Packing</title>
+      <link>https://hashdefine.netlify.app/c/gfg-c/struct_alignment/</link>
+      <pubDate>Tue, 05 Feb 2019 22:53:25 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/gfg-c/struct_alignment/</guid>
+      <description>Structure Alignment, Padding, and Packing Link: https://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/
+How to avoid Structure Padding in C?  Using #pragma pack(1) idrective to force 1 Byte alignment We can also use the following (1 Byte alignment):  struct s { int i; char ch; double d; } __attribute__((packed)); Link: https://www.geeksforgeeks.org/how-to-avoid-structure-padding-in-c/</description>
+    </item>
+    
+    <item>
+      <title>Control Flow</title>
+      <link>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-3/</link>
+      <pubDate>Tue, 22 Jan 2019 23:16:53 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-3/</guid>
+      <description>Statements and Blocks  An expression like i+2, i++, or printf(...) terminated by a ; becomes a statement in C. Braces { and } are used to group statements inside a compound statement or a block.  If-Else  In if-else the else part is optional. if checks the numeric value of an expression after evaluating it.  We might do -
+if(x)	//non-zero value implicitly means true  //instead of  if(x !</description>
+    </item>
+    
+    <item>
+      <title>Prime Factorization and Divisors</title>
+      <link>https://hashdefine.netlify.app/maths/prime-factorization/</link>
+      <pubDate>Tue, 14 Jul 2020 14:21:29 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/prime-factorization/</guid>
+      <description>Recall: Fundamental Theorem Of Arithmetic
+Important Points  The number of divisors is odd only for perfect square numbers. For the rest, the count is even. Use floor(sqrt(b)) - ceil(sqrt(a)) + 1 to calculate all perfect square numbers between a and b. Only a prime&amp;rsquo;s square has exactly 3 distinct factors i.e. 1, p, and p2. Power of a prime p in n! is given by Legendre&amp;rsquo;s Factorization of n! =&amp;gt; Power of p in n!</description>
+    </item>
+    
+    <item>
+      <title>Functions_in_C</title>
+      <link>https://hashdefine.netlify.app/c/gfg-c/functions_in_c/</link>
+      <pubDate>Thu, 07 Feb 2019 21:53:15 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/gfg-c/functions_in_c/</guid>
+      <description>Calling functions before and after main() in GCC #include &amp;lt;stdio.h&amp;gt; void my_start_func(void) __attribute__ ((constructor)); void my_exit_func(void) __attribute__ ((destructor)); void my_start_func(void) {printf(&amp;#34;%s &amp;#34;, &amp;#34;Hello!&amp;#34;);} void my_exit_func(void) {printf(&amp;#34;%s&amp;#34;, &amp;#34;Arya&amp;#34;);} int main(void) { printf(&amp;#34;%s &amp;#34;, &amp;#34;Abhishek&amp;#34;); return 0; } // OUTPUT - Hello! Abhishek Arya Return type of any function used before declaration is assumed to be int and if it is int then the compilations is successful, else there is a type mismatch error , compilation fails.</description>
+    </item>
+    
+    <item>
+      <title>Functions and Program Structure</title>
+      <link>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-4/</link>
+      <pubDate>Tue, 22 Jan 2019 23:16:53 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-4/</guid>
+      <description>Some advantages of using functions  Large computing tasks can be separated into smaller ones, so long as no function is split. Abstraction Easing the pain of making chanfges to code Source program can be stored across multiple files Code reusability  Basics of Functions return-type function-name(argument declarations) { declarations and statements //body }  If the return type is omitted during function declaration, it is assumed to be int. To return a value to the caller return is used.</description>
+    </item>
+    
+    <item>
+      <title>Fibonacci Numbers</title>
+      <link>https://hashdefine.netlify.app/maths/fibonacci/</link>
+      <pubDate>Tue, 21 Jul 2020 17:02:15 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/fibonacci/</guid>
+      <description>In mathematics, the Fibonacci numbers, commonly denoted Fn, form a sequence, called the Fibonacci sequence, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is, F0= 0, F1= 1, and Fn= Fn-1+ Fn-2 for n &amp;gt; 1. Sequence = 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, &amp;hellip;
+Negative : The Fibonacci sequence also works below 0.</description>
+    </item>
+    
+    <item>
+      <title>Pointers in C</title>
+      <link>https://hashdefine.netlify.app/c/gfg-c/pointer_in_c/</link>
+      <pubDate>Fri, 08 Feb 2019 19:20:56 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/gfg-c/pointer_in_c/</guid>
+      <description>Void type, NULL and NULL Pointers Link: https://www.geeksforgeeks.org/few-bytes-on-null-pointer-in-c/
+  ((void *)0) is a macro defined in headers to be NULL.
+  sizeof(NULL) is a pointer type size.
+  NULL with pointers can be replaced with a 0.
+  NULL in printf is undefined behaviour in C standards.
+  Function Pointers Link: https://www.geeksforgeeks.org/function-pointer-in-c/
+Hmmmmmmmm&amp;hellip;. Link: https://www.geeksforgeeks.org/an-uncommon-representation-of-array-elements/</description>
+    </item>
+    
+    <item>
+      <title>Pointers and Arrays</title>
+      <link>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-24-c-programming-chapter-5/</link>
+      <pubDate>Thu, 24 Jan 2019 04:50:21 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-24-c-programming-chapter-5/</guid>
+      <description>Pointers and Addresses  Address Of Operator &amp;amp; can be applied to any memory object such as an array or a variable, not to any expression, constant, or register variable.  p = &amp;amp;c;	//p stores address of c  //remember p is a pointer type variable  int *p; //pointer to an int, this says that value at *p is an int  Dereferencing or Indirection - * (value at) is the unary dereferencing operator and is used to access the value stored at a memory location.</description>
+    </item>
+    
+    <item>
+      <title>Divisibility</title>
+      <link>https://hashdefine.netlify.app/maths/divisibility/</link>
+      <pubDate>Wed, 22 Jul 2020 19:51:16 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/divisibility/</guid>
+      <description>Divisibility Rules  2n, 5n, and 10n- Check if the last n digits are divisible. 3 and 9 - Check if digital sum is divisible. 6 - Check if number is divisible by both 2 and 3. 7 - Subtract twice the last digit from the remaining number and check divisibility again. Another method is triplet method (make triplets from right and do alternate +/- and check the result for divisibility by 7 again&amp;hellip; this is useful for very large numbers).</description>
+    </item>
+    
+    <item>
+      <title>Modular Arithmetic</title>
+      <link>https://hashdefine.netlify.app/maths/modular-arithmetic/</link>
+      <pubDate>Sun, 12 Jul 2020 13:09:11 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/maths/modular-arithmetic/</guid>
+      <description>Remainders and % Operator In Maths:
+15 mod 7 = 112 mod 5 = 216 mod 4 = 02 mod 6 = 2-1 mod 5 = -1 =&amp;gt; 4	//do 1 mod 5 and add negative sign-15 mod 7 = -1 =&amp;gt; 6-12 mod 5 = -2 =&amp;gt; 312 mod -5 = 2 =&amp;gt; -316 mod -4 = 0In Programming:
+ If x completely divides y, the result of the expression y % x is 0.</description>
+    </item>
+    
+    <item>
+      <title>Undefined, Unspecified, and Implementation-Defined Behavior in C</title>
+      <link>https://hashdefine.netlify.app/c/gfg-c/behaviour_in_c/</link>
+      <pubDate>Sat, 09 Feb 2019 21:13:45 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/gfg-c/behaviour_in_c/</guid>
+      <description>Undefined Behavior {MOST DANGEROUS -:- BE AWARE -:- NEVER USE}
+  Undefined behavior refers to a statement made in a standard specification that a particular behavior is not defined by a standard, i.e, in C. Ex - Dividing by 0.
+  Some Other Examples:
+  int a;	// a&amp;#39;s value can be anything (undefined) int arr[10]; arr[22] = 45;	// compiler interprets as okay but undefined int *ptr;	// pointer with a random address (undefined)  In the standard, it is explicitly stated that what all things are undefined.</description>
+    </item>
+    
+    <item>
+      <title>Structures</title>
+      <link>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-26-c-programming-chapter-6/</link>
+      <pubDate>Sat, 26 Jan 2019 23:47:11 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-26-c-programming-chapter-6/</guid>
+      <description>Definition A structure is a collection of one or more variables, possibly of different types, grouped together under a single name for convenient handling.
+Basics   A point is nothing but a pair of coordinates and a collection of points makes a rectangle.
+  struct keyword is used.
+  struct point { int x;	int y;	//members }; An optional name called a structure tag may follow the word struct.</description>
+    </item>
+    
+    <item>
+      <title>Input and Output</title>
+      <link>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-27-c-programming-chapter-7/</link>
+      <pubDate>Sun, 27 Jan 2019 15:02:31 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c/c-dennis-ritchie/2019-01-27-c-programming-chapter-7/</guid>
+      <description>Introduction Input and output are not part of the C language itself. They are provided by the standard library.
+Standard Input and Output   int getchar(void) returns the next symbol from the input stream, or EOF whose value is typically -1.
+  The function int putchar(int) is used for output: putchar(c) puts the character c on the standard output, which is by default the screen. putchar returns the character written, or EOF if an error occurs.</description>
+    </item>
+    
+    <item>
+      <title>Const</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-const/</link>
+      <pubDate>Mon, 18 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-const/</guid>
+      <description>Constant Data Members Data Members declared with cont keyword cannot be re-initialised. They must be initialized once. They can be declared once and initialised once.
+const int x; // Declarationx = 90; // InitialisationInitialisation List Any const data member must be initialised in Initialisation List.
+Car():name(NULL), year(1991){}Car(int price, int m):price(p), model(m) // Memory allocated to variables before entering the body of the constructor{}Constant Functions Those functions that do not update data members of a class.</description>
+    </item>
+    
+    <item>
+      <title>Constructors and Destructors</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-constructors-destructors/</link>
+      <pubDate>Mon, 18 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-constructors-destructors/</guid>
+      <description>Constructors Every class comes with four hidden functions.
+ Default Constructor Parameterized Constructor Copy Constructors Destructor  Default Constructors  They have the same name as the class and do not have any return type. They are provided implicitly and they initialise with 0.  class me{me(){// they have nothing inside}}Parameterized Constructors If we write something inside and parameterize it, then it is called parameterized constructor.</description>
+    </item>
+    
+    <item>
+      <title>Object-Oriented Programming in C&#43;&#43;</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-oops-in-c&#43;&#43;/</link>
+      <pubDate>Mon, 18 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-oops-in-c&#43;&#43;/</guid>
+      <description>Goals Everything in the real-world has a name and a functionality associated with it. Ex - A name of an object is &amp;ldquo;Dog&amp;rdquo;, it can have various parameters like breed, length, height, or the functions it can perform like running, eating, sleeping.
+What we can do is that we can create objects of a Dog and then whenever we want to store different information about any Dog, we can use that object again and again.</description>
+    </item>
+    
+    <item>
+      <title>STL - Vectors and Generic Programming</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-vectors-and-generic/</link>
+      <pubDate>Mon, 18 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-vectors-and-generic/</guid>
+      <description>Vectors They are data structures in C++ just like arrays but they have size that is capped only by the amount of space we can possibly allocate.
+ Header files:  #include&amp;lt;vector&amp;gt; Declaration:  vector&amp;lt;int&amp;gt; v; // vector&amp;lt;data_type&amp;gt; name;As Function Parameter Passed by Reference:
+int func(int n, vector&amp;lt;int&amp;gt; &amp;amp;v) { }Built in Functions  v.push_back(x) - Pushes the element(x) inside the vector. v.pop_back(x) - Pops the element(x) from the vector.</description>
+    </item>
+    
+    <item>
+      <title>STL - Strings</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-strings/</link>
+      <pubDate>Mon, 18 Jun 2018 00:00:00 +0530</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-18-strings/</guid>
+      <description>Strings string is an in-built class in C++.
+string name;string s(&amp;quot;Abhishek&amp;quot;);string s1 = &amp;quot;Abhishek&amp;quot;;string s3;getline(cin, s3);For further info, refer here.</description>
+    </item>
+    
+    <item>
+      <title>Bitwise Operations and Recursion</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-10-bitwise-and-recursion/</link>
+      <pubDate>Sun, 10 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-10-bitwise-and-recursion/</guid>
+      <description>BITWISE Operator &amp;gt;&amp;gt; Right Shift Operator - results in 2^(number of times shifted)&amp;lt;&amp;lt; Left Shift Operator  Bitwise AND (&amp;amp;) yields an integer value. Bitwise OR (|) yields an integer value. Bitwise XOR (^) yields either 0 or 1. To identify if the last bit is SET(=1), AND(&amp;amp;) the number with 1.  Recursion int factorial(int n){if(n==0)	// Base Case{return 1;}int smallFact = factorial(n-1);	// Recurrence RelationFact = smallFact * n;return Fact;}</description>
+    </item>
+    
+    <item>
+      <title>Pointers</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-09-pointers/</link>
+      <pubDate>Sat, 09 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-09-pointers/</guid>
+      <description>Address  There exists one more data type called as &amp;ldquo;Address Data Type&amp;rdquo; which is used to store data. It has certain limitations in arithmetic operations that can be done with it and it is often represented as a Hex value. It behaves much like a real-world address. Address of anything is basically its starting address location (address). e.g. Arrays, etc&amp;hellip;  Meaning and Syntax  int *ptr = &amp;amp;x; - This statement creates a variable named &amp;ldquo;ptr&amp;rdquo; that stores address (data type) of the integer variable &amp;lsquo;x&amp;rsquo; - ptr is also called a Pointer.</description>
+    </item>
+    
+    <item>
+      <title>My Sublime Environment for Coding</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-07-my-sublime-env/</link>
+      <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-07-my-sublime-env/</guid>
+      <description>Preliminaries  Download and copy /MinGW/bin path to the Environment Variables. Download Link - www.cb.lk/compile Setup Guide. Link - https://medium.com/@aggarwaldeepak/c-learning-environment-3df85a46784b  Sublime Packages Keyboard Shortcut: Ctrl+Shift+P -&amp;gt; Install Packages -&amp;gt; &amp;ldquo;Package Name&amp;rdquo;
+ SublimeAStyleFormatter Terminal Wakatime  More Keyboard Shortcuts  For Building/Compiling: Ctrl+B For Powershell Terminal: Ctrl+Shift+T For Auto-formatting the code: Ctrl+Alt+F For New Tab: Ctrl+N For Closing Current Tab: Ctrl+W For Saving Current: Ctrl+S For Saving As.. Current: Ctrl+Shift+S For Switching Tabs: Ctrl + Tab For Scrolling Up/Down: Ctrl + Up/Down Key For Inserting HTML Tags: write tagname and then press Tab For Multiple Coloumns: Alt + Shift + number of coloumns (max.</description>
+    </item>
+    
+    <item>
+      <title>Quick Jots</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-07-quick-jots/</link>
+      <pubDate>Thu, 07 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-07-quick-jots/</guid>
+      <description> The most significant dimension of an array is optional while defining a function with array as an argument.  int example(int arr[][3][3], int n) { }	// Function Definition Short-circuit Evaluation  while(i &amp;lt; len &amp;amp;&amp;amp; arr[i] == 100)	// if first condition is false, second is never evaluatedwhile(i &amp;lt; len || arr[i] == 100)	// if first condition is true, second is never evaluatedwhile(i &amp;lt; len &amp;amp;&amp;amp; arr[i] == 100)while(arr[i] == 100 &amp;amp;&amp;amp; i &amp;lt; len) // both these statements are not equivalent as second returns a segmentation fault, because the first is evaluated first	</description>
+    </item>
+    
+    <item>
+      <title>Important Points</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-07-imp/</link>
+      <pubDate>Wed, 06 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-07-imp/</guid>
+      <description>Arrays are always passed by reference, be it character array(string) in C++.  cin  cin ifnores whitespaces and reads only non-whitespace characters, cin reads from a file known as &amp;lsquo;stdin&amp;rsquo;&amp;ldquo;istream&amp;rdquo; and cin can be invalidated by supplying value of a type that is not expected, cin gets invalidated and never takes any input throughout the rest of the program.  return cin; //will return false if cin has been invalidated beforeWe can re-validate cin by cin.</description>
+    </item>
+    
+    <item>
+      <title>Reference and Array Sorting Algorithms</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-03-references/</link>
+      <pubDate>Sun, 03 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-06-03-references/</guid>
+      <description>Pass by Reference void myswap(int &amp;amp;n1, int &amp;amp;n2) //formal parameters	/*Called Function	Pass by Reference*/{int temp=n1;n1=n2;n2=temp;}int main()	// Calling Function{int a,b;cin&amp;gt;&amp;gt;a&amp;gt;&amp;gt;b;myswap(a,b);	//arguments or actual parameters	// Function call independent of pass methodcout&amp;lt;&amp;lt;a&amp;lt;&amp;lt;&amp;quot; &amp;quot;&amp;lt;&amp;lt;b;}	  Pass by Value - New variables are created	- Pass by Reference	- New variables are not created, new names are given to the existing variables.</description>
+    </item>
+    
+    <item>
+      <title>All Notes</title>
+      <link>https://hashdefine.netlify.app/c&#43;&#43;/2018-07-08-all/</link>
+      <pubDate>Fri, 01 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/c&#43;&#43;/2018-07-08-all/</guid>
+      <description>Links for all programming notes. [Day-] - Functions and Arrays
+[Day-] - Reference and Array Sorting Algorithms
+[PDF Download](/cb/Class 5 (as PDF).pdf)</description>
+    </item>
+    
+    <item>
+      <title>Credits</title>
+      <link>https://hashdefine.netlify.app/credits/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://hashdefine.netlify.app/credits/</guid>
+      <description>Contributors Thanks to matcornic and all the contributors for the awesome learn theme.
+Packages and libraries  mermaid - generation of diagram and flowchart from text in a similar manner as markdown font awesome - the iconic font and CSS framework jQuery - The Write Less, Do More, JavaScript Library lunr - Lunr enables you to provide a great search experience without the need for external, server-side, search services&amp;hellip; horsey - Progressive and customizable autocomplete component clipboard.</description>
+    </item>
+    
+  </channel>
+</rss>

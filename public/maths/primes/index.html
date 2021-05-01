@@ -1,0 +1,3441 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.82.1" />
+    <meta name="description" content="My notes and elucidations revolving around programming.">
+<meta name="author" content="Abhishek Arya">
+
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <title>Prime Numbers :: #Define</title>
+
+    
+    <link href="/css/nucleus.css?1619856148" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1619856148" rel="stylesheet">
+    <link href="/css/hybrid.css?1619856148" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1619856148" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1619856148" rel="stylesheet">
+    <link href="/css/auto-complete.css?1619856148" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1619856148" rel="stylesheet">
+    <link href="/css/theme.css?1619856148" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1619856148" rel="stylesheet">
+    
+    <link href="/css/theme-blue.css?1619856148" rel="stylesheet">
+    
+    
+
+    <script src="/js/jquery-3.3.1.min.js?1619856148"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+        :not(pre) > code + span.copy-to-clipboard {
+            display: none;
+        }
+      
+    </style>
+    
+<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+
+
+  </head>
+  <body class="" data-url="/maths/primes/">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="https://hashdefine.netlify.app/">
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="50mm"
+   height="15mm"
+   viewBox="0 0 100 35"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="er.svg"
+   inkscape:export-filename="C:\Users\Abhishek\Documents\GitHub\Hash-Define-myNotes\static\images\text4487.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="-7.5772008"
+     inkscape:cy="345.5202"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-262)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:Neuton;-inkscape-font-specification:Neuton;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="-0.37797296"
+       y="288.68454"
+       id="text4487"
+       inkscape:export-filename="C:\Users\Abhishek\Documents\GitHub\Hash-Define-myNotes\static\images\text4487.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         sodipodi:role="line"
+         id="tspan4485"
+         x="-0.37797296"
+         y="288.68454"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:25.39999962px;font-family:'Fira Code';-inkscape-font-specification:'Fira Code Medium';letter-spacing:-0.79374999px;stroke-width:0.26458332;fill:#ffffff;fill-opacity:1">#define</tspan></text>
+  </g>
+</svg>
+
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/js/lunr.min.js?1619856148"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1619856148"></script>
+<script type="text/javascript">
+    
+        var baseurl = "https:\/\/hashdefine.netlify.app\/";
+    
+</script>
+<script type="text/javascript" src="/js/search.js?1619856148"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c/" title="C Programming" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c/">
+          <i class='devicon-c-plain'></i> C Programming
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c/c-dennis-ritchie/" title="C Programming by Dennis Ritchie" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c/c-dennis-ritchie/">
+          <i class='fas fa-code'></i> C Programming by Dennis Ritchie
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-21-preface/" title="Preface" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-21-preface/">
+        <b>0. </b>Preface
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-21-c-programming-chapter-1/" title="A Tutorial Introduction" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-21-c-programming-chapter-1/">
+        <b>1. </b>A Tutorial Introduction
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-2/" title="Types, Operators, and Expressions " class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-2/">
+        <b>2. </b>Types, Operators, and Expressions 
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-3/" title="Control Flow" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-3/">
+        <b>3. </b>Control Flow
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-4/" title="Functions and Program Structure" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-4/">
+        <b>4. </b>Functions and Program Structure
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-24-c-programming-chapter-5/" title="Pointers and Arrays" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-24-c-programming-chapter-5/">
+        <b>5. </b>Pointers and Arrays
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-26-c-programming-chapter-6/" title="Structures" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-26-c-programming-chapter-6/">
+        <b>6. </b>Structures
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-27-c-programming-chapter-7/" title="Input and Output" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-27-c-programming-chapter-7/">
+        <b>7. </b>Input and Output
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c/gfg-c/" title="C - GeeksforGeeks" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c/gfg-c/">
+          <i class='fas fa-code'></i> C - GeeksforGeeks
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/tips/" title="Useful Stuff" class="dd-item ">
+        <a href="/c/gfg-c/tips/">
+        Useful Stuff
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/string_functions/" title="Character and String Functions" class="dd-item ">
+        <a href="/c/gfg-c/string_functions/">
+        Character and String Functions
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/stdio/" title="Some &lt;stdio.h&gt; I/O Functions" class="dd-item ">
+        <a href="/c/gfg-c/stdio/">
+        Some &lt;stdio.h&gt; I/O Functions
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/struct_alignment/" title="Structure Alignment, Padding and Packing" class="dd-item ">
+        <a href="/c/gfg-c/struct_alignment/">
+        Structure Alignment, Padding and Packing
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/functions_in_c/" title="Functions_in_C" class="dd-item ">
+        <a href="/c/gfg-c/functions_in_c/">
+        Functions_in_C
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/pointer_in_c/" title="Pointers in C" class="dd-item ">
+        <a href="/c/gfg-c/pointer_in_c/">
+        Pointers in C
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/behaviour_in_c/" title="Undefined, Unspecified, and Implementation-Defined Behavior in C" class="dd-item ">
+        <a href="/c/gfg-c/behaviour_in_c/">
+        Undefined, Unspecified, and Implementation-Defined Behavior in C
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c&#43;&#43;/" title="C&#43;&#43; Programming" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c&#43;&#43;/">
+          <i class='devicon-cplusplus-plain'></i> C&#43;&#43; Programming
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-01-functions-and-arrays/" title="Functions and Arrays" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-01-functions-and-arrays/">
+        Functions and Arrays
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-const/" title="Const" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-const/">
+        Const
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-constructors-destructors/" title="Constructors and Destructors" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-constructors-destructors/">
+        Constructors and Destructors
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-oops-in-c&#43;&#43;/" title="Object-Oriented Programming in C&#43;&#43;" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-oops-in-c&#43;&#43;/">
+        Object-Oriented Programming in C&#43;&#43;
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-vectors-and-generic/" title="STL - Vectors and Generic Programming" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-vectors-and-generic/">
+        STL - Vectors and Generic Programming
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-strings/" title="STL - Strings" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-strings/">
+        STL - Strings
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-10-bitwise-and-recursion/" title="Bitwise Operations and Recursion" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-10-bitwise-and-recursion/">
+        Bitwise Operations and Recursion
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-09-pointers/" title="Pointers" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-09-pointers/">
+        Pointers
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-07-my-sublime-env/" title="My Sublime Environment for Coding" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-07-my-sublime-env/">
+        My Sublime Environment for Coding
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-07-quick-jots/" title="Quick Jots" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-07-quick-jots/">
+        Quick Jots
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-07-imp/" title="Important Points" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-07-imp/">
+        Important Points
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-03-references/" title="Reference and Array Sorting Algorithms" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-03-references/">
+        Reference and Array Sorting Algorithms
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-07-08-all/" title="All Notes" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-07-08-all/">
+        All Notes
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c&#43;&#43;-language-specifics/" title="C&#43;&#43; Language Specifics" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c&#43;&#43;-language-specifics/">
+          <i class='devicon-devicon-plain'></i> C&#43;&#43; Language Specifics
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;-language-specifics/basics/" title="Headers, Macros, and Compiler Flags" class="dd-item ">
+        <a href="/c&#43;&#43;-language-specifics/basics/">
+        <b>0. </b>Headers, Macros, and Compiler Flags
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;-language-specifics/useful-functions/" title="Useful Functions" class="dd-item ">
+        <a href="/c&#43;&#43;-language-specifics/useful-functions/">
+        <b>1. </b>Useful Functions
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/competitive-programming/" title="Competitive Programming" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/competitive-programming/">
+          👨‍💻 Competitive Programming
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/maths/" title="Maths for CP" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/maths/">
+          🧮 Maths for CP
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/basics/" title="Basics" class="dd-item ">
+        <a href="/maths/basics/">
+        <b>0.</b> Basics
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/gcd/" title="GCD, LCM, and Euclidean Algorithm" class="dd-item ">
+        <a href="/maths/gcd/">
+        <b>1.</b> GCD, LCM, and Euclidean Algorithm
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/gcd-adv/" title="GCD and LCM Advanced" class="dd-item ">
+        <a href="/maths/gcd-adv/">
+        <b>2.</b> GCD and LCM Advanced
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/primes/" title="Prime Numbers" class="dd-item active">
+        <a href="/maths/primes/">
+        <b>3.</b> Prime Numbers
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/prime-factorization/" title="Prime Factorization and Divisors" class="dd-item ">
+        <a href="/maths/prime-factorization/">
+        <b>4.</b> Prime Factorization and Divisors
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/fibonacci/" title="Fibonacci Numbers" class="dd-item ">
+        <a href="/maths/fibonacci/">
+        <b>5.</b> Fibonacci Numbers
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/divisibility/" title="Divisibility" class="dd-item ">
+        <a href="/maths/divisibility/">
+        <b>6.</b> Divisibility
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/modular-arithmetic/" title="Modular Arithmetic" class="dd-item ">
+        <a href="/maths/modular-arithmetic/">
+        <b>6.</b> Modular Arithmetic
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/bit/" title="Bitwise Algorithms" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/bit/">
+          <i class='fas fa-microchip'></i> Bitwise Algorithms
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/bit/basics/" title="Basics" class="dd-item ">
+        <a href="/bit/basics/">
+        <b>0.</b> Basics
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/bit/applications/" title="Applications" class="dd-item ">
+        <a href="/bit/applications/">
+        <b>1.</b> Applications
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/python/" title="Python Notes" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/python/">
+          <i class='devicon-python-plain'></i> Python Notes
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/python/notes/" title="Notes" class="dd-item ">
+        <a href="/python/notes/">
+        Notes
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/python/oops/" title="OOP" class="dd-item ">
+        <a href="/python/oops/">
+        OOP
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/python/adv/" title="Advanced" class="dd-item ">
+        <a href="/python/adv/">
+        Advanced
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/flask/" title="Flask" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/flask/">
+          <i class='fas fa-flask'></i> Flask
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/flask/notes/" title="Flask" class="dd-item ">
+        <a href="/flask/notes/">
+        Flask
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/git/" title="Git" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/git/">
+          <i class='devicon-git-plain'></i> Git
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/git/notes/" title="Git" class="dd-item ">
+        <a href="/git/notes/">
+        Git
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/rdbms/" title="RDBMS" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/rdbms/">
+          <i class='fas fa-table'></i> RDBMS
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rdbms/concepts/" title="Concepts" class="dd-item ">
+        <a href="/rdbms/concepts/">
+        <i class='far fa-lightbulb'></i> Concepts
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rdbms/mysql/" title="MySQL" class="dd-item ">
+        <a href="/rdbms/mysql/">
+        <i class='devicon-mysql-plain'></i> MySQL
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rdbms/postgresql/" title="PostgreSQL" class="dd-item ">
+        <a href="/rdbms/postgresql/">
+        <i class='devicon-postgresql-plain'></i> PostgreSQL
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/nosql/" title="NoSQL Databases" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/nosql/">
+          <i class='fas fa-database'></i> NoSQL Databases
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/nosql/architecture/" title="Architecture" class="dd-item ">
+        <a href="/nosql/architecture/">
+        <i class='fas fa-sitemap'></i> Architecture
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/nosql/mongodb/" title="MongoDB" class="dd-item ">
+        <a href="/nosql/mongodb/">
+        <i class='devicon-mongodb-plain'></i> MongoDB
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/regex/" title="Regex" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/regex/">
+           Regex
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/regex/resources/" title="Resources" class="dd-item ">
+        <a href="/regex/resources/">
+        Resources
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/regex/notes/" title="Notes" class="dd-item ">
+        <a href="/regex/notes/">
+        Notes
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/linux-and-tools/" title="Linux and Tools" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/linux-and-tools/">
+           Linux and Tools
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/linux-and-tools/terminal/" title="Terminal" class="dd-item ">
+        <a href="/linux-and-tools/terminal/">
+        Terminal
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/linux-and-tools/awk/" title="Awk" class="dd-item ">
+        <a href="/linux-and-tools/awk/">
+        Awk
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/linux-and-tools/shell-scripting/" title="Shell Scripting" class="dd-item ">
+        <a href="/linux-and-tools/shell-scripting/">
+        Shell Scripting
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="https://github.com/abhishekarya1"><i class='fab fa-github'></i> Github </a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://abhishekarya1.github.io"><i class='fas fa-laptop-code'></i> Blog</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://hashdefine.netlify.app/credits"><i class='fas fa-bullhorn'></i> Credits</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <p>Built with <a href="https://github.com/matcornic/hugo-theme-learn"><i class="fas fa-heart"></i></a> from <a href="https://getgrav.org">Grav</a> and <a href="https://gohugo.io/">Hugo</a></p>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>#define HOME</a> > <a href='/maths/'>Maths for CP</a> > Prime Numbers
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#properties-conjectures-and-theorems">Properties, Conjectures and Theorems</a></li>
+        <li><a href="#other-interesting-numbers">Other interesting Numbers</a></li>
+        <li><a href="#primality-tests">Primality Tests</a></li>
+        <li><a href="#find-all-primes-upto-n-sieves">Find all primes upto N (Sieves)</a></li>
+        <li><a href="#goldbachs-conjecture-and-applications">Goldbach&rsquo;s Conjecture and Applications</a></li>
+        <li><a href="#references">References</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Prime Numbers
+            </h1>
+          
+
+        
+
+
+<h3 id="properties-conjectures-and-theorems">Properties, Conjectures and Theorems</h3>
+<p><strong>Definition:</strong> A prime number is a number greater than 1 that has exactly two positive integer divisors, 1 and itself.</p>
+<ol start="0">
+<li>1 is neither a prime, nor a composite.</li>
+<li>2 is the only even prime.</li>
+<li>Only consecutive primes are 2 and 3.</li>
+<li>Every prime number can represented in form of <code>6n±1</code> except 2 and 3, where <em>n</em> is natural number.</li>
+<li>There are infinitely many primes.</li>
+<li><a href="https://en.wikipedia.org/wiki/Prime_number_theorem">Prime Number Theorem</a> - The number of primes till <em>n</em> are approximately equal to <code>n /ln (n)</code> when <em>n</em> is large. Alternatively, the probability that a given, randomly chosen number <em>n</em> is prime is inversely proportional to its number of digits, or to the logarithm of <em>n</em>.</li>
+<li><a href="https://en.wikipedia.org/wiki/Goldbach%27s_conjecture">Goldbach&rsquo;s conjecture</a> - Every even integer greater than 2 can be expressed as the sum of two primes.</li>
+<li><a href="https://en.wikipedia.org/wiki/Lemoine%27s_conjecture">Lemoine&rsquo;s conjecture</a> - Any odd integer greater than 5 can be expressed as a sum of an odd prime and an even semiprime.</li>
+<li><a href="https://www.geeksforgeeks.org/legendres-conjecture/">Legendre’s Conjecture</a> - It says that there is always one prime number between any two consecutive natural number&rsquo;s (n = 1, 2, 3, 4, 5, …) square.</li>
+<li><a href="https://www.geeksforgeeks.org/bertrands-postulate/">Bertrand&rsquo;s postulate</a> - Bertrand&rsquo;s postulate is a theorem stating that for any integer <em>n &gt; 3</em>, there always exists at least one prime number <em>p</em> with <em>n &lt; p &lt; 2n-2</em>.</li>
+<li>GCD of 2 primes is always 1.</li>
+<li><a href="https://www.geeksforgeeks.org/euclids-lemma/">Euclid&rsquo;s lemma</a> - If a prime <em>p</em> divides <em>a * b</em>, then, <em>p</em> divides at least one of <em>a</em> and <em>b</em>. For example, <em>2|(6*9) =&gt; 2|6</em>. This may or may not be true for any non-prime instead of <em>p</em>.</li>
+<li><a href="https://en.wikipedia.org/wiki/Hardy%E2%80%93Ramanujan_theorem">Hardy-Ramanujan Theorem</a> - The number of prime factors of <em>n</em> will approximately be <em>log(log(n))</em> for most natural numbers <em>n</em>.</li>
+<li><a href="https://www.geeksforgeeks.org/rossers-theorem/">Rosser&rsquo;s Theorem</a> - The <em>n<!-- raw HTML omitted -->th<!-- raw HTML omitted --></em> prime number is greater than the product of <em>n</em> and natural logarithm of <em>n</em> for all <em>n</em> greater than 1. Mathematically, For <em>n &gt;= 1</em>, if <em>p</em> is the <em>n<!-- raw HTML omitted -->th<!-- raw HTML omitted --></em> prime number, then <code>p &gt; n * (ln n)</code>.</li>
+<li><a href="https://www.geeksforgeeks.org/fermats-little-theorem/">Fermat&rsquo;s Little Theorem</a></li>
+<li><a href="https://www.geeksforgeeks.org/euclid-euler-theorem/">Euclid Euler Theorem</a></li>
+<li><a href="https://www.geeksforgeeks.org/the-ulam-spiral/">Ulam Spiral or Prime Spiral</a></li>
+</ol>
+<h3 id="other-interesting-numbers">Other interesting Numbers</h3>
+<ol start="0">
+<li>
+<p><strong>Co-Primes -</strong> Two numbers, <em>a</em> and <em>b</em> are said to be co-prime iff <em>gcd(a,b) = 1</em>. Two conecutive numbers are always co-prime. Any prime number is co-prime with every other number.</p>
+</li>
+<li>
+<p><strong>Twin Prime -</strong> A twin prime is a prime number that is either 2 less or 2 more than another prime number—for example, either member of the twin prime pair (11, 13). In other words, a twin prime is a prime that has a prime gap of two.</p>
+</li>
+<li>
+<p><strong>Prime Triplet -</strong> Prime Triplet is a set of three prime numbers of the form <em>(p, p+2, p+6)</em> or <em>(p, p+4, p+6)</em>.</p>
+</li>
+<li>
+<p><strong>Semiprime -</strong> A semiprime number is a natural number that is a product of two prime numbers. Semiprimes include the squares of prime numbers. Because there are infinitely many prime numbers, there are also infinitely many semiprimes. Ex - 4, 6, 9, 10, 14, 15&hellip;</p>
+</li>
+<li>
+<p><strong>Mersenne Primes -</strong> A Mersenne prime is a prime that can be expressed as <em>2<!-- raw HTML omitted -->p<!-- raw HTML omitted -->-1</em>, where <em>p</em> is a prime number. They are extremely rare. Note that having the form of <em>2<!-- raw HTML omitted -->p<!-- raw HTML omitted -->-1</em> does not guarantee that the number is prime. Ex - 2<!-- raw HTML omitted -->11<!-- raw HTML omitted -->-1 is not a prime. <code>The largest known prime is a Mersenne Prime discovered using Lucas-Lehmer Series</code>.</p>
+</li>
+<li>
+<p><strong>Emirps -</strong> An emirp (prime spelled backwards) is a prime number that results in a different prime when its decimal digits are reversed. This definition excludes the related palindromic primes. The term reversible prime may be used to mean the same as emirp, but may also, ambiguously, include the palindromic primes. Ex -  13, 17, 31, 37, 71, 73, 79, 97, 107, 113, &hellip;</p>
+</li>
+<li>
+<p><strong>Special Primes -</strong> A prime number is said to be Special prime number if it can be expressed as the sum of three integer numbers: two neighboring prime numbers and 1. For example, 19 = 7 + 11 + 1, or 13 = 5 + 7 + 1.</p>
+</li>
+<li>
+<p><strong>Left and Right Truncatable Prime -</strong> If we keep on removing a digit from left or right, the number still remains a prime. Ex - 317.</p>
+</li>
+<li>
+<p><strong>Super Primes -</strong> also known as <em>higher order primes</em> are the subsequence of prime numbers that occupy prime-numbered positions within the sequence of all prime numbers. First few Super-Primes are 3, 5, 11 and 17. Since, 3 occupies the 2nd position and so on&hellip;</p>
+</li>
+<li>
+<p><strong>Palindromic Primes -</strong> sometimes called a <em>palprime</em> is a prime number that is also a palindromic number. Ex - 2, 3, 5, 7, 11&hellip;</p>
+</li>
+<li>
+<p><strong>Sophie Germain Prime -</strong> A prime number p is called a sophie prime number if <em>2p+1</em> is also a prime number. The number <em>2p+1</em> is called a <em>safe prime</em>. For example 11 is a prime number and 11*2 + 1 = 23 is also a prime number so, 11 is sophie germain prime number.</p>
+</li>
+<li>
+<p><strong>Almost Prime -</strong> A k-Almost Prime Number is a number having exactly k prime factors (not necessary distinct)
+For example,
+2, 3, 5, 7, 11 ….(in fact all prime numbers) are 1-Almost Prime Numbers as they have only 1 prime factors (which is themselves).
+4, 6, 9…. are 2-Almost Prime Numbers as they have exactly 2 prime factors (4 = 2*2, 6 = 2*3, 9 = 3*3) 
+Similarly 32 is a 5-Almost Prime Number (32 = 2*2*2*2*2) and so is 72 (2*2*2*3*3).</p>
+</li>
+<li>
+<p><strong>Pernicious Number -</strong> A pernicious number is a positive integer which has prime number of ones in its binary representation. The first pernicious number is 3 since 3 = (0011)(in binary representation) and 1 + 1 = 2, which is a prime.</p>
+</li>
+<li>
+<p><strong>Twisted Prime -</strong> If a prime&rsquo;s reverse is also a prime number. Ex - 31 and 13.</p>
+</li>
+<li>
+<p><strong>Balanced Prime -</strong> If a prime is equal to the (sum of its neighbours) / 2. Ex - 5, 53, 157, 173, &hellip;</p>
+</li>
+<li>
+<p><strong>Sexy Prime -</strong> In mathematics, Sexy Primes are prime numbers that differ from each other by six. For example, the numbers 5 and 11 are both sexy primes, because they differ by 6. For a prime p, if p + 2 or p + 4 (where p is the lower prime) is also prime.</p>
+</li>
+<li>
+<p><strong>Pierpont Prime -</strong> A Pierpont Prime is a prime number of the form <em>p = 2<!-- raw HTML omitted -->l<!-- raw HTML omitted -->.3<!-- raw HTML omitted -->k<!-- raw HTML omitted --> + 1</em> (having factors 2 and 3 only + 1). First few Pierpont prime numbers are 2, 3, 5, 7, 13, 17, 19, 37, 73, 97, 109, …</p>
+</li>
+<li>
+<p><a href="https://www.geeksforgeeks.org/newman-shanks-williams-prime/"><strong>Newman–Shanks–Williams Prime</strong></a></p>
+</li>
+<li>
+<p><strong>Fermat Numbers -</strong> A number of the form <em>2<!-- raw HTML omitted -->x<!-- raw HTML omitted --> + 1</em> (where x &gt; 0) is prime if and only if x is a power of 2, i.e., x = 2<!-- raw HTML omitted -->n<!-- raw HTML omitted -->. So overall number becomes <em>2<!-- raw HTML omitted -->2<!-- raw HTML omitted -->n<!-- raw HTML omitted --><!-- raw HTML omitted --> + 1</em>. The first few Fermat numbers are 3, 5, 17, 257, 65537, 4294967297, &hellip; An important thing to note is a number of this is not always prime.</p>
+</li>
+<li>
+<p><strong>Circular Prime -</strong> A prime number is a Circular Prime Number if all of its possible rotations are itself prime numbers.</p>
+</li>
+<li>
+<p><strong>Permutable Prime -</strong> A Permutable prime number is that number which after switching the position of digits through any permutation is also prime. Some of the permutable prime numbers are 2, 3, 5, 7, 11, etc.</p>
+</li>
+</ol>
+<h3 id="primality-tests">Primality Tests</h3>
+<h4 id="1-school-method">1. School Method</h4>
+<p>Uses the fact that a composite number must have atleast one <em>prime</em> factor till <em>sqrt(n)</em> (obviously).</p>
+<p>Link: <a href="https://www.geeksforgeeks.org/primality-test-set-1-introduction-and-school-method/">https://www.geeksforgeeks.org/primality-test-set-1-introduction-and-school-method/</a></p>
+<p><code>Time = O(√n)</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">//School Method. Time = O(sqrt(n))
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isPrime</span>(<span style="color:#66d9ef">int</span> n)
+{
+	<span style="color:#66d9ef">if</span>(n <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> false;
+
+	<span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i<span style="color:#f92672">*</span>i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>)		<span style="color:#75715e">//better than using sqrt()
+</span><span style="color:#75715e"></span>	{
+		<span style="color:#66d9ef">if</span>(n <span style="color:#f92672">%</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> false;
+	}
+
+	<span style="color:#66d9ef">return</span> true;
+}
+</code></pre></div><h4 id="11-optimized-school-method">1.1 Optimized School Method</h4>
+<p><code>Time = O(√n)</code></p>
+<p><strong>Optimization:</strong> We can check only odd numbers after 2 in the range 3 to sqrt(n).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isPrime</span>(<span style="color:#66d9ef">int</span> n) 
+{ 
+    <span style="color:#75715e">// check if n is a multiple of 2 
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) 
+        <span style="color:#66d9ef">return</span> false; 
+  
+    <span style="color:#75715e">// if not, then just check the odds 
+</span><span style="color:#75715e"></span>    <span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">3</span>; i <span style="color:#f92672">*</span> i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">2</span>)  
+        <span style="color:#66d9ef">if</span> (n <span style="color:#f92672">%</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) 
+            <span style="color:#66d9ef">return</span> false;     
+    <span style="color:#66d9ef">return</span> true; 
+} 
+</code></pre></div><p><strong>Optimization:</strong> We can check only numbers of the form <em>6k±1</em> in the range 2 to sqrt(n).</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">isPrimeOptimized</span>(<span style="color:#66d9ef">int</span> n)
+{
+	<span style="color:#66d9ef">if</span>(n <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> false;
+	<span style="color:#66d9ef">if</span>(n <span style="color:#f92672">&lt;=</span> <span style="color:#ae81ff">3</span>) <span style="color:#66d9ef">return</span> true;
+
+	<span style="color:#75715e">//remove multiples of 2 and 3
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span>(n <span style="color:#f92672">%</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">||</span> n <span style="color:#f92672">%</span> <span style="color:#ae81ff">3</span> <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+		<span style="color:#66d9ef">return</span> false;
+
+	<span style="color:#75715e">//from 5 check all multiples of the form 6k±1 (prime factors only)
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">5</span>; i<span style="color:#f92672">*</span>i <span style="color:#f92672">&lt;=</span> n; i <span style="color:#f92672">+=</span> <span style="color:#ae81ff">6</span>)
+	{
+		<span style="color:#66d9ef">if</span>(n <span style="color:#f92672">%</span> i <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span> <span style="color:#f92672">&amp;&amp;</span> n <span style="color:#f92672">%</span> (i<span style="color:#f92672">+</span><span style="color:#ae81ff">2</span>) <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>)
+			<span style="color:#66d9ef">return</span> false;
+	}
+
+	<span style="color:#66d9ef">return</span> true;
+}
+</code></pre></div><h4 id="2-fermats-method">2. Fermat&rsquo;s Method</h4>
+<p>Probabilistic test based on Fermat&rsquo;s Little Theorem. <a href="https://en.wikipedia.org/wiki/Carmichael_number">Carmichael numbers</a> are composite numbers which fail this test. Carmichael numbers are also called <em>Fermat pseudoprimes</em>.</p>
+<p>Link: <a href="https://www.geeksforgeeks.org/primality-test-set-2-fermet-method/">https://www.geeksforgeeks.org/primality-test-set-2-fermet-method/</a></p>
+<p><strong>If p is a prime number, then for every a, 1 &lt; a &lt; p-1,<br>
+a<!-- raw HTML omitted -->p-1<!-- raw HTML omitted --> ≡ 1 (mod p)
+OR 
+a<!-- raw HTML omitted -->p<!-- raw HTML omitted -->-1 % p = 1</strong></p>
+<h4 id="3-miller-rabin-test">3. Miller-Rabin Test</h4>
+<p>This method is a probabilistic method (Like Fermat), but it generally preferred over Fermat’s method.</p>
+<p>Link: <a href="https://www.geeksforgeeks.org/primality-test-set-3-miller-rabin/">https://www.geeksforgeeks.org/primality-test-set-3-miller-rabin/</a></p>
+<h4 id="4-solovay-strassen-test">4. Solovay-Strassen Test</h4>
+<p>Link: <a href="https://www.geeksforgeeks.org/primality-test-set-4-solovay-strassen/">https://www.geeksforgeeks.org/primality-test-set-4-solovay-strassen/</a></p>
+<h4 id="5-lucas-primality-test">5. Lucas Primality Test</h4>
+<p>Link: <a href="https://www.geeksforgeeks.org/lucas-primality-test/">https://www.geeksforgeeks.org/lucas-primality-test/</a></p>
+<h4 id="6-lucas-lehmer-series">6. Lucas-Lehmer Series</h4>
+<p>Link: <a href="https://www.geeksforgeeks.org/primality-test-set-5using-lucas-lehmer-series/">https://www.geeksforgeeks.org/primality-test-set-5using-lucas-lehmer-series/</a></p>
+<h4 id="7-aks-primality-test">7. AKS Primality Test</h4>
+<p><a href="https://en.wikipedia.org/wiki/Galactic_algorithm">Galactic Algorithm</a></p>
+<p>Link: <a href="https://www.geeksforgeeks.org/aks-primality-test/">https://www.geeksforgeeks.org/aks-primality-test/</a></p>
+<h4 id="8-wilsons-theorem">8. Wilson&rsquo;s Theorem</h4>
+<p>Link: <a href="https://www.geeksforgeeks.org/wilsons-theorem/">https://www.geeksforgeeks.org/wilsons-theorem/</a>
+Link: <a href="https://www.geeksforgeeks.org/implementation-of-wilson-primality-test/">https://www.geeksforgeeks.org/implementation-of-wilson-primality-test/</a></p>
+<h4 id="9-vantieghems-theorem-for-primality-test">9. Vantieghems Theorem for Primality Test</h4>
+<p>Checks primes only till 11.</p>
+<p>Link: <a href="https://www.geeksforgeeks.org/vantieghems-theorem-primality-test/">https://www.geeksforgeeks.org/vantieghems-theorem-primality-test/</a></p>
+<h4 id="10-lehmanns-primality-test">10. Lehmann&rsquo;s Primality Test</h4>
+<p>Link: <a href="https://www.geeksforgeeks.org/lehmanns-primality-test/">https://www.geeksforgeeks.org/lehmanns-primality-test/</a></p>
+<h3 id="find-all-primes-upto-n-sieves">Find all primes upto N (Sieves)</h3>
+<h4 id="sieve-of-eratosthenes">Sieve of Eratosthenes</h4>
+<p><code>Time = O(n*log(log(n)))</code></p>
+<p>Complexity Analysis: <a href="https://www.geeksforgeeks.org/how-is-the-time-complexity-of-sieve-of-eratosthenes-is-nloglogn/">https://www.geeksforgeeks.org/how-is-the-time-complexity-of-sieve-of-eratosthenes-is-nloglogn/</a></p>
+<p><strong>Algorithm:</strong> <!-- raw HTML omitted --></p>
+<ol>
+<li>Create a list of numbers from 1 to n (size = n+1), and mark all as 1/true, mark 1 as 0 <!-- raw HTML omitted --></li>
+<li>Start from 2 and, <!-- raw HTML omitted --></li>
+<li>Check if 1, if it is then mark all its multiples from i*i till n as 0 <!-- raw HTML omitted --></li>
+<li>Repeat this while i &lt;= sqrt(n)</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">void</span> <span style="color:#a6e22e">primeSieve</span>(<span style="color:#66d9ef">int</span> n)
+{
+	vector<span style="color:#f92672">&lt;</span><span style="color:#66d9ef">int</span><span style="color:#f92672">&gt;</span> s(n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>, <span style="color:#ae81ff">1</span>);		<span style="color:#75715e">//seive size = n+1, default all to 1
+</span><span style="color:#75715e"></span>	s[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> s[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">*</span> i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>)
+	{
+		<span style="color:#66d9ef">if</span> (s[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+			<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i <span style="color:#f92672">*</span> i; j <span style="color:#f92672">&lt;=</span> n; j <span style="color:#f92672">+=</span> i)
+				s[j] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+	}
+
+	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>; i <span style="color:#f92672">&lt;</span> s.size(); i<span style="color:#f92672">++</span>)		<span style="color:#75715e">//display
+</span><span style="color:#75715e"></span>		<span style="color:#66d9ef">if</span> (s[i] <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>)
+			cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+}
+</code></pre></div><h4 id="sieve-of-eratosthenes-in-0n-time-complexity">Sieve of Eratosthenes in 0(n) time complexity</h4>
+<p>Link: <a href="https://www.geeksforgeeks.org/sieve-eratosthenes-0n-time-complexity/">https://www.geeksforgeeks.org/sieve-eratosthenes-0n-time-complexity/</a></p>
+<h4 id="sieve-of-sundaram">Sieve Of Sundaram</h4>
+<p><code>Time = O(n log n)</code> (Slower than linear Eratosthenes)</p>
+<p><strong>Algorithm:</strong> <!-- raw HTML omitted -->
+SOS can find all primes upto <em>2*n+2</em> for a given <em>n</em>. <!-- raw HTML omitted --></p>
+<ol>
+<li>Calculate <em>newN = (n-1)/2</em>, Make a sieve of size <em>nNew+1</em> and mark all in sieve as <em>false</em>, <!-- raw HTML omitted --></li>
+<li>Mark all numbers of the form <em>i + j + 2ij</em> as <em>true</em> where <em>1 &lt;= i &lt;= j</em>, <!-- raw HTML omitted --></li>
+<li>Print 2,</li>
+<li>Remaining primes are of the form <em>2i + 1</em> where i is index of NOT (false) marked numbers. So print <em>2*i + 1</em> for all <em>i</em>
+such that <em>sieve[i]</em> is <em>false</em>.</li>
+</ol>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">bool</span> <span style="color:#a6e22e">sieveSundaram</span>(<span style="color:#66d9ef">int</span> n)
+{
+	<span style="color:#66d9ef">int</span> nNew <span style="color:#f92672">=</span> (n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>;
+
+	<span style="color:#66d9ef">bool</span> s[nNew <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+	memset(s, false, <span style="color:#66d9ef">sizeof</span>(s));
+
+	<span style="color:#75715e">// Main logic of Sundaram.  Mark all numbers of the
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// form i + j + 2*i*j as true where 1 &lt;= i &lt;= j
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> nNew; i<span style="color:#f92672">++</span>)
+		<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> j <span style="color:#f92672">=</span> i; (i <span style="color:#f92672">+</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> i <span style="color:#f92672">*</span> j) <span style="color:#f92672">&lt;=</span> nNew; j<span style="color:#f92672">++</span>)
+			s[i <span style="color:#f92672">+</span> j <span style="color:#f92672">+</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> i <span style="color:#f92672">*</span> j] <span style="color:#f92672">=</span> true;
+
+	<span style="color:#75715e">// Print 2
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">2</span>)
+		cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+
+	<span style="color:#75715e">// Print other primes. Remaining primes are of the form
+</span><span style="color:#75715e"></span>	<span style="color:#75715e">// 2*i + 1 such that marked[i] is false.
+</span><span style="color:#75715e"></span>	<span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>; i <span style="color:#f92672">&lt;=</span> nNew; i<span style="color:#f92672">++</span>)
+		<span style="color:#66d9ef">if</span> (s[i] <span style="color:#f92672">==</span> false)
+			cout <span style="color:#f92672">&lt;&lt;</span> <span style="color:#ae81ff">2</span> <span style="color:#f92672">*</span> i <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span> <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+
+  <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+}
+
+</code></pre></div><h3 id="goldbachs-conjecture-and-applications">Goldbach&rsquo;s Conjecture and Applications</h3>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#75715e">//Loop for checking and printing all prime sum pairs
+</span><span style="color:#75715e"></span><span style="color:#66d9ef">for</span> (<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> n<span style="color:#f92672">/</span><span style="color:#ae81ff">2</span>; <span style="color:#f92672">++</span>i)
+	{
+		<span style="color:#66d9ef">if</span>(isPrime(i) <span style="color:#f92672">&amp;&amp;</span> isPrime(n <span style="color:#f92672">-</span> i))		<span style="color:#75715e">// if(s[i] &amp;&amp; s[n-i])
+</span><span style="color:#75715e"></span>			{
+				cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34;, &#34;</span> <span style="color:#f92672">&lt;&lt;</span> (n <span style="color:#f92672">-</span> i);
+			}
+	}
+</code></pre></div><h4 id="application">Application</h4>
+<ol>
+<li>Express even number as sum of two primes (Direct application) <!-- raw HTML omitted --></li>
+<li><a href="https://www.geeksforgeeks.org/express-odd-number-sum-prime-numbers/">Express odd number as sum of atmost three primes</a> <!-- raw HTML omitted --></li>
+<li><a href="https://www.geeksforgeeks.org/n-expressed-sum-4-prime-numbers/">If N can be expressed as sum of four primes</a> <!-- raw HTML omitted --></li>
+<li><a href="https://www.geeksforgeeks.org/check-number-can-written-sum-k-prime-numbers/">If N can be written as sum of K prime numbers</a></li>
+</ol>
+<h3 id="references">References</h3>
+<ol>
+<li><a href="https://www.geeksforgeeks.org/mathematical-algorithms/mathematical-algorithms-prime-numbers-primality-tests/">https://www.geeksforgeeks.org/mathematical-algorithms/mathematical-algorithms-prime-numbers-primality-tests/</a> <!-- raw HTML omitted --></li>
+<li><a href="https://procoderforu.com/prime-numbers">https://procoderforu.com/prime-numbers</a></li>
+<li><a href="https://brilliant.org/number-theory">Brilliant Wiki</a> <!-- raw HTML omitted -->
+i. <a href="https://brilliant.org/wiki/prime-numbers">Prime Numbers</a> <!-- raw HTML omitted -->
+ii. <a href="https://brilliant.org/wiki/infinitely-many-primes/">Infinitely Many Primes</a> <!-- raw HTML omitted -->
+iii. <a href="https://brilliant.org/wiki/distribution-of-primes/">Distribution of Primes</a> <!-- raw HTML omitted -->
+iv. <a href="https://brilliant.org/wiki/mersenne-prime/">Mersenne Prime</a></li>
+<li><a href="https://math.libretexts.org/Bookshelves/Combinatorics_and_Discrete_Mathematics/Book%3A_Elementary_Number_Theory_(Raji)/02%3A_Prime_Numbers/2.07%3A_Theorems_and_Conjectures_involving_prime_numbers">Theorems and Conjectures involving prime numbers</a></li>
+</ol>
+
+
+<footer class="footline">
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/maths/gcd-adv/" title="GCD and LCM Advanced"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="/maths/prime-factorization/" title="Prime Factorization and Divisors" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/js/clipboard.min.js?1619856148"></script>
+    <script src="/js/perfect-scrollbar.min.js?1619856148"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1619856148"></script>
+    <script src="/js/jquery.sticky.js?1619856148"></script>
+    <script src="/js/featherlight.min.js?1619856148"></script>
+    <script src="/js/highlight.pack.js?1619856148"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/modernizr.custom-3.6.0.js?1619856148"></script>
+    <script src="/js/learn.js?1619856148"></script>
+    <script src="/js/hugo-learn.js?1619856148"></script>
+
+    <link href="/mermaid/mermaid.css?1619856148" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1619856148"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+
+  </body>
+</html>
+

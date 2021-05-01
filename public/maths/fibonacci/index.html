@@ -1,0 +1,3316 @@
+<!DOCTYPE html>
+<html lang="en" class="js csstransforms3d">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="Hugo 0.82.1" />
+    <meta name="description" content="My notes and elucidations revolving around programming.">
+<meta name="author" content="Abhishek Arya">
+
+    <link rel="icon" href="/images/favicon.png" type="image/png">
+
+    <title>Fibonacci Numbers :: #Define</title>
+
+    
+    <link href="/css/nucleus.css?1619856148" rel="stylesheet">
+    <link href="/css/fontawesome-all.min.css?1619856148" rel="stylesheet">
+    <link href="/css/hybrid.css?1619856148" rel="stylesheet">
+    <link href="/css/featherlight.min.css?1619856148" rel="stylesheet">
+    <link href="/css/perfect-scrollbar.min.css?1619856148" rel="stylesheet">
+    <link href="/css/auto-complete.css?1619856148" rel="stylesheet">
+    <link href="/css/atom-one-dark-reasonable.css?1619856148" rel="stylesheet">
+    <link href="/css/theme.css?1619856148" rel="stylesheet">
+    <link href="/css/hugo-theme.css?1619856148" rel="stylesheet">
+    
+    <link href="/css/theme-blue.css?1619856148" rel="stylesheet">
+    
+    
+
+    <script src="/js/jquery-3.3.1.min.js?1619856148"></script>
+
+    <style>
+      :root #header + #content > #left > #rlblock_left{
+          display:none !important;
+      }
+      
+        :not(pre) > code + span.copy-to-clipboard {
+            display: none;
+        }
+      
+    </style>
+    
+<link rel="stylesheet" href="https://cdn.rawgit.com/konpa/devicon/df6431e323547add1b4cf45992913f15286456d3/devicon.min.css">
+
+
+  </head>
+  <body class="" data-url="/maths/fibonacci/">
+    <nav id="sidebar" class="showVisitedLinks">
+
+
+
+  <div id="header-wrapper">
+    <div id="header">
+      <a id="logo" href="https://hashdefine.netlify.app/">
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="50mm"
+   height="15mm"
+   viewBox="0 0 100 35"
+   version="1.1"
+   id="svg8"
+   inkscape:version="0.92.1 r15371"
+   sodipodi:docname="er.svg"
+   inkscape:export-filename="C:\Users\Abhishek\Documents\GitHub\Hash-Define-myNotes\static\images\text4487.png"
+   inkscape:export-xdpi="96"
+   inkscape:export-ydpi="96">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.7"
+     inkscape:cx="-7.5772008"
+     inkscape:cy="345.5202"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     showgrid="false"
+     inkscape:window-width="1920"
+     inkscape:window-height="1001"
+     inkscape:window-x="-9"
+     inkscape:window-y="-9"
+     inkscape:window-maximized="1" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1"
+     transform="translate(0,-262)">
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.58333302px;line-height:1.25;font-family:Neuton;-inkscape-font-specification:Neuton;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.26458332"
+       x="-0.37797296"
+       y="288.68454"
+       id="text4487"
+       inkscape:export-filename="C:\Users\Abhishek\Documents\GitHub\Hash-Define-myNotes\static\images\text4487.png"
+       inkscape:export-xdpi="96"
+       inkscape:export-ydpi="96"><tspan
+         sodipodi:role="line"
+         id="tspan4485"
+         x="-0.37797296"
+         y="288.68454"
+         style="font-style:normal;font-variant:normal;font-weight:500;font-stretch:normal;font-size:25.39999962px;font-family:'Fira Code';-inkscape-font-specification:'Fira Code Medium';letter-spacing:-0.79374999px;stroke-width:0.26458332;fill:#ffffff;fill-opacity:1">#define</tspan></text>
+  </g>
+</svg>
+
+</a>
+
+    </div>
+    
+        <div class="searchbox">
+    <label for="search-by"><i class="fas fa-search"></i></label>
+    <input data-search-input id="search-by" type="search" placeholder="Search...">
+    <span data-search-clear=""><i class="fas fa-times"></i></span>
+</div>
+
+<script type="text/javascript" src="/js/lunr.min.js?1619856148"></script>
+<script type="text/javascript" src="/js/auto-complete.js?1619856148"></script>
+<script type="text/javascript">
+    
+        var baseurl = "https:\/\/hashdefine.netlify.app\/";
+    
+</script>
+<script type="text/javascript" src="/js/search.js?1619856148"></script>
+
+    
+  </div>
+
+    <div class="highlightable">
+    <ul class="topics">
+
+        
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c/" title="C Programming" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c/">
+          <i class='devicon-c-plain'></i> C Programming
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+            
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c/c-dennis-ritchie/" title="C Programming by Dennis Ritchie" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c/c-dennis-ritchie/">
+          <i class='fas fa-code'></i> C Programming by Dennis Ritchie
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-21-preface/" title="Preface" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-21-preface/">
+        <b>0. </b>Preface
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-21-c-programming-chapter-1/" title="A Tutorial Introduction" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-21-c-programming-chapter-1/">
+        <b>1. </b>A Tutorial Introduction
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-2/" title="Types, Operators, and Expressions " class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-2/">
+        <b>2. </b>Types, Operators, and Expressions 
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-3/" title="Control Flow" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-3/">
+        <b>3. </b>Control Flow
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-4/" title="Functions and Program Structure" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-22-c-programming-chapter-4/">
+        <b>4. </b>Functions and Program Structure
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-24-c-programming-chapter-5/" title="Pointers and Arrays" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-24-c-programming-chapter-5/">
+        <b>5. </b>Pointers and Arrays
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-26-c-programming-chapter-6/" title="Structures" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-26-c-programming-chapter-6/">
+        <b>6. </b>Structures
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/c-dennis-ritchie/2019-01-27-c-programming-chapter-7/" title="Input and Output" class="dd-item ">
+        <a href="/c/c-dennis-ritchie/2019-01-27-c-programming-chapter-7/">
+        <b>7. </b>Input and Output
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c/gfg-c/" title="C - GeeksforGeeks" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c/gfg-c/">
+          <i class='fas fa-code'></i> C - GeeksforGeeks
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/tips/" title="Useful Stuff" class="dd-item ">
+        <a href="/c/gfg-c/tips/">
+        Useful Stuff
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/string_functions/" title="Character and String Functions" class="dd-item ">
+        <a href="/c/gfg-c/string_functions/">
+        Character and String Functions
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/stdio/" title="Some &lt;stdio.h&gt; I/O Functions" class="dd-item ">
+        <a href="/c/gfg-c/stdio/">
+        Some &lt;stdio.h&gt; I/O Functions
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/struct_alignment/" title="Structure Alignment, Padding and Packing" class="dd-item ">
+        <a href="/c/gfg-c/struct_alignment/">
+        Structure Alignment, Padding and Packing
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/functions_in_c/" title="Functions_in_C" class="dd-item ">
+        <a href="/c/gfg-c/functions_in_c/">
+        Functions_in_C
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/pointer_in_c/" title="Pointers in C" class="dd-item ">
+        <a href="/c/gfg-c/pointer_in_c/">
+        Pointers in C
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c/gfg-c/behaviour_in_c/" title="Undefined, Unspecified, and Implementation-Defined Behavior in C" class="dd-item ">
+        <a href="/c/gfg-c/behaviour_in_c/">
+        Undefined, Unspecified, and Implementation-Defined Behavior in C
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c&#43;&#43;/" title="C&#43;&#43; Programming" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c&#43;&#43;/">
+          <i class='devicon-cplusplus-plain'></i> C&#43;&#43; Programming
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-01-functions-and-arrays/" title="Functions and Arrays" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-01-functions-and-arrays/">
+        Functions and Arrays
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-const/" title="Const" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-const/">
+        Const
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-constructors-destructors/" title="Constructors and Destructors" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-constructors-destructors/">
+        Constructors and Destructors
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-oops-in-c&#43;&#43;/" title="Object-Oriented Programming in C&#43;&#43;" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-oops-in-c&#43;&#43;/">
+        Object-Oriented Programming in C&#43;&#43;
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-vectors-and-generic/" title="STL - Vectors and Generic Programming" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-vectors-and-generic/">
+        STL - Vectors and Generic Programming
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-18-strings/" title="STL - Strings" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-18-strings/">
+        STL - Strings
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-10-bitwise-and-recursion/" title="Bitwise Operations and Recursion" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-10-bitwise-and-recursion/">
+        Bitwise Operations and Recursion
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-09-pointers/" title="Pointers" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-09-pointers/">
+        Pointers
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-07-my-sublime-env/" title="My Sublime Environment for Coding" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-07-my-sublime-env/">
+        My Sublime Environment for Coding
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-07-quick-jots/" title="Quick Jots" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-07-quick-jots/">
+        Quick Jots
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-07-imp/" title="Important Points" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-07-imp/">
+        Important Points
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-06-03-references/" title="Reference and Array Sorting Algorithms" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-06-03-references/">
+        Reference and Array Sorting Algorithms
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;/2018-07-08-all/" title="All Notes" class="dd-item ">
+        <a href="/c&#43;&#43;/2018-07-08-all/">
+        All Notes
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/c&#43;&#43;-language-specifics/" title="C&#43;&#43; Language Specifics" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/c&#43;&#43;-language-specifics/">
+          <i class='devicon-devicon-plain'></i> C&#43;&#43; Language Specifics
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;-language-specifics/basics/" title="Headers, Macros, and Compiler Flags" class="dd-item ">
+        <a href="/c&#43;&#43;-language-specifics/basics/">
+        <b>0. </b>Headers, Macros, and Compiler Flags
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/c&#43;&#43;-language-specifics/useful-functions/" title="Useful Functions" class="dd-item ">
+        <a href="/c&#43;&#43;-language-specifics/useful-functions/">
+        <b>1. </b>Useful Functions
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/competitive-programming/" title="Competitive Programming" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/competitive-programming/">
+          👨‍💻 Competitive Programming
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/maths/" title="Maths for CP" class="dd-item 
+        parent
+        
+        
+        ">
+      <a href="/maths/">
+          🧮 Maths for CP
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/basics/" title="Basics" class="dd-item ">
+        <a href="/maths/basics/">
+        <b>0.</b> Basics
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/gcd/" title="GCD, LCM, and Euclidean Algorithm" class="dd-item ">
+        <a href="/maths/gcd/">
+        <b>1.</b> GCD, LCM, and Euclidean Algorithm
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/gcd-adv/" title="GCD and LCM Advanced" class="dd-item ">
+        <a href="/maths/gcd-adv/">
+        <b>2.</b> GCD and LCM Advanced
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/primes/" title="Prime Numbers" class="dd-item ">
+        <a href="/maths/primes/">
+        <b>3.</b> Prime Numbers
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/prime-factorization/" title="Prime Factorization and Divisors" class="dd-item ">
+        <a href="/maths/prime-factorization/">
+        <b>4.</b> Prime Factorization and Divisors
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/fibonacci/" title="Fibonacci Numbers" class="dd-item active">
+        <a href="/maths/fibonacci/">
+        <b>5.</b> Fibonacci Numbers
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/divisibility/" title="Divisibility" class="dd-item ">
+        <a href="/maths/divisibility/">
+        <b>6.</b> Divisibility
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/maths/modular-arithmetic/" title="Modular Arithmetic" class="dd-item ">
+        <a href="/maths/modular-arithmetic/">
+        <b>6.</b> Modular Arithmetic
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/bit/" title="Bitwise Algorithms" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/bit/">
+          <i class='fas fa-microchip'></i> Bitwise Algorithms
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/bit/basics/" title="Basics" class="dd-item ">
+        <a href="/bit/basics/">
+        <b>0.</b> Basics
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/bit/applications/" title="Applications" class="dd-item ">
+        <a href="/bit/applications/">
+        <b>1.</b> Applications
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/python/" title="Python Notes" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/python/">
+          <i class='devicon-python-plain'></i> Python Notes
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/python/notes/" title="Notes" class="dd-item ">
+        <a href="/python/notes/">
+        Notes
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/python/oops/" title="OOP" class="dd-item ">
+        <a href="/python/oops/">
+        OOP
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/python/adv/" title="Advanced" class="dd-item ">
+        <a href="/python/adv/">
+        Advanced
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/flask/" title="Flask" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/flask/">
+          <i class='fas fa-flask'></i> Flask
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/flask/notes/" title="Flask" class="dd-item ">
+        <a href="/flask/notes/">
+        Flask
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/git/" title="Git" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/git/">
+          <i class='devicon-git-plain'></i> Git
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/git/notes/" title="Git" class="dd-item ">
+        <a href="/git/notes/">
+        Git
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/rdbms/" title="RDBMS" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/rdbms/">
+          <i class='fas fa-table'></i> RDBMS
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rdbms/concepts/" title="Concepts" class="dd-item ">
+        <a href="/rdbms/concepts/">
+        <i class='far fa-lightbulb'></i> Concepts
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rdbms/mysql/" title="MySQL" class="dd-item ">
+        <a href="/rdbms/mysql/">
+        <i class='devicon-mysql-plain'></i> MySQL
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/rdbms/postgresql/" title="PostgreSQL" class="dd-item ">
+        <a href="/rdbms/postgresql/">
+        <i class='devicon-postgresql-plain'></i> PostgreSQL
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/nosql/" title="NoSQL Databases" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/nosql/">
+          <i class='fas fa-database'></i> NoSQL Databases
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/nosql/architecture/" title="Architecture" class="dd-item ">
+        <a href="/nosql/architecture/">
+        <i class='fas fa-sitemap'></i> Architecture
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/nosql/mongodb/" title="MongoDB" class="dd-item ">
+        <a href="/nosql/mongodb/">
+        <i class='devicon-mongodb-plain'></i> MongoDB
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/regex/" title="Regex" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/regex/">
+           Regex
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/regex/resources/" title="Resources" class="dd-item ">
+        <a href="/regex/resources/">
+        Resources
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/regex/notes/" title="Notes" class="dd-item ">
+        <a href="/regex/notes/">
+        Notes
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+          
+
+
+
+
+ 
+  
+    
+    <li data-nav-id="/linux-and-tools/" title="Linux and Tools" class="dd-item 
+        
+        
+        
+        ">
+      <a href="/linux-and-tools/">
+           Linux and Tools
+          
+            <i class="fas fa-check read-icon"></i>
+          
+      </a>
+      
+      
+        <ul>
+          
+          
+          
+          
+        
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/linux-and-tools/terminal/" title="Terminal" class="dd-item ">
+        <a href="/linux-and-tools/terminal/">
+        Terminal
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/linux-and-tools/awk/" title="Awk" class="dd-item ">
+        <a href="/linux-and-tools/awk/">
+        Awk
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+            
+            
+
+
+
+
+ 
+  
+    
+      <li data-nav-id="/linux-and-tools/shell-scripting/" title="Shell Scripting" class="dd-item ">
+        <a href="/linux-and-tools/shell-scripting/">
+        Shell Scripting
+        <i class="fas fa-check read-icon"></i>
+        </a>
+    </li>
+     
+  
+ 
+
+            
+          
+        
+        </ul>
+              
+    </li>
+  
+ 
+
+          
+         
+    </ul>
+
+    
+    
+      <section id="shortcuts">
+        <h3>More</h3>
+        <ul>
+          
+              <li> 
+                  <a class="padding" href="https://github.com/abhishekarya1"><i class='fab fa-github'></i> Github </a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://abhishekarya1.github.io"><i class='fas fa-laptop-code'></i> Blog</a>
+              </li>
+          
+              <li> 
+                  <a class="padding" href="https://hashdefine.netlify.app/credits"><i class='fas fa-bullhorn'></i> Credits</a>
+              </li>
+          
+        </ul>
+      </section>
+    
+
+    
+    <section id="prefooter">
+      <hr/>
+      <ul>
+      
+      
+      
+        <li><a class="padding" href="#" data-clear-history-toggle=""><i class="fas fa-history fa-fw"></i> Clear History</a></li>
+      
+      </ul>
+    </section>
+    
+    <section id="footer">
+      <p>Built with <a href="https://github.com/matcornic/hugo-theme-learn"><i class="fas fa-heart"></i></a> from <a href="https://getgrav.org">Grav</a> and <a href="https://gohugo.io/">Hugo</a></p>
+
+    </section>
+  </div>
+</nav>
+
+
+
+
+        <section id="body">
+        <div id="overlay"></div>
+        <div class="padding highlightable">
+              
+              <div>
+                <div id="top-bar">
+                
+                
+                <div id="breadcrumbs" itemscope="" itemtype="http://data-vocabulary.org/Breadcrumb">
+                    <span id="sidebar-toggle-span">
+                        <a href="#" id="sidebar-toggle" data-sidebar-toggle="">
+                          <i class="fas fa-bars"></i>
+                        </a>
+                    </span>
+                  
+                  <span id="toc-menu"><i class="fas fa-list-alt"></i></span>
+                  
+                  <span class="links">
+                 
+                 
+                    
+          
+          
+            
+            
+          
+          
+            
+            
+          
+          
+            <a href='/'>#define HOME</a> > <a href='/maths/'>Maths for CP</a> > Fibonacci Numbers
+          
+        
+          
+        
+          
+        
+                 
+                  </span>
+                </div>
+                
+                    <div class="progress">
+    <div class="wrapper">
+<nav id="TableOfContents">
+  <ul>
+    <li>
+      <ul>
+        <li><a href="#finding-nth-fibonacci-number">Finding nth Fibonacci Number</a></li>
+        <li><a href="#some-interesting-facts">Some Interesting Facts.</a></li>
+        <li><a href="#zeckendorfs-theorem--fibonacci-coding">Zeckendorf&rsquo;s Theorem &amp; Fibonacci Coding</a></li>
+        <li><a href="#modular-nature-of-fibonacci">Modular Nature of Fibonacci</a></li>
+        <li><a href="#even-fibonacci-numbers">Even Fibonacci Numbers</a></li>
+        <li><a href="#leonardo-number">Leonardo Number</a></li>
+        <li><a href="#references">References</a></li>
+      </ul>
+    </li>
+  </ul>
+</nav>
+    </div>
+</div>
+
+                
+              </div>
+            </div>
+            
+        <div id="head-tags">
+        
+        </div>
+        
+        <div id="body-inner">
+          
+            <h1>
+              
+              Fibonacci Numbers
+            </h1>
+          
+
+        
+
+
+<p>In mathematics, the Fibonacci numbers, commonly denoted <em>F<!-- raw HTML omitted -->n<!-- raw HTML omitted --></em>, form a sequence, called the <em>Fibonacci sequence</em>, such that each number is the sum of the two preceding ones, starting from 0 and 1. That is, <strong><em>F<!-- raw HTML omitted -->0<!-- raw HTML omitted --> = 0</em>, <em>F<!-- raw HTML omitted -->1<!-- raw HTML omitted --> = 1</em>,</strong> and <strong><em>F<!-- raw HTML omitted -->n<!-- raw HTML omitted --> = F<!-- raw HTML omitted -->n-1<!-- raw HTML omitted --> + F<!-- raw HTML omitted -->n-2<!-- raw HTML omitted --></em></strong> for <strong><em>n &gt; 1</em></strong>. Sequence = 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144, &hellip;</p>
+<p><strong>Negative :</strong> The Fibonacci sequence also works below 0. It has alternating + and - accordingly. Ex - &hellip;, −8, 5, −3, 2, −1, 1, 0. Which is basically, <strong><em>F<!-- raw HTML omitted -->−n<!-- raw HTML omitted --> = (−1)<!-- raw HTML omitted -->n+1<!-- raw HTML omitted --> * F<!-- raw HTML omitted -->n<!-- raw HTML omitted --></em></strong> for <strong><em>n &gt; 1</em></strong>.</p>
+<p>They also appear in biological settings, such as branching in trees, the arrangement of leaves on a stem, the fruit sprouts of a pineapple, the flowering of an artichoke, an uncurling fern, and the arrangement of a pine cone&rsquo;s bracts.</p>
+<h3 id="finding-nth-fibonacci-number">Finding nth Fibonacci Number</h3>
+<h4 id="recursive">Recursive</h4>
+<p><code>Time = O(2^n)</code></p>
+<p><code>Space = O(n)</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">fib</span>(<span style="color:#66d9ef">int</span> n)
+{
+    <span style="color:#66d9ef">if</span>(n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">if</span>(n <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+
+    <span style="color:#66d9ef">return</span> fib(n <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>) <span style="color:#f92672">+</span> fib(n <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>);
+}
+</code></pre></div><h4 id="dynamic-programming">Dynamic Programming</h4>
+<p><code>Time = O(n)</code></p>
+<p><code>Space = O(n)</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">fib</span>(<span style="color:#66d9ef">int</span> n)
+{
+    <span style="color:#66d9ef">int</span> arr[n <span style="color:#f92672">+</span> <span style="color:#ae81ff">1</span>];
+    arr[<span style="color:#ae81ff">0</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+    arr[<span style="color:#ae81ff">1</span>] <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+
+    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>)
+    {
+        arr[i] <span style="color:#f92672">=</span> arr[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">1</span>] <span style="color:#f92672">+</span> arr[i <span style="color:#f92672">-</span> <span style="color:#ae81ff">2</span>];
+    }
+
+    <span style="color:#66d9ef">return</span> arr[n];
+}
+</code></pre></div><h4 id="space-optimized-best">Space Optimized (Best)</h4>
+<p><code>Time = O(n)</code></p>
+<p><code>Space = O(1)</code></p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">fib</span>(<span style="color:#66d9ef">int</span> n)
+{
+    <span style="color:#66d9ef">if</span>(n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+    <span style="color:#66d9ef">if</span>(n <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+
+    <span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, c;
+
+    <span style="color:#66d9ef">for</span>(<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">2</span>; i <span style="color:#f92672">&lt;=</span> n; i<span style="color:#f92672">++</span>)
+    {
+        c <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> b;
+        a <span style="color:#f92672">=</span> b;
+        b <span style="color:#f92672">=</span> c;
+    }
+
+    <span style="color:#66d9ef">return</span> c;
+}
+</code></pre></div><h4 id="using-power-of-matrix">Using Power of Matrix</h4>
+<p>Link: <a href="https://www.geeksforgeeks.org/program-for-nth-fibonacci-number/">https://www.geeksforgeeks.org/program-for-nth-fibonacci-number/</a></p>
+<h4 id="using-binets-formula---o1">Using Binet&rsquo;s Formula - O(1)</h4>
+<p><code>Time = O(1)</code></p>
+<p><code>Space = O(1)</code></p>
+<p><strong>Formula:</strong> <em>F<!-- raw HTML omitted -->n<!-- raw HTML omitted --></em> is the nearest integer to <em>ϕ<!-- raw HTML omitted -->n<!-- raw HTML omitted --> / √5</em>.</p>
+<div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">fib</span>(<span style="color:#66d9ef">int</span> n) { 
+  <span style="color:#66d9ef">double</span> phi <span style="color:#f92672">=</span> (<span style="color:#ae81ff">1</span> <span style="color:#f92672">+</span> sqrt(<span style="color:#ae81ff">5</span>)) <span style="color:#f92672">/</span> <span style="color:#ae81ff">2</span>; 
+  <span style="color:#66d9ef">return</span> round(pow(phi, n) <span style="color:#f92672">/</span> sqrt(<span style="color:#ae81ff">5</span>)); 
+} 
+</code></pre></div><h3 id="some-interesting-facts">Some Interesting Facts.</h3>
+<ol start="0">
+<li>Sum of Fibonacci numbers (S<!-- raw HTML omitted -->i<!-- raw HTML omitted -->) till n<!-- raw HTML omitted -->th<!-- raw HTML omitted --> Fibonacci number (F<!-- raw HTML omitted -->n<!-- raw HTML omitted -->) =&gt; <strong>S<!-- raw HTML omitted -->n<!-- raw HTML omitted --> = F<!-- raw HTML omitted -->n+2<!-- raw HTML omitted --> - 1</strong>.</li>
+<li>To check if a number (<em>n</em>) is fibonacci or not - If either or both of <strong><em>5n<!-- raw HTML omitted -->2<!-- raw HTML omitted -->+4</em></strong> and <strong><em>5n<!-- raw HTML omitted -->2<!-- raw HTML omitted -->-4</em></strong> are perfect squares, then <em>n</em> is a fibonacci number.</li>
+<li>The series of last digits of numbers in Fibonacci sequence repeats with a cycle length of 60. Infact, Fibonacci sequence is periodic wrt Modulo. <a href="https://www.geeksforgeeks.org/efficient-way-check-whether-n-th-fibonacci-number-multiple-10/">Application</a></li>
+<li><strong>Cassini&rsquo;s Identity -</strong><em>F(n-1) * F(n+1) – F(n) * F(n) = (-1)<!-- raw HTML omitted -->n<!-- raw HTML omitted --></em>.</li>
+<li>gcd(F<!-- raw HTML omitted -->a<!-- raw HTML omitted -->, F<!-- raw HTML omitted -->b<!-- raw HTML omitted -->) = F<!-- raw HTML omitted -->gcd(a, b)<!-- raw HTML omitted --></li>
+<li><strong>Fibonorial -</strong> In mathematics, the Fibonorial <em>n!<!-- raw HTML omitted -->F<!-- raw HTML omitted --></em>, also called the Fibonacci factorial, where <em>n</em> is a non-negative integer, is defined as the product of the first <em>n</em> positive Fibonacci numbers.</li>
+<li><a href="https://www.geeksforgeeks.org/hosoyas-triangle/">Hosoya&rsquo;s Triangle</a> - Follows four seed relations - <code>H(0, 0) = H(1, 0) = H(1, 1) = H(2, 1) = 1</code> and two recurrnce relations - <code>H(n, j) = H(n - 1, j) + H(n - 2, j)</code> and for the last element in current row <code>H(n, j) = H(n - 1, j - 1) + H(n - 2, j - 2)</code>.</li>
+</ol>
+<h3 id="zeckendorfs-theorem--fibonacci-coding">Zeckendorf&rsquo;s Theorem &amp; Fibonacci Coding</h3>
+<p>Zeckendorf&rsquo;s Theorem states that every positive integer can be written uniquely as a sum of distinct non-neighbouring Fibonacci numbers. Ex = 30 = 21 8 1, and  41 = 34 5 2.</p>
+<p>Fibonacci coding is used in place of binary representation to represent positive numbers in data processing and communications. One important observation about this representation is, <strong>number of 1s in the Fibonacci representation tends to be much less than the number of 1s in the binary representation</strong>. Hence if in any application where it is more costly to store a 1 than to store a 0, it would make sense to use the fibonacci representation.</p>
+<pre><code>//Greedy Algorithm to print Fibonacci representation of a number
+
+1) Let n be input number
+
+2) While n &gt; 0
+     a) Find the greatest Fibonacci Number smaller than n.
+        Let this number be 'f'.  Print 'f'.
+     b) n = n - f 
+</code></pre><div class="highlight"><pre style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4"><code class="language-cpp" data-lang="cpp"><span style="color:#66d9ef">int</span> <span style="color:#a6e22e">smallestFib</span>(<span style="color:#66d9ef">int</span> n)
+{
+	<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> <span style="color:#ae81ff">0</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">0</span>;
+	<span style="color:#66d9ef">if</span> (n <span style="color:#f92672">==</span> <span style="color:#ae81ff">1</span>) <span style="color:#66d9ef">return</span> <span style="color:#ae81ff">1</span>;
+
+	<span style="color:#66d9ef">int</span> a <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>, b <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>, c <span style="color:#f92672">=</span> <span style="color:#ae81ff">1</span>;
+	<span style="color:#66d9ef">while</span> (c <span style="color:#f92672">&lt;=</span> n)		<span style="color:#75715e">//change
+</span><span style="color:#75715e"></span>	{
+		c <span style="color:#f92672">=</span> a <span style="color:#f92672">+</span> b;
+		a <span style="color:#f92672">=</span> b;
+		b <span style="color:#f92672">=</span> c;
+	}
+
+	<span style="color:#66d9ef">return</span> a;
+}
+
+<span style="color:#66d9ef">int</span> <span style="color:#a6e22e">main</span>() {
+	<span style="color:#66d9ef">int</span> n <span style="color:#f92672">=</span> <span style="color:#ae81ff">30</span>;
+
+	<span style="color:#66d9ef">int</span> i <span style="color:#f92672">=</span> <span style="color:#ae81ff">0</span>;
+	<span style="color:#66d9ef">while</span> (n <span style="color:#f92672">&gt;</span> <span style="color:#ae81ff">0</span>)		<span style="color:#75715e">//change
+</span><span style="color:#75715e"></span>	{
+		i <span style="color:#f92672">=</span> smallestFib(n);
+		cout <span style="color:#f92672">&lt;&lt;</span> i <span style="color:#f92672">&lt;&lt;</span> <span style="color:#e6db74">&#34; &#34;</span>;
+		n <span style="color:#f92672">=</span> n <span style="color:#f92672">-</span> i;
+	}
+
+}
+
+</code></pre></div><p><a href="https://www.geeksforgeeks.org/zeckendorfs-theorem-non-neighbouring-fibonacci-representation/">Link#1</a> <!-- raw HTML omitted -->
+<a href="https://www.geeksforgeeks.org/fibonacci-coding/">Link#2</a></p>
+<h3 id="modular-nature-of-fibonacci">Modular Nature of Fibonacci</h3>
+<p>Fibonacci series is always periodic under modular representation i.e. <em>F (mod m)</em> will repeat after a certain period and the cycle will repeat too. This means we can find numbers diisible by a given number (<em>m</em>) at regular intervals in the Fibonacci sequence. <a href="https://www.geeksforgeeks.org/nth-multiple-number-fibonacci-series/">Examples</a></p>
+<h3 id="even-fibonacci-numbers">Even Fibonacci Numbers</h3>
+<p>Using modular nature of the sequence, we can find period for numbers divisible by 2 (even numbers). That comes out to be 3 i.e. every third number in the Fibonacci sequence is divisible by 2. We can then <a href="https://www.geeksforgeeks.org/nth-even-fibonacci-number/">come up</a> with the recurrence relation to calculate n<!-- raw HTML omitted -->th<!-- raw HTML omitted --> even Fibonacci number as:</p>
+<pre><code>Recurrence for Even Fibonacci sequence is:
+     EFn = 4(EFn-1) + (EFn-2)
+
+with seed values,
+     EF0 = 0 and EF1 = 2.
+
+EFn represents n'th term in Even Fibonacci sequence.
+</code></pre><p>The period is calle the <a href="https://www.geeksforgeeks.org/fibonacci-number-modulo-m-and-pisano-period/">Pisano period</a>.</p>
+<h3 id="leonardo-number">Leonardo Number</h3>
+<p>Sequence of numbers given by the recurrence:
+<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/1beebdb9513cdfab48e5fa364b1ccd270037d256" alt=""></p>
+<p>The first few Leonardo Numbers are 1, 1, 3, 5, 9, 15, 25, 41, 67, 109, 177, 287, 465, 753, 1219, 1973, 3193, 5167, 8361, &hellip;</p>
+<p>The Leonardo numbers are related to the Fibonacci numbers by below relation:
+<img src="https://wikimedia.org/api/rest_v1/media/math/render/svg/5823964b316f295045ead649e62f7ecde2758bf8" alt=""></p>
+<h3 id="references">References</h3>
+<ol>
+<li><a href="https://www.geeksforgeeks.org/mathematical-algorithms/#fibonacci">GeeksforGeeks</a><!-- raw HTML omitted --></li>
+<li><a href="https://brilliant.org/number-theory/">Brilliant Wiki</a> <!-- raw HTML omitted -->
+i. <a href="https://brilliant.org/wiki/fibonacci-series/">Fibonacci Sequence</a> <!-- raw HTML omitted -->
+ii. <a href="https://brilliant.org/wiki/tribonacci-sequence/">Tribonacci Sequence</a></li>
+</ol>
+
+
+<footer class="footline">
+	
+</footer>
+
+        
+        </div> 
+        
+
+      </div>
+
+    <div id="navigation">
+        
+        
+        
+        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                        
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                        
+                        
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+                        
+            
+            
+                
+                    
+                
+                
+
+                    
+                    
+                    
+
+                    
+            
+        
+                    
+            
+        
+                    
+            
+        
+        
+        
+
+
+	 
+	 
+		
+			<a class="nav nav-prev" href="/maths/prime-factorization/" title="Prime Factorization and Divisors"> <i class="fa fa-chevron-left"></i></a>
+		
+		
+			<a class="nav nav-next" href="/maths/divisibility/" title="Divisibility" style="margin-right: 0px;"><i class="fa fa-chevron-right"></i></a>
+		
+	
+    </div>
+
+    </section>
+    
+    <div style="left: -1000px; overflow: scroll; position: absolute; top: -1000px; border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;">
+      <div style="border: none; box-sizing: content-box; height: 200px; margin: 0px; padding: 0px; width: 200px;"></div>
+    </div>
+    <script src="/js/clipboard.min.js?1619856148"></script>
+    <script src="/js/perfect-scrollbar.min.js?1619856148"></script>
+    <script src="/js/perfect-scrollbar.jquery.min.js?1619856148"></script>
+    <script src="/js/jquery.sticky.js?1619856148"></script>
+    <script src="/js/featherlight.min.js?1619856148"></script>
+    <script src="/js/highlight.pack.js?1619856148"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="/js/modernizr.custom-3.6.0.js?1619856148"></script>
+    <script src="/js/learn.js?1619856148"></script>
+    <script src="/js/hugo-learn.js?1619856148"></script>
+
+    <link href="/mermaid/mermaid.css?1619856148" rel="stylesheet" />
+    <script src="/mermaid/mermaid.js?1619856148"></script>
+    <script>
+        mermaid.initialize({ startOnLoad: true });
+    </script>
+    
+
+  </body>
+</html>
+

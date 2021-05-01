@@ -1,7 +1,12 @@
-baseURL = "https://hashdefine.netlify.app/"
-languageCode = "en-us"
+baseURL = "https://hashdefine2.netlify.app/"
+languageCode = "en-US"
+defaultContentLanguage = "en"
+
 title = "#Define"
 theme = "hugo-theme-learn"
+themesdir = "themes"
+metaDataFormat = "yaml"
+defaultContentLanguageInSubdir= true
 
 [outputs]
 home = [ "HTML", "RSS", "JSON"]
@@ -18,6 +23,9 @@ home = [ "HTML", "RSS", "JSON"]
   ordersectionsby = "weight"
   # Change default color scheme with a variant one. Can be "red", "blue", "green".
   themeVariant = "blue"
+  showVisitedLinks = false
+  disableBreadcrumb = false
+  disableNextPrev = false
   
 [[menu.shortcuts]] 
 name = "<i class='fab fa-github'></i> Github "

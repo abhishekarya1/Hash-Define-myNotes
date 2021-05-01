@@ -1,0 +1,17 @@
+[build]
+  publish = "public"
+  command = "hugo"
+
+[build.environment]
+  HUGO_THEME = "hugo-theme-learn"
+  HUGO_THEMESDIR = "themes"
+  HUGO_VERSION = "0.82.1"
+
+[context.production.environment]
+  HUGO_BASEURL = "https://hashdefine2.netlify.com/"
+
+[context.deploy-preview]
+  command = "hugo"
+
+[context.deploy-preview.environment]
+  HUGO_ENABLEGITINFO = "true"
