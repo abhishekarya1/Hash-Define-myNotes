@@ -8,7 +8,7 @@
   HUGO_VERSION = "0.82.1"
 
 [context.production.environment]
-  HUGO_BASEURL = "https://hashdefine2.netlify.com/"
+  HUGO_BASEURL = "https://hashdefine.netlify.app/"
 
 [context.deploy-preview]
   command = "hugo"
