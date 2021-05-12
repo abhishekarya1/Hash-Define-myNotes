@@ -26,6 +26,7 @@ home = [ "HTML", "RSS", "JSON"]
   showVisitedLinks = false
   disableBreadcrumb = false
   disableNextPrev = false
+  search = true
   
 [[menu.shortcuts]] 
 name = "<i class='fab fa-github'></i> Github "
