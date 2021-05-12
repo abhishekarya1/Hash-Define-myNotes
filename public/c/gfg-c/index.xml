@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>C - GeeksforGeeks on #Define</title>
-    <link>https://hashdefine.netlify.app/c/gfg-c/</link>
+    <link>https://hashdefine2.netlify.app/c/gfg-c/</link>
     <description>Recent content in C - GeeksforGeeks on #Define</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 27 Jan 2019 22:18:28 +0530</lastBuildDate><atom:link href="https://hashdefine.netlify.app/c/gfg-c/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 27 Jan 2019 22:18:28 +0530</lastBuildDate><atom:link href="https://hashdefine2.netlify.app/c/gfg-c/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Useful Stuff</title>
-      <link>https://hashdefine.netlify.app/c/gfg-c/tips/</link>
+      <link>https://hashdefine2.netlify.app/c/gfg-c/tips/</link>
       <pubDate>Sun, 27 Jan 2019 22:27:43 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/c/gfg-c/tips/</guid>
+      <guid>https://hashdefine2.netlify.app/c/gfg-c/tips/</guid>
       <description>After the pre-processing is over, all the undefined macros are initialized with default value 0.
   All global stuff - pointers, variables of all types and with any modifiers are initialized with 0 (NULL for Pointers).
   Inline Functions in C inline int square(int x) { return x*x; } int main() { int x = 36/square(6); printf(&amp;#34;%d&amp;#34;, x); return 0; } // OUTPUT: 1   A .</description>
@@ -20,10 +20,10 @@
     
     <item>
       <title>Character and String Functions</title>
-      <link>https://hashdefine.netlify.app/c/gfg-c/string_functions/</link>
+      <link>https://hashdefine2.netlify.app/c/gfg-c/string_functions/</link>
       <pubDate>Mon, 04 Feb 2019 16:33:46 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/c/gfg-c/string_functions/</guid>
+      <guid>https://hashdefine2.netlify.app/c/gfg-c/string_functions/</guid>
       <description>Some Character Functions from &amp;lt;ctype.h&amp;gt; Mostly, internally, the ASCII value of the character is passed as argument and returns int other than zero if true, else return 0.
   isprint() - Printable character is not a control character, they can be seen on screen
   iscntrl() - Control character like &amp;lsquo;\n&amp;rsquo; and &amp;lsquo;\r&amp;rsquo;
@@ -34,38 +34,38 @@
     
     <item>
       <title>Some &lt;stdio.h&gt; I/O Functions</title>
-      <link>https://hashdefine.netlify.app/c/gfg-c/stdio/</link>
+      <link>https://hashdefine2.netlify.app/c/gfg-c/stdio/</link>
       <pubDate>Thu, 07 Feb 2019 18:27:47 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/c/gfg-c/stdio/</guid>
+      <guid>https://hashdefine2.netlify.app/c/gfg-c/stdio/</guid>
       <description>Basic &amp;lt;stdio.h&amp;gt; I/O Functions Formatted I/O int printf(const char *format, ...); int fprintf(FILE *stream, const char *format, ...); int sprintf (char *str, const char *format, ...); printf() family returns negative value if an output error or an encoding error. int scanf (const char *format, ...); int fscanf (FILE *stream, const char *format, ...); int sscanf (const char *str, const char *format, ...); scanf() family returns EOF if input failure occurs before the first receiving argument was assigned.</description>
     </item>
     
     <item>
       <title>Structure Alignment, Padding and Packing</title>
-      <link>https://hashdefine.netlify.app/c/gfg-c/struct_alignment/</link>
+      <link>https://hashdefine2.netlify.app/c/gfg-c/struct_alignment/</link>
       <pubDate>Tue, 05 Feb 2019 22:53:25 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/c/gfg-c/struct_alignment/</guid>
+      <guid>https://hashdefine2.netlify.app/c/gfg-c/struct_alignment/</guid>
       <description>Structure Alignment, Padding, and Packing Link: https://www.geeksforgeeks.org/structure-member-alignment-padding-and-data-packing/
 How to avoid Structure Padding in C?  Using #pragma pack(1) idrective to force 1 Byte alignment We can also use the following (1 Byte alignment):  struct s { int i; char ch; double d; } __attribute__((packed)); Link: https://www.geeksforgeeks.org/how-to-avoid-structure-padding-in-c/</description>
     </item>
     
     <item>
       <title>Functions_in_C</title>
-      <link>https://hashdefine.netlify.app/c/gfg-c/functions_in_c/</link>
+      <link>https://hashdefine2.netlify.app/c/gfg-c/functions_in_c/</link>
       <pubDate>Thu, 07 Feb 2019 21:53:15 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/c/gfg-c/functions_in_c/</guid>
+      <guid>https://hashdefine2.netlify.app/c/gfg-c/functions_in_c/</guid>
       <description>Calling functions before and after main() in GCC #include &amp;lt;stdio.h&amp;gt; void my_start_func(void) __attribute__ ((constructor)); void my_exit_func(void) __attribute__ ((destructor)); void my_start_func(void) {printf(&amp;#34;%s &amp;#34;, &amp;#34;Hello!&amp;#34;);} void my_exit_func(void) {printf(&amp;#34;%s&amp;#34;, &amp;#34;Arya&amp;#34;);} int main(void) { printf(&amp;#34;%s &amp;#34;, &amp;#34;Abhishek&amp;#34;); return 0; } // OUTPUT - Hello! Abhishek Arya Return type of any function used before declaration is assumed to be int and if it is int then the compilations is successful, else there is a type mismatch error , compilation fails.</description>
     </item>
     
     <item>
       <title>Pointers in C</title>
-      <link>https://hashdefine.netlify.app/c/gfg-c/pointer_in_c/</link>
+      <link>https://hashdefine2.netlify.app/c/gfg-c/pointer_in_c/</link>
       <pubDate>Fri, 08 Feb 2019 19:20:56 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/c/gfg-c/pointer_in_c/</guid>
+      <guid>https://hashdefine2.netlify.app/c/gfg-c/pointer_in_c/</guid>
       <description>Void type, NULL and NULL Pointers Link: https://www.geeksforgeeks.org/few-bytes-on-null-pointer-in-c/
   ((void *)0) is a macro defined in headers to be NULL.
   sizeof(NULL) is a pointer type size.
@@ -77,10 +77,10 @@ Hmmmmmmmm&amp;hellip;. Link: https://www.geeksforgeeks.org/an-uncommon-represent
     
     <item>
       <title>Undefined, Unspecified, and Implementation-Defined Behavior in C</title>
-      <link>https://hashdefine.netlify.app/c/gfg-c/behaviour_in_c/</link>
+      <link>https://hashdefine2.netlify.app/c/gfg-c/behaviour_in_c/</link>
       <pubDate>Sat, 09 Feb 2019 21:13:45 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/c/gfg-c/behaviour_in_c/</guid>
+      <guid>https://hashdefine2.netlify.app/c/gfg-c/behaviour_in_c/</guid>
       <description>Undefined Behavior {MOST DANGEROUS -:- BE AWARE -:- NEVER USE}
   Undefined behavior refers to a statement made in a standard specification that a particular behavior is not defined by a standard, i.e, in C. Ex - Dividing by 0.
   Some Other Examples:

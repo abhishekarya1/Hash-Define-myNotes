@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Regex on #Define</title>
-    <link>https://hashdefine.netlify.app/regex/</link>
+    <link>https://hashdefine2.netlify.app/regex/</link>
     <description>Recent content in Regex on #Define</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sat, 01 May 2021 00:20:42 +0530</lastBuildDate><atom:link href="https://hashdefine.netlify.app/regex/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sat, 01 May 2021 00:20:42 +0530</lastBuildDate><atom:link href="https://hashdefine2.netlify.app/regex/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Resources</title>
-      <link>https://hashdefine.netlify.app/regex/resources/</link>
+      <link>https://hashdefine2.netlify.app/regex/resources/</link>
       <pubDate>Sat, 01 May 2021 00:24:43 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/regex/resources/</guid>
-      <description>Web Resources  Regex For Noobs (like me!) - An Illustrated Guide - Janmeppe Regex Course - Launch School Learn Regex The Easy Way - GitHub  Practice  HackerRank - Regex RegexGolf RegexOne Regex101 - Quiz Regex Crossword  Testing and Visualisation  Match Testing  RegexPal Regex101    Visualisation  Regexper Debuggex    Interesting Stuff  TNW - Javascript regular expressions aren&amp;rsquo;t that daunting — here&amp;rsquo;s how to design your own My favorite regex of all time Regex that only matches itself The Many Uses of Regex  Cheat Sheets  Regular Expressions Cheat Sheet Regex Cheat Sheet MIT Cheat Sheet Regular Expressions Cheat Sheet by DaveChild  Resource Lists &amp;amp; References  RexEgg regular-expressions.</description>
+      <guid>https://hashdefine2.netlify.app/regex/resources/</guid>
+      <description>Web Resources  Regex For Noobs (like me!) - An Illustrated Guide - Janmeppe Regex Course - Launch School Learn Regex The Easy Way - GitHub Regular Expressions - Grymoire  Practice  HackerRank - Regex RegexGolf RegexOne Regex101 - Quiz Regex Crossword  Testing and Visualisation  Match Testing  RegexPal Regex101    Visualisation  Regexper Debuggex    Interesting Stuff  TNW - Javascript regular expressions aren&amp;rsquo;t that daunting — here&amp;rsquo;s how to design your own My favorite regex of all time Regex that only matches itself The Many Uses of Regex  Cheat Sheets  Regular Expressions Cheat Sheet Regex Cheat Sheet MIT Cheat Sheet Regular Expressions Cheat Sheet by DaveChild  Resource Lists &amp;amp; References  RexEgg regular-expressions.</description>
     </item>
     
     <item>
       <title>Notes</title>
-      <link>https://hashdefine.netlify.app/regex/notes/</link>
+      <link>https://hashdefine2.netlify.app/regex/notes/</link>
       <pubDate>Sat, 01 May 2021 00:24:54 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/regex/notes/</guid>
+      <guid>https://hashdefine2.netlify.app/regex/notes/</guid>
       <description>Regex pronunciation: &amp;ldquo;Redj-ex&amp;rdquo;
 Regex in programming languages C++11 onwards (&amp;lt;regex&amp;gt; header), Python, Java, Javascript, PHP, Java, etc&amp;hellip;
 C++ Regex is written in the form of a string inside double-quotes (&amp;quot;&amp;quot;)

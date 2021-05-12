@@ -2,26 +2,26 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>NoSQL Databases on #Define</title>
-    <link>https://hashdefine.netlify.app/nosql/</link>
+    <link>https://hashdefine2.netlify.app/nosql/</link>
     <description>Recent content in NoSQL Databases on #Define</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 29 Nov 2020 12:22:53 +0530</lastBuildDate><atom:link href="https://hashdefine.netlify.app/nosql/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 29 Nov 2020 12:22:53 +0530</lastBuildDate><atom:link href="https://hashdefine2.netlify.app/nosql/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Architecture</title>
-      <link>https://hashdefine.netlify.app/nosql/architecture/</link>
+      <link>https://hashdefine2.netlify.app/nosql/architecture/</link>
       <pubDate>Sun, 29 Nov 2020 12:22:53 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/nosql/architecture/</guid>
+      <guid>https://hashdefine2.netlify.app/nosql/architecture/</guid>
       <description>RDMS vs NoSQL  NoSQL does not store data in tables/relations and is often distributed/sharded. A NoSQL database has flexible schema. Data is stored in many ways which means it can be document-oriented, column-oriented, graph-based or organized as a KeyValue store. Sometimes called &amp;ldquo;Not only SQL&amp;rdquo; to emphasize the fact that they may support SQL-like query languages. Inherent horizontal scaling, as opposed to inherent vertical scaling in RDBMS. Complex queries like joins are very hard in NoSQL.</description>
     </item>
     
     <item>
       <title>MongoDB</title>
-      <link>https://hashdefine.netlify.app/nosql/mongodb/</link>
+      <link>https://hashdefine2.netlify.app/nosql/mongodb/</link>
       <pubDate>Sun, 29 Nov 2020 14:21:43 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/nosql/mongodb/</guid>
+      <guid>https://hashdefine2.netlify.app/nosql/mongodb/</guid>
       <description>Lorem Ipsum.</description>
     </item>
     

@@ -2,35 +2,35 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Python Notes on #Define</title>
-    <link>https://hashdefine.netlify.app/python/</link>
+    <link>https://hashdefine2.netlify.app/python/</link>
     <description>Recent content in Python Notes on #Define</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Tue, 24 Nov 2020 13:15:00 +0530</lastBuildDate><atom:link href="https://hashdefine.netlify.app/python/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Tue, 24 Nov 2020 13:15:00 +0530</lastBuildDate><atom:link href="https://hashdefine2.netlify.app/python/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Notes</title>
-      <link>https://hashdefine.netlify.app/python/notes/</link>
+      <link>https://hashdefine2.netlify.app/python/notes/</link>
       <pubDate>Tue, 24 Nov 2020 13:22:35 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/python/notes/</guid>
+      <guid>https://hashdefine2.netlify.app/python/notes/</guid>
       <description># Single line comments start with a number symbol. &amp;#34;&amp;#34;&amp;#34; Multiline strings can be written using three &amp;#34;s or &amp;#39;s, and are often used as documentation. &amp;#34;&amp;#34;&amp;#34; #################################################### ## 1. Primitive Datatypes and Operators #################################################### # Numbers are objects #Integer Literals a = 0b1010 #Binary Literals (0b / 0B) b = 100 #Decimal Literal c = 0o310 #Octal Literal (0c / 0C) d = 0x12c #Hexadecimal Literal (0x / 0X) #Float Literal float_1 = 10.</description>
     </item>
     
     <item>
       <title>OOP</title>
-      <link>https://hashdefine.netlify.app/python/oops/</link>
+      <link>https://hashdefine2.netlify.app/python/oops/</link>
       <pubDate>Tue, 24 Nov 2020 15:16:54 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/python/oops/</guid>
+      <guid>https://hashdefine2.netlify.app/python/oops/</guid>
       <description>&amp;#39;&amp;#39;&amp;#39; Class Object Object Variable Class Attribute/Data member (Static variable) Instance Methods Class Methods Static Methods Instance Instantiation self -&amp;gt; instance reference cls -&amp;gt; class reference Inner Classes &amp;#39;&amp;#39;&amp;#39; # The need for &amp;#34;self&amp;#34;  class Car: pass obj = Car()	#Insantiation, Instance = obj obj.brand = &amp;#39;Audi&amp;#39; obj.type = &amp;#39;Sports&amp;#39; obj.price = 5000000 print(obj.brand, obj.type, obj.price)	# =&amp;gt; Audi Sports 5000000 # We can &amp;#39;automate&amp;#39; this variable creation using &amp;#34;self&amp;#34; to refer to calling object  class Car: def __init__(self): self.</description>
     </item>
     
     <item>
       <title>Advanced</title>
-      <link>https://hashdefine.netlify.app/python/adv/</link>
+      <link>https://hashdefine2.netlify.app/python/adv/</link>
       <pubDate>Wed, 25 Nov 2020 11:49:03 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/python/adv/</guid>
+      <guid>https://hashdefine2.netlify.app/python/adv/</guid>
       <description>&amp;#39;&amp;#39;&amp;#39; Iterable Iterator Generator Closures Decorator Property RegEx &amp;#39;&amp;#39;&amp;#39; # Iterable -&amp;gt; objects that implement __iter__ and __next__.The function range() returns an iterator and for loop performs next() on it automatically. # Python offers a fundamental abstraction called the Iterable. # An iterable is an object that can be treated as a sequence. # The object returned by the range function, is an iterable. filled_dict = {&amp;#34;one&amp;#34;: 1, &amp;#34;two&amp;#34;: 2, &amp;#34;three&amp;#34;: 3} our_iterable = filled_dict.</description>
     </item>
     

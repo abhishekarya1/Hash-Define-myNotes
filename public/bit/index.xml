@@ -2,17 +2,17 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Bitwise Algorithms on #Define</title>
-    <link>https://hashdefine.netlify.app/bit/</link>
+    <link>https://hashdefine2.netlify.app/bit/</link>
     <description>Recent content in Bitwise Algorithms on #Define</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-US</language>
-    <lastBuildDate>Sun, 19 Jul 2020 09:59:14 +0530</lastBuildDate><atom:link href="https://hashdefine.netlify.app/bit/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 19 Jul 2020 09:59:14 +0530</lastBuildDate><atom:link href="https://hashdefine2.netlify.app/bit/index.xml" rel="self" type="application/rss+xml" />
     <item>
       <title>Basics</title>
-      <link>https://hashdefine.netlify.app/bit/basics/</link>
+      <link>https://hashdefine2.netlify.app/bit/basics/</link>
       <pubDate>Sun, 19 Jul 2020 10:17:43 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/bit/basics/</guid>
+      <guid>https://hashdefine2.netlify.app/bit/basics/</guid>
       <description>Bitwise Operators in C/C++ AND (&amp;amp;), OR (|), NOT (~), XOR (^), LEFT SHIFT (&amp;lt;&amp;lt;), RIGHT SHIFT (&amp;gt;&amp;gt;)
 The left shift and right shift operators should not be used for negative numbers. If any of the operands is a negative number, it results in undefined behaviour. For example results of both -1 &amp;lt;&amp;lt; 1 and 1 &amp;lt;&amp;lt; -1 is undefined.
 Also, if the number is shifted more than the size of integer, the behaviour is undefined.</description>
@@ -20,10 +20,10 @@ Also, if the number is shifted more than the size of integer, the behaviour is u
     
     <item>
       <title>Applications</title>
-      <link>https://hashdefine.netlify.app/bit/applications/</link>
+      <link>https://hashdefine2.netlify.app/bit/applications/</link>
       <pubDate>Sun, 19 Jul 2020 11:05:21 +0530</pubDate>
       
-      <guid>https://hashdefine.netlify.app/bit/applications/</guid>
+      <guid>https://hashdefine2.netlify.app/bit/applications/</guid>
       <description>Applications  Finding single element that occurs odd number of times in an array. Detect if two integers have opposite signs. (x ^ y) &amp;lt; 0 Adding 1 to number without using + operator. xPlusOne = -(~x), since ~x = -(x+1) holds. Turn off the rightmost set bit. n &amp;amp; (n - 1) Checking is number is power of 4. single set bit having even number of 0s on its right side Checking is number is power of 2.</description>
     </item>
     
