@@ -8,11 +8,11 @@ weight = 1
 
 1. Create a virtual environment
 ```bash
-$ python -m venv /path/to/new/virtual/environment
+$ python -m venv path/to/new/venv_folder
 
 #OR
 
-$ py -m venv /path/to/new/virtual/environment
+$ py -m venv path/to/new/venv_folder
 ```
 
 2. Activate the virtual environment
@@ -42,14 +42,16 @@ app = Flask(__name__)
 
 #app routes go here
 
-if __name__ == '__main__':
-	app.run()
+#main is optional
+# if __name__ == '__main__':
+# 	app.run()
 ```
 
 ### Two ways to run Flask apps
 ```bash
 #One
 $ python app.py
+$ py app.py
 
 #Two - by default, it works only when file is named "app.py"
 $ flask run
@@ -61,10 +63,14 @@ $ export FLASK_APP=main.py
 $ export FLASK_DEBUG=1
 ```
 
-### __main__
+### Optional \_\_main\_\_
 ```python
 # Syntax: app.run(host, port, debug, options)  
-app.run('127.0.0.5', '4567', debug=True, options)  
+app.run('127.0.0.5', '4567', debug=True)
+
+#or
+
+app.run(port=4567)
 ```
 
 ### App Routing
