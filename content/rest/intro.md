@@ -172,4 +172,8 @@ Further Reading:
 - [Restfulapi.net](https://restfulapi.net/) - Collection of good articles on REST (see right side menu)
 
 ## Building a REST API with Flask-Restful
-[Link]()
+[Link](/flask/flask-restful)
+
+## Testing APIs
+GUI: Postman
+Terminal: [cURL](/linux-and-tools/curl/)
