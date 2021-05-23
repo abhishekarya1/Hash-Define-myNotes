@@ -82,7 +82,7 @@ Most popular protocol that is used to implement ReSTful principles to system. `H
 ![](https://learning.oreilly.com/library/view/http-the-definitive/1565925092/httpatomoreillycomsourceoreillyimages96838.png)
 
 ```http
-#Sample Request
+#Request headers
 GET /hello.htm HTTP/1.1
 User-Agent: Mozilla/4.0 (compatible; MSIE5.01; Windows NT)
 Host: www.tutorialspoint.com
@@ -94,7 +94,7 @@ Connection: Keep-Alive
 ```
 
 ```http
-#Sample Response
+#Response headers
 HTTP/1.1 200 OK
 Date: Mon, 27 Jul 2009 12:28:53 GMT
 Server: Apache/2.2.14 (Win32)
@@ -119,6 +119,8 @@ Connection: Closed
 ```
 [Useful status codes](https://www.restapitutorial.com/httpstatuscodes.html)
 
+**Custom Headers**: HTTP can have customised headers. A fun [article](https://carluc.ci/http-headers-you-dont-expect/) on custom heders.
+
 ### Methods/Verbs
 [List of methods](https://www.tutorialspoint.com/http/http_methods.htm)
 
@@ -140,7 +142,7 @@ OPTIONS - Send all available methods for target resource
 HEAD - send only header back (response code)
 ```
 
-- GET, HEAD, PUT, and DELETE are idempotent methods, PATCH can be made idempotent
+- GET, HEAD, PUT, and DELETE are idempotent methods, PATCH can be made idempotent.
 
 
 ### GET vs POST
@@ -152,19 +154,20 @@ HEAD - send only header back (response code)
 
 ### Cookies and Cache Control in HTTP
 Further Reading and Exploring:
-- [MDN Docs - Mozilla](https://developer.mozilla.org/en-US/docs/Web/HTTP)
-- [dev.to](https://dev.to/ender_minyard/full-stack-developer-s-roadmap-2k12)
+- [Caching](/rest/caching/)
+- [Security](https://dev.to/ender_minyard/full-stack-developer-s-roadmap-2k12)
 
 ## Desigining an API
+- [5 Steps to designing your REST APIs](https://www.wutsi.com/read/246/5-steps-for-designing-your-rest-apis)
 - meaningful resource and endpoint names
 - proper versioning
 - meaningful methods and verbs
 
 - OAS (Open API Standard) and Swagger
+- documenting an API
 - Filtering and Ordering on resources
 - implementing hypertext in response (HATEOAS)
 - pagination
-- documenting an API
 - caching and security considerations
 
 Further Reading:
