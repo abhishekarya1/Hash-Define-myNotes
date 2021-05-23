@@ -24,10 +24,10 @@ Cache is populated by copying data from datastore in majorly two ways:
 ### Cache Policy
 How to populate data, when to discard, etc...
 ```txt
-Cache eviction
+Cache eviction (remove data from cache)
 
 Cache validation
-Cache invalidation
+Cache invalidation (invalidate cache data)
 
 Thrashing: If the cache is small in size, it may frequently evict useful data.
 ```
@@ -67,23 +67,27 @@ Read-through
 ```txt
 Cache-Control: no-store (no caching)
 			   no-cache (cache but revalidate)
-			   private
-			   public
+			   private (only cache on client, not proxy)
+			   public (cache everywhere)
 
 
 <!-- Expiration -->
-Cache-Control: max-age=<seconds>
-Cache-Control: max-age=3600
+			   max-age=<seconds>
+			   max-age=3600
 			   s-maxage=<seconds>
 
 
 <!-- Validation -->
-Cache-Control: must-revalidate
+			   must-revalidate
 			   proxy-revalidate
+
+
+<!-- Combination can be done -->
+Cache-Control: no-cache, must-revalidate, max-age=1800
 ```
 
 ### Freshness
-A stale resource is not evicted or ignored but a request with header `If-None-Match` is sent to validate.
+A **stale resource** is not evicted or ignored but it is validated.
 
 Heuristic freshness checking takes place if no age using `Cache-control` is specified.
 [Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#freshness)
@@ -95,17 +99,26 @@ Name infrequently updated resources with revision numbers such that the older re
 Revalidation is triggered when the user presses the reload button. It is also triggered under normal browsing if the cached response includes the `Cache-Control: must-revalidate` header. In requests, `If-None-Match` and `If-Modified-Since` are used to validate.
 
 #### ETag (strong)
-If a resource changes, we send a new `ETag` value in response to indicate to the client that some change has taken place. Client issues `If-None-Match` in the header of future requests – in order to validate the cached resource.
+If a resource changes, server sends a new `ETag` value in response to indicate to the client that some change has taken place. The client can't predict, in any way, the value of the tag. Client issues `If-None-Match` in the header of future requests – in order to validate the cached resource.
 ```txt
 ETag: "j82j8232ha7sdh0q2882" - Strong Etag
 ETag: W/"j82j8232ha7sdh0q2882" - Weak Etag (prefixed with `W/`)
 ```
+Weak ETag maybe used for slight changes in resources.
 
 #### Last-Modified (weak)
-This is weak validator because resolution time is 1-second. The client issues an `If-Modified-Since` request header to validate the cached document.
+A response tag, this is weak validator because resolution time is 1-second. Server might include the `Last-Modified` header indicating the date and time at which some content was last modified on.
+```txt
+Last-Modified: Wed, 15 Mar 2017 12:30:26 GMT
+```
+The client issues an `If-Modified-Since` request header to validate the cached document. The server can either send a `200 (OK)` or a `304 (Not Modified)` (with an empty body) in response.
+
+We can have both `ETag` and `Last-Modified` present in response but `AND` operation is done i.e. both the conditions have to be satisfied.
 
 ### Varying Responses
 We can specify another header in `Vary` of response header. It determines how to match future request headers (those specified in `Vary`) to decide whether a cached response can be used, or if a fresh one must be requested from the origin server.
+
+[References](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching#varying_responses)
 
 ## References
 - [Hussein Nasser - YouTube](https://www.youtube.com/watch?v=ccemOqDrc2I)
