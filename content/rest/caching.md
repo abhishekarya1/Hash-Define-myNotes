@@ -99,7 +99,7 @@ Name infrequently updated resources with revision numbers such that the older re
 Revalidation is triggered when the user presses the reload button. It is also triggered under normal browsing if the cached response includes the `Cache-Control: must-revalidate` header. In requests, `If-None-Match` and `If-Modified-Since` are used to validate.
 
 #### ETag (strong)
-If a resource changes, server sends a new `ETag` value in response to indicate to the client that some change has taken place. The client can't predict, in any way, the value of the tag. Client issues `If-None-Match` in the header of future requests – in order to validate the cached resource.
+If a resource changes, server sends a new `ETag` value in response to be cached to indicate to the client that some change has taken place. The client can't predict, in any way, the value of the tag. Client issues `If-None-Match` in the header of future requests – in order to validate the cached resource.
 ```txt
 ETag: "j82j8232ha7sdh0q2882" - Strong Etag
 ETag: W/"j82j8232ha7sdh0q2882" - Weak Etag (prefixed with `W/`)
@@ -107,7 +107,7 @@ ETag: W/"j82j8232ha7sdh0q2882" - Weak Etag (prefixed with `W/`)
 Weak ETag maybe used for slight changes in resources.
 
 #### Last-Modified (weak)
-A response tag, this is weak validator because resolution time is 1-second. Server might include the `Last-Modified` header indicating the date and time at which some content was last modified on.
+A response tag, this is weak validator because resolution time is 1-second. Server might include the `Last-Modified` header in the response to be cached indicating the date and time at which some content was last modified on.
 ```txt
 Last-Modified: Wed, 15 Mar 2017 12:30:26 GMT
 ```
