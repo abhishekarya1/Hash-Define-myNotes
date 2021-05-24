@@ -6,7 +6,6 @@ weight = 1
 
 ```python
 
-
 # Single line comments start with a number symbol.
 
 """ Multiline strings can be written
@@ -14,25 +13,31 @@ weight = 1
     as documentation.
 """
 
+# Semi-colon: Used for separation rather than terminaiton. Completely optional, used to stuff many statements in a single line
+print("one"); print(two)
+print("one"); print(two);
+
 ####################################################
 ## 1. Primitive Datatypes and Operators
 ####################################################
 
 # Numbers are objects
 
+type(variable) #int, float, str, bool, complex 
+
 #Integer Literals
 a = 0b1010 #Binary Literals (0b / 0B)
 b = 100 #Decimal Literal
-c = 0o310 #Octal Literal (0c / 0C)
+c = 0o310 #Octal Literal (0o / 0O)
 d = 0x12c #Hexadecimal Literal (0x / 0X)
 
 #Float Literal
 float_1 = 10.5 
 float_2 = 1.5e2
 
-#Complex Literal 
+#Complex Literal (j/J)
 x = 3.14j
-y = 3+6j
+y = 3+6J
 print(x, x.imag, x.real)	#3.14j 3.14 0.0
 print(y, y.imag, y.real)	#(3+6j) 6.0 3.0
 
@@ -43,8 +48,8 @@ print(y, y.imag, y.real)	#(3+6j) 6.0 3.0
 35 / 5  # => 7.0
 
 # Integer division rounds down (floor) for both positive and negative numbers, unlike truncate C/C++
-5 // 3       # => 1
--5 // 3      # => -2
+5 // 2       # => 2
+-5 // 2      # => -3
 5.0 // 3.0   # => 1.0 # works on floats too
 -5.0 // 3.0  # => -2.0
 
@@ -57,7 +62,7 @@ print(y, y.imag, y.real)	#(3+6j) 6.0 3.0
 -7 % 3  # => 2
 
 # Exponentiation (x**y, x to the yth power)
-2**3  # => 8
+2 ** 3  # => 8
 
 # Enforce precedence with parentheses
 1 + 3 * 2    # => 7
@@ -74,7 +79,7 @@ False or True   # => True
 not True   # => False
 not False  # => True
 
-# True and False are actually 1 and 0 but with different keywords
+# True and False are actually 1 and 0 but as keywords
 True + True # => 2
 True * 8    # => 8
 False - 5   # => -5
@@ -85,13 +90,32 @@ False - 5   # => -5
 2 == True   # => False
 -5 != False # => True
 
-# Using boolean logical operators on ints casts them to booleans for evaluation, but their non-cast value is returned
 # Don't mix up with bool(ints) and bitwise and/or (&,|)
 bool(0)     # => False
 bool(4)     # => True
 bool(-6)    # => True
+
+# Using boolean logical operators on ints casts them to booleans for evaluation, but their non-cast value is returned
+# The expression x and y first evaluates x; if x is false, its value is returned; otherwise, y is evaluated and the resulting value is returned.
+# returns first "falsy" value
 0 and 2     # => 0
+2 and 4     # => 4
+# The expression x or y first evaluates x; if x is true, its value is returned; otherwise, y is evaluated and the resulting value is returned.
+# returns first "truthy" value
+0 or 3      # => 3
 -5 or 0     # => -5
+
+# any() and all()
+any(iterable) # returns True only if ANY of the elements evaluates to True in iterable
+all(iterable) # returns True only if ALL the elements evaluates to True in iterable
+
+any(empty_iterable)     #False
+all(empty_iterable)     #True
+
+# In-place operators
+# Compound assignments are in-place and methods with i-prefix are present to make sure in-place calculations.
+# +=, -=, ... and imul(), iadd(), isub(), etc...
+# Pitfall: https://www.geeksforgeeks.org/python-a-b-is-not-always-a-a-b/
 
 #Comparisons
 < > <= >= == !=
@@ -107,7 +131,7 @@ bool(-6)    # => True
 a = b = c = 5
 a, b, c = 3, 4, 5 #Tuple Unpacking
 
-#Identity operators (is/ is not) compares by object id() 
+#Identity operators (is/ is not) compares by object "id()" 
 # (is vs. ==) is checks if two variables refer to the same object, but == checks
 # if the objects pointed to have the same values.
 a = [1, 2, 3, 4]  # Point a at a new list, [1, 2, 3, 4]
@@ -130,28 +154,30 @@ not in
 # Strings are created with " or '
 "This is a string."
 'This is also a string.'
+"""doc string"""
+'''another doc string using single quotes'''
 
-#String literals
+# String literals
 unicode = u"\u00dcnic\u00f6de"	# => Ünicöde
 raw_str = r"raw \n string"	# => raw \n string
 
-# Strings can be added too
+# Strings and string variables can be summed too
 "Hello " + "world!"  # => "Hello world!"
 # String literals (but not variables) can be concatenated without using '+'
 "Hello " "world!"    # => "Hello world!"
-#Multiplication on strings
+# Multiplication on strings
 print('hey' * 2)	# => heyhey
 # A string can be treated like a list of characters
 "Hello world!"[0]  # => 'H'
 
-#But they are an immutable collection
+# But they are an immutable collection
 "Hello"[1] = "u"	#TypeError: assigment not supported
 
 # You can find the length of a string
 len("This is a string")  # => 16
 
 #Formatting
-#C-like
+#C-like (%d, %f, %s, %x, %o)
 name = 'Abhi'
 print('My name is: %s' %name) # => My name is: Abhi (notice no comma)
 #format() function of String object
@@ -159,7 +185,7 @@ name = 'Abhishek'
 title = 'Arya'
 print('My name is: {} {}'.format(name, title)) # => My name is: Abhishek Arya
 #Keyword arguments are allowed just like any other function
-print('My name is: {} {}'.format(title = 'Arya', name='Abhishek')) # => My name is: Abhishek Arya
+print('My name is: {name} {title}'.format(title = 'Arya', name='Abhishek')) # => My name is: Abhishek Arya
 # f-strings (in Python 3.6+)
 name = "Arya"
 f"He said his name is {name}." # => "He said his name is Arya."
@@ -197,7 +223,11 @@ print("Hello", "Bye", sep="&")  # => Hello&Bye (only works if there's a comma in
 
 # Simple way to get input data from console
 input_string_var = input("Enter some data: ") # Returns the data as a string by default
-input_int_var = int(input("Enter a number: ")) # Returns the data as an integer
+input_int_var = int(input("Enter a decimal: ")) # typecasting input
+input_float_var = float(input("Enter a real number: "))
+
+# Multiple inputs, separated by space
+a,b = input().split()
 
 # There are no declarations, only assignments.
 # Convention is to use lower_case_with_underscores
@@ -206,11 +236,11 @@ print(some_var)  # => 5
 
 # Accessing a previously unassigned variable is an exception.
 # See Control Flow to learn more about exception handling.
-some_unknown_var  # Raises a NameError
+z = some_unknown_var  # Raises a NameError
 
 # if can be used as an expression
 # Equivalent of C's '?:' ternary operator
-"yay!" if 0 > 1 else "nay!"  # => "nay!"
+result = "yay!" if 0 > 1 else "nay!"  # => "nay!"
 
 # Lists store sequences
 li = []
@@ -386,6 +416,14 @@ filled_set = some_set
 filled_set.add(5)  # filled_set is now {1, 2, 3, 4, 5}
 # Sets do not have duplicate elements
 filled_set.add(5)  # it remains as before {1, 2, 3, 4, 5}
+
+# Enter lists with update but they get converted to elements
+a.update([7,8]) # {1, 2, 3, 4, 5, 7, 8}
+
+# remove() to delete elements but gives KeyError if element doesn't exists
+a.remove(9) # error
+# discard() to delete elements but doesn't gives any errors
+a.discard(9)
 
 # Do set intersection with &
 other_set = {3, 4, 5, 6}
