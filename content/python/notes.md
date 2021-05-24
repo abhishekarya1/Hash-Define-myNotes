@@ -309,6 +309,8 @@ len(li)  # => 6
 
 # Tuples are like lists but are immutable.
 tup = (1, 2, 3)
+# () are optional
+tup = 1, 2, 3 # tuple packing 
 tup[0]      # => 1
 tup[0] = 3  # Raises a TypeError
 
