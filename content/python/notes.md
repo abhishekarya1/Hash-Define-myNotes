@@ -559,6 +559,7 @@ break continue #works the same
 try:
     # Use "raise" to raise an error
     raise IndexError("This is an index error")
+#except IndexError:    
 except IndexError as e:
     pass                 # Pass is just a no-op. Usually you would do recovery here.
 except (TypeError, NameError):
@@ -816,17 +817,8 @@ print("This code got executed")
 #Now we see the effect of multiple imports.
 >>> import my_module
 This code got executed
->>> import my_module
->>> import my_module
-
-#Reloading with imp.reload(module_name)
->>> import imp
->>> import my_module
-This code got executed
->>> import my_module
->>> imp.reload(my_module)
-This code got executed
-<module 'my_module' from '.\\my_module.py'>
+>>> import my_module    #no effect
+>>> import my_module    #no effect
 
 ####################################################
 ## 6. Classes and OOP
@@ -835,7 +827,7 @@ This code got executed
 # We use the "class" statement to create a class
 class Human:
 
-    # A class attribute. It is shared by all instances of this class
+    # A class attribute (can be changed using Human.specied = 'Fish' and is reflected across all instances)
     species = "H. sapiens"
 
     # Basic initializer, this is called when this class is instantiated.
@@ -846,10 +838,10 @@ class Human:
     # You should not invent such names on your own.
     def __init__(self, naam):
         # Assign the argument to the instance's name attribute
-        self.name = naam
+        self.name = naam    # naam and age are an instance attribute here
 
         # Implicit decalration, and Initialization of property
-        self._age = 0
+        self.age = 0
 
     # An instance method. All methods take "self" as the first argument 
     # as it is the first argument that is passed implicitly during the function call
@@ -862,7 +854,7 @@ class Human:
 
     # A class method is shared among all instances
     # They are called with the calling class as the first argument
-    @classmethod
+    @classmethod        #required if we want to call with classname directly
     def get_species(cls):
         return cls.species
 
@@ -876,17 +868,21 @@ class Human:
     # There's no need to write trivial getters and setters in Python, though.
     @property
     def age(self):
-        return self._age
+        return self.age
 
     # This allows the property to be set
     @age.setter
     def age(self, age):
-        self._age = age
+        self.age = age
 
     # This allows the property to be deleted
     @age.deleter
     def age(self):
-        del self._age
+        del self.age
+
+    # Destructor (called when del on Object is called or program ends)
+    def __del__(self):
+        print("Calling desctructor.")
 
 
 # When a Python interpreter reads a source file it executes all its code.
@@ -894,10 +890,10 @@ class Human:
 # module is the main program.
 if __name__ == '__main__':
     # Instantiate a class
-    i = Human(naam="Ian")
-    i.say("hi")                     # "Ian: hi"
+    i = Human("Ian")
+    i.say("hi")                     # "Ian: hi" (called via object)
     j = Human("Joel")
-    Human.say(j, "hello")           # "Joel: hello"
+    Human.say(j, "hello")           # "Joel: hello" (called directly via classname)
     # i and j are instances of type Human, or in other words: they are Human objects
     '''
     object.func() 	#self is passed implicitly
@@ -905,11 +901,11 @@ if __name__ == '__main__':
     Classname.func(object)	#explicit object passing
     '''
     # Call our class method
-    i.say(i.get_species())          # "Ian: H. sapiens"
+    i.say(Human.get_species())          # "Ian: H. sapiens"
     # Change the shared attribute
     Human.species = "H. neanderthalensis"
-    i.say(i.get_species())          # => "Ian: H. neanderthalensis"
-    j.say(j.get_species())          # => "Joel: H. neanderthalensis"
+    i.say(Human.get_species())          # => "Ian: H. neanderthalensis"
+    j.say(i.get_species())              # => "Joel: H. neanderthalensis"
 
     # Call the static method
     print(Human.grunt())            # => "*grunt*"
@@ -923,7 +919,10 @@ if __name__ == '__main__':
     i.say(i.age)                    # => "Ian: 42"
     j.say(j.age)                    # => "Joel: 0"
     # Delete the property
-    del i.age
+    del i.age         
+    # Delete an object         
+    del i                           # => "Calling Destructor."
+    # Program ended                 # => "Calling Destructor."
     # i.age                         # => this would raise an AttributeError
 
 
