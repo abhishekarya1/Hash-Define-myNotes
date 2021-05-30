@@ -4,6 +4,8 @@ date = 2021-05-24T20:36:40+05:30
 weight = 4
 +++
 
+- [sorted() vs sort()](https://www.geeksforgeeks.org/python-difference-between-sorted-and-sort/)
+
 - What is the maximum possible value of an integer in Python? - [GfG](https://www.geeksforgeeks.org/what-is-maximum-possible-value-of-an-integer-in-python/)
 - Byte Objects vs String in Python - [GfG](https://www.geeksforgeeks.org/byte-objects-vs-string-python/)
 - Python Input Methods for Competitive Programming - [GfG](https://www.geeksforgeeks.org/python-input-methods-competitive-programming/)

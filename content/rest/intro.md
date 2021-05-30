@@ -180,3 +180,7 @@ Further Reading:
 ## Testing APIs
 GUI: Postman
 Terminal: [cURL](/linux-and-tools/curl/)
+
+## Alternatives
+- [GraphQL](https://www.howtographql.com/basics/1-graphql-is-the-better-rest/)
+- [JSON-RPC](https://www.jsonrpc.org/) (used in Ethereum API)
