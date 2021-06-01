@@ -87,10 +87,10 @@ Another-H2
 ###### H6
 
 Alternative-H1
-==============
+==============    (atleast one will do)
 
 Alternative-H2
---------------
+--------------    (atleast one will do)
 
 ---
 ### 2. Emphasis {#emphasis}
@@ -182,14 +182,19 @@ Expand those references later:
 
 [You can use numbers for reference-style link definitions][1]
 
+[Case-insensitive reference text]: https://www.bing.com
+
+[1]: https://www.bing.com
+
 [Relative link to local](../docs/new/my)
 
 [link text itself]
 
+[link text itself]: https://www.google.com
 ---
 ### 5. Heading ID {#headingID}
 You can place heading id as
-```
+```md
 ### My Heading {#custom-id}
 ```
 You can then link directly to it using link as `[Goto Heading](#custom-id)`.
@@ -197,7 +202,7 @@ You can then link directly to it using link as `[Goto Heading](#custom-id)`.
 ---
 ### 6. Images {#images}
 
-```
+```md
 Absolute:
 ![Alt-text for image](https://abhishekarya1.github.io/img/triangle.jpg)
 
@@ -214,7 +219,7 @@ Absolute:
 ![Alt-text for image](https://abhishekarya1.github.io/img/splash.png)
 
 Relative:
-![Alt text for image](/img/splash.png)
+![Alt text for image](../../img/array.png)
 
 Reference-styled:
 ![Alt-text for image][image]
@@ -236,8 +241,8 @@ You can specify the language for proper highlighting:
 
 ```python
 s = "Python syntax highlighting"
-print s
-```.
+print(s)
+```
 
 ```
 back-ticks are used for inline-highlighting: `Important Stuff`
@@ -246,7 +251,7 @@ triple back-ticks are used for block-highlighting: code enclosed within \`\`\`
 
 You can specify the language for proper highlighting:
 
-```python
+```py
 s = "Python syntax highlighting"
 print s
 
@@ -258,7 +263,7 @@ def __init__(self):
 ### 8. Tables {#tables}
 Tables aren't part of the original Markdown specifications, but they are there many times.
 
-```
+```md
 | Tables        | Are           | Cool  |
 | ------------- | ------------- | ----- |
 | row 1         | top           |    4  |
@@ -307,12 +312,12 @@ A2 | B2 | C2
 ---
 ### 9. Blockquotes {#blockquotes}
 
+```txt
+> Here is a nice quote.
+This line is part of the same blockcode.
 ```
 > Here is a nice quote.
-> This line is part of the same code.
-```
-> Here is a nice quote.
-> This line is part of the same code.
+ This line is part of the same code.
 
 A quote can also nicely align and wrap around when it is a really long one.
 
@@ -381,7 +386,7 @@ A footnote will be created at the very bottom of this page, which you can visit 
 
 ### 14. Definitions {#defns}
 Some Markdown processors allow you to create definition lists of terms and their corresponding definitions as follows.
-```
+```md
 First Term
 : This is the definition of the first term.
 
@@ -399,7 +404,7 @@ Second Term
 ---
 
 ### 15. Escaping {#esc}
-You can escape certain characters in Markdown.
+You can escape certain characters in Markdown using `\`.
 ```
 \     backslash
 \.    dot  
@@ -418,7 +423,7 @@ You can escape certain characters in Markdown.
 ### 16. Line Breaks {#linebreaks}
 One Newline won't break the line in Markdown, you have to hit newline twice or use two spaces after a line for line break.
 
-```
+```md
 Here's a line for us to start with.
 
 This line is separated from the one above by two newlines, so it will be a *separate paragraph*.
@@ -437,4 +442,4 @@ This line is only separated by a single newline, so it's a separate line in the 
 ---
 ### 17. YouTube Videos {#youtube}
 
-Videos can be added directly by just pasting their embed code inside Markdown.
+Videos can be added directly on most markdown flavors by just pasting their embed code inside Markdown.

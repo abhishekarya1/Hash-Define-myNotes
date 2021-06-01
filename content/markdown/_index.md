@@ -10,11 +10,13 @@ pre = "📝 "
 Simple & Lighweight markup language 
 
 ### References
+This reference is mostly derived from - [here](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet).
+
 Try out Markdown directly in your browser here - [StackEdit.io](https://stackedit.io/).
 
-A good reference for Markdown - [link](https://www.markdownguide.org/).
+A lightweight reference for Markdown - [link](https://www.markdownguide.org/).
 
-For the detailed info, you can refer to the official documentation [here](https://daringfireball.net/projects/markdown/syntax).
+The official documentation [here](https://daringfireball.net/projects/markdown/syntax). (Old but original)
 
 Markdown - [Wikipedia](https://en.wikipedia.org/wiki/Markdown).
 
