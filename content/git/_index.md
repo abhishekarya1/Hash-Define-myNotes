@@ -20,3 +20,4 @@ Practice: http://git-school.github.io/visualizing-git/
 
 https://www.packtpub.com/product/git-and-github-the-complete-git-and-github-course-video/9781800204003
  
+Most detailed reference: [Docs](https://git-scm.com/doc) and [Book](https://git-scm.com/book/en/v2) 

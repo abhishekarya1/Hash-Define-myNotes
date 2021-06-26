@@ -7,7 +7,7 @@ weight = 1
 ## Git SCM notes
 
 ### Basics
-- Many platforms use Git VCS (version control system), some are GitHub, Bitbucket, etc.. 
+- Many platforms use Git DVCS (Distributed Version Control System), some are GitHub, Bitbucket, etc.. 
 https://www.geeksforgeeks.org/centralized-vs-distributed-version-control-which-one-should-we-choose/
 
 ### Glossary
@@ -20,7 +20,11 @@ https://www.geeksforgeeks.org/centralized-vs-distributed-version-control-which-o
 ```sh
 # Setup
 $ git config --global user.name "Your Name"
-$ git config --global user.email "your_email@whatever.com"
+$ git config --global user.email your_email@whatever.com
+
+# To view config
+$ git config user.name
+$ git config user.email
 
 # Setting line preferences (optional ofcourse)
 $ git config --global core.autocrlf true
@@ -131,8 +135,10 @@ $ git checkout -b <brachname>
 # Jump across branches
 $ git checkout new-brach
 $ git checkout master
-# View all branches
+# View all local branches
 $ git branch
+# View all remote branches
+$ git branch -a
 # Deleting branches, we can't delete branch we're currently on
 $ git branch -D <branchname>
 
@@ -146,7 +152,8 @@ $ git log --graph
 # 3-way Merge (if changes happen to branch as well as master simultaneously after branch, can lead to conflicts)
 $ git checkout anotherBranch
 $ git merge master
-
+# We may want to fetch the latest before merge, pull = fetch followed by merge
+$ git pull master
 # Merge Conflict - If we make change to both the branch and master, both are different and git can't choose which one to keep 
 # Refer: https://stackoverflow.com/questions/24852116/how-does-exactly-a-git-merge-conflict-happen
 # Resolve conflict manually by editing the files or abort as follows, 
@@ -155,6 +162,15 @@ $ git merge --abort
 # Rebase (the junction commit or base commit can be changed using rebase, default is rebasing to last commit on target branch)
 $ git checkout anotherBranch
 $ git rebase master
+
+# Stashing changes
+$ git stash
+# View all stashes (latest is stash@{0}, then stash@{1} and so on...)
+$ git stash list
+# Apply stash (apply but don't remove stash from list)
+$ git stash apply stash@{0}
+# git stash pop (remove and apply, if conflict then no popping)
+$ git stash pop stash@{0}
 
 # GitHub
 # Create repo in GitHub in browser

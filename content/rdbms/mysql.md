@@ -64,11 +64,11 @@ CREATE TABLE [IF NOT EXISTS] table_name(
 
 ```sql
 CREATE TABLE t_name(
-serial_no INT NOT NULL AUTO_INCREMENT,
+serial_no INT NOT NULL AUTO_INCREMENT, -- PRIMARY KEY (alternatively)
 emp_id INT NOT NULL,
 emp_name VARCHAR(25) NOT NULL,
 doj DATE,
-PRIMARY KEY (emp_id)    --single col only, multiple => CONSTRAINT PK_Person PRIMARY KEY (ID,LastName)
+PRIMARY KEY (emp_id)    --single col only, multiple => CONSTRAINT combined_pk_alias PRIMARY KEY (ID,LastName)
 );
 ```
 
@@ -248,7 +248,7 @@ GROUP BY Country
 (we can skip Country from projection but that doesn't make any sense)
 
 ### HAVING
-The `WHERE` clause places conditions on the selected columns, whereas the `HAVING` clause places conditions on groups created by the `GROUP BY` clause. We can't have `HAVING` without `GROUP BY`.
+The `WHERE` clause places conditions on the selected columns, whereas the `HAVING` clause places conditions on groups created by the `GROUP BY` clause or aggregate functions. We can't have `HAVING` without `GROUP BY`.
 ```sql
 SELECT COUNT(CustomerID), Country
 FROM Customers
@@ -273,7 +273,7 @@ WHERE ProductID = ANY (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
 
 ### REGEXP
 ```sql
-SELECT name FROM person_tbl WHERE name REGEXP 'ok$';
+SELECT name FROM person_tbl WHERE name REGEXP '^a.*';
 ```
 ### SELECT INTO
 Insert attributes into new table from an existing one.
@@ -355,5 +355,7 @@ CREATE TABLE t_name (
 );
 ```
 ### Functions
+
+### Indexing
 
 ### FK Constraint, Joins, Built-in Functions, Normalization
