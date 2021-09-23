@@ -1,5 +1,5 @@
 +++
-title = "Notes"
+title = "Basics"
 date =  2020-11-24T13:22:35+05:30
 weight = 1
 +++
@@ -34,10 +34,11 @@ d = 0x12c #Hexadecimal Literal (0x / 0X)
 #Float Literal
 float_1 = 10.5 
 float_2 = 1.5e2
+float_3 = 1.5e-3
 
 #Complex Literal (j/J)
 x = 3.14j
-y = 3+6J
+y = 3 + 6J
 print(x, x.imag, x.real)	#3.14j 3.14 0.0
 print(y, y.imag, y.real)	#(3+6j) 6.0 3.0
 
@@ -54,11 +55,12 @@ print(y, y.imag, y.real)	#(3+6j) 6.0 3.0
 -5.0 // 3.0  # => -2.0
 
 # The result of division is always a float
-10.0 / 3  # => 3.3333333333333335
+10 / 3  # => 3.3333333333333335
+7 / 1 # => 7.0
 
 # Modulo operation
 7 % 3   # => 1
-# i % j have the same sign as j, unlike C
+# i % j have the same sign as j, unlike C (where i's sign matters)
 -7 % 3  # => 2
 
 # Exponentiation (x**y, x to the yth power)
@@ -90,7 +92,7 @@ False - 5   # => -5
 2 == True   # => False
 -5 != False # => True
 
-# Don't mix up with bool(ints) and bitwise and/or (&,|)
+# Don't mess with bool(ints) and bitwise and/or (&,|) on True/False literals
 bool(0)     # => False
 bool(4)     # => True
 bool(-6)    # => True
@@ -318,6 +320,12 @@ tup[0] = 3  # Raises a TypeError
 n_tuple = ("mouse", [8, 4, 5], (1, 2, 3))
 n_tuple[1][0] = 3
 print(n_tuple)	# => ('mouse', [3, 4, 5], (1, 2, 3))
+
+# Immutable collections having mutable elements are stored at different memory locations,
+# even if data is same, or even empty mutable elements like [], etc...
+a = ([1])
+b = ([1])
+print(a is b)  # False
 
 # Note that a tuple of length one has to have a comma after the last element but
 # tuples of other lengths, even zero, do not.
@@ -569,7 +577,7 @@ else:                    # Optional clause to the try/except block. Must follow 
 finally:                 #  Execute under all circumstances
     print("We can clean up resources here")
 
-# Instead of try/finally to cleanup resources you can use a with statement
+# Instead of try/finally to cleanup resources you can use a with statement (called "opening files with context")
 with open("myfile.txt") as f:
     for line in f:
         print(line)
@@ -579,21 +587,13 @@ contents = {"aa": 12, "bb": 21}
 with open("myfile1.txt", "w+") as file:
     file.write(str(contents))        # writes a string to a file
 
-with open("myfile2.txt", "w+") as file:
-    file.write(json.dumps(contents)) # writes an object to a file
-
 # Reading from a file
 with open('myfile1.txt', "r+") as file:
     contents = file.read()           # reads a string from a file
 print(contents)
 # print: {"aa": 12, "bb": 21}
 
-with open('myfile2.txt', "r+") as file:
-    contents = json.load(file)       # reads a json object from a file
-print(contents)
-# print: {"aa": 12, "bb": 21}
-
-# Don't forget to close files
+# Don't forget to close files if opened without context
 file.close()
 
 
@@ -604,7 +604,7 @@ file.close()
 
 # Use "def" to create new functions
 def add(x, y):
-	"""optional docstring that can be referenced by func_name.__doc__"""
+	'''optional docstring that can be referenced by func_name.__doc__'''
     print("x is {} and y is {}".format(x, y))
     return x + y  # Return values with a return statement
 
@@ -613,6 +613,7 @@ return #returns None
 # Define functions with optional default arguments
 def foo(x, y='Welcome')	# Default argument y
 	return x + ' ' + y
+
 foo('Hi')	# => Hi Welcome
 foo('Hello', 'Bonjour')	# => Hello Bonjour
 
@@ -655,6 +656,8 @@ kwargs = {"a": 3, "b": 4}
 all_the_args(*args)            # equivalent to all_the_args(1, 2, 3, 4)
 all_the_args(**kwargs)         # equivalent to all_the_args(a=3, b=4)
 all_the_args(*args, **kwargs)  # equivalent to all_the_args(1, 2, 3, 4, a=3, b=4)
+
+# RULE: kwargs must appear after (right to) args.
 
 # Returning multiple values (with tuple assignments, basically a tuple is returned from swap() which is unpacked into x, y)
 def swap(x, y):
@@ -887,7 +890,7 @@ class Human:
 
 # When a Python interpreter reads a source file it executes all its code.
 # This __name__ check makes sure this code block is only executed when this
-# module is the main program.
+# module is run directly, but not when it's imported.
 if __name__ == '__main__':
     # Instantiate a class
     i = Human("Ian")

@@ -9,4 +9,10 @@ pre = "<i class='devicon-c-plain'></i> "
 
 # C Programming Notes
 
-Short notes from various sources.
+My notes from various sources.
+
+[Web Notes](/c/notes)
+
+[Book Notes](/c/c-dennis-ritchie)
+
+[C Tips](/c/c-tips)

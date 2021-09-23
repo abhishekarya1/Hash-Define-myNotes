@@ -174,13 +174,15 @@ Further Reading:
 - [Design Patterns](https://youtube.com/playlist?list=PLF206E906175C7E07)
 - [Restfulapi.net](https://restfulapi.net/) - Collection of good articles on REST (see right side menu)
 
-## Building a REST API with Flask-Restful
-[Link](/flask/flask-restful)
+## Building a REST API with FastAPI
+[Link](https://fastapi.tiangolo.com/)
 
 ## Testing APIs
 GUI: Postman
+
 Terminal: [cURL](/linux-and-tools/curl/)
 
 ## Alternatives
 - [GraphQL](https://www.howtographql.com/basics/1-graphql-is-the-better-rest/)
 - [JSON-RPC](https://www.jsonrpc.org/) (used in Ethereum API)
+- [SOAP Protocol & SOAP vs. REST](https://stoplight.io/api-types/soap-api/)

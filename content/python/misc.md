@@ -14,6 +14,6 @@ weight = 4
 - `a += b` is not always `a = a + b` - [GfG](https://www.geeksforgeeks.org/python-a-b-is-not-always-a-a-b/)
 - [Underscore in Naming Conventions for Python](https://dbader.org/blog/meaning-of-underscores-in-python)
 - [Built-in Exceptions in Python](https://www.geeksforgeeks.org/built-exceptions-python/)
-
+- [Should you put  __init__.py file in every package's folder?](https://stackoverflow.com/a/48804718) - Good practice to just put it, but its not really required for Python 3.3+ (after introduction of _Implicit Namespace Packages_)
 
 - [Python and Related Stuff Basics](https://pythonbasics.org/)

@@ -18,6 +18,8 @@ Decorator
 Property
 
 RegEx
+
+Command-Line Arguments (sys)
 '''
 
 # Iterable -> objects that implement __iter__ and __next__.The function range() returns an iterator and for loop performs next() on it automatically.
@@ -192,11 +194,16 @@ ordinary = make_pretty(ordinary)
 
 
 
+# Command-Line Arguments
+argv       # If 'import sys.argv' used
+sys.argv   # If sys imported as 'import sys'
 
+# $python num.py 9 8 7
 
-
-
-
+sys.argv[0] # num.py
+sys.argv[1] # 9
+sys.argv[2] # 8
+sys.argv[3] # 7
 
 
 

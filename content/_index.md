@@ -7,7 +7,7 @@ chapter = true
 
 # #define
 
-A collection of all my notes and elucidations by [abhishek_arya](https://www.github.com/abhishekarya1).
+A collection of all my notes and elucidations by [Abhishek Arya](https://www.github.com/abhishekarya1).
 
 {{% button href="https://abhishekarya1.github.io" icon="fas fa-pen" %}} Visit Blog{{% /button %}} &nbsp;
 {{% button href="mailto:abhishekarya102@gmail.com" icon="fas fa-envelope" %}} Email{{% /button %}}

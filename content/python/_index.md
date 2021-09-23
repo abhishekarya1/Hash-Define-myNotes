@@ -1,5 +1,5 @@
 +++
-title = "Python Notes"
+title = "Python"
 date = 2020-11-24T13:15:00+05:30
 weight = 7
 chapter = true
@@ -8,7 +8,7 @@ pre = "<i class='devicon-python-plain'></i> "
 
 # Learning Python
 
-```shell
+```txt
 >>> import this
 The Zen of Python, by Tim Peters
 
