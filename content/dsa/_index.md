@@ -1,12 +1,12 @@
 +++
-title = "Competitive Programming"
+title = "DSA"
 date = 2020-07-12T11:30:30+05:30
 weight = 4
 chapter = true
 pre = "👨‍💻 "
 +++
 
-# Competitive Programming in C++
+# Data Structures and Algorithms
 
 Addictive and fun.
 
