@@ -4,7 +4,14 @@ date =  2021-05-01T00:31:24+05:30
 weight = 1
 +++
 
+## Background
+- [Video](https://www.youtube.com/watch?v=ShcR4Zfc6Dw)
+- [Article](https://www.gnu.org/gnu/linux-and-gnu.en.html)
+---
 
+## Linux Folder Structure
+- [Video](https://www.youtube.com/watch?v=42iQKuQodW4)
+---
 
 ## Linux Terminal Commands
 - **Shell**: Intermidiary between OS kernel and console/terminal.
@@ -12,25 +19,37 @@ weight = 1
 
 ### Basics
 - **echo {text}** (prints text or blank if no text specified)
-	- **-e** (recognize escape '\seq' sequences inside "string") (not recognized by default)
+	- **-e** (recognize escape '\seq' sequences inside double-quoted "string") (not recognized by default or without inside double-quotes)
 - **date** (prints date and time)
 - **whoami** (prints user name)
-- **pwd** (prints the present working directory)
+- **pwd** (prints the present working directory path)
 - **cd {path}**
   - **cd .** (current directory/does nothing)
   - **cd ..** (immediate parent directory)
   - **cd \~** or **cd** (default "home" directory)
-  - **cd /** (root directory [/])
-  - **cd -** (previously visited directory, even if it is the far child)
+  - **cd /** (root directory)
+  - **cd -** (previously visited directory, even if it is far away (not immediate))
   
 - **ls {path}**
   - **-a** : shows hidden files (.example) too (a = all)
   - **-l** : shows a detailed list of files in a long format (l = long)
   - **-la , -al** : combined
   - **wildcard** (`$ ls *.txt`)
+
+- **Wildcards**
+    - **\*** (used to represent all single characters or any string)
+    - **?** (used to represent one character)
+    - **[^]** (used to represent any character within/not within the brackets)
+
+{{% notice info %}}
+Filenames and directory names are case-insensitive.
+
+A file and a directory having exact same names cannot coexist in the same directory since directories are also files in linux.
+{{% /notice %}}
+  
 - **touch [file1] {file2} ...** (updates timestamp when applied on existing files) 
 - **file [filename/dirname]...[fileN/dirN]** (tells what kind of file it is, also works with directory)
-- **cat {_file1_} {_file2_}** (prints contents of a file OR combine two files and print their content **in order**)
+- **cat {_file1_} {_file2_} ...** (prints contents of a file OR combine files and print their content **in order**)
   - **-n** (display with line numbers for all lines)
   - **-b** (display with line numbers for only non-empty lines) 
 - **less [_file_name_]** (text nav and search in console itself)
@@ -47,30 +66,27 @@ weight = 1
 - **clear** clears terminal
 
 - **cp [sourcefile/dir] [destfile/dir]** (copy files and directories, overwrites by default)
-	- **\*** (used to represent all single characters or any string)
- 	- **?** (used to represent one character)
- 	- **[^]** (used to represent any character within/not within the brackets)
+    - copies contents if destination is a file
     ```
     $ cp *.jpg ./home/pete/Pictures
     ```
-  	- **-r** (to copy directories (recursively copy)) (can't copy directories without it)
-  	- **-i** (to prompt before overwriting a file)
+    - **-r** (to copy directories (recursively copy)) (_only way it can work on dir_)
+    - **-i** (to prompt before overwriting a file)
 
-- **mv** (move one or more than one file/dir or **rename** files/dir) (by default recursive)
+- **mv [file/dir1] ... [file/dirN] [dest_dir]** (move one or more than one file/dir or **rename** files/dir) (by default recursive; overwrites)
     ```
         $ mv old_name new_name
         $ mv file path/
         $ mv file1 file2 path/
     ```
     - **-i** (prompt before overwrite)
-    - **-b** (rename old and move the new file) (b = backup)
 - **mkdir [_dir_name_] {_dir1_name_}** (make directories)
     - **-p** (make multiple nested dir)
     ```
         $ mkdir -p books/premchand/favorites
     ```
-- **rm [_file/dir_name_]... {_file/dirN_}** (remove files/non-empty dir)
-    - **-f** (force delete even if write protected) 
+- **rm [_file/dir_name_]... {_file/dirN_}** (remove files/dir)
+    - **-f** (force delete even if write protected)
     - **-i** (prompt before deleting)
     - **-r** (recursively delete all subdirectories) (_only way it can work on dir_)
 - **rmdir [_dir_name_] ... {_dirN_}** (removes directories _only if_ they're empty)
@@ -90,58 +106,69 @@ weight = 1
 ---
 ### Text Manipulation
 - **stdout** : **>** (write from start) & **>>** (append) [both create a new file if it doesn't exist]
-- **stdin** : `$ cat < foo > bar` (data goes from "foo" to "cat" and then to "bar") 
-- **stderr**
+- **stdin** : `$ cat < foo > bar` (data goes from "foo" to "cat" and then to "bar")
+- **stderr** : [Link](https://linuxjourney.com/lesson/stderr-standard-error-redirect)
  
-- **Pipe (|)** : Channel the output of one command to input of another
-    `$ echo | cat file.txt` (if contents of file.txt are "Hello World" then they are printed on console)
-- **tee** : Channel output to two process simultaneously
+- **Pipe (|)** : Channel the output of one command to input of another. Ex: `$ ls -la | less`
+
+    - NOTE: (`$ ls | file.txt` doesn't copy ls output to file.txt, so pipe `|` is different from redirection `>`)
+- **tee** : writes to both the standard output and one or more files
+
+    - **-a**: append mode; no overwriting if file already exists
+
     `$ ls | tee file.txt` (prints ls output on console as well as writes to file.txt)
 - **env** ($SHELL, $HOME, $USER, $PATH and other environment variables)
 - **cut** (print selected parts of the file line to console)
-	```sh
+    - **-c** : character, starts from 1
+    - **-f** : field, specify delimiter with **-d** (default is TAB)
+    ```sh
 	$ cut -c 2 my.txt
 	$ cut -f 1 my.txt
 	$ cut -f 1 -d ";" my.txt
 	
-	$ cur -f 2,5,7 sample.txt
-	$ cut -c 5-10 sample.txt
-	$ cut -c 5- sample.txt
-	$ cut -c -5 sample.txt
-	```
-- **paste** (merge data from files, pastes corresponding lines with TAB delimiter between them by default)
+	$ cut -f 2,5,7 sample.txt
+	$ cut -c 5-10 sample.txt  (both positions included)
+	$ cut -c 5- sample.txt    (5-end)
+	$ cut -c -5 sample.txt    (start-5)   
+    ```
+
+- **paste** (merge lines from files, pastes corresponding lines with TAB delimiter between them by default)
 	```sh
 	$ paste file (equivalent to cat)
 	$ paste -s file (combine all lines in file into one, TAB separated)
-	$ paste file1 file2 (prints corresponding lines from both the files)
-	$ paste -d: file1 file2 (custom delimiter :)
-	$ paste -d")" file1 file2 (some char need brackets)
-	$ paste - - < file (merge file lines into two columns) 
-	$ paste -d";" - - - < file1
-	```
-- **head, tail** _filename.txt_ (read first/last few lines of a file, default = 10)
-    - `$ head -n 15 filename.txt`  (space between `-n15` doesn't matter)
-    - `$ head -n -2 file` (print all but the last 2 lines)
-    - `$ tail -n +2 file` (start print from line 2)
-    - `$ head -c 20 filename.txt`  (print the first 20 characters from first line of the file) 
-    - `$ tail -f filename.txt` : follows the last lines of the file in real-time update
-- **expand** _filename.txt_ (convert TAB to spaces)(doesn't modify file but prints to console)
-- **unexpand** -a _filename.txt_ (convert TAB to spaces)(doesn't modify file but prints to console)
-- **join** [file1] [file2] (joins by a common field)
+	$ paste file1 file2 (prints corresponding lines from both the files side-by-side on terminal)
+	$ paste -d: file1 file2 (custom delimiter : for output)
+	$ paste -d")" file1 file2 (other chars need double-quotes)
+	$ paste - - < file (merge file lines into two columns)
+	$ paste -d ";" - - - < file1 (three columns) 
+    ```
+
+- **head, tail** _filename.txt_ (read first/last 10 lines of a file, by default)
+    ```sh
+    $ head -n 15 filename.txt  (space between -n15 doesnt matter)
+    $ head -n -2 file (print all but the last 2 lines)
+    $ tail -n +2 file (start print from line 2)
+    $ head -c 20 filename.txt  (print the first 20 characters from first line of the file) 
+    $ tail -f filename.txt (follows the last lines of the file in real-time update)
+    ```
+- **expand** _filename.txt_ (convert TAB to group of spaces)(doesn't modify file but prints to console)
+- **unexpand** -a _filename.txt_ (convert group of spaces to TAB)(doesn't modify file but prints to console)
+- **join** [file1] [file2] (joins by field = 1 by default)
     - `$ join -1 2 -2 1 file1.txt file2.txt` (-1 is _file1.txt_, -2 is _file2.txt_) (field 2 in file1.txt = field 1 in file2.txt)
-- **split** filename (splits into different files on threshold lines, default = 1000)
+- **split** _filename.txt_ (splits into different files after threshold line, default = 1000, created file name = x\*\*)
+    - `$ split -l 5 file1.txt file` (split first 5 lines from file1.txt and files named `fileaa`,`fileab`, ... are created)
 - **sort** _filename.txt_   (default separator is not TAB but space here, specify using `-t $'\t'`)
     - **-r** (reverse sort)
     - **-n** (numerical sort, `9 > 43` in normal, but correct with `sort -n`)
-    - **-f** (both upper and lower case of a letter are equal in sort comparison)
+    - **-f** (ignore-case; both upper and lower case of a letter are equal in sort comparison)
     - **+X** (ignores first X fields, X = any number)
-    - `-k n` (sort on the nth field of the line)
-    - `-t 'char'` (use char as field delimiter) (ex: -t '|' or -t ',')
-    - `-u` (show only distinct lines)
-    - `-m list1 list2` (sort and merge lists into one and print only) (use pipe for writing to file)
+    - `-k n` (key; sort on the nth field of the line)
+    - `-t 'char'` (use char as field delimiter) (ex: -t '|')
+    - `-u` (unique; show only distinct lines)
+    - `-m list1 list2` (merge already sorted files; do not sort; print only) (use > for writing to file)
 - **tr** (translate)
    ```sh
-   $ tr "a" "z" file.txt
+   $ tr "a" "z" #Syntax: tr SET1 SET2
    $ tr a-z A-Z (waits for input)
    $ cat file | tr a-z A-Z (translate and print)
    $ cat file | tr a-z A-Z > file (tr and write) (alternatively | cat > file)
@@ -150,7 +177,7 @@ weight = 1
    $ tr -s [:space:] (squeeze multiple occurances of set into one. Ex. baaaad -> bad)
    ```
 - **uniq** (https://linuxjourney.com/lesson/uniq-unique-command) (only adjacent duplicate lines are detected)
-    - **-c** (count line)  
+    - **-c** (display unique items with count)  
     - **-u** (only unique lines)
     - **-d** (only duplicate lines)
     - **-i** (ignore case)
@@ -160,9 +187,12 @@ weight = 1
     - **-w** (only words)
     - **-c** (only bytes)
     - **-L** (length of longest line in file)
-- **nl** _file.txt_ (displays line with numbers at the left side)
-- **grep** (`grep {-flag} 'regex' {file1} ... {fileN}`) (Global Regular Expression Print)
+- **nl** _file.txt_ (displays line with numbers at the left side; starts with 1)
+- **grep** (Global Regular Expression Print)
     - returns all strings, file, or dir names matching the regex pattern
+    ```sh
+    $ grep abcd test.txt
+    ````
 ---
 ### Vi/Vim
 - **/search_pattern** ("n" to go forward or "N" to go backward in search)
@@ -183,11 +213,10 @@ weight = 1
 - **passwd** `$ passwd bob`
 ---
 ### Help
-- **help {_cmd_name_}** 
+- **help** {_cmd_name_}
 - **man** cmd_name
-- **cmd_name --help**
-- **whatis** cmd_name : (small description of a command)
----
+- cmd_name **\-\-help**
+
 ### Terminal
 - **alias**, **unalias**, **exit**, **logout**
 ---
