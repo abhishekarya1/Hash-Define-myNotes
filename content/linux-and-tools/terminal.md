@@ -123,6 +123,7 @@ A file and a directory having exact same names cannot coexist in the same direct
     - **-f** : field, specify delimiter with **-d** (default is TAB)
     ```sh
 	$ cut -c 2 my.txt
+    $ cut -c 2,7 my.txt
 	$ cut -f 1 my.txt
 	$ cut -f 1 -d ";" my.txt
 	
@@ -139,8 +140,8 @@ A file and a directory having exact same names cannot coexist in the same direct
 	$ paste file1 file2 (prints corresponding lines from both the files side-by-side on terminal)
 	$ paste -d: file1 file2 (custom delimiter : for output)
 	$ paste -d")" file1 file2 (other chars need double-quotes)
-	$ paste - - < file (merge file lines into two columns)
-	$ paste -d ";" - - - < file1 (three columns) 
+	$ paste - - < file (fold two lines into two columns)
+	$ paste -d ";" - - - < file1 (three columns)
     ```
 
 - **head, tail** _filename.txt_ (read first/last 10 lines of a file, by default)
@@ -164,11 +165,13 @@ A file and a directory having exact same names cannot coexist in the same direct
     - **+X** (ignores first X fields, X = any number)
     - `-k n` (key; sort on the nth field of the line)
     - `-t 'char'` (use char as field delimiter) (ex: -t '|')
+    - specify TAB delimiter using `-t $'\t'` because [this](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#ANSI_002dC-Quoting)
     - `-u` (unique; show only distinct lines)
     - `-m list1 list2` (merge already sorted files; do not sort; print only) (use > for writing to file)
 - **tr** (translate)
    ```sh
    $ tr "a" "z" #Syntax: tr SET1 SET2
+   $ tr "()" "[]" (elements of the SET1 are replaced with corresponding element from SET2)
    $ tr a-z A-Z (waits for input)
    $ cat file | tr a-z A-Z (translate and print)
    $ cat file | tr a-z A-Z > file (tr and write) (alternatively | cat > file)
@@ -176,7 +179,7 @@ A file and a directory having exact same names cannot coexist in the same direct
    $ tr -d 'a' (delete all of set. Ex. abcda -> bcd) 
    $ tr -s [:space:] (squeeze multiple occurances of set into one. Ex. baaaad -> bad)
    ```
-- **uniq** (https://linuxjourney.com/lesson/uniq-unique-command) (only adjacent duplicate lines are detected)
+- **uniq** (only **_adjacent_** duplicate lines are detected unlike _sort -u_)
     - **-c** (display unique items with count)  
     - **-u** (only unique lines)
     - **-d** (only duplicate lines)
@@ -203,22 +206,28 @@ A file and a directory having exact same names cannot coexist in the same direct
 - Saving and quitting
 ---
 ### User Management
+- Every user has a username and a UID associated with them, same for groups (single group can have multiple users under it) 
+    - Users -> Groups : (UID -> GID)
+- **sudo** (run commands as a superuser) (sudo = superuser do) 
+- Important files:
+    - `/etc/sudoers` (file containing sudo user's info)
+    - `/etc/passwd` (conatains user info)
+    - `/etc/shadow` (contains password details of users (encrypted))
+    - `/etc/group` (contains group info)
 
-- Users -> Groups : (UID -> GID)
-- **sudo** (run commands as a superuser) (sudo = superuser do)
-- **su** (substitute user with password)
-- **/etc/sudoers** (file containing sudo user's info)
-- **useradd** `$ sudo useradd bob`
-- **userdel** `$ sudo userdel bob`
-- **passwd** `$ passwd bob`
+- **Adding a user :** `$ sudo useradd bob`
+- **Deleting a user :** `$ sudo userdel bob`
+- **Changing password for a user :** `$ passwd bob`
 ---
 ### Help
 - **help** {_cmd_name_}
 - **man** cmd_name
 - cmd_name **\-\-help**
 
-### Terminal
-- **alias**, **unalias**, **exit**, **logout**
+### Terminal (Meta)
+- `alias foobar="ls -la"`
+- `unalias foobar`
+- **exit**, **logout**
 ---
 
 ### Permisssions (order = rwx) (generic file -, dir d)
@@ -233,12 +242,13 @@ A file and a directory having exact same names cannot coexist in the same direct
 - **Numeric Format** `$ chomod 755 myfile` (7 = 4+2+1 = user, 5 = 4+1 = group, 5 = other)
     - 4: read permission
     - 2: write permission
-    - 1: execute permission 
-- **Ownership**
+    - 1: execute permission
+    - 0: empty permission
+- **Ownerships**
     - **chown** user_name myfile
     - **chgrp** group_name myfile
     - **chown** user:group myfile (combined form)
-- **unmask** (takes away the specified permissions) 
+- **unmask** (takes away the specified permissions for all new files that will be created (default unmask is 022)) 
 	`$ unmask 021 myfile` 
 
 ---
@@ -290,7 +300,9 @@ Link: https://www.geeksforgeeks.org/sed-command-in-linux-unix-with-examples/
 Link: https://www.geeksforgeeks.org/diff-command-linux-examples/
 ### Networking
 - `ifconfig`
-- `cURL` (Client URL): Command line tool and library to send and get requests using a number of protocols (used for testing APIs)
+- `cURL` (Client URL): Command line tool and library to send and get requests using a number of protocols (used for testing APIs) 
+
+[My Notes on CURL](/linux-and-tools/curl)
 
 	```sh
 	$ curl www.google.com 

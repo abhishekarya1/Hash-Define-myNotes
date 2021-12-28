@@ -16,9 +16,7 @@ pre = "<i class=\"devicon-linux-plain\"></i> "
 
 [The UNIX School](https://www.theunixschool.com/2012/07/10-examples-of-paste-command-usage-in.html)
 
-[UNIX - TutorialsPoint](https://www.tutorialspoint.com/unix/index.htm)
-
-[HaKTuts](http://haktuts.github.io/Basic-Commands.html)
+[freeCodeCamp Video & Handbook](https://youtu.be/ZtqBQ68cfJc)
 
 **Shell Scripting**
 
