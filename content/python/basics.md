@@ -564,6 +564,8 @@ break continue #works the same
 #(by default always at the end of the loop), but we can skip the "else" part by using "break" inside the loop
 
 # Handle exceptions with a try/except block
+# try, except, else, finally doesn't create a new scope (i.e. any variable declared inside these will be considered as part of enclosing outer scope), hence we can access variables declared inside try block, inside except block too
+
 try:
     # Use "raise" to raise an error
     raise IndexError("This is an index error")
