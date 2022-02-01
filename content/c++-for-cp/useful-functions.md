@@ -62,20 +62,24 @@ int main()
     return 0;
 }
 ```
+### Useful funtions
+```cpp
+// <algorithm>
+sort(arr, arr+n, comp);
+reverse(arr, arr+n);
+accumulate(arr, arr+n, init_sum);
+count(arr, arr+n, key);
+find(arr, arr+n, key);
 
-### GCD
-`__gcd(a, b)` in `<algorithms>`
+__gcd(a, b);
 
-### LCM
-Since C++17, `std::lcm(a, b)` in `<numeric>` 
+// <numeric>
+lcm(a, b);	// since C++17
 
-### Sort
-`sort(arr, arr+n)`
 
-`sort(v.begin(), v.end()`
+// <iostream>
+swap(a, b);
 
-### Swap
-`swap(a, b)`
-
-### Minimum and Maximum
-`min(a, b)` and `max(a, b)`
+min(a, b);
+max(a, b);
+```

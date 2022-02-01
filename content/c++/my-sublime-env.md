@@ -1,7 +1,9 @@
----
-title: My Sublime Environment for Coding 
-date: 2018-06-07
----
++++
+title = "My Sublime Environment"
+date = 2018-06-07
+weight = 4
++++
+
 
 ### Preliminaries
 
