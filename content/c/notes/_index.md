@@ -6,7 +6,9 @@ chapter = true
 pre = "<i class=\"devicon-c-line\"></i> "
 +++
 
-# C Programming - Notes
+### Notes
+
+# C Programming
 
 ### References 
 [GeeksForGeeks - C](https://www.geeksforgeeks.org/c-programming-language/)
