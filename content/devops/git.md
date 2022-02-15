@@ -1,7 +1,8 @@
 +++
 title = "Git"
 date =  2020-11-28T15:05:03+05:30
-weight = 1
+weight = 2
+pre = "<i class=\"devicon-git-plain colored\"></i> "
 +++
 
 ## Git SCM notes
@@ -203,3 +204,16 @@ $ git clone <https://github.com/user/repository.git>
 # Controlling Collaboration
 	# Protect Branches - Add branch protection rules from browser
 ```
+
+### References
+https://gitimmersion.com/
+
+https://learnxinyminutes.com/docs/git/
+
+Cheatsheet :https://training.github.com/downloads/github-git-cheat-sheet/
+
+Practice: http://git-school.github.io/visualizing-git/
+
+https://www.packtpub.com/product/git-and-github-the-complete-git-and-github-course-video/9781800204003
+ 
+Most detailed reference: [Docs](https://git-scm.com/doc) and [Book](https://git-scm.com/book/en/v2) 
