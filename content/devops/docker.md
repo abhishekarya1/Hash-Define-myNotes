@@ -168,7 +168,7 @@ Overrides entrypoint specified in Dockerfile to "foo"
 ```
 
 ### Networking
-**Bridge network**: All container share a single network (bridge) inside host network (default behavior)
+**Bridge network**: All container share a single network (bridge) inside host network (default behavior) (ports can be forwared to access app inside container)
 **None**: Isolated container and host (`--network=none`)
 **Host**: Host and containers operate on same network (i.e. host's) (`--network=host`)
 
@@ -182,6 +182,8 @@ Creates another network within the host network
 $ docker run --network=myNetworkName foobar
 Puts container on network
 ```
+
+When exposing port of container to host using `-p hostPort:containerPort` is not enough if app is listening on `localhost`. Make sure the the app is listening on `0.0.0.0` which means that it listens on every address available.
 
 **Embedded DNS**: Docker host network also has a DNS subnetwork that always runs at `127.0.0.11`. It resolves `name <-> IP` mapping for containers.
 
