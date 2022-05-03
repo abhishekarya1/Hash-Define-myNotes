@@ -35,6 +35,7 @@ According to Euclid's Division Lemma, `if we have two positive integers a and b,
 
 #### Theorem 2: There are infinitely many primes
 
+Proof: https://primes.utm.edu/notes/proofs/infinite/euclids.html
 
 ### Odd & Even Numbers
 - Even numbers are of the form `2k`, and odd numbers are of the form `2k+1` for k = 0, 1, 2, 3...
@@ -174,16 +175,32 @@ return 0;
 ### Binary Exponentiation
 `Time = O(log n)`
 
-_a<sup>n</sup>_ implies that we have to multiply _a_, exactly _n-1_ times with itself to evaluate it. Ex - _2<sup>3</sup>_ = _2_ * _2_ * _2_.
+_a^n_ implies that we have to multiply _a_, exactly _n-1_ times with itself to evaluate it. Ex - _2^3_ = _2_ * _2_ * _2_.
 
 We can do this with only order of _log n_ multiplications by using binary representation of _n_ as -
 ```
-2^13 = 2^(1101) = 2^8 * 2^4 * 2^0
+3^13 = 3^(1101) = 3^8 * 3^4 * 3^1
 ```
 
 Since the binary representation of _n_ has _floor(log n) + 1_ bits, hence O(_log n_) time.
 
-**Halving and then squaring:**
+**Iterative**:
+```cpp
+long binpow(long a, long b) {
+    long res = 1;
+    while (b > 0) {
+        if (b & 1) {
+            res = res * a;      //on set bit, multiply by power of a
+        }
+        a = a * a;              //do a^2 for each bit
+        b >>= 1;                //shift to read next bit
+    }
+
+    return res;
+}
+```
+
+**Halving power each time and then squaring:**
 ```cpp
 long binpow(long a, long b)
 {
@@ -198,7 +215,7 @@ long binpow(long a, long b)
 }
 ```
 
-**Squaring and then halving:**
+**Squaring and then halving:** (tail recursive)
 ```cpp
 long binpow(long a, long b)
 {
@@ -233,8 +250,8 @@ float binpow(long a, long b)		//float
 }
 ```
 
-#### Calculating big exponential mods (a<sup>b</sup> mod m)
-Mod every multiplication operation.
+#### Calculating big exponential mods (a^b mod m)
+Mod every multiplication operation in iterative impl.
 
 ```cpp
 //Iterative exponent mod (faster and efficient)

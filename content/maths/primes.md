@@ -13,7 +13,7 @@ pre = "<b>3.</b> "
 1. 2 is the only even prime.
 2. Only consecutive primes are 2 and 3.
 3. Every prime number can represented in form of `6n±1` except 2 and 3, where _n_ is natural number.
-4. There are infinitely many primes.
+4. There are infinitely many primes. **(Euclid's Theorem)**
 5. [Prime Number Theorem](https://en.wikipedia.org/wiki/Prime_number_theorem) - The number of primes till _n_ are approximately equal to `n /ln (n)` when _n_ is large. Alternatively, the probability that a given, randomly chosen number _n_ is prime is inversely proportional to its number of digits, or to the logarithm of _n_.
 6. [Goldbach's conjecture](https://en.wikipedia.org/wiki/Goldbach%27s_conjecture) - Every even integer greater than 2 can be expressed as the sum of two primes.
 7. [Lemoine's conjecture](https://en.wikipedia.org/wiki/Lemoine%27s_conjecture) - Any odd integer greater than 5 can be expressed as a sum of an odd prime and an even semiprime.

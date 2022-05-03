@@ -19,9 +19,11 @@ GCD (Greatest Common Divisor) or HCF (Highest Common Factor) of *n* numbers *n1*
 
 5. `GCD(a, b) = GCD(a + b, b) = GCD(a - b, b) = GCD(a * b, b)` (may or may not be equal to `GCD(a/b, b)`)
 
-6. `GCD(a, b) = GCD(a - kb, b), where k = 0, 1, 2 ...`
+6. `GCD(0, b) = b`
 
-7. `GCD(a, b) = GCD(a % b, b)` while `a > b` **(Euclid's Theorem)** (Since 6 is true, modulo is nothing but remaining after repeated subtraction of b from a (aka division => a - (a / b) * b)
+7. `GCD(a, b) = GCD(a - kb, b), where k = 0, 1, 2 ...`
+
+8. `GCD(a, b) = GCD(a % b, b)` while `a > b` (Since 6 and 7 are true, modulo is nothing but remaining after repeated subtraction of b from a (aka division => a - (a / b) * b) (i.e. a - kb). This way we are trying to reduce greater number to less than the smaller one and then we swap.
 
 ### Solutions
 
