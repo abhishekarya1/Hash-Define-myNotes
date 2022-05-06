@@ -4,6 +4,70 @@ date =  2022-05-05T20:18:00+05:30
 weight = 2
 +++
 
+## Class
+Everything has to be inside a class in java source file. There can be multiple classes in a java source file but only one can be declared as `public`. Filename must match the "entrypoint" classname (incl. case) and it must have a `main()` method.
+
+### main()
+
+```java
+public static final void main()
+
+// only "final" is optional
+```
+The argument has to be a `String` array. So all of the below works:
+```java
+String args[]
+String foobar[]
+String[] args
+String... args
+```
+
+## Command-Line Arguments
+```java
+public static void main(String args[]){
+	args[0]  // first argument (not program name) = 8
+	args[1]	 // second argument = "foobar"
+}
+
+/*
+$ java Hello 8 foobar
+*/
+```
+
+**If we don't pass required number of arguments**: _ArrayIndexOutOfBoundsException_
+
+## Imports and Packages
+
+```java
+package foo;
+import java.util.*;
+
+class Hello{
+
+}
+```
+- `java.lang.*` is always implicitly imported regardless
+- only classes can be imported and not methods
+- an import with wildcard (`import java.util.*`) only imports on current level and not children too
+- if files have same `package` declarations, then they need not `import` each other explicitly as it's trivial 
+- Specificity takes precedence. If `java.util.Date` and `java.sql.*` both are imported, then `Date` is fetched from `util` package
+- Any ambiguity leads to compilation error:
+```java
+import java.util.*;
+import java.sql.*;		// Date will lead to error
+
+import java.util.Date;
+import java.sql.Date;	// ambiguous still
+
+java.util.Date dateVar;
+java.sql.Date dbDateVar;	//removes ambiguity
+``` 
+
+**Ordering Rules**:
+- `package` declaration has to be first non-comment in a source file
+- `import` always comes after `package` declaration
+- class comes after them
+
 ## Comments
 No nesting allowed.
 
@@ -13,8 +77,9 @@ No nesting allowed.
 /* block */
 
 /**
- * doc
+ * documentation
  * style
+ * @author john doe
 */
 ```
 
@@ -22,10 +87,30 @@ No nesting allowed.
 
 ```txt
 data_type name = init_value;
+```
 
-OR
+- identifiers can start with currency symbol like `$`, etc...
+- single underscore (`_`) isn't a valid identifier name (unlike C/C++)
+- Garbage value concept doesn't exist here so any uninitialized variable's access is erorr
 
-var name = init_value;	(type is implicitly decided)
+### var
+```java
+var name = init_value;	// type is implicitly inferred
+```
+- we ofcourse always have to initialize `var` variables, and once type is inferred, we can't change it
+- can't be initialized with `null` but can be put in later
+- `var` isn't a reserved keyword and can be used as an identifier (weird!). We can't have types (classes, enum, interface) with name "var".
+- `var` is **ONLY used for local variable** type inference. Anywhere else it is used (method params, instance variables, constructors), it is error
+- `var` can't be used in multiple-variable assignments
+```java
+var a = 3, b = 5;	//invalid
+```
+
+### Variable Scopes
+```txt
+Local -> no defaults (no garbage values)	
+Instance -> defaults (constructor)
+Class ->  defaults (static)
 ```
 
 ## Data Types
@@ -42,7 +127,7 @@ boolean
 - `int` is 4 Bytes
 - `float` is 4 Bytes
 - `char` is UTF-16, so one char can take one or two Bytes. Convertible to `int` and vice-versa.
-- `boolean` is not convertible to `int` and takes values `true` or `false`
+- `boolean` is not convertible to `int` and vice-versa. Takes values `true` or `false`. **Size is undefined** and depends on JVM.
 
 ### Literals
 ```java
@@ -56,6 +141,25 @@ boolean
 
 'a' '❤️'	// chars
 "foobar"	// string
+```
+
+```java
+long n = 9999999999;
+// it is compiler error unlike in C++ since literal is int and is overflowed
+
+long n = 9999999999L;	// solves the above issue
+```
+
+```java
+// underscores are allowed in numeric types to make them easier to read
+int million1 = 1000000;
+int million2 = 1_000_000;
+
+// underscore can't be at beginnning or end of literal or on either sides of a decimal point (.)
+float exp = 1.010_101;
+
+// multiple underscores together is valid; useless though
+int eleven = 1__________1;	
 ```
 
 ### Type Casting
@@ -139,8 +243,28 @@ Integer.toString(n)
 ```
 
 ## Control Structures
-- `switch` labels supports types othe than integral types unlike C & C++
+- `switch` labels and expressions and case labels can be `String` here too (unlike C/C++) and they have to be compile time constants using `final`
+```java
+//combining case values
+case 1, 2:
+
+case 1:
+case 2:		// old way
+
+// switch expressions, notice semi-colon (;) at last
+var result = switch(day) {
+ case 0 -> "Sunday";
+ case 1 -> "Monday";
+ case 2 -> "Tuesday";
+ case 3 -> "Wednesday";
+ case 4 -> "Thursday";
+ case 5 -> "Friday";
+ case 6 -> "Saturday";
+ default -> "Invalid value";
+};
+```
 - `System.exit(0)` can be used to indicate successful termination
+
 - for each loop
 ```java
 int [] arr = new int[]{1, 2, 3, 4, 5};
@@ -204,18 +328,6 @@ foobar(String... str){
 }
 ```
 
-## Command-Line Arguments
-```java
-public static void main(String args[]){
-	args[0]  // first argument (not program name) = 8
-	args[1]	 // second argument = "foobar"
-}
-
-/*
-$ java Hello 8 foobar
-*/
-```
-
 ## Wrapper Classes
 Available for all data types. Advantages include:
 - Thread safety (synced)
@@ -237,6 +349,11 @@ Integer n = Integer.valueOf(33);
 
 // 3. Autoboxing
 Integer n = 5;
+```
+
+```java
+// Wrapper to primitive
+int n = num.intValue();
 ```
 
 ## Arrays

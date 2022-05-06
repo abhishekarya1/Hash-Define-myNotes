@@ -63,7 +63,7 @@ Very Imp - https://www.freecodecamp.org/news/jvm-tutorial-java-virtual-machine-a
 $ javac Hello.java
 $ java Hello
 
-#OR -> if single file only:
+#OR -> if single file only (notice .java extension):
 $ java Hello.java
 ```
 
