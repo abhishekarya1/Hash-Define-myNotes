@@ -47,7 +47,7 @@ class Hello{
 }
 ```
 - `java.lang.*` is always implicitly imported regardless
-- only classes can be imported and not methods
+- only classes can be imported and not methods or fields unless `import static` is used
 - an import with wildcard (`import java.util.*`) only imports on current level and not children too
 - if files have same `package` declarations, then they need not `import` each other explicitly as it's trivial 
 - Specificity takes precedence. If `java.util.Date` and `java.sql.*` both are imported, then `Date` is fetched from `util` package
@@ -310,24 +310,6 @@ System.out.printf()		// works mostly like C's printf()
 String.format()			// to store in another String, formatting works like printf
 ```
 
-## Methods
-```txt
-Primitives 			 - Pass-by-value
-Objects & references - Pass-by-reference
-
-Since there are no explicit references in Java unlike C++. We say everything is pass-by-value in Java which means a new reference variable is created in called method and not actual object/array is created in memory again. 
-```
-
-### Variable Arguments
-```java
-foobar(String... str){
-	//use for each loop to iterate over s here
-	for(String s : str){
-		// print
-	}
-}
-```
-
 ## Wrapper Classes
 Available for all data types. Advantages include:
 - Thread safety (synced)
@@ -367,14 +349,62 @@ int [] arr;
 
 int arr[] = new int[5];				//init list not allowed
 int arr[] = new int[]{1, 2, 3};
+int arr[] = {1, 2, 3};              // still allocated in heap
 
 //muti-dimensional arrays
-int arr[][];
-int[][][] arr;
+int arr[][];        // 2D
+int[][][] arr;      // 3D
+int[] arr[];        // 2D
 
 // Range checking is strict unlie C & C++ and often results in - 
 ArrayIndexOutOfBoundsException
 
 // in method parameters
 void foobar(int[] arr){ }
+
+// length of an array
+arr.length      // and not arr.length()
+
+
+// multiple-declrations
+int [] a, b;     // two array ref variables
+int a[], b;      // one array ref variable, one primitive int    
+
+
+//utility methods
+Arrays.sort()
+Arrays.compare()
+//etc...
 ```
+
+## Math & Date/Time
+
+### java.lang.Math
+```java
+Math.min()
+Math.max()
+Math.round()
+Math.ceil()
+Math.floor()
+Math.pow()
+Math.random()
+// etc...
+```
+
+### java.util.*
+```java
+import java.util.*;
+
+Date d = new Date();                    // 1st way
+    
+Calendar c = Calendar.getInstance();    // 2nd way
+c.get(Calendar.DAY_OF_WEEK)
+c.get(Calendar.DAY_OF_YEAR)             // etc...
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
+String str = ft.format(new Date());     // 07-05-2022        
+```
+
+## 
