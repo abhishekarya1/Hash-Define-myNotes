@@ -1,10 +1,8 @@
 +++
-title = "Linux Advanced"
+title = "Boot Process"
 date =  2022-05-02T20:49:00+05:30
-weight = 5
+weight = 1
 +++
-
-## The Boot Process
 
 ```txt
 1 - BIOS
@@ -17,7 +15,9 @@ weight = 5
 
 **BIOS** (Basic Input Output System) - Firmware that identify's hardware, performs a basic sanity check (POST (Power On Self Test)), configures it, and connects to OS.
 
-**UEFI** (Unified Extensible Firmware Interface) - Created by Intel in 1998 as a successor of BIOS. Uses a specific disk partition for boot (EFI System Partition (ESP)) and uses FAT. On Linux it is on _/boot_ and files are .efi.
+**UEFI** (Unified Extensible Firmware Interface) - Created by Intel in 1998 as a successor of BIOS. Uses a specific disk partition for boot (EFI System Partition (ESP)) and uses FAT. On Linux it is on `/boot/efi` and files are .efi.
+
+Check `/sys/firmware/efi` to see if you are using a UEFI system or not.
 
 ### 2 - Bootloader
 
@@ -36,7 +36,7 @@ Kernel needs a temporary filesystem with core essential drivers to load other dr
 
 Kernel locates init program and runs it.
 
-Three kinds of init on Linux - System V init (sysv), Upstart, Systemd.
+Three kinds of init on Linux - System V init (sysv), Upstart, **Systemd**.
 
 
 ## Devices
@@ -105,8 +105,3 @@ $ rmmod -f module_name
 If you need to load some modules every time your system boots do one of the following:
 - add their name to this file `/etc/modules`
 - add their config files to the `/etc/modprobe.d/`
-
-## References
-- https://linuxjourney.com
-- https://linux1st.com
-- How Linux Works, 3rd Edition: What Every Superuser Should Know by Brian Ward ([Link](https://g.co/kgs/WYNVZC))

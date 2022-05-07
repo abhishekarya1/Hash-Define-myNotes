@@ -2,7 +2,7 @@
 title = "ReST APIs"
 date = 2021-05-19T21:14:54+05:30
 chapter = true
-weight = 14
+weight = 11
 pre = "🔌 "
 +++
 

@@ -1,7 +1,7 @@
 +++
 title = "Bitwise Algorithms"
 date =  2020-07-19T09:59:14+05:30
-weight = 6
+weight = 8
 chapter = true
 pre = "<i class='fas fa-microchip'></i> "
 +++

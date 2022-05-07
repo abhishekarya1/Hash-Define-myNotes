@@ -1,7 +1,7 @@
 +++
 title = "Maths for CP"
 date = 2020-07-12T11:30:30+05:30
-weight = 5
+weight = 7
 chapter = true
 pre = "🧮 "
 #pre = "<i class='devicon-devicon-plain'></i> "

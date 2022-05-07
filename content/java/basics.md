@@ -5,7 +5,11 @@ weight = 2
 +++
 
 ## Class
-Everything has to be inside a class in java source file. There can be multiple classes in a java source file but only one can be declared as `public`. Filename must match the "entrypoint" classname (incl. case) and it must have a `main()` method.
+Everything has to be inside a class in java source file. Filename must match the "entrypoint" classname (incl. case), and it ofcourse must have a `main()` method.
+
+- if all are non-public, the class name with file's name runs
+- there can be multiple classes in a java source file but only one can be declared as `public` 
+- top-level classes can't be `private` or `protected`, it leads to compiler error
 
 ### main()
 
@@ -106,7 +110,7 @@ var name = init_value;	// type is implicitly inferred
 var a = 3, b = 5;	//invalid
 ```
 
-### Variable Scopes
+### Variable Defaults
 ```txt
 Local -> no defaults (no garbage values)	
 Instance -> defaults (constructor)
@@ -182,6 +186,20 @@ String a = "foo";					// stored in pool
 String b = new String("bar");		// stored in heap only, not in pool
 
 String c = "foo";					// points to b only (b == c is true)
+
+
+// text block Strings
+String d = """
+foobar""";
+/*
+Rules:
+1. Must have a new line after start """
+2. \s puts two spaces
+3. line splicing using \ is there
+4. \" and \""" are available
+5. escape characters work inside this
+6. spaces at end of a line are ignored
+*/
 ```
 
 ### Interning
@@ -320,6 +338,7 @@ Available for all data types. Advantages include:
 
 **Objects of all primitive wrapper classes are immutable!**
 
+
 ### Creating Objects of wrapper class
 ```java
 // 1. new
@@ -331,11 +350,37 @@ Integer n = Integer.valueOf(33);
 
 // 3. Autoboxing
 Integer n = 5;
+// unboxing
+int num = n;
+
+// Wrapper to primitive (explicitly; no unboxing)
+int n = num.intValue();
 ```
 
+### More on Autoboxing
 ```java
-// Wrapper to primitive
-int n = num.intValue();
+// autoboxing and promotion can't happen in one go
+Long l = 8;     // compiler error
+// promotion = int literal 8 to long
+// autoboxing = long to Long
+
+// autoboxing and unboxing null can lead to surprises
+Character c = null;     // valid since c is ref variable and it can store null ref
+char ch = c;            // NullPointerException; since we try and call method on c internally to get primitive out of it
+
+// methods calls
+void foobar(Long x){ }
+
+foobar(8L);     // valid
+foobar(9);      // invalid
+```
+
+- **Arrays don't get autoboxed** - they define their actual types.
+```java
+int[] arr;
+Integer[] arrInt;
+
+// both are different
 ```
 
 ## Arrays

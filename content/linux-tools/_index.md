@@ -1,12 +1,12 @@
 +++
-title = "Linux and Tools"
+title = "Linux Tools"
 date =  2021-05-01T00:32:20+05:30
 weight = 13
 chapter = true
-pre = "<i class=\"devicon-linux-plain\"></i> "
+pre = "🔧 "
 +++
 
-# Linux and Tools
+# Linux Tools
 
 ### References 
 

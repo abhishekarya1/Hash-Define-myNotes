@@ -92,17 +92,62 @@ System.out.println(Hello.a);		// 7
 ### static Initializer Block
 ```java
 class Hello{
-static final int bamboo;	// allowed
+static final int bamboo;	// allowed unlike final local variables
 static { bamboo = 5;}		// since we can't have constructors for static fields
 }
 ```
 
 ### static imports
-- only for a static method or field, and not class
+- only for a static method or field, and not class unlike normal `import`
 ```java
 import static java.util.Arrays.asList;
 
 // can use without Arays.asList() now
 
 static import java.util.Arrays.asList;		// invalid! order is wrong
+```
+
+## Overloading
+- compile-time polymorphism
+- Same methods names but different signatures (parameter types, order, arity). **We can overload by any change in the parameter list**.
+- return type or `static`ness don't cause methods to be distinguished from each other (no overloading; error)
+
+### Reference Types
+- The more specific class (subclass) is preferred over lesser one. (`String` is matched if available over `Object`)
+```java
+void foobar(String s){ }	// 1
+
+void foobar(Object o){ }	// 2
+
+
+foobar("yo");		// calls 1
+foobar(88);			// calls 2; autoboxes to Integer, then calls Object
+```
+
+### Primitive Types
+```java
+void foobar(int n){ }		// a
+void foobar(Integer i)		// b
+void foobar(long l){ }		// c
+
+foobar(123);	// calls a; if a is commented, then it calls b (autoboxing); if b is also commented then it calls c (promotion)
+fooabr(123L);	// calls c
+```
+
+### Array Types
+- Remember, **arrays don't get autoboxed**
+```java
+int[] arr;
+Integer[] arrInt;
+
+// both are different
+```
+
+### Varargs Type
+```java
+void foo(int[] arr){ }
+void foo(int... arr){ }		// compiler error; duplicate method definition
+
+foo(new int[]{1, 2, 3});	// can call either
+foo(1, 2, 3);				// calls varargs one only
 ```
