@@ -42,6 +42,7 @@ class Hello{
 
 - only one modifier can be applied to local variables - `final`
 - remember that `final` on a reference variable won't stop anyone from accessing and changing the value inside; its to stop changing the ref variable itself
+- `final` instance variables must be assigned a value before constructor finishes
 
 ## Variable Arguments
 ```java
@@ -88,11 +89,12 @@ System.out.println(Hello.a);		// 7
 ```
 - `static` methods can't be overriden, since they are resolved using _static binding_ by the compiler at compile time
 - **static methods can't access instance methods and instance variables directly**. They must use reference to object. And `static` method can't use `this` keyword as there is no instance for "this" to refer to.
+- instance initializer blocks can initialize `static` variables but not the other way round. We can't access non-static members from a static context. 
 
 ### static Initializer Block
 ```java
 class Hello{
-static final int bamboo;	// allowed unlike final local variables
+static final int bamboo;	// either initialize inline or use initializer block below
 static { bamboo = 5;}		// since we can't have constructors for static fields
 }
 ```

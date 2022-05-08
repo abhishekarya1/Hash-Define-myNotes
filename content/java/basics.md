@@ -52,6 +52,7 @@ class Hello{
 ```
 - `java.lang.*` is always implicitly imported regardless
 - only classes can be imported and not methods or fields unless `import static` is used
+- importing a lot of classes doesn't impact compilation or runtimes at all in Java
 - an import with wildcard (`import java.util.*`) only imports on current level and not children too
 - if files have same `package` declarations, then they need not `import` each other explicitly as it's trivial 
 - Specificity takes precedence. If `java.util.Date` and `java.sql.*` both are imported, then `Date` is fetched from `util` package
@@ -96,25 +97,42 @@ data_type name = init_value;
 - identifiers can start with currency symbol like `$`, etc...
 - single underscore (`_`) isn't a valid identifier name (unlike C/C++)
 - Garbage value concept doesn't exist here so any uninitialized variable's access is erorr
+- Since no garbage value is assigned, there is truly a separation between declaration and definition in Java, even for `final` variables
+```java
+int x;
+
+// no errors unless the variable is accessed without initialization
+// all paths leading to access must initialize (Java is smart to detect this) or else error
+
+final int a;        // declaration
+a = 5;              // initialization
+```
+
+### Types of variables
+1. Local (Method) -> Initialization is either (Inline, later in program) 
+2. Instance (Object) -> Initialization is either (default, inline, instance initializer block, constructor)
+3. Class/static (Class) -> Initialization is either (default, static initializer block)
+
+More on their initialization [here](/java/oop/#order-of-initialization)
+
+**Variable Defaults**:
+```txt
+Local -> no defaults (no garbage values), declaration only if value not assigned inline
+non-final Instance -> defaults value assigned by compiler
+non-final Class/static ->  defaults value assigned by compiler
+```
 
 ### var
 ```java
 var name = init_value;	// type is implicitly inferred
 ```
-- we ofcourse always have to initialize `var` variables, and once type is inferred, we can't change it
+- we ofcourse always have to initialize `var` variables inline, and once type is inferred, we can't change it
 - can't be initialized with `null` but can be put in later
 - `var` isn't a reserved keyword and can be used as an identifier (weird!). We can't have types (classes, enum, interface) with name "var".
 - `var` is **ONLY used for local variable** type inference. Anywhere else it is used (method params, instance variables, constructors), it is error
 - `var` can't be used in multiple-variable assignments
 ```java
 var a = 3, b = 5;	//invalid
-```
-
-### Variable Defaults
-```txt
-Local -> no defaults (no garbage values)	
-Instance -> defaults (constructor)
-Class ->  defaults (static)
 ```
 
 ## Data Types

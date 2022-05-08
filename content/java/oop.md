@@ -155,7 +155,6 @@ class X{
 	public X(int a){ }
 }
 
-
 class Y extends X{ }
 
 // in Y, super() is inserted by compiler and called, but X only has a parameterized constructor and no empty constructor (not even default constructor)
@@ -204,3 +203,292 @@ o.b = 2;
 ```java
 foobar(new Demo());		// initialized but not stored in a reference variable
 ```
+
+### Order of Initialization
+1. Class (inline, static block) -> happens only once
+2. Local Method Flow 
+3. Instance (inline, instance initializer block of super, constructor super(), instance initializer block of this, constructor this()) -> upon object creation using `new`. 
+
+Notice that even if we call constructor of subclass in `new`, still after `super()` finishes, instance initializer block of this runs before `this()` is resumed. Example below.
+
+For same type of blocks, order of apperance is tie-breaker.
+
+```java
+class GiraffeFamily {
+    static {
+        System.out.print("A");
+    } {
+        System.out.print("B");
+    }
+
+    public GiraffeFamily(String name) {
+        this(1);
+        System.out.print("C");
+    }
+
+    public GiraffeFamily() {
+        System.out.print("D");
+    }
+
+    public GiraffeFamily(int stripes) {
+        System.out.print("E");
+    }
+}
+public class Okapi extends GiraffeFamily {
+    static {
+        System.out.print("F");
+    }
+
+    public Okapi(int stripes) {
+        super("sugar");
+        System.out.print("G");
+    } {
+        System.out.print("H");
+    }
+
+    public static void main(String[] grass) {
+        new Okapi(1);
+        System.out.println();
+        new Okapi(2);
+    }
+}
+
+//Output: AFBECHG
+//		  BECHG
+```
+
+### Initializing Classes
+- Class initialization - sets default values to all its `static` members
+- It is initialized atmost once, and may never get initialized at all if it is not used anywhere in program
+- JVM controls when the class is "loaded" (another term for class initialization) during runtime
+
+Rules: 
+1. If class X has a parent class Y, then Y is loaded first
+2. All `static` member declarations are initialized in order of appearance
+3. All `static` blocks are executed in order of appearance
+
+```java
+class Y{
+	static {System.out.print("A");}
+}
+
+class X extends Y{
+	public static void main(String args[]){
+		System.out.print("C");
+		new X();
+		new X();
+		new X();
+	}
+
+	static {System.out.print("B");}
+}
+
+// Output: ABC (exactly once)
+
+// if we move main() from class X to another "friend" class Z
+class Z{
+	public static void main(String args[]){
+		System.out.print("D");
+		new X();
+	}
+}
+
+//Output: DAB (exactly once)
+```
+
+### final Variables
+
+`final` variables of the three types:
+1. Class -> must be initialized exactly once during class initialization
+2. Instance ->  must be initialized exactly once before the **first constructor** finishes (example below)
+3. Local -> initialization isn't neccessary but accessing without it will be compiler error
+
+If constructor chaining is there, make sure every `final` instance variable is initialized before we exit the chain
+```java
+class Demo{
+	final int a;
+	final String b;
+
+	public Demo(String s){		// c1
+		this.a = 5;	
+	}
+
+	public Demo(){				// c2
+		this.b = "John";
+	}
+}
+
+// c1 fails to set value for b so compiler error
+// c2 also fails to set value for a
+```
+
+## Inheriting Members
+
+### Overriding Methods
+When method is a child class have the same signature as in the parent class. (Signature = name + parameter list)
+
+```txt
+Rules:
+1. Must be exact same signature (name + parameter list)
+2. Must be atleast as accessible or more in child class
+3. The method in child doesn't declare a checked exception that is new or broader than one in parent class
+4. If method returns a value, it must be same or subtype of method in parent class
+
+If the method in parent is private and thus not accessible, then any of the above rules don't matter since its not overriding.
+```
+
+**Covariant return types**: Rule 4 above. `CharSequence` can be overriden by `String` type (narrower) but not the other way round since `CharSequence` is parent interface of `String` class.
+
+
+Overriding a method replaces the parent method on all reference variables except `super`:
+```java
+public class MyClass {
+    int a = 8;
+    public static void main(String args[]) {
+     C x = new C();
+	 P y = x;
+	x.foo();	
+	y.foo();
+    }
+}
+class P{
+	 void foo(){
+	    System.out.println("A");
+	}
+}
+ class C extends P{
+      void foo(){
+	    System.out.println("B");
+	}
+}
+
+//Output: BB
+```
+### @Override Annotation
+we can write a `@Override` on top of methods we are overriding and Java lets us know at compile time if no methods matching it is found in parent class. When everything goes fine, it doesn't impact code in any way.
+
+```java
+class X{
+	public int foo(char c){
+		return 1;
+	}
+}
+
+class Y extends X{
+	public int foo(){
+		return 2;
+	}
+}
+
+// no compiler error unless we place a "@Override" atop Y's foo()
+```
+### static Method Hiding
+`static` methods are never inherited and thus if we try to override them, we will have to follow same 4 rules as overriding, a static method is bound to class so it will depend on the reference we use to call it. **They can't be overriden though**, only hidden.
+
+No compilation if one is marked `static` and the other is not.
+
+```java
+public class MyClass {
+    int a = 8;
+    public static void main(String args[]) {
+     C x = new C();
+	 P y = x;
+	x.foo();	
+	y.foo();
+    }
+}
+class P{
+	static void foo(){
+	    System.out.print("A");
+	}
+}
+ class C extends P{
+     static void foo(){
+	    System.out.print("B");
+	}
+}
+
+//Output: BA 
+```
+
+### Hiding Variables
+Defining a variable with the **same name** as in parent class.
+
+Hiding a variable only replaces the parent variable on child reference and not parent's unlike Overriding.
+```java
+class P{
+	int a = 1;
+}
+
+public class C extends P{
+	int a = 8;
+
+	public static void main(String[] args){
+		C x = new C();
+		P y = x;
+		System.out.println(x.a);		// 8
+		System.out.println(y.a);		// 1
+	}
+}
+```
+
+### final Methods
+We cannot override or hide a method declared using `final` in the parent class.
+
+This applies to inherited methods only. Remember how we can mark methods as `private` and no overriding can happen. So a method can be `private final` and then it can exist in both parent and child independently with the exact same signature.
+
+
+## Abstract Class
+A class that cannot be instantiated and may have `abstract` methods to force overriding by subclasses.
+
+```txt
+Rules:
+1. only instance methods can be abstract, not variables, constructors, or static methods
+2. an abstract method can only be declared in an abstract class
+3. a non-abstract class extending from an abstract one must implement ALL the abstract methods
+4. the 4 method overriding rules are followed here too
+``` 
+
+```java
+public abstract class Demo{
+	public abstract void foobar();		// notice that there is no body and semicolon (;) at the end
+}
+```
+
+An abstract class can have any members of a typical class like constructors, static members, etc...
+
+**Trivial**: An abstract class can exist without any abstract methods, but an abstract method must exist inside an abstract class only.
+
+```java
+public abstract class X{ }		// valid
+abstract public class X{ }		// valid
+public class abstract X{ }		// invalid
+```
+
+Constructors behaves the same as in a normal class. But, they are only called via their subclass constructor using `super()` since we can't instantiate abstract classes by using `new`.
+
+If a class is marked `final abstract`, it doesn't make any sense and is a compiler error.
+
+`static` methods aren't overriden but hidden, so using `static abstract` is also compiler error.
+
+### Concrete Class
+The **first class** to extend an abstract class. It has to implement all the abstract methods **inherited to it**.
+
+```java
+public abstract class X{
+	 abstract void foo();
+	 abstract void bar();
+}
+
+public abstract class Y extends X{
+	void foo(){ }
+}
+
+public class Z extends Y{
+	void bar(){ }
+}
+
+// since Z only inherits bar() as abstract, it only needs to provide implementation for it 
+```
+
+## Immutable Objects
