@@ -469,5 +469,3 @@ import java.util.Date;
 SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
 String str = ft.format(new Date());     // 07-05-2022        
 ```
-
-## 

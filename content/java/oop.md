@@ -97,6 +97,7 @@ In inheritance, `this` can access both parent and current (subclass) members, bu
 ## Constructors
 - same name as the class
 - no return type, not even `void`
+- constructors cannot be `abstract`, `final`, or `static`
 
 ```java
 class Num{
@@ -337,7 +338,7 @@ Rules:
 If the method in parent is private and thus not accessible, then any of the above rules don't matter since its not overriding.
 ```
 
-**Covariant return types**: Rule 4 above. `CharSequence` can be overriden by `String` type (narrower) but not the other way round since `CharSequence` is parent interface of `String` class.
+**Covariant return types**: Rule 4 above. `CharSequence` can be overriden by `String` type (narrower) but not the other way round since `CharSequence` is parent interface of `String` class. **NOTE - This is NOT AUTOBOXING or UNBOXING** unlike Overloading.
 
 
 Overriding a method replaces the parent method on all reference variables except `super`:
@@ -347,8 +348,8 @@ public class MyClass {
     public static void main(String args[]) {
      C x = new C();
 	 P y = x;
-	x.foo();	
-	y.foo();
+	 x.foo();	
+	 y.foo();
     }
 }
 class P{
@@ -444,8 +445,8 @@ A class that cannot be instantiated and may have `abstract` methods to force ove
 ```txt
 Rules:
 1. only instance methods can be abstract, not variables, constructors, or static methods
-2. an abstract method can only be declared in an abstract class
-3. a non-abstract class extending from an abstract one must implement ALL the abstract methods
+2. an abstract method can only be declared in an abstract class or an interface
+3. the first non-abstract (concrete) class extending from an abstract one must implement ALL the abstract methods it inherits
 4. the 4 method overriding rules are followed here too
 ``` 
 
@@ -455,9 +456,11 @@ public abstract class Demo{
 }
 ```
 
+An abstract class can extend from other abstract classes too.
+
 An abstract class can have any members of a typical class like constructors, static members, etc...
 
-**Trivial**: An abstract class can exist without any abstract methods, but an abstract method must exist inside an abstract class only.
+**Trivial**: An abstract class can exist without any abstract methods, but an abstract method must exist inside an abstract class or interface only.
 
 ```java
 public abstract class X{ }		// valid
@@ -469,7 +472,7 @@ Constructors behaves the same as in a normal class. But, they are only called vi
 
 If a class is marked `final abstract`, it doesn't make any sense and is a compiler error.
 
-`static` methods aren't overriden but hidden, so using `static abstract` is also compiler error.
+`static` methods aren't overriden but hidden, so using `static abstract` on methods is also compiler error. We can have normal `static` methods though.
 
 ### Concrete Class
 The **first class** to extend an abstract class. It has to implement all the abstract methods **inherited to it**.
@@ -492,3 +495,59 @@ public class Z extends Y{
 ```
 
 ## Immutable Objects
+
+Make a class immutable to tighten security and not have to deal with concurrency issues.
+
+- Declare the class as `final` or make all constructors `private`
+- Declare all methods as `final private`
+- No setters
+- No getters must return a reference, only primitives or non-mutable types
+- avoid initializing mutable references in constructor, create a defensive copy for them
+
+```java
+class X{
+	private final List<string> foo = new ArrayList<>();
+
+	public List<String> getFoo(){
+		return foo;
+	}
+}
+
+class Y{
+	public static void main(String args[]){
+		var obj = new X();
+		List<String> bar = obj.getFoo();
+		bar.clear();
+		bar.add("Malicious Data");
+	}
+}
+
+// solution : add another getter than pinpoints to element in List
+public String getFooElement(int index){
+	return foo.get(index);
+}
+```
+
+```java
+// defensive copy
+class X{
+	private final List<string> foo = new ArrayList<>();
+
+	public X(List<String> foo){
+		this.foo = foo;
+	}
+}
+
+class Y{
+	public static void main(String args[]){
+		List<String> bar = new ArrayList<>();
+		var obj = new X(bar);
+		bar.add("Malicious Data");
+	}
+}
+
+// solution: create a defensive copy in constructor
+	public X(List<String> foo){
+		this.foo = new ArrayList<String>(foo);
+	}
+```
