@@ -32,12 +32,45 @@ public abstract interface Demo{
 public interface Demo extends Foo, Bar {	}		// Foo and Bar are interfaces
 ```
 
-- A class or abstract class can implement more than one interface (multiple-inheritance like behaviour)
+- A class or abstract class can implement more than one interface (multiple-inheritance like behaviour) without the need to define all abstract methods of the interface.
 ```java
 public class X implements Y, Z {	} 		// Y and Z are interfaces
 ```
 
-- Concrete class (first to implement interface) must define all abstract methods just like in abstract classes
+- Concrete class (first to implement interface) must **have all abstract methods definition available to it**. Those definitions can come from any superclass of the class implementing the interface.
+```java
+interface Test{
+    public void foo();
+}
+class Super{
+    public void foo(){ }		// implementation in superclass
+}
+public class MyClass extends Super implements Test {		// subclass inherits a foo() implementation
+    public static void main(String args[]) {
+    new MyClass();
+    System.out.println("Test");
+    }
+}
+
+// compiles fine
+```
+
+```java
+interface Test{
+    public void foo();
+}
+class Super{
+    public int foo(){ return 1; }		// incompatible return type
+}
+public class MyClass extends Super implements Test {	// subclass doesn't have a void foo() impl
+    public static void main(String args[]) {
+    new MyClass();
+    System.out.println("Test");
+    }
+}
+
+// compiler error
+```
 
 - If exact same method exists in both interfaces, our concrete class has to implement it with a equal or covariant type otherwise compiler error
 

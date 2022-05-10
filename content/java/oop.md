@@ -456,7 +456,9 @@ public abstract class Demo{
 }
 ```
 
-An abstract class can extend from other abstract classes too.
+An abstract class can extend from other abstract classes and normal classes too.
+
+An abstract class can implement interfaces without the need to define abstract methods of the interface.
 
 An abstract class can have any members of a typical class like constructors, static members, etc...
 
