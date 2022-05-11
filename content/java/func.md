@@ -17,7 +17,7 @@ a -> true
 (a, b) -> a.getMax()
 
 // If braces block is used, then must use return
-a -> { return a.canDrink(); }
+a -> { return a.canDrink(); };
 
 // some valid declarations
 a -> { }
@@ -27,10 +27,10 @@ a -> !a.canDrink()
 
 // invalid ones
 String s -> s.toUpperCase()		// no parantheses when type is specified
-x, y -> { return x > y; }		// no parantheses when multiple parameters
+x, y -> { return x > y; }		// no parantheses when multiple parameters, also no semicolon to terminate expression
 ``` 
 
-**What's the type that this expression returns?** Is it a new "functionType" or something? No, they return a functional interface (interface with a single abstract method). Since a functional interface has a method ready to be overriden, Java associated a lambda expression's return type with that interface type. 
+**What's the return type of Lambdas?** Is it a new "functionType" or something? No, they return a functional interface (interface with a single abstract method). Since a functional interface has a method ready to be overriden, Java associated a lambda expression's return type with that interface type. 
 
 Usually, we would need a class to implement such interface and our method would be implemented inside the class, to call it we have to create an object or we can use an anonymous class. Lambdas can save us from such code.
 
@@ -58,10 +58,11 @@ Properties num = new Properties(){
 num.getNumberOfLegs();
 
 // using lambdas
-Properties num = () -> 4;
+Properties num = () -> 4;		// implementation
+num.getNumberOfLegs();			// explicit call
 ```
 
-**Context**: Lambdas rely a lot on context, so when a lambda is called from a certain place in code, Java has to infer the returned reference type, functional interface the lambda is implementing. Since `var` also relies on context, we can't use them with lambdas.
+**Context**: Lambdas rely a lot on context, so when a lambda is called from a certain place in code, Java has to infer the returned reference type from the LHS of the assignment, functional interface the lambda is implementing. Since `var` also relies on context, we can't use them with lambdas.
 ```java
 var v = a -> 2;
 ```
@@ -106,3 +107,69 @@ public interface Dive {
  public void dive();
 }
 ```
+
+### Variables in Lambdas
+Must have the parameter list - with types, without types, all with `var`.
+
+Local varibles are scoped to lambda block.
+```java
+(a, b) -> { int c =0; }
+
+(a, b) -> { int a = 4; }	// redeclaration not allowed
+```
+
+Lambdas can always access variables (instance and class variables). It can access only the `final` and effectively final local variables.
+
+## Methods References
+Stunningly similar to lambdas, they can be used when a lambda takes in a single parameter and calls another method inside of it.
+
+```java
+interface Test{
+	void display(int x);
+}
+
+Test t = a -> { System.out.println(a); };		// lambda
+t.display(4);
+
+Test t = System.out::println;					// method reference
+t.display(6);
+```
+
+Uses the same principle of **defferred execution** wherein execution is defferred till runtime. Its safe to think of method references exactly like lambdas.
+
+### Formats
+```java
+// 1. Calling static methods
+Math::round
+
+// 2. Calling instance methods of a object (obj)
+obj::myFoo
+
+// 3. Calling instance methods of a parameter supplied at runtime
+String::myBar
+// if we provide a String instance to the method calling it, then it will call myBar on it:
+x.myBar("foo");
+
+// 4. Constructors
+String::new
+// if we're going to call "new String(param)" inside:
+x.myStrCreator("bar");
+```
+
+Since lambdas are more explicit, all method references can be converted to lambdas but not vice-versa.
+
+## Built-in Functional Interfaces
+```java
+T Supplier<T> 				// Takes a T type and returns a T type
+void Consumer<T> 			// Takes a T type and returns nothing
+void BiConsumer<T, U> 		// Takes two types and returns nothing
+boolean Predicate<T> 		// Takes a type and returns true/false
+boolean BiPredicate<T, U> 	// Takes two types and returns true/false
+R Function<T, R> 			// Takes a type and returns same type
+R BiFunction<T, U, R> 		// Takes two types and returns a type
+T UnaryOperator<T> 			// special case of Function; takes single parameter
+T BinaryOperator<T> 		// special case of BiFunction; takes same type parameters
+```
+### Convenience Methods on Functional Interfaces
+
+### Functional Interfaces for Primitives

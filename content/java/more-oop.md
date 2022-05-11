@@ -253,9 +253,9 @@ Same rules as in Sealed Classes.
 - since interfaces are always `abstract` implicitly, they can't be marked `final` so only the other two (`non-sealed` and `sealed`) can be applied to interfaces dealing with a sealed interface.
 
 ## Records (Java 14)
-Records - Auto-generated immutable classes with no setters. (Immutability = Encapsulation). Everything inside of a record is `final` and the record itself is `final` and cannot be extended or inherited.
+Records - Auto-generated immutable classes with no setters. (Immutability = Encapsulation). Everything inside of parameter list (instance fields) of a record is implicitly `final` and the record itself is implicitly `final` and cannot be extended or inherited.
 
-We can define our own constructors, methods or constants inside the body.
+We can define our own constructors, methods or constants (`static` only) inside the body.
 
 ```java
 public record Demo(int foo, String bar){ }
@@ -279,9 +279,9 @@ public record Demo(int foo, String bar) implements Foobar{ }
 
 ### Constructors
 
-**Long Constructor**: Explicitly defining the implicit one. Since every field is `final` in a record, we have to initialize every field in out explicit constructor.
+**Long Constructor**: Explicitly defining the implicit one. Since every field is `final` in a record, we have to initialize every field in our explicit constructor.
 
-**Compact Constructor**: Modifies **constructor arguments** only and not instance fields directly. After compact constructor, the implicit long constructor is called which sets those values to instance fields.
+**Compact Constructor**: Modifies **constructor arguments** only and not instance fields directly. **After compact constructor, the implicit long constructor is always called** which sets those values to instance fields.
 ```java
 public record Demo(int foo, String bar){
 	public Demo{									// notice no parentheses ()
@@ -307,11 +307,11 @@ public record Demo(int foo, String bar){
 ```java
 public record Demo(int foo, String bar){
 	public int foo(){ return 10; }
-	public String toString(){ return "Not allowed"; }
+	public String toString(){ return "Testing..."; }
 }
 ```
-- Instance Initializers aren't allowed since initializaion is possible only via constructor
-- Fields aren't allowed inside record body (ofc!)
+- Non-static fields (instance fields) aren't allowed inside record body (since record instance is supposed to be immutable)
+- Instance Initializers aren't allowed since initializaion is possible only via constructor, also no instance fields exist acc to above rule so no point of instance initializer blocks
 
 ## Nested Classes
 Class within another class.
