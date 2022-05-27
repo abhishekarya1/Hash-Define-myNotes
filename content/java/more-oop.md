@@ -32,7 +32,7 @@ public abstract interface Demo{
 public interface Demo extends Foo, Bar {	}		// Foo and Bar are interfaces
 ```
 
-- A class or abstract class can implement more than one interface (multiple-inheritance like behaviour) without the need to define all abstract methods of the interface.
+- A class or abstract class can implement more than one interface (multiple-inheritance like behavior) and abstract class doesn't need to define all abstract methods of the interface.
 ```java
 public class X implements Y, Z {	} 		// Y and Z are interfaces
 ```
@@ -470,14 +470,17 @@ q.bar();					// error
 
 ### Casting Objects
 ```java
-// from super to subclass type
+Parent p = new Parent();
+Child c = p;	// error; incompatible types: Parent cannot be converted to Child
+
+// Casting
 Child c = new Child();
 
-Parent p = c;		 // implicit cast to supertype
+Parent p = c;		 // implicit cast to supertype, storing in ref of Parent
 
-Child c = p;		 // error (can't cast from super type to subtype)
+Child c2 = p;		 // error (can't cast from super type to subtype even if object is Child's)
 
-Child c = (Parent)p; // explicit cast to subtype
+Child c3 = (Child)p; // explicit cast to subtype; p is Child's object only, but stored in ref of Parent, that's why this explicit cast works otherwise error
 
 // a ClassCastException is thrown at runtime if they're not compatible and explicit cast is used like in the above example
 
@@ -493,7 +496,7 @@ class Bar{
 ```
 
 ### Casting Interfaces
-While holding a reference to a class object its not possible to tell if its compatible with an interface reference since some subclass might be implementing that interface, so identifying bad casts at compile-time isn't possible with interfaces. There is one expception to this, it is listed below the following code.
+While holding a reference to a class object its not possible to tell if its compatible with an interface reference since some subclass might be implementing that interface, so identifying bad casts at compile-time isn't possible with interfaces. There is one exception to this, it is listed below the following code.
 ```java
 public interface Dog{ }
 public interface Canine{ }
@@ -503,17 +506,21 @@ public class Wolf implements Canine{ }
 Wolf wolf = new Wolf();
 Dog dog = (Dog)wolf;		// compiles just fine
 
-// ClassCastException at runtime
+// throws ClassCastException at runtime
 
 
-// EXCEPTION - if class is marked final then the compiler will know that there are no possible subclasses that might implement an interface we are casting to, so in that case it leads to a compile-time error
+// EXCEPTION - if class is marked "final" then the compiler will know that there are no possible subclasses that might implement an interface we are casting to, so in that case it leads to a compile-time error
 ```
 
 ### instanceof
 ```java
 // instanceof operator checks for compatible types and returns boolean; prevents ClassCastException at runtime
 
-if(obj instanceof String){ }
+if(obj instanceof FoobarClass){ }
 
 // applying it to unrelated types leads to compile-time error
+
+// instanceof on null always returns false
+null instanceof String
+// false
 ```
