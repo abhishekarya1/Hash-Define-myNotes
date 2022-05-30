@@ -83,7 +83,7 @@ An interface maybe empty but if it inherits a single abstract method, it is a fu
 ### java.lang.Object Methods
 Since every class in Java extends `java.lang.Object` and it has our three well-known public methods - `toString`, `hashCode`, and `equals`. If an interface has these methods and it gets implemented then these methods will be availlable to the class since it inherits from `Object` class. **So these methods don't count in the SAM rule unless there is a conflict with Object class methods**, in that case its a compiler error.
 
-[Recall](http://localhost:1313/java/more-oop/#interface) (Concrete Class)
+[Recall](http://localhost:1313/java/more-oop/#interface) (pt. regarding Concrete Class)
 
 This rules only applies to `Object` class methods and not any superclass our implementing class may have.
 
@@ -121,7 +121,7 @@ Local varibles are scoped to lambda block.
 Lambdas can always access variables (instance and class variables). It can access only the `final` and effectively final local variables.
 
 ## Methods References
-Stunningly similar to lambdas, they can be used when a lambda takes in a single parameter and calls another method inside of it.
+Exactly like lambdas, they can be used when a lambda takes in a single parameter and calls another method inside of it.
 
 ```java
 interface Test{
@@ -146,9 +146,14 @@ Math::round
 obj::myFoo
 
 // 3. Calling instance methods of a parameter supplied at runtime
-String::myBar
-// if we provide a String instance to the method calling it, then it will call myBar on it:
-x.myBar("foo");
+String::strMethod
+// if we provide a String instance to the method calling it, then it will call strMethod on it:
+x.anyFunc("foo");
+
+//with two params
+StringTwoParameterChecker methodRef = String::startsWith;
+StringTwoParameterChecker lambda = (s, p) -> s.startsWith(p);
+System.out.println(methodRef.check("Zoo", "A")); 	// false
 
 // 4. Constructors
 String::new

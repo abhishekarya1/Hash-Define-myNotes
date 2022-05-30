@@ -252,7 +252,7 @@ Primary Exception - ArithmeticException ("foo")
 Suppressed Exception(s) - NullPointerException ("bar") on `close()` method call after `try-with-resources`
 
 ### Lost Exceptions with finally
-Any exception thrown in `fianlly` block will hide every other prior exceptions.
+Any exception thrown in `fianlly` block will hide every other prior exceptions. This is a bad Java behaviour and exists only for backward compatibility.
 ```java
 class All implements AutoCloseable{
     public void close(){
