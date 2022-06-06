@@ -134,6 +134,7 @@ var name = init_value;	// type is implicitly inferred
 ```java
 var a = 3, b = 5;	//invalid
 ```
+- type of `var` is known at compile-time and can be changed at runtime
 
 ## Data Types
 ```java
@@ -149,7 +150,7 @@ boolean
 - `int` is 4 Bytes
 - `float` is 4 Bytes
 - `char` is UTF-16, so one char can take one or two Bytes. Convertible to `int` and vice-versa.
-- `boolean` is not convertible to `int` and vice-versa. Takes values `true` or `false`. **Size is undefined** and depends on JVM.
+- `boolean` is not convertible to `int` and vice-versa, we cannot even use `==` with `int` and `boolean` values. Takes values `true` or `false`. **Size is undefined** and depends on JVM.
 
 ### Literals
 ```java
@@ -184,10 +185,52 @@ float exp = 1.010_101;
 int eleven = 1__________1;	
 ```
 
+## Operators
+Logical/Bitwise operators:
+```java
+& | ^   // can be applied to both boolean and integer types; works the same way as conditionals: && ||
+~       // only for integer types
+```
+**Logical operators are not short circuited** whereas Conditional operators are.
+```java
+boolean a = false;
+boolean b = (true) | (a = true);       // logical AND (&)
+System.out.println(a);      // true
+
+boolean a = false;
+boolean b = (true) || (a = true);       // conditional AND (&&)
+System.out.println(a);      // false
+```
+
 ### Type Casting
 ```java
-(int) a;
+double x = 99;      // valid; smaller to larger type cast is implicit
+long y = x;         // invalid; larger to smaller cast can lead to loss of data
+float z = 9.0;      // invalid; must be 9.0f
+
+double a = 9;           // implicit cast to double from int
+int b = (int) a;        // explicit cast from double to int
 ```
+
+### Numeric Promotion
+1. If two values have different types, Java will convert smaller into larger type
+2. If integral and decimal are being used, integral is converted to decimal type
+3. **If both variables are of integral type and smaller or equal to int, they are promoted to int first**, even if none of them is `int`
+```java
+short x = 5;
+byte y = 5;
+x + y;      // int 
+```
+4. After the operations, the result value will be of the promoted operands type.
+
+### Bitwise Complement
+`~` operator is same as in C/C++. To find the bitwise complement of a number, multiply it by negative one and then subtract one.
+```java
+System.out.println(~8);     // -9; use -(n+1) formula
+
+// it is supposed to perform 1's complement on the operand
+```
+
 ## Strings
 
 **Strings are immutable in Java**
@@ -271,14 +314,27 @@ StringJoiner();
 
 ### Primitive-String Conversions
 ```java
-Integer.parseInt(str)
-Integer.valueOf(str)
+Integer.parseInt(str)       // returns int; takes Strings only; slower
+Integer.valueOf(str)        // returns Integer; takes both String and intgeral types; faster
 
 String.valueOf(n)
-Integer.toString(n)
+x.toString()        // where x is of type Integer
 ```
 
 ## Control Structures
+- `switch` supports the following types: 
+```java
+// all integer literal types: 
+int short long char byte enum
+
+// and their wrapper classes: Short Integer Long Byte Char
+
+String
+
+var     // if type is one of the supported types
+
+// variables can be used but they must be "final"
+```
 - `switch` labels and expressions and case labels can be `String` here too (unlike C/C++) and they have to be compile time constants using `final`
 ```java
 //combining case values
@@ -298,10 +354,12 @@ var result = switch(day) {
  case 6 -> "Saturday";
  default -> "Invalid value";
 };
+
+// switch expressions must handle all cases so default case becomes mandatory
 ```
 - `System.exit(0)` can be used to indicate successful termination
 
-- for each loop
+- for-each loop
 ```java
 int [] arr = new int[]{1, 2, 3, 4, 5};
 
@@ -327,6 +385,7 @@ in.close();
 
 - `Scanner` is not thread-safe (no sync) wheareas `BufferedReader` is.
 - `Scanner` buffer size is 1 KB wheareas `BufferedReader` buffer size is 8 KB. So `BufferedReader` is good for handling larger inputs.
+- `BufferedReader` is a bit faster than `Scanner`.
 
 ```java
 InputStreamReader r = new InputStreamReader(System.in);    
@@ -360,10 +419,10 @@ Available for all data types. Advantages include:
 ### Creating Objects of wrapper class
 ```java
 // 1. new
-Integer n = new Integer(33);
+Integer n = new Integer(33);        // deprecated way
 
 // 2. valueOf()
-Integer n = Integer.valueOf(33);
+Integer n = Integer.valueOf(33);    // better way
 // Points to old object if it already exists in constant pool
 
 // 3. Autoboxing
@@ -386,7 +445,7 @@ Long l = 8;     // compiler error
 Character c = null;     // valid since c is ref variable and it can store null ref
 char ch = c;            // NullPointerException; since we try and call method on c internally to get primitive out of it
 
-// methods calls
+// methods calls; same here
 void foobar(Long x){ }
 
 foobar(8L);     // valid
@@ -419,7 +478,7 @@ int arr[][];        // 2D
 int[][][] arr;      // 3D
 int[] arr[];        // 2D
 
-// Range checking is strict unlie C & C++ and often results in - 
+// Range checking is strict unlie C & C++ and often results in runtime exception - 
 ArrayIndexOutOfBoundsException
 
 // in method parameters

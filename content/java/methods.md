@@ -16,9 +16,12 @@ public static final int foo() throws IOException, SQLException {
 
 ### Access Modifiers
 ```txt
-private		   --> accessible from within the same class only
-package access --> default; when we omit any access modifier; accessible only from a class in same package
-protected	   --> same package or subclass 
+private		   --> accessible from within the same class only; not even its subclasses
+
+package access --> default; when we omit any access modifier; accessible only from a class or subclass in the same package; if we try to access this from a subclass but in a different package, there will be error
+
+protected	   --> same package and subclasses (even in diff packages)
+
 public	 	   --> everywhere
 ```
 
@@ -42,7 +45,7 @@ class Hello{
 
 - only one modifier can be applied to local variables - `final`
 - remember that `final` on a reference variable won't stop anyone from accessing and changing the value inside; its to stop changing the ref variable itself
-- `final` instance variables must be assigned a value before constructor finishes
+- `final` instance variables must be assigned a value before constructor/constructor chain finishes
 
 ## Variable Arguments
 ```java

@@ -32,10 +32,11 @@ $ spring --version
 $ spring shell		#for auto-completion using TAB
 $ spring init
 $ spring init -dweb,jpa,security --build gradle output_folder
+$ spring init -dweb,jpa -p war	# packaging as WAR instead of JAR default
 ``` 
 
 ### Actuator
-We can inspect internals of a Spring Boot app during runtime in two ways - by **provided API endpoints** or by **opening a secure shell (SSH) session into the application**.
+We can inspect internals of a Spring Boot app during runtime in two ways - by **provided API endpoints** or by **opening a secure shell (SSH) session into the application**. Have to include `spring-boot-starter-actuator` dependency for this to work.
 
 ### Other features
 Build tool - Maven or Gradle (provides project structure and dependency management)
@@ -146,6 +147,8 @@ $ mvn package	# generate JAR
 $ mvn install	
 # install the artifact (JAR) to userhome/.m2/repository after compile,test,etc.. for use as a dependency in other projects locally
 $ mvn clean		# delete /target
+
+$ mvn clean install  #chaining
 ```
 
 References: https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#a-build-lifecycle-is-made-up-of-phases
@@ -179,14 +182,15 @@ We can also exclude including some transitive using `<exclusions>` tag.
 
 ```xml
 <dependency>
-	<groupId>org.springframework.boot</groupId>
-	<artifactId>spring-boot-starter-web</artifactId>
+  <groupId>org.springframework.boot</groupId>
+  <artifactId>spring-boot-starter-web</artifactId>
 
-	<exclusions>
-		<exclusion>
-			<groupId>com.fasterxml.jackson.core</groupId>
-		</exclusion>
-	</exclusions>
+  <exclusions>
+	 <exclusion>
+		<groupId>com.fasterxml.jackson.core</groupId>	<!-- use only this line to remove entire group --> 
+		<artifactId>jackson-databind</artifactId> <!-- add this line too to specfify a particular artifact to exclude -->
+	 </exclusion>
+  </exclusions>
 
 </dependency>
 ```
@@ -201,7 +205,7 @@ Spring Boot auto-configures beans based on - dependencies included (contents of 
 
 **Ans:** When you add Spring Boot to your application, there's a JAR file named `spring-boot-autoconfigure` that contains several configuration classes. Every one of these configuration classes is available on the application's classpath and has the opportunity to contribute to the configuration of your application.
 
-The auto-config JAR has many @Configuration classes that use @Conditional annotation to include beans.
+This JAR has a pacakage `org.springframework.boot.autoconfigure` where all the _@Configuration_ classes are stored. These configuration classes use _@Conditional_ annotation to include beans.
 ```java
 @ConditionalOnBean(name={"dataSource"})
 @ConditionalOnBean(type={DataSource.class})
@@ -213,7 +217,7 @@ The auto-config JAR has many @Configuration classes that use @Conditional annota
 ```
 
 ### Bean Configuration
-We can define our own bean or use properties to customize default beans. Ex - `DataSource` bean below.
+We can define our own bean or use properties to ovveride the default one. Ex - `DataSource` bean below.
 ```java
 // 1. define our own DataSource Bean
 @Bean
@@ -252,7 +256,7 @@ public class ApplicationConfiguration {
 ```
 
 ## Properties
-We can set properties via command-line parameters, OS environment variables, application.properties file (or .yml) inorder of precedence.
+We can set properties via command-line parameters, OS environment variables, `application.properties` file (or `.yml`) inorder of precedence.
 
 If defined in `application.properties` file, they are searched in below order:
 1. `/config` sub-directory of working directory
@@ -275,7 +279,7 @@ public static void main(String[] args) {
 ```java
 // POJO
 @Component
-@ConfigurationProperties("demo.ex")
+@ConfigurationProperties(prefix="demo.ex")
 public class Demo {
 	private String foo;
 	public void setFoo(String foo) {
@@ -297,16 +301,25 @@ We need to have _@EnableConfigurationProperties_ on any one configuration class 
 ### Profiles
 If you set any properties in a profile-specific `application-{profile}.properties` will override the same properties set in an `application.properties` file if they both are in the same location.
 
-We can load profiles while running the JAR as follows:
+We can load profiles as follows:
 ```bash
-# setting the property
+# setting the property in application.properties (default)
 spring.profiles.active=dev
 
 # or select a profile by executing the JAR with param
 -Dspring.profiles.active=dev 
 ```
 
-We can also specify `@Profile("dev")` on configuration classes and only if the specified profile is active, the class will be used otherwise it will be ignored and default config will be used for that class.
+Notice that the default profile is always active. So when we run the app, it reads from `application.properties` (default) and then sees `spring.profiles.active=dev` and loads the dev profile **too**. So we can place common properties in default and dev exclusive properties in dev property file as both will be loaded on runtime. Any properties present in both will be overriden by dev's version.
+
+We can have multiple profiles too active atop default profile.
+
+When in production, we often specify profile from command-line and it has the same effect but no hardcoding in `application.properties`.
+```sh
+$ java -jar foobar-0.0.1-SNAPSHOT --spring.profiles.active=dev
+``` 
+
+We can also specify `@Profile("dev")` on classes and only if the specified profile is active, the class will be used otherwise it will be ignored and default config will be used for that class.
 
 ### YAML
 ```yaml
