@@ -36,6 +36,47 @@ firstName in POJO = first_name in table
 So, camelCase attribute names in POJO becomes snake_case in table column names
 ```
 
+### More on Entity
+Entity is nothing but projection (subset columns) from the actual table. If our _@Entity_ class name is same as table's then no need of _@Table_ annotation, same goes for _@Column_ too. Also an _@Entity_ class will always need an _@Id_ field to be present inside it.
+
+We need not have all the columns in _@Entity_. Only those which are available will be fetched, created, or updated just like a normal DTO. Others will be empty or error based on not empty validations.
+
+Another way to get a projection with plain DTOs (no _@Entity_) is to make a query in repository using _@Query_ with constructor expression but this way we will need that specific constructor in the DTO. There are a other ways too such as by using `interface` but they are generally slower.
+
+_References_ (interface and constructor expression techniques): https://stackoverflow.com/questions/22007341/spring-jpa-selecting-specific-columns
+
+## Hibernate Validations
+
+```xml
+spring-boot-starter-validation
+```
+Many annotation based validations can be specified in _@Entity_ class directly. When we convert (deserialize) from JSON to POJO, these validations are performed and BAD_REQUEST status is returned along with messsage (if specified) in place of JSON value.
+```java
+@NotBlank(message="Please provide value for name!")
+private String name;
+
+@Length(min=1, max=5)
+@Size(min=0, max=10)
+@Email
+@Positive
+@Negative
+@PositiveOrZero
+@NegativeOrZero
+@Past
+@Future
+@PastOrPresent
+```
+
+## DDL AUTO Property
+Apart from usual connection url, username, password, driver we can also add dependencies to print executed SQL and prettify it too.
+
+Important one is `ddl-auto` property which decides if we can `create`, `update`, or do not modification `none` to schema in the table upon entity persistance and DDL queries.
+
+```txt
+spring.jpa.hibernate.ddl-auto=update
+```
+_References_: https://stackoverflow.com/questions/42135114/how-does-spring-jpa-hibernate-ddl-auto-property-exactly-work-in-spring
+
 ## CommandLineRunner
 Always executes upon server run.
 ```java
@@ -95,6 +136,7 @@ Student getStudentByEmailAddress(@Param("emailId") String email);
 ```
 
 ## Modifying
+To use modifying and DDL queries in _@Query_.
 ```java
 @Modifying
 @Transactional
@@ -117,10 +159,12 @@ private Course course;
 // a new column called "course_id" will be created in CourseMaterial's table referencing courseId's column in Course's table
 ```
 
+Join column named `coulumn_id` is created in `CourseMaterial` referencing `courseId` column from `Course`.
+
 #### Cascading
 If there is a one-to-one relation between two tables then we often may try to insert into one table when corresponding data isn't available in other table. 
 
-As in the above example, if we try to input `CourseMaterial` without `Course` entry previously available in table, it will lead to error and we need to direct using cascade in _@OnetoOne_ annotation.
+As in the above example, if we try to input `CourseMaterial` with `Course` object entry previously available in table, it will lead to error since INSERT query will be run only for `CourseMaterial` table. We need to direct hibernate to insert into `Course` table too using cascade in _@OnetoOne_ annotation.
 
 ```java
 @OnetoOne(cascade=CascadeType.ALL)
@@ -146,7 +190,7 @@ Other cascade options are also available.
 private CourseMaterial courseMaterial;
 ```
 
-This will fetch all data in `CourseMaterial` and `Course` when `findAll()` is done on `Course` due to the bi-directional mapping.
+This will fetch all data in `CourseMaterial` and `Course` when `findAll()` is done on `Course` due to the bi-directional mapping and fetchType.
 
 ### One-to-Many
 One teacher can teach many courses.
@@ -161,7 +205,7 @@ One teacher can teach many courses.
 private List<Course> course;
 ```
 
-A `teacher_id` column is created in `Course` since our reference column was in Teacher only so it added to Course too.
+A `teacher_id` column is created in `Course` since our reference column was in Teacher so it added to Course too.
 
 We can make this bi-directional too using `@ManytoOne` and `mappedBy` property in `Course` entity.
 ```java

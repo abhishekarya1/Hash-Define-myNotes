@@ -11,18 +11,20 @@ Service/Business layer 			--> application logic
 Repository/Data Access layer 	--> database access queries
 ```
 
+```txt
+Controller --> Service (interface) --> Service (impl class)
+		   --> Repository (interface) --> Repository (impl class)
+
+```
+
 ## Annotations
 ```java
-@RestController 	--> @Controller + @ResponseBody 
-
-@RequestMapping
-@GetMapping
-@PostMapping
+@RestController 	// = @Controller + @ResponseBody 
 
 @Component
 @Controller
-@Service
-@Repository
+@Service			// goes on service impl
+@Repository			// goes on repo impl
 ```
 
 **@RequestMapping**: Specify endpoint methods.
@@ -82,16 +84,19 @@ public Course saveCourse(@RequestBody Course course){
 
 Remember, `@RestController` = `@Controller` + `@ResponseBody`. So we don't need _@ResponseBody_ if we use _@RestController_.
 
-**@ResponseStatus**: Override response code on a method.
-```java
-@ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
-void teaPot() {}
-
-// whenever teaPot() is called, we get a 418 code 
-```
-
 **@RequestHeaders**: Get value of request header.
 ```java
 GetMapping("/double")
 public ResponseEntity<String> doubleNumber(@RequestHeader("my-number") int myNumber) { }
 ```
+
+**@ResponseStatus**: Override response code on a method.
+```java
+@ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
+void teaPot() {}
+
+// whenever teaPot() is called, we get a 418 code in reponse
+```
+
+
+**Consider all of the stuff mentioned above as `required = true` unless specified otherwise explicitly**.

@@ -122,6 +122,8 @@ non-final Instance -> defaults value assigned by compiler
 non-final Class/static ->  defaults value assigned by compiler
 ```
 
+Do note that the defaults on non-final instance and class/static variables are not by constructor but by compiler itself. They are assigned default values even before any constructor finishes executing!
+
 ### var
 ```java
 var name = init_value;	// type is implicitly inferred

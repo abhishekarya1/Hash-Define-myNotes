@@ -321,6 +321,16 @@ $ java -jar foobar-0.0.1-SNAPSHOT --spring.profiles.active=dev
 
 We can also specify `@Profile("dev")` on classes and only if the specified profile is active, the class will be used otherwise it will be ignored and default config will be used for that class.
 
+### Getting property values
+```java
+// property
+foo.bar = "FoobarStr"
+
+// in class code
+@Value("${foo.bar}")
+private String foobar;
+```
+
 ### YAML
 ```yaml
 # properties
@@ -351,4 +361,36 @@ spring.profiles: prod
 database:
 	host: 192.1.1.9
 	user: user
+```
+
+### Logger
+Logging is available in Spring by default provided by `slf4j` implemented by `Logback`. We don't need any dependencies for it separately.
+
+```java
+// in Foobar.java
+
+Logger log = LoggerFactory.getLogger(Foobar.class);		// -- line 1
+
+log.trace("A TRACE Message");
+log.debug("A DEBUG Message");
+log.info("An INFO Message");		// enabled by default
+log.warn("A WARN Message");
+log.error("An ERROR Message");
+
+// we can use lombok too to avoid line 1 above
+@Slf4j
+// or
+@CommonsLog
+```
+
+Control logs using properties
+```txt
+logging.level.root=TRACE
+
+# package specific:
+logging.level.com.test.repository=INFO
+
+# package specific for framework level logs:
+logging.level.org.springframework.web=debug
+logging.level.org.hibernate=error
 ```

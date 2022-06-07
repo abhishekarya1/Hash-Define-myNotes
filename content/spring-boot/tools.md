@@ -1,5 +1,5 @@
 +++
-title = "CLI and Actuator"
+title = "CLI, Actuator, Lombok"
 date = 2022-06-06T21:45:00+05:30
 weight = 3
 +++
@@ -105,7 +105,7 @@ management.endpoints.web.exposure.include=*
 exclude env and beans:
 management.endpoints.web.exposure.exclude=env,beans
 ```
-## More
+### More
 We can change `/actuator` base path to anything we like `/foobar`. 
 ```txt
 management.endpoints.web.base-path=/foobar
@@ -114,6 +114,32 @@ We can change endpoint_id, toggle sensitivity, secure endpoints with authenticat
 
 We can write custom health indicators, or an entire custom endpoint.
 
-## Reference
+**References**:
 - https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.enabling
 - https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/
+
+## Lombok
+Provides annotations to avoid writing a ton of boilerplate code.
+
+```xml
+<dependency>
+	<groupId>org.projectlombok</groupId>
+	<artifactId>lombok</artifactId>
+</dependency>
+```
+
+```java
+@Data					// getter setters
+@Builder 				// Builder pattern
+@AllArgsConstructor	 	// constructor with all args
+@NoArgsConstructor		// constructor with no args
+@Slf4j					// logs
+@CommonsLog				// same as above (for logs)
+
+@Generated 				// to mark the component as generated; excepted from coverage checks
+@ToString				// generates toString() for the class 
+@EqualsAndHashCode		// generates hashcode() and equals() for fields of class
+@Value 					// make immutable class (diff from Spring's @Value used to read properties)
+```
+
+**Reference**: https://projectlombok.org/features/all
