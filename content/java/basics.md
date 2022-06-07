@@ -136,7 +136,7 @@ var name = init_value;	// type is implicitly inferred
 ```java
 var a = 3, b = 5;	//invalid
 ```
-- type of `var` is known at compile-time and can be changed at runtime
+- type of `var` is known at compile-time and type cannot be changed ever after that
 
 ## Data Types
 ```java
@@ -237,18 +237,50 @@ System.out.println(~8);     // -9; use -(n+1) formula
 
 **Strings are immutable in Java**
 
-All strings literals are cached in an area in Heap memory called "String Constant Pool". Every string literal NOT created with `new` keyword must be checked first and if it already exists in Pool then reference to the already present literal is returned.
-
-Advantages of this include:
+Advantages of immutability include:
 - thread safety
 - security
 - non-redundancy
 
+All strings literals (anything within `""`) are cached in an area in Heap memory called "**String Constant Pool**" or "String Intern Pool" for performance optimization.
+
+When we define literal without `new`, we either get old ref or a string pool entry is created and we get it's new ref.
+
+When we create using `new String()`, we force Java to create a new object regardless of any prior pool entry.
+
+The sneaky thing is when we are allocating space using `new`, we end up using literal (`""`) in constructor call and a String literal ALWAYS gets placed in pool. So, its because of the String `""` literal use that we get two objects created in memory and not by virtue of using `new`.
+
+_Reference_: https://stackoverflow.com/a/66866401
+
+
+```java
+// how many string literals does the following statement create internally?
+
+String a = new String("A");
+
+// 1 literal - if "A" exists in pool already
+// 2 literal - if "A" doesn't exist in pool already
+
+// compare that to simple literal
+String b = "B";
+// it can create 0 or 1 depending on existance in pool
+
+// another example
+String s = new String(new char[]{'a','b','c'});
+// only 1 String literal is created in heap ("abc"), none in pool
+```
+
+**String Representation**: Since Java 9, a new representation is provided, called _Compact Strings_. This new format will choose the appropriate encoding between `char[]` and `byte[]` depending on the stored content.
+
+The internal array representation has 65536 elements and **String Pool can go OutOfMemory since it not eligible for Garbage Collection**. The memory is freed only when JVM is restarted.
+
 ```java
 String a = "foo";					// stored in pool
-String b = new String("bar");		// stored in heap only, not in pool
+String c = "foo";					// points to a only (a == c is true)
 
-String c = "foo";					// points to b only (b == c is true)
+String b = new String("bar");		// stored in heap and b points to it, literal "bar" is also placed in pool
+
+String d = b.concat("tender");      // d is in string pool (since "new" is not used)
 
 
 // text block Strings
@@ -267,7 +299,7 @@ Rules:
 
 ### Interning
 ```java
-// Intern a string to bring it to Pool if it doesn't exists there already otherwise old ref from pool is returned
+// Intern a string to copy it to Pool from String Object in heap if it doesn't exists there already and return it's reference, otherwise old ref from pool is returned
 String internedStr = str.intern();
 ```
 
@@ -275,11 +307,11 @@ String internedStr = str.intern();
 ```java
 String a = new String("foobar");
 String a = a.substring(0, 3) + "d";
-// Literals created in heap: "foobar", "food" (new literal)
+// Literals created in pool: "foobar", "food" (new literal)
 
 String b = "foo";
 String b = b + "bar"; 
-// Literals created in heap: "foo", "foobar" (new literal)
+// Literals created in pool: "foo", "foobar" (new literal)
 ```
 
 ### Comparing Strings
@@ -314,12 +346,12 @@ StringTokenizer();
 StringJoiner();
 ```
 
-### Primitive-String Conversions
+### Data-String Conversions
 ```java
 Integer.parseInt(str)       // returns int; takes Strings only; slower
 Integer.valueOf(str)        // returns Integer; takes both String and intgeral types; faster
 
-String.valueOf(n)
+String.valueOf(n)     // n is primitive or any other type
 x.toString()        // where x is of type Integer
 ```
 
@@ -490,7 +522,7 @@ void foobar(int[] arr){ }
 arr.length      // and not arr.length()
 
 
-// multiple-declrations
+// multiple-declarations
 int [] a, b;     // two array ref variables
 int a[], b;      // one array ref variable, one primitive int    
 

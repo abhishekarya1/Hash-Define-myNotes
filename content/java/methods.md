@@ -5,7 +5,7 @@ weight = 3
 +++
 
 ## Method Declaration
-- a single underscore (`_`) isn't a valid method name unlike a variable
+- a single underscore (`_`) isn't a valid method name just like a variable
 ```java
 public static final int foo() throws IOException, SQLException {
 	// body
@@ -80,7 +80,7 @@ class Hello{
 Hello obj = new Hello();
 System.out.println(obj.a);		 // 5
 obj = null;
-System.out.println(obj.a);		// still prints 5
+System.out.println(obj.a);		// still prints 5, no NullPointerException
 ```
 - `static` fields can be updated from instance. Whenever instance updates, there is only one copy so it gets reflected
 ```java
@@ -92,7 +92,17 @@ System.out.println(Hello.a);		// 7
 ```
 - `static` methods can't be overriden, since they are resolved using _static binding_ by the compiler at compile time
 - **static methods can't access instance methods and instance variables directly**. They must use reference to object. And `static` method can't use `this` keyword as there is no instance for "this" to refer to.
-- instance initializer blocks can initialize `static` variables but not the other way round. We can't access non-static members from a static context. 
+- instance initializer blocks can initialize `static` variables but not the other way round. We can't access non-static members from a static context without object reference.
+
+```java
+class Foo{
+	int a = 5;
+	static void foobar(){
+		a = 6;				// not allowed
+		new Foo().a = 6;	// allowed now since we provided an object ref
+	}
+}
+``` 
 
 ### static Initializer Block
 ```java
