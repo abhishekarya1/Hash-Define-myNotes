@@ -5,13 +5,20 @@ weight = 2
 +++
 
 ## Spring Data JPA
-An **ORM** (Object Relationship Mapper) is a tool that can map POJOs to Relations (tables) in a database and it can also express relation between them in code itself. It also simplifies querying as we can query on particular POJOs now instead of writing SQL queries.
+An **ORM** (Object Relationship Mapper) is a tool that can map POJOs to Relations (tables) in a database and vice-versa and it can also express relation between them in code itself. It also simplifies querying as we can query on particular POJOs now instead of writing SQL queries.
 
 **Persistance**: To map POJO to table in database.
 
 **Spring Data JPA**: It is an abstraction (interface) provided by the Spring to implement persistence and tools like **Hibernate** implement those functionality in the code.
 
-Most of the annotations used here are from `javax.persistance.*` and Hibernate is just the provider which is changeable.
+Most of the annotations used are from `javax.persistance.*` and Hibernate is the default provider when we add the below dependency to enable JPA.
+
+```xml
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-jpa</artifactId>
+</dependency>
+```
 
 ## Annotations
 ```java

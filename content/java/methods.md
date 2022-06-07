@@ -5,13 +5,25 @@ weight = 3
 +++
 
 ## Method Declaration
-- a single underscore (`_`) isn't a valid method name just like a variable
+- a single underscore (`_`) isn't a valid method name (it isn't a valid identifier in Java)
 ```java
 public static final int foo() throws IOException, SQLException {
 	// body
 }
 
 // return type must be written with method name followed by exception list; rest's order doesn't matter
+```
+
+### Unreachable Code
+```java
+public int foobar(){
+	return 1;
+	System.out.println("foobar");	// unreachable code; compiler error
+}
+
+public String getStr(){
+		// compiler error if nothing is returned in body  
+}
 ```
 
 ### Access Modifiers
@@ -27,8 +39,8 @@ public	 	   --> everywhere
 
 ## Argument Passing
 ```txt
-Primitives 			 -->	Pass-by-value
-Objects & references -->	Pass-by-reference
+Primitives & references vars  -->	Pass-by-value
+Objects  					  -->	Pass-by-reference
 
 Since there are no explicit references in Java unlike C++. We say everything is pass-by-value in Java which means a new reference variable is created in called method and not actual object/array is created in memory again. 
 ```

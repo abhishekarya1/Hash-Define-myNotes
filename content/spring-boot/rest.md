@@ -4,6 +4,13 @@ date = 2022-06-07T00:27:00+05:30
 weight = 4
 +++
 
+```xml
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-web</artifactId>
+</dependency>
+```
+
 ## Layers
 ```txt
 Controller layer				--> front side
