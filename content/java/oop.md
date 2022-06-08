@@ -142,8 +142,6 @@ Default constructor has no parameters (no args).
 
 The default constructor is inserted only when no explicit constructor is defined.
 
-It is used to provide the default values to the object like `0`, `null`, etc..., depending on the type.
-
 ### this()
 We can use this to call constructor of current object and not create a new object in memory while doing so.
 ```java
@@ -172,7 +170,11 @@ Calls direct parent's construtor. Any constructor that matches argument is calle
 
 The first call in any constructor has to be `super()` or `this()`, always. Java compiler inserts an empty `super()` call if they aren't there!
 
+{{% notice note %}}
 The problem arises when there is no default constructor in parent class and we allow compiler to insert `super()` call in subclass. It doesn't compiler since no matching constructor is found in parent.
+
+So its a good practice to leave a no-args constructor in every class.
+{{% /notice %}}
 
 ```java
 class X{
@@ -223,12 +225,14 @@ o.b = 2;
 foobar(new Demo());		// initialized but not stored in a reference variable
 ```
 
-### Order of Initialization
-1. Class (inline, static block) -> happens only once
+### Order of Initialization (Instance members)
+1. Class initialization (inline, static block) -> happens only once
 2. Local Method Flow 
-3. Instance (inline, instance initializer block of super, constructor super(), **instance initializer block of this**, constructor of this **resumes**) -> upon object creation using `new`. 
+3. upon object creation using `new` -> Instance (inline, instance initializer block of super, constructor super(), instance initializer block of this, constructor of this resumes) 
 
-Notice that even if we call constructor of subclass in `new`, still after `super()` finishes, instance initializer block of this runs before `this()` is resumed. Example below.
+{{% notice note %}}
+Notice that we call constructor of subclass in `new`, and it calls `super()` but before it executes, instance initializer block of `super` executes and after `super()` finishes, instance initializer block of `this` runs before `this()` is resumed. Example below.
+{{% /notice %}}
 
 For same type of blocks, order of apperance is tie-breaker.
 
@@ -276,10 +280,10 @@ public class Okapi extends GiraffeFamily {
 //		  BECHG
 ```
 
-### Initializing Classes
-- Class initialization - sets default values to all its `static` members
+### Initializing Classes (static members)
+- Class initialization - sets default values to all its `static` members, executing inline and static initializer blocks
 - It is initialized atmost once, and may never get initialized at all if it is not used anywhere in program
-- JVM controls when the class is "loaded" (another term for class initialization) during runtime
+- JVM controls when the class is "loaded" (another term for class initialization) during runtime, usually its in the order of apperance if classes are not parent-child (second example below - class Z)
 
 Rules: 
 1. If class X has a parent class Y, then Y is loaded first
@@ -310,16 +314,18 @@ class Z{
 		System.out.print("D");
 		new X();
 	}
+
+	static{ System.out.print("E"); }
 }
 
-//Output: DAB (exactly once)
+//Output: EDAB (exactly once)
 ```
 
 ### final Variables
 
 `final` variables of the three types:
 1. Class -> must be initialized exactly once during class initialization
-2. Instance ->  must be initialized exactly once before the **first constructor** finishes (example below)
+2. Instance ->  must be initialized exactly once before the **first constructor or constructor chain** finishes (example below)
 3. Local -> initialization isn't neccessary but accessing without it will be compiler error
 
 If constructor chaining is there, make sure every `final` instance variable is initialized before we exit the chain
@@ -343,6 +349,36 @@ class Demo{
 
 ## Inheriting Members
 
+### static Methods
+`static` methods are bind to the class in which they are defined but they are inherited, and behave just like you'd expect non-static methods to behave. 
+```java
+class Foo{
+    static void fun(){
+        System.out.println("Hello!");
+    }
+}
+
+public class Main extends Foo{
+    public static void main(String[] args) {
+        Main.fun();				// prints "Hello!"
+    }
+}
+
+-----------------------------------------------------------------
+
+class Foo{
+    static void fun(){
+        System.out.println("Hello!");
+    }
+}
+
+public class Main{			// no inheritance
+    public static void main(String[] args) {
+        Main.fun();				// compiler-error; Foo.fun() will work here
+    }
+}
+```
+
 ### Overriding Methods
 When method is a child class have the same signature as in the parent class. (Signature = name + parameter list)
 
@@ -356,10 +392,9 @@ Rules:
 If the method in parent is private and thus not accessible, then any of the above rules don't matter since its not overriding.
 ```
 
-**Covariant return types**: Rule 4 above. `CharSequence` can be overriden by `String` type (narrower) but not the other way round since `CharSequence` is parent interface of `String` class. **NOTE - This is NOT AUTOBOXING or UNBOXING** unlike Overloading.
+**Covariant return types**: Rule 4 above. `CharSequence` can be overriden by `String` type (narrower) but not the other way round since `CharSequence` is parent interface of `String` class. **NOTE - This is NOT AUTOBOXING or UNBOXING** and thus primitives and their corresponding wrapper classes are incompatible here!.
 
-
-Overriding a method replaces the parent method on all reference variables except `super`:
+**Overriding a method replaces the parent method on all reference variables except `super`**:
 ```java
 public class MyClass {
     int a = 8;
@@ -368,6 +403,7 @@ public class MyClass {
 	 P y = x;
 	 x.foo();	
 	 y.foo();
+	 super.foo();
     }
 }
 class P{
@@ -381,7 +417,7 @@ class P{
 	}
 }
 
-//Output: BB
+//Output: BBA
 ```
 ### @Override Annotation
 we can write a `@Override` on top of methods we are overriding and Java lets us know at compile time if no methods matching it is found in parent class. When everything goes fine, it doesn't impact code in any way.
@@ -402,9 +438,9 @@ class Y extends X{
 // no compiler error unless we place a "@Override" atop Y's foo()
 ```
 ### static Method Hiding
-`static` methods are never inherited and thus if we try to override them, we will have to follow same 4 rules as overriding, a static method is bound to class so it will depend on the reference we use to call it. **They can't be overriden though**, only hidden.
+We follow same 4 rules as overriding, a static method is bound to class so it will depend on the reference or classname we use to call it. **They can't be overriden though**, only hidden.
 
-No compilation if one is marked `static` and the other is not.
+Compilation error if one is marked `static` and the other is not.
 
 ```java
 public class MyClass {
@@ -430,6 +466,8 @@ class P{
 //Output: BA 
 ```
 
+We use also use `super` to call parent's version of hidden method.
+
 ### Hiding Variables
 Defining a variable with the **same name** as in parent class.
 
@@ -450,6 +488,8 @@ public class C extends P{
 	}
 }
 ```
+
+We use `super` to access hidden parent variables.
 
 ### final Methods
 We cannot override or hide a method declared using `final` in the parent class.
@@ -474,7 +514,7 @@ public abstract class Demo{
 }
 ```
 
-An abstract class can extend from other abstract classes and normal classes too.
+An abstract class can extend from other abstract classes and normal classes too. Multiple inheritance is not allowed, just like a normal class.
 
 An abstract class can implement interfaces without the need to define abstract methods of the interface.
 
@@ -495,7 +535,7 @@ If a class is marked `final abstract`, it doesn't make any sense and is a compil
 `static` methods aren't overriden but hidden, so using `static abstract` on methods is also compiler error. We can have normal `static` methods though.
 
 ### Concrete Class
-The **first class** to extend an abstract class. It has to implement all the abstract methods **inherited to it**.
+The **first non-abstract class** to extend an abstract class. It has to implement all the abstract methods **inherited to it**.
 
 ```java
 public abstract class X{
