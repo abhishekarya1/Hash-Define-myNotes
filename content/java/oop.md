@@ -117,6 +117,8 @@ class Bar extends Foo{
 }
 ```
 
+`super` comes in real handy when we call _overriden_ methods in parent from child and _hidden_ members & methods from parent in child.
+
 ## Constructors
 - same name as the class
 - no return type, not even `void`
@@ -396,28 +398,30 @@ If the method in parent is private and thus not accessible, then any of the abov
 
 **Overriding a method replaces the parent method on all reference variables except `super`**:
 ```java
-public class MyClass {
-    int a = 8;
-    public static void main(String args[]) {
-     C x = new C();
-	 P y = x;
-	 x.foo();	
-	 y.foo();
-	 super.foo();
+class P{
+    void foo(){
+        System.out.print("A");
     }
 }
-class P{
-	 void foo(){
-	    System.out.println("A");
-	}
-}
- class C extends P{
-      void foo(){
-	    System.out.println("B");
-	}
-}
+class C extends P{
+    void foo(){
+        System.out.print("B");
+    }
 
-//Output: BBA
+    public static void main(String[] args) {
+        C x = new C();
+        P y = x;
+        x.foo();
+        y.foo();
+        x.printer();
+    }
+
+    void printer(){
+        this.foo();
+        super.foo();
+    }
+}
+//Output: BBBA
 ```
 ### @Override Annotation
 we can write a `@Override` on top of methods we are overriding and Java lets us know at compile time if no methods matching it is found in parent class. When everything goes fine, it doesn't impact code in any way.
@@ -528,11 +532,13 @@ abstract public class X{ }		// valid
 public class abstract X{ }		// invalid
 ```
 
-Constructors behaves the same as in a normal class. But, they are only called via their subclass constructor using `super()` since we can't instantiate abstract classes by using `new`.
+Constructors exists and behaves the same as in a normal class. But, they are only called via their subclass constructor using `super()` since we can't instantiate abstract classes by using `new` explicitly.
 
 If a class is marked `final abstract`, it doesn't make any sense and is a compiler error.
 
 `static` methods aren't overriden but hidden, so using `static abstract` on methods is also compiler error. We can have normal `static` methods though.
+
+`abstract` methods' sole purpose is to get overridden, so making them `private`, `final`, or `static` is compiler-error.
 
 ### Concrete Class
 The **first non-abstract class** to extend an abstract class. It has to implement all the abstract methods **inherited to it**.
@@ -558,8 +564,8 @@ public class Z extends Y{
 
 Make a class immutable to tighten security and not have to deal with concurrency issues.
 
-- Declare the class as `final` or make all constructors `private`
-- Declare all methods as `final private`
+- Declare the class as `final` or make all constructors `private` (_stops inheritance_)
+- Declare all methods as `final private` (_immutable_ and _inaccessible_ members (encapsulation))
 - No setters
 - No getters must return a reference, only primitives or non-mutable types
 - avoid initializing mutable references in constructor, create a defensive copy for them
