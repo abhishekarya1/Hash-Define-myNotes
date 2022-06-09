@@ -6,7 +6,7 @@ weight = 5
 
 ## Interface
 
-Just like abstract classes whose sole-purpose is to get inherited and overriden. They differ as the compiler inserts _implicit modifiers_, don't have a constructor, uses `implements` rather than `extends`
+Just like abstract classes whose sole-purpose is to get inherited and overriden. They differ as the compiler inserts _implicit modifiers_, don't have a constructor, uses `implements` rather than `extends`, and has `default` methods.
 
 - Interface is `abstract` implicitly
 - All variables are `public static final` implicitly
@@ -16,18 +16,18 @@ Just like abstract classes whose sole-purpose is to get inherited and overriden.
 ```java
 public interface Demo{
 	int a = 5;
-	void foobar(){
-	}
+	void bar();
+	void foo(){ }
 }
 
 public abstract interface Demo{
 	public static final int a = 5;
-	public abstract void foobar(){
-	}
+	public abstract void bar();
+	public void foo(){ }
 }
 ```
 
-- An interface can extend from other interfaces, multiple also
+- An interface can extend from other interfaces, multiple also. But can't extend classes.
 ```java
 public interface Demo extends Foo, Bar {	}		// Foo and Bar are interfaces
 ```
@@ -62,7 +62,7 @@ interface Test{
 class Super{
     public int foo(){ return 1; }		// incompatible return type
 }
-public class MyClass extends Super implements Test {	// subclass doesn't have a void foo() impl
+public class MyClass extends Super implements Test {	// subclass doesn't have a "void foo()" impl
     public static void main(String args[]) {
     new MyClass();
     System.out.println("Test");
@@ -72,7 +72,7 @@ public class MyClass extends Super implements Test {	// subclass doesn't have a 
 // compiler error
 ```
 
-- If exact same method exists in both interfaces, our concrete class has to implement it with a equal or covariant type otherwise compiler error
+- If exact same method exists in both interfaces, our concrete class has to implement it with a equal or covariant type otherwise compiler error (overriding rules apply)
 
 ```java
 interface X{
@@ -98,11 +98,13 @@ class Z implements X, Y{
 
 - the 4 methods to override methods still apply to interfaces too
 
+- `this` works in interfaces too despite the fact that they're not classes that have an instance, `super` doesn't work though
+
 ### Interface References
-We can use interface reference too apart from parent or child (self) reference. We use this all the time in Collections framework and it hides what kinds of object it actually is. All we are concerned with is that it implements our interface and we can only access methods it implements from our interface. [Example](/java/more-oop/#object-v-reference)
+We can use interface reference too apart from parent or child (self) reference. We use this all the time in Collections framework and it hides what kinds of object it actually is. All we are concerned with is that it implements our interface and we can only access methods it implements from our interface reference. [Example](/java/more-oop/#object-v-reference)
 
 ### default Interface Method
-To have a `default` method inside an interface that is optional to implement by class implementing the interface.
+To have a `default` method inside an interface that is optional to implement by class implementing the interface, available to implementing class to call without any ref.
 
 - declared only inside an interface
 - must be marked with `default` and must have a method body
@@ -117,6 +119,10 @@ interface X{
 		return 2;
 	}
 }
+
+class Demo implements X{
+	foobar();		// avaliable to class
+}
 ```
 
 - call a specific version among the two using `InterfaceName.super.methodName()` as `InterfaceName.methodName()` won't work
@@ -125,7 +131,18 @@ interface X{
 - must be marked with `static` and must have a method body
 - implicitly `public` (just like any other method in interface)
 - cannot be `abstract` or `final`
-- it is never inherited and we need to call it with interface name reference (`InterfaceName.methodName()`)
+- it is never inherited (unlike normal `static` class methods) and we need to call it with interface name (`InterfaceName.methodName()`) since we can't call it using implementing class ref or name
+
+```java
+interface P{
+	static void foobar(){ }
+}
+
+class Main implements P{
+	P.foobar();		// valid
+	Main.foobar();	// invalid
+}
+```
 
 ### private Interface Methods
 Reduce code duplcation inside Interface: Interface methods can be `private` or `private static`. In the former case, they can only be accessed by other non-static methods within the interface and reduce code redundancy. The latter ones can only be accessed by other all methods within the interface. Both are hidden from the concrete class implementing the interface and from outside using class reference since they are `private` and can only be accessed from within the interface only.
@@ -151,10 +168,12 @@ interface X{
 - `private` methods are accessible only from inside the interface and reduce code redundancy
 
 ## Enums
-Enumerations: Defines a set of **constants having values** that must be known at compile-time.
+Enumerations: Defines a set of **constants having values** that must be known at compile-time. 
+
+Internally represented as `class` only, so we can't have a `public class` and a `public enum` together in the same `.java` file.
 
 ```java
-public enum Days{ MON, TUE, WED, THURS FRI, SAT, SUN; }		// semi-colon is optional for simple enums
+enum Days{ MON, TUE, WED, THURS FRI, SAT, SUN; }		// semi-colon is optional for simple enums
 
 Days s = Days.TUE;
 System.out.println(Days.TUE);		// TUE
@@ -187,13 +206,24 @@ Days d = Days.valueOf("TUE");	// TUE
 
 ### Constructor, Fields, and Methods (Complex Enums)
 ```java
+// bare-minimum complex enum
+enum Alphabet {
+    A("Z"), 
+    B("Y"),
+    C("X");
+
+    Alphabet(String a) { }		// mandatory
+}
+```
+```java
 public enum Season{
-	WINTER("Low"), SPRING("Medium"), SUMMER("High"); // ; not optional, values always comes before construtors, methods
+	WINTER("Low"), SPRING("Medium"), SUMMER("High");	// constructor calls to init
+	// ; not optional, values always comes before construtors, methods
 
-	private final String expVis;		// field, can be non-final too but bad practice
+	private final String expVis;		// optional field, can be non-final too but bad practice
 
-	private Season(String expVis){		// constructor, always private, runs only on first access to a constant 
-		this.expVis = expVis;
+	private Season(String expVis){		// constructor, always private or pacakge-access, runs only on first access to a constant, never runs again 
+		this.expVis = expVis;	// optional
 	}
 
 	public void printExpVis(){				// method
@@ -201,7 +231,9 @@ public enum Season{
 	}
 }
 
-Seaseon s = Season.SUMMER;		// RHS is a constructor call but without "new", LHS is reference variable assignment
+Season s = Season.SUMMER;		// RHS is a constructor call but without "new", LHS is reference variable assignment
+System.out.println(Season.SUMMER);	 // "High"
+System.out.println(Season.SUMMER.ordinal());	// 2	
 Season.SUMMER.printExpVis(); 	// enum method call
 s.printExpVis();				// enum method call with reference object
 ```
@@ -224,8 +256,8 @@ public enum Seasons{
 ```
 
 ### Inheritance
-- Enums can't be `extend`ed. We also can't create an Enum object with `new`. Since constructors are always `private`
-- Enums can `implement` interfaces and they have to define abstract methods of those interfaces
+- Enums can't be `extend`ed or inherited. We also can't create an Enum object with `new`.
+- Enums can `implement` interfaces and they have to define abstract methods of those interfaces.
 
 
 ## Sealed Class (Java 17)
@@ -255,20 +287,20 @@ Same rules as in Sealed Classes.
 ## Records (Java 14)
 Records - Auto-generated immutable classes with no setters. (Immutability = Encapsulation). Everything inside of parameter list (instance fields) of a record is implicitly `final` and the record itself is implicitly `final` and cannot be extended or inherited.
 
-We can define our own constructors, methods or constants (`static` only) inside the body.
+We can define our own constructors, methods or constants (`static final` only) inside the body.
 
 ```java
-public record Demo(int foo, String bar){ }
+record Demo(int foo, String bar){ }
 ```
 
 A lot is created automatically for the above one line:
-- Constructor: In order of appearance of fields
-- Getters: one for each field with same name as field
-- Object class methods overriden to suit this class: `equals()`,`hashCode()`, `toString()`
+- Single Constructor with args: In order of appearance of fields - `Demo(int, String)`
+- Getters: one for each field with same name as field - `foo()` and `bar()`
+- Object class methods overriden to suit this class: `equals()`,`hashCode()`, and `toString()`
 
 Empty records is totally valid (but useless).
 ```java
-public record DemoEmpty(){ }
+record DemoEmpty(){ }
 ```
 
 Just like enums, a record can't be extended or inherited but it can implement an interface, provided it defines all the abstract methods.
@@ -279,13 +311,14 @@ public record Demo(int foo, String bar) implements Foobar{ }
 
 ### Constructors
 
-**Long Constructor**: Explicitly defining the implicit one. Since every field is `final` in a record, we have to initialize every field in our explicit constructor.
+**Long Constructor/Canonical Constructor**: Explicitly defining the implicit one. Since every field is `final` in a record, we have to initialize every field in our explicit constructor.
 
-**Compact Constructor**: Modifies **constructor arguments** only and not instance fields directly. **After compact constructor, the implicit long constructor is always called** which sets those values to instance fields.
+**Compact Constructor**: Modifies **constructor arguments** only and not instance fields directly. **After compact constructor, the implicit long constructor is always called** with modified params in compact constructor which sets those values to instance fields of record.
 ```java
 public record Demo(int foo, String bar){
 	public Demo{									// notice no parentheses ()
 		bar = bar.substring(0, 1).toUpperCase();			// modification to constructor argument
+		this.foo = foo;			// compiler-error
 		if(foo < 0) throw new IllegalArgumentException();	// validation
 	}
 }
@@ -310,8 +343,9 @@ public record Demo(int foo, String bar){
 	public String toString(){ return "Testing..."; }
 }
 ```
-- Non-static fields (instance fields) aren't allowed inside record body (since record instance is supposed to be immutable)
-- Instance Initializers aren't allowed since initializaion is possible only via constructor, also no instance fields exist acc to above rule so no point of instance initializer blocks
+- Only `static final` fields are allowed in record body
+- Non-static fields (instance fields) aren't allowed inside record body (since record instance is supposed to be immutable) even if they're `final`
+- Instance Initializer blocks aren't allowed since initializaion is possible only via constructor, also no instance fields exist acc to above rule so no point of instance initializer blocks
 
 ## Nested Classes
 Class within another class.
@@ -394,7 +428,7 @@ class Out{
 ### Local Class
 Since they are local to a method, just like local variables, their lifetime is only the scope of the method, i.e. they go out of scope after method scope is over. We can return a reference to object in heap though.
 
-They don't have any access modifiers.
+They don't have any access modifiers except `final` just like local variables.
 
 They can access all members of the enclosing class (ofc!).
 
@@ -470,8 +504,8 @@ q.bar();					// error
 
 ### Casting Objects
 ```java
-Parent p = new Parent();
-Child c = p;	// error; incompatible types: Parent cannot be converted to Child
+Dog d = new Dog();
+Cat c = d;	// error; incompatible types: Dog can't be called a Cat
 
 // Casting
 Child c = new Child();
@@ -480,11 +514,15 @@ Parent p = c;		 // implicit cast to supertype, storing in ref of Parent
 
 Child c2 = p;		 // error (can't cast from super type to subtype even if object is Child's)
 
-Child c3 = (Child)p; // explicit cast to subtype; p is Child's object only, but stored in ref of Parent, that's why this explicit cast works otherwise error
+Child c3 = (Child)p; // explicit cast to subtype; p is Child's object only, but stored in ref of Parent, that's why this explicit cast works otherwise compiler error
 
-// a ClassCastException is thrown at runtime if they're not compatible and explicit cast is used like in the above example
 
-// compiler throws error on unrelated type casts like in the below example
+// a ClassCastException is thrown at runtime if they're NOT COMPATIBLE and explicit cast is used like in the below example
+Object i = Integer.valueOf(42);
+String s = (String) i;            // ClassCastException thrown here
+
+
+// compiler throws error on UNRELATED type casts like in the below example
 class Foo{ }
 
 class Bar{
@@ -508,6 +546,8 @@ Dog dog = (Dog)wolf;		// compiles just fine
 
 // throws ClassCastException at runtime
 
+// in the above case, class Wolf may have a subclass Dog which implements Dog interface, in that case above will be valid if "Wolf wolf = new Dog();"
+// this is why it is allowed to compile
 
 // EXCEPTION - if class is marked "final" then the compiler will know that there are no possible subclasses that might implement an interface we are casting to, so in that case it leads to a compile-time error
 ```

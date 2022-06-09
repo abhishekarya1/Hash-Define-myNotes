@@ -532,7 +532,7 @@ abstract public class X{ }		// valid
 public class abstract X{ }		// invalid
 ```
 
-Constructors exists and behaves the same as in a normal class. But, they are only called via their subclass constructor using `super()` since we can't instantiate abstract classes by using `new` explicitly.
+Constructors exists (even `public` ones) and behave the same as in a normal class. But, they are only called via their subclass constructor using `super()` since we can't instantiate abstract classes by using `new` explicitly.
 
 If a class is marked `final abstract`, it doesn't make any sense and is a compiler error.
 
