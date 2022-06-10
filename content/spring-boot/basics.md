@@ -138,7 +138,7 @@ Project Object Model (POM)
 </project>
 ```
 
-### Maven commands
+### Maven Goals
 ```sh
 $ mvn compile	# compile; classes placed in /target/classes
 $ mvn test		# compile test and run them
@@ -307,16 +307,16 @@ We can load profiles as follows:
 spring.profiles.active=dev
 
 # or select a profile by executing the JAR with param
--Dspring.profiles.active=dev 
+--spring.profiles.active=dev 
 ```
 
 Notice that the default profile is always active. So when we run the app, it reads from `application.properties` (default) and then sees `spring.profiles.active=dev` and loads the dev profile **too**. So we can place common properties in default and dev exclusive properties in dev property file as both will be loaded on runtime. Any properties present in both will be overriden by dev's version.
 
 We can have multiple profiles too active atop default profile.
 
-When in production, we often specify profile from command-line and it has the same effect but no hardcoding in `application.properties`.
+When in production, we often specify profile from command-line and it has the same effect but no hardcoding in `application.properties`. This will work the same ass above loading both default and dev profiles.
 ```sh
-$ java -jar foobar-0.0.1-SNAPSHOT --spring.profiles.active=dev
+$ java -jar foobar-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 ``` 
 
 We can also specify `@Profile("dev")` on classes and only if the specified profile is active, the class will be used otherwise it will be ignored and default config will be used for that class.
@@ -330,6 +330,10 @@ foo.bar = "FoobarStr"
 @Value("${foo.bar}")
 private String foobar;
 ```
+
+Do note that the property that is being referred to in @Value tag must exist and corresponding profile loaded otherwise its a compiler-error. e.g. In the above case, `foo.bar` must exist in properties file and its profile must be loaded otherwise compiler-error.
+
+So, its bad to keep properties exclusive to non-default profiles in our code as they will all fail when we load with default profile in future.
 
 ### YAML
 ```yaml

@@ -55,7 +55,7 @@ class A{
 }
 
 class B extends A{
-	voif foo(){ }		// valid
+	void foo(){ }		// valid
 }
 
 ------------------------------------------------------------------
@@ -69,7 +69,9 @@ class B extends A {
 }
 ``` 
 
-Since the exceptions list are inherited by subclass, we can't add more because the overriden method can be called from parent reference and it won't expect the new error introduced in subclass method and catch can be written without it. **Overriding replaces method on both references but it's done at runtime** so it can't be identified at compile-time and below issue will not be flagged:
+Since the exceptions list are inherited by subclass, we can't add more because the overriden method can be called from parent reference and it won't expect the new error introduced in subclass method and catch can be written without it. 
+
+**Overriding replaces method on both references but it's done at runtime** so it can't be identified at compile-time and below issue will not be flagged if we allow subclass method to add exceptions to list:
 
 ```java
 class A{
@@ -77,20 +79,20 @@ class A{
 }
 
 class B extends A {
-	voif foo() throws IOException{ }
+	void foo() throws IOException{ }       // invalid; but lets suppose this is valid
 }
 
 public static void main(String args[]){
 A obj = new B();
-obj.foo();		// valid; class A declared no exceptions so need to catch or declare any
+obj.foo();		// no handling required; class A declared no exceptions so need to catch or declare any; this is a security lapse
 
 B obj2 = new B();
-obj2.foo();		// invalid; have to handle or declare IOExcpetion
+obj2.foo();		// have to handle or declare IOException due to this line
 }
 ```
 
 ### throw
-Since exceptions are classes, alwways use `new` to throw.
+Since exceptions are classes, always use `new` to throw.
 ```java
 throw new SQLException();	// valid
 throw SQLException();		// invalid
@@ -106,7 +108,7 @@ throw new SQlException("lorem ipsum dolor sit amet");
 ```java
 try{
 	throw new SQLException();
-	throw new IOException();	// unreachable code, compiler error
+	System.out.println("Hello!")    // unreachable code, compiler error
 }
 ```
 
@@ -140,7 +142,7 @@ catch(Exception e){ }		// superclass
 catch(IOException e){ }		// unreachable code
 ```
 
-**Multi-catch block**: Separated by `|` cahracter, only a single object `e` of either. Can't have related classes.
+**Multi-catch block**: Separated by `|` character, only a single object `e` of either. **It can't have related classes**.
 ```java
 catch(Exception1 | Exception2 | Exception3 e){	}
 catch(FileNotFoundException | IOException e){	}	// invalid; FileNotFoundException is subclass of IOException
@@ -183,9 +185,9 @@ We can open resources in try and they get destroyed after `try` gets over. This 
 try(var f = new File("my.txt"); var x = new File("foo.txt");){	}	// last semicolon is optional
 // implicit finally; resources closed in reverse order of creation
 
-catch(Exception e){	}	// optional catch unlike normal try
+catch(Exception e){	}	// optional catch
 
-finally{ }
+finally{ }      // optional finally too (both catch and finally need not be there unlike normal try)
 ```
 
 ```java
@@ -252,7 +254,7 @@ Primary Exception - ArithmeticException ("foo")
 Suppressed Exception(s) - NullPointerException ("bar") on `close()` method call after `try-with-resources`
 
 ### Lost Exceptions with finally
-Any exception thrown in `fianlly` block will hide every other prior exceptions. This is a bad Java behaviour and exists only for backward compatibility.
+Any exception thrown in `finally` block will hide every other prior exceptions. This is a bad Java behaviour and exists only for backward compatibility.
 ```java
 class All implements AutoCloseable{
     public void close(){

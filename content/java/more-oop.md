@@ -131,7 +131,7 @@ class Demo implements X{
 - must be marked with `static` and must have a method body
 - implicitly `public` (just like any other method in interface)
 - cannot be `abstract` or `final`
-- it is never inherited (unlike normal `static` class methods) and we need to call it with interface name (`InterfaceName.methodName()`) since we can't call it using implementing class ref or name
+- it is **never inherited/goto impl class** (unlike normal `static` class methods) and we need to call it with interface name (`InterfaceName.methodName()`) since we can't call it using implementing class ref or name. We can also have the same method defined in our implementing class since they are never inherited so no overriding can happen.
 
 ```java
 interface P{
@@ -141,6 +141,27 @@ interface P{
 class Main implements P{
 	P.foobar();		// valid
 	Main.foobar();	// invalid
+}
+```
+
+### Overrding an abstract Method with default Method
+```java
+interface P{
+    void foo();
+}
+
+interface Q extends P{
+    default void foo(){ }		// valid; foo gets impl
+}
+
+----------------------------------
+
+interface P{
+    void foo();
+}
+
+interface Q extends P{
+    static void foo(){ }		// compiler-error; static method even if impl won't be going to implementing class
 }
 ```
 
