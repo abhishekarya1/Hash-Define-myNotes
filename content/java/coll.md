@@ -171,16 +171,16 @@ If we try and get element in an empty collection, it will throw `NoSuchElementEx
 ## Map
 Key-value pairs and access time is linear. Unordered. Can only contain duplicate values, not keys.
 
-### Creating Sets with Factory Methods
+### Creating Maps with Factory Methods
 ```java
 // Factory Methods
 Map.of("key1", "value1", "key2", "value2");
 
-Map.copyOf(collection)
-
 Map.ofEntries(
  Map.entry("key1", "value1"),
  Map.entry("key2", "value2"));
+
+Map.copyOf(collection)
 ```
 
 ### Map Methods
@@ -220,13 +220,13 @@ A functional interface from `java.lang.Comparable` (no need to `import`). Uses `
 public class Foo implements Comparable<Foo>{
     private String name;
     public int compareTo(Foo f){
-        return name.compareTo(f.name);     // asc sort by name
+        return name.compareTo(f.name);     // asc sort by name; uses String's compareTo()
     }
 }
 
 List<Foo> fooList = new ArrayList<>();
 // ...
-Collection.sort(fooList);
+Collections.sort(fooList);
 ```
 
 ### Return values
@@ -237,7 +237,7 @@ positive number (< 0) - current object greater than argument object
 ```
 
 ```java
-// another way to compare numeric types
+// to compare numeric types
 public class Animal implements Comparable<Animal> {
     private int id;
     public int compareTo(Animal a) {
@@ -253,6 +253,9 @@ public class Animal implements Comparable<Animal> {
         System.out.println(a1.compareTo(a1)); // 0
         System.out.println(a2.compareTo(a1)); // 2
 }} 
+
+// now if we create a List<Animal>, we can use below statement to sort since compareTo() has been defined for our Animal class
+Collections.sort(animalList);
 ```
 
 If we don't specify generic type, the argument is `Object o` type. And we can always cast it to proper type inside the method to compare.
@@ -260,7 +263,7 @@ If we don't specify generic type, the argument is `Object o` type. And we can al
 public class LegacyWay implements Comparable{   // no generic type specified
 public int compareTo(Object obj) {
     LegacyWay d = (LegacyWay) obj;    // cast because no generics
-    return name.compareTo(d.name);
+    return name.compareTo(d.name);    // assumes name is String type
 }}
 ```
 
@@ -270,22 +273,23 @@ It is a good programming practice to keep `equals()` and `compareTo()` consisten
 Also, a functional interface from from `java.util.Comparator`. Uses `compare()` method, takes 2 arguments and returns `int`.
 
 ```java
-Comparator<Duck> byWeight = new Comparator<Duck>() {
+Comparator<Duck> byWeight = new Comparator<Duck>() {    // anon class impl
 public int compare(Duck d1, Duck d2) {      // override and impl
-    return d1.getWeight()-d2.getWeight();
+    return d1.getWeight() - d2.getWeight();
 }};
 
 Collections.sort(ducks, byWeight);      // use
 
-Comparator<Duck> byWeight = (d1, d2) -> d1.getWeight()-d2.getWeight();  // using lambda
+Comparator<Duck> byWeight = (d1, d2) -> d1.getWeight() - d2.getWeight();  // using lambda
+Collections.sort(list, (d1, d2) -> d1.weight - d2.weight);  // same as above but much shorter
 
-Comparator<Duck> byWeight = Comparator.comparing(Duck::getWeight);  // another way using comparing() static method which generates a lambda
+Comparator<Duck> byWeight = Comparator.comparing(Duck::getWeight);  // another way using Comparator.comparing() static method which generates a lambda automatically
 ```
 
 ### Comparator Chaining
 
 ```java
-// build a comparator
+// build a comparator; provide getter for field being used to perform comparison
 Comparator.comparing(function);     // compare by results of a function that returns any Object
 Comparator.comparingInt();          // compare by results of a function that results an int
 Comparator.comparingLong();          // compare by results of a function that results a long
@@ -303,16 +307,16 @@ Comparator<Foo> c = Comparator.comparing(Foo::getMarks).thenComparing(Foo::getNa
 // compare by marks; or by name if marks comparison is a tie
 ```
 
-### Collection.sort()
+### Collections.sort()
 It can use both `Comparable` as well as `Comparator`. Returns `void`, modifies the collection supplied to it. 
 
 While `Comparable<T>` is usually implemented within the class being compared uses `compareTo()` override, and `Comparator` is usually implemented using lambda expression in the second argument.
 
 ```java
-Collection.reverse(collection);
+Collections.reverse(collection);
 
-// sorting a list; List's sort() also takes in a Comparator
-list.sort((d1, d2) -> d1.compareTo(d2));
+// sorting a list; List's sort() method also takes in a Comparator<T>
+list.sort((d1, d2) -> d1.marks - d2.marks);
 ```
 
 ---
@@ -407,6 +411,10 @@ public <T, U> demo(T a, U b){ }
 //invoking a generic method explicitly; compile will figure out otherwise
 Box.<String>ship("package");
 Box.<String[]>ship(args);
+
+// with instance
+new Foo().<String>fun("A");
+obj.<Integer>num(8);
 ```
 
 ```java
@@ -430,8 +438,8 @@ public record Foo<T, U>(T name, U age){ }
 Limiting generic types to allow certain types only.
 ```java
 List<?>               // unbounded
-List<? extends Class> // only those types which are subclasses of Class (upper bound)
-List<? super Class>   // only those types which are superclasses of Class (lower bound)
+List<? extends Class> // only those types which are subclasses of Class (upper bound) or Class itself
+List<? super Class>   // only those types which are superclasses of Class (lower bound) or Class itself
 ```
 ### Unbounded Wildcard
 
@@ -464,14 +472,28 @@ var arr2 = new ArrayList<>();        // an ArrayList type reference; ArrayList<O
 List<? extends Foobar>      // we can pass any class that extends Foobar or Foobar itself
 ```
 
-
 ### Lower-bounded Wildcard
 ```java
 List<? super Foobar>      // we can pass any class that is parent of Foobar or Foobar itself
 ```
 
-### Immutability in Bounds
-**Unbounds `<?>` and Upper-bounds `<? extends Foobar>` make the list logically immutable, only removal of elements can be done**.
+Since this gives us mutable lists, tricky things can happen here when inserting superclass and thier subclasses.
+```java
+2: List<? super IOException> exceptions = new ArrayList<Exception>();
+3: exceptions.add(new Exception());    // compiler-error (tricky)
+4: exceptions.add(new IOException());
+5: exceptions.add(new FileNotFoundException());     // tricky
+
+/*
+Line 3 references a List that could be List<IOException> or List<Exception> or List<Object>.
+Line 4 does not compile because we could have a List<IOException>, and an Exception object wouldn't fit in there.
+Line 5 is fine. IOException can be added to any of those types.
+Line 6 is also fine. FileNotFoundException can also be added to any of those three types. This is tricky because FileNotFoundException is a subclass of IOException, and the keyword says "super". Java says, "Well, FileNotFoundException also happens to be an IOException, so everything is fine".
+*/
+```
+
+### Immutability when Bounding
+**Unbounds `<?>` and Upper-bounds `<? extends Foobar>` make the list logically immutable, only removal of elements can be done**. This is applicable even when we call a method that has a bounded type in parameter, the List in called method will be immutable.
 ```java
 List<?> list = new ArrayList<Integer>();
 list.add(1);    // error
@@ -480,7 +502,15 @@ List<? extends Integer> list = new ArrayList<Integer>();
 list.add(1);    // error
 
 List<? super Integer> list = new ArrayList<Integer>();
-list.add(1);    // valid; now errors
+list.add(1);    // valid; no error
+
+void fooBar(List<?> ls){
+    // List ls in immutable here because of unbound <?> type in parameter
+}
 ```
 
-This is a major reason to use Lower-bounds when any other two could've worked just the same but with the immutability issue.
+This is a major reason to use Lower-bounds (`<? super Foobar>`) when any other two could've worked just the same, but with the immutability issue.
+
+**Reason**: When we use `<?>` or `<? extends Foobar>`, we don't know the types that can be added to such list, it can literally be any subclass of `Foobar` even the ones which are not yet created. So Java doesn't allow mutability at all. 
+
+In contrast, when we use `<? super Foobar>` we can be assured that whatever type is passed to it, it will be one of `Foobar`'s superclasses only, which trivially exists already.
