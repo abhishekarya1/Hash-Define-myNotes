@@ -12,30 +12,29 @@ Optional.empty()
 //box with a value
 Optional.of(5)
 
+System.out.println(Optional.empty());   // Optional.empty
+
 // Optional ref
 Optional i = Optional.of(5);
 // Optional ref with formal type parameter
 Optional<Integer> i2 = Optional.of(6);
 
-// checking
-i.isPresent();
-// accessing
-i.get();
-// without check if we access - NoSuchElementException
-
 Optional o = Optional.ofNullable(foo);
-// if foo is null, then o is assigned Optional.empty() otherwise Optional.valueOf(foo) is assigned
+// if foo is null, then o is assigned Optional.empty() otherwise Optional.of(foo) is assigned
 ```
 
 ### Optional Instance Methods
 ```java
+// checking
 isPresent()				// boolean
+// accessing
 get()					// returns value inside Optional
+// without check if we access - NoSuchElementException
 
 ifPresent(Consumer c)		// use lambda, calls it with value if present
 
 orElse(T other)				// returns other parameter
-orElseGet(Supplier s)		// returns result of calling Foobar
+orElseGet(Supplier s)		// returns result of calling s
 
 orElseThrow()			// throws NoSuchElementException
 orElseThrow(Supplier s)	// throws exception created by calling Foobar			
@@ -43,22 +42,25 @@ orElseThrow(Supplier s)	// throws exception created by calling Foobar
 
 **Examples**
 ```java
+String s = Optional.ofNullable(str).orElse("A");
+
 o.ifPresent(System.out::println);
 o.ifPresent(x -> System.out.println(x));
 
-o.orElseGet(() -> 99;
+o.orElseGet(() -> 99);
 o.orElseGet(() -> Math.random());
+
 o.orElseThrow(() -> new IllegalStateException());
 ```
 
 
 ## Streams
-**Stream** is a sequence of data. **Stream pipeline** is a sequence of operations we perform on a `Stream`.
+**Stream** is a sequence of objects. **Stream pipeline** is a sequence of operations we perform on a `Stream`.
 
 `Stream<T>` interface defined in the `java.util.stream` package.
 
 1. **Source**: 
-2. **Intermediate operations**: Each stage's output is a `Stream`, these don't run unless terminal operation runs
+2. **Intermediate operations**: Each stage's output is a `Stream`, these don't run unless terminal operation runs (Lazy evaluation)
 3. **Terminal operation**: Produces a result (single primitive or object) at last (_reduction_)
 
 ```java
@@ -75,9 +77,9 @@ Stream.iterate(seed, UnaryOperator);
 Stream.iterate(seed, Predicate, UnaryOperator);		// maybe finite
 
 // examples
-Stream.generate(() -> 4);		// 44444...
-Stream.iterate(2, n -> n+2);	// 2468...
-Stream.iterate(1, n -> n < 50, n -> n+2);	// 1...50
+Stream.generate(() -> 4);		// 4 4 4 4 4 ...
+Stream.iterate(2, n -> n+2);	// 2 4 6 8 ...
+Stream.iterate(1, n -> n < 50, n -> n+2);	// 1 3 5 7 ... 49
 ```
 
 ## Common Terminal Operations
@@ -87,8 +89,8 @@ long count()
 Optional<T> min(Comparator)
 Optional<T> max(Comparator)
 
-Optional<T> findAny()		// terminates inf stream, usually returns first element on finite Stream
-Optional<T> findFirst()		// terminates inf stream
+Optional<T> findAny()		// terminates inf stream, usually returns first element on finite Stream (undeterministic; may return something else also)
+Optional<T> findFirst()		// terminates inf stream (deterministic; always returns first element of Stream)
 
 boolean allMatch(Predicate)			// sometime terminates
 boolean anyMatch(Predicate)			// sometime terminates
@@ -116,10 +118,10 @@ public <U> U reduce(U identity, BiFunction<U,? super T,U> accumulator, BinaryOpe
 
 // examples - 1
 Stream.of(3, 5, 6);
-stream.reduce(1, (a, b) -> a*b);
+stream.reduce(1, (a, b) -> a*b);    // 90
 
 Stream.of("a", "b", "c");
-stream.reduce("", (a, b) -> a+b);
+stream.reduce("", (a, b) -> a+b);   // "abc"
 
 // examples - 2
 Stream.empty();
@@ -141,8 +143,10 @@ TreeSet<String> set = stream.collect(
  TreeSet::add,		// accumulate
  TreeSet::addAll);	// combnine all objects if parellel
 
+// much easier syntax
 stream.collect(Collectors.toCollection(TreeSet::new));
 stream.collect(Collectors.toSet());		// no guarantee of order since its a Set
+stream.collect(Collectors.toList());     // most used
 ```
 
 ## Common Intermediate Operations
@@ -152,14 +156,14 @@ Stream<T> distinct()		// returns only distinct element Stream
 Stream<T> limit(long n)		// finite Stream of size n
 Stream<T> skip(long n)		// skip first n elements
 Stream<T> map(Function)		// map a Stream to another Stream of diff type
-Stream<T> flatMap(Function)	// combine two streams into one
+Stream<T> flatMap(Function)	// combine multiple streams into one
 Stream<T> sorted()
 Stream<T> sorted(Comparator)
 Stream<T> peek(Consumer)	// can modify state of stream (be careful!)
 
 // examples
 s.filter(x -> x.startsWith("a"));
-s.map(String::length;
+s.map(String::length);      // do .length() on each element of Stream
 
 List<String> zero = List.of();
 var one = List.of("A");
@@ -240,23 +244,31 @@ long count = Stream.of("goldfish", "finch")
 ```
 
 ## Primitive Streams
-Certain streams are available to use which have primitive types inside and also a lot of commonly used convinience methods.
+Certain streams are available to use which have primitive types inside and also a lot of commonly used type-specific convinience methods.
 ```java
 IntStream - int, short, byte, char
 LongStream - long
 DoubleStream -  double, float
 
 // usage
-IntStream intStream = IntStream.of(1, 2, 3);
-OptionalDouble avg = intStream.average();		// .sum() etc...
+IntStream intStream = IntStream.of(1, 2, 3);    // we can use generate() and iterate() too
+OptionalDouble avg = intStream.average();		// sum(), min(), max() also available
 
 IntStream.range(1, 6);			// 12345
 IntStream.closedRange(1, 6);	// 123456
 
+// The above methods - min(), max(), sum(), average() return a Optional[]
+// use getAsInt or getAsDoiuble to return proper types:
+s.min().getAsInt();
+s.average().getAsDouble(); 
+
+// mapTo<Type>() methods returns <Type>Stream objects
 Stream<String> objStream = Stream.of("penguin", "fish");
 IntStream intStream = objStream.mapToInt(s -> s.length());
 
 // OptionalDouble and Optional<Double> are diff but mostly the same methods are available
+var stream = IntStream.rangeClosed(1,10);
+OptionalDouble optional = stream.average();
 optional.ifPresent(System.out::println);
 System.out.println(optional.getAsDouble());
 System.out.println(optional.orElseGet(() -> Double.NaN));
@@ -265,7 +277,7 @@ System.out.println(optional.orElseGet(() -> Double.NaN));
 ### Summary Statistics
 Useful if we want to get some stats about a primitive stream like getting min and max in one go.
 ```java
-IntStream ints = Stream.of(1, 2, 3);
+IntStream ints = IntStream.of(1, 2, 3);
 IntSummaryStatistics stats = ints.summaryStatistics();
 stats.getCount();
 stats.getMin();

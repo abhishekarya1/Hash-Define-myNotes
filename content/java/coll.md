@@ -294,6 +294,8 @@ Comparator.comparing(function);     // compare by results of a function that ret
 Comparator.comparingInt();          // compare by results of a function that results an int
 Comparator.comparingLong();          // compare by results of a function that results a long
 Comparator.comparingDouble();          // compare by results of a function that results a double
+Comparator.naturalOrder()
+Comparator.reverseOrder()
 
 // chain it
 .reversed();

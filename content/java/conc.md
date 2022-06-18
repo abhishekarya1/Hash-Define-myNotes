@@ -10,11 +10,11 @@ weight = 11
 
 **Task**: Single unit of work performed by a thread.
 
-**Concurrency**: Multiple tasks being executed at the same time. The CPU time is divided between each via **Scheduling**.
+**Concurrency**: Multiple tasks being executed at the same time. The CPU time is divided between each via **Scheduling**. (Not to be confused with Parellel processing)
 
 **Context switch**: Storing state of a thread and later restoring it. Lesser the total context switches, the better.
 
-Ex - Google Chrome browser is a process, each Tab is a thread and context switching occurs when we switch tabs.
+Analogy - Google Chrome browser is a process, each Tab is a thread and context switching occurs when we switch tabs.
 
 **Thread priority**: It is a number associated with a thread that the scheduler uses to schedule. In Java, it is integer value.
 
@@ -22,7 +22,7 @@ Ex - Google Chrome browser is a process, each Tab is a thread and context switch
 Tasks are defined using the `Runnable` funtional interface, it takes no arguments and returns nothing. To create a thread use `Thread` class instance.
 
 ```java
-Runnable t = () -> System.out.println("Hello");
+Runnable t = () -> System.out.println("Hello");			// any returned value from a Runnable is ignored
 new Thread(t).start();
 System.out.println("World");
 
@@ -30,7 +30,7 @@ System.out.println("World");
 // can print "HelloWorld" or "WorldHello" because there are two threads - the one we created and one having main()
 
 // calling start() implicitly calls run()
-// Also if we use run() on line 2 above, it won't start a new thread and moreover it will just execute task in a synchronous way in main() thread only printing "HelloWorld"
+// Also if we use run() on line 2 above, it won't start a new thread and moreover it will just execute task in a non-concurrent synchronous way in main() thread only printing "HelloWorld"
 
 // calling start() twice on same thread throws IllegalStateException, but we can call run() multiple times
 ```
@@ -68,9 +68,10 @@ Two ways to create a thread -
 ### Thread Types
 
 **System threads**: Created by JVM. Like garbage collection.
+
 **User-defined threads**: Created by the programmer.
 
-They both can be created as **daemon threads** which doesn't prevent JVM from exiting when the program finishes. Ex - Garbage collection is a daemon thread and JVM can exit even if its running̣.
+They both can be created as **daemon threads** which doesn't prevent JVM from exiting when the program finishes. Ex - Garbage collection is a daemon thread and JVM can exit even if its running.
 
 ```java
 var job = new Thread(() -> foobar());
@@ -111,7 +112,7 @@ finally{
 // this only creates two threads - one main() and one new thread. The intra-thread tasks are guaranteed to be executed sequentially in the order of submission and won't interfere with each other as was shown in the example at the beginning with Thread class.
 ``` 
 
-The `shutdown()` method is of significance because SingleInstanceThreadExecutor is a _non-daemon_ thread so our program will never terminate if it is not closed. After a call to `shutdown()` the service won't accept any new tasks and if added will throw `RejectedExecutionException`. The service is terminated after all existing tasks have finished.
+The `shutdown()` method is of significance because `SingleThreadExecutor` is a _non-daemon_ thread so our program will never terminate if it is not closed. After a call to `shutdown()` the service won't accept any new tasks and if added will throw `RejectedExecutionException`. The service is terminated after all existing tasks have finished.
 
 Do note that the service won't stop executing already added tasks upon a `shutdown()` call. To do so we can call `shutdownNow()` method but nothing is guranteed. 
 
@@ -268,7 +269,7 @@ synchronized void foobar(){
 }
 
 // in static methods
-synchronized(Foobar.class){		// since we can't use this keyword
+synchronized(Foobar.class){		// since we can't use "this" keyword
 	// code
 }
 
@@ -288,7 +289,7 @@ Syncs on a `Lock` interface object instead of any Object. We have to release loc
 ```java
 Lock lock = new ReentrantLock();
 try{
-	lock.lock();		// waits indefinitely if other thread has lock
+	lock.lock();		// waits/blocks indefinitely if other thread has lock
 	// code
 }
 finally{
@@ -314,7 +315,7 @@ Lock lock = reentrantLock(true);		// fairness property
 IllegalMonitorStateException
 ```
 
-`tryLock()` returns a `boolean` indicating the status of lock and `tryLock(long, TimeUnit)` will attempt to lock at specified intervals each time returning a `boolean`.
+`tryLock()` returns a `boolean` indicating the status of lock and `tryLock(long, TimeUnit)` will attempt to lock at specified intervals each time returning a `boolean`. Also, it is non-blocking unlike `lock()` and returns a `boolean` immediately instead of waiting indefinitely.
 
 ```java
 // code demo
@@ -328,23 +329,25 @@ finally {
 } 
 }
 
-Lock lock = new ReentrantLock();
-new Thread(() -> printHello(lock)).start();		// sending lock to be acquired by a thread
-if(lock.tryLock()) {							// tryLock() returning boolean
- try {
- 	System.out.println("Lock obtained, entering protected code");
- } 
- finally {
- 	lock.unlock();
- }
-} else {
- 	System.out.println("Unable to acquire lock, doing something else");
+public static void main(String[] args) {
+	Lock lock = new ReentrantLock();
+	new Thread(() -> printHello(lock)).start();		// sending lock to be acquired by a thread
+	if(lock.tryLock()) {							// tryLock() attempting to lock to Main thread
+ 		try {
+ 			System.out.println("Lock obtained, entering protected code");
+ 		} 
+ 		finally {
+ 			lock.unlock();
+ 		}
+	} else {
+ 		System.out.println("Unable to acquire lock, doing something else");
+	}
 }
 ```
 **NOTE - Release a lock the same number of times it is acquired.** Otherwise the remaining locks will still hold onto the thread they are locked to.
 
 ### CyclicBarrier
-Specifies the number of threads to wait for and once the number is reached, execution is resumed.
+Orchestrating tasks, specifies the number of threads to wait for and once the number is reached, execution is resumed on all of the threads that the barrier was "holding".
 
 ```java
 var c1 = new CyclicBarrier(5);
@@ -375,7 +378,7 @@ Map<String, String> mp = new HashMap<>();
 
 Map<String, String> cmp = new ConcurrentHashMap<>();
 
-synchronizedMap(mp);
+Collections.synchronizedMap(mp);
 ```
 
 If we have to create a collection, we use concurrent version of collections available. If we have a non-conurrent collection then we can use synchronized methods from `Collection` interface to make them compatible to threads using synchronized methods.
@@ -398,9 +401,10 @@ Majorly 3 kinds of liveness affecting issues arise: **Deadlock**, **Starvation**
 ## Parallel Streams
 
 **Serial streams**: Data is processed in a serial fashion one after the other.
+
 **Parallel streams**: Multiple parallel threads can process data concurrently. The number of threads available to a stream is dependent on the number of CPU cores.
 
-As with threads the order of operations is never guaranteed in parallel streams.
+As with threads, the order of operations is never guaranteed in parallel streams.
 
 ```java
 // making a Stream parallel
