@@ -1,0 +1,93 @@
++++
+title = "MSA"
+date = 2022-06-19T11:41:00+05:30
+weight = 1
++++
+
+**What is Service?**
+
+A service is a _well-defined_, _self-contained_ function that represents a _unit of functionality_.
+
+## MSA
+
+**Microservices Architecture (MSA)** - Architectural "style"/pattern, subset of SOA (Service-Oriented Architecture), wherein services are:
+
+- Relatively Smaller (than traditional Monoliths)
+
+- Independent
+
+- Decoupled/Loosly coupled (reduce dependency)
+
+- **Single Responsibility Principle**
+
+- Business Domain/Goal (clearly defined)
+
+- **Bounded Context** - All of data and its mutability belongs to a service only.
+
+- Built over tech agnostic protocols like HTTP or messaging protocols like AMQP. ReST is best suited for inter-service messaging.
+
+{{% notice note %}}
+Not only multiple modules during development phase but _not_ deployed as a single entity in production.
+{{% /notice %}}
+
+## Monoliths vs Microservices
+
+- Smaller team (Two Pizza Rule ~ 8 full-stack developers per service)
+- Multiple languages modules are possible as long as they communicate via a single way (e.g. ReST)
+- Fault Isolation
+- Highly Scalable
+- Less Build & Deployment Times
+- Agile and DevOps supported
+- Data is not centralized but **federated** (each service has responsibility of own data only - see bounded context)
+- Allows incremental updates by design
+
+- More complex than monolith since multiple communication protocols, tech stacks are involved
+- Communication overhead b/w microservices
+- Distributed system so complexity is inevitable
+- Network dependent for communication which is slower than intra-monolith calls
+- More complexity in developing, testing, and deploying
+
+**Cognitive load** - The complexity of a monolithic application does not disappear if it is re-implemented as a set of microservices.
+
+The complexity that existed inside of the monolith, now exists on the inter-microservice level in form of:
+- network latency
+- message format design
+- Backup/Availability/Consistency (BAC) (see CAP Theorem)
+- load balancing
+- fault tolerance
+
+## SOA vs MSA
+
+**Scope** - SOA is enterprise scope, MSA is application scope
+
+**Focus** - SOA: Reusability; MSA: Reducing dependency
+
+- Each service is a monolith in SOA
+
+- Common architecture for all services in SOA leads to slowness; MSA trades-off development ease for speed
+
+- Dependence on ESB (Enterprise Service Bus) - common platform to facilitate sharing between monoliths
+Central data for all services in SOA (no federation of data)
+
+- Reuse promotes dependency and not suitable in MSA; reusability is a key factor in SOA
+
+- We often have redundancy in MSA to trade-off dependency; this is not the case in SOA. Ex - Exact same class written multiple times in different microservices but not shared from a library/import
+
+In SOA, sharing is quintessential to increase reusability; we don't care about dependency there
+
+_Reference_: https://www.ibm.com/cloud/blog/soa-vs-microservices
+
+## Scaling
+**X-Axis** (Cloning services, but they access same centralized data store)
+
+**Y-Axis** (Functional decomposition of services) (MSA)
+
+**Z-Axis** (Cloning but here each server has its own local data (shard))
+
+Some component of the system is responsible for routing each request to the appropriate data store.
+	
+_Reference_: https://microservices.io/articles/scalecube.html
+
+**Horizontal scaling (Scaling out)** - Adding more machines to existing pool of resources. Ex - Cassandra, MongoDB.
+
+**Vertical scaling** - Adding more power to existing resources. Ex - MySQL, Amazon RDS.

@@ -1,7 +1,7 @@
 +++
 title = "Python"
 date = 2020-11-24T13:15:00+05:30
-weight = 4
+weight = 5
 chapter = true
 pre = "<i class='devicon-python-plain'></i> "
 +++

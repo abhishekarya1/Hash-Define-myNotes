@@ -1,7 +1,7 @@
 +++
 title = "C++ for CP"
 date = 2020-07-12T11:30:30+05:30
-weight = 5
+weight = 6
 chapter = true
 pre = "<i class='devicon-devicon-plain'></i> "
 +++
