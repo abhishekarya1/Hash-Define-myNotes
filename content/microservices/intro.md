@@ -20,7 +20,7 @@ A service is a _well-defined_, _self-contained_ function that represents a _unit
 
 - **Single Responsibility Principle**
 
-- Business Domain/Goal (clearly defined)
+- Business Domain/Goal (clearly defined) (DDD (Domain Driven Design))
 
 - **Bounded Context** - All of data and its mutability belongs to a service only.
 
