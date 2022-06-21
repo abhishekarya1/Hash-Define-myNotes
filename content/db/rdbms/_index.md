@@ -10,10 +10,14 @@ pre = "<i class='fas fa-table'></i> "
 Relational Database Management System
 
 ### References
+https://www.sqltutorial.org
+
 ### MySQL
 https://www.mysqltutorial.org
 
 ### PostgreSQL
+https://www.postgresqltutorial.com
+
 Amigoscode - Learn PostgreSQL Tutorial - [YouTube](https://youtu.be/qw--VYLpxG4) 
 
 PSQL Cheatsheet - https://postgrescheatsheet.com

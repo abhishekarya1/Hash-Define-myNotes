@@ -11,7 +11,7 @@ pre = "<i class='devicon-mysql-plain'></i> "
 - Semicolon `;` to indicate command termination are _mandatory_ in MySQL terminal
 - Use `--` for single-line comment
 - `/* */` (multi-line commnents)
-- RDBMS language
+- Declarative language
 
 ### Glossary 
 - **Relation** (Table)
@@ -40,20 +40,18 @@ $ mysql -u username -p
 Enter Password: ******** 
 ```
 
-### Creating and Dropping DB
+### Databses
 ```sql
 CREATE DATABASE [IF NOT EXISTS] db_name;
 DROP DATABASE [IF EXISTS] db_name;
+
+SHOW DATABASES;
+
+USE db_name;
 ```
 
-### Importing an external DB
+#### Importing an external DB
 `SOURCE c:\path\to\db_name.sql`
-
-### Listing all available DB
-`SHOW DATABASES;`
-
-### Selecting a DB to use
-`USE db_name;`
 
 ### Data Types
 https://www.tutorialspoint.com/mysql/mysql-data-types.htm
@@ -140,6 +138,8 @@ ALTER TABLE t_name
 RENAME TO new_t_name;
 ```
 
+In Postgres, `MODIFY` isn't avaialble but `RENAME COLUMN`, `ADD COLUMN`, `ALTER COLUMN` are. Differs slightly based on different providers.
+
 ### RENAME TABLE
 `RENAME TABLE old_table_name TO new_table_name;`
 
@@ -171,16 +171,20 @@ SELECT [DISTINCT] Attribute_List FROM T1,T2…TM
 **Operators in WHERE** <br>
    - **Relational** (=, !=, <, >, <=, >=) <br>
    - condition1 **AND/OR/NOT** condition2 ... and so on.. <br>
-   - **LIKE** `SELECT * FROM Customers WHERE City LIKE 's%';` (`%` = *, `_` = .) <br>
+   - **LIKE/NOT LIKE** `SELECT * FROM Customers WHERE City LIKE 's%';` (`%` = \*, `_` = .) Case-insensitive`ILIKE` also available in Postgres. Escape sequences can also be used `LIKE '__\%'`, matches `99%` <br>
+
    - **BETWEEN, NOT BETWEEN** `SELECT * FROM Products WHERE Price BETWEEN 50 AND 60;` <br>
    - **IN/NOT IN** `SELECT * FROM Customers WHERE City IN ('Paris','London');` (Ex - `IN (subquery)`) <br>
    - **IS NULL/IS NOT NULL** `SELECT column_names FROM table_name WHERE column_name IS NULL;` <br> 
+
+### LIMIT / OFFSET
+It limits the result-set (`WHERE` clause's output) which may or may not be the final output (projection).
 
 ```sql
 SELECT field1, field2,...fieldN 
 FROM table_name1, table_name2...
 [WHERE Clause]
-[OFFSET M ][LIMIT N]
+[LIMIT N] [OFFSET M ]
 ```
 
 ```sql
@@ -189,6 +193,22 @@ FROM table_name1, table_name2...
 [WHERE Clause]
 LIMIT [offset_value,] limit_value
 ```
+
+```sql
+select long_w from station 
+where lat_n > 38 order by lat_n asc limit 1;
+
+-- selects long_w for a (single) smallest lat_n greater than 38
+```
+
+### FETCH
+Same effect as `OFFSET` and `LIMIT`. Requires `ORDER BY` clause in order to to get consistent output. No commas just like `LIMIT OFFSET`.
+```sql
+ORDER BY foo,   -- required
+OFFSET m {ROW | ROWS}
+FETCH [FIRST | NEXT] n {ROW | ROWS} ONLY;
+```
+
 ### UPDATE
 ```sql
 UPDATE table_name 
@@ -209,16 +229,36 @@ DELETE FROM table_name
     ```
 - **COUNT(), AVG(), SUM()**
  
+### Arithmetic Operations
+```sql
+SELECT name, price * 0.25 from items;
+SELECT name, ROUND(price - (price * 0.25), 2) from items;   -- scale = 2, ROUND(expr, scale)
+
+SELECT name, ROUND(price - (price * 0.25), 2) AS discounted_price from items;   -- aliasing column
+```
+
+### COALESCE()
+Returns first non-null value from the left among the arguments.
+```sql
+SELECT COALESCE(null, null, 1, 10) from customers;      -- 1
+
+SELECT COALESCE(is_smoker, 'No') from customers;
+```
+
 ### ALIAS
 
 ```sql
 # Column Aliases
-SELECT price FROM table AS cost;
+SELECT price AS cost FROM table;
+
+SELECT price cost FROM table;        -- ommitting AS
 ```
 
 ```sql
 # Table Aliases
-SELECT item, price FROM table t;
+SELECT item, price FROM table AS t;
+
+SELECT item, price FROM table t;     -- ommitting AS
 ```
 
 ### GROUP BY 
@@ -240,6 +280,16 @@ GROUP BY Country
 HAVING Country = 'USA'
 ORDER BY COUNT(CustomerID) DESC;
 ```
+
+### ORDER BY
+Orders by any column(s). It sorts the result-set (`WHERE` clause's output) and not the final projection, thus the columns in `ORDER BY` clause need not be present in the final projection attribute list.
+```sql
+select long_w from station 
+where lat_n < 137 order by lat_n desc limit 1;
+
+-- gets the (single) maximum lat_n less than 137 and displays corresponding long_w
+```
+
 ### EXISTS
 The `EXISTS` operator returns true if the subquery returns one or more records, else false.
 ```sql
@@ -252,7 +302,7 @@ They return actual value if even one match is there in subquery and all matches 
 ```sql
 SELECT ProductName 
 FROM Products
-WHERE ProductID = ANY (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
+WHERE ProductID >= ANY (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
 ```
 
 ### REGEXP
@@ -282,7 +332,7 @@ CASE
     WHEN condition2 THEN result2
     WHEN conditionN THEN resultN
     ELSE result
-END;
+END
 ```
 ```sql
 SELECT OrderID, Quantity,
@@ -308,7 +358,7 @@ https://www.geeksforgeeks.org/sql-join-cartesian-join-self-join/
 ### UNION, UNION ALL, INTERSECT, MINUS 
 ```sql
 SELECT column_name(s) FROM table1
-UNION/UNION ALL
+UNION / UNION ALL
 SELECT column_name(s) FROM table2;
 ```
 (\* `UNION ALL` keeps duplicate tuples whereas `UNION` does not)
@@ -335,11 +385,21 @@ commit;     --cannot rollback after a commit
 ```
 
 ### SQL Constraints
+Around 9 constraints are listed below.
+
 - **PRIMARY KEY** (Not Null + Unique)
 ```sql
 CREATE TABLE demo(
+id int NOT NULL PRIMARY KEY,	--column level since single PK
+name varchar(20)
+);
+```
+
+```sql
+CREATE TABLE demo(
+id int,
 name varchar(20),
-id int NOT NULL PRIMARY KEY		--column level since single PK
+PRIMARY KEY(id)
 );
 ```
 ```sql
@@ -349,18 +409,30 @@ id int NOT NULL,
 [CONSTRAINT key_alias] PRIMARY KEY(name, id) 		--table level since multiple PK, single also allowed
 );
 ```
-```sql
-ALTER  TABLE demo 
-ADD PRIMARY KEY(id);
-```
+
 - **FOREIGN KEY** (Uniquely identifies a row/record in another table)
+
+```sql
+PersonID int FOREIGN KEY REFERENCES Persons(PersonID)       -- column level
+
+FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)         -- table level; same effect as above
+
+CONSTRAINT FK_PersonOrder FOREIGN KEY (PersonID) REFERENCES Persons(PersonID)   -- same but uses CONSTRAINT keyword; table level 
+```
+
 - **UNIQUE**
 - **NOT NULL**
-- **CHECK** (Ensures that all values in a column satisfies a specific condition)
- `CHECK(salary >= 3)`  
+- **CHECK** (Ensures that all values satisfy a specific condition)
+ `CHECK(salary >= 3)` 
+```sql
+Age int CHECK(Age >= 18)       -- column level; single column check
+
+CONSTRAINT CHK_Person CHECK (Age >= 18 AND City = 'Seattle')   -- table level; multiple column check
+```
 - **DEFAULT** (Sets a default value for a column when no value is specified)
   `DEFAULT "John Doe"`
-- **INDEX**, **ENUM**
+- **INDEX**
+- **ENUM** or **SET** (Only values in enum or set are allowed)
 
 ```sql
 CREATE TABLE t_name (
@@ -371,8 +443,28 @@ CREATE TABLE t_name (
     
 );
 ```
-### Functions
 
-### Indexing
+#### ALTER TABLE to apply Constraints later
+```sql
+ALTER  TABLE demo 
+ADD PRIMARY KEY(id);
 
-### FK Constraint, Joins, Built-in Functions, Normalization
+ALTER TABLE Persons
+ADD CHECK (Age >= 18);
+
+ALTER TABLE demo
+DROP PRIMARY KEY;
+```
+
+
+### Built-in Functions
+- `left(str, n)` and `right(str, n)`: Substringing from left and right respectively.
+- `round(expr, scale)`: Rounding decimal
+- `abs(expr)`: Returns absolute value
+- `pow(expr, exponent)`: Raise expression to exponent power
+
+### Aggregation
+
+### Indexes
+
+### Foreign Key Constraint, Joins, Normalization
