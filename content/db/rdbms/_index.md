@@ -7,10 +7,13 @@ pre = "<i class='fas fa-table'></i> "
 +++
 
 # RDBMS
-Relational DataBase Management System
+Relational Database Management System
 
 ### References
 ### MySQL
-https://www.mysqltutorial.org/
+https://www.mysqltutorial.org
 
 ### PostgreSQL
+Amigoscode - Learn PostgreSQL Tutorial - [YouTube](https://youtu.be/qw--VYLpxG4) 
+
+PSQL Cheatsheet - https://postgrescheatsheet.com

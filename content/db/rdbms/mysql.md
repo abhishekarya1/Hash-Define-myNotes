@@ -9,21 +9,28 @@ pre = "<i class='devicon-mysql-plain'></i> "
 ## SQL (Structured Query Language)
 - Always case-insensitive (even table and attributes names)
 - Semicolon `;` to indicate command termination are _mandatory_ in MySQL terminal
-- `#` and `--` (single-line comments)
+- Use `--` for single-line comment
 - `/* */` (multi-line commnents)
 - RDBMS language
 
 ### Glossary 
+- **Relation** (Table)
 - **Attributes**, **Fields** (Columns), **Degree** (no. of attributes)
 - **Tuple** (Rows), **Cardinality** (no. of tuples)
-- DDL (create, alter, truncate)
-- DML (insert, delete, update)
+
+### Types of Commands
+- DDL (create, alter, truncate) (modifies schema)
+- DML (insert, delete, update) (modifies table data)
 - DCL (grant, revoke)
 - DQL (select)
 - TCL (rollback, commit, savepoint)
 
 ### Storage Engines
 https://www.mysqltutorial.org/understand-mysql-table-types-innodb-myisam.aspx
+
+The internal engine that runs stuff and we can leverage many features of different engines available. We can also specify a different engine to use for different tables.
+
+A total of 9 storage engines are available in MySQL. Postgres has only 1.
 
 Default is: **InnoDB**
 
@@ -63,30 +70,39 @@ CREATE TABLE [IF NOT EXISTS] table_name(
 ```
 
 ```sql
+CREATE TABLE employee(
+emp_id INT PRIMARY KEY,
+emp_name VARCHAR(50),
+doj DATE,
+);
+```
+
+```sql
 CREATE TABLE t_name(
 serial_no INT NOT NULL AUTO_INCREMENT, -- PRIMARY KEY (alternatively)
 emp_id INT NOT NULL,
 emp_name VARCHAR(25) NOT NULL,
 doj DATE,
-PRIMARY KEY (emp_id)    --single col only, multiple => CONSTRAINT combined_pk_alias PRIMARY KEY (ID,LastName)
+PRIMARY KEY (emp_id)    --single column only, multiple => CONSTRAINT combined_pk_alias PRIMARY KEY (ID,LastName)
 );
 ```
 
+#### CREATE TABLE AS
 ```sql
 CREATE TABLE TestTable AS
 SELECT customername, contactname
 FROM customers;
 ```
-(\*Creating one table from another by projection, this copies rows too)
+(\*Creating one table from another by projection, this copies row data too)
 ```sql
 CREATE TABLE emp1 AS
 SELECT * FROM emp 
-WHERE 1=2; --no data from where clause
+WHERE 1=2;  --false condition; no data from where clause
 ```
 (\*Copying only the schema)
 
 ### DROP TABLE 
-`DROP TABLE IF EXISTS t_name, t2_name;` or simply `DROP TABLE t_name;`
+`DROP TABLE [IF EXISTS] t_name, t2_name;` or simply `DROP TABLE t_name;`
 (delete data as well as schema)
 
 ### TRUNCATE
@@ -138,8 +154,7 @@ VALUES
 ... 
 (vnn,vn2,...);
 
--- No need to specify if filling all attributes
-
+-- No need to specify attribute list if filling all attributes:
 INSERT INTO t_name VALUES (value1, value2, ... valueN);
 ```
 
@@ -181,7 +196,7 @@ SET field1 = value1,
 field2 = value2
 [WHERE Clause]
 ```
-### DELETE
+### DELETE FROM
 ```sql
 DELETE FROM table_name 
 [WHERE Clause]
@@ -206,54 +221,23 @@ SELECT price FROM table AS cost;
 SELECT item, price FROM table t;
 ```
 
-### JOINS
-- Inner
-- Outer
-    - Left
-    - Right
-    - Full
- - Self
-  
-https://www.mysqltutorial.org/mysql-join/
-https://www.geeksforgeeks.org/sql-join-set-1-inner-left-right-and-full-joins/
-https://www.geeksforgeeks.org/sql-join-cartesian-join-self-join/
-
-### UNION, UNION ALL, INTERSECT, MINUS 
-```sql
-SELECT column_name(s) FROM table1
-UNION/UNION ALL
-SELECT column_name(s) FROM table2;
-```
-(\* `UNION ALL` keeps duplicate tuples whereas `UNION` does not)
-
-- Each SELECT statement within UNION must have the same number of columns
-- The columns must also have similar data types
-- The columns in each SELECT statement must also be in the same order
-
-```sql
-SELECT City, Country FROM Customers
-WHERE Country='Germany'
-UNION
-SELECT City, Country FROM Suppliers
-WHERE Country='Germany'
-ORDER BY City;	--applies to whole union-ed table
-```
-
 ### GROUP BY 
+Used in conjunction with aggregate functions. To group their results together based on a particular column.
+
 ```sql
 SELECT COUNT(CustomerID), Country
 FROM Customers
-GROUP BY Country
+GROUP BY Country    -- count() is grouped
 ```
-(we can skip Country from projection but that doesn't make any sense)
+(\*we can skip `Country` from projection but that doesn't make any sense)
 
 ### HAVING
-The `WHERE` clause places conditions on the selected columns, whereas the `HAVING` clause places conditions on groups created by the `GROUP BY` clause or aggregate functions. We can't have `HAVING` without `GROUP BY`.
+The `WHERE` clause places conditions on the selected table columns, whereas the `HAVING` clause places conditions on groups (query result columns) created by the `GROUP BY` clause or aggregate functions. We can't have `HAVING` without `GROUP BY`.
 ```sql
 SELECT COUNT(CustomerID), Country
 FROM Customers
 GROUP BY Country
-HAVING COUNT(CustomerID) > 5
+HAVING Country = 'USA'
 ORDER BY COUNT(CustomerID) DESC;
 ```
 ### EXISTS
@@ -273,7 +257,7 @@ WHERE ProductID = ANY (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
 
 ### REGEXP
 ```sql
-SELECT name FROM person_tbl WHERE name REGEXP '^a.*';
+SELECT first_name FROM person_tbl WHERE first_name REGEXP '^a.*';
 ```
 ### SELECT INTO
 Insert attributes into new table from an existing one.
@@ -307,6 +291,39 @@ WHEN Quantity = 30 THEN 'The quantity is 30'
 ELSE 'The quantity is under 30'
 END AS QuantityText
 FROM OrderDetails;
+```
+
+### JOINS
+- Inner
+- Outer
+    - Left
+    - Right
+    - Full
+ - Self
+  
+https://www.mysqltutorial.org/mysql-join/
+https://www.geeksforgeeks.org/sql-join-set-1-inner-left-right-and-full-joins/
+https://www.geeksforgeeks.org/sql-join-cartesian-join-self-join/
+
+### UNION, UNION ALL, INTERSECT, MINUS 
+```sql
+SELECT column_name(s) FROM table1
+UNION/UNION ALL
+SELECT column_name(s) FROM table2;
+```
+(\* `UNION ALL` keeps duplicate tuples whereas `UNION` does not)
+
+- Each SELECT statement within UNION must have the same number of columns
+- The columns must also have similar data types
+- The columns in each SELECT statement must also be in the same order
+
+```sql
+SELECT City, Country FROM Customers
+WHERE Country='Germany'
+UNION
+SELECT City, Country FROM Suppliers
+WHERE Country='Germany'
+ORDER BY City;	--applies to whole union-ed table
 ```
 
 ### DCL
