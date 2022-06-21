@@ -124,7 +124,7 @@ static { bamboo = 5;}		// since we can't have constructors for static fields
 }
 ```
 
-### static imports
+### import static
 - only for a static method or field, and not class unlike normal `import`
 ```java
 import static java.util.Arrays.asList;

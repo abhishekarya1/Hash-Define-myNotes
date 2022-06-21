@@ -17,6 +17,7 @@ Everything has to be inside a class in java source file. Filename must match the
 public static final void main()
 
 // only "final" is optional
+// main() can be overloaded just like any other method and interpreter calls the one with String[] argument only
 ```
 The argument has to be a `String` array. So all of the below works:
 ```java
@@ -53,7 +54,7 @@ class Hello{
 - `java.lang.*` is always implicitly imported regardless
 - only classes can be imported and not methods or fields unless `import static` is used
 - importing a lot of classes doesn't impact compilation or runtimes at all in Java
-- an import with wildcard (`import java.util.*`) only imports on current level and not children too
+- an import with wildcard (`import java.nio.*`) only imports classes from the current package and not from children pacakages too
 - if files have same `package` declarations, then they need not `import` each other explicitly as it's trivial 
 - Specificity takes precedence. If `java.util.Date` and `java.sql.*` both are imported, then `Date` is fetched from `util` package
 - Any ambiguity leads to compilation error:
@@ -137,6 +138,10 @@ var name = init_value;	// type is implicitly inferred
 var a = 3, b = 5;	//invalid
 ```
 - type of `var` is known at compile-time and type cannot be changed ever after that
+- `var` can be used in Lambda Expression variables though
+```java
+Foobar foobar = (var a, var b) -> a < b;
+```
 
 ## Data Types
 ```java
@@ -153,6 +158,10 @@ boolean
 - `float` is 4 Bytes
 - `char` is UTF-16, so one char can take one or two Bytes. Convertible to `int` and vice-versa.
 - `boolean` is not convertible to `int` and vice-versa, we cannot even use `==` with `int` and `boolean` values. Takes values `true` or `false`. **Size is undefined** and depends on JVM.
+
+```java
+while(1){ }     // not allowed; expected boolean
+```
 
 ### Literals
 ```java
@@ -402,6 +411,15 @@ for(int i : arr){
 }
 
 // 1 2 3 4 5 
+```
+
+### break and continue
+```java
+break;
+break LABEL;
+
+continue;
+continue LABEL;
 ```
 
 ## IO

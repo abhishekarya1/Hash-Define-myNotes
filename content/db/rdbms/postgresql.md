@@ -1,8 +1,11 @@
 +++
 title = "PostgreSQL"
-date =  2020-11-29T18:27:24+05:30
-weight = 3
+date =  2022-06-21T08:40:00+05:30
+weight = 2
 pre = "<i class='devicon-postgresql-plain'></i> "
 +++
 
-Lorem Ipsum.
+Open-source, high performance, and lots of features.
+
+
+## 

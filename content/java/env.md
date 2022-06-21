@@ -8,7 +8,7 @@ weight = 1
 
 Java is both a programming language and a platform.
 
-Created by James Gosling at Sun Microsystems (now subsidiary of Oracle Corp). Java 1.0 released in 1996. Originally named "Greentalk", later "Oak" and later Java.
+Created by James Gosling in 1995 at Sun Microsystems (now subsidiary of Oracle Corp). Java 1.0 released in 1996. Originally named "Greentalk", later "Oak" and later Java.
 
 Conceptualised for creating browser animations and graphics in form of applets. Failed to entice programmers for that purpose, was clunky, complex, and security was horrible since user had to download applet code on their machine to run it.
 
@@ -23,6 +23,8 @@ Java has 4 platforms:
 2. **Java EE** - Enterprise Edition (Servlet, JSP, Web Services, EJB, JPA, etc...)
 3. **Java ME** - Micro Edition (mobile applications, often clients of Java EE server) (subset of Java SE)
 4. **Java FX** (rich internet applications, often clients of Java EE server)
+
+[Java Developer Productivity Report 2022 - YouTube](https://youtu.be/qG1TXxxZXjU)
 
 ## Components
 ### JRE
