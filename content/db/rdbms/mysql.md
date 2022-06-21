@@ -298,11 +298,14 @@ FROM Suppliers
 WHERE EXISTS (SELECT ProductName FROM Products WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
 ```
 ### ANY, ALL
-They return actual value if even one match is there in subquery and all matches in subquery respectively.
+**ANY**: Returns boolean true only if any value in subquery output and current column matches.
+
+**ALL**: Returns boolean true only if all values in subquery output and current column matches.
+
 ```sql
 SELECT ProductName 
 FROM Products
-WHERE ProductID >= ANY (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
+WHERE ProductID = ANY (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
 ```
 
 ### REGEXP
