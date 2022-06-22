@@ -94,7 +94,7 @@ Remember, `@RestController` = `@Controller` + `@ResponseBody`. So we don't need 
 **@RequestHeaders**: Get value of request header.
 ```java
 GetMapping("/double")
-public ResponseEntity<String> doubleNumber(@RequestHeader("my-number") int myNumber) { }
+public String doubleNumber(@RequestHeader("my-number") int myNumber) { }
 ```
 
 **@ResponseStatus**: Override response code on a method.
@@ -105,5 +105,30 @@ void teaPot() {}
 // whenever teaPot() is called, we get a 418 code in reponse
 ```
 
-
 **Consider all of the stuff mentioned above as `required = true` unless specified otherwise explicitly**.
+
+## Entity<>
+We can also serialize/deserialize to specialized `Entity<>` generic classes that provide methods to extract headers, body, status code, etc... Other companion classes like `HttpHeaders`, `HttpStatus`, `URI`, etc... are also available.
+
+```java
+HttpEntity<POJO> he   // can be used as both
+he.getBody();
+he.getHeaders();
+
+ResponseEntity<POJO> res  	// use as return type; otherwise error
+res.getBody();
+res.getStatusCode();
+res.getStatusCodeValue();
+res.getHeaders();
+
+RequestEntity<POJO> req 	// use as method argument; otherwise error
+res.getBody();
+res.getMethod();
+res.getType();
+res.getUrl();
+res.getHeaders();
+
+
+// correct usage
+ResponseEntity<String> getMethod(RequestEntity<String> req){  }
+```
