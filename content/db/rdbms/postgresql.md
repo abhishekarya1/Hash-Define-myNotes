@@ -11,8 +11,10 @@ It also added JSON support making it one of the few relational database to suppo
 
 Only 1 engine is available here as opposde to MySQL's 9, but it is so optimized it ties on most parameters with them and comes out better in some. They are also developing a new engine called `zheap` which is focused on _in-place updates_ and _reuse of space_ to reduce bloat.
 
+[Postgres vs. MySQL](https://www.postgresqltutorial.com/postgresql-tutorial/postgresql-vs-mysql/)
+
 ## Clients
-- UI based - pgAdmin
+- UI based - pgAdmin, Azure Data Studio, IntelliJ Datagrip
 - Terminal based - psql
 - from application using Driver
 
@@ -36,8 +38,7 @@ All commands use backslash (`\`) and SQL commands must be terminated with a semi
 \c demo		connect to database "demo"
 
 \dt 		list tables from current schema
-\d foo 		table details of "foo" (\d+ also available)
-
+\d foo 		table details of table "foo" (\d+ also available)
 ```
 
 ```sql
@@ -48,4 +49,12 @@ DROP DATABASE demo_db;
 ```sh
 # connecting via psql command in parent console directly
 psql -h localhost -p 5432 -U abhishek demo
+```
+
+### Querying
+```sql
+-- will show indexes, query execution times, and other details
+explain [analyze] query;
+
+explain analyze select * from employees where first_name LIKE 'a%';
 ```

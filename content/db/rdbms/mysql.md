@@ -17,13 +17,14 @@ pre = "<i class='devicon-mysql-plain'></i> "
 - **Relation** (Table)
 - **Attributes**, **Fields** (Columns), **Degree** (no. of attributes)
 - **Tuple** (Rows), **Cardinality** (no. of tuples)
+- **Projection** (subset of columns displayed as the final output)
 
 ### Types of Commands
 - DDL (create, alter, truncate) (modifies schema)
 - DML (insert, delete, update) (modifies table data)
 - DCL (grant, revoke)
 - DQL (select)
-- TCL (rollback, commit, savepoint)
+- TCL (begin, commit, savepoint, rollback)
 
 ### Storage Engines
 https://www.mysqltutorial.org/understand-mysql-table-types-innodb-myisam.aspx
@@ -40,7 +41,7 @@ $ mysql -u username -p
 Enter Password: ******** 
 ```
 
-### Databses
+### Databases
 ```sql
 CREATE DATABASE [IF NOT EXISTS] db_name;
 DROP DATABASE [IF EXISTS] db_name;
@@ -177,6 +178,11 @@ SELECT [DISTINCT] Attribute_List FROM T1,T2…TM
    - **IN/NOT IN** `SELECT * FROM Customers WHERE City IN ('Paris','London');` (Ex - `IN (subquery)`) <br>
    - **IS NULL/IS NOT NULL** `SELECT column_names FROM table_name WHERE column_name IS NULL;` <br> 
 
+### REGEXP
+```sql
+SELECT first_name FROM person_tbl WHERE first_name REGEXP '^a.*';
+```
+
 ### LIMIT / OFFSET
 It limits the result-set (`WHERE` clause's output) which may or may not be the final output (projection).
 
@@ -267,18 +273,17 @@ Used in conjunction with aggregate functions. To group their results together ba
 ```sql
 SELECT COUNT(CustomerID), Country
 FROM Customers
-GROUP BY Country    -- count() is grouped
+GROUP BY Country    -- count() is grouped; otherwise it would not have been
 ```
 (\*we can skip `Country` from projection but that doesn't make any sense)
 
 ### HAVING
-The `WHERE` clause places conditions on the selected table columns, whereas the `HAVING` clause places conditions on groups (query result columns) created by the `GROUP BY` clause or aggregate functions. We can't have `HAVING` without `GROUP BY`.
+The `WHERE` clause places conditions on the selected table columns, whereas the `HAVING` clause places conditions on groups (query result columns) created by the `GROUP BY` clause or aggregate functions. We can't have a `HAVING` clause without a `GROUP BY` clause.
 ```sql
 SELECT COUNT(CustomerID), Country
 FROM Customers
 GROUP BY Country
-HAVING Country = 'USA'
-ORDER BY COUNT(CustomerID) DESC;
+HAVING Country = 'USA';
 ```
 
 ### ORDER BY
@@ -290,6 +295,38 @@ where lat_n < 137 order by lat_n desc limit 1;
 -- gets the (single) maximum lat_n less than 137 and displays corresponding long_w
 ```
 
+### Subqueries
+We can have simple subqueries, correlated subqueries, and use subqueries with `EXISTS/NOT EXISTS`, `IN/NOT IN`, `ANY/ALL` clauses.
+
+```sql
+-- subquery in projection
+SELECT atribute1, attribute2, subquery FROM demo;
+
+-- select from subquery; aka derived table
+SELECT atribute1, ..., attributeN FROM subquery AS subquery_alias;
+-- alias is mandatory as because everything in the FROM clause must have a name
+```
+```sql
+-- simple subquery
+SELECT 
+    employee_id, first_name, last_name, salary
+FROM
+    employees
+WHERE
+    salary = (SELECT MAX(salary) FROM employees)
+
+-- correlated subquery
+SELECT 
+    employee_id, 
+    first_name, 
+    last_name
+FROM
+    employees e
+WHERE
+    NOT EXISTS(SELECT * FROM dependents d
+    WHERE d.employee_id = e.employee_id)    -- parent table alias used here; correlation
+```
+
 ### EXISTS
 The `EXISTS` operator returns true if the subquery returns one or more records, else false.
 ```sql
@@ -298,20 +335,28 @@ FROM Suppliers
 WHERE EXISTS (SELECT ProductName FROM Products WHERE Products.SupplierID = Suppliers.supplierID AND Price < 20);
 ```
 ### ANY, ALL
-**ANY**: Returns boolean true only if any value in subquery output and current column matches.
+They are used to compare a single column to a set of columns from subquery output.
 
-**ALL**: Returns boolean true only if all values in subquery output and current column matches.
+**ANY**: compares current column and _any_ value in subquery output. `SOME` is an alias for this clause.
+
+**ALL**: compares current column and _all_ values in subquery output.
 
 ```sql
 SELECT ProductName 
 FROM Products
 WHERE ProductID = ANY (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
+
+-- lists productIDs in Products table which are equal to any one ProductID in OrderDetails table
 ```
 
-### REGEXP
 ```sql
-SELECT first_name FROM person_tbl WHERE first_name REGEXP '^a.*';
+SELECT ProductName 
+FROM Products
+WHERE ProductID < ALL (SELECT ProductID FROM OrderDetails WHERE Quantity = 10);
+
+-- lists productIDs in Products table which are less than all ProductIDs in OrderDetails table
 ```
+
 ### SELECT INTO
 Insert attributes into new table from an existing one.
 ```sql
@@ -334,7 +379,15 @@ CASE
     WHEN condition1 THEN result1
     WHEN condition2 THEN result2
     WHEN conditionN THEN resultN
-    ELSE result
+    ELSE default_result
+END
+
+-- another way
+CASE(expr)
+    WHEN value_of_expr1 THEN result1
+    WHEN value_of_expr2 THEN result2
+    WHEN value_of_exprN THEN resultN
+    ELSE default_result
 END
 ```
 ```sql
@@ -344,21 +397,16 @@ WHEN Quantity = 30 THEN 'The quantity is 30'
 ELSE 'The quantity is under 30'
 END AS QuantityText
 FROM OrderDetails;
+
+CASE(animal_name)
+    WHEN 'Dolphin' THEN 'Mammal'
+    WHEN 'Shark' THEN 'Fish'
+    WHEN 'Snake' THEN 'Reptile'
+    ELSE 'Unspecified'
+END
 ```
 
-### JOINS
-- Inner
-- Outer
-    - Left
-    - Right
-    - Full
- - Self
-  
-https://www.mysqltutorial.org/mysql-join/
-https://www.geeksforgeeks.org/sql-join-set-1-inner-left-right-and-full-joins/
-https://www.geeksforgeeks.org/sql-join-cartesian-join-self-join/
-
-### UNION, UNION ALL, INTERSECT, MINUS 
+### Set Operations: UNION, UNION ALL, INTERSECT, MINUS 
 ```sql
 SELECT column_name(s) FROM table1
 UNION / UNION ALL
@@ -366,25 +414,132 @@ SELECT column_name(s) FROM table2;
 ```
 (\* `UNION ALL` keeps duplicate tuples whereas `UNION` does not)
 
-- Each SELECT statement within UNION must have the same number of columns
-- The columns must also have similar data types
-- The columns in each SELECT statement must also be in the same order
+- Each SELECT statement under UNION must have the **same number of columns**
+- The columns must also have **similar data types**
+- The columns in each SELECT statement must also be in the **same order**
 
 ```sql
 SELECT City, Country FROM Customers
-WHERE Country='Germany'
+WHERE Country = 'Germany'
 UNION
 SELECT City, Country FROM Suppliers
-WHERE Country='Germany'
+WHERE Country = 'Germany'
 ORDER BY City;	--applies to whole union-ed table
 ```
 
+**MINUS**: `query1 MINUS query2` (All rows in `query1` which are not in `query2`). Alias for this clause is `EXCEPT` in Postgres.
+
+### JOINS
+
+{{<mermaid>}}
+graph TB;
+    A[Type of Joins]
+    A --> B(INNER)
+    A --> C(Outer Joins)
+    A --> D(CROSS)
+    C --> E(LEFT)
+    C --> F(RIGHT) 
+    C --> G(FULL)
+{{< /mermaid >}}
+
+**EQUI JOIN**: Any of the above joins that performs join based on equality `=`  of two columns, each in either table. Ex - `A.x = B.y`
+
+**NATURAL JOIN**: A type of `EQUI JOIN` where column names are exactly the same. Ex - `A.x = B.x`
+
+**SELF JOIN**: Join that is performed on a single table on itself. Two columns from the same table are used to perform join.
+
+#### INNER JOIN
+When table A(1,2,3,4) and table B(3,4,5,6) are inner-joined, the output will be (3,4). We can join more than two tables too. We join based on some column(s) from each table to match data.
+
+It is basically _**intersection**_ set operation.
+
+```sql
+SELECT a
+FROM A
+INNER JOIN B ON b = a;
+
+-- three tables
+SELECT A.n
+FROM A
+INNER JOIN B ON B.n = A.n
+INNER JOIN C ON C.n = A.n;
+```
+
+#### Outer Joins
+##### LEFT JOIN
+```sql
+SELECT A.n
+FROM A
+LEFT JOIN B ON B.n = A.n;
+```
+
+Display full table on the left but places `NULL` on values not in Right table.
+
+##### RIGHT JOIN
+```sql
+SELECT A.n
+FROM A
+RIGHT JOIN B ON B.n = A.n;
+```
+
+Display full table on the right but places `NULL` on values not in Left table.
+
+##### FULL [OUTER] JOIN
+```sql
+SELECT A.n
+FROM A
+FULL [OUTER] JOIN B ON B.n = A.n;
+```
+
+Display entries from both the tables but places `NULL` on values not in each other.
+
+#### CROSS JOIN
+It is cartesian product `m x n rows` of two tables so **_no predicate_** is required. 
+
+It is equivalent of doing `INNER JOIN` with condition as `true` since there is no predicate.
+
+```sql
+-- all of the below are equivalent
+
+SELECT select_list
+FROM T1
+CROSS JOIN T2;
+
+SELECT select_list
+FROM T1, T2;
+
+SELECT *
+FROM T1
+INNER JOIN T2 ON true;
+```
+
+![](https://www.postgresqltutorial.com/wp-content/uploads/2016/06/PostgreSQL-CROSS-JOIN-illustration.png)
+
+#### Other Joins
+```sql
+SELECT select_list FROM T1
+NATURAL [INNER, LEFT, RIGHT] JOIN T2;
+
+SELECT * FROM city
+NATURAL JOIN country;
+
+SELECT * FROM products
+INNER JOIN categories USING (category_id);
+```
+
+#### Joins Summary Chart
+![SQL Joins summary chart](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/SQL_Joins.svg/1200px-SQL_Joins.svg.png)  
+
 ### DCL
 ```sql
-savepoint save_name;
-rollback to save_name;
-rollback;   --rolls back to latest savepoint
-commit;     --cannot rollback after a commit
+BEGIN;      -- begin a transaction
+
+COMMIT;     -- cannot rollback to a point after a commit
+
+SAVEPOINT savepoint_name;
+
+ROLLBACK TO savepoint_name;
+ROLLBACK;   -- rolls back to latest savepoint; or latest commit
 ```
 
 ### SQL Constraints
@@ -459,6 +614,12 @@ ALTER TABLE demo
 DROP PRIMARY KEY;
 ```
 
+### Auto-increment and Sequences
+```sql
+id int AUTO_INCREMENT   -- MySQL; column level
+
+id int SERIAL   -- Postgres; column level 
+```
 
 ### Built-in Functions
 - `left(str, n)` and `right(str, n)`: Substringing from left and right respectively.
@@ -466,8 +627,26 @@ DROP PRIMARY KEY;
 - `abs(expr)`: Returns absolute value
 - `pow(expr, exponent)`: Raise expression to exponent power
 
-### Aggregation
-
 ### Indexes
+Data structure that points to other data on the database for faster access. Sort of like a index of a book. When we have to query, DBMS will internally query this index instead of actual table data directly.
 
-### Foreign Key Constraint, Joins, Normalization
+Implemented using a subset of columns in B-Tree, Hash, etc...
+
+Queries that involve indexed columns are generally significantly faster.
+
+`PRIMARY KEY` is indexed by default.
+
+```sql
+-- creating index on name column in employees table
+CREATE INDEX name_index ON employees(name);
+```
+#### Indexes are not magic!
+It is not always guaranteed that index will result in faster queries, for example, using `LIKE` clause even on indexed columns leads to slow queries since we have to match sequentially with the clause pattern. Other such cases are:
+
+- when most of the tuples values are redundant. Ex - a gender column will only have some possible values
+- `UPPER(name) = 'Rick'`, we can have an index on `name` but not on `UPPER(name)` so queries will be slow, creating index on `UPPER(name)` or a specialized search index from the DB provider can help
+- Composite indexes: indexes on two or more columns depend on each other. When we have index on `first_name` and `last_name`, we often run queries using `last_name` and they will be slower since they both depend upon each other for indexing. In such cases, `first_name AND last_name` will utilize index and not `OR` since we will be scanning sequentially for `last_name`.
+
+_Source_: Hussein Nasser - YouTube
+
+### Normalization
