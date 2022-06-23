@@ -13,12 +13,14 @@ pre = "<i class=\"devicon-java-plain colored\"></i> "
 ### References
 [OCP Java SE 17 Developer Study Guide: Exam 1Z0-829](https://g.co/kgs/DMh3BT) by Jeanne Boyarsky
 
-https://www.geeksforgeeks.org/java
-
 https://www.javatpoint.com/java-tutorial
 
-https://www.oreilly.com/library/view/core-java-11/9780135160053
+\* https://www.geeksforgeeks.org/java
 
-https://docs.oracle.com/javase/tutorial
+\* https://www.oreilly.com/library/view/core-java-11/9780135160053
 
-https://books.goalkicker.com/JavaBook
+\* https://docs.oracle.com/javase/tutorial
+
+\* https://books.goalkicker.com/JavaBook
+
+\*_not used much_

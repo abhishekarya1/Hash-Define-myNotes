@@ -243,12 +243,21 @@ SELECT name, ROUND(price - (price * 0.25), 2) from items;   -- scale = 2, ROUND(
 SELECT name, ROUND(price - (price * 0.25), 2) AS discounted_price from items;   -- aliasing column
 ```
 
-### COALESCE()
-Returns first non-null value from the left among the arguments.
+### COALESCE(), NULLIF(), CAST()
 ```sql
+-- COALESCE: returns first non-null value from the left among the arguments
 SELECT COALESCE(null, null, 1, 10) from customers;      -- 1
-
 SELECT COALESCE(is_smoker, 'No') from customers;
+
+-- NULLIF: returns NULL if both the arguments are equal otherwise left arg
+NULLIF(9, 9)
+NULLIF (1, 0); -- returns 1
+NULLIF ('A', 'B'); -- returns A
+
+-- CAST
+CAST('2022-06-23' AS DATE)
+CAST('78' AS INTEGER)
+CAST('8.99' AS DOUBLE)
 ```
 
 ### ALIAS
@@ -300,10 +309,10 @@ We can have simple subqueries, correlated subqueries, and use subqueries with `E
 
 ```sql
 -- subquery in projection
-SELECT atribute1, attribute2, subquery FROM demo;
+SELECT atribute1, attribute2, (subquery) FROM demo;
 
 -- select from subquery; aka derived table
-SELECT atribute1, ..., attributeN FROM subquery AS subquery_alias;
+SELECT atribute1, ..., attributeN FROM (subquery) AS subquery_alias;
 -- alias is mandatory as because everything in the FROM clause must have a name
 ```
 ```sql
@@ -614,11 +623,16 @@ ALTER TABLE demo
 DROP PRIMARY KEY;
 ```
 
-### Auto-increment and Sequences
+### Auto-increment, Sequences, Identity
 ```sql
 id int AUTO_INCREMENT   -- MySQL; column level
 
-id int SERIAL   -- Postgres; column level 
+id int SERIAL   -- Postgres; column level
+
+-- we can also create a sequence and SERIAL uses sequence internally with step = 1, init val = 0
+
+-- Identity colummn is also provided in Postgres which also uses sequences internally
+
 ```
 
 ### Built-in Functions
@@ -647,6 +661,93 @@ It is not always guaranteed that index will result in faster queries, for exampl
 - `UPPER(name) = 'Rick'`, we can have an index on `name` but not on `UPPER(name)` so queries will be slow, creating index on `UPPER(name)` or a specialized search index from the DB provider can help
 - Composite indexes: indexes on two or more columns depend on each other. When we have index on `first_name` and `last_name`, we often run queries using `last_name` and they will be slower since they both depend upon each other for indexing. In such cases, `first_name AND last_name` will utilize index and not `OR` since we will be scanning sequentially for `last_name`.
 
-_Source_: Hussein Nasser - YouTube
+_Source_: [Hussein Nasser - YouTube](https://youtu.be/oebtXK16WuU)
+
+`B-Tree`(default) index is more suitable for relational, `BETWEEN`, and pattern matching using `LIKE` cases. It is best for general cases.
+
+`Hash` index is more suitable for rows where you know you will be performing equality `=` on frequently.
+
+`GIN` index (Generalized INverted index) is suitable when multiple values are stored in a single column e.g. array, jsonb, etc... 
+
+_Reference_: https://www.postgresqltutorial.com/postgresql-indexes/
+
+### GROUPING SETS, ROLLUP, CUBE
+We often group aggregate methods using `GROUP BY` and specify columns to group onto. All three are alternate syntax to avoid writing complex `GROUP BY` and manually perform `UNION ALL` on queries.
+```sql
+-- GROUP BY with UNION ALL
+SELECT count(*) FROM employees GROUP BY first_name;
+UNION ALL
+SELECT count(*) FROM employees GROUP BY last_name;
+UNION ALL
+SELECT count(*) FROM employees;
+
+-- equivalent query using GROUPING SETS; we can specify sets to group by inside parentheses
+SELECT count(*) FROM employees
+GROUP BY GROUPING SETS ( 
+    first_name, 
+    last_name, 
+    () 
+);
+-- () means no gouping (it will return count(*) for the whole table)
+
+-- another example with composite grouping sets; equivalent to ROLLUP
+SELECT count(*) FROM employees
+GROUP BY GROUPING SETS ( 
+    (first_name, last_name),
+    (first_name),
+    (last_name),
+    ()
+);
+```
+```sql
+-- ROLLUP
+SELECT count(*) FROM employees
+GROUP BY ROLLUP ( first_name, last_name );
+-- shows result of group by none, group by all 3, group by 2, group by just 1 
+
+-- CUBE
+SELECT count(*) FROM employees
+GROUP BY CUBE ( first_name, last_name );
+-- shows result of group by for all combinations (2^n power set) 
+```
+
+_References_: [Working with Rollups and Cubes in SQL](https://youtu.be/KLPULneM4mo)
+
+### CTE (Common Table Expression)
+CTE allow us to  create a temporary table and perform query on it. The table is destoryed as soon as the query is finished executing.
+
+```sql
+-- syntax
+WITH cte_name [(column_list)] AS (
+    CTE_query 
+)
+query;
+
+-- example 
+WITH cte_film AS (
+    SELECT film_id, title    
+    FROM film
+    WHERE release_year <= 2000
+)
+SELECT film_id, title
+FROM  cte_film        -- notice
+WHERE genre = 'Sci-Fi';
+```
+
+We could have acheived this with subqueries too.
+
+### Views
+They are used to create a separate data stucture which we can query instead of directly querying on tables.
+
+A view **can have attributes from multiple tables**, so instead of running a complex `JOIN` query, we can create a view and simply query that.
+
+They differ from CTE or subqueries is that an actual physical object is created and stored whose scope is even beyond that of query.
+```sql
+CREATE VIEW view_name AS query;
+
+-- query can be any JOIN query that outputs a projection having columns from multiple tables
+-- when we query a View, we are effectively querying this complex JOIN query's output
+```
+We can also `UPDATE` and `DROP` views too just like regular tables.
 
 ### Normalization

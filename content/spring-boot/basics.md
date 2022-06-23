@@ -368,7 +368,7 @@ database:
 ```
 
 ### Logger
-Logging is available in Spring by default provided by `slf4j` implemented by `Logback`. We don't need any dependencies for it separately.
+Logging is available in Spring by default provided by `slf4j` (Simple Logging Facade 4 Java) implemented by `Logback`, a successor to the infamous `log4j`. We don't need any dependencies for it separately.
 
 ```java
 // in Foobar.java
