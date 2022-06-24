@@ -329,12 +329,25 @@ foo.bar = "FoobarStr"
 // in class code
 @Value("${foo.bar}")
 private String foobar;
+
+@Value("${foo.bar: defaultStr}")	 // with a default value
+private String foobar;
+
+// we can't use @Value ons a static variable, if we use, variable will be null at runtime
 ```
 
-Do note that the property that is being referred to in @Value tag must exist and corresponding profile loaded otherwise its a compiler-error. e.g. In the above case, `foo.bar` must exist in properties file and its profile must be loaded otherwise compiler-error.
+Do note that the property that is being referred to in `@Value` tag must exist and corresponding profile loaded otherwise its a compiler-error. e.g. In the above case, `foo.bar` must exist in properties file and its profile must be loaded otherwise compiler-error.
 
 So, its bad to keep properties exclusive to non-default profiles in our code as they will all fail when we load with default profile in future.
 
+### Property source
+We can specify which property file to take values from using the _@PropertySource_ annotation.
+```java
+@PropertySource("classpath:foobar.properties")
+public class foobarService{	 }
+
+// note that we can't use YAML with this annotation out-of-the-box in Spring
+```
 ### YAML
 ```yaml
 # properties
@@ -377,7 +390,7 @@ Logger log = LoggerFactory.getLogger(Foobar.class);		// -- line 1
 
 log.trace("A TRACE Message");
 log.debug("A DEBUG Message");
-log.info("An INFO Message");		// enabled by default
+log.info("An INFO Message");		// base level by default; all above this will be enabled
 log.warn("A WARN Message");
 log.error("An ERROR Message");
 

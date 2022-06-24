@@ -7,10 +7,9 @@ pre = "<i class='fas fa-database'></i>  "
 +++
 
 # RDBMS
-Relational DataBase Management System
+Relational Database Management System
 
-### References
-### MySQL
-https://www.mysqltutorial.org/
+### Tools
+MySQL
 
-### PostgreSQL
+PostgreSQL

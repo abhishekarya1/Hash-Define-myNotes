@@ -227,14 +227,26 @@ field2 = value2
 DELETE FROM table_name 
 [WHERE Clause]
 ```
-### Aggregate Functions
+### Aggregate & Scalar Functions
+
+#### Aggregate Functions
+They take as input, a collection of values and return a single scalar value.
+
 - **MIN(), MAX()** `SELECT MIN(marks_maths) FROM RESULT-2020 WHERE BATCH='OP1'`
     ```sql
     SELECT MIN(Price) AS SmallestPrice
     FROM Products; 
     ```
 - **COUNT(), AVG(), SUM()**
- 
+
+Of all the aggregate methods, only `COUNT()` doesn't ignore `NULL` values. 
+
+#### Scalar Functions
+They also return a single scalar value based on some input that can be a collection of values.
+```sql
+LEN()    LCASE()    UCASE()    MID()    CONCAT()    RAND()    ROUND()    NOW()    FORMAT()
+```
+
 ### Arithmetic Operations
 ```sql
 SELECT name, price * 0.25 from items;
@@ -374,6 +386,15 @@ INTO newtable [IN externaldb]
 FROM oldtable
 WHERE condition;
 ```
+
+```sql
+SELECT * 
+INTO newtable
+FROM oldtable
+WHERE 1=2;
+```
+(\* Copying shema only into an empty table)
+
 ### INSERT INTO SELECT
 Insert data from matching corresponding attributes from one table to another.
 ```sql
@@ -385,7 +406,7 @@ WHERE condition;
 ### CASE
 ```sql
 CASE
-    WHEN condition1 THEN result1
+    WHEN condition1 THEN result1    -- notice no comma separator
     WHEN condition2 THEN result2
     WHEN conditionN THEN resultN
     ELSE default_result
@@ -456,6 +477,8 @@ graph TB;
 **NATURAL JOIN**: A type of `EQUI JOIN` where column names are exactly the same. Ex - `A.x = B.x`
 
 **SELF JOIN**: Join that is performed on a single table on itself. Two columns from the same table are used to perform join.
+
+A `FOREIGN KEY` is automatically created in a `JOIN` if a suitable candidate is not present.
 
 #### INNER JOIN
 When table A(1,2,3,4) and table B(3,4,5,6) are inner-joined, the output will be (3,4). We can join more than two tables too. We join based on some column(s) from each table to match data.
@@ -539,7 +562,7 @@ INNER JOIN categories USING (category_id);
 #### Joins Summary Chart
 ![SQL Joins summary chart](https://upload.wikimedia.org/wikipedia/commons/thumb/9/9d/SQL_Joins.svg/1200px-SQL_Joins.svg.png)  
 
-### DCL
+### TCL
 ```sql
 BEGIN;      -- begin a transaction
 
@@ -641,36 +664,6 @@ id int SERIAL   -- Postgres; column level
 - `abs(expr)`: Returns absolute value
 - `pow(expr, exponent)`: Raise expression to exponent power
 
-### Indexes
-Data structure that points to other data on the database for faster access. Sort of like a index of a book. When we have to query, DBMS will internally query this index instead of actual table data directly.
-
-Implemented using a subset of columns in B-Tree, Hash, etc...
-
-Queries that involve indexed columns are generally significantly faster.
-
-`PRIMARY KEY` is indexed by default.
-
-```sql
--- creating index on name column in employees table
-CREATE INDEX name_index ON employees(name);
-```
-#### Indexes are not magic!
-It is not always guaranteed that index will result in faster queries, for example, using `LIKE` clause even on indexed columns leads to slow queries since we have to match sequentially with the clause pattern. Other such cases are:
-
-- when most of the tuples values are redundant. Ex - a gender column will only have some possible values
-- `UPPER(name) = 'Rick'`, we can have an index on `name` but not on `UPPER(name)` so queries will be slow, creating index on `UPPER(name)` or a specialized search index from the DB provider can help
-- Composite indexes: indexes on two or more columns depend on each other. When we have index on `first_name` and `last_name`, we often run queries using `last_name` and they will be slower since they both depend upon each other for indexing. In such cases, `first_name AND last_name` will utilize index and not `OR` since we will be scanning sequentially for `last_name`.
-
-_Source_: [Hussein Nasser - YouTube](https://youtu.be/oebtXK16WuU)
-
-`B-Tree`(default) index is more suitable for relational, `BETWEEN`, and pattern matching using `LIKE` cases. It is best for general cases.
-
-`Hash` index is more suitable for rows where you know you will be performing equality `=` on frequently.
-
-`GIN` index (Generalized INverted index) is suitable when multiple values are stored in a single column e.g. array, jsonb, etc... 
-
-_Reference_: https://www.postgresqltutorial.com/postgresql-indexes/
-
 ### GROUPING SETS, ROLLUP, CUBE
 We often group aggregate methods using `GROUP BY` and specify columns to group onto. All three are alternate syntax to avoid writing complex `GROUP BY` and manually perform `UNION ALL` on queries.
 ```sql
@@ -749,5 +742,3 @@ CREATE VIEW view_name AS query;
 -- when we query a View, we are effectively querying this complex JOIN query's output
 ```
 We can also `UPDATE` and `DROP` views too just like regular tables.
-
-### Normalization
