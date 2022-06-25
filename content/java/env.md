@@ -46,18 +46,32 @@ javadoc - documentation generator
 
 ### JVM
 
-javac - generates object code (aka Byte code) in `.class` files.
+`javac` compiler - generates object code (aka Byte code) in `.class` files.
 
 Java Virtual Machine. Converts bytecode to native machine-specific code and runs (interprets) it.
 
 JVM has to be written for the system for which it is to run on, so its **not platform independent**. The bytecode is machine architecture agnostic though since it always runs on JVM.
 
-**JVM is multi-threaded**
+**JVM is multi-threaded** ofc since it allows thread execution with separate data areas (stacks, PC registers, native method stack) for each thread.
 
 **Method and Heap areas share the same memory for multiple threads, the data stored here is not thread safe**. Stack, PC Register, and Native areas are different for each thread.
 
-Very Imp - https://www.freecodecamp.org/news/jvm-tutorial-java-virtual-machine-architecture-explained-for-beginners/
+Must Read - https://www.freecodecamp.org/news/jvm-tutorial-java-virtual-machine-architecture-explained-for-beginners/
 
+### JIT Compiler
+**Interpreter ❤️ JIT Compiler** - The interpreter always interprets/runs the bytecode, and simultaneously the JIT compiler compiles some methods based on their invocation count threshold to _native machine code_ to be called directly by the interpreter. These methods are also called hotspots and are identified by the profiler inside the JIT compiler. 
+
+_Reference_: [Highlight Link](https://www.eclipse.org/openj9/docs/jit/#:~:text=The%20JIT%20compiler%20doesn%27t,rather%20than%20interpreting%20it.)
+
+JVM contains two conventional JIT-compilers: the **client compiler (C1)** and the **server compiler ("opto" or C2)**.
+
+C1 is designed to run faster and produce less optimized code, while C2 takes a little more time to run but produces a better-optimized code. The client compiler is a better fit for desktop applications since we don't want to have long pauses for the JIT-compilation. The server compiler is better for long-running server applications that can spend more time on the compilation. Java uses both JIT compilers during the normal program execution.
+
+The default strategy used by the HotSpot, called **tiered compilation** is to compile the frequently called methods in the bytecode using C1 compiler and if the number of calls keep increasing, it uses the C2 compiler. 
+
+C2 has been extremely optimized and produces code that can compete with C++ or be even faster. The server compiler itself is written in a specific dialect of C++. However, it comes with some issues. Due to possible segmentation faults in C++, it can cause the VM to crash. Also, no major improvements have been implemented in the compiler over the last several years. The code in C2 has become difficult to maintain, so we couldn't expect new major enhancements with the current design.
+
+We have projects like [GraalVM](#graalvm) for new and better approaches to compiling Java code.
 
 ## Running 
 ### javac, java
@@ -79,6 +93,36 @@ jshell> int a = 5;
 
 jshell> /exit
 ```
+
+## The JDK
+Many open-source as well as proprietary JDK alternatives have popped up over the years. Most popular ones are OracleJDK, OpenJDK, and Amazon Corretto.
+
+OpenJDK is developed by Oracle, OpenJDK, and the Java Community. However, top-notch companies like Red Hat, Azul Systems, IBM, Apple Inc., and SAP AG also take an active part in its development.
+
+OracleJDK is fully developed by the Oracle Corporation. And licence differences are there with OpenJDK.
+
+Actually, OpenJDK is an official reference implementation of a Java SE since long time now. It means that it is the accepted official implementation of the Java specification and OracleJDK's as well as all other JDKs' build process is based on that of OpenJDK.
+
+**HotSpot VM**: The default JVM's name! It was named at Sun Microsystems in 1999. 
+
+### GraalVM
+It is basically another hot and popular JDK project created by Oracle. It has the following components:
+- HotSpot VM
+- Graal JIT Compiler
+- Ahead-of-time compilation (AOT) (Native image)
+- Polyglot API (Truffle)
+- many other dev tools...
+
+**Features**:
+- high-performance (_Graal compiler_)
+- create native platform executable eliminating the need for JVM (_AOT (Native Image)_)
+- run Javascript, Python, Ruby, R, WASM, etc... on JVM! (_Truffle Language Implementation Framework_)
+
+_Architecture_: https://www.graalvm.org/22.1/docs/introduction/
+
+_Graal JIT Compiler_: https://www.baeldung.com/graal-java-jit-compiler
+
+_Java Benchmarks_: https://www.phoronix.com/scan.php?page=article&item=java-openjdk-mid22
 
 ## References
 - JavaNotesForProfessionals.pdf (Chapter 169, Appendix B)

@@ -82,51 +82,6 @@ Postgres doesn't have clustered indexes at all. Every index is non-clustered in 
 
 https://stackoverflow.com/a/27979121
 
-### Indexes
-Data structure that points to other data on the database for faster access. Sort of like a index of a book. When we have to query, DBMS will internally query this index instead of actual table data directly.
-
-Implemented using a subset of columns in `B-Tree`, `Hash`, etc...
-
-Queries that involve indexed columns are generally significantly faster.
-
-**`PRIMARY KEY` is always indexed by default**.
-
-```sql
--- creating index on name column in employees table
-CREATE INDEX myIndex 
-ON employees(name);
-
--- index as constraint: UNIQUE INDEX
-CREATE UNIQUE INDEX myIndex
-ON employees(empId);
-```
-
-#### Types of Indexes
-**Clustered**: Typically, the clustered index is synonymous with the primary key. Trivially, the **order** of the rows in the database corresponds to the order of the rows in the index. This is why **only one** clustered index can exist in a given table, whereas, multiple non-clustered indexes can exist for a given table.
-
-**Non-Clustered / Secondary**: We can create **multiple** non-clustered indexes for a given table on non-primary-key attibutes. They are **allocated space separately** from the table and hence access is **slower** than a clustered index.
-
-The main difference between clustered and non-clustered indexes is that the database manager attempts to keep the data in the database in the same order as the corresponding keys appearing in the clustered index.
-
-https://dev.mysql.com/doc/refman/5.7/en/innodb-index-types.html
-
-#### Indexes are not magic!
-It is not always guaranteed that index will result in faster queries, for example, using `LIKE` clause even on indexed columns leads to slow queries since we have to match sequentially with the clause pattern. Other such cases are:
-
-- when most of the tuples values are redundant. Ex - a gender column will only have some possible values
-- `UPPER(name) = 'Rick'`, we can have an index on `name` but not on `UPPER(name)` so queries will be slow, creating index on `UPPER(name)` or a specialized search index from the DB provider can help
-- Composite indexes: indexes on two or more columns depend on each other. When we have index on `first_name` and `last_name`, we often run queries using `last_name` and they will be slower since they both depend upon each other for indexing. In such cases, `first_name AND last_name` will utilize index and not `OR` since we will be scanning sequentially for `last_name`.
-
-_Source_: [Hussein Nasser - YouTube](https://youtu.be/oebtXK16WuU)
-
-`B-Tree`(default) index is more suitable for relational, `BETWEEN`, and pattern matching using `LIKE` cases. It is best for general cases.
-
-`Hash` index is more suitable for rows where you know you will be performing equality `=` on frequently.
-
-`GIN` index (Generalized INverted index) is suitable when multiple values are stored in a single column e.g. array, jsonb, etc... 
-
-_Reference_: https://www.postgresqltutorial.com/postgresql-indexes/
-
 
 ### Partitioning Tables
 To improve query performance, Postgres divides tables in smaller **partitions**. 

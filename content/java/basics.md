@@ -152,11 +152,14 @@ char
 float double
 
 boolean
+
+// there is no explicit "unsigned" specifier for primitives in Java
+// char is unsigned; other integral types are not
 ```
 
 - `int` is 4 Bytes
 - `float` is 4 Bytes
-- `char` is UTF-16, so one char can take one or two Bytes. Convertible to `int` and vice-versa.
+- `char` is unsigned UTF-16, so one char can take one or two bytes. Convertible to `int` and vice-versa.
 - `boolean` is not convertible to `int` and vice-versa, we cannot even use `==` with `int` and `boolean` values. Takes values `true` or `false`. **Size is undefined** and depends on JVM.
 
 ```java
@@ -165,12 +168,12 @@ while(1){ }     // not allowed; expected boolean
 
 ### Literals
 ```java
-55L		// long
-0123	// octal
-0xFBB	// hex
-0b1011	// binary
+55L		// long -- l/L
+0123	// octal   
+0xFBB	// hex -- x/X (A to F case-insensitive)
+0b1011	// binary -- b/B
 
-0.33F	// float
+0.33F	// float -- f/F
 1e4		// double
 
 'a' '❤️'	// chars
@@ -185,9 +188,10 @@ long n = 9999999999L;	// solves the above issue
 ```
 
 ```java
-// underscores are allowed in numeric types to make them easier to read
+// underscores are allowed in all numeric types to make them easier to read
 int million1 = 1000000;
 int million2 = 1_000_000;
+int binary_num = 0b0001_0101; 
 
 // underscore can't be at beginnning or end of literal or on either sides of a decimal point (.)
 float exp = 1.010_101;
