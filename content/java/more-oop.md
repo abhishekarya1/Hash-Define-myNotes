@@ -10,8 +10,9 @@ Just like abstract classes whose sole-purpose is to get inherited and overriden.
 
 - Interface is `abstract` implicitly
 - All variables are `public static final` implicitly
-- All methods are `public abstract` implicitly
-- Methods without `private` modifier are always implicity `public` (and not package default)
+- All methods are assumed to be `abstract` implicitly unless they are `default`, `static`, `private`, or `private static`
+- All methods are always implicity `public` (and not package default) unless they are `private`
+- So, the only methods that can have a body inside an interface are: `default`, `static`, `private`, and `private static`
 
 ```java
 public interface Demo{
@@ -35,6 +36,8 @@ public interface Demo extends Foo, Bar {	}		// Foo and Bar are interfaces
 - A class or abstract class can implement more than one interface (multiple-inheritance like behavior) and abstract class doesn't need to define all abstract methods of the interface.
 ```java
 public class X implements Y, Z {	} 		// Y and Z are interfaces
+
+public class A extends B, C implements D, E {	} 		// both inheriting and implementing
 ```
 
 - Concrete class (first to implement interface) must **have all abstract methods definition available to it**. Those definitions can come from any superclass of the class implementing the interface.
@@ -70,28 +73,6 @@ public class MyClass extends Super implements Test {	// subclass doesn't have a 
 }
 
 // compiler error
-```
-
-- If exact same method exists in both interfaces, our concrete class has to implement it with a equal or covariant type otherwise compiler error (overriding rules apply)
-
-```java
-interface X{
-	int foobar(){
-		return 1;
-	}
-}
-
-interface Y{
-	int foobar(){
-		return 2;
-	}
-}
-
-class Z implements X, Y{
-	int foobar(){			// override
-		return new Integer(3);
-	}
-}
 ```
 
 - conflicting explicit modifiers over implicit modifiers are not allowed: we can't make a variable `private` or a method `protected`, etc...
@@ -131,7 +112,7 @@ class Demo implements X{
 - must be marked with `static` and must have a method body
 - implicitly `public` (just like any other method in interface)
 - cannot be `abstract` or `final`
-- it is **never inherited/goto impl class** (unlike normal `static` class methods) and we need to call it with interface name (`InterfaceName.methodName()`) since we can't call it using implementing class ref or name. We can also have the same method defined in our implementing class since they are never inherited so no overriding can happen.
+- it is **never inherited by other interfaces or goto implementing class** (unlike normal `static` class methods) and we need to call it with interface name (`InterfaceName.methodName()`) since we can't call it using implementing class ref or name. We can also have the same method defined in our implementing class since they are never inherited so no overriding can happen.
 
 ```java
 interface P{
@@ -144,7 +125,7 @@ class Main implements P{
 }
 ```
 
-### Overrding an abstract Method with default Method
+### Overrding an abstract Method with default or static Method
 ```java
 interface P{
     void foo();
@@ -161,7 +142,7 @@ interface P{
 }
 
 interface Q extends P{
-    static void foo(){ }		// compiler-error; static method even if impl won't be going to implementing class
+    static void foo(){ }		// compiler-error; static method method cannot override an abstract method; since it won't be going to the implementing class anyways even if we accept its impl here
 }
 ```
 
@@ -226,6 +207,11 @@ Days d = Days.valueOf("TUE");	// TUE
 ```
 
 ### Constructor, Fields, and Methods (Complex Enums)
+
+Simple enums have: name, ordinal
+
+Complex enums have: name, value, ordinal
+
 ```java
 // bare-minimum complex enum
 enum Alphabet {
@@ -233,7 +219,7 @@ enum Alphabet {
     B("Y"),
     C("X");
 
-    Alphabet(String a) { }		// mandatory
+    Alphabet(String a) { }		// mandatory; can only be private or package-access
 }
 ```
 ```java
@@ -241,7 +227,7 @@ public enum Season{
 	WINTER("Low"), SPRING("Medium"), SUMMER("High");	// constructor calls to init
 	// ; not optional, values always comes before construtors, methods
 
-	private final String expVis;		// optional field, can be non-final too but bad practice
+	public final String expVis;		// optional field, can be non-final too but bad practice
 
 	private Season(String expVis){		// constructor, always private or pacakge-access, runs only on first access to a constant, never runs again 
 		this.expVis = expVis;	// optional
@@ -257,10 +243,11 @@ System.out.println(Season.SUMMER);	 // "High"
 System.out.println(Season.SUMMER.ordinal());	// 2	
 Season.SUMMER.printExpVis(); 	// enum method call
 s.printExpVis();				// enum method call with reference object
+s.expVis;						// enum instance variable access
 ```
 
-### Methods
-Enum can have a method at last which can be `abstract` or a method shared by all.
+### Methods in Enum
+Enum can have a method at last which can be `abstract` or a "normal" method shared by all.
 ```java
 public enum Seasons{
 	WINTER { public int getTemp(){ return 5;  } },		// override
@@ -280,7 +267,6 @@ public enum Seasons{
 - Enums can't be `extend`ed or inherited. We also can't create an Enum object with `new`.
 - Enums can `implement` interfaces and they have to define abstract methods of those interfaces.
 
-
 ## Sealed Class (Java 17)
 A class that restricts which other classes can **directly** extend from it.
 
@@ -291,7 +277,7 @@ non-sealed class Bar extends Demo{ }		// non-sealed child (can be inherited by a
 ```
 
 ### Rules
-1. The subclasses declared in a sealed class must exist in the same package (or same named module in diff packages (more on this later))
+1. The subclasses declared in a sealed class must exist in the same package (or in same module, they can be under diff packages in that module)
 2. Subclass must extend if it is permitted in a sealed class
 3. Every class that extends a sealed class must specify one of the three specifiers `sealed`, `final`, or `non-sealed`
 
@@ -324,7 +310,7 @@ Empty records is totally valid (but useless).
 record DemoEmpty(){ }
 ```
 
-Just like enums, a record can't be extended or inherited but it can implement an interface, provided it defines all the abstract methods.
+Just like enums, **a record can't be extended or inherited but it can implement an interface**, provided it defines all the abstract methods.
 ```java
 public interface Foobar{ }
 public record Demo(int foo, String bar) implements Foobar{ }
@@ -338,7 +324,7 @@ public record Demo(int foo, String bar) implements Foobar{ }
 ```java
 public record Demo(int foo, String bar){
 	public Demo{									// notice no parentheses ()
-		bar = bar.substring(0, 1).toUpperCase();			// modification to constructor argument
+		bar = bar.substring(0, 1).toUpperCase();			// modification to constructor argument only
 		this.foo = foo;			// compiler-error
 		if(foo < 0) throw new IllegalArgumentException();	// validation
 	}
@@ -357,7 +343,7 @@ public record Demo(int foo, String bar){
 ```
 
 ### Methods, Fields, and Initializers
-- Methods Overriding is possible in body
+- Methods can exist and method overriding is possible in record body
 ```java
 public record Demo(int foo, String bar){
 	public int foo(){ return 10; }
@@ -365,7 +351,7 @@ public record Demo(int foo, String bar){
 }
 ```
 - Only `static final` fields are allowed in record body
-- Non-static fields (instance fields) aren't allowed inside record body (since record instance is supposed to be immutable) even if they're `final`
+- Non-static fields (instance fields) aren't allowed inside record body (since they are present in the parameter list), and they have to be `final` for immutability
 - Instance Initializer blocks aren't allowed since initializaion is possible only via constructor, also no instance fields exist acc to above rule so no point of instance initializer blocks
 
 ## Nested Classes

@@ -275,23 +275,33 @@ public static void main(String[] args) {
 }
 ```
 
-### Custom Properties
+### Properties to POJO
 ```java
 // POJO
 @Component
-@ConfigurationProperties(prefix="demo.ex")
+@ConfigurationProperties(prefix="demo")
 public class Demo {
 	private String foo;
+	private String bar;
+
 	public void setFoo(String foo) {
 		this.foo = foo;
 	}
 	public String getFoo() {
 		return foo;
 	}
+
+	public void setBar(String bar) {
+		this.bar = bar;
+	}
+	public String getBar() {
+		return bar;
+	}
 }
 
 // property
-demo.ex.foo="Lorem Ipsum"
+demo.foo="Lorem"
+demo.bar="Ipsum"
 
 // we can now use getter and setter in other classes to use this POJO
 ```
