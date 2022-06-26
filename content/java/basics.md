@@ -10,6 +10,7 @@ Everything has to be inside a class in java source file. Filename must match the
 - if all are non-public, the class name with file's name runs
 - there can be multiple classes in a java source file but only one can be declared as `public` 
 - top-level classes can't be `private` or `protected`, it leads to compiler error
+- top-level classes can't be `static`, it leads to compiler error. Nested classes can be `static` though.
 
 ### main()
 
@@ -26,6 +27,10 @@ String foobar[]
 String[] args
 String... args
 ```
+
+- It is `static` because it is called by JVM using class name
+- Removing `static` from it will not cause any compile-time exception but cause `NoSuchMethodError` error on runtime
+- It can be overloaded just like any other method but only `String[]` one will be called by the JVM
 
 ## Command-Line Arguments
 ```java
@@ -534,8 +539,9 @@ int arr[][];        // 2D
 int[][][] arr;      // 3D
 int[] arr[];        // 2D
 
-// Range checking is strict unlie C & C++ and often results in runtime exception - 
+// Range checking is strict unlike C & C++ and often results in RUNTIME Exceptions - 
 ArrayIndexOutOfBoundsException
+NegativeArraySizeException
 
 // in method parameters
 void foobar(int[] arr){ }
@@ -583,4 +589,25 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
 String str = ft.format(new Date());     // 07-05-2022        
+```
+
+### Garbage Collection
+Frees up memory in heap used by dereferenced objects and objects which has gone out-of-scope. Run by `System.gc()` but nothing is guaranteed. When the garbage collection is triggered by the JVM isn't guaranteed either.
+
+Mark and Sweep algorithm - identify and mark objects to clean, then sweep through and free up space.
+
+Types of garbage collectors in Java:
+1. Serial GC - single threaded, stop everything and run GC
+2. Parallel GC - multiple threaded, stop everything and run GC (aka Throughput Collector)
+3. G1GC (default) - for heap sizes greater thatn 4GB, divide heap into two halves and run GC on each, stop everything and run
+
+Stopping everything is called stopping-the-world (STW) or pausing (GC Pause). It halts all the program threads.
+
+#### finalize
+Called automatically when Garbage Collector is called.
+
+```java
+public void finalize() {
+    // can do anything here
+} 
 ```

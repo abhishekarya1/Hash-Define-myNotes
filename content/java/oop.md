@@ -51,6 +51,22 @@ public class Y { }
 public class X extends Y { }
 ```
 
+```java
+class X {
+    String foobar() {
+        return "Lorem Ipsum";
+    }
+}
+
+class Y extends X {		// inheritance
+    void bar() {
+        System.out.println(foobar()); 	// Lorem Ipsum; method available to children classes
+    }
+}
+```
+
+NOTE: `static` methods belong to class, and they are inherited just like any other method.
+
 ### Access Modifiers on Members
 - when X inherits from Y. Only the `public` and `protected` members (fields and methods) of Y are accessible to X.
 - If the two classes are in the same package, then the package (default) members are accessible to X.
@@ -365,11 +381,11 @@ class Foo{
 
 public class Main extends Foo{
     public static void main(String[] args) {
-        Main.fun();				// prints "Hello!"
+    	fun();		// prints "Hello!"; accessible directly because it is inherited; can use "Main.fun()" too
     }
 }
 
------------------------------------------------------------------
+-----------------------------------------------
 
 class Foo{
     static void fun(){
@@ -379,7 +395,7 @@ class Foo{
 
 public class Main{			// no inheritance
     public static void main(String[] args) {
-        Main.fun();				// compiler-error; Foo.fun() will work here
+        fun();				// compiler-error; Foo.fun() will work here
     }
 }
 ```
