@@ -533,7 +533,15 @@ Rules:
 
 ```java
 public abstract class Demo{
-	public abstract void foobar();		// notice that there is no body and a semicolon (;) at the end
+	public abstract void foo();		// notice that there is no body and a semicolon (;) at the end
+}
+
+public abstract class Demo{
+	public abstract void foo(int a, String b);		// with params
+}
+
+public abstract class Demo{
+	public abstract void foo(int, String);		// compiler-error; no param names, only type
 }
 ```
 
