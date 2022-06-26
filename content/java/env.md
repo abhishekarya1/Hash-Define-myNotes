@@ -24,6 +24,7 @@ Java has 4 platforms:
 3. **Java ME** - Micro Edition (mobile applications, often clients of Java EE server) (subset of Java SE)
 4. **Java FX** (rich internet applications, often clients of Java EE server)
 
+[The Java Language Environment: A White Paper](https://www.stroustrup.com/1995_Java_whitepaper.pdf) - James Gosling, Sun (1996) ([web version](https://www.oracle.com/java/technologies/language-environment.html))
 [Java Developer Productivity Report 2022 - YouTube](https://youtu.be/qG1TXxxZXjU)
 
 ## Components
