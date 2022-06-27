@@ -26,7 +26,7 @@ Controller --> Service (interface) --> Service (impl class)
 
 ## Annotations
 ```java
-@RestController 	// = @Controller + @ResponseBody 
+@RestController 	// @Controller + @ResponseBody
 
 @Component
 @Controller
@@ -36,13 +36,16 @@ Controller --> Service (interface) --> Service (impl class)
 
 **@RequestMapping**: Specify endpoint methods.
 ```java
-// both class level and methods level annotation
+// class level
 @RequestMapping("/api/v1")
+@RequestMapping(value = "/api/v1")
+
+// method level
 @RequestMapping(value = "/all", method = RequestMethod.GET)
 @RequestMapping(value = "/all", method = {RequestMethod.GET, RequestMethod.POST})
 @RequestMapping(value = "/all", method = POST)
 
-// it accepts all HTTP methods by default
+// @RequestMapping accepts all HTTP methods by default
 
 // newer alternatives
 @GetMapping
@@ -61,7 +64,7 @@ public void user(@RequestParam("userId") String user){ }
 // alt syntax
 @RequestParam(name = "userId") String user
 @RequestParam String user 						// query key should be "user"
-@RequestParam(required = false) String user 		// it is required by default and abscence leads to error
+@RequestParam(required = false) String user 		// it is required by default and absence leads to error
 ```
 
 
@@ -89,7 +92,7 @@ public Course saveCourse(@RequestBody Course course){
 }
 ```
 
-Remember, `@RestController` = `@Controller` + `@ResponseBody`. So we don't need _@ResponseBody_ if we use _@RestController_.
+Remember, `@RestController` = `@Controller` + `@ResponseBody` on every method. So we don't need _@ResponseBody_ on methods if we use _@RestController_ on class.
 
 **@RequestHeaders**: Get value of request header.
 ```java
@@ -102,26 +105,27 @@ public String doubleNumber(@RequestHeader("my-number") int myNumber) { }
 @ResponseStatus(HttpStatus.I_AM_A_TEAPOT)
 void teaPot() {}
 
-// whenever teaPot() is called, we get a 418 code in reponse
+// whenever teaPot() is called, we get a 418 code in reponse no matter the actual response code
 ```
 
-**Consider all of the stuff mentioned above as `required = true` unless specified otherwise explicitly**.
+**Consider all of the stuff mentioned above as `required = true` unless specified otherwise explicitly by the programmer**.
 
 ## Entity<>
-We can also serialize/deserialize to specialized `Entity<>` generic classes that provide methods to extract headers, body, status code, etc... Other companion classes like `HttpHeaders`, `HttpStatus`, `URI`, etc... are also available.
+We can also serialize/deserialize to specialized `Entity<>` generic classes that provide methods to extract headers, body, status code, etc... They often use/return other companion classes like `HttpHeaders`, `HttpStatus`, `URI`, etc...
 
 ```java
-HttpEntity<POJO> he   // can be used as both
+HttpEntity<POJO> he   // can be used as both request and response
 he.getBody();
 he.getHeaders();
 
-ResponseEntity<POJO> res  	// use as return type; otherwise error
+ResponseEntity<POJO> res  	// use as method return type only; otherwise error
 res.getBody();
 res.getStatusCode();
 res.getStatusCodeValue();
 res.getHeaders();
 
-RequestEntity<POJO> req 	// use as method argument; otherwise error
+// often used with restTemplate to form request to send
+RequestEntity<POJO> req 	// use as method argument only; otherwise error
 res.getBody();
 res.getMethod();
 res.getType();

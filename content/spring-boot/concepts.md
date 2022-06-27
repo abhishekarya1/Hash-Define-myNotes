@@ -5,11 +5,11 @@ weight = 6
 +++
 
 ### Java Bean
-It is a standard that has a formal specification (144 pages btw!) too.
+It is a standard that has a formal [specification](https://download.oracle.com/otndocs/jcp/7224-javabeans-1.01-fr-spec-oth-JSpec/) (114 pages btw!) too.
 
 It is nothing but a regular class with:
 1. a `public` no-args constructor
-2. all fields are `private`, uses getters & setters
+2. all fields are `private`, use getters & setters
 3. implements `java.io.Serializable` interface
 
 ### IoC and DI
@@ -39,7 +39,7 @@ return new Store(item);
 // setter-based injection: set item to a store
 store.setIem(item);
 
-// field-based injection: inject an item field in store using Reflection 
+// field-based injection: inject an item field in store using Reflection (set field - new Item())
 @Autowired
 Item item;
 ```
@@ -47,19 +47,18 @@ Item item;
 _References_: https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring
 
 ### AOP
-Aspect-oriented Programming (AOP) is a programming paradigm that complements the OOP paradigm.
+Aspect-oriented Programming (AOP) is a programming (meta-programming) paradigm that complements the OOP paradigm.
 
-We have a separate **Aspect** (similar to class) for each of the common features that our app may need like Trasaction, Logging, Security, etc... These features are called **cross-cutting concerns** because all of our main logic classes will need them at some point.
+We have a separate **Aspect** (similar to class) for each of the common features that our app may need like Transaction, Logging, Security, etc... These features are called **cross-cutting concerns** because all of our main logic classes will need them at some point. Aspects have methods.
 
-Traditionally, these common features would usually require a method call to the class containing the feature logic from our main class. But in AOP can "wrap" our main logic with Aspects. We can specify that we want to call aspect before or after the main logic, we can specify all this in **Aspect Configuation**. 
+Traditionally, these common features would usually require a method call to the class containing the feature logic from our main class. But in AOP can "wrap" our main logic with Aspects. We can specify that we want to call aspect methods before or after the main class logic, we can specify all this in **Aspect Configuation**. 
 
 Spring framework can read the aspect configuration file and call a method from Aspect before executing a method from our main class. After the Aspect method is finished with its execution, the main method can resume. This is how "wrapping" of Aspects is achieved on methods in our main logic.
 
-Classes are free of any code calls and 
+Classes are free of any code calls since all the "triggers" are specified in the aspect configuration. This alleviates the need to change code calls in class when we need to change something in future. Single point of change = Aspect configuration.
 
 _References_: 
 
-[Java Brains] https://youtu.be/QdyLsX0nG30 
+[Java Brains - YouTube](https://youtu.be/QdyLsX0nG30)
 
-[A simple example] https://stackoverflow.com/a/232918
-
+[A simple example - StackOverflow](https://stackoverflow.com/a/232918)

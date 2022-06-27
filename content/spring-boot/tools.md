@@ -42,9 +42,12 @@ You can enable or disable each individual endpoint and expose them (make them re
 /autoconfig 	-> all autoconfigs done by Spring Boot
 /metrics		-> applications metrics like memory, heap, threads
 /health			-> "UP" status and diskSpace
+
+/info
+/shutdown
 ```
 
-### Application Information (/info)
+### Custom Information (/info)
 We can send our own definined information on the `/info` endpoint. Specify info using properties.
 ```txt
 info.name.first=Abhishek
@@ -105,6 +108,9 @@ management.endpoints.web.exposure.include=*
 exclude env and beans:
 management.endpoints.web.exposure.exclude=env,beans
 ```
+
+Only the `/health` endpoint is exposed by default.
+
 ### More
 We can change `/actuator` base path to anything we like `/foobar`. 
 ```txt
@@ -115,7 +121,7 @@ We can change endpoint_id, toggle sensitivity, secure endpoints with authenticat
 We can write custom health indicators, or an entire custom endpoint.
 
 **References**:
-- https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html#actuator.endpoints.enabling
+- https://docs.spring.io/spring-boot/docs/current/reference/html/actuator.html
 - https://docs.spring.io/spring-boot/docs/current/actuator-api/htmlsingle/
 
 ## Lombok
@@ -133,13 +139,16 @@ Provides annotations to avoid writing a ton of boilerplate code.
 @Builder 				// Builder pattern
 @AllArgsConstructor	 	// constructor with all args
 @NoArgsConstructor		// constructor with no args
-@Slf4j					// logs
-@CommonsLog				// same as above (for logs)
+
+@Slf4j					// logs (slf4j log)
+@CommonsLog				// same as above (but for Apache commons log)
+@Log 					// same as above (but for java.util log)
 
 @Generated 				// to mark the component as generated; excepted from coverage checks
 @ToString				// generates toString() for the class 
 @EqualsAndHashCode		// generates hashcode() and equals() for fields of class
 @Value 					// make immutable class (diff from Spring's @Value used to read properties)
+						// all fields are made private and final by default, and setters are not generated
 ```
 
 **Reference**: https://projectlombok.org/features/all

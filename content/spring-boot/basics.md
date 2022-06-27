@@ -348,9 +348,11 @@ log.warn("A WARN Message");
 log.error("An ERROR Message");
 
 // we can use lombok too to avoid line 1 above
-@Slf4j
+@Slf4j		// creates slf4j logger
 // or
-@CommonsLog
+@CommonsLog	// creates Apache commons log
+
+// logger variable is named "log"
 ```
 
 Control logs using properties
