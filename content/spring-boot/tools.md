@@ -1,7 +1,7 @@
 +++
 title = "CLI, Actuator, Lombok"
 date = 2022-06-06T21:45:00+05:30
-weight = 3
+weight = 4
 +++
 
 ## Spring Boot CLI

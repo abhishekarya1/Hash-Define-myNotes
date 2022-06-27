@@ -1,7 +1,7 @@
 +++
 title = "JPA"
 date = 2022-06-06T03:29:00+05:30
-weight = 2
+weight = 3
 +++
 
 ## Spring Data JPA
