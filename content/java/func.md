@@ -141,7 +141,7 @@ Local varibles are scoped to lambda block.
 
 Lambdas can always access variables (instance and class variables). They can access only the `final` and effectively final local variables.
 
-## Methods References
+## Method References
 Exactly like lambdas, they can be used when a lambda calls another method inside of it.
 
 ```java
@@ -165,13 +165,13 @@ Converter methodRef = Math::round;
 Converter lambda = x -> Math.round(x);
 System.out.println(methodRef.roundFunc(100.1)); // 100
 
-// 2. Calling instance methods of a object (str)
+// 2. Calling instance methods of an object (str)
 var str = "Zoo";
 StringStart methodRef = str::startsWith;
 StringStart lambda = s -> str.startsWith(s);
 System.out.println(methodRef.beginningCheck("A")); // false
 
-// 3. Calling instance methods of a parameter supplied at runtime
+// 3. Calling instance methods of a parameter supplied at runtime (don't confuse with 1)
 StringParameterChecker methodRef = String::isEmpty;
 StringParameterChecker lambda = s -> s.isEmpty();
 System.out.println(methodRef.check("Zoo")); 	// false
@@ -191,7 +191,16 @@ methodRef.myStrCreator("bar");
 ```
 
 Since lambdas are more explicit, all method references can be converted to lambdas but not vice-versa.
+```java
+() -> { return 4; }  // can't be written as method ref because it returns a fixed value and doesn't call a method inside
 
+var str = "";
+StringChecker lambda = () -> str.startsWith("Zoo");		// call on object + fixed value inside; no input, returns boolean
+
+StringChecker methodReference = str::startsWith; 	// compiler-error; no way to supply a fixed value as input
+StringChecker methodReference = str::startsWith("Zoo"); // compiler-error
+
+```
 ## Built-in Functional Interfaces
 ```java
 T Supplier<T> 				// Takes a nothing and returns a T type
@@ -283,7 +292,7 @@ System.out.println(combined.apply(3)); // 8
 We have interfaces for `int`, `double`, `long` and `boolean` those return only the primitive types specified by thier name.
 
 ```java
-BooleanSupplier		getAsBoolean()		// the only available interface fpr boolean type
+BooleanSupplier		getAsBoolean()		// the only available interface for boolean type
 
 IntSupplier			getAsInt()
 DoubleSupplier		getAsDouble()
