@@ -9,7 +9,7 @@ An **ORM** (Object Relationship Mapper) is a tool that can map POJOs to Relation
 
 **Persistance**: To map POJO to table in database.
 
-**Spring Data JPA**: It is an abstraction (interface) provided by the Spring to implement persistence and tools like **Hibernate** implement those functionality in the code.
+**Spring Data JPA**: It is an abstraction (interface) provided by the Spring to implement persistence and tools like **Hibernate** implement those functionality in the code. The goal is to simplify queries and to make the code provider agnostic, so we can swap Postgres for H2 or MySQL and no change will be required in the code.
 
 Most of the annotations used are from `javax.persistance.*` and Hibernate is the default provider when we add the below dependency to enable JPA.
 
@@ -24,16 +24,20 @@ Most of the annotations used are from `javax.persistance.*` and Hibernate is the
 ```java
 // class level
 @Entity		// this POJO is a table
-@Table 		// specify name and constraints on table
-@Embeddable // embed this POJO in another entity
-@AttributeOverrides @AttributeOverride	// to override attribute name with column name in embeddable entity pojo
+@Table 		// optional; specify name and constraints on the table
+@Embeddable // embed this POJO in another entity; notice that it doesn't have @Entity and thus no @Id
+@AttributeOverrides @AttributeOverride	// optional; to override attribute name with column name in embeddable entity pojo
 
 // attribute level
 @Id 		// primary key
-@Column		// specify name and nullable
-@SequenceGenerator @GeneratedValue	// generate a sequence everytime a row is added
-@Embedded	// embed another POJO into this entity (table)
+@SequenceGenerator @GeneratedValue	// generate a unique number everytime a row is added using sequence
+@Column		// specify name and constraints on a column
+@Embedded	// embed another POJO into this entity (will be made into same table's columns)
+@Transient	// ignore the field; field isn't persisted to database
 ```	
+
+Table name is the class name (same as entity name) by default if not specified with `@Table(name=)`. We can also specify table name with `@Entity(name=)` but this will change the entity name too and it is used in JPQL queries. We then have to use the entity name provided by `name=` everywhere and not the class name. So its better to leave entity name as the class name and use _@Table_ to change table name.
+
 _Code_: https://github.com/abhishekarya1/Spring-Data-JPA-Tutorial
 
 ```txt
@@ -44,7 +48,7 @@ So, camelCase attribute names in POJO becomes snake_case in table column names
 ```
 
 ### More on Entity
-Entity is nothing but projection (subset columns) from the actual table. If our _@Entity_ class name is same as table's then no need of _@Table_ annotation, same goes for _@Column_ too. Also an _@Entity_ class will always need an _@Id_ field to be present inside it.
+Entity is nothing but projection (subset columns) from the actual table. If our _@Entity_ class name is same as table's then no need of _@Table_ annotation, same goes for _@Column_ too. Also an _@Entity_ class will always need an _@Id_ field to be present inside it and a no-args constructor.
 
 We need not have all the columns in _@Entity_. Only those which are available will be fetched, created, or updated just like a normal DTO. Others will be empty or error based on not empty validations.
 
@@ -77,11 +81,22 @@ private String name;
 ## DDL AUTO Property
 Apart from usual connection url, username, password, driver we can also add dependencies to print executed SQL and prettify it too.
 
-Important one is `ddl-auto` property which decides if we can `create`, `update`, or do not modification `none` to schema in the table upon entity persistance and DDL queries.
+Important one is `ddl-auto` property which decides if we can `create`, `update`, or do no modification `none` to schema in the table upon entity persistance and DDL queries.
+
+Here schema refers to the columns in the table.
 
 ```txt
 spring.jpa.hibernate.ddl-auto=update
+
+create 			-- drop all existing tables and create new
+create-drop		-- create tables and drop it upon program finish. used in testing.
+update 			-- add schema but don't delete any prior ones
+none (default)	-- make no changes to any schema
+validate		-- validate existance of schema; if not found then throw exception
 ```
+
+**Create a database manually and specify URL in properties file using `spring.datasource.url` property and when the application is run, all of the _@Entity_ will be made into table in the specified database**.
+
 _References_: https://stackoverflow.com/questions/42135114/how-does-spring-jpa-hibernate-ddl-auto-property-exactly-work-in-spring
 
 ## CommandLineRunner
@@ -127,6 +142,9 @@ Specifying queries explicitly with _@Query_ annotation.
 // JPQL query; based on class attrs and not column names, ?1 is first parameter
 @Query("select s from Student s where s.email = ?1")
 Student getStudentByEmailAddress(String email);		// method name doesn't matter now
+
+@Query("select s.name from Student s where s.is = ?1")
+String getStudentByEmailAddress(Long id);
 ```
 
 ### Native Queries
@@ -138,8 +156,11 @@ Student getStudentByEmailAddress(String email);		// method name doesn't matter n
 ```
 ### Named Params
 ```java
+@Query("select s from Student s where s.email = :email")
+Student getStudentByEmailAddress(String email);
+
 @Query("select s from Student s where s.email = :emailId")
-Student getStudentByEmailAddress(@Param("emailId") String email);
+Student getStudentByEmailAddress(@Param("emailId") String email);	// diff param name that arg name with @Param
 ```
 
 ## Modifying
@@ -156,51 +177,93 @@ Any modifications to be done in transactions so if we use _@Transactional_ on se
 ## Relationships
 ### One-to-One
 ```java
-// at attribute level in CourseMaterial entity
-@OnetoOne
-@JoinColumn(				// foreign key to Course entity
-	name="course_id",
-	referencedColumnName="courseId")
-private Course course;
+// in Onwer entity
+String ownerName;
+String ownerCity;
 
-// a new column called "course_id" will be created in CourseMaterial's table referencing courseId's column in Course's table
+@OneToOne
+Pet pet;
+
+// pet_pet_id column is added to Owner table as a Foreign Key
 ```
 
-Join column named `coulumn_id` is created in `CourseMaterial` referencing `courseId` column from `Course`.
+**Making it bi-directional**:
+```java
+// in Pet entity
+String petName;
+String petType;
+
+@OneToOne(mappedBy = "pet")
+Owner owner;
+
+// no new column created in Pet table when we map back to Owner as pet_id is already added into Owner table
+```
+
+```java
+// explicitly specify column to reference
+
+// in Owner entity
+@OnetoOne
+@JoinColumn(				// foreign key to Pet entity
+	name = "pet_id",
+	referencedColumnName = "petId")
+private Pet pet;
+
+// a new column called "pet_id" will be created in Owner's table referencing petId's column in Pet's table
+```
+
+A column (called Join Column) named `pet_id` is created in `Owner` referencing `petId` column from `Pet`.
 
 #### Cascading
 If there is a one-to-one relation between two tables then we often may try to insert into one table when corresponding data isn't available in other table. 
 
-As in the above example, if we try to input `CourseMaterial` with `Course` object entry previously available in table, it will lead to error since INSERT query will be run only for `CourseMaterial` table. We need to direct hibernate to insert into `Course` table too using cascade in _@OnetoOne_ annotation.
+```java
+Pet pet = Pet.builder().petName("Lucy").petType("Dog").build();
+Owner owner = Owner.builder().ownerName("Abhishek").ownerCity("New Delhi").pet(pet).build();	// pet object has-a relation
+repository.save(owner);
+```
+
+As in the above example, if we try to input `Owner` with `Pet` object entry, it will lead to error since INSERT query will be run only for `Owner` table. We need to direct hibernate to insert into `Pet` table too using cascade in _@OnetoOne_ annotation. **All this can be done by the OwnerRepository only which is hardcoded for Owner `interface OwnerRepository extends JpaRepository<Owner, Long>`!**.
 
 ```java
-@OnetoOne(cascade=CascadeType.ALL)
+@OnetoOne(cascade = CascadeType.ALL)
 ``` 
 
 Other cascade options are also available.
 
 #### Fetch Types
 ```java
-@OnetoOne(cascade=CascadeType.ALL,
+@OnetoOne(cascade = CascadeType.ALL,
 		  fetch = FetchType.LAZY)
 
-// LAZY - fetch CourseMaterial data only on findAll() on CourseMaterial
-// EAGER - fetch both CourseMaterial and corresponding Course data only on findAll() on CourseMaterial
+// LAZY - fetch Owner data only on findAll() on Owner
+// EAGER - fetch both Owner and corresponding Pet data on findAll() on Owner
 ```
 
-#### Bi Directional Relationship
-`CourseMaterial` has reference to `Course` but not the other way round and it is oblivious to existance of `CourseMaterial`. 
+This will fetch all data in `Owner` and `Pet` when `findAll()` is done on `Pet` due to the bi-directional mapping and `FetchType.ALL`.
+
+#### More on Bi Directional Mapping
+`Owner` has reference to `Pet` but not the other way round and it is oblivious to existance of `Owner`.
+
 ```java
-// in Course entity
-@OnetoOne(mappedBy = "course",		// attr in CourseMaterial entity defining one-to-one relation
-		  optional = false)			// a Course must have a CourseMaterial
-private CourseMaterial courseMaterial;
+// in Pet entity
+@OnetoOne(mappedBy = "pet",		// attr in Owner entity defining one-to-one relation
+		  optional = false)			// a Pet must have an Owner
+private Owner owner;
 ```
 
-This will fetch all data in `CourseMaterial` and `Course` when `findAll()` is done on `Course` due to the bi-directional mapping and fetchType.
+We won't be able to insert data in `Pet` table alone now using `PetRepository`'s `.save(pet)` as it will lead to error since its not optional now. And if we want to insert to `Owner` table using `Owner`'s' object then we need to add cascade too.
+```java
+@OneToOne(mappedBy = "pet", 
+		  optional = false, 
+		  cascade = CascadeType.ALL)
+private Owner owner;
+```
+
+This will make sure that all pets have an owner and we can insert pets with owner info.
 
 ### One-to-Many
-One teacher can teach many courses.
+One owner can own many pets.
 
 ```java
 // in Teacher entity
