@@ -4,8 +4,8 @@ date =  2022-05-15T09:38:00+05:30
 weight = 7
 +++
 
-## Exceptions vs. Errors
-Exceptions and errors are deviant behaviour from the correct one. Exceptions can be **checked** (expected) or **unchecked** (not expected) and errors are usually non-recoverable JVM errors.
+## Exception vs. Error
+Exceptions and errors are deviant behaviour from the correct one. Exceptions can be **checked** (expected) or **unchecked** (not expected) and errors are usually non-recoverable JVM errors (not expected).
 
 {{<mermaid>}}
 graph TB;
@@ -19,18 +19,39 @@ graph TB;
 
 **Checked Exceptions**: All subclasses of `java.lang.Exceptions` except `java.lang.RuntimeException`
 
-**Unchecked Exceptions**: `java.lang.RuntimeException`
+**Unchecked Exceptions**: All subclasses of `java.lang.RuntimeException`
 
-We can handle all but good practice not to handle or declare _unchecked exceptions_ and _errors_.
+We can handle all of them with `catch` blocks but good practice not to handle or declare _unchecked exceptions_ and _errors_.
 
 ## Checked Exceptions
-Java follows the principle of **handle or declare** when it comes to checked exceptions. So we either use `catch` block to handle or declare in method.
+Java follows the principle of **handle or declare** when it comes to **checked exceptions**. So we either use `catch` blocks to handle or declare after containing method's signature.
 
-### throws
-**Method declaration**: Declare all expected exceptions in the declaration and no need to handle them inside that method. The parent method must also either declare or handle.
+### throw
+Since exceptions are classes, always use `new` to throw.
+```java
+throw new SQLException();   // valid
+throw SQLException();       // invalid
+```
+
+We can pass an optional message into exception's constructor.
+```java
+throw new SQlException("lorem ipsum dolor sit amet");
+```
+
+`throw` can lead to unreachable code causing compiler-error.
 
 ```java
-void foo() throws IOException{		// declare in calling method
+try{
+    throw new SQLException();
+    System.out.println("Hello!")    // unreachable code, compiler error
+}
+```
+
+### throws
+**Method exception declaration**: Declare all expected (**Checked only**) exceptions in the declaration and no need to handle them inside that method. The parent method must also either declare or handle (aka **Propagation**).
+
+```java
+void foo() throws IOException{		// declare in calling method too
 	bar();
 }
 
@@ -38,14 +59,34 @@ void bar() throws IOException{ }
 
 ------------------------------------------------------------------
 
-void foo(){
+void foo(){         // no propagation req since we handled it inside method body
 	try{
 		bar();
 	}
-	catch(IOException e){ }			// catch in calling method
+	catch(IOException e){ }			// catch in calling method (handle)
 }
 
 void bar() throws IOException{ }
+```
+
+```java
+// we don't need to handle-or-declare Unchecked Exceptions or Errors
+
+void fun(){         // no declaration or handling req
+    throw new RuntimeException();
+}
+```
+```java
+// we can declare with "throws" even if method body doesn't throw the exception but we will need to handle or declare in calling method
+
+void foo() throws IOException{ }
+
+void bar() throws IOException{       // declare (propagate)
+// try{         
+    foo();
+// }
+// catch(IOException e){ }      // or handle
+}
 ```
 
 **Overriding**: An overriding method (subclass) can declare fewer exceptions than those already declared by the overriden method (superclass). In simple words, we can't add more **checked** exceptions to subclass method, **but can add unchecked ones and subclass of exception declared in superclass method**.
@@ -71,7 +112,7 @@ class B extends A {
 
 Since the exceptions list are inherited by subclass, we can't add more because the overriden method can be called from parent reference and it won't expect the new error introduced in subclass method and catch can be written without it. 
 
-**Overriding replaces method on both references but it's done at runtime** so it can't be identified at compile-time and below issue will not be flagged if we allow subclass method to add exceptions to list:
+Below security issue will ensue if we allow a subclass method to add exceptions to list during compile-time:
 
 ```java
 class A{
@@ -79,7 +120,7 @@ class A{
 }
 
 class B extends A {
-	void foo() throws IOException{ }       // invalid; but lets suppose this is valid
+	void foo() throws IOException{ }       // compiler-error; but lets suppose this is valid
 }
 
 public static void main(String args[]){
@@ -88,27 +129,6 @@ obj.foo();		// no handling required; class A declared no exceptions so need to c
 
 B obj2 = new B();
 obj2.foo();		// have to handle or declare IOException due to this line
-}
-```
-
-### throw
-Since exceptions are classes, always use `new` to throw.
-```java
-throw new SQLException();	// valid
-throw SQLException();		// invalid
-```
-
-We can pass an optional message into exception's constructor.
-```java
-throw new SQlException("lorem ipsum dolor sit amet");
-```
-
-`throw` can lead to unreachable code causing compiler error.
-
-```java
-try{
-	throw new SQLException();
-	System.out.println("Hello!")    // unreachable code, compiler error
 }
 ```
 
@@ -121,8 +141,8 @@ catch (Exception e){
 }
 ```
 
-## Handling (try-catch)
-`try` must have atleast a single `catch` or a `finally`.
+## Handling (try-catch-finally)
+Each `try` must have atleast a single `catch` or a `finally`.
 
 One `try` can have multiple `catch` (beware of unreachable ones).
 
@@ -132,6 +152,22 @@ catch(Exception	e){	}
 finally{	}
 ```
 
+If a **particular exception is never thrown in try block**, we can't write `catch` for it:
+```java
+try{ }                       // empty try block
+catch(IOException e){       // compiler-error; Exception 'java.io.IOException' is never thrown in the corresponding try block
+    System.out.println(e);
+}
+
+-----------------------------------------
+
+try{ }
+catch(Exception e){       // valid!
+    System.out.println(e);
+}
+```
+
+
 **catch block chaining**: Super class is allowed only after more specific ones because there may be exceptions to be caught that may not belong to subclass `catch` block but will be caught by superclass `catch` block.
 
 ```java
@@ -139,7 +175,7 @@ catch(IOException e){ }		// subclass
 catch(Exception e){ }		// superclass; valid
 
 catch(Exception e){ }		// superclass
-catch(IOException e){ }		// unreachable code
+catch(IOException e){ }		// unreachable code; compiler-error
 ```
 
 **Multi-catch block**: Separated by `|` character, only a single object `e` of either. **It can't have related classes**.
