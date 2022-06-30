@@ -7,6 +7,8 @@ weight = 3
 ## Spring Data JPA
 An **ORM** (Object Relationship Mapper) is a tool that can map POJOs to Relations (tables) in a database and vice-versa and it can also express relation between them in code itself. It also simplifies querying as we can query on particular POJOs now instead of writing SQL queries.
 
+ORMs are generally slower than native SQL since they just add another layer of abstraction.
+
 **Persistance**: To map POJO to table in database.
 
 **Spring Data JPA**: It is an abstraction (interface) provided by the Spring to implement persistence and tools like **Hibernate** implement those functionality in the code. The goal is to simplify queries and to make the code provider agnostic, so we can swap Postgres for H2 or MySQL and no change will be required in the code.
@@ -203,7 +205,7 @@ Owner owner;
 // explicitly specify column to reference
 
 // in Owner entity
-@OnetoOne
+@OneToOne
 @JoinColumn(				// foreign key to Pet entity
 	name = "pet_id",
 	referencedColumnName = "petId")
@@ -226,14 +228,14 @@ repository.save(owner);
 As in the above example, if we try to input `Owner` with `Pet` object entry, it will lead to error since INSERT query will be run only for `Owner` table. We need to direct hibernate to insert into `Pet` table too using cascade in _@OnetoOne_ annotation. **All this can be done by the OwnerRepository only which is hardcoded for Owner `interface OwnerRepository extends JpaRepository<Owner, Long>`!**.
 
 ```java
-@OnetoOne(cascade = CascadeType.ALL)
+@OneToOne(cascade = CascadeType.ALL)
 ``` 
 
-Other cascade options are also available.
+Other cascade options like `PERSIST` and `DELETE` are also available.
 
 #### Fetch Types
 ```java
-@OnetoOne(cascade = CascadeType.ALL,
+@OneToOne(cascade = CascadeType.ALL,
 		  fetch = FetchType.LAZY)
 
 // LAZY - fetch Owner data only on findAll() on Owner
@@ -247,7 +249,7 @@ This will fetch all data in `Owner` and `Pet` when `findAll()` is done on `Pet` 
 
 ```java
 // in Pet entity
-@OnetoOne(mappedBy = "pet",		// attr in Owner entity defining one-to-one relation
+@OneToOne(mappedBy = "pet",		// attr in Owner entity defining one-to-one relation
 		  optional = false)			// a Pet must have an Owner
 private Owner owner;
 ```
@@ -266,57 +268,93 @@ This will make sure that all pets have an owner and we can insert pets with owne
 One owner can own many pets.
 
 ```java
-// in Teacher entity
-@OnetoMany(cascade=CascadeType.ALL)
-@JoinColumn(
-	name = "teacher_id",
-	referencedColumnName="teacherId"
-)
-private List<Course> course;
+// in Owner entity
+@OneToMany
+private List<Pet> petList;
 ```
 
-A `teacher_id` column is created in `Course` since our reference column was in Teacher so it added to Course too.
+A new table `owner_pet_list` is created having two columns i.e. primary keys (`owner_id` and `pet_id`) of both the tables and they are also foreign keys to original tables. A `UNIQUE` constraint on `pet_id` is there too since one owner has many pets and each pet is unique.
 
-We can make this bi-directional too using `@ManytoOne` and `mappedBy` property in `Course` entity.
+```txt
+owner_id     pet_id (UNIQUE)
+--------	 ------
+1  				1
+1 				2
+1 				3
+```
+
+If we make `owner_id` as unique then such mapping won't be possible. The "one" side of OneToMany and ManyToOne always has to be repeated (non-unique) to make sense since we can't represent many pets for one unique owner in the table but can represent owner for each unique pet.
+
+**To avoid making another table use Join Column**:
 ```java
-@ManytoOne(mappedBy="course")
-private Teacher teacher;
+// in Owner entity
+@OneToMany
+@JoinColumn(
+	name = "owner_id",
+	referencedColumnName="ownerId"
+)
+private List<Pet> petList;
 ```
+
+A `owner_id` column is created in `Pet` since our reference column was in Owner so it got added to Pet too. We can't make this bi-directional since `mappedBy = ...` isn't supported in _@ManyToOne_.
+
+**Can't we add Join Column `pet_id` to Owner (and `referencedColumnName = "petId"`) like we did in OneToOne mapping?** No, it will be runtime error when forming queries. If we do that, one `owner_id` cannot have multiple `pet_id` in Owner table since `owner_id` is PK. We need `owner_id` to be redundant so we add it to Pet table as a non-unique column. For this reason, the Many-to-One side is the owner of relationship as per JPA specification as shown below.
 
 ### Many-to-One
-Better than One-to-Many acc to JPA spec.
+Better than One-to-Many acc to JPA spec. Many-to-One are (almost) always the owner side (i.e having Join Column) of a bidirectional relationship in the JPA spec, and by convention the One-to-Many association is annotated by `@OneToMany(mappedBy = ...)`. To promote this, JPA doesn't even provide `mappedBy` property on _@ManyToOne_ annotation.
+
+This one is straightforward like the _@OneToOne_ examples above:
 ```java
-// in Course entity
-@ManytoOne(cascade=CascadeType.ALL)
-@JoinColumn(
-	name = "teacher_id",
-	referencedColumnName="teacherId"
-)
-private Teacher teacher;
+// in Pet entity
+@ManyToOne
+@JoinColumn(name = "owner_id", referencedColumnName = "ownerId")
+private Owner owner;
 ```
-We can make this bi-directional too using `@OnetoMany` and `mappedBy` property in `Teacher` entity.
+
+Making it bi-directional:
 ```java
-@OnetoMany(mappedBy="teacher")
-private List<Course> course;
+// in Owner entity
+@OneToMany(mappedBy = "owner")
+private List<Pet> petList;
 ```
 
 ### Many-to-Many
-Many students can have multiple courses. We always need a new table for this kind of relationship that contains columns from both the tables we want to represent many-to-many relationship for.
+Each owner can have many pets. And, each pet can have multiple owners.
+
+We always need a new table for this kind of relationship that contains columns from both the tables we want to represent Many-to-Many relationship for.
 ```java
-// in Course entity
-@ManytoMany(cascade=CascadeType.ALL)
+// in Owner entity
+@ManyToMany
 @JoinTable(
-	name="student_course_map",
-	joinColumn=@JoinColumn(
-		name="course_id",
-		referencedColumnName="courseId"),
-	inverseJoinColumn=@JoinColumn(
-		name="student_id",
-		referencedColumnName="studentId")
+	name = "owner_pet_table",
+	joinColumn = @JoinColumn(
+		name = "owner_id",
+		referencedColumnName = "ownerId"),
+	inverseJoinColumn = @JoinColumn(
+		name = "pet_id",
+		referencedColumnName = "petId")
 )
-private List<Student> students;
+private List<Pet> petlist;
 ```
-No need to do this in `Student` entity.
+
+We can use `joinColumns = {}` and `inverseJoinColumns = {}` to specify multiple columns.
+
+```txt
+name - name of third table
+
+joinColumn - assign the column of third table from current entity itself
+
+inverseJoinColumn - assign the column of third table from the associated entity
+
+For attribute type, Set<> etc.. can also be used, I have used List<> here.
+```
+
+**Making it bi-directional**:
+```java
+// in Pet entity
+@ManyToMany(mappedBy = "petList")
+private List<Owner> ownerList;
+```
 
 ## Paging and Sorting
 `JpaRepository` extends from `PagingAndSortingRepository` and we can pass `Pageable` along with a sort param.
