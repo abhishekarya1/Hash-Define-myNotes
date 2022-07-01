@@ -190,16 +190,26 @@ EmptyStringCreatorwithParam methodRef = String::new;	// same method ref as above
 methodRef.myStrCreator("bar");
 ```
 
-Since lambdas are more explicit, all method references can be converted to lambdas but not vice-versa.
+Since lambdas are more explicit, **all method references can be converted to lambdas but not vice-versa**.
 ```java
+// EX 1
 () -> { return 4; }  // can't be written as method ref because it returns a fixed value and doesn't call a method inside
+
+// EX 2
+(obj) -> { return obj.marks; }	// we can't access fields with :: operator in a method reference, only methods
+// if getMarks() getter isn't available, then we can't write it using method ref
+
+// EX 3
+
+interface StringChecker{
+	boolean checker();
+}
 
 var str = "";
 StringChecker lambda = () -> str.startsWith("Zoo");		// call on object + fixed value inside; no input, returns boolean
 
-StringChecker methodReference = str::startsWith; 	// compiler-error; no way to supply a fixed value as input
-StringChecker methodReference = str::startsWith("Zoo"); // compiler-error
-
+StringChecker methodReference = str::startsWith; 	// compiler-error; no way to supply a fixed value ("Zoo") as input
+StringChecker methodReference = str::startsWith("Zoo"); // compiler-error; invalid syntax
 ```
 ## Built-in Functional Interfaces
 ```java
