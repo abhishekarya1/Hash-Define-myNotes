@@ -48,8 +48,8 @@ Data Access Layer -> JPA (spec) -> Hibernate (impl engine) -> JDBC -> Database
 
 // attribute level
 @Id 		// primary key
-@SequenceGenerator @GeneratedValue	// generate a unique number everytime a row is added using sequence
-@Column		// specify name and constraints on a column
+@SequenceGenerator @GeneratedValue	// generate a unique number everytime or use a sequence
+@Column		// specify name and constraints on a column (nullable, unique, updatable, length, etc...)
 @Embedded	// embed another POJO into this entity (will be made into same table's columns)
 @Transient	// ignore the field; field isn't persisted to database
 ```	
@@ -77,7 +77,10 @@ _References_ (interface and constructor expression techniques): https://stackove
 ## Hibernate Validations
 
 ```xml
-spring-boot-starter-validation
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-validation</artifactId>
+</dependency>
 ```
 Many annotation based validations can be specified in _@Entity_ class directly. When we convert (deserialize) from JSON to POJO, these validations are performed and BAD_REQUEST status is returned along with messsage (if specified) in place of JSON value.
 ```java
@@ -86,6 +89,7 @@ private String name;
 
 @Length(min=1, max=5)
 @Size(min=0, max=10)
+@Temporal(TemporalType.DATE)
 @Email
 @Positive
 @Negative
@@ -96,8 +100,8 @@ private String name;
 @PastOrPresent
 ```
 
-## DDL AUTO Property
-Apart from usual connection url, username, password, driver we can also add dependencies to print executed SQL and prettify it too.
+## Hibernate DDL AUTO Property
+Apart from usual connection url, username, password, driver we can also add properties to print executed SQL and prettify it too.
 
 Important one is `ddl-auto` property which decides if we can `create`, `update`, or do no modification `none` to schema in the table upon entity persistance and DDL queries.
 
@@ -113,7 +117,7 @@ none (default)	-- make no changes to any schema
 validate		-- validate existance of schema; if not found then throw exception
 ```
 
-**Create a database manually and specify URL in properties file using `spring.datasource.url` property and when the application is run, all of the _@Entity_ will be made into table in the specified database**.
+**Create a database manually and specify URL in properties file using `spring.datasource.url` property and when the application is run, all of the _@Entity_ will be made (or mapped, if they already exist) into table in the specified database**.
 
 _References_: https://stackoverflow.com/questions/42135114/how-does-spring-jpa-hibernate-ddl-auto-property-exactly-work-in-spring
 
@@ -214,7 +218,7 @@ String petType;
 @OneToOne(mappedBy = "pet")
 Owner owner;
 
-// no new column created in Pet table when we map back to Owner as pet_id is already added into Owner table
+// no new column created in Pet table when we map back to Owner as pet_id is already available into Owner table
 ```
 
 ```java
@@ -254,7 +258,7 @@ Other cascade options like `PERSIST` and `DELETE` are also available.
 @OneToOne(cascade = CascadeType.ALL,
 		  fetch = FetchType.LAZY)
 
-// LAZY - fetch Owner data only on findAll() on Owner
+// LAZY - fetch Owner data only on findAll() on Owner (default)
 // EAGER - fetch both Owner and corresponding Pet data on findAll() on Owner
 ```
 
@@ -269,6 +273,8 @@ This will fetch all data in `Owner` and `Pet` when `findAll()` is done on `Pet` 
 		  optional = false)			// a Pet must have an Owner
 private Owner owner;
 ```
+
+No new column is created in this (`Pet`) entity's table when we have a `mappedBy` bi-directional relationship.
 
 We won't be able to insert data in `Pet` table alone now using `PetRepository`'s `.save(pet)` as it will lead to error since its not optional now. And if we want to insert to `Owner` table using `Owner`'s' object then we need to add cascade too.
 ```java

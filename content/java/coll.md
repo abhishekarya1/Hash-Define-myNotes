@@ -410,7 +410,7 @@ class Bar implements Foo{
 ### Limitations of Generics
 1. Can't do `new T()`
 2. Can't do `new T[10]`
-3. Can't call `instanceof` because of Type Erasure
+3. Can't call `instanceof T` because of Type Erasure
 4. Can't use primitive type with generics, instead we use wrapper classes
 5. Can't use `static` variable as generic type, because the type is linked to the instance of the class
 
