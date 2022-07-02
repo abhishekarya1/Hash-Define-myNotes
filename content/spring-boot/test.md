@@ -277,6 +277,8 @@ verifyNoMoreInteractions(repository);
 ### Mockito Exceptions
 Mockito can detect unneccessary stubbings and throws `UnnecessaryStubbingException` upon detection (strict stubbing).
 
+If this exception is there, the stubbing is either redundant or unreachable.
+
 Use `lenient()` on stub to disable strict stubbing.
 ```java
 lenient().doNothing().when(itemRepository).saveItem();
