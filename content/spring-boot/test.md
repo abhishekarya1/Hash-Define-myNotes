@@ -22,11 +22,13 @@ graph TB;
     A --> D(3rd Party Extensions)
 {{< /mermaid >}}
 
-**Platform**: Contains test execution engine
+**Platform**: Contains test execution engine and below 3 APIs
 
-**Jupiter API**: for writing new tests
+- **Jupiter API**: for writing new tests
 
-**Vintage API**: for writing tests compatible with JUnit4
+- **Vintage API**: for writing tests compatible with JUnit4
+
+- **3rd Party Extensions**: for writing other kinds of tests 
 
 ## Writing Tests
 ```java
@@ -39,11 +41,12 @@ class FoobarTest{
 }
 
 // empty body of a test is a "PASS"!
+// no news = good news
 ```
 
 ### Assertions
 ```java
-// statically imported; most methods have a third optional param which is a test failure message
+// statically imported; most methods have an optional param which is a test failure message
 assertEquals(expected, actual, "optional fail message");
 assertNotEquals(expected, actual);
 assertNull(expr);
@@ -57,8 +60,8 @@ assertThrows(ArithmeticException.class, () -> foobar());	// here foobar() can th
 
 assertAll(
 	() -> assertEquals(a, foo()),
-	() -> assertEquals(b, bar()),
-	() -> assertEquals(c, xyz())
+	() -> assertNotNull(b),
+	() -> assertTrue(xyz())
 	);
 ```
 _References_: https://junit.org/junit5/docs/current/api/org.junit.jupiter.api/org/junit/jupiter/api/Assertions.html
@@ -77,17 +80,17 @@ void testFun(){ }
 @AfterEach
 void testFun(){ }
 
-// execute hook once after all tests
+// execute hook once after all tests; has to be static
 @AfterAll
 static void testFun(){ }
 ```
 
 ### Test Instance
-For each _@Test_, a new instance of the test class is created. Ramifications of this is that if we have a shared instance variable placed in our test class, it can't share values in between test runs. Its a good practice to make the tests self-contained and this is done to promote that behaviour.
+For each _@Test_, a new instance of the test class is created. Ramifications of this is that if we have a shared mutable instance variable placed in our test class, it can't share updated values (states) in between test runs. Its a good practice to make the tests self-contained and this is done to promote that behaviour.
 
 If for some reason, we have to create an instance per class (once), we can do so:
 ```java
-@TestInstance(TestInstance.Lifecycle.PER_CLASS)		// or Lifecycle.PER_METHOD
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)		// or Lifecycle.PER_METHOD (default)
 class FoobarTest{
 	// body
 }
@@ -97,7 +100,7 @@ class FoobarTest{
 
 ### Scaling Tests
 ```java
-@Disabled		// skips running the test but shows in IDE
+@Disabled		// skips running the test but shows in IDE upon run (greyed out)
 void testFun(){ }
 ```
 
@@ -108,21 +111,24 @@ void testFun(){ }
 @EnabledIf
 @EnabledIfSystemProperty
 @EnabledIfEnvironmentVariable
+
+// corresponding @DisabledOn... and @DisabledIf for all of the above are available too
 ```
 
-When assumptions are false, test will be disabled mid-run.
+### Assumptions
+If assumptions are wrong, test will be disabled mid-run. No failure, rather it will be disabled.
 ```java
-// static import
 assumeTrue(expr);
+
+assumeFalse(expr);
 ```
 
 ### Nested Test Classes
+Nested tests appear under submenu in IDE. If a nested test fails, every ancestor class also fails.
 
-Nested tests appear under submenu in IDE. If a nested test fails, every parent test class also fails.
+Tests in nested classes won't work without the _@Nested_ annotation. 
 
 ```java
-// nested class
-
 class FoobarTest{
 	
 	@Nested
@@ -135,6 +141,8 @@ class FoobarTest{
 	@Test
 	void testFoo(){ }
 }
+
+// multiple levels of nesting is also allowed
 ```
 
 Use display names for better readability.
@@ -144,19 +152,6 @@ class CountryTests(){ }
 
 @DisplayName("Check if country is Canada")		// on a test method
 void testCanada(){ }
-```
-
-### Repeating Tests
-```java
-@RepeatedTest(n)		// runs test n times
-void testFun(){ }
-
-// everytime it passes a RepetitionInfo object to our test method
-@RepeatedTest(RepetitionInfo repInfo)
-void testFun(){ 
-	repInfo.getTotalRepetitions();
-	repInfo.getCurrentRepetition();
-}
 ```
 
 ### Tagging Tests
@@ -169,16 +164,27 @@ void testCanada(){ }
 // create a run configuration in the IDE to exclude or include selected tags from test execution
 ```
 
-## Running Tests
-The "Maven Surefire Plugin" enables us to run test with maven commands like `mvn test`. The `spring-boot-maven-plugin` added by default by the Spring Initializr takes care of this.
+### Repeating Tests
+```java
+@RepeatedTest(3)		// runs test 3 times
+void testFun(){ }
 
+// everytime it passes a RepetitionInfo object to our test method
+@RepeatedTest(RepetitionInfo repInfo)
+void testFun(){ 
+	repInfo.getTotalRepetitions();
+	repInfo.getCurrentRepetition();
+}
+```
 
+---
 ## Mockito
 Framework to mock layers below the layer we want to test.
 
-
 ### Mocking
-Any mocked object is `null` and has to be stubbed before using.
+Use _@Mock_ to mock objects. Every method call we make on mocks will return `null` or `[]` or `0` unless we stub its methods with (`when`-`then`).
+
+Its just like a wireframe with all the method names, their return types, etc... available to it but can't run any logic inside of them. We use stubs to provide logic to Mocks.
 ```java
 // 1: using annotation
 @Mock
@@ -187,7 +193,7 @@ Foobar foobar;
 MockitoAnnotations.openMocks(this);		// enable annotation otherwise foobar will be null
 
 // 2: programmatically
-Foobar foobar = mock(Foobar.class)		// no need to enable with any other statement
+Foobar foobar = mock(Foobar.class);		// no need to enable with any other statement
 
 // 3: use annotation without need to enable it if we add any of the below annotations on test class
 @ExtendWith(SpringExtension.class)
@@ -195,18 +201,21 @@ Foobar foobar = mock(Foobar.class)		// no need to enable with any other statemen
 ```
 
 ### InjectMocks
-**@InjectMocks**: Injects mocks into the class and creates a _@Mock_ for the class.
+If we create a _@Mock_ of a class that has other classes in it, then those included classes will be `null`. We should create _@Mock_ for each of the constituent classes and inject into the parent. 
+
+**@InjectMocks**: Create a _@Mock_ and inject all other _@Mock_ in the current test class into it.
 ```java
+// Game class
 class Game {
     private Player player;
 }
 
-// in the GameTest class
+// GameTest class
 @Mock
 Player player;
 
 @InjectMocks
-Game game;		// since game requires player mock
+Game game;		// since game requires player
 ```
 
 ### Spying
@@ -217,31 +226,39 @@ It actually calls the method and returns live data if not stubbed.
 @Spy
 Foobar foobar;
 
-Foobar foobar = spy(Foobar.class)
+Foobar foobar = spy(Foobar.class);
+
+// notice that if it not stubbed, this will actually call the method
 ```
 
 ### Stubbing
 ```java
 when(repository.getStudentNameById(Mockito.anyLong())).thenReturn("John");
-when(repository.getStudentNameById(Mockito.anyLong())).thenThrow(SQLException.class);
+
+
+when(repository.getStudentNameById(Mockito.anyLong())).thenThrow(new IOException());	// method must "throws" this exception
+when(repository.getStudentNameById(Mockito.anyLong())).thenThrow(IOException.class);
+
 
 doReturn("John").when(repository).getStudentNameById(Mockito.anyLong());
-
-System.out.println(repository.getStudentNameById(5));		// "John"
 ```
 
-**Multiple call stubbing**: If we call a method multiple times from the class under test.
+**Multiple call stubbing**: Stubbing multiple calls of a method.
 ```java
 when(repository.getStudentNameById(Mockito.anyLong())).thenReturn("John", "Maya", "Ram");
 when(repository.getStudentNameById(Mockito.anyLong())).thenReturn("John").thenReturn("Maya").thenReturn("Ram");
 ```
-**Stub void methods**:
+**Stub void methods**: They will not run at all so no side-effects, will just do nothing.
+
+We can't stub methods that return `void` with `then` methods, we have to use `do` methods for that.
 ```java
 doNothing().when(itemRepository).saveItem();	// save() returns void
-doThrow(SQLException.class).when(itemRepository).saveItem();	// save() returns void
+
+doThrow(new IOException()).when(itemRepository).saveItem();	// save() returns void; must "throws" this exception
+doThrow(IOException.class).when(itemRepository).saveItem();
 ```
 
-### Behavior Verification
+### Behaviour Verification
 When a Mockito object is created, it remembers everything we do on it. Verification of calls happen in the order in which they are written.
 ```java
 verify(repository).foobar("John");	// test fails if foobar() is never called with param "John"
@@ -256,6 +273,31 @@ verifyNoInteractions(repository);
 // <put a verify statement here before verifying no more interactions>
 verifyNoMoreInteractions(repository);
 ```
+
+### Mockito Exceptions
+Mockito can detect unneccessary stubbings and throws `UnnecessaryStubbingException` upon detection (strict stubbing).
+
+Use `lenient()` on stub to disable strict stubbing.
+```java
+lenient().doNothing().when(itemRepository).saveItem();
+```
+
+### Limitations in Stubbing
+We can't stub `private` methods that aren't callable from our test class.
+
+Usually we have a `public` method making calls to multiple private methods during test execution and we can't stub the output of those `private` methods with Mockito. We have other frameworks like PowerMock (or ReflectionTestUtils) to do such stuff, but we should really avoid that because we should focus on testing functional flow (a unit) rather than individual methods. 
+
+---
+## ReflectionTestUtils
+Provided by Spring. Uses Java Reflection API internally to modify class under test at runtime. We can set fields, invoke methods, and even call `private` methods of an object.
+
+_Guide_: https://www.baeldung.com/spring-reflection-test-utils
+
+---
+## Integration Testing
+So far, we have seen Unit testing. We can up the server and run tests on it when we annotate the test class with _@SpringBootTest_.
+
+The whole Spring application context is initialized and we can use _@MockBean_ to mock classes in this kind of test.
 
 ## References
 - [Java Brains - YouTube](https://www.youtube.com/playlist?list=PLqq-6Pq4lTTa4ad5JISViSb2FVG8Vwa4o)

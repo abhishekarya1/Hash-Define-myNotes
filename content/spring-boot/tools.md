@@ -150,6 +150,7 @@ Provides annotations to avoid writing a ton of boilerplate code.
 @EqualsAndHashCode		// generates hashcode() and equals() for fields of class
 @Value 					// make immutable class (diff from Spring's @Value used to read properties)
 						// all fields are made private and final by default, and setters are not generated
+@SneakyThrows			// throw any checked exception without declaring it! (no compiler-error)
 ```
 
 ```java
