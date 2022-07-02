@@ -135,7 +135,8 @@ Provides annotations to avoid writing a ton of boilerplate code.
 ```
 
 ```java
-@Data					// getter setters
+// class level annotations
+@Data					// generate getter setters for all fields
 @Builder 				// Builder pattern
 @AllArgsConstructor	 	// constructor with all args
 @NoArgsConstructor		// constructor with no args
@@ -151,4 +152,13 @@ Provides annotations to avoid writing a ton of boilerplate code.
 						// all fields are made private and final by default, and setters are not generated
 ```
 
+```java
+// field level annotations
+@Getter			// generate getter for the field
+@Setter 		// generate setter for the field
+
+// specify access modifier
+@Getter(AccessLevel.PRIVATE)	// PUBLIC, PROTECTED, PACKAGE, or NONE (disable)
+String empName;
+```
 **Reference**: https://projectlombok.org/features/all

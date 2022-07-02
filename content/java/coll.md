@@ -468,7 +468,6 @@ public <U extends Number> void inspect(U u){  }
 The `Class`  above can also refer to a Interface type. Also, `extends` is applicable for interface too here, meaning the same as `implements` in this context.
 
 ### Unbounded Wildcard
-
 We can't cast `List<String>` to `List<Object>` since once its made a list of Objects, we can convert it to other subclass types also e.g. `List<Integer>`, `List<Dog>`, etc... So, Java doesn't allow such conversions and we can't use `List<Object>` as a common type.
 
 We need to use `<?>` for all such cases where we need to accept "any" type.
