@@ -4,22 +4,38 @@ date = 2022-06-06T03:29:00+05:30
 weight = 3
 +++
 
+## ORMs and Hibernate
+An **ORM** (Object Relationship Mapper) is a tool that can map POJOs to Rows (in relations) in the database and vice-versa and it can also express relation between them in the code itself. It also simplifies querying as we can query on particular POJOs now instead of writing SQL queries and mapping the output rows onto the fields of POJO.
+
+
+The goal of using an ORM is: To **make code database provider agnostic** by **generating SQL queries from code**, so we can swap Postgres for H2 or MySQL and no change will be required in the code. Ex - [Hibernate](https://hibernate.org/) is an ORM.
+
+ORMs are _generally_ a bit slower than native SQL since they just add another layer of abstraction but imo they are worth it as they can solve a plethora of safety and optimization problems [0].
+
+We can always write DB provider native SQL, handle the mapping manually, and query via JDBC but that's often a very tedious and "manual" task even for simpler applications.
+
 ## Spring Data JPA
-An **ORM** (Object Relationship Mapper) is a tool that can map POJOs to Relations (tables) in a database and vice-versa and it can also express relation between them in code itself. It also simplifies querying as we can query on particular POJOs now instead of writing SQL queries.
+**Persistence**: Map and save data from POJO to a relation in database.
 
-ORMs are generally slower than native SQL since they just add another layer of abstraction.
+JPA goes one step further as it makes the code **ORM framework agnostic**. It is an abstraction (interface/API spec) provided by Java to implement persistence, and ORM frameworks like Hibernate has to implement the functionalities internally.
 
-**Persistance**: To map POJO to table in database.
+The goal of using JPA is: We can **swap different JPA "implementations"** like Hibernate with [others](https://www.eclipse.org/eclipselink/) without any code change at all. 
 
-**Spring Data JPA**: It is an abstraction (interface) provided by the Spring to implement persistence and tools like **Hibernate** implement those functionality in the code. The goal is to simplify queries and to make the code provider agnostic, so we can swap Postgres for H2 or MySQL and no change will be required in the code.
+JPA is described in the `javax.persistence` package.
 
-Most of the annotations used are from `javax.persistance.*` and Hibernate is the default provider when we add the below dependency to enable JPA.
+Hibernate is the de facto provider for JPA in Spring and is added transitively when we add the below dependency to enable JPA.
 
 ```xml
 <dependency>
 	<groupId>org.springframework.boot</groupId>
 	<artifactId>spring-boot-starter-data-jpa</artifactId>
 </dependency>
+```
+
+```txt
+In the code, we write using JPA annotations, JPQL, etc... and it automatically uses ORM (Hibernate) internally. Avoid writing code that is Hibernate specific (org.hibernate)
+
+Data Access Layer -> JPA (spec) -> Hibernate (impl engine) -> JDBC -> Database
 ```
 
 ## Annotations
@@ -402,3 +418,4 @@ System.out.println("courses = " + courses);
 
 ## References
 - Spring Data JPA Tutorial - Daily Code Buffer [[YouTube](https://youtu.be/XszpXoII9Sg)]
+- JavaBrains - JPA and Hibernate Essentials [[YouTube](https://youtube.com/playlist?list=PLqq-6Pq4lTTb3J4IxKEg80LFTUbzm2p7V)]
