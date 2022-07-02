@@ -98,7 +98,7 @@ class FoobarTest{
 // we won't need to make the @BeforeAll and @AfterAll methods "static" now since there is only one instance
 ```
 
-### Scaling Tests
+### Disabling Tests
 ```java
 @Disabled		// skips running the test but shows in IDE upon run (greyed out)
 void testFun(){ }
@@ -285,7 +285,7 @@ lenient().doNothing().when(itemRepository).saveItem();
 ```
 
 ### Limitations in Stubbing
-We can't stub `private` methods that aren't callable from our test class.
+We can't stub `private` methods as they aren't callable from our test class.
 
 Usually we have a `public` method making calls to multiple private methods during test execution and we can't stub the output of those `private` methods with Mockito. We have other frameworks like PowerMock (or ReflectionTestUtils) to do such stuff, but we should really avoid that because we should focus on testing functional flow (a unit) rather than individual methods. 
 
