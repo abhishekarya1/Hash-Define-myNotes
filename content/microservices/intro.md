@@ -78,16 +78,29 @@ In SOA, sharing is quintessential to increase reusability; we don't care about d
 _Reference_: https://www.ibm.com/cloud/blog/soa-vs-microservices
 
 ## Scaling
-**X-Axis** (Cloning services, but they access same centralized data store)
+Scale cube: A 3-D approach to build apps that can scale infinitely.
 
-**Y-Axis** (Functional decomposition of services) (MSA)
+**X-Axis** (Cloning services, replication of database)
 
-**Z-Axis** (Cloning but here each server has its own local data (shard))
+We take a service and clone it along with database. Each clone has its own replica of the database. (aka _Horizontal scaling_)
 
-Some component of the system is responsible for routing each request to the appropriate data store.
-	
-_Reference_: https://microservices.io/articles/scalecube.html
+![](https://i.imgur.com/AiRvczI.png)
 
+**Y-Axis** (Functional decomposition of services, federated database)
+
+We functionally decompose the service into smaller services. Each smaller service is repsonsible for its own data and its mutation. The data store is often a subset of the original database and stores only the information relevant to its owner service. (aka _Microservices architecture_)
+
+![](https://i.imgur.com/sKF4Acn.png)
+
+**Z-Axis** (Cloning services, federated database)
+
+We take a service and clone it, but each service can access a subset (shard) of the original database. Some component of the system is responsible for routing each request to the appropriate shard. (aka _Sharding_)
+
+![](https://i.imgur.com/JjYsnIr.png)
+
+_Reference_: https://akfpartners.com/growth-blog/scale-cube
+
+---
 **Horizontal scaling (Scaling out)** - Adding more machines to existing pool of resources. Ex - Cassandra, MongoDB.
 
 **Vertical scaling** - Adding more power to existing resources. Ex - MySQL, Amazon RDS.
