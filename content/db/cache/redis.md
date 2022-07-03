@@ -166,7 +166,7 @@ Two strategies can be employed for this:
 1. point-in-time dump: either when certain conditions are met (a number of writes in a given period) or when one of the two dump-to-disk commands is called
 2. append-only file: it writes every command that alters data in Redis to disk as it happens (aka [Write-Ahead Logging](/db/rdbms/postgresql/#write-ahead-logging-wal))
 
-Ww can always disable this persistence to use Redis as a pure in-memory cache.
+We can always disable this persistence to use Redis as a pure in-memory cache.
 
 ## References
 - https://redis.com/ebook/redis-in-action
