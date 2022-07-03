@@ -68,7 +68,7 @@ Postgres has "Parallel Query" feature which basically means that it smartly util
 Full-text search is the method of searching single or collection of documents stored on a computer in a full-text based database. This is mostly supported in advanced database systems like SOLR or ElasticSearch. However, the feature is present but is pretty basic in Postgres.
 
 #### Write-Ahead Logging (WAL)
-It is a feature of Postgres where, **the log file is written to and saved (aka _flushed_) to disk before the data files (files having table and index data) are written to and flushed to disk**.
+It is a feature of Postgres where, **the log file is written to and saved (aka _flushed_) to disk before (and more frequently than) the data files (files having table and index data) are written to and flushed to disk**.
 
 If we follow this procedure, we do not need to flush data pages to disk on every transaction commit, because we know that in the event of a crash we will be able to recover the database using the log. We flush log file on every commit. After the transaction is finished, we can flush data pages too on disk.
 

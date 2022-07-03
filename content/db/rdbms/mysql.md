@@ -15,8 +15,8 @@ pre = "<i class='devicon-mysql-plain'></i> "
 
 ### Glossary 
 - **Relation** (Table)
-- **Attributes**, **Fields** (Columns), **Degree** (no. of attributes)
-- **Tuple** (Rows), **Cardinality** (no. of tuples)
+- **Attribute** & **Field** (Column), **Degree** (no. of attributes)
+- **Tuple** & **Record** (Row), **Cardinality** (no. of tuples)
 - **Projection** (subset of columns displayed as the final output)
 
 ### Types of Commands
@@ -600,7 +600,7 @@ id int NOT NULL,
 );
 ```
 
-- **FOREIGN KEY** (Uniquely identifies a row/record in another table)
+- **FOREIGN KEY**: (Uniquely identifies a row/record in another table i.e. it is Primary Key of some other table and doesn't have to be unique in current table)
 
 ```sql
 PersonID int FOREIGN KEY REFERENCES Persons(PersonID)       -- column level

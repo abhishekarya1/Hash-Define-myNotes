@@ -10,33 +10,40 @@ Data structure that points to other data on the database for faster access. Sort
 
 An index is a tree made **on** top of the table, where it is used to access table rows (leaf nodes). Refer diagram link below for more clarity.
 
-Implemented using a subset of columns in `B-Tree`(default), `Hash`, etc...
+Implemented using a subset of columns in `B-Tree`(default in Postgres), `Hash`, etc...
 
 Queries that involve indexed columns are generally significantly faster.
 
 **`PRIMARY KEY` is always indexed by default**.
 
 ```sql
--- creating index on name column in employees table
+-- creating index on emp_office column in employees table
 CREATE INDEX myIndex 
-ON employees(name);
+ON employees(emp_office);
 
 -- index as constraint: UNIQUE INDEX
 CREATE UNIQUE INDEX myIndex
-ON employees(empId);
+ON employees(name);
 ```
 
 #### Types of Indexes
 
-**Clustered**: clustered index uses primary key column values of the table as intermediate nodes in B-Tree. The keys are [**sorted and then stored**](https://docs.microsoft.com/en-us/sql/relational-databases/indexes/clustered-and-nonclustered-indexes-described?view=sql-server-ver16#:~:text=Clustered%20indexes%20sort%20and%20store%20the%20data%20rows%20in%20the%20table%20or%20view%20based%20on%20their%20key%20values) in a B-Tree leafs, and leaf nodes of the tree have **actual table data** and all leafs are sorted in ascending order. The table rows are then rearranged acc to index i.e. primary key having asc order. This is why **only one** clustered index can exist in a given table (since asc sort is unique), whereas, multiple non-clustered indexes can exist for a given table.
+**Clustered / Primary**: clustered index uses primary key column values of the table as intermediate nodes in B-Tree. The table rows are [**sorted acc to key and then stored**](https://docs.microsoft.com/en-us/sql/relational-databases/indexes/clustered-and-nonclustered-indexes-described?view=sql-server-ver16#:~:text=Clustered%20indexes%20sort%20and%20store%20the%20data%20rows%20in%20the%20table%20or%20view%20based%20on%20their%20key%20values) in a B-Tree leafs, and leaf nodes of the tree have **actual table data** and all leafs are in ascending order. Along with sorting, the table rows are also rearranged into blocks so that it suits the index (tree). **Only one** clustered index can exist in a given table (since there can only be 1 PK and only one asc sort for it), whereas, multiple non-clustered indexes can exist for a given table. In most RDBMS, clustered index is automatically created using PK upon table creation.
 
-**Non-Clustered / Secondary**: We can create **multiple** non-clustered indexes for a given table on other attibutes too. The leaf node in the B-Tree are record pointers which point to row in table corresponding to the key value. Access is **slower** than clustered index because of this record pointer redirection (linked-list style). Inserts are faster though since no sorting is performed.
+**Non-Clustered / Secondary**: We can create **multiple** non-clustered indexes for a given table using non-key attibutes. The leaf nodes in the B-Tree are record pointers which point to row/block in table corresponding to the key value. They are often stored separately from table because they have record pointers and not the actual table data. Reading is **slower** than clustered index because of this record pointer redirection (linked-list style). Inserts are faster than clustered index since no sorting is required for leaf nodes.
 
 Postgres doesn't have clustered indexes at all. Also, no limits on the number of indexes on a table in Postgres.
 
-Clustered index outperforms non-clustered indexes for a majority of `SELECT` queries.
+Clustered index outperforms non-clustered indexes for a majority of `SELECT` (read) queries that involve traversing (reverse too) and range based queries.
 
 _B-Tree Diagrams_: https://stackoverflow.com/a/67958216
+
+Other types of index:
+- **Bitmap index** - table data is stored as bitmaps (0-1 arrays) and answering queries is done by performing bitwise operations on them. Suitable for cases where values repeat less frequently e.g. gender.
+- **Dense index** - a file that stores key (PK) value and a record pointer to every corresponding record in the table data file
+- **Sparse index** - a file that stores key (PK) value and a record pointer to every corresponding block in the table data file
+
+_Reference_: [Database index - Wikipedia](https://en.wikipedia.org/wiki/Database_index)
 
 #### Indexes are not magic!
 It is not always guaranteed that index will result in faster queries, for example, using `LIKE` clause even on indexed columns leads to slow queries since we have to match sequentially with the pattern. Other such cases are:
@@ -47,13 +54,13 @@ It is not always guaranteed that index will result in faster queries, for exampl
 
 _Source_: [Hussein Nasser - YouTube](https://youtu.be/oebtXK16WuU)
 
-`B-Tree`(default) index is more suitable for relational, `BETWEEN`, and pattern matching using `LIKE` cases. It is best for general cases.
+`B-Tree`(default in Postgres) index is more suitable for relational, `BETWEEN`, and pattern matching using `LIKE` cases. It is best for general cases.
 
 `Hash` index is more suitable for rows where you know you will be performing equality `=` on frequently.
 
 `GIN` index (Generalized INverted index) is suitable when multiple values are stored in a single column e.g. array, jsonb, etc... 
 
-_Reference_: https://www.postgresqltutorial.com/postgresql-indexes/
+_Reference_: https://www.postgresqltutorial.com/postgresql-indexes
 
 
 
