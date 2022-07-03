@@ -191,6 +191,10 @@ public String getAddress(Customer customer) { }
 @CachePut(value="addresses", unless = "#result.length() < 64")
 public String getAddress(Customer customer) { }
 ```
+
+### Storage in Cache
+Spring will take care of storing in cache based on cache provider. Ex - In the above example, we specify `cacheName` as "students" and Redis will not neccessarily use the same name as-it-is to create keys, the name is often a combination of `cacheName` and various other stuff like student name and other fields whose fetching and decoding is taken care of implicitly.   
+
 ## References
 - https://www.baeldung.com/transaction-configuration-with-jpa-and-spring
 - https://www.baeldung.com/spring-transactional-propagation-isolation

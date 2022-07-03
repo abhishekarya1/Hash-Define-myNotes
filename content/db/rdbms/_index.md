@@ -2,7 +2,7 @@
 title = "RDBMS"
 date =  2020-11-29T18:22:01+05:30
 chapter = true
-weight = 8
+weight = 1
 pre = "<i class='fas fa-table'></i> "
 +++
 

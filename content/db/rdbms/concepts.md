@@ -32,7 +32,7 @@ ON employees(empId);
 
 **Non-Clustered / Secondary**: We can create **multiple** non-clustered indexes for a given table on other attibutes too. The leaf node in the B-Tree are record pointers which point to row in table corresponding to the key value. Access is **slower** than clustered index because of this record pointer redirection (linked-list style). Inserts are faster though since no sorting is performed.
 
-No limits on the number of indexes on a table in PostgreSQL.
+Postgres doesn't have clustered indexes at all. Also, no limits on the number of indexes on a table in Postgres.
 
 Clustered index outperforms non-clustered indexes for a majority of `SELECT` queries.
 

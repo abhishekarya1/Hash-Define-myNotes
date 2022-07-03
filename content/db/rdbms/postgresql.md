@@ -2,7 +2,7 @@
 title = "PostgreSQL"
 date =  2022-06-21T08:40:00+05:30
 weight = 3
-pre = "<i class='devicon-postgresql-plain'></i> "
+pre = "<i class='devicon-postgresql-plain colored'></i> "
 +++
 
 An [open-source](https://www.postgresql.org/about/press/faq/#:~:text=PostgreSQL%20is%20liberally%20licenced%20and,licenced%20and%20owned%20by%20Oracle.), [high performance](https://youtu.be/yxM49iyTUU0) RDBMS with lots of features.
@@ -68,9 +68,13 @@ Postgres has "Parallel Query" feature which basically means that it smartly util
 Full-text search is the method of searching single or collection of documents stored on a computer in a full-text based database. This is mostly supported in advanced database systems like SOLR or ElasticSearch. However, the feature is present but is pretty basic in Postgres.
 
 #### Write-Ahead Logging (WAL)
-It is a feature of Postgres where, on a commit, system saves log file(s) to disk before any of the database changes are written to disk. It increases reliability because in case of a crash during save, we can look at the log and perform tasks again.
+It is a feature of Postgres where, **the log file is written to and saved (aka _flushed_) to disk before the data files (files having table and index data) are written to and flushed to disk**.
 
-In a non-WAL environment, we write to disk everytime we commit database and the database state will be saved to disk. In WAL, on a commit, we will first save log file on disk and then save the database changes to disk, this significantly reduces the number of disk writes.
+If we follow this procedure, we do not need to flush data pages to disk on every transaction commit, because we know that in the event of a crash we will be able to recover the database using the log. We flush log file on every commit. After the transaction is finished, we can flush data pages too on disk.
+
+WAL significantly reduces the number of disk writes as only the log file needs to be flushed to disk to guarantee that a transaction is committed, rather than every data file changed by the transaction.
+
+In a non-WAL environment, we write changed data files to disk everytime we commit and the database state will be saved to disk, if that is successful, a log entry is made and the log is saved to disk.
 
 https://www.postgresql.org/docs/current/wal-intro.html
 
