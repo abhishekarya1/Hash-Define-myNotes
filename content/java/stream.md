@@ -31,13 +31,13 @@ isPresent()				// boolean
 get()					// returns value inside Optional
 // without check if we access - NoSuchElementException
 
-ifPresent(Consumer c)		// use lambda, calls it with value if present
+ifPresent(Consumer)		// use lambda, calls it with value if present
 
-orElse(T other)				// returns other parameter
-orElseGet(Supplier s)		// returns result of calling s
+orElse(T value)				// returns other parameter
+orElseGet(Supplier)		// returns result from Supplier
 
 orElseThrow()			// throws NoSuchElementException
-orElseThrow(Supplier s)	// throws exception created by calling Foobar			
+orElseThrow(Supplier)	// throws exception instance supplied by Supplier
 ```
 
 **Examples**
@@ -53,13 +53,20 @@ o.orElseGet(() -> Math.random());
 o.orElseThrow(() -> new IllegalStateException());
 ```
 
+### Primitive Optionals
+```java
+OptionalInt i = OptionalInt.of(2);
+i.getAsInt();   // 2
+
+// OptionalDouble, OptionalLong are also available
+```
 
 ## Streams
 **Stream** is a sequence of objects. **Stream pipeline** is a sequence of operations we perform on a `Stream`.
 
 `Stream<T>` interface defined in the `java.util.stream` package.
 
-1. **Source**: 
+1. **Source**: a `Stream`
 2. **Intermediate operations**: Each stage's output is a `Stream`, these don't run unless terminal operation runs (Lazy evaluation)
 3. **Terminal operation**: Produces a result (single primitive or object) at last (_reduction_)
 
@@ -67,9 +74,11 @@ o.orElseThrow(() -> new IllegalStateException());
 // finite Stream
 Stream.empty();
 Stream.of(1, 2, 3);
+Stream.of(1, 2, 3).parallel();
 
+// from collection
 coll.stream();
-coll.parellelStream();
+coll.parallelStream();
 
 //infinite Stream
 Stream.generate(Supplier);
@@ -109,9 +118,9 @@ for(Integer i : s){	}	// does not compile
 ```
 ### reduce() and collect()
 ```java
-public T reduce(T identity, BinaryOperator<T> accumulator)		// 1, return type is same as that of seed
-public Optional<T> reduce(BinaryOperator<T> accumulator)		// 2, no seed so return type is Optional
-public <U> U reduce(U identity, BiFunction<U,? super T,U> accumulator, BinaryOperator<U> combiner)		// 3, when dealing with different data types
+public T reduce(T identity, BinaryOperator accumulator)		// 1, return type is same as that of seed
+public Optional<T> reduce(BinaryOperator accumulator)		// 2, no seed so return type is Optional
+public U reduce(U identity, BiFunction accumulator, BinaryOperator combiner)	// 3, when dealing with different data types
 
 // identity is the initial value of the reduction
 // accumulator combines the current result with the current value in the stream
@@ -134,14 +143,14 @@ System.out.println(length); 	// 5
 ```
 **collect()**: Mutable reduction since it stores in a mutable object.
 ```java
-public <R> R collect(Supplier<R> supplier, BiConsumer<R, ? super T> accumulator, BiConsumer<R, R> combiner)
-public <R,A> R collect(Collector<? super T, A,R> collector)
+public R collect(Supplier supplier, BiConsumer accumulator, BiConsumer combiner)
+public R collect(Collector collector)
 
 // examples
 TreeSet<String> set = stream.collect(
  TreeSet::new,		// init
  TreeSet::add,		// accumulate
- TreeSet::addAll);	// combnine all objects if parellel
+ TreeSet::addAll);	// combnine all objects if parallel
 
 // much easier syntax
 stream.collect(Collectors.toCollection(TreeSet::new));
@@ -199,6 +208,12 @@ The intermediate methods we call are processed on each element one-by-one. There
 **First element through entire Stream -> second element through entire stream -> ...**
 
 ```java
+Stream.of("Olaf")
+ .limit(2)
+ .forEach(System.out::print);
+
+// Olaf; limit() is just an upper-bound
+
 var list = List.of("Toby", "Anna", "Leroy", "Alex");
 list.stream()
  .filter(n -> n.length() == 4)
@@ -223,14 +238,6 @@ Stream.generate(() -> "Elsa")
  .forEach(System.out::print);
 
 // ElsaElsa
-
-Stream.generate(() -> "Olaf")
- .filter(n -> n.length() == 4)
- .limit(2)
- .sorted()
- .forEach(System.out::print);
-
-// infinitely hangs; limit keeps waiting for 2 elements but only one is there  
 ```
 
 ### Chaining Pipelines
@@ -257,8 +264,8 @@ OptionalDouble avg = intStream.average();		// sum(), min(), max() also available
 IntStream.range(1, 6);			// 12345
 IntStream.closedRange(1, 6);	// 123456
 
-// The above methods - min(), max(), sum(), average() return a Optional[]
-// use getAsInt or getAsDoiuble to return proper types:
+// The above methods - min(), max(), sum(), average() return an Optional[]
+// use getAsInt or getAsDouble methods on Optional[] to get:
 s.min().getAsInt();
 s.average().getAsDouble(); 
 
