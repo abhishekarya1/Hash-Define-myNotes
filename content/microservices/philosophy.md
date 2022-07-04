@@ -16,7 +16,6 @@ Mastering Chaos - A Netflix Guide to Microservices [[YouTube](https://youtu.be/C
 ### Microservices Tools
 - Registry and Discovery Server (Eureka)
 - API Gateway (Zuul is deprecated; Spring Cloud Gateway API is latest)
-- Load Balancer (Feign Client)
 - Config Server (GitHub)
 - Circuit Breaker (Hystrix is deprecated; Resilience4j is latest)
 - Distributed Logging & Tracing (Sleuth & Zipkin or ELK Stack)

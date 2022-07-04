@@ -120,12 +120,16 @@ We use **Resilience4j** here.
 
 It provides many ways to make the app resilience such as **Circuit Breaker**, **Retry**, **Rate Limiter**, Bulkhead, Time Limiter, and Cache.
 
+- _Circuit breaking_ is a mechanism to avoid making further requests if any resource is unavailable, then making a few requests at regular interval to check the status of availability of that resource. Upon failure on first hit, we can call a fallback method too.
+- _Retrying_ is simply retrying for a few times and waiting for specified time between each attempt.
+- _Rate limiting_ is limiting the amount of requests allowed to be made in a specified time interval.
+
 Requires `starter-actuator` as we can see the circuit state via `/actuator/health` endpoint of the actuator.
 
 We have to put below annotations on the controller method as it is the starting point of the circuit. The `fallbackMethod` _must_ return same type and take as parameter an `Exception` and _must_ be defined in the same class i.e. Controller.
 
 ```java
-// in Controller class on the method using restTemplate
+// in Controller class on the method using restTemplate to make calls to another resource
 @CircuitBreaker(name = "testBreaker", fallbackMethod = "fallBackGetUserDept")
 
 @Retry(name = "testBreaker")
@@ -228,7 +232,18 @@ spring:
 ## Distributed Log Tracing
 We used **Zipkin** and **Sleuth** here inorder to trace logs for a request going through multiple services.
 
-Will need to include Zipkin client and Sleuth dependencies in services.
+Zipkin server JAR is downloaded and runs separately. We need to include Zipkin client and Sleuth dependencies in services.
+```xml
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-sleuth-zipkin</artifactId>
+</dependency>
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-sleuth</artifactId>
+</dependency>
+```
+
 ```yaml
 spring:
   application:

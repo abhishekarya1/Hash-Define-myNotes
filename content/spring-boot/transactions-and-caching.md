@@ -154,6 +154,13 @@ _Explanations_: [Isolation Notes](/db/rdbms/concepts/#issues)
 ## Caching
 By default `spring-boot-starter-cache` will include support for EhCache. To be able to use Redis we need to add custom config class (1) or add `spring-boot-starter-data-redis` and then use properties file to customize it (2). For Ignite we can [create a custom config](https://medium.com/swlh/spring-cache-with-apache-ignite-def103cae35).
 
+```yaml
+# Redis cache config
+spring.cache.type=redis
+spring.redis.host=localhost
+spring.redis.port=6379
+```
+
 Add `@EnableCaching` on main application class to enable caching in Spring Boot.
 
 ```java
