@@ -1,7 +1,7 @@
 +++
 title = "Caching"
 date = 2021-05-23T11:16:29+05:30
-weight = 3
+weight = 4
 +++
 
 ## Caching

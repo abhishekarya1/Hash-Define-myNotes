@@ -160,8 +160,9 @@ header-name: atrrib1=value1; attrib2=value2 ...
 ```
 We can have both user-defined attributes and standard attributes available.
 
-```http
+```foobar
 # some examples
+
 Content-Type: text/html
 Accept: application/xml, application/json
 Date: Fri, 22 Jan 2010 04:00:00 GMT
