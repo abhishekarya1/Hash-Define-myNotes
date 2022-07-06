@@ -75,12 +75,13 @@ When to dicard cached data.
 ```txt
 LRU (Least Recently Used)
 LFU (Least Frequently Used)
+------------------------------ the above two require extra storage to store metadata
 FIFO (First In First Out)
 TTL (Time To Live)
 ```
 
 #### Caching Patterns
-How to populate cache.
+Where to place the cache and how to populate it.
 ```txt
 Cache-aside
 
@@ -99,17 +100,18 @@ _Write-back_ requires all data to be written to the cache first, and in practice
 [Reference](https://notes.eddyerburgh.me/distributed-systems/caching#caching-patterns)
 
 ## HTTP Caching
-
 HTTP is designed to cache as much as possible, so even if no `Cache-Control` is given, responses will get stored and reused if certain conditions are met. This is called **heuristic caching**. All responses should still explicitly specify a `Cache-Control` header.
 
-**Status Codes:** `200 OK`, `301 MOVED PERMANENTLY` , `404 NOT FOUND`, `206 PARTIAL CONTENT`, etc...
+A very old `Last-Modified` response will be implicitly cached and used for sometime since HTTP knows that data which hasn't changed in so long will not change now. This is an example of heuristic caching in HTTP.
+
+It also provides stale data in the response in some cases without validation e.g. when the main datastore is unreachable4.
 
 ### Controlling caching
 HTTP/1.1 introduced `Cache-Control` header to control caching. It can be used in request as well as response. And, its a composite header meaning it supports multiple directives separated by a comma (`,`).
 
 ```txt
 Cache-Control: no-store (no caching anywhere)
-			   no-cache (cache but revalidate from DB everytime)
+			   no-cache (cache everywhere but revalidate from DB everytime)
 			   private (only cache on client, not any proxy)
 			   public (cache everywhere)
 
@@ -119,7 +121,7 @@ Cache-Control: no-store (no caching anywhere)
 			   s-maxage=1000
 
 
-<!-- Force validation; if resource has gone stale -->
+<!-- Force validation; if resource has gone stale, otherwise no effect -->
 			   must-revalidate
 			   proxy-revalidate
 
@@ -133,15 +135,14 @@ Note that if the response has an `Authorization` header, it cannot be stored in 
 [Cache-Control Header - MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Cache-Control)
 
 ### Freshness
-After the expiry time set by `max-age` or `s-maxage`, the data becomes stale and must be validated, not evicted or ignored.
+After the time set by `max-age` or `s-maxage` has elapsed, the data becomes stale and must be revalidated, not evicted or ignored.
 
-We can optionally have a `Age` header which specifies the time a response has spent in proxy caches before reaching the client and after its release from the origin server.
+Note that `max-age` takes into account the time elapsed since the response was generated, and not when it was received by the client. We can optionally have a `Age` header which specifies the time a response has spent in proxy caches before reaching the client and after its release from the origin server.
 
 ```foobar
 Cache-Control: max-age=604800
 Age: 86400
 ```
-
 So, for the client this response remains fresh for another 604800-86400 seconds.
 
 Note: HTTP/1.0 uses `Expires` header to specify date and time but it's not preferred in further versions since date and time are difficult to parse.
@@ -149,15 +150,17 @@ Note: HTTP/1.0 uses `Expires` header to specify date and time but it's not prefe
 ### Vary
 We not only depend upon the URL to cache data but on the content too. 
 
-For example, one URL that accepts both English and Hindi content and specifies it via `Accept-Language` header will require us to cache contents of both types of responses in two separate key-value stores by forming a composite key from `URL + content language name` info. 
+For example, one URL that accepts both English and Hindi content and client specifying it via `Accept-Language: en` or `Accept-Language: hi` headers will require us to cache contents of both types of responses in two separate key-value stores by forming a composite key from `URL + content language` info. 
 
-We can cause the responses to be cached separately by providing _any_ headers names to `Vary`. 
+We can cause the responses to be cached separately by providing _any_ request header name to `Vary` response header. 
 ```foobar
-Vary: Aceept-Language
+Vary: Accept-Language
 ```
 
+Be careful not to `Vary` on headers that change values frequently.
+
 ### Cache Validation
-Validation of cache contents can be triggered if the cached response includes `no-cache` directive or if the resource requested for has gone stale and request has `must-revalidate` directive.
+Validation of cache contents can be triggered if the request includes `no-cache` directive or if the resource requested for has gone stale and request has `must-revalidate` directive.
 
 Server can send us `Etag` or `Last-Modified` headers and we can validate with `If-None-Match` and `If-Modified-Since` headers respectively.
 
@@ -168,16 +171,16 @@ We can generate ETag via any method as its not specified in HTTP docs. Usually a
 
 Upon fetching a resource, server sends an `ETag` value in response to the client. The client can't predict, in any way, the value of the tag. Client issues `If-None-Match` in the header of future requests – in order to validate the cached resource. Upon receiving the Etag back, the server generates an etag for the current state of the resource in the database and matches the two.
 
-If both etags are matched, server will send back the response of `304 Not Modified` which will tell the client that the copy that it has is still good and it will be **considered fresh for another 60 seconds**. If both the etags do not match i.e. the resource has likely changed and client will be sent the new resource which it will use to replace the stale resource that it has.
+If both etags are matched, server will send back the response of `304 Not Modified` which will tell the client that the copy that it has is still good and it will be **considered fresh for another `max-age` seconds**. If both the etags do not match i.e. the resource has likely changed and client will be sent the new resource which it will use to replace the stale resource that it has.
 
 ```foobar
 ETag: "j82j8232ha7sdh0q2882" 	- Strong Etag
 ETag: W/"j82j8232ha7sdh0q2882" 	- Weak Etag (prefixed with `W/`)
 ```
-Weak ETag maybe used for slight changes in resources, often used for dynamic resources.
+Weak ETag is used for slight changes in resources, often used for dynamic resources.
 
 #### Last-Modified (weak)
-A response tag, this is a weak validator because resolution time is 1-second. Server might include the `Last-Modified` header in the response to be cached indicating the date and time at which the resource was last modified on.
+This is a weak validator because resolution time (minimum time gap) is 1-second. Server might include the `Last-Modified` header in the response to be cached indicating the date and time at which the resource was last modified on.
 ```foobar
 Last-Modified: Wed, 15 Mar 2017 12:30:26 GMT
 ```
@@ -186,7 +189,7 @@ The client issues an `If-Modified-Since` request header with same date and time 
 If-Modified-Since: Wed, 15 Mar 2017 12:30:26 GMT
 ```
 
-We can have both `ETag` and `Last-Modified` present in response, `ETag` takes precedence.
+We can have both `ETag` and `Last-Modified` present in response, `ETag` takes precedence and the cached data is revalidated using it.
 
 ### Avoiding Revalidation
 Browsers often send `max-age=0, must-revalidate` on force reloads and that will revalidate every resource. To avoid that we can specify a very long `max-age=999999999` and an `immutable` directive.
@@ -205,9 +208,11 @@ Always revalidates and keeps cache only for client for personalized information.
 
 - Always add a validator (`ETag` or `Last-Modified`) to the request. Prefer `ETag`. 
 
+- `Cache-Control: public` can even cache responses having an `Authorization` header, use it very carefully if at all.
+
 ## References
 - [Caching: CS Notes - eddyerburgh.me](https://notes.eddyerburgh.me/distributed-systems/caching)
 - [HTTP Caching - roadmap.sh](https://roadmap.sh/guides/http-caching)
-- [MDN Docs- Mozilla](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching)
+- [HTTP Caching - MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Caching)
 - [Hussein Nasser - YouTube](https://www.youtube.com/watch?v=ccemOqDrc2I)
 - [Gaurav Sen - YouTube](https://www.youtube.com/watch?v=U3RkDLtS7uY)
