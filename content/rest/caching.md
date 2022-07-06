@@ -189,7 +189,7 @@ The client issues an `If-Modified-Since` request header with same date and time 
 If-Modified-Since: Wed, 15 Mar 2017 12:30:26 GMT
 ```
 
-We can have both `ETag` and `Last-Modified` present in response, `ETag` takes precedence and the cached data is revalidated using it.
+We can have both `ETag` and `Last-Modified` present in response lying in the cache, `ETag` takes precedence and the cached data is revalidated using it.
 
 ### Avoiding Revalidation
 Browsers often send `max-age=0, must-revalidate` on force reloads and that will revalidate every resource. To avoid that we can specify a very long `max-age=999999999` and an `immutable` directive.
