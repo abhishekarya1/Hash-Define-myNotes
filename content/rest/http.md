@@ -155,8 +155,8 @@ Used to exchange meta-information between the client and the server. But, we can
 Headers are **case-insensitive**.
 
 Some headers are request only, some are response only and some can be used with both. Headers can have attributes too.
-```
-header-name: atrrib1=value1; attrib2=value2 ...
+```foobar
+header-name: atrrib1=value1; attrib2=value2; ...
 ```
 We can have both user-defined attributes and standard attributes available.
 
@@ -211,15 +211,12 @@ Content-Encoding: gzip
 ```sh
 # server sets cookies; multiple Set-cookie headers are needed
 Set-Cookie: name=foobar
-Set-Cookie: age=40
+Set-Cookie: city=delhi
 
 # client stores them locally
-# with every subsequent request to the server, the browser sends all previously stored cookies!
 
-# client sends a cookie to the server
-Cookie: name=foobar
-# client sends all cookies to the server
-Cookie: name=foobar; age=40
+# with every subsequent request to the server, the browser sends all previously stored cookies!
+Cookie: name=foobar; city=delhi
 ```
 
 **Cookie Lifetime**:
@@ -229,7 +226,7 @@ Cookie: name=foobar; age=40
 `Expires` date is acc to the client. `Max-Age` is in seconds.
 ```sh
 Set-Cookie: name=foobar; Expires=Mon, 31 Oct 2022 07:28:00 GMT;
-Set-Cookie: age=40; Max-Age=3600
+Set-Cookie: city=delhi; Max-Age=3600
 ```
 
 We can also restrict cookie access to only HTTPS, prevent cookie access from javascript, identifying and disabling third-party cookies, define where cookies are sent, and prevent setting cookies from unsecure connections just by adding attributes to the above two cookie headers.
