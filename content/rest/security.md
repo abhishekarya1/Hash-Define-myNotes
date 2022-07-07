@@ -17,6 +17,11 @@ Token Based Authentication
 	OAuth 2.0
 ```
 
+### Authentication vs Authorization
+Authentication deals with the identity of the user: The "Who are you?" part.
+
+Authorization deals with the access of resources for a user: The "Can you access that?" part.
+
 ## Basic Authentication
 ```foobar
 Authorization: Basic <"username:password" encoded in base64>
@@ -46,7 +51,7 @@ On every request, the server checks if session is still valid for that user. Whe
 
 - Tokens are normally signed with a secret to identify any tampering
 ### API Key
-Provide API key in a custom header (e.g. `X-Api-Key`) to users and include that in requests and it is verified by the server. Simplest method but unsafe.
+Provide API key in a custom header (e.g. `X-Api-Key`) to users and include that in requests and it is verified by the server.
 
 API-key can be present anywhere in header, cookie, query param, body, etc...
 
