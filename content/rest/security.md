@@ -69,7 +69,7 @@ Just like the other token based strategies but only differentiator being the tok
 header.payload.signature
 
 header = base64(tokenMeta)
-payload = base64(ourData)
+payload = base64(claims)
 signature = HMAC_SHA256(header.payload, SECRET)
 ```
 ```json
@@ -80,7 +80,7 @@ signature = HMAC_SHA256(header.payload, SECRET)
 	"alg": "H256"
 }
 
-// ourData: data + claims
+// claims (in this example: 2 custom public + 2 registered)
 {
 	"userid": "XDF-11",
 	"email": "johndoe@gmail.com",
@@ -92,6 +92,7 @@ signature = HMAC_SHA256(header.payload, SECRET)
 ```
 
 - the contents of a JWT are visible to everyone
+- claims can be private too (have names that have no meaning)
 - can be passed in header, body or as a query param
 - we can pass it as `Authorization: Bearer <jwt_token>`
 
@@ -99,6 +100,23 @@ signature = HMAC_SHA256(header.payload, SECRET)
 
 
 ### OAuth 2.0
+Used to get a token from a third party server in order to access its resources.
+
+Our app sends a request to the **authorization server** (often the same as **resource server**) and it decides whether to give access to the requested resources and sends a token back if access is granted. This token can be a JWT Bearer token.
+
+Ex - using Google account to sign-in to GitHub - GitHub triggers Google sign-in page and Google authenticates the user (on sign-in) and then asks if we want to share info with GitHub, if we allow we get a token from Google that GitHub uses to talk to Google in order to access user info.
+
+In the above example, we have used OAuth to authenticate user for GitHub, but beneath the surface OAuth is always about Authorization. We have authorized GitHub to use our info from Google.
+
+Four types of authorization flows (aka **grant types**) for generating a token:
+1. **Authorization code grant flow**: app gets back authorization_code from auth server. Have to make another request to auth server for token.
+2. **Implicit grant flow**: app gets back token from auth server instead of an authorization_code, so a separate request is not required. (also no refresh tokens)
+3. **Password grant flow**: app sends token request alongwith sign-in credentials to the auth server
+4. **Client credential grant flow**: no user interaction (sign-in), app directly requests a token (with client ID and secret), and gets a token back from auth_server
+
+The token we get back has an expiry data-time and accompanied by a refresh token that we use to refresh the main access token when it expires. We simply send the refresh token to auth server and get a new access token back.
+
+
 [Reference](https://roadmap.sh/guides/oauth)
 
 ## References
@@ -107,3 +125,4 @@ signature = HMAC_SHA256(header.payload, SECRET)
 - [Authentication - OpenAPI Guide](https://swagger.io/docs/specification/authentication/)
 - [HTTP Authentication - MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication)
 - [OAuth 2.0 Simplified](https://aaronparecki.com/oauth-2-simplified/)
+- [Diagrams And Movies Of All The OAuth 2.0 Flows - Medium](https://darutk.medium.com/diagrams-and-movies-of-all-the-oauth-2-0-flows-194f3c3ade85)
