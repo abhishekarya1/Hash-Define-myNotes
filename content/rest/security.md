@@ -4,48 +4,101 @@ date = 2021-05-23T21:35:33+05:30
 weight = 5
 +++
 
-## Security
+### Summary
 ```txt
-API Key
-Token Based
-HMAC (Hash-based Message Authorization Code)
-OAuth 2.0
+Basic Authentication
+
+Session Based Authentication
+
+Token Based Authentication
+	API Key
+	Bearer Token
+	JWT
+	OAuth 2.0
 ```
 
-### API Key
-Provide API key to user and include that in request everytime and it is verified everytime a connection is made to server.
+## Basic Authentication
+```foobar
+Authorization: Basic <"username:password" encoded in base64>
+```
 
-### Basic Authentication
+Server checks for `Authorization` header and if not present or invliad credentials, it sends back `www-authenticate` header (a prompt is shown in the browser to input credentials). 
+
+The client then sends `username:password` encoded in base64 in `Authorization: Basic r4Dl3tFaXffsdfsvSse3=` header and it is decoded and credentials are verified on the server. The server either sends `401 Unauthorized` again or `200 OK`.
+
+In APIs, there is no prompt so it acts like a simple API key. Always use HTTPS/TLS with it.
+
 [Reference](https://roadmap.sh/guides/basic-authentication)
 
-Server checks for `Authorization` header and if not present sends back `www-authenticate` header. The client then sends `username:password` encoded in base64 as `Authorization: Basic r4Dl3tFaXffsdfsvSse3=` and the same is verified on server and server either sends `401 (Unauthorized)` or `200 (OK)`.
+## Session Based Authentication
+A random unique identifier called session token (_aka_ session ID) is generated and stored on successful login onto the server and shared back with the client. Client also stores it in either cookies or local storage (if cookies are disabled). The client has to send that token in every subsequent request.
 
-### Session Based Authentication
+On every request, the server checks if session is still valid for that user. When the user logs out, the session id gets deleted from the server and subsequently the client, and that session id is never used again.
+
 [Reference](https://roadmap.sh/guides/session-authentication)
 
-A session token is generated on successful login onto the server and shared back with the client. Client also stores it in either cookies or local storage (if cookies are disabled). The client has to send that token in every request. The token gets deleted from both the server and client when the session ends and never used again.
+## Token Based Authentication
+- Always use HTTPS/TLS in conjunction with token based authentication mechanisms since tokens can be visible to everyone.
 
-### Token Based Authentication
+- Tokens are usually generated on and fetched from the server (using another auth mechanism like username and password) and sent in subsequent requests. They have an expiration time and must be fetched again (refreshed) after that time has passed otherwise they become invalid and server returns a `401` as response status code.
+
+- Client stores the token. Server doesn't store the token (stateless)
+
+- Tokens are normally signed with a secret to identify any tampering
+### API Key
+Provide API key in a custom header (e.g. `X-Api-Key`) to users and include that in requests and it is verified by the server. Simplest method but unsafe.
+
+API-key can be present anywhere in header, cookie, query param, body, etc...
+
+### Bearer
+```foobar
+Authorization: Bearer <token_string>
+```
+Bearer tokens come from OAuth 2.0 specification but they can be used in a standalone way. Bearer tokens don't have a particular meaning unlike Basic tokens.
+
 [Reference](https://roadmap.sh/guides/token-authentication)
 
-A token is generated if credentials are verified, the token is sent to the client and client has to include in every future request to the server, the server doesn't store the token.
+### JWT (JSON Web Token)
+Just like the other token based strategies but only differentiator being the token structure.
+```txt
+header.payload.signature
 
-- server doesn't store it (stateless)
-- has an expiry after which its not usable
-- can be opaque (random string, doesn't contain any useful data for client, like session keys) or self-contained (has useful data to be read by clients, like JWT tokens)
-- normally signed with a secret to identify any tampering
+header = base64(tokenMeta)
+payload = base64(ourData)
+signature = HMAC_SHA256(header.payload, SECRET)
+```
+```json
+// tokenMeta
 
-#### JWT Authentication (JSON Web Token)
+{
+	"typ": "jwt",
+	"alg": "H256"
+}
+
+// ourData: data + claims
+{
+	"userid": "XDF-11",
+	"email": "johndoe@gmail.com",
+	"exp": "1592427938",
+	"iat": "1590969600"
+}
+
+// SECRET - server stores it, used to generate and verify tokens
+```
+
+- the contents of a JWT are visible to everyone
+- can be passed in header, body or as a query param
+- we can pass it as `Authorization: Bearer <jwt_token>`
+
 [Reference](https://roadmap.sh/guides/jwt-authentication)
 
-Just like any other token based strategy but only differentiator being the way in which token is generated.
 
 ### OAuth 2.0
 [Reference](https://roadmap.sh/guides/oauth)
 
-
 ## References
 - [API authentication and authorization](https://idratherbewriting.com/learnapidoc/docapis_more_about_authorization.html)
 - [roadmap.sh guides](https://roadmap.sh/guides)
-- [MDN Docs - Mozilla](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication)
+- [Authentication - OpenAPI Guide](https://swagger.io/docs/specification/authentication/)
+- [HTTP Authentication - MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Authentication)
 - [OAuth 2.0 Simplified](https://aaronparecki.com/oauth-2-simplified/)

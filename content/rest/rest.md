@@ -115,6 +115,17 @@ Accept: application/json; version=1.0
 - pagination
 - caching and security considerations
 
+### OpenAPI Specification
+The OpenAPI Specification is a specification for machine-readable (and humans too) **interface files** for describing, producing, consuming, and visualizing RESTful web services. It was previously called Swagger specification. 
+
+[Swagger](https://swagger.io/tools/swagger-ui/) and some other tools like [ReDoc](https://github.com/Redocly/redoc) can generate code, documentation, and test cases given an interface file. 
+
+It allows such tools to discover and understand the capabilities of the service without access to source code, documentation, or through network traffic inspection, all with just a single file.
+
+The file can be a `json` or a `yaml`.
+
+[A sample swagger file with UI](https://editor.swagger.io/#/edit?import=http://rackerlabs.github.io/wadl2swagger/openstack/swagger/dbaas.yaml)
+
 ### Testing APIs
 GUI: Postman, Insomnia, Hoppscotch
 
