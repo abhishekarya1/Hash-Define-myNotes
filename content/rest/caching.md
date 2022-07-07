@@ -165,13 +165,13 @@ Validation of cache contents can be triggered if the request includes `no-cache`
 Server can send us `Etag` or `Last-Modified` headers and we can validate with `If-None-Match` and `If-Modified-Since` headers respectively.
 
 #### ETag (strong)
-Etag (entity tag) is just a unique identifier that the server attaches with some resource. In subsequent requests, `If-None-Match: <etag_value>` is used to validate.
+Etag (entity tag) is just a unique identifier that the server attaches with some resource. When data is stale in cache, a reuest is sent containing `If-None-Match: <etag_value>` for validation.
 
 We can generate ETag via any method as its not specified in HTTP docs. Usually a collision-resistant hash function is used to assign Etags to each version of a resource. We often use [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier).
 
-Upon fetching a resource, server sends an `ETag` value in response to the client. The client can't predict, in any way, the value of the tag. Client issues `If-None-Match` in the header of future requests – in order to validate the cached resource. Upon receiving the Etag back, the server generates an etag for the current state of the resource in the database and matches the two.
+Upon fetching a resource, server sends an `ETag` value in response to the client. The client can't predict, in any way, the value of the tag. Client issues `If-None-Match` in the header of future validation request – in order to validate the cached resource. Upon receiving the Etag back, the server generates an etag for the current state of the resource in the database and matches the two.
 
-If both etags are matched, server will send back the response of `304 Not Modified` which will tell the client that the copy that it has is still good and it will be **considered fresh for another `max-age` seconds**. If both the etags do not match i.e. the resource has likely changed and client will be sent the new resource which it will use to replace the stale resource that it has.
+If both etags are matched, server will send back the response of `304 Not Modified` which will tell the client that the copy that it has is still good and it will be **considered fresh for another `max-age` seconds**. If both the etags do not match i.e. the resource has likely changed and client will be sent the new resource which it will use to replace the stale resource that the client has.
 
 ```foobar
 ETag: "j82j8232ha7sdh0q2882" 	- Strong Etag
@@ -190,6 +190,8 @@ If-Modified-Since: Wed, 15 Mar 2017 12:30:26 GMT
 ```
 
 We can have both `ETag` and `Last-Modified` present in response lying in the cache, `ETag` takes precedence and the cached data is revalidated using it.
+
+The "client" above, for the purpose of validation refers to the system containing the cache whose data needs to be revalidated. It can be browser (private cache), or a proxy server. When validation is required, request headers like `If-None-Match` are sent by it to the origin server containing the main datastore.
 
 ### Avoiding Revalidation
 Browsers often send `max-age=0, must-revalidate` on force reloads and that will revalidate every resource. To avoid that we can specify a very long `max-age=999999999` and an `immutable` directive.
