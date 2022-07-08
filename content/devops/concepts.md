@@ -7,6 +7,17 @@ pre = "⚙️ "
 
 ### DevOps
 
-![](https://miro.medium.com/max/1050/1*57__j14aNQfmPZyFoS1yRg.png)
+![](https://i.imgur.com/2HPGX8m.png)
 
 ![](https://intland.com/wp-content/uploads/2019/07/devops-infinity-1-1.png)
+
+
+### CI/CD
+
+**Continuous Integration** (CI): the practice of merging all developer's code very frequently to a primary branch.
+
+**Continuous Delivery** (often used for CD): approach in which teams produce software in short cycles, ensuring that the software can be reliably released at any time.
+
+**Continuous Deployment** (sometimes uesd for CD): approach in which software is deployed more often using automated deployments.
+
+Reference: Wikipedia Articles
