@@ -59,9 +59,86 @@ _References_:
 - [Certificate Authority - Wikipedia](https://en.wikipedia.org/wiki/Certificate_authority)
 
 ## CORS
+Cross-Origin Resource Sharing (CORS) is an HTTP-header based mechanism that allows **a server to indicate** any origins (domain, scheme, or port) other than its own from which a browser should permit loading resources.
+
+It relies on a mechanism in which browsers make a "preflight" request (`OPTIONS` verb) to the server specifying the headers and methods it wants to send to the server and the server replies back with the allowed origins and methods. After which the actual request can be made by the browser, if allowed. Else, the request is never made.
+
+**If the server doesn't send back CORS headers (_it isn't CORS-aware_), we get a CORS error** and no resource access is allowed in this case too.
+
+**The need for CORS**: Before 2005, with the dawn of AJAX, people were able to request resources with `XMLHttpRequest` object. A servere limitation of `XMLHttpRequest` was that it could only request from services which were on the same domain as the requesting site, else the browser would simply refuse to initiate the request. This is called the **same-origin policy**, and was placed as a security mechanism.
+
+Post 2005, more and more ways to access resources not on the same origin were getting developed (even `XMLHttpRequest` became cross-origin eventually) and a policy was needed to make sure that there is a mechanism that can controls it, otherwise a server could receive tons of modifying requests like `POST` and `DELETE` from all kinds of other sites.
+
+CORS was introduced to give the server a choice (_opt-in_). The client can ask the server and only if the server allows, can we make a request to access (and potentially modify) its resources.
+
+**Preflight**: Its just a request that the browser makes to the server with `OPTIONS` verb and headers like below that is made to ask if the server allows it to make further requests. It is done automatically by the browser and the response can be cached for sometime too, in a separate cache from HTTP general cache.
+
+```foobar
+OPTIONS https://api.example.com/foobar HTTP/1.1
+Host: abhishekarya.com
+Access-Control-Request-Headers: content-type, accept
+Access-Control-Request-Method: POST
+Origin: https://abhishekarya.com
+```
+
+Response: The server lists all domains and methods it allows along with max-age for CORS response caching
+```foobar
+OPTIONS https://api.example.com/foobar HTTP/1.1
+Status: 200
+Access-Control-Allow-Origin: https://notmydomain.com
+Access-Control-Allow-Method: GET, POST, PUT, DELETE
+Access-Control-Max-Age: 86400
+```
+
+Some Preflight failure scenarios:
+```txt
+No 'Access-Control-Allow-Origin' header is present on the requested resource 	-> on old/CORS-ignorant servers that don't send back CORS headers
+
+'Access-Control-Allow-Origin' has a value that is not equal to supplied origin 	-> Origin isn't in the allowed origin list of the server
+
+405 Method Not Allowed  -> Method isn't in the allowed method list of the server
+
+Request header field is not allowed by Access-Control-Allow-Headers  -> Header is not allowed in the allowed header list of the server
+```
 
 
-[Reference]()
+**Simple Requests**: Before CORS, the only requests a webpage could send originated from `<form>` elements. So, to make things non-breaking, CORS allow them to be made without a preflight request.
+
+Conditions for simple requests:
+- if its a simple `GET`, `HEAD`, or `POST` without any headers
+- if it has `Accept`, `Accept-Language`, `Content-Language`, or `Content-Type` 
+
+	- if `Content-Type` possesses any of three values: `application/x-www-form-urlencoded`, `multipart/form-data`, or `text/plain`
+
+#### Summary
+```txt
+#CORS Headers Summary
+
+Origin
+Accesss-Control-Request-Headers
+Accesss-Control-Request-Method
+
+Accesss-Control-Allow-Origin
+Accesss-Control-Request-Method
+Access-Control-Max-Age
+````
+
+### CORS in APIs
+Since CORS is specific to browsers only, if our API isn't accessed by browsers at all, there is no need to deal with CORS.
+
+We have [enable CORS support in Spring](https://spring.io/blog/2015/06/08/cors-support-in-spring-framework) just by adding a `@CrossOrigin` annotation with some properties on the Controller class or its methods.
+
+### Some Clarifications
+- CORS shouldn't ever be used for as a primary security measure; it can't prevent requests coming from clients other than a browser
+- CORS is also about "not-changing-the-rules"; on old servers (from only the same-origin policy era) who aren't CORS-aware and assumes that requests are coming from same origin only. They don't specify CORS response headers, and we don't want them to expose their resources over the web, so we block access to such from browser
+- Preflighting happens for browsers only; services are free to make calls to another service anywhere (_read above point_)
+- Preflighting is a sanity-check measure; we could've straightaway rejected or accepted a browser's cross-origin request but a preflight makes sure that the server is CORS-aware
+
+_References_:
+- [Demystifying CORS](https://frontendian.co/cors)
+- [CORS - MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
+- [A good StackOverflow Thread](https://stackoverflow.com/questions/15381105/what-is-the-motivation-behind-the-introduction-of-preflight-cors-requests)
+- [Cross Origin Resource Sharing (Explained by Example) - YouTube](https://youtu.be/Ka8vG5miErk)
 
 ## Content Security Policy
 
