@@ -241,6 +241,10 @@ Cookies time and again have been abused by advertising and tracking companies, a
 ### HTTPS
 Hypertext Transfer Protocol Secure (HTTPS) is an extension of HTTP. It is encrypted using Transport Layer Security (TLS) or, formerly, Secure Sockets Layer (SSL) in contrast to HTTP which is unencrypted out-of-the-box.
 
+HTTPS = HTTP + TLS
+
+[TLS Notes](/web-api/security-3/#tls)
+
 ## Misc
 
 ### 3-way handshake

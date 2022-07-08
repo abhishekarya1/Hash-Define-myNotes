@@ -27,6 +27,7 @@ salt
 digest
 encryption
 decryption
+cipher
 plaintext
 ciphertext
 nonce
@@ -83,6 +84,8 @@ Private key - secret
 
 We can distribute the public key and people can encrypt messages with it and send to us that we decrypt using the private key.
 
+In some systems like RSA, the private key can be used to encrypt and then public key can be used to decrypt. This is often done to check digital signatures (since they're signed by private key).
+
 Ex - `RSA`, `PGP`, etc...
 
 ### Shared Secret Key Agreement (Key Exchange)
@@ -90,12 +93,20 @@ Public-key cryptography is slower than private-key cryptography. To make it bett
 
 Sender sends their public key to Receiver and vice-versa. They both combine their private key with other's public key and end up with a exactly the same key that they can use to encrypt and decrypt.
 
-Ex - `Diffie-Hellman` key exchange.
+![](https://i.imgur.com/QGxQlnq.png)
+
+Both the parties have to agree on a common generator (`g`) beforehand and it is changed for every connection. Also, in the above image, the opertaion is not exponentiation as the notation implies and it should be theoretically impossible to separate `x` and `g` from `g^x`.  
+
+Ex - `Diffie-Hellman` key exchange. Two variants - DH and ECDH (Elliptic-curve Diffie-Hellman)
+
+[Reference](https://crypto.stackexchange.com/questions/6307/why-is-diffie-hellman-considered-in-the-context-of-public-key-cryptography)
 
 ### Digital Signatures
-A digital signature is calculated from a message and a private key. Anyone else with a copy of your public key can verify that a particular message was signed by your private key.
+A digital signature is calculated by encrypting a message (often the public key itself) with a private key. Anyone else with a copy of the public key can verify that a particular message was signed by private key. By using that public key to decrypt the digital signature and the output will be a public key, and we can check if they match.
 
 Ex - `EdDSA`
+
+Uses - [TLS Certificates](/web-api/security-3/#certificates-and-ca)
 
 ## Encoding & Compression
 They sometimes use the same hash functions but they both are keyless and reversible by nature and not cryptographic as the output doesn't need to be hidden from a third party.
