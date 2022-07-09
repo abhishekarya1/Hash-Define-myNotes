@@ -73,6 +73,9 @@ CORS was introduced to give the server a choice (_opt-in_). The client can ask t
 
 **Preflight**: Its just a request that the browser makes to the server with `OPTIONS` verb and headers like below that is made to ask if the server allows it to make further requests. It is done automatically by the browser and the response can be cached for sometime too, in a separate cache from HTTP general cache.
 
+Also, all major web frameworks enable `OPTIONS` by default to allow preflight and we don't need to explicity declare Option Mapping on every endpoint.
+
+
 ```foobar
 OPTIONS https://api.example.com/foobar HTTP/1.1
 Host: abhishekarya.com
@@ -101,16 +104,27 @@ No 'Access-Control-Allow-Origin' header is present on the requested resource 	->
 Request header field is not allowed by Access-Control-Allow-Headers  -> Header is not allowed in the allowed header list of the server
 ```
 
-
-**Simple Requests**: Before CORS, the only requests a webpage could send originated from `<form>` elements. So, to make things non-breaking, CORS allow them to be made without a preflight request.
+### Simple Requests
+Before CORS, the only requests a webpage could send originated from `<form>` elements. So, to make things non-breaking, CORS allow them to be made without a preflight request, just like earlier times.
 
 Conditions for simple requests:
-- if its a simple `GET`, `HEAD`, or `POST` without any headers
-- if it has `Accept`, `Accept-Language`, `Content-Language`, or `Content-Type` 
+- a `GET`, `HEAD`, or `POST` method and,
+- can have **_only these_** headers (apart from `User-Agent` and `Connection`) **_or none at all_**: `Accept`, `Accept-Language`, `Content-Language`, or `Content-Type` 
+	- and `Content-Type` can possess any of these 3 values: `application/x-www-form-urlencoded`, `multipart/form-data`, or `text/plain`
 
-	- if `Content-Type` possesses any of three values: `application/x-www-form-urlencoded`, `multipart/form-data`, or `text/plain`
+```txt
+GET www.abhishekarya.com/me HTTP/1.1 		-- simple
 
-#### Summary
+GET www.abhishekarya.com/me HTTP/1.1 		
+X-Custom-Header: foobar					    -- not simple
+
+POST www.abhishekarya.com/me HTTP/1.1 		
+Content-Type: application/json				-- not simple
+```
+
+**NOTE**: For simple requests, no preflight request is made but CORS still applies to them, and they will be stifled if server doesn't send back CORS headers (`Access-Control-Allow-Origin`) at or or if it doesn't allow our origin. Simple requests mean that we can make direct requests to servers without preflight but CORS headers will still need to be set on request and we will also get them back from the server.
+
+#### CORS Headers List
 ```txt
 #CORS Headers Summary
 
@@ -135,10 +149,11 @@ We have [enable CORS support in Spring](https://spring.io/blog/2015/06/08/cors-s
 - Preflighting is a sanity-check measure; we could've straightaway rejected or accepted a browser's cross-origin request but a preflight makes sure that the server is CORS-aware
 
 _References_:
-- [Demystifying CORS](https://frontendian.co/cors)
+- [Demystifying CORS - frontendian.co](https://frontendian.co/cors)
 - [CORS - MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS)
 - [A good StackOverflow Thread](https://stackoverflow.com/questions/15381105/what-is-the-motivation-behind-the-introduction-of-preflight-cors-requests)
 - [Cross Origin Resource Sharing (Explained by Example) - YouTube](https://youtu.be/Ka8vG5miErk)
+- [Cross-Origin Resource Sharing - Baeldung](https://www.baeldung.com/cs/cors-preflight-requests)
 
 ## Content Security Policy
 
