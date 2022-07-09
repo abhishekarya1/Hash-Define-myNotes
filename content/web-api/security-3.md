@@ -155,12 +155,59 @@ _References_:
 - [Cross Origin Resource Sharing (Explained by Example) - YouTube](https://youtu.be/Ka8vG5miErk)
 - [Cross-Origin Resource Sharing - Baeldung](https://www.baeldung.com/cs/cors-preflight-requests)
 
-## Content Security Policy
+## Content Security Policy (CSP)
+CSP provides a standard method for website owners to declare approved origins of content that browsers should be allowed to load on that website. It helps in preventing cross-site scripting (XSS) attacks.
 
+Its like a bouncer that prevents fetching of resources from other than allowed locations specified in the policy.
 
-[Reference]()
+Two ways to specify CSP:
+1. In HTML
+```html
+<!-- less preferred than the header way -->
+<meta http-equiv="Content-Security-Policy"
+      content="default-src 'self' *.example.com; img-src *;">
+```
+2. In header (response)
+```foobar
+Content-Security-Policy: default-src 'self' *.example.com; img-src *
+```
+
+A lot of resource types are covered like JavaScript, CSS, HTML frames, web workers, fonts, images, embeddable objects such as Java applets, ActiveX, audio and video files, and other HTML5 features. [Reference here](https://content-security-policy.com/).
+
+### Reporting
+All violations of CSP can be reported to a specified URL.
+
+Specify URL in CSP:
+```txt
+report-to: https://csp.example.com;
+```
+
+If a violation of CSP occurs in a user's session, the browser will not load that resource and `POST` to specified URL with an object of the following structure:
+```json
+{
+  "document-uri": "https://example.com",
+  "referrer": "",
+  "blocked-uri": "http://evil.com/malicious/script.js",
+  "violated-directive": "script-src: 'self'",
+  "original-policy": "script-src: 'self'; report-to: https://csp.example.com;"
+}
+```
+
+_References_:
+- [Content security policy - web.dev](https://web.dev/csp/)
+- [Content Security Policies - frontendian](https://frontendian.co/csp)
+- [content-security-policy.com](https://content-security-policy.com/)
+- [Content Security Policy (CSP) - MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP)
+
 
 ## OWASP Security Risks
+The Open Web Application Security Project (OWASP) is an online community that produces freely-available articles, methodologies, documentation, tools, and technologies in the field of web application security. It is led by a non-profit called The OWASP Foundation.
 
+They publish a regularly updated top 10 list of some of the most critical risks facing organizations and it is referenced a lot of times in many books, tools, and organizations.
 
-[Reference]()
+[OWASP Top Ten](https://owasp.org/www-project-top-ten/)
+
+[OWASP Cheat Sheet Website](https://cheatsheetseries.owasp.org/): Documents extensive information on a lot of application security topics.
+
+[OWASP Web Application Security Testing Checklist](https://github.com/0xRadi/OWASP-Web-Checklist): Checklists on everything application security related.
+
