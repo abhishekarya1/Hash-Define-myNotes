@@ -6,7 +6,7 @@ weight = 11
 
 **Thread**: Smallest unit of execution that can be scheduled to the CPU.
 
-**Process**: Group of associated threads. It comprises of multiple threads and a shared memory. 
+**Process**: Group of associated threads. It comprises of multiple threads and a shared memory. Single unit of functionality. A program in execution.
 
 **Task**: Single unit of work performed by a thread.
 
@@ -19,7 +19,7 @@ Analogy - Google Chrome browser is a process, each Tab is a thread and context s
 **Thread priority**: It is a number associated with a thread that the scheduler uses to schedule. In Java, it is integer value.
 
 ## Thread class
-Tasks are defined using the `Runnable` funtional interface, it takes no arguments and returns nothing. To create a thread use `Thread` class instance.
+Tasks are defined using the `Runnable` functional interface, it takes no arguments and returns nothing. To create a thread use `Thread` class instance. 
 
 ```java
 Runnable t = () -> System.out.println("Hello");			// any returned value from a Runnable is ignored
@@ -62,8 +62,10 @@ D
 ```
 
 Two ways to create a thread - 
-1. provide a `Runnable` object or lambda to `Thread` constructor (common)
-2. Create a subclass from `Thread` and override `run()` (rare)
+1. provide a `Runnable` reference or lambda to `Thread` class constructor (_common_)
+2. create a subclass from `Thread` and override `run()` method (_rare_)
+
+The `Thread` class implements `Runnable` interface.
 
 ### Thread Types
 
@@ -85,16 +87,92 @@ job.start();				// we won't wait until foobar() finishes, we will exit once main
 
 ```java
 var job = new Thread(() -> taskMethod());
-job.getState();			// prints thread state (RUNNABLE, WAITING, etc...)
-Thread.sleep(1_000);	// sleeps for 1 sec, throws InterruptedException upon timout
-var t2 = Thread.currentThread();	// get instance of current thread
-t2.interrupt();			// throws InterruptedException in parent
 
-// calling interrupt() on a RUNNABLE doesn't change the state but changes value on Thread.isInterrupted()
+job.getState();			// prints thread state (RUNNABLE, WAITING, etc...)
+
+Thread.sleep(1_000);	// sleeps for 1 sec, resumes thread execution upon timeout
+// any other thread can interrupt a sleeping thread, in that case InterruptedException is thrown
+// also, an already interrupted thread (isInterrupted() = true) can't sleep (throws InterruptedException)
+
+var t2 = Thread.currentThread();	// get instance of current thread
+t2.interrupt();			// used to throw InterruptedException in a sleeping thread
+
+// calling interrupt() on a RUNNABLE thread (either self or from another thread) doesn't change its state (no halts or exceptions) but changes value on Thread.isInterrupted()
+// this is quite trivial though!
+```
+Interrupting a running (`RUNNABLE`) thread with `interrupt()`:
+```java
+class Test extends Thread {
+    @Override
+    public void run() {
+        System.out.println("A");
+        var t = Thread.currentThread();
+        System.out.println(t.isInterrupted());
+        t.interrupt();		// self-interruption
+        System.out.println("B");
+        System.out.println(t.isInterrupted());
+        System.out.println("C");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        var t = new Test();
+        t.start();
+        System.out.println("Z");
+        System.out.println("Y");
+        System.out.println("X");
+    }
+}
+
+/*
+Z
+Y
+X
+A
+false
+B
+true
+C
+*/
+```
+
+Interrupting a sleeping thread (`TIMED_WAITING`) with `interrupt()`:
+```java
+class Test extends Thread {
+    @Override
+    public void run() {
+        System.out.println("A");
+
+        var t = Thread.currentThread();
+        try {
+            Thread.sleep(5000);		// 5 sec
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println("B");
+        System.out.println("C");
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        var t = new Test();
+        t.start();
+        t.interrupt();		// called immediately after thread start (< 5 sec)
+        System.out.println("Z");
+        System.out.println("Y");
+        System.out.println("X");
+    }
+}
+
+// InterruptedException is thrown
 ```
 
 ## Concurrency API
-`java.util.concurrent` package is the concurrency API. We use `ExecutorService` inteface to create and manange threads.
+`java.util.concurrent` package is the concurrency API. It provides higher level abstractions, rather than working with threads directly.
+
+We use `ExecutorService` inteface to create and manange threads.
 
 It also provides a `Executors` factory class.
 
@@ -113,6 +191,8 @@ finally{
 ``` 
 
 The `shutdown()` method is of significance because `SingleThreadExecutor` is a _non-daemon_ thread so our program will never terminate if it is not closed. After a call to `shutdown()` the service won't accept any new tasks and if added will throw `RejectedExecutionException`. The service is terminated after all existing tasks have finished.
+
+The compiler won't throw any exception when we don't add a `shutdown()`, but in that case our program will never terminate. So, always remember to call `shutdown()`. It is the reason we put it in a `finally` block, so that it always executes.
 
 Do note that the service won't stop executing already added tasks upon a `shutdown()` call. To do so we can call `shutdownNow()` method but nothing is guranteed. 
 
@@ -140,17 +220,17 @@ else{
 ```
 
 ### Submitting Tasks
-The `submit()` is preferred over `execute()` because it is compatile with both `Runnable` and `Callable` and it return a `Future<?>` reference with which we can track the result.
+The `submit()` is preferred over `execute()` because it is compatile with both `Runnable` and `Callable` and it returns a `Future<?>` reference with which we can track the result.
 
 ```java
-Future<?> result = service.submit(t1);		// Future ref's type is whatever type t1 returns
+Future<?> result = service.submit(t1);		// Future ref's formal type is whatever type t1 returns
 
-// methods on Future
+// instance methods of Future<>
 result.isDone()						// returns true if completed, exception or cancelled 
 result.isCancelled()				// returns true if cancelled
 result.cancel()						// attempts to cancel and returns true if successfully cancelled
 result.get()						// get result or wait endlessly
-result.get(10, TimeUnit.SECONDS)	// get result or wait for speciffied time, throw TimeoutException upon timeout
+result.get(10, TimeUnit.SECONDS)	// get result or wait for specified time, throw TimeoutException upon timeout
 ```
 
 ### Callable
@@ -284,7 +364,7 @@ When a thread arives at the block, it checks the lock status. If the lock isn't 
 This will print numbers from 0 to 10 in order without duplicates.
 
 ### Lock Framework
-Syncs on a `Lock` interface object instead of any Object. We have to release lock manually or else others keep on waiting forever.
+Syncs on a `Lock` interface object instead of any Object. We have to release lock manually with `unlock()` or else others keep on waiting forever.
 
 ```java
 Lock lock = new ReentrantLock();
@@ -315,7 +395,9 @@ Lock lock = reentrantLock(true);		// fairness property
 IllegalMonitorStateException
 ```
 
-`tryLock()` returns a `boolean` indicating the status of lock and `tryLock(long, TimeUnit)` will attempt to lock at specified intervals each time returning a `boolean`. Also, it is non-blocking unlike `lock()` and returns a `boolean` immediately instead of waiting indefinitely.
+If we attempt to `lock()`, but it is already acquired by any other thread, then `lock()` will keep on waiting indefinitely for the lock to become available to it.
+
+`tryLock()` returns a `boolean` indicating the status of lock and `tryLock(long, TimeUnit)` will attempt to lock at specified intervals each time returning a `boolean`. Also, both of them are non-blocking unlike `lock()` and return a `boolean` immediately instead of waiting indefinitely.
 
 ```java
 // code demo
@@ -344,7 +426,7 @@ public static void main(String[] args) {
 	}
 }
 ```
-**NOTE - Release a lock the same number of times it is acquired.** Otherwise the remaining locks will still hold onto the thread they are locked to.
+**NOTE**: **Release a lock the same number of times it is acquired.** Otherwise, the remaining locks will still hold onto the thread they are locked to.
 
 ### CyclicBarrier
 Orchestrating tasks, specifies the number of threads to wait for and once the number is reached, execution is resumed on all of the threads that the barrier was "holding".
@@ -415,12 +497,14 @@ collection.parallelStream();
 stream.isParallel();
 ```
 
-When we apply methods which are **order dependent** (`findFirst()`, `limit()`, `skip()`) on parallel stream, we do get what we expect just like in serial stream but performance is hampered since stream is forced by Java to be synchronized-like. Solution - `unordered()` to declare stream as a parallel.
+When we apply methods which are **order dependent** (`findFirst()`, `limit()`, `skip()`) on parallel stream, we do get what we expect just like in serial stream but performance is hampered since stream is forced by Java to be synchronized-like. 
+
+Solution - use `unordered()` to declare stream as a parallel, and avoid force conversion to serial when such methods are applied.
 ```java
-stream.unordered().parellel();
+stream.unordered().parallel();
 ```
 
 Calling `unordered()` on serial stream has no effect but on parellel stream we will have `skip(5)` skipping any 5 random elements and not the first five.
 
-### Reductions in Parellel Streams
+### Reductions in Parallel Streams
 Make sure accumulator and combiner have the same output on every step regardless of the order in which they are called in. The accumulator and combiner must be associative, non-interfering, and stateless.
