@@ -21,11 +21,22 @@ It is a **Firmware** - b/w Hardware and Software.
 
 BIOS looks for Bootloader on disk. It can be a two stage process (1st stage bootloader and 2nd stage bootloader). Bootloader loads Kernel into memory with parameters that can be tweaked.
 
-**MBR** (Master Boot Record) - First 512 Bytes of first sector on first partition of Hard Disk
+**Partition table**: Some space on disk that is reserved and contains information about how the partitions are organized and where to load the bootloader from.
 
-**GPT** (GUID Partition Table) - Often used with UEFI. Can be stored anywhere on a drive. Better limits on size and no. of partitions than MBR. MBR allows upto 2TB and 4 partitions only. The first sector of a GPT disk is reserved for a "protective MBR" to make it possible to boot a BIOS-based machine.
+- **MBR** (Master Boot Record) - First sector on first partition of the disk (512 Bytes).
 
-Most popular bootloader on linux is **GRUB** (GRand Unified Bootloader). Others like LILO, SYSLINUX etc exists... 
+- **GPT** (GUID Partition Table) - Often used with UEFI as its formally defined in the UEFI spec. Can be stored throughout the drive. Better limits on size and no. of partitions than MBR. MBR allows upto 2TB and 4 partitions only. The first sector of a GPT disk is reserved for a "protective MBR" to make it possible to boot a BIOS-based machine.
+
+Most popular bootloader on linux is **GRUB** (GRand Unified Bootloader). Others like LILO, SYSLINUX etc exists...
+
+|  Boot Config | Bootloader Location  |
+|---|---|
+|  BIOS-MBR | MBR  |
+|  BIOS-GPT | Protective MBR  |
+|  UEFI-MBR | ESP  |
+|  UEFI-GPT | ESP  |
+
+_Reference_: [How grub2 works on a MBR partitioned disk and GPT partitioned disk?](https://superuser.com/a/1166518)
 
 ### 3 - Kernel
 Kernel needs a temporary filesystem with core essential drivers to load other drivers. The temporary filesystem used was **initrd** (initial ram disk). Nowadays we use **initramfs**, no need to locate initrd.
