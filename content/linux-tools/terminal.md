@@ -9,10 +9,6 @@ weight = 1
 - [Article](https://www.gnu.org/gnu/linux-and-gnu.en.html)
 ---
 
-## Linux Folder Structure
-- [Video](https://www.youtube.com/watch?v=42iQKuQodW4)
----
-
 ## Linux Terminal Commands
 - **Shell**: Intermidiary between OS kernel and console/terminal.
 ---

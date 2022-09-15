@@ -1,0 +1,30 @@
++++
+title = "Systemd"
+date =  2022-09-15T22:53:00+05:30
+weight = 2
++++
+
+## Systemd
+Hated because: doesn't store logs in text files and violates UNIX principles of KISS (keep it simple stupid) since it does many things beyond what is sufficient for a single tool. Most distros today use it anyways!
+
+Made around **units**. A unit can be a service, an action, a group of service enabling a certain functionality on the system (target), etc...
+
+It is **goal-driven**. It acheives a goal by loading a target, which in turn can also have dependencies (other targets or services) that needs to be loaded, so those dependencies are also loaded before the goal is declared "acheived".
+
+Use `systemctl` command to config units and `journalctl` command for logs.
+
+## Runlevels and Boot Targets
+System V - Runlevels: stages in which the system can go into. Ex - Shutdown, single-user mode, reboot, etc...
+
+Systemd - Boot targets: units that we can start, stop, configure to start after each other, etc...
+
+Some Systemd boot targets:
+```
+poweroff.target 	- shutdown system
+rescue.target 		- single user mode
+multi-user.target 	- multiuser with networking
+graphical.target 	- multiuser with networking and GUI
+reboot.target 		- restart
+
+The default boot goal of default.target usually points to the graphical.target
+```
