@@ -20,6 +20,8 @@ We can also configure splash logo, colors, etc... of the GRUB menu.
 
 And of course, we can change Kernel startup parameters like which `systemd.unit` to keep as target, which `initramfs` to use, etc...
 
+The GRUB configuration is possible by editing files in `/etc/grub.d` directory.
+
 ## Systemd
 Hated because: doesn't store logs in text files and violates UNIX principles of KISS (keep it simple stupid) since it does many things beyond what is sufficient for a single tool. Most distros today use it anyways!
 
