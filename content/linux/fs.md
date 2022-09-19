@@ -1,5 +1,5 @@
 +++
-title = "Disk & Filesystem"
+title = "Filesystem & Disk"
 date =  2022-09-15T23:23:00+05:30
 weight = 3
 +++
@@ -7,7 +7,7 @@ weight = 3
 ## Filesystem
 Every directory in linux is a child of root (`/`) directory.
 
-Filesystem Hierarchy Standard[^1][^2], maintained by the Linux Foundation: 
+Filesystem Hierarchy Standard[^1] [^2] (FHS), maintained by the Linux Foundation: 
 
 | Name  |  Functionality |
 |---|---|
@@ -33,7 +33,7 @@ _History_: In UNIX, `/usr` was a users directory (/usr/alice), but in GNU/Linux 
 [^1]: Filesystem Hierarchy Standard - [Wikipedia](https://en.wikipedia.org/wiki/Filesystem_Hierarchy_Standard)
 [^2]: Linux Directories Explained in 100 Seconds - Fireship [[YouTube]](https://youtu.be/42iQKuQodW4)
 
-## Directory Shorthands
+### Directory Shorthands
 
 `/` root
 
@@ -44,3 +44,52 @@ _History_: In UNIX, `/usr` was a users directory (/usr/alice), but in GNU/Linux 
 `..` parent dir
 
 `-` previous dir 
+
+
+## Disk Partitions
+Physical disks are often partitioned logically in linux.
+
+BIOS-MBR allows upto 4 patitions but extended partitions can be created to make more logical partitions.
+
+```sh
+---------------------------------------------------
+| /sda1  |  /sda2 | | extended partition        | |
+---------------------------------------------------
+
+---------------------------------------------------
+| /sda1  |  /sda2 | |  /sda3  |  /sda4  | /sda5 | |
+---------------------------------------------------
+``` 
+
+`/sda3`, `/sda4`, and `/sda5` are part of the extended partition so we have a total of `5` partitions this way.
+
+UEFI-GPT allows upto 128 partitions.
+
+
+**Mounting**: Partitions can be **mounted on a directory** (`/tmp`, `/home`, etc...), it means that the directory path is a mountpoint to access the disk and whatever we write to/read from the mountpoint, it will use the partition.
+
+| Size | Partition | Mounted at | 
+|:---:|:---:|:---:|
+|  1GB | /sda1  | /boot |
+|  4GB | /sda2  | linux-swap |
+|  10GB | /sda3  | /home |
+|  985GB | /sda4  | / |
+
+
+### Swap Partition
+Used for **virtual memory** aka **paging**. There is a partition called `linux-swap` that can be created for this.
+
+_Debian_: uses `linux-swap` partition
+
+_Ubuntu, Windows_: saves paging data in a single file (**pagefile**)
+
+_Fedora, Android_: uses **zram**: Sets aside temporary space on RAM itself and compresses & stores data there instead of the disk
+
+There is no hard & fast rule for deciding on the swap partition size. You can choose any size but do note that swap is not a replacement for RAM as its much slower.
+
+
+### Tools
+- **CLI**: fdisk, parted, LVM
+- **GUI**: gparted
+
+LVM is a special one, it can create partitions across disks, we can extend and shrink partitions using space from other disks too.
