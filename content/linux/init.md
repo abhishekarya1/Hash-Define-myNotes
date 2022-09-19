@@ -14,6 +14,8 @@ Versions:
 
 We can configure and show a menu-based system where you can **choose which Kernel or chainloader to boot**. It is also possible to edit the menus on the fly or **give direct commands from a command line, all _before_ booting into a Kernel**.
 
+![GRUB menu image](https://i.imgur.com/y9m7zcc.png)
+
 We can also configure splash logo, colors, etc... of the GRUB menu.
 
 And of course, we can change Kernel startup parameters like which `systemd.unit` to keep as target, which `initramfs` to use, etc...
