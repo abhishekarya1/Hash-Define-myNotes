@@ -92,4 +92,4 @@ There is no hard & fast rule for deciding on the swap partition size. You can ch
 - **CLI**: fdisk, parted, LVM
 - **GUI**: gparted
 
-LVM is a special one, it can create partitions across disks, we can extend and shrink partitions using space from other disks too.
+LVM is a special one, it can create partitions across disks; we can extend and shrink partitions using space from other disks too.
