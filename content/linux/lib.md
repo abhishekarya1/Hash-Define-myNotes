@@ -102,3 +102,13 @@ The Debian Package Management System (dpkg) is used to perform low-level actions
 Debian based distros: apt, dpkg, aptitude
 Red-Hat based: RPM (Red Hat Package Manager), YUM (Yellowdog Updater, Modified), DNF (Dandified Yum)
 Arch based: Pacman
+
+---
+## Compression and Archival
+Often times the programs in linux have a `.tar.gz` extension. 
+
+`gzip` is a tool that can compress a _single_ file at a time.
+
+`tar` is a tool that can create a archive containing multiple files.
+
+If we combine those, we get a compressed tarball (`.tar.gz`). In order to extract the contents, we do the reverse, first unzip and then unpack.
