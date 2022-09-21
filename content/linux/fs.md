@@ -45,7 +45,7 @@ _History_: In UNIX, `/usr` was a users directory (/usr/alice), but in GNU/Linux 
 
 `-` previous dir 
 
-
+---
 ## Disk Partitions
 Physical disks are often partitioned logically in linux.
 

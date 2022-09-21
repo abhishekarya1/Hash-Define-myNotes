@@ -15,7 +15,7 @@ Storage directories: `/lib`, `/lib64`, `/usr/lib`, or `/usr/lib64`.
 
 `ldd`: shows if a program is statically or dynamically linked, also lists all libraries that are linked to the program (if dynamic).
 
-## Symbolically linked libraries
+### Symbolically linked libraries
 We often have one library pointing to another like `libudev.so.1 -> libudev.so.1.4.0`. So if a software uses the former, it will implicitly use the latter.
 
 We can use `ls -l` to check symbolic links.
@@ -50,4 +50,51 @@ ldconfig -p
 ldconfig
 ```
 
+### Lookup order for libraries
+When a software needs a library, it looks it up in the following order:
+1. LD_LIBRARY_PATH environment variable (env in which program is running)
+2. Programs PATH
+3. `etc/ld.so.conf` (which might load other libraries from `/etc/ld.so.cond.d`)
+4. `/lib`, `/lib64`, `/usr/lib`, and `/usr/lib64`
+
+---
 ## Package Management
+
+**Package**: pre-compiled software tools
+
+**Package management systems** exist to download, update, remove packages with CLI
+
+**Repository**: Each distro has a pre-configured set of repositories from where it downloads the packages
+
+In Debian based systems, packages are named as `NAME-VERSION-RELEASE_ARCHITECTURE.deb` and the sources list is stored in `/etc/apt/sources.list` file and `/etc/apt/sources.list.d/` directory.
+
+### apt
+Advance Packaging Tool (APT)
+
+```sh
+apt-get update		# updates sources list only, no packages are updated
+
+apt-get install pkg_name	# updates a single package too, if it is already installed
+
+apt-get upgrade			# upgrade all installed packages.
+
+apt-get remove pkg_name	# removing a package will not remove its dependencies! (since it can be a shared dependency that is being used by other programs)
+
+apt-get remove pkg_name	# remove all automatically installed dependencies for a particular package
+
+apt-get autoremove	# remove all unused dependencies globally
+
+apt search search_string	# search package
+
+apt show package	# get info about a package
+```
+
+### dpkg
+The Debian Package Management System (dpkg) is used to perform low-level actions _on_ `.deb` packages. Show config, display status, show info, reconfigure, etc...
+
+`apt` uses `dpkg` under the hood. Once apt downloads `.deb` package files, dpkg is used to perform actions on them.
+
+### Other package managers
+Debian based distros: apt, dpkg, aptitude
+Red-Hat based: RPM (Red Hat Package Manager), YUM (Yellowdog Updater, Modified), DNF (Dandified Yum)
+Arch based: Pacman
