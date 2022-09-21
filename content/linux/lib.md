@@ -60,7 +60,7 @@ When a software needs a library, it looks it up in the following order:
 ---
 ## Package Management
 
-**Package**: pre-compiled software tools
+**Package**: pre-compiled software
 
 **Package management systems** exist to download, update, remove packages with CLI
 
