@@ -69,22 +69,26 @@ When a software needs a library, it looks it up in the following order:
 In Debian based systems, packages are named as `NAME-VERSION-RELEASE_ARCHITECTURE.deb` and the sources list is stored in `/etc/apt/sources.list` file and `/etc/apt/sources.list.d/` directory.
 
 ### apt
-Advance Packaging Tool (APT)
+Advanced Package Tool (APT)
 
 ```sh
 apt-get update		# updates sources list only, no packages are updated
 
-apt-get install pkg_name	# updates a single package too, if it is already installed
+apt-get upgrade			# upgrade all installed packages
 
-apt-get upgrade			# upgrade all installed packages.
+apt-get install package_1 package_2 package_3	# install; upgrade if already installed
+
+apt-get install package_name=VERSION_NUMBER		# install specific version
 
 apt-get remove pkg_name	# removing a package will not remove its dependencies! (since it can be a shared dependency that is being used by other programs)
 
-apt-get remove pkg_name	# remove all automatically installed dependencies for a particular package
+apt-get purge pkg_name 	# remove a package and all its dependencies
+
+apt-get autoremove pkg_name	# remove all automatically installed & unused dependencies for a particular package
 
 apt-get autoremove	# remove all unused dependencies globally
 
-apt search search_string	# search package
+apt search search_string	# search a package
 
 apt show package	# get info about a package
 ```

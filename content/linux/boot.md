@@ -43,6 +43,8 @@ Kernel needs a temporary filesystem with core essential drivers to load other dr
 
 Kernel stores all logs in a **kernel ring buffer** that can be viewed later with `dmesg` command.
 
+**NOTE**: A kernel is also a program afterall! So, it is not uncommon to download and compile the kernel and configure it such that it appears in GRUB menu and we can boot into it.
+
 ### 4 - init
 
 Kernel locates `init` program and runs it. `init` initiates all other essential services on the system.
@@ -98,7 +100,7 @@ $ cat /proc/cpuinfo
 Listing various devices.
 
 ### Loadable Kernel Modules
-Stored in .ko files (kernel object) which can then be loaded and removed from boot time loading.
+Stored in `.ko` files (kernel object) which can then be loaded and removed from boot time loading.
 
 ```sh
 $ lsmod
