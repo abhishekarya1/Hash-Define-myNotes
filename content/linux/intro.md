@@ -6,9 +6,9 @@ weight = 1
 
 
 ## GNU/Linux
-The Linux is the kernel (created by Linus Torvalds), the rest of the OS is from the GNU Project started by Richard Stallman in 1984.
+The Linux is the kernel (created by Linus Torvalds), the rest of the OS is from the GNU Project started by Richard Stallman in 1984.[^1]
 
-**Key takeaway from GNU Philosophy**: "_free_" in free software is about the freedom, not the price. It means software that respects users' freedom. Roughly, it means that the users have the freedom to run, copy, distribute, study, change and improve the software. Proprietary software respects none of it, and that's by design.
+**Key takeaway from GNU Philosophy[^2]**: "_free_" in free software is about the freedom, not the price. It means software that respects users' freedom. Roughly, it means that the users have the freedom to run, copy, distribute, study, change and improve the software. Proprietary software respects none of it, and that's by design.
 
 ## Unix
 A proprietary OS created at AT&T Bell labs by Ken Thompson, Dennis Ritchie, and others. Its philosophy and tools are still used by OS today. 
@@ -22,7 +22,7 @@ Today, there exists many OS like **macOS** and **IBM z/OS** that are SUS (Single
 Linux can also be said to be Unix-like! But it never derived from Unix directly unlike BSD.
 
 ## Linux Distros
-Distributions of various pre-compiled OS with additional tweaks, tools, and features added.
+Distributions of various pre-compiled OS with additional tweaks, tools, and features added.[^3]
 
 Debian based: Debian, Ubuntu, Mint, etc... 
 
@@ -34,7 +34,6 @@ OS that use Linux Kernel: Android, ChromeOS
 
 Special use OS: OpenWrt (routers), RaspberryPi OS, Kodi (home theatre PC), CentOS (web hosts)
 
-
-- Linux and the GNU System by Richard Stallman: https://www.gnu.org/gnu/linux-and-gnu.en.html
-- Philosophy of the GNU Project: https://www.gnu.org/philosophy/
-- Why so many distros? The Weird History of Linux - Fireship [[YouTube]](https://www.youtube.com/watch?v=ShcR4Zfc6Dw)
+[^1]: Linux and the GNU System by Richard Stallman: https://www.gnu.org/gnu/linux-and-gnu.en.html
+[^2]: Philosophy of the GNU Project: https://www.gnu.org/philosophy
+[^3]: Why so many distros? The Weird History of Linux - Fireship [[YouTube]](https://www.youtube.com/watch?v=ShcR4Zfc6Dw)
