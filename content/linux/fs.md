@@ -1,7 +1,7 @@
 +++
 title = "Filesystem & Disk"
 date =  2022-09-15T23:23:00+05:30
-weight = 3
+weight = 4
 +++
 
 ## Filesystem

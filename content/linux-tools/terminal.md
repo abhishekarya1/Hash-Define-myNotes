@@ -4,11 +4,6 @@ date =  2021-05-01T00:31:24+05:30
 weight = 1
 +++
 
-## Background
-- [Video](https://www.youtube.com/watch?v=ShcR4Zfc6Dw)
-- [Article](https://www.gnu.org/gnu/linux-and-gnu.en.html)
----
-
 ## Linux Terminal Commands
 - **Shell**: Intermidiary between OS kernel and console/terminal.
 ---

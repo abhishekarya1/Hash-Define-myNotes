@@ -1,7 +1,7 @@
 +++
 title = "Devices & Boot Process"
 date =  2022-05-02T20:49:00+05:30
-weight = 1
+weight = 2
 +++
 
 ```txt

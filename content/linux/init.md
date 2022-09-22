@@ -1,7 +1,7 @@
 +++
 title = "GRUB & Systemd"
 date =  2022-09-15T22:53:00+05:30
-weight = 2
+weight = 3
 +++
 
 ## GRUB
