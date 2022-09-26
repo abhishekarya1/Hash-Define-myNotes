@@ -8,15 +8,7 @@ pre = "🔧 "
 
 # Linux Tools
 
-### References 
-
-**Terminal**
-
-[Linux Journey](https://linuxjourney.com/)
-
-[The UNIX School](https://www.theunixschool.com/2012/07/10-examples-of-paste-command-usage-in.html)
-
-[freeCodeCamp Video & Handbook](https://youtu.be/ZtqBQ68cfJc)
+## References
 
 **Shell Scripting**
 
