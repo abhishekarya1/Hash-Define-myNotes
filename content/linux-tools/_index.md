@@ -8,8 +8,6 @@ pre = "🔧 "
 
 # Linux Tools
 
-## References
-
 **Shell Scripting**
 
 www.shellscript.sh
