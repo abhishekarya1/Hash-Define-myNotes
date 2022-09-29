@@ -100,7 +100,9 @@ The Debian Package Management System (dpkg) is used to perform low-level actions
 
 ### Other package managers
 Debian based distros: apt, dpkg, aptitude
+
 Red-Hat based: RPM (Red Hat Package Manager), YUM (Yellowdog Updater, Modified), DNF (Dandified Yum)
+
 Arch based: Pacman
 
 ---
