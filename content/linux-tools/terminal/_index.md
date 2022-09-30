@@ -16,6 +16,4 @@ pre = "<b>-></b> "
 
 [Jadi - linux1st.com](https://linux1st.com/)
 
-[The UNIX School](https://www.theunixschool.com/2012/07/10-examples-of-paste-command-usage-in.html)
-
 [freeCodeCamp Video & Handbook](https://www.youtube.com/watch?v=ZtqBQ68cfJc)

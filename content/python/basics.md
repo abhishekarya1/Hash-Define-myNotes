@@ -167,6 +167,9 @@ raw_str = r"raw \n string"	# => raw \n string
 "Hello " + "world!"  # => "Hello world!"
 # String literals (but not variables) can be concatenated without using '+'
 "Hello " "world!"    # => "Hello world!"
+# can't sum a string with a number though! (unlike Java)
+# Reason: The Zen of Python pt.2 - Explicit is better than implicit.
+'Hello' + 69     # TypeError
 # Multiplication on strings
 print('hey' * 2)	# => heyhey
 # A string can be treated like a list of characters
