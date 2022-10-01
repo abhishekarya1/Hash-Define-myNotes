@@ -1,7 +1,7 @@
 +++
 title = "Other Tools"
 date =  2022-09-29T15:13:00+05:30
-weight = 6
+weight = 7
 +++
 
 ## ssh
