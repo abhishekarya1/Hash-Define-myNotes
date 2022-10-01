@@ -5,7 +5,13 @@ weight = 7
 +++
 
 ## User Management
-Every user is part of atleast one user group, it can be part of multiple groups at once too. Every user has a _UID_, and every group has a _GID_.
+Every user is part of atleast one user group, it can be part of multiple groups at once too, but one of them will be a **primary group**. Every user has a **UID**, and every group has a **GID**.
+
+`whoami` show username
+
+`groups` show all groups current user is part of
+
+`id` show UID, and GIDs for all groups current user is part of
 
 **Important directories**:
 - `/etc/sudoers` (file containing sudo users' info)
@@ -17,11 +23,11 @@ Every user is part of atleast one user group, it can be part of multiple groups 
 
 `sudo` (superuser do) run command as root user; current user need to be added to `/etc/sudoers` beforehand
 
-`sudo useradd <username>` add a user
+`useradd <username>` add a user
 
-`sudo userdel <username>` remove a user
+`userdel <username>` remove a user
 
-`sudo usermod -g groupname username` change user's primary group
+`usermod -g groupname username` change user's primary group
 
 `passwd <username>` change user password; if we are root, then we can change another user's password
 
@@ -52,9 +58,12 @@ $ chmod ug+x myfile			adding x permission for the current user and for whole gro
 $ chmod +x myfile           adding x permission for the current user only
 $ chmod a-r myfile 			removing r permission for all users, groups and others
 $ chmod g = rx myfile 		sets rx in group permission and removes write permission
+
+
+-R 		recursive; to change dir permissions
 ```
 
-**Numeric Format**: 
+**Octal Codes**: 
 ```txt
 $ chomod 755 myfile
 
@@ -68,7 +77,8 @@ $ chomod 755 myfile
 
 ### Changing Ownership
 
-`sudo chown <username> myfile`
-`sudo chgrp <groupname> myfile`
+`chown <username> myfile`
 
-`sudo chown username:groupname myfile` (combined form of the above two)
+`chgrp <groupname> myfile`
+
+`chown username:groupname myfile` (combined form of the above two)
