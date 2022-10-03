@@ -14,11 +14,9 @@ www.shellscript.sh
 
 www.learnshell.org
 
-[Shell Scipting Tutorials - YouTube](https://www.youtube.com/playlist?list=PL7B7FA4E693D8E790)
+[Shell Scipting Tutorials - YouTube](https://youtube.com/playlist?list=PLS1QulWo1RIYmaxcEqw5JhK3b-6rgdWO_)
 
 [Linux Shell Scripting Tutorial (LSST) v2.0](https://bash.cyberciti.biz/guide/Main_Page)
-
-[The UNIX Workbench - Online Book](https://seankross.com/the-unix-workbench/)
 
 [BASH Reference Manual - GNU](https://www.gnu.org/savannah-checkouts/gnu/bash/manual/bash.html#)
 

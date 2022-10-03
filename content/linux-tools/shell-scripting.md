@@ -5,52 +5,85 @@ weight = 2
 +++
 
 
-## Shell Scripting
-- **#!** (sha-bang) (tells that the file is to be executed by /bin/sh)
-- **Spaces between operands and operators are not at all valid (mostly) in a shell script.**
-- **Comments**	
-	- **#** (single line comment)
-	- **/\*    \*/** (multi-line comment)
-- **echo** ("" or '', but not ``)
-    - `$ echo *` (equivalent to `ls`)
-    - `$ echo "a" "b" "c"` ...
-    - `$ echo "Hello" World`
-    - `$ echo "hello \t world"`
-    - `$ echo 'hello \t world'`
-    - `$ echo Hello * World`
-    - `$ echo "Hello   "World""` (no spaces in param means only one param)
-    -  `echo -e "my \n world"` (recognizes escape sequences inside string)
-    
-- **Variables** - Shell, Environment, and Local (CASE SENSITIVE JUST LIKE REST OF UNIX)
-    - ```sh
-        #!/bin/sh
-        echo $MY_NAME    #nothing printed, by default -> empty var
-        echo What is your name? 
-        read MY_NAME                #assign
-        echo "Hello $MY_NAME - hope you're well."   #usage
-        echo $MY_NAME
-      ```
-      - ($VAR_NAME : $ is required only when using the variable)
-      - (`readonly` _var_name_ : makes a variable constant)
-      - (`unset` _var_name_ : resets var value to empty)
+### Basics
+**#!** (sha-bang) (points to executable that runs the script)
+```sh
+#!/bin/sh
+#!/bin/bash
+#!/usr/bin/python3
+```
+
+**Comments**
+```sh
+# this is a comment
+````
+
+String are in `""` or `''`, or even without any quotes. Tilde-quotes (``) are reserved and means literal execution of whatever is inside them.
+
+**Executing** remember to give executable permission (`x`)
+```txt
+$ ./test.sh
+
+-- or --
+
+$ sh test.sh
+```
+
+### Variables
+**Scopes**: Environment, Shell, and Local (CASE SENSITIVE JUST LIKE REST OF UNIX)
+```sh
+#!/bin/sh
+echo $name              # nothing printed, by default -> empty var 
+name=John               # assignment
+echo Hello $name!       # usage
+
+readonly age=55         # a constant
+unset name              # reset variable's value to empty
+```
+`$VAR_NAME` : A `$` prefix is required only when using the variable; not during assignment
+
+Spaces between operands and operators are not at all valid (mostly) in a shell script.
+```sh
+name = John     # error; command "name" not found 
+
+name=John       # valid
+```
+
+### User Input
+**Interactive**
+```sh
+read username
+
+# a prompt and variable input in the same line
+read -p 'Enter username: ' name
+
+# secret; don't show input in terminal output
+read -sp 'Enter password: ' password
+
+# read array; space separated array input (by default)
+read -a names
+echo ${names[0]} ${names[1]}    # usage
+```
+**Command-line arguments**
+```txt
+$0          script name
+$1 ... $n   command line args
+
+$#          number of cmd line args the scipt is called with
+$*          wrap all args in a single double-quotes
+$@          wrap individual args in double-quotes separately
+
+$$          current PID
+$?          exit status of prev command, 0 = success, 1 = failure
+```
+
 - A _fresh_ shell console is started when we run a script, no var values are stored by default in between script runs.
 - **export** $MY_VAR = abhi, and then run the script
 - To channel back changes in variables to env, use dot `$ . ./script.sh`
 - `touch "${USER_NAME}_file"` ({} specify variable placeholder and "" avoid var name extent)
 - **Wildcards** (`*` `?` etc are allowed
 - **Special Chars** (`"`, `'`, `\`, `(backtick)`, `$`) (Escape them as and when applicable)
----
 
-### Command-Line Arguments
-- **$0** (script name)
-- **$X** (X is any number from 1...)
-- **$#** (number of cmd line args the scipt is called with)
-- **$$** (current PID)
-- **$\*** (wrap all args in double-quotes)
-- **$@** (wrap individual args in double-quotes)
-- **$?** (exit status of prev command, 0 = success, 1 = failure)
-
----
 ### Quoting 
 - **Double-quotes** (allows some special chars inside, like `$`, but not `\escape_seqs`)
 - **Single-quotes** (ignores all special char inside)
