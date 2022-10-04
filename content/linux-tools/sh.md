@@ -283,7 +283,11 @@ unset arr[1]            # remove an element (make it empty value)
 echo ${arr[*]}          # print all elements
 echo ${arr[@]}          # print all elements
 
+echo ${arr[@]:2:6}      # print range of elements (slicing)
+
 echo ${#arr[*]}         # print number of elements in array) (can also use -> #arr[@])
+
+arr=(`cat`)             # take input from terminal and create array; if they're newline separated, that'll also work
 ```
 
 Curly braces `{}` are important to avoid variable name parsing ambiguity. Ex - `$arr`[1] (treats arr as a normal variable which is empty)
