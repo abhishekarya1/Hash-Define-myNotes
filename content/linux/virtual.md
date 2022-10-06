@@ -18,7 +18,7 @@ Hypervisor is also called a _Virtual Machine Manager_ (VMM).
 
 **OS-level virtualization**: In conventional virtualization, multiple full blown OS run on a single machine. In OS-level virtualization, multiple isolated spaces (often called "_containers_") run on a single OS.
 
-**Container**: Lightweight kernel having only parts of the original "full" one. Ex - Docker, LXC, etc... The kernel is "trimmed" down and contains only libraries and tools required for a specfic use case.
+**Container**: Lightweight standalone runtime environment having only parts of the "full" kernel. Ex - Docker, LXC, etc... Kernel is "trimmed down" and contains only libraries and tools required for a specfic use case.
 
 ![Container vs VM image](https://i.imgur.com/prJGvDM.png)
 

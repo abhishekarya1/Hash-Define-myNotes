@@ -15,7 +15,7 @@ Storage directories: `/lib`, `/lib64`, `/usr/lib`, or `/usr/lib64`.
 
 `ldd`: shows if a program is statically or dynamically linked, also lists all libraries that are linked to the program (if dynamic).
 
-### Symbolically linked libraries
+### Symbolic linking of libraries
 We often have one library pointing to another like `libudev.so.1 -> libudev.so.1.4.0`. So if a software uses the former, it will implicitly use the latter.
 
 We can use `ls -l` to check symbolic links.
@@ -36,16 +36,16 @@ llvm13-x86_64.conf  pipewire-jack-x86_64.conf
 $ cat /etc/ld.so.conf.d/llvm13-x86_64.conf
 /usr/lib64/llvm13/lib
 ```
+**How to locate the libs?**: It is a common strategy to place libraries' paths in `/etc/ld.so.conf.d/*.conf` files, and a single config file `/etc/ld.so.conf` can include all those single `.conf` files.
 
-Its a common strategy to place config in `/etc/ld.so.conf.d/*.conf` files, and a single config file `/etc/ld.so.conf` can include all those single `.conf` files.
+Also, there exists a `ld.so.cache` file that contains symbolic links to all dynamically linked libraries on the system, so that we don't have to traverse `ld.so.config.d` everytime. 
 
-
-Also, there exists a `ld.so.cache` file that contains all the symbolic links for all dynamically linked libraries on the system. We use `ldconfig` command to list them.
+Every software on the system reads this cache file to look for libraries. We use `ldconfig` command to manage this cache file.
 
 ```sh
 ldconfig -p
 
-# upon cache updation, run the command again
+# after editing the config file, run the command again to update the cache
 
 ldconfig
 ```
@@ -80,13 +80,13 @@ apt-get install package_1 package_2 package_3	# install; upgrade if already inst
 
 apt-get install package_name=VERSION_NUMBER		# install specific version
 
-apt-get remove pkg_name	# removing a package will not remove its dependencies! (since it can be a shared dependency that is being used by other programs)
+apt-get remove pkg_name	# removing a package will not remove its dependencies and config files! (since it can be a shared dependency that maybe used by other programs) (also configs remain on the system)
 
-apt-get purge pkg_name 	# remove a package and all its dependencies
+apt-get purge pkg_name 	# remove a package and its config files
 
-apt-get autoremove pkg_name	# remove all automatically installed & unused dependencies for a particular package
+apt-get autoremove pkg_name	# remove unused dependencies of this package (dependencies that only this package used and no other package on the system uses)
 
-apt-get autoremove	# remove all unused dependencies globally
+apt-get autoremove	# remove all unused dependencies globally (for all packages)
 
 apt search search_string	# search a package
 

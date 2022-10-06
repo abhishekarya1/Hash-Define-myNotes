@@ -57,10 +57,10 @@ $ chomod u+r myfile 		adding r permission for the current user only
 $ chmod ug+x myfile			adding x permission for the current user and for whole group
 $ chmod +x myfile           adding x permission for the current user only
 $ chmod a-r myfile 			removing r permission for all users, groups and others
-$ chmod g = rx myfile 		sets rx in group permission and removes write permission
+$ chmod g=rx myfile 		sets rx in group permission and removes write permission
 
 
--R 		recursive; to change dir permissions
+-R 		recursive; to recursively change permissions (for all files and dir inside a dir)
 ```
 
 **Octal Codes**: 

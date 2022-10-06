@@ -26,7 +26,7 @@ The GRUB configuration is possible by editing files in `/etc/grub.d` directory.
 ## Systemd
 Hated because: doesn't store logs in text files and violates UNIX principles of KISS (keep it simple stupid) since it does many things beyond what is sufficient for a single tool. Most distros today use it anyways!
 
-Made around **units**. A unit can be a service, an action, a group of service enabling a certain functionality on the system (target), etc...
+Made around **units**. A unit can be a service, an action, a group of service enabling a certain functionality on the system (**target**), etc...
 
 It is **goal-driven**. It acheives a goal by loading a target, which in turn can also have dependencies (other targets or services) that needs to be loaded, so those dependencies are also loaded before the goal is declared "acheived".
 

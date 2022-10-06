@@ -94,6 +94,7 @@ s - socket		always listening
 Every possible process related information is stored here by Kernel. Also, properties and settings related to the system.
 
 ```sh
+# example
 $ cat /proc/cpuinfo
 ```
 ### lspci, lsusb, lshw
