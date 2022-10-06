@@ -13,9 +13,9 @@ weight = 2
 ### 1 - BIOS
 It is a **Firmware** - b/w Hardware and Software.
 
-**BIOS** (Basic Input Output System) - Firmware that identify's hardware, performs a basic sanity check (POST (Power On Self Test)), configures it, and invokes the bootloader.
+**BIOS** (Basic Input Output System) - Firmware that identify's hardware, performs a basic sanity check (POST (Power On Self Test)), configures it, and invokes the bootloader. Stores BIOS code on chip, bootloader in MBR.
 
-**UEFI** (Unified Extensible Firmware Interface) - Created by Intel in 1998 as a successor of BIOS. Uses a specific disk partition for boot (EFI System Partition (ESP)) and uses FAT. On Linux it is located (logical) at `/boot/efi` and files are `.efi`.
+**UEFI** (Unified Extensible Firmware Interface) - Created by Intel in 1998 as a successor of BIOS. Uses a specific disk partition for boot (EFI System Partition (ESP)) and uses FAT. On Linux it is located (logical) at `/boot/efi` and files are `.efi`. Stores both UEFI code and bootloader in ESP.
 
 ### 2 - Bootloader
 
@@ -39,9 +39,9 @@ Most popular bootloader on linux is **GRUB** (GRand Unified Bootloader). Others 
 _Reference_: [How grub2 works on a MBR partitioned disk and GPT partitioned disk?](https://superuser.com/a/1166518)
 
 ### 3 - Kernel
-Kernel needs a temporary filesystem with core essential drivers to load other drivers. The temporary filesystem used was **initrd** (initial ram disk). Nowadays we use **initramfs**, no need to locate initrd.
+Kernel needs a temporary filesystem with core essential drivers to load other drivers. The temporary filesystem used was **initrd** (initial ram disk). Nowadays we use **initramfs**, which is simpler and safer.
 
-Kernel stores all logs in a **kernel ring buffer** that can be viewed later with `dmesg` command.
+Kernel stores all logs in a **kernel ring buffer** (self storing) that can be viewed after booting into the system with `dmesg` command.
 
 **NOTE**: A kernel is also a program afterall! So, it is not uncommon to download and compile the kernel and configure it such that it appears in GRUB menu and we can boot into it.
 
@@ -59,7 +59,7 @@ $ ps -p 1		#to check which init we are using
 ## Devices
 
 ### Sysfs (/sys)
-A pseudo filesystem (logical fs). `/sys` differs from `/dev` since it is concerned with viewing and managing the devices. 
+A pseudo filesystem (logical fs). `/sys` differs from `/dev` since it is only concerned with viewing and managing the devices. 
 
 Files in this directory aren't Nodes or Symbolic links, so we can't write to devices using those. 
 
@@ -96,8 +96,8 @@ Every possible process related information is stored here by Kernel. Also, prope
 ```sh
 $ cat /proc/cpuinfo
 ```
-### lsscsi, lspic, lsusb, lshw
-Listing various devices.
+### lspci, lsusb, lshw
+Listing various devices and hardware info.
 
 ### Loadable Kernel Modules
 Stored in `.ko` files (kernel object) which can then be loaded and removed from boot time loading.
