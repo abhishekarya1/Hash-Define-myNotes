@@ -103,14 +103,16 @@ Listing various devices and hardware info.
 Stored in `.ko` files (kernel object) which can then be loaded and removed from boot time loading.
 
 ```sh
-$ lsmod
+$ lsmod		# list all modules
 
-$ insmod full_path_to_module
+$ modinfo module_name	# show module info
 
-$ modprobe module_name  	#no full path needed here
+$ insmod full_path_to_module	# load a module
 
-$ rmmod module_name
-$ rmmod -f module_name
+$ modprobe module_name  	# same as above; but no full path needed here
+
+$ rmmod module_name 	# unload a module
+$ rmmod -f module_name	# force unload
 ```
 
 If you need to load some modules every time your system boots, add their name to this file `/etc/modules`.
