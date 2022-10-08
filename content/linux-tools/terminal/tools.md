@@ -30,7 +30,7 @@ $ ssh root@192.168.1.5 'ls -la'
 ```sh
 $ gzip myfile 
 
-# recursive; use o directories
+# recursive; use on directories
 $ gzip -r mydir
 
 # decompress
@@ -58,7 +58,7 @@ $ tar -cf myfile.tar foofile barfile
 # extract tarball
 $ tar -xf myfile.tar
 
-# compress/uncompress with gzip, bzip upon achival/unarchival
+# compress with gzip, bzip upon achival
 -z -b
 
 # show extracted content names in terminal
@@ -68,7 +68,10 @@ $ tar -xf myfile.tar
 -r 
 ```
 
-`tar` can work with tapes and drives too, so we need to specify that we're archiving files using the `-f` flag.
+It can work with tapes and drives too, so we need to specify that we're archiving files or directories using the `-f` flag.
+
+It doesn't remove the original file or archive upon archival or extraction respectively, unlike compression (`gzip`, `bzip2`, `xz`) tools above.
+
 
 ## Hashing
 `md5sum` `sha256sum` `sha512sum`
