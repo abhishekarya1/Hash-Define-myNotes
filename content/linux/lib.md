@@ -84,7 +84,7 @@ apt-get remove pkg_name	# removing a package will not remove its dependencies an
 
 apt-get purge pkg_name 	# remove a package and its config files
 
-apt-get autoremove pkg_name	# remove unused dependencies of this package (dependencies that only this package used and no other package on the system uses)
+apt-get autoremove pkg_name	# remove unused dependencies of this package (dependencies that only this package used and no other package on the system uses) (doesn't remove config files)
 
 apt-get autoremove	# remove all unused dependencies globally (for all packages)
 

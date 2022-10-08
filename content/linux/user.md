@@ -60,7 +60,7 @@ $ chmod a-r myfile 			removing r permission for all users, groups and others
 $ chmod g=rx myfile 		sets rx in group permission and removes write permission
 
 
--R 		recursive; to recursively change permissions (for all files and dir inside a dir)
+-R 		to recursively change permissions (for all files and dir inside a dir)
 ```
 
 **Octal Codes**: 
