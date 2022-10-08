@@ -40,14 +40,14 @@ The `+` in the left side tells us that the job will be acted upon if no number i
 
 `top` shows real-time stats on processes (refreshes every 10 sec)
 
-`top -p 1` show info for only process number 1
+`top -p 1` show info for only process ID 1
 
 `kill <PID>` send a termination request to the process (SIGTERM = 15)
 
 `kill -9 <PID>` force kill the process (SIGKILL = 9)
 
 {{% notice tip %}}
-`ps -p 1` is the first process that runs on the system. It is nothing but **init**! Either Systemd or SysV.
+`ps -p 1` is the first process (PID = 1) that runs on the system. It is nothing but **init**! Either Systemd or SysV.
 {{% /notice %}}
 
 ## Terminal Multiplexing

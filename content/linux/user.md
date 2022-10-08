@@ -45,10 +45,10 @@ x 	execute
 4 parts divided in groups of 3
 
 ```txt
-d | rwx | r-x | r-x		  (file_type | user perm | group perm | other user perm)
+d | rwx | r-x | r-x		  (file_type | owner user perm | owner group perm | other user perm)
 ```
 
-_file_type_ above can be `-` (file) or `d` (directory).
+_file_type_ above can be `-` (normal file) or `d` (directory). Other types can be - `l` (link), `b` (block), `p` (pipe), `c` (character), and `s` (socket).
 
 ### Changing
 `chmod` (change mode) (`o` = other, `u` = user, `g` = group, `a` = all)
@@ -76,9 +76,10 @@ $ chomod 755 myfile
 ```
 
 ### Changing Ownership
+A file or directory's ownership matters because the user and group permissions that are applied on it specify how the user and group that owns it, accesses it.
 
 `chown <username> myfile`
 
 `chgrp <groupname> myfile`
 
-`chown username:groupname myfile` (combined form of the above two)
+`chown <username>:<groupname> myfile` (combined form of the above two)
