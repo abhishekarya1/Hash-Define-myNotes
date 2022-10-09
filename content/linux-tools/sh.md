@@ -72,8 +72,7 @@ echo ${NAME:="John"}
 ```
 4. _Existence check_ (`:?`): stops execution if variable is empty
 ```sh
-${varName:?Error varName is not defined}   
-${varName?Error varName is not defined}     # alt syntax
+${varName:?Error varName is not defined}  
 ```
 **Scopes**: Environment (all currently running child terminals can access them; session-scope) and Local (function only)
 ```sh
@@ -127,7 +126,7 @@ echo -e 'foo\nbar'       allow escape characters inside, in any quotes
 echo *                   wildcard; lists directory contents (like `ls`)
 echo *.png               list all .png files in pwd
   
-printf "Marks: %d" $num  just like in C lang
+printf "Marks: %d" $num     just like in C lang
 ```
 ```sh
 # sleep for 30 sec
@@ -182,7 +181,7 @@ Usage (all spaces matter): [ $n1 -gt $n2 ]
 ```
 
 {{% notice note %}}
-Use `<` symbols inside `(())`. Use `-lt` forms inside `[]`.
+Use `<` symbols inside `(())`. Use `-lt` forms inside `[]`. We can often use `[[]]` in place of `(())`, the symbols work inside it too.
 {{% /notice %}}
 
 **Logical**:
@@ -210,7 +209,7 @@ if [ $a -lt 100 -o $b -gt 100 ]
 ```
 
 {{% notice note %}}
-With Strings, Use `<` symbols inside `[[]]`.
+With Strings, Use `<` symbols inside `[[]]`. The `(())` with Strings doesn't work.
 {{% /notice %}}
 
 
