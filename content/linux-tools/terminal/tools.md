@@ -58,20 +58,22 @@ $ tar -cf myfile.tar foofile barfile
 # extract tarball
 $ tar -xf myfile.tar
 
-# compress with gzip, bzip upon achival
+# filter (compress/uncompress) with gzip, bzip upon achival/unarchival automatically
 -z -b
+
+# show archive content
+-t
 
 # show extracted content names in terminal
 -v 
 
-# add files to existing tarball
+# add files to existing archive
 -r 
 ```
 
-It can work with tapes and drives too, so we need to specify that we're archiving files or directories using the `-f` flag.
+It can work with tapes and drives too, so we need to specify that we're archiving files or directories using the `-f` flag. So this goes everytime we use this command under normal circumstances.
 
 It doesn't remove the original file or archive upon archival or extraction respectively, unlike compression (`gzip`, `bzip2`, `xz`) tools above.
-
 
 ## Hashing
 `md5sum` `sha256sum` `sha512sum`
