@@ -181,7 +181,7 @@ Usage (all spaces matter): [ $n1 -gt $n2 ]
 ```
 
 {{% notice note %}}
-Use `<` symbols inside `(())`. Use `-lt` forms inside `[]`. We can often use `[[]]` in place of `(())`, the symbols work inside it too.
+Use `<` symbols inside `(())`. Use `-lt` forms inside `[]`. Sometimes we use `[[]]` in place of `(())` (like with an `if` clause), the symbols work inside it too.
 {{% /notice %}}
 
 **Logical**:
@@ -209,7 +209,7 @@ if [ $a -lt 100 -o $b -gt 100 ]
 ```
 
 {{% notice note %}}
-With Strings, Use `<` symbols inside `[[]]`. The `(())` with Strings doesn't work.
+With Strings, Use `<` symbols inside `[[]]`. The `(())` evaulation operator doesn't work with Strings.
 {{% /notice %}}
 
 
@@ -235,8 +235,15 @@ then
 else
 fi
 
-# alt syntax
+# alt syntax #1
 if (( ... ))
+then
+    #body
+else     
+fi
+
+# alt syntax #2
+if [[ ... ]]
 then
     #body
 else     
