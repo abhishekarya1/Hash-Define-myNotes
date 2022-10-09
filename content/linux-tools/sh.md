@@ -141,6 +141,9 @@ sleep 1h
 
 ### Operators
 Arithmetic: `+` `-` `*` `/` `%` `**`
+
+`(( expression ))` style of braces are used for arithmetic evaluation.
+
 ```sh
 echo $(( 2 + 3 ))                # no space issues here
 echo $(( $num1 + $num2 ))        # with vars
@@ -150,7 +153,7 @@ expr $num1 + $num2      # with vars
 
 expr 4 \* 5            # need to escape * with expr or syntax error! (weird)
 ````
-**Unary Operators**: `++` `--`
+**Unary Operators**: `++` `--` (_post_ and _pre_)
 ```sh
 i=0
 while [ $i -lt 10 ] 
@@ -167,7 +170,7 @@ echo $ans
 
 # prints "1" (non-zero means True)
 ```
-For evaluating to a boolean, use `[]` and below forms:
+For evaluating to a boolean, use `[]` and below forms of the relational operators:
 
 ```txt
 -gt     greater than
@@ -181,8 +184,14 @@ Usage (all spaces matter): [ $n1 -gt $n2 ]
 ```
 
 {{% notice note %}}
-Use `<` symbols inside `(())`. Use `-lt` forms inside `[]`. Sometimes we use `[[]]` in place of `(())` (like with an `if` clause), the symbols work inside it too.
+As a rule of thumb, always use `<` symbols inside `(( condition ))` and `-lt` forms inside `[ condition ]`.
+
+Sometimes we also use `[[ condition ]]` (_newer_) (like with an `if` clause). The advantage being that both `-lt` forms as well as the `<` symbols work inside it.
+
+`[[ ]]` is more safer to use (no glob expansion), but the trade-off is backwards compatibility as it is much newer.
 {{% /notice %}}
+
+_Reference_: http://mywiki.wooledge.org/BashFAQ/031
 
 **Logical**:
 ```txt
@@ -209,7 +218,7 @@ if [ $a -lt 100 -o $b -gt 100 ]
 ```
 
 {{% notice note %}}
-With Strings, Use `<` symbols inside `[[]]`. The `(())` evaulation operator doesn't work with Strings.
+With Strings, Use `<` symbols inside `[[ condition ]]`. The `(( condition ))` evaulation operator doesn't work with Strings.
 {{% /notice %}}
 
 
