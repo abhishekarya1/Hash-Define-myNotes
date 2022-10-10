@@ -20,11 +20,13 @@ weight = 2
 
 **Executing** remember to give executable permission (`x`)
 ```txt
-$ ./test.sh
+$ ./test.sh         executes; but doesn't export variables to environment
+ 
+$ bash test.sh      no need of +x permission; doesn't export variables to environment
+$ sh test.sh        same as above (but uses "sh" as shell)
 
--- or --
-
-$ sh test.sh
+$ source test.sh    executes and exports variables to environment
+$ . test.sh         dot (.) is just a shorthand for the "source" command
 ```
 
 **Quotes and Backslash**: 
@@ -78,7 +80,7 @@ ${varName:?Error varName is not defined}
 ```sh
 export myvar="foobar"    # "exporting" variable myvar to environment
 
-. ./test.sh              # "sourcing" the script's variables to environment
+. test.sh                # "sourcing" the script's variables to environment
 ```
 
 ### User Input
