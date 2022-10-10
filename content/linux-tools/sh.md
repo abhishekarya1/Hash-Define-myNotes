@@ -309,6 +309,12 @@ arr=(`cat`)             # take input from terminal and create array; if they're 
 
 Curly braces `{}` are important to avoid variable name parsing ambiguity. Ex - `$arr`[1] (treats arr as a normal variable which is empty)
 
+**String Slicing**: Strings can be sliced just like arrays:
+```sh
+str="JohnDoe"
+echo ${str:0:4}     # prints "John"
+```
+
 ### Loops
 - **for**
 ```sh
