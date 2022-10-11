@@ -9,7 +9,7 @@ pre = "<i class=\"devicon-git-plain colored\"></i> "
 3 types of VCS (Version Control Systems):
 - **Local** (Local): only on developer's machine
 - **Centralized** (CVCS): only on a centralized remote repo
-- **Distributed** (DVCS): on every developer's machines as well as a remote repo
+- **Distributed** (DVCS): entire change history is on every developer's machines as well as a remote repo
 
 Git and Mercurial are the most popular DVCS.
 
@@ -30,20 +30,9 @@ Git tracks the changes using "snapshots" of files in repository. So if we want t
 
 **HEAD** - points to the latest commit in current branch; only one head is _active_ at a given time, though we can have mutiple heads present
 
-### Git - Commands
-### Config
-
-```sh
-# Setup
-$ git config --global user.name "John Doe"
-$ git config --global user.email johndoe@example.com
-
-# To view config
-$ git config user.name
-$ git config user.email
-```
-
+## Git - Commands
 ### Help
+
 ```sh
 # open locally stored HTML man page in browser
 $ git help <subcommand>			
@@ -53,7 +42,7 @@ $ git <subcommand> --help
 $ git <subcommand> -h 				
 ```
 
-### Basics
+### Staging, Commiting, and Logs
 ```sh
 $ git init
 
@@ -76,18 +65,15 @@ $ git push
 
 # View Commit History
 $ git log
-# All commits including branch
-$ git log --all
-# ASCII graph
+# Show logs in an ASCII graph
 $ git log --graph
-
 ```
 
-All commits have a SHA-1 checksum hash. It is proven to not be collision resistant anymore but probabilty is really low. Use first few digits of the hash to uniquely identify a commit.
+All commits have a SHA-1 checksum hash. It is proven to **not** be collision resistant anymore but probabilty is really low. Use first few digits of the hash to uniquely identify a commit.
 
 Use **shorthands** to refer to commits insted of actual hash:
 ```txt
-HEAD 		latest commit in current branch
+HEAD 		latest commit in the current branch
 
 HEAD^ 		parent of last commit in current branch
 HEAD~ 		same as above
@@ -98,14 +84,14 @@ HEAD~n 	 	jump to nth commit from HEAD
 ```
 
 ### Undoing Stuff
-Deleting all local commits till `commit_hash`, `commit_hash` not included. Default hash is `HEAD` when no hash is specified in below commands.
+Deleting all local commits till `commit_hash` (`commit_hash` not included). Default is `HEAD` when no `commit_hash` is specified in below commands.
 
 When files are **not pushed** to remote yet:
 ```sh
-# Undoing before staging = make file as-in latest commit (can use reset --hard too)
+# Undoing before staging = make file as-in latest commit (can use "git reset --hard" too)
 $ git checkout <file/dir>
 
-# Undoing after staging but before commiting = unstage and make file as-in latest commit (can use reset --hard too)
+# Undoing after staging but before commiting = unstage and make file as-in latest commit (can use "git reset --hard" too)
 $ git reset <file/dir>
 $ git checkout <file/dir>
 
@@ -158,9 +144,15 @@ $ git remote rename origin foobar
 # remove remote
 $ git remote remove foobar
 
+# set upstream of "bar" to "foo"
+$ git branch --set-upstream-to=origin/foo bar
+
 # set current tracking branch's upstream branch; req only on first push to remote
 $ git push --set-upstream origin foobar
 $ git push -u origin foobar  # same as above
+
+# show upstream info of all branches
+$ git branch -vv
 
 # pulling from a remote branch (if upstream isn't set)
 $ git pull origin master
@@ -201,6 +193,9 @@ $ git tag -d v2.0
 ```
 
 ### Branching
+
+Renaming and deleting branches isn't a good idea when working on a repo that multiple people are using.
+
 ```sh
 # Create branch
 $ git branch <branchname> 
@@ -211,6 +206,9 @@ $ git checkout -b <brachname>
 
 # Jump to another branch
 $ git checkout foobar
+
+# Goto previous branch
+$ git checkout -
 
 # View all local branches
 $ git branch
@@ -231,9 +229,6 @@ $ git switch -c foobar
 
 # jump to another branche
 $ git switch master
-
-# goto previous branch
-$ git switch -
 ```
 
 ### Merging
@@ -241,6 +236,8 @@ $ git switch -
 **Fast-forward merge**: if the commit we are merging can be just picked up and moved to our current position
 
 **3-way merge**: find a common ancestor of the commit we're merging and current state and create a new commit merging the two histories together  (_merge commit_) (this leads to **merge conflicts**)
+
+_Reference_: https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
 
 ```sh
 # goto foobar
@@ -277,8 +274,8 @@ $ git stash
 $ git stash list
 # Apply stash (apply but don't remove stash from list)
 $ git stash apply stash@{0}
-# git stash pop (remove and apply, if conflict then no popping)
-$ git stash pop
+# git stash pop (apply stash and then remove it, if conflict then don't remove)
+$ git stash pop stash@{2}
 ```
 
 ### GitHub
@@ -287,8 +284,20 @@ $ git stash pop
 $ git clone <repo_url>
 ```
 
+### TBD
+Rebasing
+
+Submodules
+
+Git Internals
+
+RefLogs
+
+
 ## References
 https://gitimmersion.com/
+
+[Pro Git - Book](https://git-scm.com/book/en/v2) 
 
 https://www.atlassian.com/git/tutorials
 
@@ -296,4 +305,4 @@ https://learnxinyminutes.com/docs/git/
 
 https://www.packtpub.com/product/git-and-github-the-complete-git-and-github-course-video/9781800204003
  
-Most detailed reference: [Docs](https://git-scm.com/doc) and [Book](https://git-scm.com/book/en/v2) 
+Most detailed reference: [Docs](https://git-scm.com/doc)
