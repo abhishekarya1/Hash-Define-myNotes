@@ -5,165 +5,272 @@ weight = 2
 pre = "<i class=\"devicon-git-plain colored\"></i> "
 +++
 
-## Git SCM notes
+## Version Control Systems
+3 types of VCS (Version Control Systems):
+- **Local** (Local): only on developer's machine
+- **Centralized** (CVCS): only on a centralized remote repo
+- **Distributed** (DVCS): on every developer's machines as well as a remote repo
 
-### Basics
-- Many platforms use Git DVCS (Distributed Version Control System), some are GitHub, Bitbucket, etc.. 
-https://www.geeksforgeeks.org/centralized-vs-distributed-version-control-which-one-should-we-choose/
+Git and Mercurial are the most popular DVCS.
 
-### Glossary
-- **Working Tree** - home directory structure
-- `.git` - folder hidden in home directory that contains info for git to work, ex. config, etc...
-- **States in Git** - Untracked, Modified, Staged, Commited
-- **HEAD** - only one head is _active_ at a given time, though we can have mutiple heads.
-### Git
+GitHub and BitBucket are most popular tools and environment that use Git under the hood.
+
+## Git - Basics
+![stage of tracked files in git](https://i.imgur.com/insn8mY.png)
+
+**States in Git** - Untracked (_new_ files), Modified, Staged, Committed
+
+**Working Tree** - local version of the repository
+
+Git tracks the changes using "snapshots" of files in repository. So if we want to see the contents of a repository at a given time in the past, we can just "checkout" to a commit and our **entire local folder will change** to how the repo files were at that point in time.
+
+`.git` directory - a hidden directory in root of repository that contains info for git to work, like configs, etc...
+
+`.gitignore` - optional file that contains rules for directory and files to be excluded from version control
+
+**HEAD** - points to the latest commit in current branch; only one head is _active_ at a given time, though we can have mutiple heads present
+
+### Git - Commands
+### Config
 
 ```sh
 # Setup
-$ git config --global user.name "Your Name"
-$ git config --global user.email your_email@whatever.com
+$ git config --global user.name "John Doe"
+$ git config --global user.email johndoe@example.com
 
 # To view config
 $ git config user.name
 $ git config user.email
-
-# Setting line preferences (optional ofcourse)
-$ git config --global core.autocrlf true
-$ git config --global core.safecrlf true
 ```
 
-```bash
-$ git [command] --help
+### Help
+```sh
+# open locally stored HTML man page in browser
+$ git help <subcommand>			
+$ git <subcommand> --help
 
+# view help doc in terminal
+$ git <subcommand> -h 				
+```
 
+### Basics
+```sh
 $ git init
 
 $ git status
 
-# Staging
-$ git add <filename/dirname>
+# Staging (wildcards allowed)
+$ git add <filenames/dirnames>
 
 # Commiting
 $ git commit -m "my first commit"
 
-# combined (won't work if any new file was created and is still untracked)
-$ git commit -am "made changes to existing files only"
+# combine add and commit; won't work if any new file was created and is still untracked
+$ git commit -a -m "made changes to existing files only"
 
-# Amending Commits
-$ git commit --amend -m "forgot to add email comment"
-# the above will delete the previous commit and insert fresh one here
+# Amending last commit (will overwrite a previous commit)
+$ git commit --amend -m "forgot to add a file in repo"
 
-# Pushing to remote
+# Pushing to remote (if remote is already set)
 $ git push
 
-# History
+# View Commit History
 $ git log
+# All commits including branch
+$ git log --all
+# ASCII graph
+$ git log --graph
 
-# Cutomize it!
-$ git log --pretty=oneline
-$ git log --pretty=oneline --max-count=2
-$ git log --pretty=oneline --since='5 minutes ago'
-$ git log --pretty=oneline --until='5 minutes ago'
-$ git log --pretty=oneline --author=<your name>
-$ git log --pretty=oneline --all
+```
 
-# Aliases can be set via terminal or via ".git/config" 
-[alias]
-  	co = checkout
-  	ci = commit
-  	st = status
-  	br = branch
-  	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
-  	type = cat-file -t
-  	dump = cat-file -p
+All commits have a SHA-1 checksum hash. It is proven to not be collision resistant anymore but probabilty is really low. Use first few digits of the hash to uniquely identify a commit.
 
-# Ignoring files - Any filename added to ".gitignore" will be exempted from vcs
-$ echo "temp/" >> .gitignore
-$ echo "private_key" >> .gitignore
+Use **shorthands** to refer to commits insted of actual hash:
+```txt
+HEAD 		latest commit in current branch
 
-# Show
-$ git show <hash>
-#shows data diff on commit
+HEAD^ 		parent of last commit in current branch
+HEAD~ 		same as above
 
-# Go to a previous commit, view hash in log, only a first few chars of the hash will do
-$ git checkout <hash>
-# Return to latest commit
-$ git checkout master
-# checkout deletes data from uncommited files but not for commited ones, as shown below
+HEAD~1 		same as above
+HEAD~2 		parent of parent of last commit in current branch
+HEAD~n 	 	jump to nth commit from HEAD
+```
 
-# Tags - specially named points in Git
-# View all
-$ git tag
-# Set new
-$ git tag v2-beta
-# Jump to a previous tag
-$ git checkout v1
-# Remove a tag
-$ git tag -d v2
+### Undoing Stuff
+Deleting all local commits till `commit_hash`, `commit_hash` not included. Default hash is `HEAD` when no hash is specified in below commands.
 
-# Undoing before staging = checkout file to latest commit
-$ git checkout <file_to_undo>
-# Undoing before commiting = reset HEAD to clear any staged changes, and checkout to latest commited version
-$ git reset HEAD <file_to_undo>
-$ git checkout <file_to_undo>
-# Undoing Committed Changes = revert to  
+When files are **not pushed** to remote yet:
+```sh
+# Undoing before staging = make file as-in latest commit (can use reset --hard too)
+$ git checkout <file/dir>
+
+# Undoing after staging but before commiting = unstage and make file as-in latest commit (can use reset --hard too)
+$ git reset <file/dir>
+$ git checkout <file/dir>
+
+# Undoing after committing
+# remove commits but don't unstage files
+$ git reset --soft <commit_hash>
+
+# remove commits and unstages files; default
+$ git reset --mixed <commit_hash>
+
+# remove commits, unstage files, and undo any file modifications since!
+$ git reset --hard <commit_hash>
+
+
+# a newer "restore" command is also an alternative of reset but its dangerous (avoid it!)
+# default command is equivalent to reset --hard!
+$ git restore <file/dir> 
+
+# unstaging
+$ git restore --staged <file/dir>
+```
+
+When files are **already pushed** to remote:
+```sh
+# Undoing Committed Changes = reverting
 $ git revert HEAD
 # or
 $ git revert <hash> 
+```
 
-# Deleting all commits till <hash>, <hash> not included
-$ git reset --mixed <hash> (commits removed, also unstages files)
-$ git reset --soft <hash> (not unstaged)
-$ git reset --hard <hash> (files will be edited accordingly too)
+### Remote
+Remote is nothing but a repository that's not on our system. We can specify which branch of remote we should push to, etc...
 
-# Moving Files = either use terminal command (mv) or git mv
-$ git mv hello.py lib
-# same as
-$ mv hello.py ./lib
+Default remote name is `origin`.
 
-# Removing files = either use terminal command (rm) or git rm
-$ git rm path/to/file/hello.py
-# same as
-$ rm path/to/file/hello.py
+When working with a remote repository:
+- Local branch = **Tracking branch**
+- Remote branch = **Upstream branch**
 
-# Branching
+```sh
+# add remote
+$ git remote add foobar <URL>
+
+# list all remotes
+$ git remote -v
+
+# renaming remotes (change remote name from "origin" to "foobar")
+$ git remote rename origin foobar
+
+# remove remote
+$ git remote remove foobar
+
+# set current tracking branch's upstream branch; req only on first push to remote
+$ git push --set-upstream origin foobar
+$ git push -u origin foobar  # same as above
+
+# pulling from a remote branch (if upstream isn't set)
+$ git pull origin master
+
+# pushing to a remote branch (if upstream isn't set)
+$ git push origin master
+
+# if upstream has been set, use normal ones
+$ git pull
+$ git push
+```
+
+### Alias
+```sh
+# Aliases can be set via terminal (using alias command) or by editing ".git/config": 
+[alias]
+  	co = commit
+  	st = status
+  	br = branch
+  	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+
+```
+
+### Tags
+Uniquely named points in Git.
+```sh
+# view all
+$ git tag
+
+# create new lightweight tag
+$ git tag v2.0 -m "an optional message"
+
+# create new annotated tag (better as it stores more info about creator)
+$ git tag -a v2.0 -m "an optional message"
+
+# remove
+$ git tag -d v2.0
+```
+
+### Branching
+```sh
 # Create branch
 $ git branch <branchname> 
 # Checkout to that branch
 $ git checkout <branchname>
 # Combined
 $ git checkout -b <brachname>
-# Jump across branches
-$ git checkout new-brach
-$ git checkout master
+
+# Jump to another branch
+$ git checkout foobar
+
 # View all local branches
 $ git branch
-# View all remote branches
+# View all local and remote branches
 $ git branch -a
-# Deleting branches, we can't delete branch we're currently on
-$ git branch -D <branchname>
+# Deleting branches, we can't delete branch we're currently on (lol!)
+$ git branch -d <branchname>
+```
+```sh
+# Go to a previous commit (detached head state)
+$ git checkout <hash>
+```
 
-# All commits including branch
-$ git log --all
-# ASCII graph
-$ git log --graph
+Newer `git switch` command (as an alternative to `git checkout`):
+```sh
+# create a new branch, and checkout to it
+$ git switch -c foobar
 
-# Merging branches
-# Fast-Forward Merge (if no commits happen on master after branch)
-# 3-way Merge (if changes happen to branch as well as master simultaneously after branch, can lead to conflicts)
-$ git checkout anotherBranch
+# jump to another branche
+$ git switch master
+
+# goto previous branch
+$ git switch -
+```
+
+### Merging
+
+**Fast-forward merge**: if the commit we are merging can be just picked up and moved to our current position
+
+**3-way merge**: find a common ancestor of the commit we're merging and current state and create a new commit merging the two histories together  (_merge commit_) (this leads to **merge conflicts**)
+
+```sh
+# goto foobar
+$ git checkout foobar
+# merge changes from master into foobar
 $ git merge master
-# We may want to fetch the latest before merge, pull = fetch followed by merge
+
+# alternatively, we can pull too 
 $ git pull master
-# Merge Conflict - If we make change to both the branch and master, both are different and git can't choose which one to keep 
-# Refer: https://stackoverflow.com/questions/24852116/how-does-exactly-a-git-merge-conflict-happen
-# Resolve conflict manually by editing the files or abort as follows, 
+```
+
+`git fetch` just brings the changes and doesn't apply them to files, `git merge` applies the changes onto the files. `git pull` is just fetch followed by merge.
+
+
+**Merge Conflict** - If we make change to both the branch and master, both are different and Git can't choose which one to keep 
+```sh
+# resolve conflict manually and add, commit the files or abort the merge
 $ git merge --abort
 
-# Rebase (the junction commit or base commit can be changed using rebase, default is rebasing to last commit on target branch)
-$ git checkout anotherBranch
-$ git rebase master
+# merge strategy - biased merge with our/their changes only
+$ git merge --strategy-option theirs
+$ git merge --strategy-option ours
 
+# use strategy on individual files/dirs
+$ git checkout --theirs <file/dir>
+$ git checkout --ours <file/dir>
+```
+
+### Stashing
+```sh
 # Stashing changes
 $ git stash
 # View all stashes (latest is stash@{0}, then stash@{1} and so on...)
@@ -171,48 +278,21 @@ $ git stash list
 # Apply stash (apply but don't remove stash from list)
 $ git stash apply stash@{0}
 # git stash pop (remove and apply, if conflict then no popping)
-$ git stash pop stash@{0}
-
-# GitHub
-# Create repo in GitHub in browser
-# Connect local repo to remote (git remote add <name_of_remote> <url>)
-$ git remote add origin <https://github.com/user/repository.git>
-
-# Pull (git pull <remote> <branch>)
-$ git pull origin master
-# or set upstream to avoid specifying origin master evrytime
-$ git branch --set-upstream-to=origin/master master
-# now we can use
-$ git pull
-
-# Push to remote (git push <name_of_remote> <branch name>)
-$ git push origin master
-# or
-$ git push
-
-
-# Collaborating
-# Clone - Download remote repository to local filesystem.
-$ git clone <https://github.com/user/repository.git>
-
-# Fork - Create a linked remote copy.
-
-# PR (Pull Request) - A request to a change that can be either merged or rejected.
-
-# We can also add collaborator so that they don't have to PR everytime
-
-# Controlling Collaboration
-	# Protect Branches - Add branch protection rules from browser
+$ git stash pop
 ```
 
-### References
+### GitHub
+```sh
+# Clone - download remote repository to local filesystem
+$ git clone <repo_url>
+```
+
+## References
 https://gitimmersion.com/
 
+https://www.atlassian.com/git/tutorials
+
 https://learnxinyminutes.com/docs/git/
-
-Cheatsheet :https://training.github.com/downloads/github-git-cheat-sheet/
-
-Practice: http://git-school.github.io/visualizing-git/
 
 https://www.packtpub.com/product/git-and-github-the-complete-git-and-github-course-video/9781800204003
  

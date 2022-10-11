@@ -6,6 +6,13 @@ pre = "⚙️ "
 +++
 
 ### DevOps
+A set of practices combining software _development_ and IT _operations_. It aims to _shorten the development life cycle_ and provide _continuous delivery_ to customer/end-users.
+
+**Dev** - C,B,T
+
+**Ops** - D,O,M
+
+**Release** ↔ **Plan**
 
 ![](https://i.imgur.com/2HPGX8m.png)
 
