@@ -20,7 +20,9 @@ GitHub and BitBucket are most popular tools and environment that use Git under t
 
 **States in Git** - Untracked (_new_ files), Modified, Staged, Committed
 
-**Working Tree** - local version of the repository
+**Working Tree** - modified files exist here in local repo (aka. Working Directory)
+
+**Index** - the staging area
 
 Git tracks the changes using "snapshots" of files in repository. So if we want to see the contents of a repository at a given time in the past, we can just "checkout" to a commit and our **entire local folder will change** to how the repo files were at that point in time.
 
@@ -63,8 +65,10 @@ $ git commit --amend -m "forgot to add a file in repo"
 # Pushing to remote (if remote is already set)
 $ git push
 
-# View Commit History
+# View Commit History of current branch
 $ git log
+# View Commit History of all branches
+$ git log --all
 # Show logs in an ASCII graph
 $ git log --graph
 ```
@@ -122,6 +126,8 @@ $ git revert HEAD
 $ git revert <hash> 
 ```
 
+Revert will add a "revert commit" that will show in commit history that we've reverted to a previous version. Reset adds no such commit.
+
 ### Remote
 Remote is nothing but a repository that's not on our system. We can specify which branch of remote we should push to, etc...
 
@@ -144,7 +150,7 @@ $ git remote rename origin foobar
 # remove remote
 $ git remote remove foobar
 
-# set upstream of "bar" to "foo"
+# set upstream branch for "bar" to "foo"
 $ git branch --set-upstream-to=origin/foo bar
 
 # set current tracking branch's upstream branch; req only on first push to remote
@@ -165,19 +171,13 @@ $ git pull
 $ git push
 ```
 
-### Alias
-```sh
-# Aliases can be set via terminal (using alias command) or by editing ".git/config": 
-[alias]
-  	co = commit
-  	st = status
-  	br = branch
-  	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
+**NOTE**: When we `push` a local branch, the changes in other branches are not automatically pushed to their respective upstreams i.e. push's scope is "per branch" only. 
 
-```
+For `pull`, changes are `fetch`ed for all branches on a `pull` in any branch but never applied to files in other branches, unless a `merge` or a `pull` is manually done in them too.
+
 
 ### Tags
-Uniquely named points in Git.
+Uniquely named points in Git. We can `checkout` to a tag quickly when needed.
 ```sh
 # view all
 $ git tag
@@ -193,8 +193,7 @@ $ git tag -d v2.0
 ```
 
 ### Branching
-
-Renaming and deleting branches isn't a good idea when working on a repo that multiple people are using.
+Renaming or deleting branches isn't a good idea when working on a repo that multiple people are using.
 
 ```sh
 # Create branch
@@ -206,7 +205,6 @@ $ git checkout -b <brachname>
 
 # Jump to another branch
 $ git checkout foobar
-
 # Goto previous branch
 $ git checkout -
 
@@ -214,8 +212,11 @@ $ git checkout -
 $ git branch
 # View all local and remote branches
 $ git branch -a
-# Deleting branches, we can't delete branch we're currently on (lol!)
+
+# Delete branch (if no unmerged changes are there in it), we can't delete branch we're currently on (obviously, lol!)
 $ git branch -d <branchname>
+# Deleting using above won't delete branches from remote, use below to do so
+$ git push -d <branchname>
 ```
 ```sh
 # Go to a previous commit (detached head state)
@@ -227,8 +228,16 @@ Newer `git switch` command (as an alternative to `git checkout`):
 # create a new branch, and checkout to it
 $ git switch -c foobar
 
-# jump to another branche
+# jump to another branch
 $ git switch master
+```
+
+**Branch out** from a commit/tag:
+```sh
+# create branch from an earlier commit
+$ git branch foo <commit_hash>
+
+# when we use branch command without the <commit_hash>, HEAD is passed as default
 ```
 
 ### Merging
@@ -266,6 +275,16 @@ $ git checkout --theirs <file/dir>
 $ git checkout --ours <file/dir>
 ```
 
+### Rebasing
+Rebasing branches **rewrites commit history** and it is thus not recommeneded to rebase repositories that are already shared with others.
+
+**Concept**: instead of performing a 3-way merge by creating a merge commit, we can just move the "base" of the branch (B) (a commit where it stemmed out from another branch(B)) to extend the `HEAD` of branch A. 
+```sh
+# rebase "experiment" branch onto "master" branch
+$ git checkout experiment
+$ git rebase master
+```
+
 ### Stashing
 ```sh
 # Stashing changes
@@ -276,22 +295,55 @@ $ git stash list
 $ git stash apply stash@{0}
 # git stash pop (apply stash and then remove it, if conflict then don't remove)
 $ git stash pop stash@{2}
+# remove all stashes
+$ git stash clear
+```
+
+### RefLogs
+Git keeps a _local only_ **Reference Log** for every updates to the tip of branches in `.git/logs/` directory, it is _ephemeral_ though (erased after a few weeks). 
+
+The `git reflog` shows an undo history of every update to `HEAD` (when a new commit is made or we "jump to" (checkout) to another branch), rather than show us the ancestry of the current `HEAD` commit (which `git log` does). 
+
+It can thus show us even the erased commits (lost by `git reset`) and we can checkout to one of them, and branch out from there to recover the work.
+```sh
+# default = all branches
+$ git reflog 
+
+# show ref logs of a specific branch only
+$ git reflog <branch_name>
+
+# can see ref log for stashes too
+$ git reflog stash
+
+# show reflog for all refs (all branches and stashes)
+$ git reflog --all
 ```
 
 ### GitHub
 ```sh
 # Clone - download remote repository to local filesystem
 $ git clone <repo_url>
+
+# SSH preferred for all communications with GitHub
+
+# Fork
+# PR (Pull Request)
 ```
 
 ### TBD
-Rebasing
+Submodules - repo inside another repo; both having different independent remotes
 
-Submodules
+Git Internals - bare repo, aliasing
 
-Git Internals
+```sh
+# Aliases can be set via terminal (using alias command) or by editing ".git/config": 
+[alias]
+  	co = commit
+  	st = status
+  	br = branch
+  	hist = log --pretty=format:'%h %ad | %s%d [%an]' --graph --date=short
 
-RefLogs
+```
 
 
 ## References
