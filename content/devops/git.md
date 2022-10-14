@@ -309,7 +309,7 @@ It can thus show us even the erased commits (lost by `git reset`) and we can che
 # default = all branches
 $ git reflog 
 
-# show ref logs of a specific branch only
+# show ref logs related to specific branch only
 $ git reflog <branch_name>
 
 # can see ref log for stashes too
@@ -333,7 +333,12 @@ $ git clone <repo_url>
 ### TBD
 Submodules - repo inside another repo; both having different independent remotes
 
+https://git-scm.com/book/en/v2/Git-Tools-Submodules
+
 Git Internals - bare repo, aliasing
+
+https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain
+
 
 ```sh
 # Aliases can be set via terminal (using alias command) or by editing ".git/config": 
@@ -345,16 +350,16 @@ Git Internals - bare repo, aliasing
 
 ```
 
+Bundle - share all data that we push typically, as a binary file offline with another person, who can ther unbundle that binary file in their repo
+
 
 ## References
-https://gitimmersion.com/
-
 [Pro Git - Book](https://git-scm.com/book/en/v2) 
+
+https://gitimmersion.com/
 
 https://www.atlassian.com/git/tutorials
 
 https://learnxinyminutes.com/docs/git/
 
-https://www.packtpub.com/product/git-and-github-the-complete-git-and-github-course-video/9781800204003
- 
-Most detailed reference: [Docs](https://git-scm.com/doc)
+Detailed reference: https://git-scm.com/doc
