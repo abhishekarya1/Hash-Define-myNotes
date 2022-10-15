@@ -330,16 +330,14 @@ $ git clone <repo_url>
 # PR (Pull Request)
 ```
 
-### TBD
-Submodules - repo inside another repo; both having different independent remotes
+### More Topics
+`git submodule` - repo inside another repo; both having independent remotes
 
-https://git-scm.com/book/en/v2/Git-Tools-Submodules
+**Bare Repository** - a repo containing only the `.git` directory's contents of a non-bare repo. For a Git server, there is no use of the code files in the repo, all Git is concerned about is the meta files in `.git` directory that tracks the changes of those code files. So if all users have the same files all the time, a bare repo can be kept on the Git server to track changes to those files.
 
-Git Internals - bare repo, aliasing
+We can also pull only a bare version of a non-bare repo, or push a non-bare one's bare version to a remote.
 
-https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain
-
-
+**Aliasing**:
 ```sh
 # Aliases can be set via terminal (using alias command) or by editing ".git/config": 
 [alias]
@@ -350,8 +348,9 @@ https://git-scm.com/book/en/v2/Git-Internals-Plumbing-and-Porcelain
 
 ```
 
-Bundle - share all data that we push typically, as a binary file offline with another person, who can ther unbundle that binary file in their repo
+`git bundle` - share all data that we push typically, as a binary file (even offline) with another person, who can then "unbundle" that binary file in their repo
 
+**Handling large files**: We can clone a _shallow_ version of the repo and clone only a single branch to save network and time overhead.
 
 ## References
 [Pro Git - Book](https://git-scm.com/book/en/v2) 
