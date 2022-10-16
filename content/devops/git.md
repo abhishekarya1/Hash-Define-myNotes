@@ -244,7 +244,11 @@ $ git branch foo <commit_hash>
 
 **Fast-forward merge**: if the commit we are merging can be just picked up and moved to our current position
 
+![ff merge diagram](https://i.imgur.com/J1ARDT5.png)
+
 **3-way merge**: find a common ancestor of the commit we're merging and current state and create a new commit merging the two histories together  (_merge commit_) (this leads to **merge conflicts**)
+
+![3-way merge diagram](https://i.imgur.com/HtsPWLT.png)
 
 _Reference_: https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
 
@@ -284,6 +288,8 @@ Rebasing branches **rewrites commit history** and it is thus not recommeneded to
 $ git checkout experiment
 $ git rebase master
 ```
+
+![rebase diagram](https://i.imgur.com/K2Vh8na.png)
 
 ### Stashing
 ```sh
