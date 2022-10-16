@@ -153,8 +153,10 @@ Arithmetic: `+` `-` `*` `/` `%` `**`
 {{% /notice %}}
 
 ```sh
-echo $(( 2 + 3 ))                # no space issues here
-echo $(( $num1 + $num2 ))        # with vars
+echo 3+4                         # there are no types in BASH, only String (prints "3+4")
+
+echo $(( 2 + 3 ))                # spaces doesn't matter here
+echo $(( $num1 + $num2 ))        # usage with vars
 
 expr 2 + 3              # spaces matters here (prints "2+3", if no spaces)
 expr $num1 + $num2      # with vars
