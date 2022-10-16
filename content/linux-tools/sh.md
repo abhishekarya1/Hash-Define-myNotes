@@ -144,7 +144,13 @@ sleep 1h
 ### Operators
 Arithmetic: `+` `-` `*` `/` `%` `**`
 
-`(( expression ))` style of braces are used for arithmetic evaluation.
+`$(( expression ))` is used for arithmetic evaluation followed by sustitution (in-place of `expression`).
+
+{{% notice note %}}
+`$(( expression ))`: Evaluates the expression. Return value is the value of expression after evaluation.
+
+`(( expression ))`: This too evaluates the expression in the same way as above. But, if the value of the expression is non-zero, the return value is `0`; otherwise the return value is `1` (yes, this if flipped than in C! value `0` fed to `if` will execute its clause). So, this is often used with conditionals like `if`, `else` etc...
+{{% /notice %}}
 
 ```sh
 echo $(( 2 + 3 ))                # no space issues here
@@ -220,12 +226,14 @@ if [ $a -lt 100 -o $b -gt 100 ]
 ```
 
 {{% notice note %}}
-With Strings, Use `<` symbols inside `[[ condition ]]`. The `(( condition ))` evaulation operator doesn't work with Strings.
+With Strings, Use `<` symbols inside `[[ condition ]]`. The `(( condition ))` operator doesn't work with Strings.
 {{% /notice %}}
 
 
 **File tests**:
 ```txt
+file="my.txt"       file names can be kept as Strings; context will be inferred upon usage with file test operators
+
 [ -d $file ]        true if directory
 [ -f $file ]        true if file
 
@@ -237,6 +245,8 @@ With Strings, Use `<` symbols inside `[[ condition ]]`. The `(( condition ))` ev
 ```
 
 ### Decision Making
+
+All test operators `[ ]`, `[[ ]]` or `(( ))` convert a non-zero value inside them to a return value of `0`, and the `if` clause is executed in that case. So, if an `if` clause have a non-zero value, it is executed, otherwise `else`.
 
 **if-then-elif-then-else-fi**
 ```sh
@@ -431,3 +441,14 @@ set -x
 
 set +x
 ```
+
+### Summary of Brackets & Braces
+
+|  Notation | Description  | Used with  | Usage Example | 
+|---|---|---|---|
+| `${}` | Variable name replacement with its value, inside it | variables  | `${realm}heim` |
+| `$()`  | Command substitution - literally execute commands inside it (_alt of_ \`\`) | commands  | `$(ls -la)` |
+| `[ ]`  | Test (use only `-lt` symbols inside) (_spaces matter_) | `if`, etc...  | `if [ 5 -gt 1 ]` |
+| `[[ ]]` | Test (_newer_ & _safer_) (use both `-lt` and `<` symbols inside) (_spaces matter_)  | **_same as above_**  | `if [[ 5 > 1 ]]` or `if [[ 5 -gt 1 ]]` |
+| `(( ))`  | Test - returns `0` or `1` after arithmetic evaluation, can't test Strings inside this |  **_same as above_** | `if (( 5+1 ))`  |
+| `$(( ))`  | Arithmetic evaluation and substitution, returns evaluated value  |  arithmetic expressions | `sum=$(( 5+1 ))` |
