@@ -9,20 +9,32 @@ pre = "<i class=\"devicon-docker-plain colored\"></i> "
 VMs are bulky, take up more RAM and compute power, not easy to hop VMs too inorder to test.
 Docker is a platform to run your apps in virtualized environments. Decoupled from and independent of base OS.
 
+**Containers**: Lightweight standalone runtime environment having only parts of the “full” kernel. Ex - Docker, LXC, etc… Kernel is “trimmed down” and contains only libraries and tools required for a specfic use case.
+
+![](https://i.imgur.com/prJGvDM.png)
+
+_Reference_: [/linux/virtual/#virtualization](/linux/virtual/#virtualization)
+
 ### Pros and Cons
 **Pros**:
-Containers much lightweight than hypervisors
-Easier to run and discard
+- Containers much lightweight than hypervisors
+
+- Easier to run and discard; take up less system resources
+
+- Dependency bundling is effortless
 
 **Cons**:
-Adds extra layer, _"I gotta learn devops too now? aww mannn.."_
+- Adds an extra layer of tooling
+
+
+**What is Docker?** an open-source _**platform**_ for creating, deploying, and managing containers.
 
 `Docker Platform - Orchestration -> Engine -> Runtime`
 
-**Docker Architecture**:
-- **Docker CLI**: Client -> ReST API
-- **Docker Engine**: Docker Daemon -> Runtime (containerd, runc)
-- **Docker Registry**
+### Architecture
+- **Docker CLI**: Client (`docker`) - communicates with Docker Daemon via REST API, thus client can be remote too
+- **Docker Engine**: Docker Daemon (`dockerd`) -> Runtime (`containerd`, `runc`)
+- **Docker Registry**: stores images 
 
 **Image**: Blueprint on how to create a container 
 
@@ -35,33 +47,37 @@ Dockerfile specifies "recipe" on how to create image
 **Open Container Initiative (Linux Foundation)**: Defines and standadizes runtime-spec and image-spec
 
 ### Commands
-```
+```txt
+$ docker info
+Display client and server system info
+
 $ docker images
 List all images in local filesystem
-Flags:
--q : only display IDs
 
 $ docker pull <image_tag>
 Download an image to local filesystem
 
 $ docker run <image_name>
-Run an image (becomes container)
+Run an image (becomes container; runs and exits immediately by default)
 
 Flags on run command: 
--it	: interactive terminal
--it containerName command : command to run on startup in container
---name foobar	: assign name "foobar" to container  
---rm : remove container after single run
--d	: detached from current terminal, start in background	
--P	: assign open ports of container to random port of host
--p hostPort:containerPort : Map ports to host
--e env_var=VAL: Set environment variable in container
+-it                             open "interactive terminal" on container inside the current terminal
+--name foobar                   assign a unique name "foobar" to container, else a random name is automatically assigned  
+--rm                            remove container after single run
+-d                              detached from current terminal, start in background	
+-P                              assign open ports of container to random port of host
+-p <hostPort>:<contnrPort>      maps a port to host
+-e env_var=VALUE                set environment variable in container
+
+$ docker run -it <name> command
+Run and execute command in container
 
 $ docker exec -it <name> command
 Execute command in a running container
 
 $ docker stop <name or ID>
 Stop a container sending SIGTERM
+
 $ docker kill <name or ID>
 Stop a container sending SIGKILL
 
@@ -70,18 +86,16 @@ Start a stopped container (run is different coz it recreates container, doesn't 
 
 $ docker ps
 $ docker container ls
-List all containers currently running
+List currently running containers
 
 $ docker ps -a
 List all containers currently running and ran previously
 
 $ docker rm cont1 [cont2 ...]
-Remove docker containers
+Remove stopped containers
 
 $ docker container prune
 Remove all stopped containers
-
-Flags: -f can be used with rm and prune to force delete without prompt
 
 $ docker port <name>
 View all open ports of container
@@ -90,97 +104,115 @@ $ docker rename oldName newName
 Rename container
 
 $ docker inspect <name>
-Display info about a container
+Display info about a container or image
 
-$ docker log <name>
-Displays console log of a container
+$ docker logs <name>
+Displays console log of a running container
 ```
 
 ### Images
-
-{{% notice info %}}
-Containers can have a name beside ID, but images always have a repo name (`username/foobar`). If no username is provided, it is assumend to be `foobar/foobar`.
-{{% /notice %}}
 
 **Creating images**: 
 
 From an existing container using commit:
 ```txt
-$ docker commit [-m "message"] containerID username/name:newVersion
+$ docker commit [-m "message"] containerID tag
 ```
 
-From folder:
+From a directory:
 ```txt
 $ docker build [-t tag] <dir>
-dir must contain Dockerfile
+
+dir must contain a non-empty Dockerfile
 ```
+
 **Image tags**:
-`-t tag` : specify reponame and tag (optional), version number can be like 1.0.1 or "latest" (tag = `username/name:version`)
+
+- `-t <tag>` : specify a tag (_optional_ but default name is `<none>`), version number can be like 1.0.1 or "latest" (_default_) (**TAG** = `[username/]name:[version]`)
 
 {{% notice note %}}
-If we intend to put it in DockerHub, then name must be `username/name`. Listed under `REPOSITORY` column in Docker CLI.
-
+If we intend to pull/push it to **DockerHub**, then `username` in the tag **isn't optional**. The full repo name (`username/name`) must be Listed under `REPOSITORY` column in Docker CLI. Otherwise it will try to pull/push to `library/name` (Docker official repository) and end in failure. 
 {{% /notice %}}
 
-Multiple images can have same ID but different repo name since they are just copy of each other.
+Multiple images can have same ID but different names if they're just copy of each other.
 
 ```txt
-$ docker tag source target
-Create taerget image from source but with a different tag.
+$ docker tag <source> <target>
+Create a new image from source but with a different tag (both have same IDs)
 
 $ docker rmi <name>
 Remove image
 ```
-**NOTE**: 
+{{% notice note %}}
+Images (child) can be made from other images (base), so when we pull one image it is pulled layer-by-layer. Multiple images can use the same image so they share some layers.
+{{% /notice %}}
+
+**Deleting Images**:
  - We can't delete an image if some container is using it. (obviously!)
  - We can't delete a base image if some other child image derives from it. (obviously!)
 
-Images (child) can be made from other images (base), so when we pull one image it is pulled layer-by-layer. Multiple images can use the same image so they share same layer.
 
 ### DockerHub
 ```txt
 $ docker login
-username isn't inferred after login
+username isn't inferred in the below commands even after login
 
 $ docker pull username/name[:version]		
-$ docker push username/name[:version]	#implicitly assumed to be name/name:<none> if no username and version is specified
+$ docker push username/name[:version]	# version is implicitly assumed to be "latest" if its not specified
 ```
-When we do `docker pull ubuntu`, it fetches from `ubuntu/ubuntu` (see images section above).
 
 ### Dockerfile
 
-**ENTRYPOINT vs CMD**
+**ENTRYPOINT vs CMD vs RUN**
 ```yaml
-CMD ["python", "main.py"]
-Run this command as is i.e. "python main.py"
+CMD ["py", "main.py"]
+# run this command as is i.e. "python main.py"
+# there can only be one CMD in a Dockerfile, otherwise only the last one will execute
 
-ENTRYPOINT ["python"]
-Run python command on entry and get argument to this command from docker command
+ENTRYPOINT ["py"]
+# run python command on entry and get argument to this command from "docker run" command's arguments
 i.e. $ docker run myapp main.py
-```
-**Overriding Cmd with Entrypoint**:
-If Dockerfile has same cmd as entrypoint, then argument will be taken from entrypoint.
+# used to run containers as a standalone executable with command-line arguments and everything
 
-**Overriding Entrypoint of Dockerfile w/ terminal command**:
-```txt
-$ docker --entrypoint foo myapp main.py
-Overrides entrypoint specified in Dockerfile to "foo"
+RUN <command>
+# run a command inside the container's shell
+
+RUN ["py", "main.py"]
+# run an executable inside the container
+
+# RUN can execute multiple times but CMD or ENTRYPOINT runs only once in a Dockerfile
 ```
+**ENTRYPOINT overrides CMD**:
+If Dockerfile has the exact same CMD as ENTRYPOINT, then argument will be taken from ENTRYPOINT.
+
+**Overriding Entrypoint of Dockerfile w/ terminal command flag**:
+```txt
+$ docker run --entrypoint foo myapp main.py
+
+overrides entrypoint specified in Dockerfile to run "foo" executable in container
+```
+
+_Cheatsheet_: https://kapeli.com/cheat_sheets/Dockerfile.docset/Contents/Resources/Documents/index
+
+_Sample_: https://github.com/abhishekarya1/docker-test-app/blob/master/Dockerfile
 
 ### Networking
-**Bridge network**: All container share a single network (bridge) inside host network (default behavior) (ports can be forwared to access app inside container)
-**None**: Isolated container and host (`--network=none`)
-**Host**: Host and containers operate on same network (i.e. host's) (`--network=host`)
+- **Bridge network** (_default_): All containers share a single network (bridge) inside host's network (ports can be forwared to access app inside container)
+- **None**: Every container as well as host are isolated (`--network=none`)
+- **Host**: Host and all containers operate on same network (i.e. host's) (`--network=host`)
 
 ```txt
+$ docker run --network=none foobar
+Run a container on type of network
+
 $ docker network ls
-Lists all networks
+List all networks
 
 $ docker network create --driver=bridge --subnet=182.18.0.0/16 --gateway=182.18.0.0 myNetworkName
 Creates another network within the host network
 
 $ docker run --network=myNetworkName foobar
-Puts container on network
+Run a container on a specific network
 ```
 
 When exposing port of container to host using `-p hostPort:containerPort` is not enough if app is listening on `localhost`. Make sure the the app is listening on `0.0.0.0` which means that it listens on every address available.
@@ -191,36 +223,45 @@ When exposing port of container to host using `-p hostPort:containerPort` is not
 - `inspect` a container to identify network config.
 
 ### Storage
-We can copy files to/from container and host.
+Data on a container is ephemerous. We often copy files to/from container and host.
 
 ```txt
-$ docker cp CONTAINER:SOURCE TARGET
-$ docker cp TARGET CONTAINER:SOURCE
-
-/var/lib/docker
-|-- aufs
-|-- containers
-|-- images
-|-- volumes
+$ docker cp CONTAINER_NAME:SOURCE_PATH TARGET_PATH
+$ docker cp TARGET_PATH CONTAINER_NAME:SOURCE_PATH
 ```
-Reusability is a major design feature in Docker. Image are created layer-by-layer. Multiple images can use the same image so they share same layer.
 
-**Volumes**:
+**Volumes**: A storage space in the host filesystem which we can write to container filesystem when it runs.
+
+Volumes are stored in the host's filesystem in `/volumes/<volume_name>` dir in the following path:
+```txt
+/var/lib/docker
+            |-- aufs
+            |-- containers
+            |-- images
+            |-- volumes
+```
+
 ```txt
 $ docker volume create foobar
-/var/lib/docker/foobar is created.
+
+/var/lib/docker/foobar is created on host filesystem
 ```
-1) **Volume mount** (if mounting from var/lib/docker/volumes/...)
+1) **Volume mount** (if mounting from `var/lib/docker/volumes/foobar`) i.e. if a volume is to be mounted
 ```txt
 $ docker run -v foobar:/location/inside/container containerName
-Creates foobar volume if it doesn't exist otherwise mount it.
+
+Creates volume "foobar" if it doesn't exist, otherwise mount it
 ```
-2) **Bind mount**
+2) **Bind mount**: any directory can be bind
 ```txt
 $ docker run -v /location/on/host /location/inside/container containerName
-Copies host dir to container dir.
+
+Copies host dir to container dir
+
+$ docker run --mount type=bind source=/path/on/host target=/path/on/container containerName
+
+Newer syntax for bind
 ```
-Newer syntax for bind: `$ docker run --mount type=bind source=/path/on/host target=/path/on/container containerName`
 
 ### Docker Compose
 Running multiple containers. Specify everything in a `YAML` file.
