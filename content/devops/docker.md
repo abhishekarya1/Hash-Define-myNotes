@@ -27,7 +27,7 @@ _Reference_: [/linux/virtual/#virtualization](/linux/virtual/#virtualization)
 - Adds an extra layer of tooling
 
 
-**What is Docker?** an open-source _**platform**_ for creating, deploying, and managing containers.
+**What is Docker?** an open-source _**platform**_ for creating, deploying, and managing containers. It can run only on Linux, so Windows uses WSL, and MacOS uses a lighweight Linux VM to run it.
 
 `Docker Platform - Orchestration -> Engine -> Runtime`
 
@@ -161,6 +161,8 @@ $ docker pull username/name[:version]
 $ docker push username/name[:version]	# version is implicitly assumed to be "latest" if its not specified
 ```
 
+Registries are also provided by Azure, Google Cloud, AWS to store images for enterprise wide access only.
+
 ### Dockerfile
 
 **ENTRYPOINT vs CMD vs RUN**
@@ -230,7 +232,7 @@ $ docker cp CONTAINER_NAME:SOURCE_PATH TARGET_PATH
 $ docker cp TARGET_PATH CONTAINER_NAME:SOURCE_PATH
 ```
 
-**Volumes**: A storage space in the host filesystem which we can write to container filesystem when it runs.
+**Volumes**: A storage space in the host filesystem which we can use to store data to-and-from the container, so that it persists even after container is stopped.
 
 Volumes are stored in the host's filesystem in `/volumes/<volume_name>` dir in the following path:
 ```txt
@@ -264,11 +266,61 @@ Newer syntax for bind
 ```
 
 ### Docker Compose
-Running multiple containers. Specify everything in a `YAML` file.
+Running multiple containers manually is repetitive and mundane. Specify everything in a `docker-compose.yaml` file and manage using `docker compose` commands.
 
-we use `--link` name:name to link a container we are running to `name` container. We need to link DB, mainApp, etc.. inorder for them to work in tandem.
+We use `--link redis:redis` to add hostname `redis` to the container we are running so that it is resolvable. We need to link DB, mainApp, etc.. inorder for them to work in tandem (this way to link containers is _deprecated_)
 
-https://youtu.be/fqMOX6JJhGo?t=5207
+**Commands**: run these in the same directory as the `docker-compose.yaml` file
+
+```yaml
+version: "2"
+
+services:
+    foo:                                # custom service name
+        build: ./foo                    # build from "foo" dir
+        command: python app.py          # override CMD and ENTRYPOINT from Dockerfile
+        ports:
+            - 8080:5000                 # host:container (port mapping)
+        volumes:
+            - ./foo/appdata:var/lib/data    # mounting volume
+        environment:
+            - NAME="John Doe"           # setting environment vars
+        depends_on:     
+            - bar                       # make sure "bar" is running already before "foo"
+        links:
+            - bar:database              # bar's hostname is "database" in foo
+    bar:
+        image: redis                    # base image
+        ports:                          # declare port (EXPOSE)
+            - 6279
+```
+
+```txt
+$ docker compose build
+build images of all containers in compose file
+
+$ docker compose start
+start the containers
+
+$ docker compose stop
+stop the containers
+
+$ docker compose up -d
+build and start in detached mode
+
+$ docker compose down
+stop and remove containers
+
+$ docker compose ps
+list containers
+
+$ docker compose rm
+remove containers
+
+$ docker compose logs -f foo
+see logs from container "foo"
+```
+
 
 ### Container Orchestration
 Creating multiple containers across multiple hosts, managing them, scaling up or down acc to load.
@@ -278,10 +330,10 @@ Ex - Docker swarm, Kubernetes (k8s), etc...
 ### References
 - https://docs.docker.com/get-started/overview/
 - https://docker-curriculum.com/
-- Detailed cheatsheet - https://dockerlabs.collabnix.com/docker/cheatsheet/
-- Docker compose cheatsheet - https://devhints.io/docker-compose
+- Detailed cheatsheets - https://dockerlabs.collabnix.com/docker/cheatsheet/
 - https://youtu.be/17Bl31rlnRM [KK]
-- https://youtu.be/fqMOX6JJhGo [freeCodeCamp]
+- https://youtu.be/fqMOX6JJhGo [freeCodeCamp - Docker Tutorial for Beginners]
+- https://youtu.be/kTp5xUtcalw [freeCodeCamp - Docker Containers and Kubernetes Fundamentals]
 
 **Practice**:
 - https://kodekloud.com/p/docker-labs
