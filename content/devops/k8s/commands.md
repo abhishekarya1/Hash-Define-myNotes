@@ -6,7 +6,7 @@ weight = 2
 
 ## Minikube
 Single node cluster, the node acts as both control plane and worker simultaneously. Useful to test locally.
-```
+```txt
 $ minikube status
 
 $ minikube start [--driver=hyperv]

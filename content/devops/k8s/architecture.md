@@ -18,21 +18,21 @@ Ref: https://kubernetes.io/docs/concepts/overview/components/
 <caption>Image: a k8s cluster</caption>
 
 **Components**:
+
 **kubectl** - we interact with this in CLI, its a tool
  
 **Cluster**- collection of a control plane (Master in above image) and one or more worker nodes
 
 **Control plane**:
-	- **API server** - exposes control plane to CLI and only component which interacts with worker nodes directly
-	- **etcd** - persistent key-value store contains cluster meta-data
-	- **scheduler** - assigns pods to nodes, just like a CPU scheduler
-	- **controller manager** - manages and maintains worker node, multiple controllers handle diff tasks, clubbed under one name.
-Functioning: Runs control loops (as in robotics) to continuously match the specified state to actual state of all the objects in the system.
+- **API server** - exposes control plane to CLI and only component which interacts with worker nodes directly
+- **etcd** - persistent key-value store contains cluster meta-data
+- **scheduler** - assigns pods to nodes, just like a CPU scheduler
+- **controller manager** - manages and maintains worker node, multiple controllers handle diff tasks, clubbed under one name. Functioning: Runs control loops (as in robotics) to continuously match the specified state to actual state of all the objects in the system.
 
 **Node**:
-	- **kube-proxy** - contains networking info about containers on worker
-	- **kubelet** - it makes sure that containers are running in a pod
-	- **container runtime** - docker, containerd,  etc...
+- **kube-proxy** - contains networking info about containers on worker
+- **kubelet** - it makes sure that containers are running in a pod
+- **container runtime** - docker, containerd,  etc...
 
 ### Pod
 Smallest unit deployable and manageable by k8s. It represents a running process on the cluster.
