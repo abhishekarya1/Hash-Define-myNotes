@@ -11,3 +11,4 @@ pre = "🚀 "
 - Git & GitHub
 - Docker
 - Kubernetes
+- Jenkins
