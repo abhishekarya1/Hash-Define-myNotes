@@ -21,10 +21,10 @@ A set of practices combining software _development_ and IT _operations_. It aims
 
 ### CI/CD
 
-**Continuous Integration** (CI): the practice of merging all developer's code very frequently to a primary branch.
+**Continuous Integration** (CI): the practice of merging all developer's code very frequently together, often in a master branch.
 
-**Continuous Delivery** (often used for CD): approach in which teams produce software in short cycles, ensuring that the software can be reliably released at any time.
+**Continuous Delivery** (often used for CD): approach in which teams produce software in short cycles, ensuring that the software can be reliably deployed/released at any time. Deployment to prod env is done manually (_delivering_).
 
-**Continuous Deployment** (sometimes uesd for CD): approach in which software is deployed more often using automated deployments.
+**Continuous Deployment** (sometimes uesd for CD): approach in which software is deployed more often using automated deployments. Deployment to prod env is fully automated here.
 
 Reference: Wikipedia Articles
