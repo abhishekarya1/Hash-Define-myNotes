@@ -2,6 +2,7 @@
 title = "Vim"
 date =  2022-09-29T13:03:00+05:30
 weight = 5
+pre = "<i class='devicon-vim-plain'></i> "
 +++
 
 `vi` `vim` ultra customizable and fast, in-terminal editor.

@@ -3,7 +3,7 @@ title = "Spring Boot"
 date = 2022-06-03T22:32:14+05:30
 weight = 4
 chapter = true
-pre = "🍃 "
+pre = "<i class='devicon-spring-plain colored'></i> "
 +++
 
 ### Notes

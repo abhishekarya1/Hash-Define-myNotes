@@ -3,7 +3,7 @@ title = "Markdown"
 date = 2021-05-30T23:44:25+05:30
 chapter = true
 weight = 16
-pre = "📝 "
+pre = "<i class='devicon-markdown-original'></i> "
 +++
 
 # Markdown
