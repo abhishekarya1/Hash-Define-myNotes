@@ -129,11 +129,11 @@ Content-Type: application/json				-- not simple
 #CORS Headers Summary
 
 Origin
-Accesss-Control-Request-Headers
-Accesss-Control-Request-Method
+Access-Control-Request-Headers
+Access-Control-Request-Method
 
-Accesss-Control-Allow-Origin
-Accesss-Control-Request-Method
+Access-Control-Allow-Origin
+Access-Control-Request-Method
 Access-Control-Max-Age
 ````
 

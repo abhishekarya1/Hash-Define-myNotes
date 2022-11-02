@@ -6,7 +6,7 @@ weight = 1
 
 **What is Service?**
 
-A service is a _well-defined_, _self-contained_ function that represents a _unit of functionality_.
+A service is a _well-defined_, _self-contained_ function.
 
 ## MSA
 
@@ -71,7 +71,7 @@ Central data for all services in SOA (no federation of data)
 
 - Reuse promotes dependency and not suitable in MSA; reusability is a key factor in SOA
 
-- We often have redundancy in MSA to trade-off dependency; this is not the case in SOA. Ex - Exact same class written multiple times in different microservices but not shared from a library/import
+- We often have redundancy in MSA to trade-off dependency; this is not the case in SOA. Ex - Exact same class written multiple times in different microservices but not shared from a centralized library/import
 
 In SOA, sharing is quintessential to increase reusability; we don't care about dependency there
 

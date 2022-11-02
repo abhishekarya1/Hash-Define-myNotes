@@ -13,6 +13,8 @@ https://martinfowler.com/articles/microservices.html
 
 Mastering Chaos - A Netflix Guide to Microservices [[YouTube](https://youtu.be/CZ3wIuvmHeM)]
 
+When To Use Microservices (And When Not To!) - Sam Newman & Martin Fowler [[YouTube](https://youtu.be/GBTdnfD6s5Q)]
+
 ### Microservices Tools
 - Registry and Discovery Server (Eureka)
 - API Gateway (Zuul is deprecated; Spring Cloud Gateway API is latest)
@@ -36,3 +38,5 @@ In Spring Boot: https://www.baeldung.com/spring-boot-12-factor
 2. 12 factor app guideline
 3. API-based communication
 4. Antifragility: _responsiveness_
+
+Software in the 90s used to be designed for distribution on CDs, it was in stark contrast to cloud-native apps of today.

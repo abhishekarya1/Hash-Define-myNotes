@@ -334,6 +334,7 @@ Ex - Docker swarm, Kubernetes (k8s), etc...
 - https://youtu.be/17Bl31rlnRM [KK]
 - https://youtu.be/fqMOX6JJhGo [freeCodeCamp - Docker Tutorial for Beginners]
 - https://youtu.be/kTp5xUtcalw [freeCodeCamp - Docker Containers and Kubernetes Fundamentals]
+- https://youtu.be/OU6xOM0SE4o [Docker Networking Crash Course - Hussein Nasser]
 
 **Practice**:
 - https://kodekloud.com/p/docker-labs
