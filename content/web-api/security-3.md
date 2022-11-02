@@ -211,3 +211,5 @@ They publish a regularly updated top 10 list of some of the most critical risks 
 
 [OWASP Web Application Security Testing Checklist](https://github.com/0xRadi/OWASP-Web-Checklist): Checklists on everything application security related.
 
+
+**Veracode** vulnerability scan is an enterprise grade scanning utility that can identify OWASP risks and propose solutions to mitigate them.
