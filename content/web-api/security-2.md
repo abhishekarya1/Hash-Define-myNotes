@@ -117,6 +117,8 @@ Encoding - `Base64`
 
 Compression - `gzip`
 
+Ex - Videos are often encoded and compresssed, but not encrypted.
+
 ## References
 - [You Wouldn't Base64 a Password - Cryptography Decoded](https://paragonie.com/blog/2015/08/you-wouldnt-base64-a-password-cryptography-decoded#secret-key-encryption)
 - [Hashing in Action: Understanding bcrypt - auth0](https://auth0.com/blog/hashing-in-action-understanding-bcrypt/)
