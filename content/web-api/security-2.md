@@ -54,9 +54,9 @@ It can be used both for authentication (HMAC) and encryption.
 ### Password Hashing
 Always hash passwords when storing them in a database so that they can't be read by anyone dealing with the code or the database.
 
-Password hashing hash functions like[bcrpyt](https://en.wikipedia.org/wiki/Bcrypt) and [scrypt](https://en.wikipedia.org/wiki/Scrypt) are **designed to be slow** by deliberately making it use large amount of memory. 
+Password hashing hash functions like [bcrpyt](https://en.wikipedia.org/wiki/Bcrypt) and [scrypt](https://en.wikipedia.org/wiki/Scrypt) are **designed to be slow** by deliberately making it use large amount of memory. 
 
-We could've used SHA-2 or SHA-3 family for hashing passwords but they are fast, we don't want attackers to be fast in performing a Dictionary attack and gessing our password.
+We could've used SHA-2 or SHA-3 family for hashing passwords but they are fast, we don't want attackers to be fast in performing a Dictionary attack and guessing our password.
 
 It also uses a random salt for hashing which is a random string that is appended to the password string and then hash function is applied over the composite string. We can have diff salts for diff users.
 
@@ -95,13 +95,15 @@ Sender sends their public key to Receiver and vice-versa. They both combine thei
 
 ![](https://i.imgur.com/QGxQlnq.png)
 
-Both the parties have to agree on a common generator (`g`) beforehand and it is changed for every connection. Also, in the above image, the opertaion is not exponentiation as the notation implies and it should be theoretically impossible to separate `x` and `g` from `g^x`.  
+Both the parties have to agree on a common generator (`g`) beforehand and it is changed for every connection. Also, in the above image, the operation is not exponentiation as the notation implies and it should be theoretically impossible to separate `x` and `g` from `g^x`.  
 
 Ex - `Diffie-Hellman` key exchange. Two variants - DH and ECDH (Elliptic-curve Diffie-Hellman)
 
 [Reference](https://crypto.stackexchange.com/questions/6307/why-is-diffie-hellman-considered-in-the-context-of-public-key-cryptography)
 
 ### Digital Signatures
+Encrypted using private key, decrypt using public key.
+
 A digital signature is calculated by encrypting a message (often the public key itself) with a private key. Anyone else with a copy of the public key can verify that a particular message was signed by private key. By using that public key to decrypt the digital signature and the output will be a public key, and we can check if they match.
 
 Ex - `EdDSA`
@@ -109,7 +111,7 @@ Ex - `EdDSA`
 Uses - [TLS Certificates](/web-api/security-3/#certificates-and-ca)
 
 ## Encoding & Compression
-They sometimes use the same hash functions but they both are keyless and reversible by nature and not cryptographic as the output doesn't need to be hidden from a third party.
+Often keyless and always designed to be reversible by nature and not cryptographic as the output doesn't need to be hidden from a third party.
 
 Encoding - `Base64`
 
