@@ -13,8 +13,8 @@ A **web API** is an API accessed over the web.
 ![](https://i.imgur.com/5Up9bKc.png)
 
 **URI vs URL vs URN:** A URI is a string of characters used to identify a resource. 
-- Both URL and URN are subset of a broad category _i.e._ URI. 
-- URL is a URI in which access info is explicitly defined i.e. `protocol + URN` makes up a URL. This way, they provide "pinpoint" access info by providing "how" and "where" of a resource.
+- Both URL and URN are subset of a broader category _i.e._ URI. 
+- URL is a URI in which access info is explicitly defined i.e. `protocol + hostname` makes up a URL. This way, they provide "pinpoint" access info by providing "how" and "where" of a resource.
 - URNs are URIs that use a `urn:` scheme. They also need to be unique and often used as a template that a parser may use to find an item.
 - There can be other identification that may not be a URL or URN. Ex - Data URI scheme: inline data in an HTML doc (`data:`). Since Data URI doesn't point anywhere but provide data itself, it is not URL (locator). 
 
@@ -198,10 +198,10 @@ We can let the server know the compression type we accept and it will send us in
 # specify client expectation
 Accept-Encoding: gzip,compress
 # if server can't send in the format we accept - 406 (Not Acceptable)
+# if server doesn't accept the type we've sent - 415 (Unsupported Media Type)
 
 # otherwise, response
 Content-Encoding: gzip
-# if server doesn't accept the type we've sent - 415 (Unsupported Media Type)
 ```
 
 ### Cache Control

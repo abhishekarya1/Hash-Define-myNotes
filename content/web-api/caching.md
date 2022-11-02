@@ -40,7 +40,7 @@ Components:
 1. origin server
 2. edge servers (proxy)
 
-For serving content they often take a pull-based approach in which content is pulled from the origin server upon request of the client. Some CDNs like [Netflix's Open Connect](https://openconnect.netflix.com/en/) employ a push-based approach for serving video files.
+For serving content they often take a pull-based approach in which content is pulled from the origin server (if not present in edge server) upon request of the client. Some CDNs like [Netflix's Open Connect](https://openconnect.netflix.com/en/) employ a push-based approach for serving video files.
 
 [Must read notes](https://notes.eddyerburgh.me/distributed-systems/caching#cdns) 
 
@@ -71,7 +71,7 @@ Terminology:
 ```
 
 #### Cache Eviction
-When to dicard cached data.
+When to discard cached data.
 ```txt
 LRU (Least Recently Used)
 LFU (Least Frequently Used)
@@ -89,13 +89,10 @@ Read-through
 
 Write-back (aka Write-behind)
 Write-through
-Write-around (write to DB directly bypassing the cache; often used with Read-through)
+Write-around (write to DB directly bypassing the cache)
 ```
 
 _Cache-aside_ requires a separate expensive operation of storing data from the database to the cache for future reads.
-
-_Write-back_ requires all data to be written to the cache first, and in practice, that is not ideal.
-
 
 [Reference](https://notes.eddyerburgh.me/distributed-systems/caching#caching-patterns)
 
@@ -104,7 +101,7 @@ HTTP is designed to cache as much as possible, so even if no `Cache-Control` is 
 
 A very old `Last-Modified` response will be implicitly cached and used for sometime since HTTP knows that data which hasn't changed in so long will not change now. This is an example of heuristic caching in HTTP.
 
-It also provides stale data in the response in some cases without validation e.g. when the main datastore is unreachable4.
+It also provides stale data in the response in some cases without validation e.g. when the main datastore is unreachable.
 
 ### Controlling caching
 HTTP/1.1 introduced `Cache-Control` header to control caching. It can be used in request as well as response. And, its a composite header meaning it supports multiple directives separated by a comma (`,`).
@@ -165,7 +162,7 @@ Validation of cache contents can be triggered if the request includes `no-cache`
 Server can send us `Etag` or `Last-Modified` headers and we can validate with `If-None-Match` and `If-Modified-Since` headers respectively.
 
 #### ETag (strong)
-Etag (entity tag) is just a unique identifier that the server attaches with some resource. When data is stale in cache, a reuest is sent containing `If-None-Match: <etag_value>` for validation.
+Etag (entity tag) is just a unique identifier that the server attaches with some resource. When data is stale in cache, a request is sent containing `If-None-Match: <etag_value>` for validation.
 
 We can generate ETag via any method as its not specified in HTTP docs. Usually a collision-resistant hash function is used to assign Etags to each version of a resource. We often use [UUID](https://en.wikipedia.org/wiki/Universally_unique_identifier).
 

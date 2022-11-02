@@ -27,7 +27,7 @@ Authorization deals with the access of resources for a user: The "Can you access
 Authorization: Basic <"username:password" encoded in base64>
 ```
 
-Server checks for `Authorization` header and if not present or invliad credentials, it sends back `www-authenticate` header (a prompt is shown in the browser to input credentials). 
+Server checks for `Authorization` header and if not present or invalid credentials, it sends back `www-authenticate` header (a prompt is shown in the browser to input credentials). 
 
 The client then sends `username:password` encoded in base64 in `Authorization: Basic r4Dl3tFaXffsdfsvSse3=` header and it is decoded and credentials are verified on the server. The server either sends `401 Unauthorized` again or `200 OK`.
 
@@ -114,7 +114,7 @@ Four types of authorization flows (aka **grant types**) for generating a token:
 3. **Password grant flow**: app sends token request alongwith sign-in credentials to the auth server
 4. **Client credential grant flow**: no user interaction (sign-in), app directly requests a token (with client ID and secret), and gets a token back from auth_server
 
-The token we get back has an expiry data-time and accompanied by a refresh token that we use to refresh the main access token when it expires. We simply send the refresh token to auth server and get a new access token back.
+The token we get back has an expiry date-time and accompanied by a refresh token that we use to refresh the main access token when it expires. We simply send the refresh token to auth server and get a new access token back.
 
 
 [Reference](https://roadmap.sh/guides/oauth)
