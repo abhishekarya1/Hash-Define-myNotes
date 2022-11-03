@@ -1,7 +1,7 @@
 +++
 title = "cURL"
 date = 2021-05-22T14:01:25+05:30
-weight = 4
+weight = 8
 +++
 
 ## cURL
