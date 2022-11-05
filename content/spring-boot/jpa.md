@@ -74,7 +74,7 @@ Another way to get a projection with plain DTOs (no _@Entity_) is to make a quer
 
 _References_ (interface and constructor expression techniques): https://stackoverflow.com/questions/22007341/spring-jpa-selecting-specific-columns
 
-## Hibernate Validations
+## Validations
 
 ```xml
 <dependency>

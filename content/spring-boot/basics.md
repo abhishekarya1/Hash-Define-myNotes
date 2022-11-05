@@ -222,7 +222,7 @@ demo.foo="Lorem"
 demo.bar="Ipsum"
 
 // we can now use getter and setter in other classes to use this POJO
-// we can also have List, Map, or other POJOs inside ConfigurationProperties classe
+// we can also have List, Map, or other POJOs inside ConfigurationProperties classes
 
 // we can also use @ConfigurationProperties on record instead of a class; makes the code much shorter
 @ConfigurationProperties(prefix="demo")
@@ -333,7 +333,7 @@ database:
 	user: user
 ```
 
-### Logger
+## Logger
 Logging is available in Spring by default provided by `slf4j` (Simple Logging Facade 4 Java) implemented by `Logback`, successor to the infamous `log4j`. We don't need any dependencies for it separately.
 
 ```java
@@ -374,7 +374,7 @@ logging.level.foobar=DEBUG
 logging.file.name=myapp.log
 ```
 
-### Running JARs
+## Running JARs
 ```sh
 $ java -jar demo-app.jar --server.port=9090
 $ java -Dserver.port=9090 -jar demo-app.jar

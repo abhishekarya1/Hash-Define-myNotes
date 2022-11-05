@@ -94,7 +94,7 @@ public Course saveCourse(@RequestBody Course course){
 
 Remember, `@RestController` = `@Controller` + `@ResponseBody` on every method. So we don't need _@ResponseBody_ on methods if we use _@RestController_ on class.
 
-**@RequestHeaders**: Get value of request header.
+**@RequestHeader**: Get value of request header.
 ```java
 GetMapping("/double")
 public String doubleNumber(@RequestHeader("my-number") int myNumber) { }
