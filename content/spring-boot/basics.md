@@ -61,25 +61,35 @@ Ways to access -
 ## Project Structure
 ```txt
 pom.xml
-src/
-	main/
-		java/com/demo/app
-					   Foobar.java
-		resources/
+
+src.main.java
+			com.demo
+				 DemoApplication.java
+				 controller/
+				 dto/
+				 repository/impl
+				 service/impl
+
+src.main.resources/
 			application.properties
 			static/
 			templates/
-	test/
-		java/com/demo/app
-					   FoobarTest.java
+
+src.test.java
+			com.demo
+				  DemoApplicationTest.java
 ```
 
-The _Foobar.java_ class has a `main()` method and it is used for both **configuration** and **bootstrapping**.
+{{% notice note %}}
+The `DemoApplication.java` scans only folders on its dir level as shown above. Manually specify package to scan using `@ComponentScan(basePackages = "com.*")` in main application Java file.
+{{% /notice %}}
+
+The DemoApplication.java_ class has a `main()` method and it is used for both **configuration** and **bootstrapping**.
 ```java
 @SpringBootApplication				// configuration
-public class Foobar {
+public class DemoApplication {
 public static void main(String[] args) {
-	SpringApplication.run(Foobar.class, args);		// bootstrapping; passing object of current class
+	SpringApplication.run(DemoApplication.class, args);		// bootstrapping; passing object of current class
 }
 ```
 
@@ -87,7 +97,6 @@ public static void main(String[] args) {
 1. _@Configuration_: Declare class as a configuration class so that Java or XML configs can be put inside it
 2. _@ComponentScan_: Enables recursive auto-scanning of components like @Controller in the current package
 3. _@EnableAutoConfiguration_: Auto-config magic of Spring Boot
-
 
 ## Configuration
 
