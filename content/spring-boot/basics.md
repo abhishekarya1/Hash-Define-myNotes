@@ -356,6 +356,8 @@ log.info("An INFO Message");		// base level by default; all above this will be e
 log.warn("A WARN Message");
 log.error("An ERROR Message");
 
+log.error("A Message with a value {}", valueVariable);	// cleaner syntax with log
+
 // we can use lombok too to avoid line 1 above
 @Slf4j		// creates slf4j logger
 // or
