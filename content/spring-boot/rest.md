@@ -32,6 +32,8 @@ Controller --> Service (interface) --> Service (impl class)
 @Controller
 @Service			// goes on service impl
 @Repository			// goes on repo impl
+
+@Configuration      // config class
 ```
 
 **@RequestMapping**: Specify endpoint methods.
@@ -71,10 +73,10 @@ public void user(@RequestParam("userId") String user){ }
 **@PathVariable**: Pickup value from URL path.
 ```java
 @GetMapping("/user/{id}")
-public String showUser(@PathVariable("id") String id) { }
+public String showUser(@PathVariable String id) { }
 
 @GetMapping("/user/{id}")
-public String showUser(@PathVariable String id) { }
+public String showUser(@PathVariable("id") String uid) { }
 
 // we can have multiple path variables too
 ```
