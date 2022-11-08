@@ -53,6 +53,8 @@ We can send our own definined information on the `/info` endpoint. Specify info 
 info.name.first=Abhishek
 info.name.last=Arya
 info.address=India
+
+management.info.env.enabled=true
 ```
 
 ```json
