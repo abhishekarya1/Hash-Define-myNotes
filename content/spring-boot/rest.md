@@ -136,3 +136,14 @@ res.getHeaders();
 // correct usage
 ResponseEntity<String> getMethod(RequestEntity<String> req){  }
 ```
+
+## Returning Status Code
+```java
+// first way
+@ResponseStatus(HttpStatus.CREATED)
+
+// second way
+ResponseEntity<Foobar> res = new ResponseEntity<>();
+res.setStatusCode(HttpStatus.CREATED);
+return res;
+```

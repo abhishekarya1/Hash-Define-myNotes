@@ -124,9 +124,17 @@ The `spring-boot-starter-parent` specifies version for commonly used libraries w
 
 We can specify our own `<parent>` module having all of the dependencies we want to use and their versions in `<dependencyManagement>` section. Other project's POM can then point to this parent's POM and define the same dependencies in their respective POMs without version.
 
-This is how the `spring-boot-starter-parent` works. 
+This is how the `spring-boot-starter-parent` works.
 
-Create a different module for parent.
+```txt
+Creating a different module for parent POM:
+
+ .
+ |-- my-parent/pom.xml
+ |-- my-child/pom.xml
+ .
+```
+
 ```xml
 <!-- parent module's POM -->
 <groupId>com.my</groupId>
@@ -134,6 +142,15 @@ Create a different module for parent.
 <version>1.0-SNAPSHOT</version>
 <packaging>pom</packaging>	<!-- notice here -->
 
+<!-- Spring Boot Parent -->
+<parent>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-parent</artifactId>
+	<version>2.7.0</version>
+	<relativePath/>
+</parent>
+
+<!-- dependencyManagement Section -->
 <dependencyManagement>
 	<dependencies>
 		<dependency>
@@ -149,9 +166,9 @@ Create a different module for parent.
 <!-- project that inherits our custom parent's POM -->
 <parent>
 	<groupId>com.my</groupId>
-	<artifactId>my-parent</artifactId>
+	<artifactId>my-child</artifactId>
 	<version>1.0-SNAPSHOT</version>
-	<relativePath>../my-parent/pom.xml</relativePath>	<!-- specify relative path to parent module's POM here -->
+	<relativePath>../my-parent/pom.xml</relativePath>	<!-- optional if parent POM is one level above the current POM -->
 </parent>
 
 <dependencies>
@@ -174,13 +191,13 @@ This is why the Log4j vulnerability ([Log4Shell](https://en.wikipedia.org/wiki/L
 We can also externalize dependency version to the properties tag.
 ```xml
 <properties>
-	<mockito.version>4.5.0</mockito.version>	<!-- notice here -->
+	<mockitoVersion>4.5.0</mockitoVersion>	<!-- notice here -->
 </properties>
 
 <dependencies>
 	<groupId>org.mockito</groupId>
 	<artifactId>mockito</artifactId>
-	<version>${mockito.version}</version>	<!-- externalizing version to properties tag -->
+	<version>${mockitoVersion}</version>	<!-- externalizing version to properties tag -->
 </dependencies>
 ```
 We can specify version directly in the `<dependency>` or leave the version to parent (if parent has `<dependencyManagement>`).
@@ -208,3 +225,23 @@ We can also include dependency by specifying only the version in `<properties>` 
 This may be counter-intuitive because we're trying to avoid adding version with all this parent and dependencyManagement and here we only add version to include the whole dependency!
 
 _Reference_: [SivaLabs - YouTube](https://youtu.be/2dPon1G5S-M)
+
+### Maven Multi-Module Project
+Multiple modules inside a single project, each having a different project inside it. All having the same `<groupID>`.
+
+1. Place common `<dependencyManagement>` and `<build> <plugins>` in parent's POM
+2. Add all `<modules> <module>` artifact ids in parent's POM
+3. Add parent POM project as `<parent>` in all the modules (child)
+
+```txt
+Placing parent POM at root (one level above child POMs):
+
+ . microservice-new
+ | -- inventory-service/pom.xml
+ | -- product-service/pom.xml
+ | -- users-service/pom.xml
+ |
+ . -- pom.xml
+```
+
+**Advantages**: easier to manage dependencies & build plugins and Maven building together. Projects will still have to be run separately if we want to up the server.

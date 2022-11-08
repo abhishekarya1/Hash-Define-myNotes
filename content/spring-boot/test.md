@@ -297,11 +297,17 @@ _Guide_: https://www.baeldung.com/spring-reflection-test-utils
 
 ---
 ## Integration Testing
-So far, we have seen Unit testing. We can up the server and run tests on it when we annotate the test class with _@SpringBootTest_.
+So far, we have seen Unit testing. We can up the server and run tests on it when we annotate the test class with _@SpringBootTest_ and use `MockMvc` to hit the enpoints.
 
 The whole Spring application context is initialized and we can use _@MockBean_ to mock classes in this kind of test.
+
+### Testcontainers
+Create ephemeral external dependencies like databases, MQs, etc.. for test purposes. Pulls Docker images and runs containers for test duration.
+
+https://www.testcontainers.org
 
 ## References
 - [Java Brains - YouTube](https://www.youtube.com/playlist?list=PLqq-6Pq4lTTa4ad5JISViSb2FVG8Vwa4o)
 - [JUnit 5 - Official User Guide](https://junit.org/junit5/docs/current/user-guide/)
 - [Dinesh Varyani - YouTube](https://youtube.com/playlist?list=PL6Zs6LgrJj3vy7yWpH9xb3Y0I_pAPrvCU)
+- [Spring Boot Microservices Project - Programming Techie](https://youtu.be/lh1oQHXVSc0?list=PLSVW22jAG8pBnhAdq9S8BpLnZ0_jVBj0c)
