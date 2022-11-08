@@ -274,11 +274,15 @@ We can also create out own span IDs manually using methods from `spring-cloud-sl
 ## Prometheus and Grafana
 Metrics collection (Prometheus) and visualization (Grafana).
 
-1. `spring-boot-starter-actuator` exposes an endpoint `/actuator/prometheus` which lists all metrics for the app that we can configure
-2. this actuator URL is configured in Prometheus running on a diff dedicated server
-3. input the Prometheus server IP in Grafana so that it can fetch data from it for visualization
+1. Expose the micrometer endpoint. `micrometer-registry-prometheus` dependency adds an endpoint `/actuator/prometheus` which lists all metrics for the app
+2. The micrometer endpoint is configured in Prometheus running on a diff dedicated server
+3. Input the Prometheus server IP in Grafana so that it can fetch data from it for visualization
 
-Config metric pulling interval and other settings in a `Prometheus.yml` file on the Prometheus server.
+```txt
+SPRING BOOT APP <--polls-- PROMETHEUS <--polls-- GRAFANA
+```
+
+Config polling interval and other settings in a `Prometheus.yml` file on the Prometheus server.
 
 We can see logs in Grafana too but _without_ the distributed tracing.
 
