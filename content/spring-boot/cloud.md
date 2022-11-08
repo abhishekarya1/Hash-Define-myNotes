@@ -94,7 +94,7 @@ eureka:
 
 Run multiple instances of the same client and they will all register themselves in the discovery server as replicas of a single service.
 
-## Gateway
+## API Gateway
 We use **Spring Cloud Gateway** here.
 
 It routes requests to correct service so that we are not hitting the service URL directly but via this gateway URL, also helps us to monitor and implement resilience (circuit breaking).
@@ -269,6 +269,19 @@ spring:
 # INFO [service-name, traceId, spanId]
 ```
 
+We can also create out own span IDs manually using methods from `spring-cloud-sleuth` (in code).
+
+## Prometheus and Grafana
+Metrics collection (Prometheus) and visualization (Grafana).
+
+1. `spring-boot-starter-actuator` exposes an endpoint `/actuator/prometheus` which lists all metrics for the app that we can configure
+2. this actuator URL is configured in Prometheus running on a diff dedicated server
+3. input the Prometheus server IP in Grafana so that it can fetch data from it for visualization
+
+Config metric pulling interval and other settings in a `Prometheus.yml` file on the Prometheus server.
+
+We can see logs in Grafana too but _without_ the distributed tracing.
+
 ## Project Link
 
 [GitHub Link](https://github.com/abhishekarya1/spring-boot-microservices)
@@ -276,4 +289,5 @@ spring:
 ## References
 - Microservices Tutorial - [Daily Code Buffer - YouTube](https://youtu.be/BnknNTN8icw)
 - Resilience4j Tutorial - [Daily Code Buffer - YouTube](https://youtu.be/9AXAUlp3DBw)
+- Spring Boot Microservices Full Course - [Programming Techie - YouTube](https://www.youtube.com/playlist?list=PLSVW22jAG8pBnhAdq9S8BpLnZ0_jVBj0c)
 - Mastering Spring Boot 2.0 - Dinesh Rajput (PacktPub) [\[Link\]](https://g.co/kgs/Eb8KHc)
