@@ -1,7 +1,7 @@
 +++
 title = "Spring Cloud"
 date = 2022-06-20T08:56:00+05:30
-weight = 9
+weight = 10
 +++
 
 Review: [/microservices](/microservices)
@@ -234,57 +234,6 @@ spring:
       enabled: true
       uri: http://localhost:9191
 ```
-
-## Distributed Log Tracing
-We used **Zipkin** and **Sleuth** here inorder to trace logs for a request going through multiple services.
-
-Zipkin server JAR is downloaded and runs separately. We need to include Zipkin client and Sleuth dependencies in services.
-```xml
-<dependency>
-  <groupId>org.springframework.cloud</groupId>
-  <artifactId>spring-cloud-sleuth-zipkin</artifactId>
-</dependency>
-<dependency>
-  <groupId>org.springframework.cloud</groupId>
-  <artifactId>spring-cloud-starter-sleuth</artifactId>
-</dependency>
-```
-
-```yaml
-spring:
-  application:
-    name: USER-SERVICE
-  zipkin:
-    base-url: http://localhost:9411		# Zipkin server URL
-```
-
-### TraceID and SpanID
-**TraceId** - One ID for a request no matter how many services it calls
-
-**spanId** - This keeps changing for every service we call in the path while fulfilling a request
-
-```sh
-2022-06-20 11:18:54.720  INFO [DEPARTMENT-SERVICE,5ec01b4d1b55f35f,f3aeb60a7471c5af] 21340 --- [nio-9002-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]
-
-# INFO [service-name, traceId, spanId]
-```
-
-We can also create out own span IDs manually using methods from `spring-cloud-sleuth` (in code).
-
-## Prometheus and Grafana
-Metrics collection (Prometheus) and visualization (Grafana).
-
-1. Expose the micrometer endpoint. `micrometer-registry-prometheus` dependency adds an endpoint `/actuator/prometheus` which lists all metrics for the app
-2. The micrometer endpoint is configured in Prometheus running on a diff dedicated server
-3. Input the Prometheus server IP in Grafana so that it can fetch data from it for visualization
-
-```txt
-SPRING BOOT APP <--polls-- PROMETHEUS <--polls-- GRAFANA
-```
-
-Config polling interval and other settings in a `Prometheus.yml` file on the Prometheus server.
-
-We can see logs in Grafana too but _without_ the distributed tracing.
 
 ## Project Link
 

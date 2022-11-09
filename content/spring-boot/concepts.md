@@ -1,7 +1,7 @@
 +++
 title = "Concepts"
 date = 2022-06-10T02:05:00+05:30
-weight = 6
+weight = 7
 +++
 
 ### Java Bean

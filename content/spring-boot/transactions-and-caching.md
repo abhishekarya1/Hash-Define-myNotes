@@ -1,7 +1,7 @@
 +++
 title = "Transactions & Caching"
 date = 2022-06-19T07:29:00+05:30
-weight = 8
+weight = 9
 +++
 
 ## Transactions

@@ -342,49 +342,6 @@ database:
 	user: user
 ```
 
-## Logger
-Logging is available in Spring by default provided by `slf4j` (Simple Logging Facade 4 Java) implemented by `Logback`, successor to the infamous `log4j`. We don't need any dependencies for it separately.
-
-```java
-// in Foobar.java
-
-Logger log = LoggerFactory.getLogger(Foobar.class);		// -- line 1
-
-log.trace("A TRACE Message");
-log.debug("A DEBUG Message");
-log.info("An INFO Message");		// base level by default; all above this will be enabled
-log.warn("A WARN Message");
-log.error("An ERROR Message");
-
-log.error("A Message with a value {}", valueVar);	// cleaner syntax with log
-
-// we can use lombok too to avoid line 1 above
-@Slf4j		// creates slf4j logger
-// or
-@CommonsLog	// creates Apache commons log
-
-// logger variable is named "log"
-```
-
-Control logs using properties
-```txt
-logging.level.root=TRACE
-
-# package specific
-logging.level.com.test.repository=INFO
-
-# package specific for framework level logs
-logging.level.org.springframework.web=debug
-logging.level.org.hibernate=error
-
-# group packages
-logging.group.foobar=com.test.repository,com.test.service
-logging.level.foobar=DEBUG
-
-# log file (created in root dir by default)
-logging.file.name=myapp.log
-```
-
 ## Running JARs
 ```sh
 $ java -jar demo-app.jar --server.port=9090
