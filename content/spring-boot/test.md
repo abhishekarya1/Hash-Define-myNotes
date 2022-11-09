@@ -179,7 +179,7 @@ void testFun(){
 
 ---
 ## Mockito
-Framework to mock layers below the layer we want to test.
+Framework to **mock layers below the layer we want to test**.
 
 ### Mocking
 Use _@Mock_ to mock objects. Every method call we make on mocks will return `null` or `[]` or `0` unless we stub its methods with (`when`-`then`).
@@ -296,10 +296,76 @@ Provided by Spring. Uses Java Reflection API internally to modify class under te
 _Guide_: https://www.baeldung.com/spring-reflection-test-utils
 
 ---
-## Integration Testing
-So far, we have seen Unit testing. We can up the server and run tests on it when we annotate the test class with _@SpringBootTest_ and use `MockMvc` to hit the enpoints.
+## Specialized Tests
+###  Controller Test (WebMvcTest)
 
-The whole Spring application context is initialized and we can use _@MockBean_ to mock classes in this kind of test.
+Makes calls to our controller endpoints, service layer to be mocked here.
+
+Use only `@MockBean` with `@WebMvcTest` to mock service layer.
+
+```java
+@WebMvcTest(controllers = MyController.class)
+public class MyControllerTest {
+
+    @Autowired
+    private MockMvc mockMvc;
+
+    @MockBean
+    private Service service;
+
+    @Test
+    public void testMyController() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1"))
+        .andExpect(status().isOk());
+    
+	}
+}
+```
+
+### DataJpaTest
+Sets up an in-memory H2 database and performs run tests using it. Modern way is to use Testcontainers.
+
+```java
+@DataJpaTest
+public class JpaRepositoryTest {
+
+    @Autowired
+    private EntityManager entityManager;
+
+    @Autowired
+    private ProductRepository respository;
+
+    @Test
+    public void testRepo() {
+
+        entityManager.persist(new Product(1, "Laptop", 50000));			// could've used "repository.save()" here; no need of EntityManager then
+    
+	}
+}
+```
+---
+## Integration Testing
+Ups the server and run tests on it when we annotate the test class with _@SpringBootTest_ and use `MockMvc` to hit the enpoints.
+
+No mocking to be done in this kind of test.
+
+```java
+@SpringBootTest				// default port = 8080
+@AutoConfigureMockMvc
+public class IntegrationTest{
+
+	@Autowired
+    private MockMvc mockMvc;		// test from hitting controller endpoints
+
+    @Test
+    public void testMyController() throws Exception {
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1"))
+        .andExpect(status().isOk());
+	}
+}
+```
 
 ### Testcontainers
 Create ephemeral external dependencies like databases, MQs, etc.. for test purposes. Pulls Docker images and runs containers for test duration.
