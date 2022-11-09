@@ -368,7 +368,48 @@ public class IntegrationTest{
 ```
 
 ### Testcontainers
-Create ephemeral external dependencies like databases, MQs, etc.. for test purposes. Pulls Docker images and runs containers for test duration.
+Used to write Integration tests, use Database Migration like Flyway to populate database container.
+
+Create ephemeral external dependencies like databases, MQs, etc.. for test purposes. Pulls Docker images and runs containers for test scope & duration, needs Docker pre-installed on the system to work.
+
+```java
+@SpringBootTest	
+@Testcontainers
+public class MyTest{
+
+	// Postgres specific code
+	@Container
+	static PostgreSQLContainer postgreSQLContainer = 
+		new PostgreSQLContainer(DockerImageName.parse("postgres:14-alpine"));
+
+	// alternatively, for any Docker image (recommended)
+	@Container
+	static GenericContainer sqlContainer = 
+		new GenericContainer(DockerImageName.parse("postgres:14-alpine"));
+
+	// db properties
+	@DynamicPropertySource
+	static void setProperties(DynamicPropertyRegistry registry){
+		registry.add("spring.datasource.url", postgreSQLContainer::getJdbcUrl);
+		registry.add("spring.datasource.username", postgreSQLContainer::getUsername);
+		registry.add("spring.datasource.password", postgreSQLContainer::getPassword);
+	}
+}
+```
+
+
+**JDBC URL Short Form**: Just define a database JDBC URL like below and all container related stuff will be taken care of, no need for testcontainer realted annotations too!
+```java
+@SpringBootTest	
+@TestPropertySource(properties = {
+	"spring.datasource.url=jdbc:tc:postgresql:14-alpine/foobar_database"
+})
+public class MyTest{
+		// tests
+}
+```
+
+We can also externalize common container configs to another class too.
 
 https://www.testcontainers.org
 
@@ -376,4 +417,5 @@ https://www.testcontainers.org
 - [Java Brains - YouTube](https://www.youtube.com/playlist?list=PLqq-6Pq4lTTa4ad5JISViSb2FVG8Vwa4o)
 - [JUnit 5 - Official User Guide](https://junit.org/junit5/docs/current/user-guide/)
 - [Dinesh Varyani - YouTube](https://youtube.com/playlist?list=PL6Zs6LgrJj3vy7yWpH9xb3Y0I_pAPrvCU)
-- [Spring Boot Microservices Project - Programming Techie](https://youtu.be/lh1oQHXVSc0?list=PLSVW22jAG8pBnhAdq9S8BpLnZ0_jVBj0c)
+- Spring Boot Microservices Project - Programming Techie - [YouTube](https://youtu.be/lh1oQHXVSc0?list=PLSVW22jAG8pBnhAdq9S8BpLnZ0_jVBj0c)
+- Integration Testing using Testcontainers - SivaLabs - [YouTube](https://youtu.be/osw9dz2ZhhQ)
