@@ -1,7 +1,7 @@
 +++
 title = "Spring ReST"
 date = 2022-06-07T00:27:00+05:30
-weight = 6
+weight = 7
 +++
 
 ```xml

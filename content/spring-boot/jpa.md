@@ -1,7 +1,7 @@
 +++
 title = "JPA"
 date = 2022-06-06T03:29:00+05:30
-weight = 3
+weight = 8
 +++
 
 ## ORMs and Hibernate
@@ -75,30 +75,11 @@ Another way to get a projection with plain DTOs (no _@Entity_) is to make a quer
 _References_ (interface and constructor expression techniques): https://stackoverflow.com/questions/22007341/spring-jpa-selecting-specific-columns
 
 ## Validations
+Doing validations on the persistance layer isn't recommended since it means that we've worked with invalid objects at the higher layers so far.
 
-```xml
-<dependency>
-	<groupId>org.springframework.boot</groupId>
-	<artifactId>spring-boot-starter-validation</artifactId>
-</dependency>
-```
-Many annotation based validations can be specified in _@Entity_ class directly. When we convert (deserialize) from JSON to POJO, these validations are performed and BAD_REQUEST status is returned along with messsage (if specified) in place of JSON value.
-```java
-@NotBlank(message="Please provide value for name!")
-private String name;
+That said, the Spring Data JPA supports validations out-of-the-box i.e. We don't need to trigger validations by writing `@Validated` or `@Valid`, instead we just define validations in the `@Entity` class and they are enforced implicitly when JPA is working with them.
 
-@Length(min=1, max=5)
-@Size(min=0, max=10)
-@Temporal(TemporalType.DATE)
-@Email
-@Positive
-@Negative
-@PositiveOrZero
-@NegativeOrZero
-@Past
-@Future
-@PastOrPresent
-```
+[Validation Notes](/spring-boot/exception/#validations)
 
 ## Hibernate DDL AUTO Property
 Apart from usual connection url, username, password, driver we can also add properties to print executed SQL and prettify it too.
