@@ -356,7 +356,7 @@ No mocking to be done in this kind of test.
 public class IntegrationTest{
 
 	@Autowired
-    private MockMvc mockMvc;		// test from hitting controller endpoints
+    private MockMvc mockMvc;		// test end-to-end by hitting controller endpoints
 
     @Test
     public void testMyController() throws Exception {
