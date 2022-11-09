@@ -94,6 +94,43 @@ eureka:
 
 Run multiple instances of the same client and they will all register themselves in the discovery server as replicas of a single service.
 
+## OpenFeign Client
+Call another service in the background when current service's controller endpoints are accessed, fetch results and return to the sender as if we (the current service) is serving the request.
+```java
+// Service-A
+// add feign maven dependency in pom
+
+// add @EnableFeignClients on the main class
+
+// Feign controller class
+@FeignClient(value = "feigndemo", url="http://localhost:8081/foobar")   // value = arbitrary name; url = service-B's URL
+public interface FeignController{     // notice that its an interface
+
+  @GetMapping("/username")
+  public String getUserName();
+
+}
+
+// actual controller class in same service-A
+@RestController
+public class MyController{
+
+  @Autowired
+  private FeignController feignController;
+
+  @GetMapping("/name")
+  public String getName(){
+    return feignController.getUserName();
+  }
+
+}
+
+// Summary: 
+// when we access "localhost:8080/name" (this service), it will actually access "localhost:8081/foobar/username" (another rservice)
+```
+
+_Reference_: https://youtu.be/tlshVRtbS_c
+
 ## API Gateway
 We use **Spring Cloud Gateway** here.
 
