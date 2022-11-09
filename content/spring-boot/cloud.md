@@ -47,7 +47,7 @@ Many tools are provided among which the most popular are from open-source projec
 ## Service Registry and Discovery
 We use Netflix Eureka Server for this.
 
-Each service registers itself to the Eureka server. Multiple instances of the same service can also be registered. We can then **refer to services by their name instead of a URL**.
+Each service registers itself to the Eureka server. Multiple instances of the same service can also be registered. We can then **refer to services by their name instead of a URL** p.s. use `@LoadBalanced` on method using `restTemplate` for client-side load balancing.
 
 {{% notice note %}}
 Even if the discovery server goes down, the services maintain an ephemeral local copy of the service registry. This local registry doesn't let the discovery server become a single point-of-failure.
