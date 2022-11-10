@@ -5,10 +5,10 @@ weight = 2
 +++
 
 ## Class
-Everything has to be inside a class in java source file. Filename must match the "entrypoint" classname (incl. case), and it ofcourse must have a `main()` method.
+Everything has to be inside a class in java source file. Filename must match the "entrypoint" classname (incl. case), and it ofcourse can have a `main()` method.
 
 - if all are non-public, the class name with file's name runs
-- there can be multiple classes in a java source file but only one can be declared as `public` 
+- there can be multiple classes in a java source file but only one can be declared as `public` and it must match the filename
 - top-level classes can't be `private` or `protected`, it leads to compiler error
 - top-level classes can't be `static`, it leads to compiler error. Nested classes can be `static` though.
 
@@ -17,8 +17,7 @@ Everything has to be inside a class in java source file. Filename must match the
 ```java
 public static final void main()
 
-// only "final" is optional
-// main() can be overloaded just like any other method and interpreter calls the one with String[] argument only
+// only "final" is optional here
 ```
 The argument has to be a `String` array. So all of the below works:
 ```java
@@ -30,7 +29,7 @@ String... args
 
 - It is `static` because it is called by JVM using class name
 - Removing `static` from it will not cause any compile-time exception but cause `NoSuchMethodError` error on runtime
-- It can be overloaded just like any other method but only `String[]` one will be called by the JVM
+- `main()` can be overloaded just like any other method but only `String[]` one will be called by the JVM
 
 ## Command-Line Arguments
 ```java
@@ -57,10 +56,10 @@ class Hello{
 }
 ```
 - `java.lang.*` is always implicitly imported regardless
+- if files have same `package` declarations, then they need not `import` each other explicitly as it's trivial 
 - only classes can be imported and not methods or fields unless `import static` is used
 - importing a lot of classes doesn't impact compilation or runtimes at all in Java
 - an import with wildcard (`import java.nio.*`) only imports classes from the current package and not from children pacakages too
-- if files have same `package` declarations, then they need not `import` each other explicitly as it's trivial 
 - Specificity takes precedence. If `java.util.Date` and `java.sql.*` both are imported, then `Date` is fetched from `util` package
 - Any ambiguity leads to compilation error:
 ```java
@@ -235,13 +234,13 @@ int b = (int) a;        // explicit cast from double to int
 ### Numeric Promotion
 1. If two values have different types, Java will convert smaller into larger type
 2. If integral and decimal are being used, integral is converted to decimal type
-3. **If both variables are of integral type and smaller or equal to int, they are promoted to int first**, even if none of them is `int`
+3. After the operations, the result value will be of the promoted operands type
+4. **If both variables are of integral type and smaller or equal to int, they are promoted to int first**, even if none of them is `int`
 ```java
 short x = 5;
 byte y = 5;
 x + y;      // int 
 ```
-4. After the operations, the result value will be of the promoted operands type.
 
 ### Bitwise Complement
 `~` operator is same as in C/C++. To find the bitwise complement of a number, multiply it by negative one and then subtract one.
