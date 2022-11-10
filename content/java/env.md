@@ -98,9 +98,9 @@ jshell> /exit
 ## The JDK
 Many open-source as well as proprietary JDK alternatives have popped up over the years. Most popular ones are OracleJDK, OpenJDK, and Amazon Corretto.
 
-OpenJDK is developed by Oracle, OpenJDK, and the Java Community. However, top-notch companies like Red Hat, Azul Systems, IBM, Apple Inc., and SAP AG also take an active part in its development.
+OpenJDK is developed by Oracle, OpenJDK, and the Java Community together. However, top-notch companies like Red Hat, Azul Systems, IBM, Apple Inc., and SAP AG also take an active part in its development.
 
-OracleJDK is fully developed by the Oracle Corporation. And licence differences are there with OpenJDK.
+OracleJDK is solely developed by the Oracle Corporation. It has some additional libraries and licence differences with OpenJDK.
 
 Actually, OpenJDK is an official reference implementation of a Java SE since long time now. It means that it is the accepted official implementation of the Java specification and OracleJDK's as well as all other JDKs' build process is based on that of OpenJDK.
 
@@ -124,6 +124,12 @@ _Architecture_: https://www.graalvm.org/22.1/docs/introduction/
 _Graal JIT Compiler_: https://www.baeldung.com/graal-java-jit-compiler
 
 _Java Benchmarks_: https://www.phoronix.com/scan.php?page=article&item=java-openjdk-mid22
+
+
+### JVM Languages
+Many other languages can prodcue Bytecode that is runnable on JVM.
+
+Popular ones are - Kotlin, Groovy, Scala, Clojure.
 
 ## References
 - JavaNotesForProfessionals.pdf (Chapter 169, Appendix B)
