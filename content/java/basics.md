@@ -321,13 +321,14 @@ String internedStr = str.intern();
 ```
 
 ### Immutability
+Once we have a String literal in pool or heap, we can't "edit" (modify) it in-place.
 ```java
 String a = new String("foobar");
-String a = a.substring(0, 3) + "d";
+a = a.substring(0, 3) + "d";
 // Literals created in pool: "foobar", "food" (new literal)
 
 String b = "foo";
-String b = b + "bar"; 
+b = b + "bar"; 
 // Literals created in pool: "foo", "foobar" (new literal)
 ```
 
