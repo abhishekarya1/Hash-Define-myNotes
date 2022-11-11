@@ -113,7 +113,7 @@ obj3.a = 7;
 System.out.println(Hello.a);		// 7	
 ```
 - `static` methods can't be overriden, since they are resolved using _static binding_ by the compiler at compile time
-- **static methods can't access instance methods and instance variables directly**. They must use reference to object. And `static` method can't use `this` keyword as there is no instance for "this" to refer to.
+- **static methods can't access instance methods and instance variables directly (from inside the class, without any object created with "new")**. They must use reference to object. And `static` method can't use `this` keyword as there is no instance for "this" to refer to.
 - instance initializer blocks can initialize `static` variables but not the other way round. We can't access non-static members from a static context without object reference.
 
 ```java
@@ -182,15 +182,6 @@ void foobar(long l){ }		// c
 
 foobar(123);	// calls a; if a is commented, then it calls b (autoboxing); if b is also commented then it calls c (promotion)
 fooabr(123L);	// calls c
-```
-
-### Array Types
-- Remember, **arrays don't get autoboxed**
-```java
-int[] arr;
-Integer[] arrInt;
-
-// both are different
 ```
 
 ### Varargs Type
