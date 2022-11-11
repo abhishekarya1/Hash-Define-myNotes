@@ -30,9 +30,9 @@ public String getStr(){
 ```txt
 private		   --> accessible from within the same class only; not even its subclasses
 
-package access --> default; when we omit any access modifier; accessible only from a class or subclass in the same package; if we try to access this from a subclass but in a different package, there will be error
+package access --> default; when we omit any access modifier; accessible only from inside the same package (class or subclass in the same package); if we try to access this from a subclass that's in a different package, there will be error
 
-protected	   --> same package and subclasses (even in diff packages)
+protected	   --> same class, same package, and subclasses (even if subclass is in a diff package)
 
 public	 	   --> everywhere
 ```
@@ -43,6 +43,16 @@ Primitives & references vars  -->	Pass-by-value
 Objects  					  -->	Pass-by-reference
 
 Since there are no explicit references in Java unlike C++. We say everything is pass-by-value in Java which means a new reference variable is created in called method and not actual object/array is created in memory again. 
+```
+
+```java
+public void foo(String str){	// new ref variable "str"; points to same string in heap
+}
+
+public void bar(){
+	String a = new String("test");	// string in heap
+	foo(a);							// method call
+}
 ```
 
 ## Local and Instance Variables
