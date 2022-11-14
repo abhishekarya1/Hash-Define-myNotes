@@ -7,7 +7,7 @@ weight = 6
 ## Lambdas
 Expressions with no name, a parameter list and returns a value immediately. They implement a Functional Interface. 
 ```java
-() -> { }	// no default functional interface provided by Java foe this lambda, but we can define "void fun()"
+() -> { }	// no default functional interface provided by Java for this lambda, but we can define "void fun()"
 
 // Both the parantheses and block braces are optional if there is a single parameter and a single return value
 a -> true
