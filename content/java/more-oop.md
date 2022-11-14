@@ -36,7 +36,7 @@ public interface Demo extends Foo, Bar {	}		// Foo and Bar are interfaces
 ```java
 public class X implements Y, Z {	} 		// Y and Z are interfaces
 
-public class A extends B, C implements D, E {	} 		// both inheriting and implementing
+public class A extends B implements D, E {	} 		// both inheriting and implementing
 ```
 
 - Concrete class (first to implement interface) must **have all abstract methods definition available to it**. Those definitions can come from any superclass of the class implementing the interface.
