@@ -578,18 +578,18 @@ class Bar{
 ### Casting Interfaces
 While holding a reference to a class object its not possible to tell if its compatible with an interface reference since some subclass might be implementing that interface, so identifying bad casts at compile-time isn't possible with interfaces. There is one exception to this, it is listed below the following code.
 ```java
-public interface Dog{ }
+public interface FourLegged{ }
 public interface Canine{ }
 
 public class Wolf implements Canine{ }
 
-Canine c = new Wolf();		// or Wolf w = new Wolf();
-Dog dog = (Dog)c;			// compiles just fine
+Canine c = new Wolf();					// or Wolf w = new Wolf();
+FourLegged dog = (FourLegged)c;			// compiles just fine; even tho both interface are unrelated
 
 // throws ClassCastException at runtime
 
-// in the above case, class Wolf may have a subclass Dog which implements Dog interface, in that case above will be valid if "Canine c = new Dog();"
-// this is why it is allowed to compile; since that subclass will be both a "Canine" and a "Dog" (multiple inheritance using interface)
+// in the above case, class Wolf may have a subclass Dog which implements FourLegged interface, in that case above will be valid if "Canine c = new Dog();"
+// this is why it is allowed to compile; since that subclass will be both a "Canine" and a "FourLegged" (multiple inheritance using interface)
 
 // EXCEPTION - if class is marked "final" then the compiler will know that there are no possible subclasses that might implement an interface we are casting to, so in that case it leads to a compile-time error
 ```
