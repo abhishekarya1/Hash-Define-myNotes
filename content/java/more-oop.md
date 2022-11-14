@@ -18,13 +18,12 @@ Just like abstract classes whose sole-purpose is to get inherited and overriden.
 public interface Demo{
 	int a = 5;
 	void bar();
-	void foo(){ }
+	void foo(){ }		// invalid; should've no body
 }
 
 public abstract interface Demo{
 	public static final int a = 5;
 	public abstract void bar();
-	public void foo(){ }
 }
 ```
 
