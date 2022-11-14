@@ -124,7 +124,9 @@ class B extends A {
 
     public static void main(String args[]){
         super.foo();		// no handling required; class A declared no exceptions so need to catch or declare any; this is a security lapse
-        this.foo();		// have to handle or declare IOException due to this line
+
+        B obj = new B();
+        obj.foo();		   // have to handle or declare IOException due to this line
     }
 }
 ```
