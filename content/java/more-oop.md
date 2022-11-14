@@ -84,7 +84,7 @@ public class MyClass extends Super implements Test {	// subclass doesn't have a 
 We can use interface reference too apart from parent or child (self) reference. We use this all the time in Collections framework and it hides what kinds of object it actually is. All we are concerned with is that it implements our interface and we can only access methods it implements from our interface reference. [Example](/java/more-oop/#object-v-reference)
 
 ### Properties of an interface
-All are implicitly `public static final` and are accessible in implementing class as well as by interface ref.
+All are implicitly `public static final` and are accessible in implementing class as well as by interface ref (as is the normal behaviour of properties in class inheritance).
 
 ```java
 interface Demo{
