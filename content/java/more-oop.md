@@ -588,7 +588,7 @@ Dog dog = (Dog)c;			// compiles just fine
 
 // throws ClassCastException at runtime
 
-// in the above case, class Wolf may have a subclass Dog which implements Dog interface, in that case above will be valid if "Wolf wolf = new Dog();"
+// in the above case, class Wolf may have a subclass Dog which implements Dog interface, in that case above will be valid if "Canine c = new Dog();"
 // this is why it is allowed to compile; since that subclass will be both a "Canine" and a "Dog" (multiple inheritance using interface)
 
 // EXCEPTION - if class is marked "final" then the compiler will know that there are no possible subclasses that might implement an interface we are casting to, so in that case it leads to a compile-time error
