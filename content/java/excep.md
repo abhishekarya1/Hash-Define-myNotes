@@ -141,14 +141,22 @@ catch (Exception e){
 ```
 
 ## Handling (try-catch-finally)
-Each `try` must have atleast a single `catch` or a `finally`.
-
-One `try` can have multiple `catch` (beware of unreachable ones).
+Each `try` must have atleast a single `catch` **OR** a `finally` block.
 
 ```java
 try{	}
-catch(Exception	e){	}
+catch(Exception	e){	}   // exception must be getting thrown in the try block
 finally{	}
+
+------------------------
+
+try{    }
+catch(Exception e){ }   // exception must be getting thrown in the try block
+
+------------------------
+
+try{    }
+finally{    }
 ```
 
 If a **particular exception is never thrown in try block**, we can't write `catch` for it:
@@ -166,6 +174,7 @@ catch(Exception e){       // valid!
 }
 ```
 
+One `try` can have multiple `catch` blocks (beware of unreachable ones).
 
 **catch block chaining**: Super class is allowed only after more specific ones because there may be exceptions to be caught that may not belong to subclass `catch` block but will be caught by superclass `catch` block.
 
