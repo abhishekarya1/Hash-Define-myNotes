@@ -266,8 +266,8 @@ try(f; var l = new File("lorem.txt"); b){	}	// compiler-error
 b = null;		// b modified; so not effectively final
 ```
 
-## Suppressed Exceptions
-If two exceptions are thrown, the first one is treated as a primary one while all others following it are suppressed and put into a `Throwble[]` array.
+## Suppressed Exceptions with try-with-resources
+If two exceptions are thrown, one in `try` and the other in `close()` method following that, the first one is treated as a primary one while the second one is suppressed and put into a `Throwble[]` array accessible using `e.getSuppressed()`.
 ```java
 class All implements AutoCloseable{
     public void close(){
