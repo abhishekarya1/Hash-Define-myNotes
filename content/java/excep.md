@@ -223,7 +223,7 @@ public class MyClass {
 try(var f = new File("my.txt")){	}
 ```
 
-We can open resources in try and they get destroyed after `try` gets over. This destruction takes place as soon as `try` gets over and any `finally` will execute after that. Also, **the resources are closed in the reverse order in which they were created**.
+We can open resources in try and they get destroyed after `try` gets over even if there is a `catch` block. This destruction takes place as soon as `try` gets over and any `finally` will execute after that. Also, **the resources are closed in the reverse order in which they were created**.
 
 ```java
 try(var f = new File("my.txt"); var x = new File("foo.txt");){	}	// last semicolon is optional
