@@ -370,9 +370,24 @@ public record Demo(int foo, String bar){
 	public String toString(){ return "Testing..."; }
 }
 ```
-- Only `static final` fields are allowed in record body
-- Non-static fields (instance fields) aren't allowed inside record body (since they are present in the parameter list), and they have to be `final` for immutability
-- Instance Initializer blocks aren't allowed since initializaion is possible only via constructor, also no instance fields exist acc to above rule so no point of instance initializer blocks
+- Only `static final` fields are allowed in record body, naturally static initializer blocks are allowed too
+```java
+record Demo(String name, int age){
+    static final int marks = 5;
+}
+
+--------------------------------------
+
+record Demo(String name, int age){
+    static final int marks;
+
+    static { marks = 5; }
+}
+
+// access from anywhere using: Demo.marks
+```
+
+- Non-static fields (instance fields) aren't allowed inside record body (since they are present in the parameter list), and they have to be `final` for immutability; naturally instance initializer blocks aren't allowed since initializaion is possible only via implicit long constructor, also no instance fields exist so no point of instance initializer blocks
 
 ## Nested Classes
 Class within another class.
