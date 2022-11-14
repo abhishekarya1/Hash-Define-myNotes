@@ -235,30 +235,35 @@ enum Alphabet {
     C("X");
 
     Alphabet(String a) { }		// mandatory; can only be private or package-access
+
+    // create an instance field and an optional getter to access - "Z", "Y", "X"
 }
 ```
 ```java
 public enum Season{
-	WINTER("Low"), SPRING("Medium"), SUMMER("High");	// constructor calls to init
+	WINTER("Low"), SPRING("Medium"), SUMMER("High");	// constructor calls to initialize
 	// ; not optional, values always comes before construtors, methods
 
-	public final String expVis;		// optional field, can be non-final too but bad practice
+	public final String expVis;		// optional field to access "Low"/"Medium"/"High", can be non-final too but bad practice
 
 	private Season(String expVis){		// constructor, always private or pacakge-access, runs only on first access to a constant, never runs again 
-		this.expVis = expVis;	// optional
+		this.expVis = expVis;	// set value to enum instance var
 	}
 
-	public void printExpVis(){				// method
+	public void getExpVis(){				// getter method
 		System.out.println(expVis);
 	}
 }
 
-Season s = Season.SUMMER;		// RHS is a constructor call but without "new", LHS is reference variable assignment
-System.out.println(Season.SUMMER);	 // "High"
+Season s = Season.SUMMER;			// RHS is a constructor call but without "new", LHS is reference variable assignment
+System.out.println(Season.SUMMER);	 // SUMMER
+
 System.out.println(Season.SUMMER.ordinal());	// 2	
+
 Season.SUMMER.printExpVis(); 	// enum method call
-s.printExpVis();				// enum method call with reference object
-s.expVis;						// enum instance variable access
+
+s.getExpVis();					// "High"; enum method call with reference object
+s.expVis;						// "High"; enum instance variable direct access
 ```
 
 ### Methods in Enum
