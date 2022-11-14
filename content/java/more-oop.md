@@ -83,6 +83,22 @@ public class MyClass extends Super implements Test {	// subclass doesn't have a 
 ### Interface References
 We can use interface reference too apart from parent or child (self) reference. We use this all the time in Collections framework and it hides what kinds of object it actually is. All we are concerned with is that it implements our interface and we can only access methods it implements from our interface reference. [Example](/java/more-oop/#object-v-reference)
 
+### Properties of an interface
+All are implicitly `public static final` and are accessible in implementing class as well as by interface ref.
+
+```java
+interface Demo{
+	int a = 5;		// "public static final" implicitly; must initialize inline
+}
+
+class Main implements Demo{
+	public static void main(String[] args){
+		System.out.println(Main.a);		// 5 (inherited)
+		System.out.println(Demo.a);		// 5
+	}
+}
+```
+
 ### default Interface Method
 To have a `default` method inside an interface that is optional to implement by class implementing the interface, available to implementing class to call without any ref.
 
@@ -111,7 +127,7 @@ class Demo implements X{
 - must be marked with `static` and must have a method body
 - implicitly `public` (just like any other method in interface)
 - cannot be `abstract` or `final`
-- it is **never inherited by other interfaces or goto implementing class** (unlike normal `static` class methods) and we need to call it with interface name (`InterfaceName.methodName()`) since we can't call it using implementing class ref or name. We can also have the same method defined in our implementing class since they are never inherited so no overriding can happen.
+- it is **never inherited by other interfaces or goto implementing class** (unlike normal `static` class methods) and we need to call it with interface name (`InterfaceName.methodName()`) since we can't call it using implementing class ref or name. **We can also have the same method defined in our implementing class since they are never inherited so no overriding can happen**.
 
 ```java
 interface P{
