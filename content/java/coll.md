@@ -458,9 +458,12 @@ Limiting generic types to allow certain types only **as method parameters**.
 
 ```java
 public <U extends Number> void inspect(U u){  }
+
+// multpile Bounds
+<T extends C1 & C2 & C3>
 ```
 
-**Wildcards**:
+**Wildcards**: Used with collections
 ```java
 <?>               // unbounded
 <? extends Class> // only those types which are subclasses of Class (upper bound) or Class itself
@@ -540,8 +543,3 @@ This is a major reason to use Lower-bounds (`<? super Foobar>`) when any other t
 **Reason**: When we use `<?>` or `<? extends Foobar>`, we don't know the types that can be added to such list, it can literally be any subclass of `Foobar` even the ones which are not yet created. So Java doesn't allow adding more or changing existing elements. 
 
 In contrast, when we use `<? super Foobar>` we can be assured that whatever type is passed to it, it will be one of `Foobar`'s superclasses only, which trivially exists already.
-
-### Multpile Bounds
-```java
-<T extends C1 & C2 & C3>
-```
