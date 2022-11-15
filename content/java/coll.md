@@ -393,17 +393,17 @@ public interface Foo<T>{
 
 // three ways to implement generic interfaces
 class Bar implements Foo<Integer>{
-    void foobar(Integer i){ }
+    public void foobar(Integer i){ }
 }
 
 class Bar<U> implements Foo<U>{ 
-    void foobar(U i){ }
+    public void foobar(U i){ }
 }
 
 
 //old way, compiler warning, raw type
 class Bar implements Foo{
-    void foobar(Object i){ }
+    public void foobar(Object i){ }
 }
 ```
 
