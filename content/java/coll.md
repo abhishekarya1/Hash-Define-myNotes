@@ -298,9 +298,9 @@ Comparator<Duck> byWeight = Comparator.comparing(Duck::getWeight);  // another w
 ```java
 // build a comparator; provide getter for field being used to perform comparison; returns a Comparator
 Comparator.comparing(Function);                 // compare by results of a Function that returns any Object
-Comparator.comparingInt(ToIntFunction);         // compare by results of a Function that results an int
-Comparator.comparingLong(ToLongFunction);       // compare by results of a Function that results a long
-Comparator.comparingDouble(ToDoubleFunction);   // compare by results of a Function that results a double
+Comparator.comparingInt(ToIntFunction);         // compare by results of a Function that returns an int
+Comparator.comparingLong(ToLongFunction);       // compare by results of a Function that returns a long
+Comparator.comparingDouble(ToDoubleFunction);   // compare by results of a Function that returns a double
 
 Comparator.naturalOrder();  // no need to specify any field/getter; works only on known types like Integer, String, etc..
 Comparator.reverseOrder();  // no need to specify any field/getter; works only on known types like Integer, String, etc..
