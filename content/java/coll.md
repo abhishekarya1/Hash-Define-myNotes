@@ -297,10 +297,10 @@ Comparator<Duck> byWeight = Comparator.comparing(Duck::getWeight);  // another w
 
 ```java
 // build a comparator; provide getter for field being used to perform comparison; returns a Comparator
-Comparator.comparing(Function);     // compare by results of a Function that returns any Object
-Comparator.comparingInt();          // compare by results of a Function that results an int
-Comparator.comparingLong();          // compare by results of a Function that results a long
-Comparator.comparingDouble();          // compare by results of a Function that results a double
+Comparator.comparing(Function);                 // compare by results of a Function that returns any Object
+Comparator.comparingInt(ToIntFunction);         // compare by results of a Function that results an int
+Comparator.comparingLong(ToLongFunction);       // compare by results of a Function that results a long
+Comparator.comparingDouble(ToDoubleFunction);   // compare by results of a Function that results a double
 
 Comparator.naturalOrder();  // no need to specify any field/getter; works only on known types like Integer, String, etc..
 Comparator.reverseOrder();  // no need to specify any field/getter; works only on known types like Integer, String, etc..
@@ -308,9 +308,9 @@ Comparator.reverseOrder();  // no need to specify any field/getter; works only o
 // chaining with more methods
 .reversed();
 .thenComparing(Function);    // if previous comparator returns 0 (a tie), run this, otherwise return the value from previous
-.thenComparingInt(Function);
-.thenComparingLong(Function);
-.thenComparingDouble(Function);
+.thenComparingInt(ToIntFunction);
+.thenComparingLong(ToLongFunction);
+.thenComparingDouble(ToDoubleFunction);
 
 // example
 Comparator<Foo> c = Comparator.comparing(Foo::getMarks).thenComparing(Foo::getName);
