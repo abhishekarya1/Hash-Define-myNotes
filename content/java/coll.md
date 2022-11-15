@@ -320,7 +320,8 @@ Comparator<Foo> c = Comparator.comparing(Foo::getMarks).thenComparing(Foo::getNa
 ### Sorting Methods
 `Collections.sort()` can use both `Comparable` as well as `Comparator`. Returns `void`, modifies the collection supplied to it. 
 
-While `Comparable<T>` is usually implemented within the class being compared uses `compareTo()` override, and `Comparator` is usually implemented using lambda expression in the second argument.
+- while `Comparable<T>` is usually implemented within the class whose objects are being compared as `int compareTo(T a)` override, called implicitly by `Collections.sort()` 
+- and `Comparator`'s `int compare(U a, U b)` method is usually implemented using lambda expression passed as the second argument of `Collections.sort()`
 
 Other ways to sort:
 ```java
