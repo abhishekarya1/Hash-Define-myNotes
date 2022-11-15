@@ -553,6 +553,6 @@ public <T> void foobar(List<T extends Main> list) {  }
 
 
 // use wildcards only with collections only, not as bound method types
-public <T> <? extends Main> void foobar(T t) {  }        
+public <T> <? extends Main> foobar(T t) {  }        
 // invalid; wildcard used as method's return type
 ```
