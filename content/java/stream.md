@@ -241,6 +241,17 @@ Stream.generate(() -> "Elsa")
  .forEach(System.out::print);
 
 // ElsaElsa
+
+
+List<String> ls = new ArrayList<>();
+ls.add("A");
+ls.add("B");
+var s = ls.stream();    // stream created
+ls.add("C");
+s.count();              // but terminal operation is done here
+
+// count = 3
+// a stream is evaluated only when terminal operation is performed (lazy evaluation)
 ```
 
 ### Chaining Pipelines
