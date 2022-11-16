@@ -118,6 +118,7 @@ Stream<Integer> s = Stream.of(1, 2, 3);
 for(Integer i : s){	}	// does not compile
 ```
 ### reduce() and collect()
+**reduce()**: reduce entire stream to a single value.
 ```java
 public T reduce(T identity, BinaryOperator accumulator)		// 1, return type is same as that of seed
 public Optional<T> reduce(BinaryOperator accumulator)		// 2, no seed so return type is Optional
@@ -153,10 +154,11 @@ TreeSet<String> set = stream.collect(
  TreeSet::add,		// accumulate
  TreeSet::addAll);	// combnine all objects if parallel
 
-// much easier syntax
-stream.collect(Collectors.toCollection(TreeSet::new));
-stream.collect(Collectors.toSet());		// no guarantee of order since its a Set
-stream.collect(Collectors.toList());     // most used
+// much easier syntaxes
+stream.toList();    // only available for List since it is most commonly used
+stream.collect(Collectors.toList());     // alt for above
+stream.collect(Collectors.toSet());		 // for Sets, Maps, etc; remember no guarantee of order since its a Set
+stream.collect(Collectors.toCollection(TreeSet::new)); // for very specific Collections like TreeSet, TreeMap, etc..
 ```
 
 ## Common Intermediate Operations
