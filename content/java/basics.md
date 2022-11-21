@@ -123,8 +123,8 @@ More on their initialization [here](/java/oop/#order-of-initialization)
 **Variable Defaults**:
 ```txt
 Local -> no defaults (no garbage values), declaration only if value not assigned inline
-non-final Instance -> defaults value assigned by compiler
-non-final Class/static ->  defaults value assigned by compiler
+non-final Instance -> default value assigned by compiler
+non-final Class/static ->  default value assigned by compiler
 
 final Instance/Class -> no defaults, must be initialized before constructor finishes!
 ```
