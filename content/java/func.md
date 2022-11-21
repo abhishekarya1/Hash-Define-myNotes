@@ -17,7 +17,7 @@ a -> true
 (a, b) -> a.getMax()
 
 // If braces block is used, then must use return
-a -> { return a.canDrink(); };
+a -> { return a.canDrink(); }
 
 // some valid declarations
 a -> { }

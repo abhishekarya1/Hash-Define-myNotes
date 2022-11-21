@@ -19,7 +19,9 @@ Optional i = Optional.of(5);
 // Optional ref with formal type parameter
 Optional<Integer> i2 = Optional.of(6);
 
-Optional.of(null)   // NullPointerException; use .ofNullable()
+Foobar fb = null;
+Optional.of(fb);    // NullPointerException; use .ofNullable()
+
 Optional o = Optional.ofNullable(foo);
 // if foo is null, then o is assigned Optional.empty() otherwise Optional.of(foo) is assigned
 ```
