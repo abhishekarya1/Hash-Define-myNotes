@@ -303,7 +303,7 @@ public class Okapi extends GiraffeFamily {
 
 ### Initializing Classes (static members)
 - Class initialization - sets default values to all its `static` members, executing inline and static initializer blocks
-- It is initialized atmost once, and may never get initialized at all if it is not used anywhere in program
+- It is initialized **atmost once, and may never get initialized at all** if it is not used anywhere in program
 - JVM controls when the class is "loaded" (another term for class initialization) during runtime, usually its in the order of apperance if classes are not parent-child (second example below - class Z)
 
 Rules: 

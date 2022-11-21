@@ -115,7 +115,7 @@ It is basically another hot and popular JDK project created by Oracle. It has th
 - many other dev tools...
 
 **Features**:
-- high-performance (_Graal compiler_)
+- high-performance (_Graal compiler_) - resolves the C2 being old and unmaintainable problem
 - create native platform executable eliminating the need for JVM (_AOT (Native Image)_)
 - run Javascript, Python, Ruby, R, WASM, etc... on JVM! (_Truffle Language Implementation Framework_)
 

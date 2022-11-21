@@ -125,6 +125,8 @@ More on their initialization [here](/java/oop/#order-of-initialization)
 Local -> no defaults (no garbage values), declaration only if value not assigned inline
 non-final Instance -> defaults value assigned by compiler
 non-final Class/static ->  defaults value assigned by compiler
+
+final Instance/Class -> no defaults, must be initialized before constructor finishes!
 ```
 
 Do note that the defaults on non-final instance and class/static variables are not by constructor but by compiler itself. They are assigned default values even before any constructor finishes executing!
