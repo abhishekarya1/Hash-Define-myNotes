@@ -312,7 +312,7 @@ Same rules as in Sealed Classes.
 - since interfaces are always `abstract` implicitly, they can't be marked `final` so only the other two (`non-sealed` and `sealed`) can be applied to interfaces dealing with a sealed interface.
 
 ## Records (Java 14)
-Records - Auto-generated immutable classes with no setters. (Immutability = Encapsulation). Everything inside of parameter list (instance fields) of a record is implicitly `final` and the record itself is implicitly `final` and cannot be extended or inherited.
+Records - Auto-generated immutable classes with no setters. (Immutability = Encapsulation). Everything inside of parameter list (instance fields) of a record is implicitly `final` and the record itself is implicitly `final` and cannot be extended.
 
 We can define our own constructors, methods or constants (`static final` only) inside the body.
 
@@ -345,7 +345,7 @@ public record Demo(int foo, String bar) implements Foobar{ }
 public record Demo(int foo, String bar){
 	public Demo{									// notice no parentheses ()
 		bar = bar.substring(0, 1).toUpperCase();			// modification to constructor argument only
-		this.foo = foo;			// compiler-error
+		this.foo = foo;			// compiler-error; foo is final
 		if(foo < 0) throw new IllegalArgumentException();	// validation
 	}
 }
