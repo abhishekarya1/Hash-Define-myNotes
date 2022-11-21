@@ -343,6 +343,7 @@ class Z{
 ```
 
 ### final Variables
+No default value. 
 
 `final` variables of the three types:
 1. Class -> must be initialized exactly once during class initialization
