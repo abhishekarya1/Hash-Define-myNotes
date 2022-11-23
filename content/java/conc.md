@@ -384,7 +384,7 @@ synchronized|(obj){
 ```
 ```java
 // constructor of ReentrantLock
-Lock lock = reentrantLock(true);		// fairness property
+Lock lock = new ReentrantLock(true);		// fairness property
 
 // true - grant lock in order it was requested
 // false - default no-arg call
