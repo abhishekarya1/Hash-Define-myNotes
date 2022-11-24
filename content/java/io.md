@@ -84,7 +84,7 @@ length()			// size in bytes
 lastModified()
 listFiles()			// List<> of all files in the current directory
 
-// in NIO.2 methods are called on "Files" static class 
+// in NIO.2 methods are called on "Files" static class and supplying path's instance to the method
 ```
 
 ## NIO
