@@ -4,6 +4,7 @@ date =  2022-06-17T10:33:00+05:30
 weight = 12
 +++
 
+## Basics & Terminology
 **File**: Logical representational unit of actual system resources (an abstraction)
 
 **Directory**: Collection of files and other directories
@@ -86,7 +87,8 @@ listFiles()			// List<> of all files in the current directory
 // in NIO.2 methods are called on "Files" static class 
 ```
 
-## NIO.2 Path Operations
+## NIO
+### NIO.2 Path Operations
 
 ```java
 Path path = Paths.get("/land/hippo/harry.happy");
@@ -162,12 +164,70 @@ System.out.println(p1.normalize());   // shells.txt
 System.out.println(p2.normalize());   // foo/bar (already normalized)
 ```
 
-### File Operations with NIO
+### Operations on files
 ```txt
-Files.createDirectory() 		-- mkdir
-Files.createDirectories() 		-- mkdir -p
-Files.copy() 					-- cp (creates shallow (non-recursive) copy just like in Unix)
-Files.move() 					-- mv
-Files.delete()					-- dir must be empty; error if non-existing
-Files.deleteIfExists()			-- dir must be empty; returns true otherwise false
+Files.createDirectory(p) 			-- mkdir
+Files.createDirectories(p1, p2) 	-- mkdir -p
+Files.copy(p1, p2) 					-- cp (creates shallow (non-recursive) copy just like in Unix)
+Files.move(p1, p2) 					-- mv
+Files.delete(p)						-- dir must be empty; error if non-existing
+Files.deleteIfExists(p)				-- dir must be empty; returns true otherwise false
+Files.isSameFile(p1, p2)			-- check if same file/dir; follows symlinks
+Files.mismatch(p1, p2)				-- checks contents of two files like diff command
 ```
+## I/O Streams
+- **Byte Streams**: reads/writes as 0s and 1s (ends with `InputStream` and `OutputStream`)
+- **Character Streams**: reads/writes as single chars (ends with `Reader` and `Writer`)
+
+- **Low-level Streams**: deals directly with raw data like array, file, or String. Ex - `FileInputStream` reads directly from file one byte at a time.
+- **High-level Streams**: deals with other wrapper objects only. Ex - `BufferedReader` uses `FileReader` as input.
+
+```java
+FileInputStream
+FileOutputStream
+FileReader
+FileWriter
+
+// similarily for - BufferedInputStream, ObjectInputStream, etc...
+
+// exceptions in naming
+PrintStream
+PrintWriter
+```
+
+Better way to deal with these are with NIO's `Files` helper class:
+```java
+String string = Files.readString(input);
+
+Files.writeString(output, string);
+
+byte[] bytes = Files.readAllBytes(input);
+
+Files.write(output, bytes);
+
+List<String> lines = Files.readAllLines(input);		// loads whole file in memory; returns a List; can lead to OutOfMemoryError
+
+Stream<String> s = Files.lines(path);	// loads lazily; line-by-line processing; returns a Stream
+
+var reader = Files.newBufferedReader(input);
+var writer = Files.newBufferedWriter(output);
+```
+
+## Serializing Data
+
+- **Serialization**: object to byte stream
+- **De-serialization**: byte stream to object
+
+A class is considered serializable if it implements the `java.io.Serializable` interface and contains instance members that are either serializable or marked `transient`. 
+
+All Java primitives and the String class are serializable. 
+
+The `ObjectInputStream` and `ObjectOutputStream` classes can be used to read and write a Serializable object from and to an I/O stream, respectively.
+
+{{% notice info %}}
+Instance members marked `transient` are not serialized/deserialized, they take `null` or `0` default values when serialized/deserialized.
+{{% /notice %}}
+
+**Make a class Serializable**:
+1. must implement `java.io.Serializable` interface
+2. must have all instance members as either `implements Serializable` or `transient`
