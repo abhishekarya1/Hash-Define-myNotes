@@ -18,36 +18,42 @@ _Reference_: https://www.baeldung.com/solid-principles
 
 ### Liskov Substitution
 
-A superclass should be replacable by any of its subclasses.
+A superclass should be substitutable by any of its subclasses, without breaking any existing functionality.
 
-We shouldn't introduce behaviors in subclass that make it significantly diff from its parent class. 
+We shouldn't need to introduce behaviors in subclass that make it _significantly_ diff from its parent class.
 
-Ex - _Penguin_ is a technically a _Bird_, but it is flightless. Another example is Electric cars, they are the only cars without an engine.
+Ex - _Penguin_ is a technically a _Bird_, but it is flightless. We can't replace Bird object with Penguin object and expect things to not break.
 
 ```java
 // Violation
 class Bird {
-	void fly(){ }
+	void fly(){ }		// assumption that all birds fly
 }
 
 class Sparrow extends Bird {
-	// inherits fly(); makes sense
+	@Override
+	void fly(){
+		System.out.println("Ok!");	// makes sense
+	} 
 }
 
 class Penguin extends Bird {
-	// inherits fly(); but it can't fly! useless method
+	@Override
+	void fly(){
+		throw new AssertionError("I can't fly!");	// can't fly
+	}
 }
 
-// can't replace Bird with Penguin since it'll have many other properties and behaviors (overriden too) specific to Penguin that will be unusable/illogical if we replace wherever Bird class is used, with Penguin class
+// can't replace Bird object with Penguin object wherever Bird object is being used, since Penguin object's fly() method will break
 
 // Fix
-interface Flying {
+interface Flight {
 	void fly();
 }
 
 class Bird { }
 
-class Sparrow extends Bird implements Flying {
+class Sparrow extends Bird implements Flight {
 	@Override
 	void fly(){ } 
 	// flight capable; makes sense
@@ -56,9 +62,17 @@ class Sparrow extends Bird implements Flying {
 class Penguin extends Bird {
 	// doesn't have fly() method; makes sense
 }
+
+// Penguin class can be substituted for Bird class now
 ```
 
-Another example is a _Quadrilateral_ and a _Square_, the subclass Square can't be substituted for a Quadrilateral because `@Override double area(double side)` method will be wrong for other quads like Rectangles.
+Another example is Electric cars, they're cars without an engine. A `Car` class can have `MotorCar` and `ElectricCar` subclasses, but `ElectricCar` object can't replace wherever `Car` object is used since it won't have `ignition()` method.
+
+{{% notice tip %}}
+Liskov Substitution is more about "making sense" rather than our code breaking if it's violated. A subclass inherits all members from its parent so it is a valid substitute for its parent, but as we saw in the penguin example above, it doesn't make any sense to treat a penguin as a "normal" bird. Or an electric car as a "normal" Car.
+
+Other extreme examples - Hotdog as a Dog, Rubber Duck as a Duck, etc...
+{{% /notice %}}
 
 **YAGNI**: You Ain't Gonna Need It
 
