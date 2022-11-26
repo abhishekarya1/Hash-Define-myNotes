@@ -20,8 +20,6 @@ _Reference_: https://www.baeldung.com/solid-principles
 
 A superclass should be substitutable by any of its subclasses, without breaking any existing functionality.
 
-We shouldn't need to introduce behaviors in subclass that make it _significantly_ diff from its parent class.
-
 Ex - _Penguin_ is a technically a _Bird_, but it is flightless. We can't replace Bird object with Penguin object and expect things to not break.
 
 ```java
