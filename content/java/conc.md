@@ -29,6 +29,7 @@ System.out.println("World");
 // the order of execution upon creation of a thread on line 1 depends upon the scheduler and can't be predicted beforehand
 // can print "HelloWorld" or "WorldHello" because there are two threads - the one we created and one having main()
 
+// start() creates a separate call stack for the thread execution
 // calling start() implicitly calls run()
 // Also if we use run() on line 2 above, it won't start a new thread and moreover it will just execute task in a non-concurrent synchronous way in main() thread only printing "HelloWorld"
 
