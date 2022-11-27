@@ -70,6 +70,8 @@ Another example is Electric cars, they're cars without an engine. A `Car` class 
 Liskov Substitution is more about "making sense" rather than our code breaking if it's violated. A subclass inherits all members from its parent so it is a valid substitute for its parent, but as we saw in the penguin example above, it doesn't make any sense to treat a penguin as a "normal" bird. Or an electric car as a "normal" Car.
 
 Other extreme examples - Hotdog as a Dog, Rubber Duck as a Duck, etc...
+
+There is nothing really stopping us from inheriting "Burger" from "Metal" class, but it should make sense is all what Liskov Substitution Principle is all about.
 {{% /notice %}}
 
 **YAGNI**: You Ain't Gonna Need It
