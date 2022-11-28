@@ -1,7 +1,7 @@
 +++
 title = "DevOps"
 date =  2022-02-15T20:03:17+05:30
-weight = 12
+weight = 14
 chapter = true
 pre = "🚀 "
 +++

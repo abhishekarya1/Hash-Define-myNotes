@@ -1,8 +1,53 @@
 +++
-title = "Design"
-date =  2022-11-25T12:26:00+05:30
-weight = 14
+title = "Software Design & Architecture"
+date = 2022-11-28T21:35:00+05:30
+weight = 1
 +++
+
+## Programming Paradigms & OOP
+
+### Programming Paradigms
+{{<mermaid>}}
+graph LR;
+    A[Programming Languages]
+    A --> B[Imperative]
+    A --> C[Declarative]
+    B --> D[Procedural]
+    B --> E[Object-oriented]
+    C --> F[Logic]
+    C --> G[Functional]
+{{< /mermaid >}}
+
+**Structural Languages**: structured into blocks that interact with each other. A method, a class, everything is a code block.
+
+### OOP
+Everything is an object and every action must be performed on an object by an object's methods.
+
+**Composition vs Aggregation**: both are associations, former is a _strong_ one, the latter is a _weak_ association.
+```java
+// composition: one can't exist without another
+class Human {
+	final Heart heart; 	// final; because we will now need to init it always
+	
+	Human(Heart heart){		// constructor; must recieve a heart and puts it into human
+		this.heart = heart;
+	}
+}
+
+// aggregation: one can exist independently without the other; no need to provide value to water instance var below
+class Glass {
+	Water water;
+}
+
+// can be made bi-directional too (optional)
+class Water {
+	Glass glass;
+}
+```
+
+For cleaner code, functions should be:
+- **Pure Functions**: always produce same output for the same input, no side-effects (mutate other resources)
+- **Command Query Separation** (CQRS): either perform an action (_command_) on a resource to change its state, or return some data (_query_) back to the caller but not both
 
 ## Design Principles
 Helps create extensible, maintainable, and understandable code.
@@ -80,7 +125,9 @@ There is nothing really stopping us from inheriting "Burger" from "Metal" class,
 
 **DRY**: Don't Repeat Yourselves
 
+**Hollywood Principle**: "_Don't call us, we'll call you._" (another name for Inversion-of-Control)
 
+---
 ## GoF Design Patterns
 **Design Patterns**: guidelines providing solutions to recurring problems and good practices in software.
 

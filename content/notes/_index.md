@@ -1,7 +1,7 @@
 +++
 title = "Misc Notes"
 date =  2020-11-28T22:33:22+05:30
-weight = 17
+weight = 19
 chapter = true
 pre = "✍️ "
 +++
