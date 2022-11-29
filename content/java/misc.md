@@ -17,3 +17,11 @@ Double-brace initialization
 lenght() isn't accurate
 
 3 GC scenarios: ref null, ref to other object, Island of Isolation
+
+Double-checked locking in Singleton
+
+Use Object as a Key in HashMap - `equals()` and `hashCode()`
+
+`wait()` and `notify()` mechanism in Thread
+
+`wait()` vs `sleep()`
