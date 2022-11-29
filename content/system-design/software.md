@@ -52,7 +52,7 @@ For cleaner code, functions should be:
 ## Design Principles
 Helps create extensible, maintainable, and understandable code.
 
-**SOLID**:
+### SOLID
 1. Single Responsibility
 2. Open-Close
 3. Liskov Substitution
@@ -61,7 +61,7 @@ Helps create extensible, maintainable, and understandable code.
 
 _Reference_: https://www.baeldung.com/solid-principles
 
-### Liskov Substitution
+**Liskov Substitution**:
 
 A superclass should be substitutable by any of its subclasses, without breaking any existing functionality.
 
@@ -119,13 +119,69 @@ Other extreme examples - Hotdog as a Dog, Rubber Duck as a Duck, etc...
 There is nothing really stopping us from inheriting "Burger" from "Metal" class, but it should make sense is all what Liskov Substitution Principle is all about.
 {{% /notice %}}
 
-**YAGNI**: You Ain't Gonna Need It
+### Other Principles
+
+**YAGNI**: You Ain't Gonna Need It (_avoid implementing features that "may" be required in future_)
 
 **KISS**: Keep It Simple Stupid
 
 **DRY**: Don't Repeat Yourselves
 
 **Hollywood Principle**: "_Don't call us, we'll call you._" (another name for Inversion-of-Control)
+
+**Encapsulate what varies**:
+```java
+if (pet.type() == dog) {
+	pet.bark();
+} else if (pet.type() == cat) {
+	pet.meow();
+} else if (pet.type() == duck) {
+	pet.quack()
+}
+
+// instead we can just write
+pet.speak();
+``` 
+
+**Program against abstractions**: program by keeping interfaces and their relations and interactions in mind. Don't take concrete classes into consideration while designing.
+
+**Composition over Inheritance**: prefer composition rather than inheritance; because it is much less rigid and can be changed later, composition also allows multiple inheritance like relation which Java doesn't allow on concrete classes
+```java
+// an Employee is a Person, and a Manager is both
+
+// with inheritance
+class Person { }
+class Employee extends Person { }
+
+class Manager extends Person, Employee { } 	// can't do this; multiple-inheritance
+class Manager extends Employee { }			// so we do this
+
+// with composition
+class Person { }
+
+class Employee {
+	Person p;		// Employee has Person object
+
+	Employee(Person p){
+		this.p = p;
+	}
+}
+
+Person p = new Person();
+Employee e = new Employee(p);
+
+class Manager {
+	Person p;
+	Employee e;		// Manager has both Employee and Person objects
+
+	Manager(Person p, Employee e) {		
+		this.p = p;
+		this.e = e;
+	}
+}
+
+Manager m = new Manager(p, e);
+```
 
 ---
 ## GoF Design Patterns
