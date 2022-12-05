@@ -169,8 +169,8 @@ Stream<T> filter(Predicate)
 Stream<T> distinct()		// returns only distinct element Stream
 Stream<T> limit(long n)		// finite Stream of size n
 Stream<T> skip(long n)		// skip first n elements
-Stream<T> map(Function)		// map a Stream to another Stream of diff type
-Stream<T> flatMap(Function)	// combine multiple streams into one
+Stream<T> map(Function)		// map (replace) stream elements with another elements
+Stream<T> flatMap(Function)	// map stream elements with another stream's entire elements
 Stream<T> sorted()
 Stream<T> sorted(Comparator)
 Stream<T> peek(Consumer)	// can modify state of stream (be careful!)
@@ -179,12 +179,10 @@ Stream<T> peek(Consumer)	// can modify state of stream (be careful!)
 s.filter(x -> x.startsWith("a"));
 s.map(String::length);      // do .length() on each element of Stream
 
-List<String> zero = List.of();
-var one = List.of("A");
-var two = List.of("BC", "DEF");
-Stream<List<String>> letters = Stream.of(zero, one, two);
-letters.flatMap(m -> m.stream())
-		.forEach(System.out::print);	// ABCDEF
+// flatMap: same as a map but element we're replacing with is another stream but "flattened" (all elements)
+Stream<String> str = Stream.of("A", "B", "C");
+Stream<Integer> num = Stream.of(1, 2, 3);
+str.flatMap(e -> num).forEach(System.out::print);   // 123
 
 s.sorted((a, b) -> a-b);
 s.sorted(Comparator.reverseOrder());
