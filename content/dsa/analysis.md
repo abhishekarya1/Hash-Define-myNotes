@@ -25,7 +25,7 @@ In mathematical analysis, asymptotic analysis, also known as "asymptotics", is a
 
 {{% notice tip %}}
 Literal meaning:
-`O(g(n))` = { `f(n)`: Represents a **set of functions** whose growth w.r.t input size(n) is always <= `c * g(n)` }
+`O(g(n))` is { `f(n)`: Represents a **set of functions** whose growth w.r.t input size(n) is always <= `c * g(n)` }
 The curve for `f(n)` also always lie under `c * g(n)` for sufficiently larger values of `n >= n0`, where n0 is algorithmic threshold and `c` is some arbitrary positive constant i.e. `c*g(n) >= f(n)`.
 
 All curves that remain under `g(n)`'s curve in above case for all values of `n >= n0` is represented by `O` (big O) (strictly bound = curve + every curve under that curve).
@@ -53,16 +53,23 @@ O(n!) or O(n^n)		- Factorial or n-power-n
 ```
 [Practice](https://discuss.codechef.com/t/multiple-choice-questions-related-to-testing-knowledge-about-time-and-space-complexity-of-a-program/17976)
 
+Cases:
+- **Best Case**: Element found at index 0 (`O(1)`)
+- **Worst Case**: Element never found (`O(n)`)
+- **Average Case**: Element found at the middle index. (often times average of all the possible inputs isn't so obvious)
+
 **Recurrence Relations** - an equation that recursively defines the total time taken as sum of parts where each part is also performed recursively. Solve them to get growth function (time complexity). A generalization of Master theorem called [Akra-Bazzi Method](https://www.geeksforgeeks.org/akra-bazzi-method-for-finding-the-time-complexities/) and [Practice Problems](https://www.csd.uwo.ca/~mmorenom/CS424/Ressources/master.pdf).
 
-**Amortized Analysis** - Each instruction's time is added and sum of all is considered rather than runtime of whole algorithm. [Tutorial](https://algorithmtutor.com/Analysis-of-Algorithm/Amortized-Analysis-of-Algorithms/)
+**Amortized Analysis** - to find the _average running time per operation in the worst case_. Each individual instruction's time is added and sum is divided by the total number of instructions. [Tutorial](https://algorithmtutor.com/Analysis-of-Algorithm/Amortized-Analysis-of-Algorithms/)
 
 **Stirling's approximation** - `Θ( log(n!) ) = Θ( nlogn )`
 
 #### P vs NP
-- **P**: Easy and solvable following some known sequence steps
-- **NP**: Solvable but doesn't follow a known sequence (does brute-force); we can verify solutions to such problems quickly
-- **NP Complete**: All NP problems that can be reduced to a solvable (in polynomial time) problem L
-- **NP Hard**: Reducible to L but not in NP set 
+- **P** (Polynomial Time): Easy and solvable by following some known sequence steps
+- **NP** (Non-deterministic Polynomial Time): Solvable but doesn't follow a known sequence (does brute-force, which isn't relistic); we can verify solutions to such problems quickly though
+- **NP Complete**: Hardest problems in the NP set. If one day, one of the NP-Complete problems can be reduced to a solvable (in polynomial time) problem L, then all of NP problems can reduced to L, and thus solved. Ex - Protein folding, Sudoku, Minesweeper, etc...
+- **NP Hard**: Problems that may or may not be NP, and if problems not in NP get solved, other NP problems won't become reducible to L
+
+The big question? **Is P = NP?**: Proving things is also a NP problem itself!
 
 [P vs. NP and the Computational Complexity Zoo - YouTube](https://youtu.be/YX40hbAHx3s)
