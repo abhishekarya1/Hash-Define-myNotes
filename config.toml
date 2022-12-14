@@ -11,8 +11,10 @@ defaultContentLanguageInSubdir= true
 [outputs]
 home = [ "HTML", "RSS", "JSON"]
 
-[params]
+[markup.goldmark.renderer]
+  unsafe = true # Allow HTML in md files
 
+[params]
   # Author of the site, will be used in meta information
   author = "Abhishek Arya"
   # Description of the site, will be used in meta information
