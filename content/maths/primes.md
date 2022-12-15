@@ -176,15 +176,15 @@ Link: https://www.geeksforgeeks.org/lehmanns-primality-test/
 ### Find all primes upto N (Sieves)
 
 #### Sieve of Eratosthenes
-`Time = O(n*log(log(n)))`
+`Time = O(n * log(log(n)))`
 
 Complexity Analysis: https://www.geeksforgeeks.org/how-is-the-time-complexity-of-sieve-of-eratosthenes-is-nloglogn/
 
 **Algorithm:** <br>
-1. Create a list of numbers from 1 to n (size = n+1), and mark all as 1/true, mark 1 as 0 <br>
+1. Create a list of numbers from 0 to n (size = n+1), and mark all as 1/true, mark 0 and 1 as 0 (they aren't prime) <br>
 2. Start from 2 and, <br>
-3. Check if 1, if it is then mark all its multiples from i\*i till n as 0 <br>
-4. Repeat this while i <= sqrt(n)
+3. Check if 1, if it is then mark all its multiples from i\*i till n as 0 (because if we're at i, then every number till i\*i is already marked) <br>
+4. Repeat this while i <= sqrt(n) (all numbers till `sqrt(n)*sqrt(n)` (n) will get marked)
 
 ```cpp
 void primeSieve(int n)
@@ -205,6 +205,14 @@ void primeSieve(int n)
 }
 ```
 
+Time Complexity: 
+```
+n * (1/2+1/3+1/5+...)
+
+=> n * (this is a Harmonic Progression) 
+
+=> n * (log log n)
+```
 #### Sieve of Eratosthenes in 0(n) time complexity
 
 Link: https://www.geeksforgeeks.org/sieve-eratosthenes-0n-time-complexity/
