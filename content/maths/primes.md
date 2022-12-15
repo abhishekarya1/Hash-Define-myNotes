@@ -207,7 +207,7 @@ void primeSieve(int n)
 
 Time Complexity: 
 ```
-n * (1/2+1/3+1/5+...)
+n * (1/2 + 1/3 + 1/5 + ... + 1/n)
 
 => n * (this is a Harmonic Progression) 
 
