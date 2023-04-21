@@ -77,15 +77,21 @@ References: https://maven.apache.org/guides/introduction/introduction-to-the-lif
 ## Surefire Plugin
 The "Maven Surefire Plugin" enables us to run test with maven commands like `mvn test`. The `spring-boot-maven-plugin` added by default by the Spring Initializr takes care of this.
 
+## Maven Wrapper
+A `mwnw` script file placed in the root of the directory besides the `pom.xml`. We can run maven goals using command line directly using this.
+```
+$ ./mwnw clean install
+```
+
 ### SNAPSHOT version
 `SNAPSHOT` is the latest in the development branch, as soon as it goes to release, `SNAPSHOT` can be removed from the name.
 
 Ex - `foobar-1.0-SNAPSHOT` is released as `foobar-1.0` and new development version becomes `foobar-1.1-SNAPSHOT` now.
 
 ### Maven Repositories
-**Local repository**: `userhome/.m2/repository`. We can change this in `settings.xml` file.
+**Local repository**: `<userhome>/.m2/repository`, changeable in `settings.xml`.
 
-**Remote repositories**: located on the web or a company's internal server (e.g. JFrog Artifactory)
+**Remote repositories**: located on the web or a company's internal server (e.g. JFrog Artifactory). Configure them in `settings.xml` file.
 
 **Central repository**: located on the web provided by Apache Community (https://mvnrepository.com/)
 
@@ -244,4 +250,4 @@ Placing parent POM at root (one level above child POMs):
  . -- pom.xml
 ```
 
-**Advantages**: easier to manage dependencies & build plugins and Maven building together. Projects will still have to be run separately if we want to up the server.
+**Advantages**: easier to manage dependencies & build plugins and Maven building together. Projects may still have to be run separately if we want to up the server.

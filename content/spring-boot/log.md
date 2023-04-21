@@ -48,6 +48,16 @@ logging.level.foobar=DEBUG
 logging.file.name=myapp.log
 ```
 
+### MDC (Mapped Diagnostic Context)
+What if we want to log _userId_ of every request coming in? We can do so by setting `MDC.put("userId", userId)` and accessing via log pattern so that userId is printed in every line in the console. It is thread-local too, which means it will only remember it for that particular request only.
+
+_Reference_: https://www.youtube.com/watch?v=tmj6QphzAPo&t=1019s
+
+### logback.xml and logback-spring.xml
+We can use it to specify logging properties separate from application.properties file.
+
+Old way is to use `logback.xml` and Spring will use that if it is present, otherwise the newer Logback Spring Extension (`logback-spring.xml`) is preferred.
+
 ## Metrics
 ### Prometheus and Grafana
 Metrics collection (Prometheus) and visualization (Grafana).

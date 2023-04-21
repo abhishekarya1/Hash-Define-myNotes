@@ -289,19 +289,31 @@ We can't stub `private` methods as they aren't callable from our test class.
 
 Usually we have a `public` method making calls to multiple private methods during test execution and we can't stub the output of those `private` methods with Mockito. We have other frameworks like PowerMock (or ReflectionTestUtils) to do such stuff, but we should really avoid that because we should focus on testing functional flow (a unit) rather than individual methods. 
 
----
 ## ReflectionTestUtils
 Provided by Spring. Uses Java Reflection API internally to modify class under test at runtime. We can set fields, invoke methods, and even call `private` methods of an object.
 
 _Guide_: https://www.baeldung.com/spring-reflection-test-utils
 
----
-## Specialized Tests
+
+Bad way to do testing but comes in handy sometimes ;)
+
+## AssertJ
+A better way is to use AssertJ assertions (we need `assertj-core` Maven dependency to use them), rather than the built-in Spring Assertions.
+
+We just need to remember `assertThat()` when using AssertJ library!
+```java
+assertThat(emailAddress).contains("@gmail.com");
+assertThat(year).isLessThan(2023);
+```
+
+## Specialized Tests (aka Slice Tests)
 ###  Controller Test (WebMvcTest)
 
 Makes calls to our controller endpoints, service layer to be mocked here.
 
 Use only `@MockBean` with `@WebMvcTest` to mock service layer.
+
+**NOTE**: `@MockBean` is a Spring annotation, not a Mockito one. It creates a Mock just like Mockito but actually goes ahead and replaces it with the actual Bean in the Spring Proxy. And we also need to stub it ofcourse using Mockito.
 
 ```java
 @WebMvcTest(controllers = MyController.class)
@@ -316,7 +328,9 @@ public class MyControllerTest {
     @Test
     public void testMyController() throws Exception {
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1"))
+    	when(service.fooBar(Mockito.any())).thenReturn("success");	//stub
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/api/v1"))		//mock http call
         .andExpect(status().isOk());
     
 	}

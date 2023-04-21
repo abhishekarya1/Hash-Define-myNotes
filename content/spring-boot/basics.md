@@ -36,7 +36,7 @@ $ spring init -dweb,jpa -p war	# packaging as WAR instead of JAR default
 ``` 
 
 ### Actuator
-We can inspect internals of a Spring Boot app during runtime in two ways - by **provided API endpoints** or by **opening a secure shell (SSH) session into the application**. 
+We can inspect internals of a Spring Boot app during runtime in two ways - by exposing provided **web API endpoints** or by **opening a secure shell (SSH) session into the application**. 
 
 We have to include `spring-boot-starter-actuator` dependency for this to work.
 
@@ -84,7 +84,7 @@ src.test.java
 The `DemoApplication.java` scans only folders on its dir level as shown above. Manually specify package to scan using `@ComponentScan(basePackages = "com.*")` in main application Java file.
 {{% /notice %}}
 
-The DemoApplication.java_ class has a `main()` method and it is used for both **configuration** and **bootstrapping**.
+The _DemoApplication.java_ class has a `main()` method and it is used for both **configuration** and **bootstrapping**.
 ```java
 @SpringBootApplication				// configuration
 public class DemoApplication {
@@ -121,15 +121,20 @@ This JAR has a pacakage `org.springframework.boot.autoconfigure` where all the _
 ### Bean Configuration
 We can define our own bean or use properties to override the default one. Ex - `DataSource` bean below.
 ```java
-// 1. define our own DataSource Bean in any @Configuration class
+// 1. define our own DataSource Bean in any @Configuration class, Spring Boot will automatically register it
 @Bean
-public DataSource dataSource() {		// name doesn't matter; only return type does
-	return new EmbeddedDatabaseBuilder().
-	setName("AccountDB").build();
+public AnotherClass myDataSource() {		// name doesn't matter; only return type does
+	return new DataSource();
+}
+
+// Dependency Injection
+@Bean
+public DataSource myDataSource(AnotherClass cls) {		// Spring will automatically init AnotherClass Bean before this and use that to init DataSource here
+	return new DataSource(cls);
 }
 ```
 ```yaml
-# 2. customize default DatSource class with properties file
+# 2. customize default DatSource class using properties
 
 # Connection settings
 spring.datasource.url=
@@ -200,6 +205,9 @@ public static void main(String[] args) {
 	System.setProperty("spring.config.name", "foobar");		// file is automatically named "foobar.properties"
 	SpringApplication.run(MasteringSpringBootApplication.class, args);
 }
+
+// another way to do it via command line
+$ java -jar myproject.jar --spring.config.name=foobar
 ```
 
 ### Properties to POJO
@@ -240,20 +248,22 @@ public record Demo (String foo, String bar){ }
 
 We need to have _@EnableConfigurationProperties_ on any one configuration class inorder to use custom properties and that has already happened with Spring Boot's many default auto-config classes getting imported by default so we don't need to specify that explicitly.
 
+_Reference_: https://www.baeldung.com/configuration-properties-in-spring-boot
+
 ### Profiles
 If you set any properties in a profile-specific `application-{profile}.properties` will override the same properties set in an `application.properties` file.
 
 We can load profiles as follows:
 ```sh
-# setting the property in application.properties (default)
+# 1. setting the property in application.properties (default)
 spring.profiles.active=dev
 
-# or select a profile by executing the JAR with param
+# 2. or select a profile by executing the JAR with param
 --spring.profiles.active=dev 
 
 ```
 ```xml
-<!-- activating profile with POM -->
+<!-- 3. or activating profile with POM -->
 <plugins>
     <plugin>
         <groupId>org.springframework.boot</groupId>

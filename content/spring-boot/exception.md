@@ -9,7 +9,7 @@ Whatever exception reaches the Controller, we can handle them without wrapping c
 
 1. create your custom exception using `extends`, 
 2. `catch` expected exceptions and `throw` our custom one instead,  
-3. then use `@ExceptionHandler` or `@RestControllerAdvice`  to handle
+3. then use `@ExceptionHandler` or `@RestControllerAdvice`  to handle on the Controller level
 
 ```java
 // 1 
@@ -59,7 +59,7 @@ The `@ExceptionHandler` present in the same `@RestController` will have more pre
 ## Validations
 Use `starter-validation` dependency to apply validations on fields.
 
-Many annotation based validations can be specified in POJOs directly. When we convert (deserialize) from JSON to POJO, failing a validation will throw `MethodArgumentNotValidException` which is sent as a `BAD_REQUEST` status by Spring.
+Many annotation based validations can be specified in POJOs directly. When we convert (deserialize) from JSON to POJO, failing a validation will throw `MethodArgumentNotValidException` which is sent as a `BAD_REQUEST` status by Spring. We need to **trigger** these validations (see below section) unless we are using them in JPA entities.
 ```java
 @NotBlank(message="Please provide value for name!")		// optional message
 private String name;
@@ -82,7 +82,7 @@ private String name;
 
 ### Triggering Validations
 
-**On simpler types** with `@Validated`:
+**On simple data types** with `@Validated` class-level annotation:
 
 ```java
 @RestController
@@ -90,18 +90,18 @@ private String name;
 class MyController{
 
 	@RequestMapping("api/{roll}")
-	public String sendName( @PathVariable("roll") @Max(999) int rollNo){		// validation on primitives and simple types
+	public String sendName(@PathVariable("roll") @Max(999) int rollNo){		// validation on primitives and simple types
 		return service.fetch(rollNo);
 	}
 
 }
 ```
 
-**On POJOs** with `@Valid`:
+**On POJOs** with `@Valid` method-level annotation:
 
 ```java
 @RequestMapping
-public Course saveCourse(@Valid @RequestBody Course course){		// notice; Course POJO has validation annotations
+public Course saveCourse(@Valid @RequestBody Course course){		// notice; Course POJO has validation annotations inside it
 	return repository.save(course);
 }
 ```
