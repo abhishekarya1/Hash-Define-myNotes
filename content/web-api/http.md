@@ -45,7 +45,7 @@ Don't care much about URNs, they have very specific use cases. Prefer the term U
 ## HTTP
 Simplest and most popular protocol used to enable communication for web APIs. 
 
-It was created for WWW along with HTML by Tim Berners-Lee at CERN. The first standardized version of HTTP (`HTTP/1.1`) was published in 1997. Current one being `HTTP/2` (2015) and `HTTP/3`  is the proposed successor which instead of using TCP as the transport layer for the session, uses [QUIC](https://developer.mozilla.org/en-US/docs/Glossary/QUIC), a new Internet transport protocol based on UDP. 
+It was created for WWW along with HTML by Tim Berners-Lee at CERN. The first standardized version of HTTP (`HTTP/1.1`) was published in 1997. Current one being `HTTP/2` (2015) and `HTTP/3`  is the proposed successor which instead of using TCP as the transport layer for the session, uses [QUIC](https://developer.mozilla.org/en-US/docs/Glossary/QUIC) protocol, a new Internet transport protocol based on UDP.
 
 - application layer protocol (layer-7)
 - stateless; not sessionless (cookies implement sessions)
@@ -54,6 +54,12 @@ It was created for WWW along with HTML by Tim Berners-Lee at CERN. The first sta
 - extensible (custom headers, etc...)
 
 [Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP)
+
+**HTTP/1.1**: single connection, no streams, uses TCP
+
+**HTTP/2**: single connection, multiple streams over TCP (multiplexing) (packet loss detection and retransmission over TCP, can block all streams)
+
+**HTTP/3**: multiple streams over UDP, runs packet loss detection and retransmission independently for each stream (no blocking unlike HTTP/2). Combines TLS handshake with QUIC handshake to reduce network latency.
 
 ### Messages
 ![](https://learning.oreilly.com/library/view/http-the-definitive/1565925092/httpatomoreillycomsourceoreillyimages96838.png)
@@ -85,7 +91,7 @@ Connection: Closed
 #optional body (aka payload)
 ```
 
-The above is applicable to HTTP/1.1 request and responses. In HTTP/2 messages are divided into frames and embedded in a stream for transfer. All this is transaparent to the developer though since frames are not human-readable.
+The above is applicable to HTTP/1.1 request and responses. In HTTP/2 messages are divided into frames, compressed, and embedded in a stream for transfer. All this is transaparent to the developer though since frames are not human-readable but in binary.
 
 _References_: 
 - HTTP Messages - [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages)
@@ -232,7 +238,7 @@ Set-Cookie: city=delhi; Max-Age=3600
 We can also restrict cookie access to only HTTPS, prevent cookie access from javascript, identifying and disabling third-party cookies, define where cookies are sent, and prevent setting cookies from unsecure connections just by adding attributes to the above two cookie headers.
 
 #### Third-party cookies
-Any cookie that isn't set by the website you are currently at is a third party cookie. A server can create a profile of a user's browsing history and habits based on cookies sent to it by the same browser when accessing multiple sites since it receives all the cookies when we're on that website.
+Any cookie that isn't set by the website you are currently at is a third party cookie. A server can create a profile of a user's browsing history and habits based on cookies sent to it by the same browser and store them on the browser, and later when accessing any other site the browser can send all the cookies to a third-party when we're on that website.
 
 Cookies time and again have been abused by advertising and tracking companies, and there are many regulations and legislations that cover the use of cookies.
 

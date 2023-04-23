@@ -56,7 +56,7 @@ Always hash passwords when storing them in a database so that they can't be read
 
 Password hashing hash functions like [bcrpyt](https://en.wikipedia.org/wiki/Bcrypt) and [scrypt](https://en.wikipedia.org/wiki/Scrypt) are **designed to be slow** by deliberately making it use large amount of memory. 
 
-We could've used SHA-2 or SHA-3 family for hashing passwords but they are fast, we don't want attackers to be fast in performing a Dictionary attack and guessing our password.
+We couldn't have used SHA-2 or SHA-3 family for hashing passwords because they are one-way. And other fast two-way algorithms can't be used because we don't want attackers to be fast in performing a Dictionary attack and guessing our password.
 
 It also uses a random salt for hashing which is a random string that is appended to the password string and then hash function is applied over the composite string. We can have diff salts for diff users.
 
