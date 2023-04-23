@@ -68,7 +68,7 @@ JVM contains two conventional JIT-compilers: the **client compiler (C1)** and th
 
 C1 is designed to run faster and produce less optimized code, while C2 takes a little more time to run but produces a better-optimized code. The client compiler is a better fit for desktop applications since we don't want to have long pauses for the JIT-compilation. The server compiler is better for long-running server applications that can spend more time on the compilation. Java uses both JIT compilers during the normal program execution.
 
-The default strategy used by the HotSpot, called **tiered compilation** is to compile the frequently called methods in the bytecode using C1 compiler and if the number of calls keep increasing, it uses the C2 compiler. 
+The default strategy used by the HotSpot, called [tiered compilation](https://www.baeldung.com/jvm-tiered-compilation) is to compile the frequently called methods in the bytecode using C1 compiler and if the number of calls keep increasing, it uses the C2 compiler. 
 
 C2 has been extremely optimized and produces code that can compete with C++ or be even faster. The server compiler itself is written in a specific dialect of C++. However, it comes with some issues. Due to possible segmentation faults in C++, it can cause the VM to crash. Also, no major improvements have been implemented in the compiler over the last several years. The code in C2 has become difficult to maintain, so we couldn't expect new major enhancements with the current design.
 
