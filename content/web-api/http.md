@@ -55,11 +55,13 @@ It was created for WWW along with HTML by Tim Berners-Lee at CERN. The first sta
 
 [Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP)
 
-**HTTP/1.1**: single connection, no streams, uses TCP
+**HTTP/1**: every request requires a new TCP connection
 
-**HTTP/2**: single connection, multiple streams over TCP (multiplexing) (packet loss detection and retransmission over TCP, can block all streams)
+**HTTP/1.1**: persistent single TCP connection, no streams, Head-Of-Line blocking (a connection can only support a few parellel connections at a time, otherwise we may have to wait)
 
-**HTTP/3**: multiple streams over UDP, runs packet loss detection and retransmission independently for each stream (no blocking unlike HTTP/2). Combines TLS handshake with QUIC handshake to reduce network latency.
+**HTTP/2**: single connection, multiple streams over TCP (multiplexing) (packet loss detection and retransmission over TCP can block all streams (i.e. HOL blocking over TCP layer still exists))
+
+**HTTP/3**: multiple streams over UDP, runs packet loss detection and retransmission independently for each stream (no blcocking unlike HTTP/2). Combines TLS handshake with QUIC handshake to reduce network latency.
 
 ### Messages
 ![](https://learning.oreilly.com/library/view/http-the-definitive/1565925092/httpatomoreillycomsourceoreillyimages96838.png)
