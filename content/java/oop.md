@@ -492,7 +492,7 @@ class P{
 //Output: BA 
 ```
 
-We use also use `super` to call parent's version of hidden method.
+We can also use `super` to call parent's version of hidden method.
 
 ### Hiding Variables
 Defining a variable with the **same name** as in parent class.
