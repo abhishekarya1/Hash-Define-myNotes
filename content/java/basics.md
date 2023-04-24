@@ -101,7 +101,7 @@ data_type name = init_value;
 
 - identifiers can start with currency symbol like `$`, etc...
 - single underscore (`_`) isn't a valid identifier name (unlike C/C++)
-- Garbage value concept doesn't exist here so any uninitialized variable's access is erorr
+- Garbage value concept doesn't exist here so any uninitialized variable's access is error
 - Since no garbage value is assigned, there is truly a separation between declaration and definition in Java, even for `final` variables
 ```java
 int x;
@@ -533,8 +533,10 @@ int arr[];
 int [] arr;
 
 int arr[] = new int[5];				//init list not allowed
-int arr[] = new int[]{1, 2, 3};
+int arr[] = new int[]{1, 2, 3};     // anonymous array
 int arr[] = {1, 2, 3};              // still allocated in heap
+
+int arr[] = new int[3]{1, 2, 3};     // compiler error; both size and initilizer can't be specified
 
 //muti-dimensional arrays
 int arr[][];        // 2D
@@ -602,6 +604,7 @@ Types of garbage collectors in Java:
 1. Serial GC - single threaded, stop everything and run GC
 2. Parallel GC - multiple threaded, stop everything and run GC (aka Throughput Collector)
 3. G1GC (default) - for heap sizes greater thatn 4GB, divide heap into two halves and run GC on each, stop everything and run
+4. ZGC - uses multiple threads running parallely, less pauses, cleans more garbage regions first, scalable (https://inside.java/2023/04/23/levelup-zgc/) 
 
 Stopping everything is called stopping-the-world (STW) or pausing (GC Pause). It halts all the program threads.
 
