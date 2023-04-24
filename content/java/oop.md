@@ -185,7 +185,7 @@ public Demo(int a){
 ```
 
 ### super()
-Calls direct parent's construtor. Any constructor that matches argument is called if multiple are present. Has to be the first non-comment statement in the constructor body.
+Calls direct parent's construtor. Any constructor that matches argument is called if multiple are present.
 
 The first call in any constructor has to be `super()` or `this()`, always. Java compiler inserts an empty `super()` call if they aren't there!
 
@@ -464,7 +464,7 @@ class Y extends X{
 ### static Method Hiding
 We follow same 4 rules as overriding, a static method is bound to class so it will depend on the reference or classname we use to call it. **They can't be overriden though**, only hidden.
 
-Compilation error if one is marked `static` and the other is not.
+Compilation error if one is marked `static` and the other is not. Also, similar to Overriding, `final static` methods can't be hidden (compilation error if we're trying to hide a method in subclass that is declared as `final static` in parent class).
 
 ```java
 public class MyClass {
