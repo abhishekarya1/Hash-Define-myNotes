@@ -185,7 +185,7 @@ public Demo(int a){
 ```
 
 ### super()
-Calls direct parent's construtor. Any constructor that matches argument is called if multiple are present.
+Calls direct parent's construtor. Any constructor that matches argument is called if multiple are present. Has to be the first non-comment statement in the constructor body.
 
 The first call in any constructor has to be `super()` or `this()`, always. Java compiler inserts an empty `super()` call if they aren't there!
 
