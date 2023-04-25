@@ -78,7 +78,7 @@ public class MyClass extends Super implements Test {	// subclass doesn't have a 
 
 - the 4 methods to override methods still apply to interfaces too
 
-- `this` works in interfaces too despite the fact that they're not classes that have an instance, `super` doesn't work though
+- `this` works in interfaces too despite the fact that they're not classes that have an instance, `super` doesn't work though, we need to specify which parent super to call using `InterfaceName.super`
 
 ### Interface References
 We can use interface reference too apart from parent or child (self) reference. We use this all the time in Collections framework and it hides what kinds of object it actually is. All we are concerned with is that it implements our interface and we can only access methods it implements from our interface reference. [Example](/java/more-oop/#object-v-reference)
@@ -93,7 +93,8 @@ interface Demo{
 
 class Main implements Demo{
 	public static void main(String[] args){
-		System.out.println(Main.a);		// 5 (inherited)
+		System.out.println(a);			// 5 (inherited)
+		System.out.println(Main.a);		// 5 (same as above)
 		System.out.println(Demo.a);		// 5
 	}
 }
@@ -135,8 +136,9 @@ interface P{
 }
 
 class Main implements P{
+	foobar();		// invalid
+	Main.foobar();	// invalid; same as above
 	P.foobar();		// valid
-	Main.foobar();	// invalid
 }
 ```
 
@@ -179,10 +181,12 @@ interface X{
 // when we call them, there will be an instance of the class implemeting the interface so it's safe
 ```
 
-### Tip
-- All `static` methods and variables (`public static final` implicitly) belong to Class
-- All non-static, `default`, `abstract` methods belong to Instance
+### Tips
+- Variables (`public static final` implicitly) of an interface do get inherited by the implementing class, `static` methods don't!
+- All non-static, `default`, `abstract` methods do get inherited and belong to Instance
 - `private` methods are accessible only from inside the interface and reduce code redundancy
+- `this` works inside interfaces too!
+- For super, we need to use `InterfaceName.super` since multiple inheritance is allowed in interfaces and we need to know which parent super to call.
 
 ## Enums
 Enumerations: Defines a set of **constants having values** that must be known at compile-time. 
@@ -199,7 +203,7 @@ System.out.println(s == Days.TUE);	// true
 
 Enum constants get and `int` value stating from `0` and so on but we can't compare and Enum value to an `int` primitive since Enum is an object type
 ```java
-Days.TUE == 1		// error
+Days.TUE == 1		// error; comparing (TUE == 1) doesn't make any sense
 ```
 
 ### values(), name(), and ordinal()
@@ -302,7 +306,7 @@ non-sealed class Bar extends Demo{ }		// non-sealed child (can be inherited by a
 3. Every class that extends a sealed class must specify one of the three specifiers `sealed`, `final`, or `non-sealed`
 
 ### permits
-We can omit the `permits` clause form class definition if:
+We can omit the `permits` clause from class definition if:
 - Subclass is in the same file as the sealed class
 - Subclass is a nested class inside sealed class
 
@@ -399,7 +403,7 @@ Class within another class.
 
 Since nested classes are defined at member level in another class, it can be `public`, package access, `protected` and `private` just like other members and unlike top-level classes.
 
-Inner classes can even access `private` members of its outer class.
+Inner classes can even access `private` members of its outer class, since it is also a member of it.
 
 Java 16 allowed `static` methods inside nested inner class which was not allowed before. Now they can exist in any of the 4 nested class types.
 
