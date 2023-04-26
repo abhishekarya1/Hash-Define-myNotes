@@ -362,6 +362,10 @@ class Foo<T, U>{
 
 Foo<Integer, String> obj = new Foo<>(5, "foo");
 Foo<String, Float> obj2 = new Foo<>("bar", 2.33);
+
+
+// below works too; type inference via constructor call; not recommended
+Foo obj3 = new Foo("test", 99);
 ```
 
 ### Type Erasure
