@@ -179,10 +179,9 @@ Stream<T> peek(Consumer)	// can modify state of stream (be careful!)
 s.filter(x -> x.startsWith("a"));
 s.map(String::length);      // do .length() on each element of Stream
 
-// flatMap: same as a map but element we're replacing with is another stream but "flattened" (all elements)
+// flatMap: map each element but what we are transforming each of them to is another stream, in the end, everything gets "flattened" (all elements)
 Stream<String> str = Stream.of("A", "B", "C");
-Stream<Integer> num = Stream.of(1, 2, 3);
-str.flatMap(e -> num).forEach(System.out::print);   // 123
+str.flatMap(e -> Stream.of(1, 2, 3)).forEach(System.out::print);   // 123123123
 
 s.sorted((a, b) -> a-b);
 s.sorted(Comparator.reverseOrder());
@@ -252,6 +251,14 @@ s.count();              // but terminal operation is done here
 
 // count = 3
 // a stream is evaluated only when terminal operation is performed (lazy evaluation)
+```
+
+```java
+Stream<String> str = Stream.of("A", "B", "C");
+System.out.println(str.count());
+System.out.println(str.findFirst());    // runtime error; performing another operation on stream
+
+// java.lang.IllegalStateException: stream has already been operated upon or closed
 ```
 
 ### Chaining Pipelines
