@@ -241,7 +241,14 @@ Stream.generate(() -> "Elsa")
 
 // ElsaElsa
 
+Stream<String> str = Stream.of("A", "B", "C");
+System.out.println(str.count());
+System.out.println(str.findFirst());    // runtime error; performing another terminal operation on stream
 
+// java.lang.IllegalStateException: stream has already been operated upon or closed
+```
+
+```java
 List<String> ls = new ArrayList<>();
 ls.add("A");
 ls.add("B");
@@ -251,14 +258,6 @@ s.count();              // but terminal operation is done here
 
 // count = 3
 // a stream is evaluated only when terminal operation is performed (lazy evaluation)
-```
-
-```java
-Stream<String> str = Stream.of("A", "B", "C");
-System.out.println(str.count());
-System.out.println(str.findFirst());    // runtime error; performing another operation on stream
-
-// java.lang.IllegalStateException: stream has already been operated upon or closed
 ```
 
 ### Chaining Pipelines
