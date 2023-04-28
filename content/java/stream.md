@@ -252,9 +252,9 @@ System.out.println(str.findFirst());    // runtime error; performing another ter
 List<String> ls = new ArrayList<>();
 ls.add("A");
 ls.add("B");
-var s = ls.stream();    // stream created
+var s = ls.stream();    // stream isn't actually created here
 ls.add("C");
-s.count();              // but terminal operation is done here
+s.count();              // stream is craeted in memory here and stream pipeline is run
 
 // count = 3
 // a stream is evaluated only when terminal operation is performed (lazy evaluation)
