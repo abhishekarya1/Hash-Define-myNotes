@@ -10,7 +10,7 @@ weight = 11
 
 **Task**: Single unit of work performed by a thread.
 
-**Concurrency**: Multiple tasks being executed at the same time. The CPU time is divided between each via **Scheduling**. (Not to be confused with Parellel processing)
+**Concurrency**: Multiple tasks being executed at the same time. The CPU time is divided between each via **Scheduling**. (Not to be confused with Parallel processing)
 
 **Context switch**: Storing state of a thread and later restoring it. Lesser the total context switches, the better.
 
@@ -505,7 +505,7 @@ Solution - use `unordered()` to declare stream as a parallel, and avoid force co
 stream.unordered().parallel();
 ```
 
-Calling `unordered()` on serial stream has no effect but on parellel stream we will have `skip(5)` skipping any 5 random elements and not the first five.
+Calling `unordered()` (intermediate operation) on serial stream has no effect on its data but when the stream is made parallel we will have `skip(5)` skipping any 5 random elements and not the first five.
 
 ### Reductions in Parallel Streams
 Make sure accumulator and combiner have the same output on every step regardless of the order in which they are called in. The accumulator and combiner must be associative, non-interfering, and stateless.
