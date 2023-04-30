@@ -54,12 +54,29 @@ stream.myObserver(System.out::println);	// myObserver merely reacts to the chang
 Notice that the way we write both is exactly the same, but they are opposite w.r.t the side that control the data flow.
 {{% /notice %}}
 
+
+## Pub-Sub Interfaces and How it Works?
+
+**Publisher** - a reactive datasource; `subscribe()` is called on it
+
+**Subscriber** - `onSubscribe()`, `onNext()`, `onError()`, `onComplete()`
+
+**Subscription** - `request(long n)` and `cancel()`  
+
+**Processor** - implements both Publisher and Subscriber; can act as both 
+
+![pub_sub_method_calls](https://i.imgur.com/aTOLx8q.png)
+
+{{% notice info %}}
+As shown above, we need to subscribe to the data source first (_**explicit**_) and request `n` items (_**implicit**_), only then does it sends us the data (_emits_) and the Observer pattern comes into play and we consume the data until a terminal signal (_Error_ or _Complete_) is received.
+{{% /notice %}}
+
 ## Reactive Sources and Methods
 Reactive sources/streams:
 - `Flux`: can emit `0` to `n` elements (_i.e._ sequence of elements)
 - `Mono`: can emit `0` or `1` elements (_i.e._ single element)
 
-### Create reactive streams
+### Creating Reactive Sources
 ```java
 // Flux
 Flux<String> fStr = Flux.just("A", "B", "C");
@@ -68,7 +85,8 @@ Flux<Integer> fNnum = Flux.range(1, 10);
 // Mono
 Mono<Integer> mono = Mono.just(9);
 
-Flux<Integer> fNnum = Flux.range(1, 10).delayElements(Duration.ofSeconds(1));	// delay of 1 sec between emission of each element
+// delay of 1 sec between emission of each element
+Flux<Integer> fNnum = Flux.range(1, 10).delayElements(Duration.ofSeconds(1));	
 
 // unresponsive stream: never emit, observer keeps waiting infinitely
 Flux.never();
@@ -78,16 +96,16 @@ Mono.never();
 ```java
 // we can have Collections inside Rx streams, nesting is possible too, etc...
 Mono<Integer>
-Mono<User>		// custom POJO
+Mono<User>				// custom POJO
 Mono<List<Integer>>
 Mono<Mono<Integer>>
 ```
 
 ### What is emitted?
 ```txt
-item 					mono terminates, flux doesn't
-complete event			mono terminates, flux too
-failure event			mono terminates, flux too
+item 					mono terminates, flux doesn't			onNext()
+complete event			mono terminates, flux too 				onComplete()
+failure event			mono terminates, flux too 				onError()
 ```
 
 ### Operations
@@ -101,8 +119,10 @@ flux.subscribe(System.out::println,
 );
 
 
-flux.toStream().toList();	// converting a reactive source to stream to a list
+// converting a reactive source to stream to a list
+flux.toStream().toList();	
 // it is blocking since we will wait for all the elements from the stream to emit and then form the stream; so it's bad!
+
 
 Integer i = mono.block();			// subscribe and block indefinitely until element is received; upon receive, return it
 mono.block(Duration.ofSeconds(5));	// if element doesn't come in 5s, we throw error; even on complete and failure
@@ -114,10 +134,10 @@ mono.blockOptional();				// returns emitted value (if any)
 .filter()
 .distinct()
 .map()
-.flatMap()	// same as in streams; the target element is a reactive stream
-.count()	// returns Mono<Long>; subscribe to it inorder to take out the element
-.take(n)	// similar to limit(), sends a cancel() to stream to indicate a stop 
-.log()		// logs every step of observer
+.flatMap()				// same as in streams; the target element is a reactive stream
+.count()				// returns Mono<Long>; subscribe to it inorder to take out the element
+.take(n)				// similar to limit(), sends a cancel() to stream to indicate a stop 
+.log()					// logs every implicit method call
 .defaultIfEmpty(-1)		// outputs a flux containing -1 if input stream is empty (no elements and we recieve a complete)
 ```
 
@@ -132,10 +152,13 @@ mono.blockOptional();				// returns emitted value (if any)
 ### Convert Flux to Mono
 Several operations like `count()` on a flux return a mono. We then in turn perform operations on that mono.
 
-## Project Reactor and Spring Boot
-In web apps, [Netty](https://netty.io/) controls the reactive aspects, we just use Flux or Mono everywhere in the app code and perform operations on them only.
+### Backpressure
+We can tell the data source to slow down in case we are taking too long to process data it emits.
 
-Use `Spring Reactive Web` dependency in Spring Initializr to use reactive features in Spring Boot.
+## Project Reactor and Spring Boot
+In web apps, [Netty](https://netty.io/) server controls the reactive aspects, we just use Flux or Mono everywhere in the app code and perform operations only on them.
+
+Use `Spring Reactive Web` dependency in Spring Initializr to use reactive features in Spring Boot. It uses Project Reactor by default.
 ```java
 <dependency>
 	<groupId>org.springframework.boot</groupId>
