@@ -130,5 +130,5 @@ conn.rollback(sp1);
 ```
 
 ## Closing Resources
-- Closing a `Connection` closed `PrepardStatement` and `ResultSet` too
+- Closing a `Connection` closes `PreparedStatement` and `ResultSet` too
 - Closing a `PreparedStatement` closes `ResultSet` too

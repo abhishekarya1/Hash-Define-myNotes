@@ -176,9 +176,10 @@ Files.isSameFile(p1, p2)			-- check if same file/dir; follows symlinks
 Files.mismatch(p1, p2)				-- checks contents of two files like diff command
 ```
 ## I/O Streams
-- **Byte Streams**: reads/writes as 0s and 1s (ends with `InputStream` and `OutputStream`)
+- **Byte Streams**: reads/writes as bytes (ends with `InputStream` and `OutputStream`)
 - **Character Streams**: reads/writes as single chars (ends with `Reader` and `Writer`)
 
+Besides this we can also divide streams into the following two categories based on their input:
 - **Low-level Streams**: deals directly with raw data like array, file, or String. Ex - `FileInputStream` reads directly from file one byte at a time.
 - **High-level Streams**: deals with other wrapper objects only. Ex - `BufferedReader` uses `FileReader` as input.
 
