@@ -66,7 +66,25 @@ class TestSingle{
 }
 ``` 
 
-Double-checked locking in Singleton
+Double-checked locking in Singleton: to make sure that only one instance of a class exists across all threads too, put the instance existance checker logic in a `synchronized` block
+```java
+private static volatile Singleton obj;
+
+public static Singleton getInstance(){ 
+    // Single Checked
+    if (obj == null) {
+        
+        // Double Checked
+        synchronized (Singleton.class){
+            if (obj == null) {
+                obj = new Singleton();
+            }
+        }
+    }
+
+    return obj;
+}
+```
 
 Use Object as a Key in HashMap - `equals()` and `hashCode()`
 
@@ -78,3 +96,34 @@ String being immutable is a:
 - security friendly: an SQL query stored as String can't be modified in transit (prevents SQL injections)
 - security risk: as the object will remain in heap before it is garbage collected by JVM (we don't control its lifetime).
 Use `char[]` to store passwords and manual erasure of each element is possible (as opposed to String as they are immutable) as soon as its work is done.
+
+**Serializable vs Externalizable Interfaces**: a class extending `Serializable` interface can be serialized/deserialized to/from `ObjectInputStream`/`ObjectOutputStream`. It is a Marker Interface so it doesn't have any methods.
+
+`Externalizable` is a sub-interface of `Serializable` and also used for the same purpose. It has two additional methods where we can specify our custom logic after/before serialization/deserialization.
+
+```java
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Book implements Externalizable {
+    private String author;
+    private String title;
+    private int price;
+
+    @Override
+    public void writeExternal(ObjectOutputStream out) throws IOException {
+        out.writeObject(author);
+        out.writeObject(title);
+        out.writeInt(price);
+    }
+
+    @Override
+    public void readExternal(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        this.author = (String) in.readObject();
+        this.title = (String) in.readObject();
+        this.price = in.readInt();
+    }
+}
+```
+
+Link: https://www.java67.com/2012/10/difference-between-serializable-vs-externalizable-interface.html
