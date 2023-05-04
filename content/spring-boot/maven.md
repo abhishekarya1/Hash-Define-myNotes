@@ -99,16 +99,22 @@ Ex - `foobar-1.0-SNAPSHOT` is released as `foobar-1.0` and new development versi
 ## Starter Dependencies
 **Facet-based dependencies**: Starter dependencies are named to specify the facet or kind of functionality they provide. Ex - `starter-web`, `starter-activemq`, `starter-batch`, `starter-cache`, etc...
 
-We can also override the version of starter's transitive dependencies by defining them in `<dependencies>` section and explicitly specifying the version and it won't be taken from `<parent>`.
+Starter dependencies take their version from `spring-boot-starter-parent` which has `<dependencyManagement>` section and starters add more dependencies transitively under the hood to the project. 
+
+{{% notice note %}}
+Transitively adding dependencies is different from the whole "managed dependencies" (`<dependencyManagement>`) discussed below, since in that we need to explicitly declare `<dependencies>` in the project POM too since they aren't automatically added.
+{{% /notice %}}
+
+We can also override starter's transitive dependencies by explicitly defining them in `<dependencies>` section and specifying the `<version>`.
 ```xml
 <dependency>
 	<groupId>com.fasterxml.jackson.core</groupId>
 	<artifactId>jackson-databind</artifactId>
-	<version>2.4.3</version> <!-- version override -->
+	<version>2.4.3</version> <!-- override with version -->
 </dependency>
 ```
 
-We can also exclude including some transitive dependencies using `<exclusions>` tag. 
+We can also exclude some transitive dependencies using `<exclusions>` tag. 
 
 ```xml
 <dependency>
@@ -124,6 +130,47 @@ We can also exclude including some transitive dependencies using `<exclusions>` 
 
 </dependency>
 ```
+
+### Version
+We can specify version directly in the `<dependency>` or inherit version from parent (if parent has `<dependencyManagement>` section).
+
+We can also externalize dependency version and specify it in the properties tag.
+```xml
+<properties>
+	<mockitoVersion>4.5.0</mockitoVersion>	<!-- notice here -->
+</properties>
+
+<dependencies>
+	<groupId>org.mockito</groupId>
+	<artifactId>mockito</artifactId>
+	<version>${mockitoVersion}</version>	<!-- externalizing version to properties tag -->
+</dependencies>
+```
+
+We can also override transitively included dependency's version by specifying another version in `<properties>` section of child POM.
+```xml
+<parent>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-parent</artifactId>
+	<version>2.7.0</version>
+</parent>
+
+<properties>
+	<mockito.version>4.5.0</mockito.version>	<!-- notice here -->
+</properties>
+
+<dependencies>
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>	<!-- this adds Mockito transitively -->
+		<scope>test</scope>
+	</dependency>
+</dependencies>
+```
+
+**Summary**: we can override version for a dependency in the `<properties>` section of child POM if the dependency is being added transitively to the child POM, provided the parent POM has a `<xxx.version>` tag for it in the `<properties>` section with the same name.
+
+_Reference_: [SivaLabs - YouTube](https://youtu.be/2dPon1G5S-M)
 
 ## Parent and dependencyManagement
 The `spring-boot-starter-parent` specifies version for commonly used libraries with Spring and all the other starters.
@@ -193,47 +240,6 @@ A `<parent>` (more precisely `<dependencyManagement>`) is like only a "declarati
 This is why the Log4j vulnerability ([Log4Shell](https://en.wikipedia.org/wiki/Log4Shell)) was such a big deal. Spring starters and parent may have the vulnerable version depending on the Spring version we're using and we need to override with the latest (fixed) version of Log4j in our respective POMs.
 {{% /notice %}}
 
-### Version
-We can also externalize dependency version to the properties tag.
-```xml
-<properties>
-	<mockitoVersion>4.5.0</mockitoVersion>	<!-- notice here -->
-</properties>
-
-<dependencies>
-	<groupId>org.mockito</groupId>
-	<artifactId>mockito</artifactId>
-	<version>${mockitoVersion}</version>	<!-- externalizing version to properties tag -->
-</dependencies>
-```
-We can specify version directly in the `<dependency>` or leave the version to parent (if parent has `<dependencyManagement>`).
-
-We can also override transitively included dependency's version by specifying newer version in `<properties>` section of child POM.
-
-```xml
-<parent>
-	<groupId>org.springframework.boot</groupId>
-	<artifactId>spring-boot-starter-parent</artifactId>
-	<version>2.7.0</version>
-</parent>
-
-<properties>
-	<mockito.version>4.5.0</mockito.version>	<!-- notice here -->
-</properties>
-
-<dependencies>
-	<dependency>
-		<groupId>org.springframework.boot</groupId>
-		<artifactId>spring-boot-starter-test</artifactId>	<!-- this adds mockito transitively -->
-		<scope>test</scope>
-	</dependency>
-</dependencies>
-```
-
-**Summary**: we can override version for a dependency in the `<properties>` section of child POM if the dependency is being added transitively to the child POM, provided the parent POM has a `<xxx.version>` tag for it in the `<properties>` section with the same name.
-
-_Reference_: [SivaLabs - YouTube](https://youtu.be/2dPon1G5S-M)
-
 ### Multi-Module Maven Project
 Multiple modules inside a single project, each having a different project inside it. All having the same `<groupID>`.
 
@@ -290,7 +296,7 @@ There are 2 ways of using a BOM:
 </project>
 ```
 
-In complex project's we may need to import multiple BOMs and there is only one `<parent>` tag, so we import BOMs this way. After the import it acts just like parent and we still need to add required dependencies in the `<dependency>` sections.
+In complex projects we may need to import multiple BOMs and there is only one `<parent>` tag, so we import BOMs this way. After the import it acts just like parent and we still need to add required dependencies in the `<dependency>` sections.
 
 {{% notice note %}}
 Both the parent and the child have a `<dependencyManagement>` tag in the **import** mechanism.
