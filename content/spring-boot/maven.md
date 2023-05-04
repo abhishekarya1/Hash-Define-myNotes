@@ -99,7 +99,7 @@ Ex - `foobar-1.0-SNAPSHOT` is released as `foobar-1.0` and new development versi
 ## Starter Dependencies
 **Facet-based dependencies**: Starter dependencies are named to specify the facet or kind of functionality they provide. Ex - `starter-web`, `starter-activemq`, `starter-batch`, `starter-cache`, etc...
 
-Starter dependencies take their version from `spring-boot-starter-parent`'s parent `spring-boot-dependencies` which has `<dependencyManagement>` section and lists versions for every Spring internal dependency, and starters add more those dependencies transitively under the hood to the project.
+Starter dependencies take their version from `spring-boot-starter-parent`'s parent `spring-boot-dependencies` which has `<dependencyManagement>` section and lists versions for every Spring internal dependency, and starters add those dependencies transitively under the hood to the project.
 
 {{% notice note %}}
 Transitively adding dependencies is different from the whole "managed dependencies" (`<dependencyManagement>`) discussed below, since in that we need to explicitly declare `<dependencies>` in the project POM too since they aren't automatically added.
