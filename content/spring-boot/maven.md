@@ -175,7 +175,7 @@ We can also change transitively included dependency's version by specifying anot
 _Reference_: [SivaLabs - YouTube](https://youtu.be/2dPon1G5S-M)
 
 ## Parent and dependencyManagement
-The `spring-boot-starter-parent` specifies version for commonly used libraries with Spring and all the other starters.
+The `spring-boot-starter-parent`'s parent `spring-boot-dependencies` specifies version for commonly used libraries with Spring and all the other starters.
 
 We can specify our own `<parent>` module having all of the dependencies we want to use and their versions in `<dependencyManagement>` section. Other project's POM can then point to this parent's POM and define the same dependencies in their respective POMs without version.
 
