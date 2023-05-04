@@ -208,7 +208,7 @@ We can also externalize dependency version to the properties tag.
 ```
 We can specify version directly in the `<dependency>` or leave the version to parent (if parent has `<dependencyManagement>`).
 
-We can also include dependency by specifying only the version in `<properties>` section of child POM. No need to explicitly add dependency in `<dependencies>` section of the child/project POM if we do it this way.
+We can also override transitively included dependency's version by specifying newer version in `<properties>` section of child POM.
 
 ```xml
 <parent>
@@ -222,13 +222,15 @@ We can also include dependency by specifying only the version in `<properties>` 
 </properties>
 
 <dependencies>
-	<!-- empty -->
+	<dependency>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-test</artifactId>	<!-- this adds mockito transitively -->
+		<scope>test</scope>
+	</dependency>
 </dependencies>
 ```
 
-**Summary**: The case shown above is interesting, we can only specify version for a dependency in the `<properties>` section of child POM and that will include the dependency from the parent in child POM without the need to add it in the `<dependencies>` section!
-
-This may be counter-intuitive because we're trying to avoid adding version with all this parent and dependencyManagement and here we only add version to include the whole dependency!
+**Summary**: we can override version for a dependency in the `<properties>` section of child POM if the dependency is being added transitively to the child POM, provided the parent POM has a `<xxx.version>` tag for it in the `<properties>` section with the same name.
 
 _Reference_: [SivaLabs - YouTube](https://youtu.be/2dPon1G5S-M)
 
@@ -262,17 +264,16 @@ There are 2 ways of using a BOM:
 <!-- Project POM -->
 <project>
     <modelVersion>4.0.0</modelVersion>
-    <groupId>my-test</groupId>
+    <groupId>com.my</groupId>
     <artifactId>Test</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
     <name>Test</name>
     
     <!-- add this section to Project POM -->
     <dependencyManagement>
         <dependencies>
             <dependency>
-                <groupId>sample</groupId>
+                <groupId>com.sample</groupId>
                 <artifactId>sample-BOM</artifactId>
                 <version>0.0.5-SNAPSHOT</version>
                 <type>pom</type>
@@ -280,12 +281,20 @@ There are 2 ways of using a BOM:
             </dependency>
         </dependencies>
     </dependencyManagement>
+
+    <dependencies>
+    	<dependency>
+    		<!-- add sample-BOM's individual dependencies to import -->
+    	</dependency>
+    </dependencies>
 </project>
 ```
 
-When we import a BOM, all of the `<dependencyManagement>` section is replaced by contents (dependencies) declared inside the BOM.
+In complex project's we may need to import multiple BOMs and there is only one `<parent>` tag, so we import BOMs this way. After the import it acts just like parent and we still need to add required dependencies in the `<dependency>` sections.
 
 {{% notice note %}}
+Both the parent and the child have a `<dependencyManagement>` tag in the **import** mechanism.
+
 A BOM can NOT be used as an explicit dependency; it MUST be either `<parent>` POM or imported in `<dependencyManagement>` section.
 {{% /notice %}}
 
@@ -296,3 +305,5 @@ _Reference#1_: https://www.baeldung.com/spring-maven-bom
 _Reference#2_: https://reflectoring.io/maven-bom
 
 _Reference#3_: https://github.com/FasterXML/jackson-bom
+
+_Reference#4_: https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Importing_Dependencies
