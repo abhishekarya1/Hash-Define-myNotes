@@ -99,13 +99,13 @@ Ex - `foobar-1.0-SNAPSHOT` is released as `foobar-1.0` and new development versi
 ## Starter Dependencies
 **Facet-based dependencies**: Starter dependencies are named to specify the facet or kind of functionality they provide. Ex - `starter-web`, `starter-activemq`, `starter-batch`, `starter-cache`, etc...
 
-Starter dependencies take their version from `spring-boot-starter-parent` which has `<dependencyManagement>` section and starters add more dependencies transitively under the hood to the project. 
+Starter dependencies take their version from `spring-boot-starter-parent`'s parent `spring-boot-dependencies` which has `<dependencyManagement>` section and lists versions for every Spring internal dependency, and starters add more those dependencies transitively under the hood to the project.
 
 {{% notice note %}}
 Transitively adding dependencies is different from the whole "managed dependencies" (`<dependencyManagement>`) discussed below, since in that we need to explicitly declare `<dependencies>` in the project POM too since they aren't automatically added.
 {{% /notice %}}
 
-We can also override starter's transitive dependencies by explicitly defining them in `<dependencies>` section and specifying the `<version>`.
+We can also override starter's transitive dependencies by explicitly defining them in `<dependencies>` section and specifying the `<version>`. Maven takes the closest definition (_Dependency Mediation_) of a dependency, which is this one.
 ```xml
 <dependency>
 	<groupId>com.fasterxml.jackson.core</groupId>
@@ -115,7 +115,6 @@ We can also override starter's transitive dependencies by explicitly defining th
 ```
 
 We can also exclude some transitive dependencies using `<exclusions>` tag. 
-
 ```xml
 <dependency>
   <groupId>org.springframework.boot</groupId>
@@ -132,7 +131,10 @@ We can also exclude some transitive dependencies using `<exclusions>` tag.
 ```
 
 ### Version
-We can specify version directly in the `<dependency>` or inherit version from parent (if parent has `<dependencyManagement>` section).
+We can:
+- specify version directly in the `<dependency>`
+- inherit version from parent (parent needs to have a `<dependencyManagement>` section)
+- override parent's version with the `<xxx.version>` tag if version is externalized
 
 We can also externalize dependency version and specify it in the properties tag.
 ```xml
@@ -147,7 +149,7 @@ We can also externalize dependency version and specify it in the properties tag.
 </dependencies>
 ```
 
-We can also override transitively included dependency's version by specifying another version in `<properties>` section of child POM.
+We can also change transitively included dependency's version by specifying another version in `<properties>` section of child POM.
 ```xml
 <parent>
 	<groupId>org.springframework.boot</groupId>
@@ -168,7 +170,7 @@ We can also override transitively included dependency's version by specifying an
 </dependencies>
 ```
 
-**Summary**: we can override version for a dependency in the `<properties>` section of child POM if the dependency is being added transitively to the child POM, provided the parent POM has a `<xxx.version>` tag for it in the `<properties>` section with the same name.
+**Summary**: we can change version for a dependency in the `<properties>` section of child POM if the dependency is being added transitively to the child POM, provided the parent POM has a `<xxx.version>` tag for it in the `<properties>` section with the same name i.e. version is _externalized_.
 
 _Reference_: [SivaLabs - YouTube](https://youtu.be/2dPon1G5S-M)
 
