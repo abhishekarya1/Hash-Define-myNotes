@@ -78,7 +78,7 @@ References: https://maven.apache.org/guides/introduction/introduction-to-the-lif
 The "Maven Surefire Plugin" enables us to run test with maven commands like `mvn test`. The `spring-boot-maven-plugin` added by default by the Spring Initializr takes care of this.
 
 ## Maven Wrapper
-A `mwnw` script file placed in the root of the directory besides the `pom.xml`. We can run maven goals using command line directly using this.
+A `mwnw` script file placed in the root of the directory besides the `pom.xml`. We can run maven goals using command line directly using it.
 ```
 $ ./mwnw clean install
 ```
@@ -187,7 +187,7 @@ Creating a different module for parent POM:
 
 **Summary**: Define dependencies in `<dependencyManagement>` section in the parent module. Point to parent pom in child/project and add dependency to `<dependencies>` section without version, the version will be taken from the parent.
 
-A `<parent>` (more precisely `<dependecyManagement>`) is like only a "declaration" of dependencies, we have to "actually include" them by adding in `<dependencies>` in child POM in a project and their `<version>` is inherited from the parent or we can override it by explicitly specifying it in the child POM.
+A `<parent>` (more precisely `<dependencyManagement>`) is like only a "declaration" of dependencies, we have to "actually include" them by adding in `<dependencies>` in child POM in a project and their `<version>` is inherited from the parent or we can override it by explicitly specifying it in the child POM.
 
 {{% notice note %}}
 This is why the Log4j vulnerability ([Log4Shell](https://en.wikipedia.org/wiki/Log4Shell)) was such a big deal. Spring starters and parent may have the vulnerable version depending on the Spring version we're using and we need to override with the latest (fixed) version of Log4j in our respective POMs.
@@ -226,13 +226,13 @@ We can also include dependency by specifying only the version in `<properties>` 
 </dependencies>
 ```
 
-**Summary**: One interesting case is when we can only specify version for a dependency in the `<properties>` section of child POM and that will include the dependency from the parent in child POM without the need to add it in the `<dependencies>` section!
+**Summary**: The case shown above is interesting, we can only specify version for a dependency in the `<properties>` section of child POM and that will include the dependency from the parent in child POM without the need to add it in the `<dependencies>` section!
 
 This may be counter-intuitive because we're trying to avoid adding version with all this parent and dependencyManagement and here we only add version to include the whole dependency!
 
 _Reference_: [SivaLabs - YouTube](https://youtu.be/2dPon1G5S-M)
 
-### Maven Multi-Module Project
+### Multi-Module Maven Project
 Multiple modules inside a single project, each having a different project inside it. All having the same `<groupID>`.
 
 1. Place common `<dependencyManagement>` and `<build> <plugins>` in parent's POM
@@ -251,3 +251,48 @@ Placing parent POM at root (one level above child POMs):
 ```
 
 **Advantages**: easier to manage dependencies & build plugins and Maven building together. Projects may still have to be run separately if we want to up the server.
+
+### BOM
+BOM (Bill Of Materials) is a POM which contains `<dependencyManagement>` section and is used to supply list of dependencies to other POMs.
+
+There are 2 ways of using a BOM:
+- as shown in the cases above, use a `<parent>` tag to **inherit** the BOM in the target POM and declare `<dependencies>` without version (_inherits build plugins and other settings too_)
+- **import** the BOM in the target POM as shown below (_preferred way; only imports dependencies_):
+```xml
+<!-- Project POM -->
+<project>
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>my-test</groupId>
+    <artifactId>Test</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <name>Test</name>
+    
+    <!-- add this section to Project POM -->
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>sample</groupId>
+                <artifactId>sample-BOM</artifactId>
+                <version>0.0.5-SNAPSHOT</version>
+                <type>pom</type>
+                <scope>import</scope>		<!-- notice here -->
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>
+```
+
+When we import a BOM, all of the `<dependencyManagement>` section is replaced by contents (dependencies) declared inside the BOM.
+
+{{% notice note %}}
+A BOM can NOT be used as an explicit dependency; it MUST be either `<parent>` POM or imported in `<dependencyManagement>` section.
+{{% /notice %}}
+
+Advantage of using a BOM is that we can just update the inherited/imported BOM to the latest version and all of the dependencies listed in it will get updated for our project.
+
+_Reference#1_: https://www.baeldung.com/spring-maven-bom
+
+_Reference#2_: https://reflectoring.io/maven-bom
+
+_Reference#3_: https://github.com/FasterXML/jackson-bom

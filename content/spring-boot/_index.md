@@ -16,3 +16,5 @@ pre = "<i class='devicon-spring-plain colored'></i> "
 [Mastering Spring Boot 2.0](https://g.co/kgs/A7LNcW) by Dinesh Rajput
 
 [SivaLabs YouTube](https://www.youtube.com/@SivaLabs) - Siva Reddy
+
+[Learning Spring Boot 3.0](https://g.co/kgs/95hH2j) by Greg Turnquist
