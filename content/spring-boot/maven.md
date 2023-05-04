@@ -134,9 +134,9 @@ We can also exclude some transitive dependencies using `<exclusions>` tag.
 We can:
 - specify version directly in the `<dependency>`
 - inherit version from parent (parent needs to have a `<dependencyManagement>` section)
-- change parent's version with the `<xxx.version>` tag if version is externalized
+- change parent's version with the `<xxx.version>` tag if version is externalized in parent
 
-We can also externalize dependency version and specify it in the properties tag.
+Externalize dependency version and specify it in the properties tag:
 ```xml
 <properties>
 	<mockitoVersion>4.5.0</mockitoVersion>	<!-- notice here -->
@@ -170,7 +170,7 @@ We can also change transitively included dependency's version by specifying anot
 </dependencies>
 ```
 
-**Summary**: we can change version for a dependency in the `<properties>` section of child POM if the dependency is being added transitively to the child POM, provided the parent POM has a `<xxx.version>` tag for it in the `<properties>` section with the same name i.e. version is _externalized_.
+**Summary**: we can change version for a dependency in the `<properties>` section of child POM if the dependency is being added transitively to the child POM, provided the parent POM has a `<xxx.version>` tag for it in the `<properties>` section i.e. version is _externalized_.
 
 _Reference_: [SivaLabs - YouTube](https://youtu.be/2dPon1G5S-M)
 
