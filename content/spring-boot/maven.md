@@ -134,7 +134,7 @@ We can also exclude some transitive dependencies using `<exclusions>` tag.
 We can:
 - specify version directly in the `<dependency>`
 - inherit version from parent (parent needs to have a `<dependencyManagement>` section)
-- override parent's version with the `<xxx.version>` tag if version is externalized
+- change parent's version with the `<xxx.version>` tag if version is externalized
 
 We can also externalize dependency version and specify it in the properties tag.
 ```xml
