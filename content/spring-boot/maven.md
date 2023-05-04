@@ -102,7 +102,7 @@ Ex - `foobar-1.0-SNAPSHOT` is released as `foobar-1.0` and new development versi
 Starter dependencies take their version from `spring-boot-starter-parent`'s parent `spring-boot-dependencies` which has `<dependencyManagement>` section and lists versions for every Spring internal dependency, and starters add those dependencies transitively under the hood to the project.
 
 {{% notice note %}}
-Transitively adding dependencies is slightly different from the whole "managed dependencies" (`<dependencyManagement>`) discussed below, since in that we need to explicitly declare `<dependencies>` in the project POM too since they aren't automatically added.
+Transitively adding dependencies is slightly different from the whole "managed dependencies" (`<dependencyManagement>`) discussed below, since in that we need to explicitly declare `<dependencies>` in the project POM too since they aren't automatically added unlike starters.
 {{% /notice %}}
 
 We can also override starter's transitive dependencies by explicitly defining them in `<dependencies>` section and specifying the `<version>`. Maven takes the closest definition (_Dependency Mediation_) of a dependency, which is this one.
@@ -132,7 +132,7 @@ We can also exclude some transitive dependencies using `<exclusions>` tag.
 
 ### Version
 We can:
-- explicitly specify version directly in the `<dependency>`
+- explicitly specify version directly in the `<dependency>` section
 - inherit version from parent (parent POM needs to have a `<dependencyManagement>` section)
 - change parent's version with the `<xxx.version>` tag; only works if version is externalized in parent POM
 
