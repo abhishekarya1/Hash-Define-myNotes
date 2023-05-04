@@ -174,6 +174,10 @@ We can also change transitively included dependency's version by specifying anot
 
 _Reference_: [SivaLabs - YouTube](https://youtu.be/2dPon1G5S-M)
 
+{{% notice note %}}
+This is why the Log4j vulnerability ([Log4Shell](https://en.wikipedia.org/wiki/Log4Shell)) was such a big deal. Spring starters and parent may have the vulnerable version depending on the Spring version we're using and we need to override with the latest (fixed) version of Log4j in our respective POMs.
+{{% /notice %}}
+
 ## Parent and dependencyManagement
 The `spring-boot-starter-parent`'s parent `spring-boot-dependencies` specifies version for commonly used libraries with Spring and all the other starters.
 
@@ -237,10 +241,6 @@ Creating a different module for parent POM:
 **Summary**: Define dependencies in `<dependencyManagement>` section in the parent module. Point to parent pom in child/project and add dependency to `<dependencies>` section without version, the version will be taken from the parent.
 
 A `<parent>` (more precisely `<dependencyManagement>`) is like only a "declaration" of dependencies, we have to "actually include" them by adding in `<dependencies>` in child POM in a project and their `<version>` is inherited from the parent or we can override it by explicitly specifying it in the child POM.
-
-{{% notice note %}}
-This is why the Log4j vulnerability ([Log4Shell](https://en.wikipedia.org/wiki/Log4Shell)) was such a big deal. Spring starters and parent may have the vulnerable version depending on the Spring version we're using and we need to override with the latest (fixed) version of Log4j in our respective POMs.
-{{% /notice %}}
 
 ### Multi-Module Maven Project
 Multiple modules inside a single project, each having a different project inside it. All having the same `<groupID>`.
