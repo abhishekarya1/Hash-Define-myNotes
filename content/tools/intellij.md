@@ -55,27 +55,27 @@ Ctrl + Shift + A - Find actions (lists all shortcuts)
 Ctrl + F12 - Show class structure
 ```
 ## Debugging
-Conditional breakpoints (debug loops with this; will stop at the element we want)
+Conditional breakpoints (debug loops with this; will only stop at the element we want)
 
 View all breakpoints
 
-Exception breakpoints (stops on the line where the exception occurs!)
+Exception breakpoints (dynamically stops on the line where the exception occurs)
 
 Evaluate, Variables tab, and Watches
 
-"Set value" with Variables tab!
+"Set value" with Variables tab
 
-"Force return" from a method and set a return value in (Frames tab)
+"Force return" from a method and set a return value (Frames tab)
 
 "Throw exception" to throw an exception in runtime (Frames tab)
 
 "Reset frame" to cancel a method call (Frames tab)
 
-"Force return" from a method and set a return value (Frames tab)
-
 "Watchpoint" on class fields (both static and instance) (stop everytime the field's value is accessed/modified)
 
-"Tracepoint" to print value with a custom log statement (Shift + click)
+"Tracepoint" to print value with a custom log statement ("Shift + click" in gutter to set it)
+
+"Evaluate and Log" on a normal Breakpoint (will suspend execution unlike a Tracepoint)
 
 Breakpoint Filters: Catch class, Instance, Class, Caller
 
