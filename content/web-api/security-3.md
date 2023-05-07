@@ -7,7 +7,7 @@ weight = 7
 ## TLS
 Transport Layer Security is an cryptographic protocol used to provide security over a network. It is a successor to the now-deprecated Secure Sockets Layer (SSL).
 
-It serves encryption to higher layers, which is normally the function of the _presentation layer_. However, applications generally use TLS as if it were a _transport layer_. It actually runs in the _application layer_ though.
+It serves encryption to higher layers, which is normally the function of the _presentation layer_. However, applications generally use TLS as if it were a _transport layer_. Considered it in the _application layer_ (no strict rules).
 
 TLS 1.2 is widely used today and TLS 1.3 is newer, faster and better but supported by lesser number of servers.
 
@@ -22,15 +22,15 @@ Steps in TLS 1.2 connection establishment:
 4. Change cipher spec (Client -> Server)
 5. Client starts sending data (GET request)
 
-Steps 2-4 are called **TLS Handshake**. In TLS 1.3, there is no step 4, the server sends the _Change cipher spec_ along with _Server hello_ itself.
+Steps 2-4 are called **TLS Handshake** (3-way). In TLS 1.3, there is no step 4, the server sends the _Change cipher spec_ along with _Server hello_ itself (2-way).
 
-**Client Hello**: lists ciphers client supports, and other info
+**Client Hello**: lists ciphers client supports, generator (`g`) and partial key (`g^x`) for DH exchange, and other info
 
-**Server Hello**: lists ciphers server supports, and other info like supported HTTP version ([ALPN](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation))
+**Server Hello**: lists ciphers server supports, TLS certificate, partial key (`g^y`) for DH exchange, and other info like supported HTTP versions ([ALPN](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation))
 
-There is `ACK` for every step above, and TLS Handshake happens over TLS protocol and not TCP.
+There is `ACK` for every step above, and TLS Handshake happens over TLS protocol and not raw TCP.
 
-The TLS Handshake can fail if client and the server can't agree on a cipher to use for further communication.
+The TLS Handshake can fail if client and the server can't agree on a cipher to use for further communication or certificate validation fails.
 
 ### TLS Certificate and CA
 The server sends the client a certificate in _Server hello_. 
