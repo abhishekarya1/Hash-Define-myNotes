@@ -2,7 +2,7 @@
 title = "Regex"
 date =  2021-05-01T00:20:42+05:30
 chapter = true
-weight = 17
+weight = 18
 pre = "∑ "
 +++
 

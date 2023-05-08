@@ -1,7 +1,7 @@
 +++
 title = "Design"
 date = 2022-05-03T21:40:35+05:30
-weight = 20
+weight = 21
 chapter = true
 pre = "✨ "
 +++

@@ -1,7 +1,7 @@
 +++
 title = "Linux Tools"
 date =  2021-05-01T00:32:20+05:30
-weight = 15
+weight = 16
 chapter = true
 pre = "🔧 "
 +++

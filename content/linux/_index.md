@@ -1,7 +1,7 @@
 +++
 title = "Linux"
 date =  2022-05-08T01:53:00+05:30
-weight = 16
+weight = 17
 chapter = true
 pre = "<i class=\"devicon-linux-plain\"></i> "
 +++

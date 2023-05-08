@@ -1,7 +1,7 @@
 +++
 title = "Tools"
 date =  2020-11-28T22:33:22+05:30
-weight = 19
+weight = 20
 chapter = true
 pre = "⚙️ "
 +++
