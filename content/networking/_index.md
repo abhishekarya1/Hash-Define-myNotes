@@ -14,3 +14,5 @@ pre = "🌐 "
 Beej's Guide to Network Concepts - https://beej.us/guide/bgnet0/
 
 High Performance Browser Networking - https://hpbn.co/
+
+HTTP/3 Explained - https://http3-explained.haxx.se/

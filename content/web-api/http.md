@@ -253,28 +253,6 @@ HTTPS = HTTP + TLS
 
 [TLS Notes](/web-api/security-3/#tls)
 
-## Misc
-
-### 3-way handshake
-Also called a TCP handshake, is the quintessential part of how TCP/IP works by guranteeing packet delivery (reliability).
-
-Before we get started with sending our `GET` and other HTTP requests, we need to "establish" a connection with the server. TCP does that for us over Transport layer by sending special packets:
-1. **SYN** - client sends to the server for synchronization (of seq numbers)
-2. **SYN/ACK** - server sends back a new `SYN` (seq no.) and an acknowledgement (`ACK`) in response
-3. **ACK** -  client sends the acknowledgement back and the connection is now established
-
-For a SYN (`n`), ACK is `n+1`. **After** connection establishment, seq number will continue from the one that server sent us back. 
-
-[Diagram](https://i.imgur.com/GVu6TxC.png)
-
-TCP connection termination:
-1. **FIN** (_client_) - client sends a packet to the server indicating that it wants to close the connection
-2. **ACK** - server sends acknowledgement
-3. **FIN** (_server_) - server sends FIN packet after a short while
-4. **ACK** - client sends ACK and waits for a timed_wait before closing and releasing ports and other resources on the server
-
-[Diagram](https://i.imgur.com/6s53eUC.png)
-
 ### HTTP Connection Control
 We can control connections by sending `Connection` and `Keep-Alive` (ignored when used alone) request headers in HTTP/1.1
 

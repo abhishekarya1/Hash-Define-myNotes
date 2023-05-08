@@ -9,12 +9,12 @@ weight = 1
 - client-server model; server processing is just the reverse of client processing
 - each layer is agnostic to other layers; we can swap a protocol on a given layer without worrying about breaking other layers
 
-|  Layer | PDU  | Address  |
+|  Layer | PDU<sup>\*</sup>  | Address  |
 |---|---|---|
 | Transport Layer  | Segment  | Port  |
 | Network Layer  |  Packet | IP Address  |
 | Data-Link Layer  | Frame  | MAC Address  |
-<sub>PDU = Protocol Data Unit</sub>
+<sub>*PDU = Protocol Data Unit</sub>
 
 [Reference Diagrams](https://stackoverflow.com/questions/31446777/difference-between-packets-and-frames)
 
@@ -25,43 +25,49 @@ weight = 1
 
 Transport layer is called **"Host-to-Host"** because it facilitates delivery to receiver host right till the application level via Ports (like a Host to Host tunnel).
 
-**Shortcomings of OSI model**: its pedantic. Many people dislike OSI model and argue that Layer-5,6,7 can be combined in a single one - Application Layer.
+**Shortcomings of OSI model**: its pedantic. Many people dislike OSI model and argue that Layer-5,6,7 can be combined in a single Application Layer.
 
 ## Internet Protocol
-IPv4 (32 bits): 4 bytes (`a.b.c.d`)
-IPv6 (128bits): 8 nibbles
+**IPv4** (32 bits): 4 bytes
+
+**IPv6** (128 bits): 8 nibbles (16 bytes)
 
 Assigned automatically (DHCP), or statically (Static IP)
 
-Divided in two parts (Network + Host): parts defined by /CIDR notation. 
+Divided in two parts (`Network + Host`): parts defined by `/CIDR` notation. 
 Ex - `192.168.1.1/24`. First 24 bits are reserved for identifying network. We can have 2^24 networks (aka Subnets), and each network can have 2^8 hosts (all-zero bits and all-one bits are always reserved)
 
 Subnet Mask (`&`): `255.255.255.0` is the mask for `/24` CIDR, it is applied (ANDed) to our IPv4 address and if result is same as our IPv4 address, we don't need network routing as the host is on the same network, otherwise do it.
 
-Gateway: a central device that acts as a mediator between two networks. A home router is a gateway (Default Gateway)
+**Gateway**: a central device that acts as a mediator between two networks. A home router is a gateway (Default Gateway).
 
 ### ICMP
-Internet Control Message Protocol: to send/receive info packets over network, all success failure messages are sent via this. Ex - host unreachable, port unreachable, fragmentation needed, etc...
+Internet Control Message Protocol: to send/receive **meta info packets** over network, all success failure messages are sent via this. Ex - host unreachable, port unreachable, fragmentation needed, etc...
 
 `ping` and `tracert` use it to get info
 
 ### IP Packet
-Header + Data sections
-Max data size is 2^16 (65536 bytes). MTU (Maximum Transmission Unit) of an intermediate device limits this.
+`Header + Data` sections
 
-**Fragmentation**: packets need to get fragmented if it doesn’t fit in a frame, MTU of a device specifies what size is allowed
+Max data size is 2^16 (65536 bytes) (\~64 KB). `MTU` (Maximum Transmission Unit) of an intermediate devices limits this to around 1500 bytes (\~1.5 KB)!
+
+**Fragmentation**: packets need to get fragmented if it doesn't fit in a frame, MTU of a device specifies what size is allowed, and if packets can't be fragmented, they are dropped by the router! If DF flag (Don't Fragment) is set on the packet, the sender gets the ICMP message to fragment the packets and sent them.
 
 **TTL**: specifies how many hops can a packet survive
 
+**ECN Flag**: If we're about to reach the max congestion limits of the network, a router can set the ECN flag (Explicit Congestion Notification) in the IP packet and as the packet travels theough the network, eventually everyone including the sender and the receiver will know that there is congestion and the sender will slow down.
+
 ### ARP
-Address Resolution Protocol (layer-2): IP to MAC mapping in a LAN.
+Address Resolution Protocol (layer-2): IP to MAC mapping in LAN (hop).
+
+{{%expand "How do we know destination MAC of a frame that is about to be sent over to the Internet?" %}}_We don't, the frame goes hop-by-hop changing destination MAC to Gateway of that hop._{{% /expand%}} 
 
 Packets on the same network (LAN) are sent to everyone, but _accepted_ only by the host whose MAC address is in the Frame header.
-If we don't know MAC address of the receiver, we can broadcast an ARP request and collect MAC addresses of all devices on our network and store/update the ARP Table in our memory. If the receiver is not in our network (identified by applying subnet mask) we will still do an ARP request but for the Gateway's physical address, the Frame will further go "hop-by-hop" changing physical address in each **hop** till the receiver in reached.
+If we don't know MAC address of the receiver, we can broadcast an ARP request and collect MAC addresses of all devices on our network and store/update the ARP Table in our memory. If the receiver is not in our network (identified by applying subnet mask) we will still do an ARP request but for the Gateway's physical address, the Frame will further go **"hop-by-hop"** changing physical address in each **hop** till the receiver in reached.
 
 **Attacks**: Packet Sniffing and ARP Table Poisoning.
 
-**Virtual Router Redundancy Protocol** (VRRP): one IP address shared between multiple hosts (MACs). Good load balancing technique as the traffic can be handled by multiple machines without changing IPs if one machine goes down.
+**Virtual Router Redundancy Protocol** (VRRP): one IP address shared between multiple hosts (MACs). Good load balancing technique as the traffic can be handled by multiple machines without changing IPs if one machine goes down.
 
 The inverse is the now deprecated RARP (Reverse ARP) replaced by DHCP.
 
@@ -75,7 +81,7 @@ When sending a packet to the Internet, NAT replaces private IP with Router's pub
 **Used in**: Home Routers, Port forwarding, Carrier-Grade NAT (to save IPv4 addresses by telecoms), Layer-4 Load Balancing + Gateway (HAProxy).
 
 ## UDP
-User Datagram Protocol: stateless, there is no connection (often called "blind" and "connection-less") and thus it doesn't guarantee the following:
+User Datagram Protocol: stateless, there is _no connection_ (often called "blind" and "connection-less") and thus it doesn't guarantee the following:
 - successful delivery
 - order of arrival
 - duplicates
@@ -87,7 +93,7 @@ However it does guarantee that _if_ the datagram arrives, it will be correct (er
 
 The datagram has source and destination addresses in its header, so it can flip them and relpy back to the sender without a connection. But we don't waste time on `ACK`.
 
-**Used in**: Video Streaming, DNS, HTTP/3 (QUIC), VPN, WebRTC (live video chat), Game Servers
+**Used in**: Video Streaming, DNS, HTTP/3 (QUIC), VPN, WebRTC (live video chat), Game Servers. It is used in applications where losing a packet or two doesn't affect us much.
 
 **Attacks**: UDP Flooding
 
@@ -98,13 +104,28 @@ The datagram has source and destination addresses in its header, so it can flip 
 https://xkcd.com/935 https://redd.it/33ctkq
 
 ## TCP
-Transmission Control Protocol
+Transmission Control Protocol: **Stateful** since the server remembers who is the client and what is the state of its connection with it.
 
 Connection is made via a **3-way handshake** before data is actually sent over. Segments are acknowledged with `ACK` segments.
 
-https://hashdefine.netlify.app/web-api/http/#misc
+TCP handshake (aka 3-way handshake), is the quintessential part of how TCP/IP works by guranteeing packet delivery (reliability).
 
-**Stateful** since the server remembers who is the client and what is the state of its connection with it.
+Before we get started with sending our `GET` and other HTTP requests, we need to "establish" a connection with the server. TCP does that for us over Transport layer by sending special packets:
+1. **SYN** - client sends to the server for synchronization (of seq numbers)
+2. **SYN/ACK** - server sends back a new `SYN` (seq no.) and an acknowledgement (`ACK`) in response
+3. **ACK** -  client sends the acknowledgement back and the connection is now established
+
+For a SYN (`n`), ACK is `n+1`. **After** connection establishment, seq number will continue from the one that server sent us back. 
+
+[Diagram](https://i.imgur.com/GVu6TxC.png)
+
+Connection is terminated via a **4-way handshake** using `FIN` segments initiated by the client.
+1. **FIN** (_client_) - client sends a packet to the server indicating that it wants to close the connection
+2. **ACK** - server sends acknowledgement
+3. **FIN** (_server_) - server sends FIN packet after a short while
+4. **ACK** - client sends `ACK` and waits for a timed_wait before closing and releasing ports and other resources on the server
+
+[Diagram](https://i.imgur.com/6s53eUC.png)
 
 All features are available:
 - flow control
@@ -112,17 +133,15 @@ All features are available:
 - error control (detection and correction)
 - retransmission of lost segments
 
-Connection is closed via a **4-way handshake** using `FIN` segments initiated by the client.
-
 **Cons**: 
 - maintaining states has memory overhead
 - creating connection has time overhead
 - high latency becuase of constant back and forth of meta segments like `ACK`
 
 ### Flow Control
-How much can the receiver handle?
+**How much can the receiver handle?**
 
-Receiver controls this using `RWND` (Receiver Window) by tuning Window Size field.
+Receiver controls this using `RWND` (Receiver Window) by tuning Window Size field of the Segment.
 
 We can send multiple segments in one go and one  `ACK` will come for all of them having latest one's sequence number.
 
@@ -131,7 +150,7 @@ We can send multiple segments in one go and one  `ACK` will come for all of them
 Window size can go upto 1GB nowadays by including a custom **Window Scaling Factor** field in the TCP segment, default max is 64KB, becuase of 16-bit window size field of the segment.
 
 ### Congestion Control
-How much can the network handle?
+**How much can the network handle? How much can we send?**
 
 Sender controls this using `CWND` (Congestion Window) by tuning MSS (Maximum Segment Size) field.
 
@@ -146,15 +165,17 @@ Domain Name System
 
 A server that maps to Domain Name (`google.com`) to URL (IP addresses).
 
-Domain Name = www.abhishekarya.com = Sub-domain + Domain + Top-level domain
+Domain Name = www.example.com = Sub-domain + Domain + Top-level domain
 
 Uses Port 53 over UDP. The closer the DNS server, the better it is because DNS lookup/probe latency will be lesser i.e. DNS resolution will be faster. Many CDNs like Google and Cloudflare have DNS servers all around the globe that **cache** DNS info (cache entries have a TTL too).
 
-Finding URL:
-(where is google.com?) --> DNS Resolver --> ROOT (where is TLD server for .com domains?) 
-															  |--> TLD (where is ANS of google?) 
-															  |--> ANS (returns DNS records (incl. IP address) of google.com)
+```txt
+DNS Lookup:
 
+(where is google.com?) --> DNS Resolver --> ROOT (where is TLD server for .com domains?) 
+											  |--> TLD (where is ANS of google?) 
+													 |--> ANS (returns DNS records (incl. IP address) of google.com)
+```
 ANS (Authoritative Name Server) is our Domain provider itself.
 
 _Reference_: https://aws.amazon.com/route53/what-is-dns/
@@ -177,7 +198,7 @@ Default MTU size is 1500 bytes (1.5KB). Packets are fragmented if they are large
 
 Jumbo packets ones can go upto 9000 bytes (9KB) used by AWS etc... with custom implementation of protocols and networking hardware
 
-Default MSS is 1460 bytes. MSS = MTU - IP Headers - TCP Headers => 1500 - 20 - 20
+Default MSS is 1460 bytes. `MSS = MTU - IP Headers - TCP Headers` => 1500 - 20 - 20
 
 Some routers might drop fragmented UDP packets. So staying under the minimum MTU is often a good idea with UDP.
 
@@ -216,7 +237,7 @@ Enable in curl by setting `--tcp-fastopen` flag.
 
 ### Listening & Exposing
 Be careful what ports you expose to the internet and what server IP you're listening on.
-```
+```txt
 localhost      loopback (doesn't go beyond self device)
 127.0.0.1      loopback IPv4 ( " )
 [::1]          loopback IPv6 ( " )
@@ -227,7 +248,7 @@ localhost      loopback (doesn't go beyond self device)
 We can have our server listen to the same port but on different interfaces (ex - port 8888 on wlan0 and port 8888 on eth0).
 
 We can have our server listen to the same port (say 8888) on IPv4 and IPv6 on the same interface too!
-```
+```txt
 Listening to port 8888 on http://127.0.0.1:8888
 Listening to port 8888 on http://[::1]:8888
 ```
@@ -243,9 +264,11 @@ Segents can totally arrive out-of-order but none one of them can be skipped, the
 
 ### Proxies
 **Forward Proxy**: Client1, Client2 -> Proxy -> Server
+
 **Use Cases**: Anonymity, Block Sites
 
 **Reverse Proxy**: Client -> Proxy -> Server1, Server2
+
 **Use Cases**: Load Balancing (API Gateway), Logging (Envoy Sidecar Proxy in Service Mesh), CDN (Edge and Origin servers)
 
 ### Load Balancers
