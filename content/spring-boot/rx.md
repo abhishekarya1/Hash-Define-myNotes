@@ -1,7 +1,7 @@
 +++
 title = "Reactive"
 date = 2022-12-06T12:56:00+05:30
-weight = 14
+weight = 15
 +++
 
 **Declarative** way of programming, deals with **data streams** and **propagation of change**.

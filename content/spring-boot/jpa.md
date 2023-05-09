@@ -1,7 +1,7 @@
 +++
 title = "JPA"
 date = 2022-06-06T03:29:00+05:30
-weight = 8
+weight = 9
 +++
 
 ## ORMs and Hibernate

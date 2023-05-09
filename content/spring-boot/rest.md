@@ -1,7 +1,7 @@
 +++
 title = "Spring ReST"
 date = 2022-06-07T00:27:00+05:30
-weight = 7
+weight = 8
 +++
 
 ```xml
@@ -34,6 +34,8 @@ Controller --> Service (interface) --> Service (impl class)
 @Repository			// goes on repo impl
 
 @Configuration      // config class
+
+@Autowired			// inject bean (autowire an interface only when atleast one impl bean exists)
 ```
 
 **@RequestMapping**: Specify endpoint methods.

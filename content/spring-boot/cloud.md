@@ -1,7 +1,7 @@
 +++
 title = "Spring Cloud"
 date = 2022-06-20T08:56:00+05:30
-weight = 11
+weight = 12
 +++
 
 Review: [/microservices](/microservices)

@@ -1,7 +1,7 @@
 +++
 title = "Dockerize"
 date = 2022-11-09T23:00:00+05:30
-weight = 13
+weight = 14
 +++
 
 Spring Boot docker images are large! Building with `jdk` as the base image, a Hello-World app reaches ~200MB easily.
