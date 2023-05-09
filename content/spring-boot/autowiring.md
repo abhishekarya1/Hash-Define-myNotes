@@ -6,9 +6,7 @@ weight = 7
 
 _Refresher_: [/spring-boot/concepts/#ioc-and-di](/spring-boot/concepts/#ioc-and-di)
 
-Reflection based DI, slower than setter or constructor based ones.
-
-Spring always finds Beans and adds them to Proxy, if the Bean is not defined anywhere in our `@ComponentScan` scope then its a compile-time error.
+Spring always finds Beans and adds them to ApplicationContext/Proxy, if the Bean is not defined anywhere in our `@ComponentScan` scope then its a compile-time error.
 
 ## Autowiring Errors
 ### No Qualifying bean of type
@@ -18,6 +16,17 @@ For dependency to eliglible for autowiring, it needs to have a `@Component` or e
 Don't create objects having `@Autowired` dependencies with `new` keyword, Spring won't know that these object exists and won't be able to Autowire the dependency into it, making its value to be `null` and its a Runtime Exception.
 
 It is a good practice never to use `new` to create beans in Spring.
+
+```java
+class MyService{
+	@Autowired
+	MyRepository repo;
+}
+
+class MyController{
+	MyService service = new MyService();	// Spring can't inject MyRepository bean in MyService
+}
+```
 
 _Reference_: https://www.baeldung.com/spring-autowired-field-null
 
@@ -42,7 +51,7 @@ class Main{
 	private AutoService autoService;		// compile-time error
 }
 ```
-### Ambiguity Resolutions
+### Resolving Ambiguity
 - specify service name as `@Autowired` field's name
 - use `@Service("")` along with `@Qualifier("")` to specify more explicitly
 - use `@Primary` on the class which should always be autowired in case of ambiguity unless specified otherwise
@@ -50,10 +59,10 @@ class Main{
 // 1. specify service name as @Autowired field's name
 class Main{
 	@Autowired
-	private AutoService serviceA;		// instance of ServiceA will be autowired
+	private AutoService serviceA;		// instance of ServiceA is injected
 }
 
-// 2. use @Service("foobar") along with @Qualifier("foobar")
+// 2. use @Service("") along with @Qualifier("")
 @Service("foo")
 class ServiceA implements AutoService { }
 
@@ -64,29 +73,29 @@ class Main{
 
 	@Autowired
 	@Qualifier("bar")
-	private AutoService autoService;
+	private AutoService autoService;	// ServiceB is injected
 }
 
 // 3. use @Primary to indicate a default impl
 @Service
+@Primary
 class ServiceA implements AutoService { }
 
 @Service
-@Primary
 class ServiceB implements AutoService { }
 
 class Main{
 
 	@Autowired
-	private AutoService autoService;	// autowires ServiceB
+	private AutoService autoService;	// ServiceA is injected
 }
 
-// if both @Primary and @Qualifier mechanisms are being used, then @Qualifier takes precedence (ofc!)
+// if both @Primary and @Qualifier mechanisms are ambiguous, then @Qualifier takes precedence (ofc!)
 ```
 _Reference_: https://www.baeldung.com/spring-autowire
 
 ### Exceptions to @Component on Interfaces - JPA
-`interfaces` can't have `@Component` or equivalent annotations on them, but there is an exception: the JPA Repositories, they have them:
+`interfaces` can't have `@Component` or equivalent annotations on them, but there is an exception: the JPA Repositories, they can have them on interface, although it is not required at all:
 
 ```java
 @Repository
@@ -94,6 +103,10 @@ public interface UserRepository extends JpaRepository<User,Long> {
     User findByEmail(String email);
 }
 ```
+
+{{% notice info %}}
+Actually, `interface` can also have a `@Component` annotation (useless though) if the implementing class also has it, that is what is happening here. **Keeping interfaces free of any such framework specific annotations is a good practice**.
+{{% /notice %}}
 
 ## Creating custom Beans with @Configuration and @Bean
 We can create custom beans other than the `@Component` mechanism, with `@Configuration` class and `@Bean` annotations:
@@ -113,7 +126,7 @@ The Bean created above will automatically be injected in Spring Proxy since this
 
 ## @Autowired on Setters and Constructors
 
-So far, the most popular way is to autowire/inject a Bean to a field. We can also do setter and constructor based injections (_recommended_):
+So far, the most popular way is to autowire/inject a Bean to a field. But it is Relection based and slower than the other two ways. We can also do setter and constructor based injections (_recommended_):
 
 ```java
 class Main{
