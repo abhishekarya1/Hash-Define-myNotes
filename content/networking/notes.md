@@ -172,13 +172,15 @@ Uses Port 53 over UDP. The closer the DNS server, the better it is because DNS l
 ```txt
 DNS Lookup:
 
-(where is google.com?) --> DNS Resolver --> ROOT (where is TLD server for .com domains?) 
-											  |--> TLD (where is ANS of google?) 
-													 |--> ANS (returns DNS records (incl. IP address) of google.com)
+(where is google.com?) --> DNS Resolver Server (cache) --> ROOT (where is TLD server for .com domains?) 
+											         		|--> TLD (where is ANS of google?) 
+													       	  	  |--> ANS (returns DNS records (incl. IP address) of google.com)
 ```
 ANS (Authoritative Name Server) is our Domain provider itself.
 
-_Reference_: https://aws.amazon.com/route53/what-is-dns/
+_Reference#1_: https://aws.amazon.com/route53/what-is-dns/
+_Reference#2_: https://news.ycombinator.com/item?id=35870654
+
 
 **DNS Records**: ANS can hold additional info like alias for a domain, sub-domains, etc apart from the IP address info.
 
