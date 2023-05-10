@@ -18,7 +18,7 @@ Both the client and the server have to agree on: **a generator** to generate pub
 Steps in TLS 1.2 connection establishment:
 1. [TCP 3-way Handshake](/web-api/http/#3-way-handshake)
 2. Client Hello
-3. Server Hello
+3. Server Hello (cert)
 4. Change cipher spec (Client -> Server)
 5. Change cipher spec (Server -> Client) (ACK; indication that key calc is done on server side)
 6. Client starts sending data (GET request)
