@@ -20,20 +20,23 @@ Steps in TLS 1.2 connection establishment:
 2. Client Hello
 3. Server Hello
 4. Change cipher spec (Client -> Server)
-5. Client starts sending data (GET request)
+5. Change cipher spec (Server -> Client) (ACK; indication that key calc is done on server side)
+6. Client starts sending data (GET request)
 
-Steps 2-4 are called **TLS Handshake** (3-way). In TLS 1.3, there is no step 4, the server sends the _Change cipher spec_ along with _Server hello_ itself (2-way).
+Steps 2-5 are called **TLS Handshake** (4-way). In TLS 1.3, there is no step 4 and 5, _change cipher spec_ is sent along with _Client hello_ and _Server hello_ itself (2-way).
 
 **Client Hello**: lists ciphers client supports, generator (`g`) and partial key (`g^x`) for DH exchange, and other info
 
 **Server Hello**: lists ciphers server supports, TLS certificate, partial key (`g^y`) for DH exchange, and other info like supported HTTP versions ([ALPN](https://en.wikipedia.org/wiki/Application-Layer_Protocol_Negotiation))
 
-There is `ACK` for every step above, and TLS Handshake happens over TLS protocol and not raw TCP.
+TLS Handshake happens over TLS protocol and not raw TCP.
 
-The TLS Handshake can fail if client and the server can't agree on a cipher to use for further communication or certificate validation fails.
+The TLS Handshake can fail if certificate validation fails or the client and the server can't agree on a cipher to use for further communication.
+
+_Additional Links_: https://tls12.xargs.org https://tls13.xargs.org https://subtls.pages.dev
 
 ### TLS Certificate and CA
-The server sends the client a certificate in _Server hello_. 
+The server sends the client a certificate in _Server hello_.
 
 The server had earlier sent its public key to a third-party called Certificate Authority (CA). The certificate contains a **digital signature** and the **public key of the server**. Digital signature is obtained by encrypting public key of the server with private key of the CA. Also, public keys of all major CAs come pre-installed on all OS generally. 
 
