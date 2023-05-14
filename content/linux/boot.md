@@ -13,7 +13,7 @@ weight = 2
 ### 1 - BIOS
 It is a **Firmware** - b/w Hardware and Software.
 
-**BIOS** (Basic Input Output System) - Firmware that identify's hardware, performs a basic sanity check (POST (Power On Self Test)), configures it, and invokes the bootloader. Stores BIOS code on chip, bootloader in MBR.
+**BIOS** (Basic Input Output System) - Firmware that identify's hardware, performs a basic sanity check (POST (Power On Self Test)), configures it, and invokes the bootloader. Stores BIOS code on chip, expects bootloader to be stored in MBR.
 
 **UEFI** (Unified Extensible Firmware Interface) - Created by Intel in 1998 as a successor of BIOS. Uses a specific disk partition for boot (EFI System Partition (ESP)) and uses FAT. On Linux it is located (logical) at `/boot/efi` and files are `.efi`. Stores both UEFI code and bootloader in ESP.
 
@@ -21,7 +21,7 @@ It is a **Firmware** - b/w Hardware and Software.
 
 BIOS looks for Bootloader on disk. It can be a two stage process (1st stage bootloader and 2nd stage bootloader). Bootloader loads Kernel into memory with parameters that can be tweaked.
 
-**Partition table**: Some space on disk that is reserved and contains information about how the partitions are organized and where to load the bootloader from.
+**Partition table**: Some space is reserved on MBR or ESP that contains information about how the partitions are organized and where to load the bootloader from.
 
 - **MBR** (Master Boot Record) - First sector on first partition of the disk (512 Bytes).
 
@@ -43,7 +43,7 @@ Kernel needs a temporary filesystem with core essential drivers to load other dr
 
 Kernel stores all logs in a **kernel ring buffer** (self storing) that can be viewed after booting into the system with `dmesg` command.
 
-**NOTE**: A kernel is also a program afterall! So, it is not uncommon to download and compile the kernel and configure it such that it appears in GRUB menu and we can boot into it.
+**NOTE**: A kernel is also a program afterall! So, it is not uncommon to download and compile the kernel and configure it such that it appears in GRUB menu and we can boot into it specifying parameters too.
 
 ### 4 - init
 

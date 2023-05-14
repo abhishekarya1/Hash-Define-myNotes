@@ -37,14 +37,14 @@ _History_: In UNIX, `/usr` was a users directory (/usr/alice), but in GNU/Linux 
 ### Inodes and Links
 **Index Nodes**: Every file in linux filesystem has a number associated with it called an _inode number_, it is assigned in a sequential order.
 
-All the info about a file is stored in a database called the _inode table_. 
+All the info about a file is stored in a database called the _inode table_.
 
-**Links**: two files can be linked together such that changes to one is reflected back in the original.
+**Links**: two files can be linked together such that changes in data of one is reflected back in the other.
 
 Types:
 
-- **symlink/softlink** creates another file/dir with a different inode number. Link becomes invalid after original is file/dir is deleted. Works somewhat like "shortcuts" in Windows.
-- **hardlink** creates another file/dir with the same inode number (can't create hardlinks to external fs/disks). If linked file is deleted, the original remains unaffected.
+- **symlink/softlink** creates another file/dir with a different inode number but treats it as a link to the original. Link becomes invalid after original is file/dir is deleted. Works somewhat like "shortcuts" in Windows.
+- **hardlink** creates another file/dir with the same inode number (can't create hardlinks to external fs/disks). If original is deleted, the linked file remains unaffected.
 
 ```sh
 # softlink
@@ -59,6 +59,8 @@ $ ls -l
 # unlink
 unlink file2_link
 ```
+
+_A Good Demo_: https://medium.com/@eightlimbed/hard-and-soft-symbolic-links-15eac92fb793
 
 ### Directory Shorthands
 

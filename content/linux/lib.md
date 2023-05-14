@@ -54,7 +54,7 @@ ldconfig
 When a software needs a library, it looks it up in the following order:
 1. LD_LIBRARY_PATH environment variable (env in which program is running)
 2. Programs PATH
-3. `etc/ld.so.conf` (which might load other libraries from `/etc/ld.so.cond.d`)
+3. `etc/ld.so.conf` (which might load other libraries from `/etc/ld.so.conf.d`)
 4. `/lib`, `/lib64`, `/usr/lib`, and `/usr/lib64`
 
 ---

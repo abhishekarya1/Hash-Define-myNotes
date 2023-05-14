@@ -6,14 +6,14 @@ weight = 1
 
 
 ## GNU/Linux
-The Linux is the kernel (created by Linus Torvalds), the rest of the OS is from the GNU Project started by Richard Stallman in 1984.[^1]
+The Linux is the kernel (created by Linus Torvalds in 1991), the rest of the OS is from the GNU Project (started by Richard Stallman in 1984).[^1]
 
 **Key takeaway from GNU Philosophy[^2]**: "_free_" in free software is about the freedom, not the price. It means software that respects users' freedom. Roughly, it means that the users have the freedom to run, copy, distribute, study, change and improve the software. Proprietary software respects none of it, and that's by design.
 
-## Unix
+## Unix & BSD
 A proprietary OS created at AT&T Bell labs by Ken Thompson, Dennis Ritchie, and others. Its philosophy and tools are still used by OS today. 
 
-Many vendors created their own variations because of the vague licencing terms by AT&T, most popular of which are University of California, Berkeley (BSD), Sun Microsystems (SunOS/Solaris), HP/HPE (HP-UX), and IBM (AIX).
+Many vendors created their own variations because of the vague licencing terms by AT&T, most popular of which are University of California, Berkeley (BSD = Berkeley Software Distribution), Sun Microsystems (SunOS/Solaris), HP/HPE (HP-UX), and IBM (AIX).
 
 Today, there exists many OS like **macOS** and **IBM z/OS** that are SUS (Single UNIX Specification) compliant (aka UNIX standard). [The Open Group](https://en.wikipedia.org/wiki/The_Open_Group) (est. 1996) publishes this spec and manages the UNIX trademark.
 
@@ -24,11 +24,11 @@ Linux can also be said to be Unix-like! But it never derived from Unix directly 
 ## Linux Distros
 Distributions of various pre-compiled OS with additional tweaks, tools, and features added.[^3]
 
-Debian based: Debian, Ubuntu, Mint, etc... 
+**Debian based**: Debian, Ubuntu, Mint, etc... 
 
-Arch based: Arch, EndeavourOS, Artix, etc... (rolling upgrades; breaks frequently)
+**Arch based**: Arch, EndeavourOS, Artix, etc... (rolling upgrades; breaks frequently)
 
-Red-Hat based: Red Hat Enterprise Linux (RHEL), Fedora, etc...
+**Red-Hat based**: Red Hat Enterprise Linux (RHEL), Fedora, etc...
 
 OS that use Linux Kernel: Android, ChromeOS
 
