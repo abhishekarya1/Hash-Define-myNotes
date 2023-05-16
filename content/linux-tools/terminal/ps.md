@@ -5,9 +5,9 @@ weight = 6
 +++
 
 ## Jobs
-Jobs are programs only but holds the terminal in which they run "hostage" since they often run for a long time, we can't use the terminal for the period in which they are running in the foreground. We can send them to background, or make them keep running even after the terminal is closed.
+Jobs are programs only but they hold the terminal in which they run "hostage" since they may run for a long time, we can't use the terminal for the period in which they are running in the foreground. We can send them to background, or make them keep running even after the terminal is closed.
 
-`Ctrl + Z` suspends a running program
+`Ctrl + Z` suspends (stops) a running program and sends it to background, such that the terminal is free to be interacted to by the user.
 
 `jobs` list all jobs attached to the current terminal/shell
 
@@ -25,7 +25,7 @@ The `+` in the left side tells us that the job will be acted upon if no number i
 
 `<command> &` run the command in background
 
-`nohup <command>` keep running the command even if the parent terminal is closed
+`nohup <command>` keep running the command even if the parent terminal is closed (no hangup)
 
 `kill %1` kill job number 1; sends a termination request to it (default)
 

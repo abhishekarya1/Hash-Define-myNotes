@@ -53,7 +53,7 @@ Three kinds of `init` on Linux - System V init (`sysv`), Upstart, **Systemd**.
 
 The first process that runs is `init`:
 ```sh
-$ ps -p 1		#to check which init we are using
+$ ps -p 1		#process with PID 1 i.e. init
 ```
 
 ## Devices

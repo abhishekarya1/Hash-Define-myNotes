@@ -71,7 +71,21 @@ $ tar -xf myfile.tar
 -r 
 ```
 
-It can work with tapes and drives too, so we need to specify that we're archiving files or directories using the `-f` flag. So this goes everytime we use this command under normal circumstances.
+![](https://imgs.xkcd.com/comics/tar.png)
+
+{{% notice tip %}}
+The order of parameters matter in the `tar` command, better skip the hyphen (`-`) when specifying them, then order doesn't matter at all.
+{{% /notice %}}
+
+```sh
+$ tar -cfzv foobar.tar foo.txt bar.txt		# error!
+$ tar cfzv foobar.tar foo.txt bar.txt
+```
+
+_Reference_: https://unix.stackexchange.com/questions/239118/does-parameter-order-matter-with-tar
+
+
+`tar` can work with tapes and drives too, so we need to specify that we're archiving files or directories using the `-f` flag. So this goes everytime we use this command under normal circumstances.
 
 It doesn't remove the original file or archive upon archival or extraction respectively, unlike compression (`gzip`, `bzip2`, `xz`) tools above.
 
