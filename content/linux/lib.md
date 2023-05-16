@@ -38,7 +38,7 @@ $ cat /etc/ld.so.conf.d/llvm13-x86_64.conf
 ```
 **How to locate the libs?**: It is a common strategy to place libraries' paths in `/etc/ld.so.conf.d/*.conf` files, and a single config file `/etc/ld.so.conf` can include all those single `.conf` files.
 
-Also, there exists a `ld.so.cache` file that contains symbolic links to all dynamically linked libraries on the system, so that we don't have to traverse `ld.so.config.d` everytime. 
+Also, there exists a `ld.so.cache` file in `/etc` that contains symbolic links to all dynamically linked libraries on the system, so that we don't have to traverse `ld.so.config.d` everytime. 
 
 Every software on the system reads this cache file to look for libraries. We use `ldconfig` command to manage this cache file.
 

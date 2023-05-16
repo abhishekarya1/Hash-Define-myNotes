@@ -53,9 +53,9 @@ _file_type_ above can be `-` (normal file) or `d` (directory). Other types can b
 ### Changing
 `chmod` (change mode) (`o` = other, `u` = user, `g` = group, `a` = all)
 ```txt
+$ chmod +x myfile           adding x permission for ALL users, groups and others
 $ chomod u+r myfile 		adding r permission for the current user only
 $ chmod ug+x myfile			adding x permission for the current user and for whole group
-$ chmod +x myfile           adding x permission for the current user only
 $ chmod a-r myfile 			removing r permission for all users, groups and others
 $ chmod g=rx myfile 		sets rx in group permission and removes write permission
 
