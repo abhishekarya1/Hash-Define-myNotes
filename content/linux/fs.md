@@ -99,11 +99,19 @@ UEFI-GPT allows upto 128 partitions.
 
 | Size | Partition | Mounted at | 
 |:---:|:---:|:---:|
-|  1GB | /sda1  | /boot |
-|  4GB | /sda2  | linux-swap |
-|  10GB | /sda3  | /home |
-|  985GB | /sda4  | / |
+|  1GB   | /dev/sda1  | /boot |
+|  4GB   | /dev/sda2  | linux-swap |
+|  10GB  | /dev/sda3  | /home |
+|  985GB | /dev/sda4  | / |
 
+We can change mountpoints with `mount` and `unmount` commands.
+
+```sh
+$ mount /dev/sda1 /foobar
+
+$ unmount /dev/sda1
+$ unmount /foobar		# same as above
+```
 
 ### Swap Partition
 Used for **virtual memory** aka **paging**. There is a partition called `linux-swap` that can be created for this.
@@ -116,6 +124,24 @@ _Fedora, Android_: uses **zram**: Sets aside temporary space on RAM itself and c
 
 There is no hard & fast rule for deciding on the swap partition size. You can choose any size but do note that swap is not a replacement for RAM as its much slower.
 
+### ext Disk Format
+Linux has an `ext` family of formats unique to it, `ext2`, `ext3`, and `ext4`. Hard disk partitions can be formatted in this format.
+
+Just like `NTFS` on Windows.
+
+### Checking Disk Usage
+
+`du` (show disk usage of a file/dir)
+
+`df` (show free disk space info of partitions)
+
+```sh
+$ du foo
+12 		foo
+
+$ du - h foo		# human readable sizes
+12K 	 foo
+```
 
 ### Tools
 - **CLI**: fdisk, parted, LVM
