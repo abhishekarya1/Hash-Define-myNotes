@@ -50,10 +50,21 @@ The `+` in the left side tells us that the job will be acted upon if no number i
 `ps -p 1` is the first process (PID = 1) that runs on the system. It is nothing but **init**! Either Systemd or SysV.
 {{% /notice %}}
 
+`nice -n 15 <PID>` adjust _niceness_ value of a process (in range `[-20, 19]`; lesser the niceness, more resources will be allowed to be hogged by the process; only `sudo` users can assign a negative niceness to a process)
+
+`renice -n 15 <PID>` reassigning niceness value; see nice value in `NI` field of the `top` or `ps` command output
+
+run programs/commands with a niceness value set:
+```sh
+$ ls				# niceness = 0 (default)
+$ nice ls			# niceness = 10
+$ nice -n 1 ls		# niceness = 1
+```
+
 ## Terminal Multiplexing
 It is a technique used to create multiple terminals in a primary one. We can detach (a lot like `bg`), reattach, and split terminals.
 
-`screen` treat the current terminal as a screen; press `Enter` and you'll notice no difference but we can press shortcuts now
+`screen` launches the current terminal as a _"screen"_; press `Enter` and you'll notice no difference but we can press shortcuts now
 
 `Ctrl + A` `D`: detach; create a new screen
 
