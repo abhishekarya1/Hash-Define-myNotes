@@ -9,7 +9,7 @@ weight = 16
 2. Needs at least Java 17 (we can use `records` now for POJOs)
 3. All the components marked `@Deprecated` in Spring Boot 2.x are removed from the code
 4. Jump from Java EE to Jakarta EE9: `javax.*` packages are now `jakarta.*`.
-5. URL pattern matching changed. URLs terminated with slash (`localhost:8080/foo/`) no longer redirect to non-terminating with slash ones (`localhost:8080/foo`) and vice-versa. [link](/spring-boot/rest/#slash-terminated-urls)
+5. URL pattern matching changed. URLs terminated with slash (`localhost:8080/foo/`) no longer redirect to non-terminating with slash (_"normal"_) ones (`localhost:8080/foo`). [link](/spring-boot/rest/#slash-terminated-urls-in-spring-boot-30)
 
 **Additions/Improvements**:
 1. Spring Native (AoT image generation with GraalVM and Maven Build Plugin) (without the need for any third-party dependency)
