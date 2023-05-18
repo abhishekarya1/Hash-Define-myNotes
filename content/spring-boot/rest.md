@@ -193,7 +193,7 @@ void demo(){ }
 void demo(){ }
 ```
 
-Since Java is compiled, the methods are statically bound to the routes and two methods can't have an identical route:
+The methods are statically bound to the routes and two methods can't have an identical route (obviously!):
 ```java
 @GetMapping("/foo")
 void demo(){ }
