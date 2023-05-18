@@ -207,15 +207,15 @@ URL pattern matching was changed in Spring Boot version 3.0.
 URLs terminated with slash (`localhost:8080/foo/`) no longer redirect to non-terminating with slash (_"normal"_) ones (`localhost:8080/foo`).
 ```java
 // Spring Boot 2.x
-@GetMapping("foo")		// accessible on - "localhost:8080/foo" and "localhost:8080/foo/"
+@GetMapping("foo")		// accessible on - "localhost:8080/foo" and "localhost:8080/foo/" (Spring redirects it to the former)
 void demo(){ }
 
 // Spring Boot 3.x
-@GetMapping("foo")		// accessible only on - "localhost:8080/foo" and NOT "localhost:8080/foo/" (Spring redirects it to above one)
+@GetMapping("foo")		// accessible only on - "localhost:8080/foo" and NOT "localhost:8080/foo/"
 void demo(){ }
 
 
-// if we specify slash explicitly in path of URL, then its mandatory (both Spring Boot 2.x and 3.x)
+// if we specify slash explicitly in the Controller, then its mandatory in the URL (both Spring Boot 2.x and 3.x)
 @GetMapping("foo/")		// only accessible on - "localhost:8080/foo/"
 void demo(){ }
 
