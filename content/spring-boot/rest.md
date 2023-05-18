@@ -67,10 +67,10 @@ public void user(@RequestParam("userId") String user){ }
 
 // alt syntax
 @RequestParam(name = "userId") String user
-@RequestParam String user 						// query key should be "user"
-@RequestParam(required = false) String user 		// it is required by default and absence leads to error
+@RequestParam String user 						// query key should be "user"; it is required by default and absence leads to error
+@RequestParam(required = false) String user 	// user can be skipped but it will take value as "null"
+@RequestParam(required = false, defaultValue = "99") Integer userId 	// we can set a default value too
 ```
-
 
 **@PathVariable**: Pickup value from URL path.
 ```java
@@ -81,15 +81,19 @@ public String showUser(@PathVariable String id) { }
 public String showUser(@PathVariable("id") String uid) { }
 
 // we can have multiple path variables too
+@GetMapping("/user/{id}/demo/{age}")
+public String showUser(@PathVariable String id, @PathVariable Integer age) { }
 ```
 
 **@RequestBody** and **@ResponseBody**: To perform automatic serialization/deserialization of POJO/JSON.
 ```java
+@PostMapping
 public @ResponseBody Course saveCourse(@RequestBody Course course){
 	return repository.save(course);
 }
 
 // alt syntax
+@PostMapping
 @ResponseBody
 public Course saveCourse(@RequestBody Course course){
 	return repository.save(course);
@@ -97,6 +101,16 @@ public Course saveCourse(@RequestBody Course course){
 ```
 
 Remember, `@RestController` = `@Controller` + `@ResponseBody` on every method. So we don't need _@ResponseBody_ on methods if we use _@RestController_ on class.
+
+We can specify `produces` and `consumes` and the HTTP content negotiation uses the values specified:
+```java
+@PostMapping(produces = "application/json", consumes = "application/xml")
+public JSONObj xmlToJsonConverter(@RequestBody XMLObj xmlObj){
+	return service.convert(xmlObj);
+}
+```
+
+The `Content-Type` header should be present on the incoming request and needs to match `produces` value otherwise error and upon sending the error (415 Unsupported Media Type) response we will attach an `Accept` header with the `consumes` value.
 
 **@RequestHeader**: Get value of request header.
 ```java
@@ -114,7 +128,7 @@ void teaPot() {}
 
 **Consider all of the stuff mentioned above as `required = true` unless specified otherwise explicitly by the programmer**.
 
-## Entity<>
+## Entity<> Objects
 We can also serialize/deserialize to specialized `Entity<>` generic classes that provide methods to extract headers, body, status code, etc... They often use/return other companion classes like `HttpHeaders`, `HttpStatus`, `URI`, etc...
 
 ```java
@@ -122,14 +136,14 @@ HttpEntity<POJO> he   // can be used as both request and response
 he.getBody();
 he.getHeaders();
 
-ResponseEntity<POJO> res  	// use as method return type only; otherwise error
+ResponseEntity<POJO> res  	// use as method return type only; otherwise error; extends HttpEntity<>
 res.getBody();
 res.getStatusCode();
 res.getStatusCodeValue();
 res.getHeaders();
 
 // often used with restTemplate to form request to send
-RequestEntity<POJO> req 	// use as method argument only; otherwise error
+RequestEntity<POJO> req 	// use as method argument only; otherwise error; extends HttpEntity<>
 res.getBody();
 res.getMethod();
 res.getType();
@@ -141,7 +155,7 @@ res.getHeaders();
 ResponseEntity<String> getMethod(RequestEntity<String> req){  }
 ```
 
-## Returning Status Code
+## HTTP Status Codes
 ```java
 // first way
 @ResponseStatus(HttpStatus.CREATED)
@@ -150,4 +164,31 @@ ResponseEntity<String> getMethod(RequestEntity<String> req){  }
 ResponseEntity<Foobar> res = new ResponseEntity<>();
 res.setStatusCode(HttpStatus.CREATED);
 return res;
+```
+
+## Routing
+
+For CORS, `OPTIONS` is always available on all endpoints even if we don't specify it anywhere. 
+
+```java
+@GetMapping({"foo", "bar"})		// multiple routes, single handler method
+String sayHello(){
+    return "Hello!";
+}
+
+
+@GetMapping()			// only accessible on - localhost:8080
+String sayHello(){
+    return "Hello!";
+}
+
+@GetMapping("")			// same as above
+String sayHello(){
+    return "Hello!";
+}
+
+@GetMapping("/")		// only accessible on - localhost:8080/
+String sayHello(){
+    return "Hello!";
+}
 ```
