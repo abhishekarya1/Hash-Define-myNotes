@@ -171,24 +171,21 @@ return res;
 For CORS, `OPTIONS` is always available on all endpoints even if we don't specify it anywhere. 
 
 ```java
-@GetMapping({"foo", "bar"})		// multiple routes, single handler method
-String sayHello(){
-    return "Hello!";
-}
+@GetMapping("foo")
+void demo(){ }
 
+@GetMapping("/foo")		// same as above; recommended way
+void demo(){ }
+
+@GetMapping({"/foo", "/bar"})		// multiple routes, single handler method
+void demo(){ }
 
 @GetMapping()			// only accessible on - localhost:8080
-String sayHello(){
-    return "Hello!";
-}
+void demo(){ }
 
 @GetMapping("")			// same as above
-String sayHello(){
-    return "Hello!";
-}
+void demo(){ }
 
 @GetMapping("/")		// only accessible on - localhost:8080/
-String sayHello(){
-    return "Hello!";
-}
+void demo(){ }
 ```
