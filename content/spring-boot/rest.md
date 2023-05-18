@@ -192,3 +192,16 @@ void demo(){ }
 @GetMapping("/")		// only accessible on - "localhost:8080/" (same concept as above)
 void demo(){ }
 ```
+
+Since Java is compiled, the methods are statically bound to the routes and two methods can't have an identical route:
+```java
+@GetMapping("/foo")
+void demo(){ }
+
+@GetMapping("/foo")			// identical path mapping; error on server startup
+void anotherDemo(){ }
+
+// will be allowed if there is another distinguishing factor like "produces" or "consumes" parameter
+```
+
+_Reference_: https://www.baeldung.com/spring-requestmapping
