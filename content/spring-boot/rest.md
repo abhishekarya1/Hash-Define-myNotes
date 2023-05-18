@@ -185,12 +185,6 @@ void demo(){ }
 
 @GetMapping("")			// same as above
 void demo(){ }
-
-@GetMapping("foo/")		// only accessible on - "localhost:8080/foo/" and not on "localhost:8080/foo" (obviously!)
-void demo(){ }
-
-@GetMapping("/")		// only accessible on - "localhost:8080/" (same concept as above)
-void demo(){ }
 ```
 
 The methods are statically bound to the routes and two methods can't have an identical route (obviously!):
@@ -205,3 +199,26 @@ void anotherDemo(){ }
 ```
 
 _Reference_: https://www.baeldung.com/spring-requestmapping
+
+
+### Slash terminated URLs in Spring Boot 3.0
+URL pattern matching was changed in Spring Boot version 3.0. 
+
+URLs terminated with slash (`localhost:8080/foo/`) no longer redirect to non-terminating with slash (_"normal"_) ones (`localhost:8080/foo`).
+```java
+// Spring Boot 2.x
+@GetMapping("foo")		// accessible on - "localhost:8080/foo" and "localhost:8080/foo/"
+void demo(){ }
+
+// Spring Boot 3.x
+@GetMapping("foo")		// accessible only on - "localhost:8080/foo" and NOT "localhost:8080/foo/" (Spring redirects it to above one)
+void demo(){ }
+
+
+// if we specify slash explicitly in path of URL, then its mandatory (both Spring Boot 2.x and 3.x)
+@GetMapping("foo/")		// only accessible on - "localhost:8080/foo/"
+void demo(){ }
+
+@GetMapping("/")		// only accessible on - "localhost:8080/" (same concept as above)
+void demo(){ }
+```
