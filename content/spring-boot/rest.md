@@ -174,18 +174,21 @@ For CORS, `OPTIONS` is always available on all endpoints even if we don't specif
 @GetMapping("foo")
 void demo(){ }
 
-@GetMapping("/foo")		// same as above; recommended way
+@GetMapping("/foo")		// same as above; this is the recommended way
 void demo(){ }
 
 @GetMapping({"/foo", "/bar"})		// multiple routes, single handler method
 void demo(){ }
 
-@GetMapping()			// only accessible on - localhost:8080
+@GetMapping()			// only accessible on - "localhost:8080"
 void demo(){ }
 
 @GetMapping("")			// same as above
 void demo(){ }
 
-@GetMapping("/")		// only accessible on - localhost:8080/
+@GetMapping("foo/")		// only accessible on - "localhost:8080/foo/" and not on "localhost:8080/foo" (obviously!)
+void demo(){ }
+
+@GetMapping("/")		// only accessible on - "localhost:8080/" (same concept as above)
 void demo(){ }
 ```
