@@ -222,3 +222,5 @@ void demo(){ }
 @GetMapping("/")		// only accessible on - "localhost:8080/" (same concept as above)
 void demo(){ }
 ```
+
+_Reference_: https://www.baeldung.com/spring-boot-3-url-matching
