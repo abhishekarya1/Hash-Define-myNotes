@@ -56,4 +56,5 @@ Some pipeline steps can run in parallel too, each on a separate agent or all on 
 
 ### References
 - https://www.jenkins.io/doc/book/
-- [TechWorld with Nana - YouTube Playlist](https://www.youtube.com/playlist?list=PLy7NrYWoggjw_LIiDK1LXdNN82uYuuuiC)
+- TechWorld with Nana - [YouTube](https://www.youtube.com/playlist?list=PLy7NrYWoggjw_LIiDK1LXdNN82uYuuuiC)
+- Learn Jenkins! Complete Jenkins Course - Zero to Hero - [YouTube](https://youtu.be/6YZvp2GwT0A)
