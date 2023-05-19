@@ -80,8 +80,8 @@ Use **shorthands** to refer to commits insted of actual hash:
 HEAD 		latest commit in the current branch
 
 HEAD^ 		parent of last commit in current branch
-HEAD^^ 		parent of parent of last commit in current branch
 HEAD~ 		same as above
+HEAD^^ 		parent of parent of last commit in current branch
 
 HEAD~1 		same as above
 HEAD~2 		parent of parent of last commit in current branch
@@ -89,10 +89,14 @@ HEAD~n 	 	jump to nth commit from HEAD
 ```
 
 ### Undoing Stuff
-Deleting all local commits till `commit_hash` (`commit_hash` not included). Default is `HEAD` when no `commit_hash` is specified in below commands.
+Deleting all local commits till `commit_hash` (`commit_hash` not included). 
+
+Default is `HEAD` when no `commit_hash` is specified in below commands.
 
 When files are **not pushed** to remote yet:
 ```sh
+# git commit --amend (see above section)
+
 # Undoing before staging = make file as-in latest commit (can use "git reset --hard" too)
 $ git checkout <file/dir>
 
