@@ -83,7 +83,7 @@ HEAD^ 		parent of last commit in current branch
 HEAD~ 		same as above
 HEAD^^ 		parent of parent of last commit in current branch
 
-HEAD~1 		same as above
+HEAD~1 		parent of last commit in current branch
 HEAD~2 		parent of parent of last commit in current branch
 HEAD~n 	 	jump to nth commit from HEAD
 ```
