@@ -46,7 +46,7 @@ Multi-branch pipeline		trigger builds for multiple branches
 ```txt
 Build after		build after other projects are built
 Poll 			Jenkins checks the repo for new commits
-Push			push notification is sent from Git on a new commit, uses GitHub hook
+Push			push notification is sent from Git on a new commit, uses webooks on GitHub repo
 Periodic		Jenkins builds repo at regular intervals; even if there are no new commits
 ```
 Some pipeline steps can run in parallel too, each on a separate agent or all on the same one too.

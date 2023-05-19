@@ -80,6 +80,7 @@ Use **shorthands** to refer to commits insted of actual hash:
 HEAD 		latest commit in the current branch
 
 HEAD^ 		parent of last commit in current branch
+HEAD^^ 		parent of parent of last commit in current branch
 HEAD~ 		same as above
 
 HEAD~1 		same as above
@@ -171,10 +172,13 @@ $ git pull
 $ git push
 ```
 
-**NOTE**: When we `push` a local branch, the changes in other branches are not automatically pushed to their respective upstreams i.e. push's scope is "per branch" only. 
+We can't take a `pull` if we have uncommitted changes in our local branch. Always commit local changes first and then take a `pull` from other local branch or from remote branch.
 
-For `pull`, changes are `fetch`ed for all branches on a `pull` in any branch but never applied to files in other branches, unless a `merge` or a `pull` is manually done in them too.
+{{% notice note %}}
+When we `push` a local branch to remote, the changes in other branches are not automatically pushed to their respective upstreams i.e. push's scope is "per branch" only.
 
+For `pull` from remote, changes are `fetch`ed for all branches on a `pull` in any branch but never applied to files in other branches, unless a `merge` or a `pull` is manually done in them too.
+{{% /notice %}}
 
 ### Tags
 Uniquely named points in Git. We can `checkout` to a tag quickly when needed.
@@ -218,10 +222,6 @@ $ git branch -d <branchname>
 # Deleting using above won't delete branches from remote, use below to do so
 $ git push -d <branchname>
 ```
-```sh
-# Go to a previous commit (detached head state)
-$ git checkout <hash>
-```
 
 Newer `git switch` command (as an alternative to `git checkout`):
 ```sh
@@ -240,6 +240,19 @@ $ git branch foo <commit_hash>
 # when we use branch command without the <commit_hash>, HEAD is passed as default
 ```
 
+### Exploring
+```sh
+# Go to a previous commit (detached head state)
+$ git checkout <hash>
+
+# to get out of detached head state
+$ git checkout -
+# or
+$ git checkout <branchname>
+```
+
+We can explore files in this state or branch out from the current commit.
+
 ### Merging
 
 **Fast-forward merge**: if the commit we are merging can be just picked up and moved to our current position
@@ -249,6 +262,10 @@ $ git branch foo <commit_hash>
 **3-way merge**: find a common ancestor of the commit we're merging and current state and create a new commit merging the two histories together  (_merge commit_) (this leads to **merge conflicts**)
 
 ![3-way merge diagram](https://i.imgur.com/HtsPWLT.png)
+
+{{% notice note %}}
+In browser's commit history tab, all the commits from both the branches appear chronologically as if they are from a single branch, this is done to simplify viewing the history, but when we click on Merge Commit's details, we will see that it has two parent, one from _yellow_ branch and one from _blue_ branch.
+{{% /notice %}}
 
 _Reference_: https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
 
@@ -299,14 +316,16 @@ $ git stash
 $ git stash list
 # Apply stash (apply but don't remove stash from list)
 $ git stash apply stash@{0}
-# git stash pop (apply stash and then remove it, if conflict then don't remove)
+# git stash pop (apply latest stash and then remove it, if merge conflict then don't remove)
+$ git stash pop
+# git stash pop (apply a stash and then remove it, if merge conflict then don't remove)
 $ git stash pop stash@{2}
 # remove all stashes
 $ git stash clear
 ```
 
 ### RefLogs
-Git keeps a _local only_ **Reference Log** for every updates to the tip of branches in `.git/logs/` directory, it is _ephemeral_ though (erased after a few weeks). 
+Git keeps a _local only_ **Reference Log** for every updates to the tip of branches in `.git/logs/` directory, it is _ephemeral_ though (erased after a few weeks).
 
 The `git reflog` shows an undo history of every update to `HEAD` (when a new commit is made or we "jump to" (checkout) to another branch), rather than show us the ancestry of the current `HEAD` commit (which `git log` does). 
 
@@ -357,6 +376,29 @@ We can also pull only a bare version of a non-bare repo, or push a non-bare one'
 `git bundle` - share all data that we push typically, as a binary file (even offline) with another person, who can then "unbundle" that binary file in their repo
 
 **Handling large files**: We can clone a _shallow_ version of the repo and clone only a single branch to save network and time overhead.
+
+`git diff` - shows difference between files
+```sh
+# between working dir and the index (same as "git status -vv")
+$ git diff
+
+# between the index and the most recent commit
+$ git diff --staged
+# or
+$ git diff --cached
+
+# between working dir and the most recent commit (most useful!)
+$ git diff HEAD
+
+# between local and upstream branch
+$ git diff origin/foo foo
+
+# between local and upstream branch for a single file
+$ git diff origin/foo foo file.txt
+
+# between two commits
+$ git diff <commit_hash1> <commit_hash2>
+```
 
 ## References
 [Pro Git - Book](https://git-scm.com/book/en/v2) 

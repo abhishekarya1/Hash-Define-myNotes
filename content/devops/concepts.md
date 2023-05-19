@@ -28,3 +28,11 @@ A set of practices combining software _development_ and IT _operations_. It aims
 **Continuous Deployment** (sometimes uesd for CD): approach in which software is deployed more often using automated deployments. Deployment to prod env is fully automated here.
 
 Reference: Wikipedia Articles
+
+
+### DevSecOps
+Integrating security into every stage of SDLC. Security practices spans both development and operations in DevSecOps.
+
+Tools - Sonarqube, Veracode, Twistlock, etc...
+
+![](https://i.imgur.com/6whOnso.png)
