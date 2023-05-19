@@ -80,8 +80,8 @@ Use **shorthands** to refer to commits insted of actual hash:
 HEAD 		latest commit in the current branch
 
 HEAD^ 		parent of last commit in current branch
-HEAD^^ 		parent of parent of last commit in current branch
 HEAD~ 		same as above
+HEAD^^ 		parent of parent of last commit in current branch
 
 HEAD~1 		same as above
 HEAD~2 		parent of parent of last commit in current branch
