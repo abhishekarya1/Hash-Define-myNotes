@@ -313,13 +313,14 @@ $ git checkout --ours <file/dir>
 Rebasing branches **rewrites commit history** and it is thus not recommeneded to rebase commits that are already pushed to remote!
 {{% /notice %}}
 
+![rebase_0](https://i.imgur.com/CBxC74M.png)
+
 ```sh
 # rebase "feature" branch onto "master" branch
 $ git checkout feature
 $ git rebase master
 ```
 
-![rebase_0](https://i.imgur.com/CBxC74M.png)
 ![rebase_1](https://i.imgur.com/Y3UKdlZ.png)
 
 The 3 commits of the `feature` branch are deleted and then re-created (with different _commit_hash_); and then reconnected after the latest commit of the `master` branch.
