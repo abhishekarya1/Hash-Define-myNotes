@@ -71,6 +71,8 @@ $ git log
 $ git log --all
 # Show logs in an ASCII graph
 $ git log --graph
+# Show each logs in a single line
+$ git log --oneline
 ```
 
 All commits have a SHA-1 checksum hash. It is proven to **not** be collision resistant anymore but probabilty is really low. Use first few digits of the hash to uniquely identify a commit.
@@ -121,6 +123,10 @@ $ git restore <file/dir>
 
 # unstaging
 $ git restore --staged <file/dir>
+
+
+# if the commits we deleted with reset were already pushed to remote, we can do a force push (very bad practice!)
+$ git push -f
 ```
 
 When files are **already pushed** to remote:
@@ -131,7 +137,7 @@ $ git revert HEAD
 $ git revert <hash> 
 ```
 
-Revert will add a "revert commit" that will show in commit history that we've reverted to a previous version. Reset adds no such commit.
+Revert will add a "revert commit" that will show in commit history that we've reverted to a previous version. Reset adds no such commit (it _rewrites_ the history).
 
 ### Remote
 Remote is nothing but a repository that's not on our system. We can specify which branch of remote we should push to, etc...
@@ -258,17 +264,17 @@ $ git checkout <branchname>
 We can explore files in this state or branch out from the current commit.
 
 ### Merging
-
-**Fast-forward merge**: if the commit we are merging can be just picked up and moved to our current position
+**Fast-forward merge**: if there are no changes to the `master` branch since we branched off from it, then the master ref can be just picked up and placed on the latest (`HEAD`) of feature branch, if `master` pulls `feature`.
 
 ![ff merge diagram](https://i.imgur.com/J1ARDT5.png)
 
-**3-way merge**: find a common ancestor of the commit we're merging and current state and create a new commit merging the two histories together  (_merge commit_) (this leads to **merge conflicts**)
+**3-way merge**: find a common ancestor of the commit we're merging and current state and create a new commit merging the two histories together  (_merge commit_) (this may lead to **merge conflicts**)
 
-![3-way merge diagram](https://i.imgur.com/HtsPWLT.png)
+When `feature` pulls `master` (to make it up-to-date before raising a PR):
+![3-way merge diagram](https://i.imgur.com/7JTTtXj.png)
 
 {{% notice note %}}
-In browser's commit history tab, all the commits from both the branches appear chronologically as if they are from a single branch, this is done to simplify viewing the history, but when we click on Merge Commit's details, we will see that it has two parent, one from _yellow_ branch and one from _blue_ branch.
+In browser's commit history tab, all the commits from both the branches appear chronologically as if they are from a single branch, this is done to simplify viewing the history, but when we click on Merge Commit's details, we will see that it has two parent, one from `master` branch and one from `feature` branch.
 {{% /notice %}}
 
 _Reference_: https://git-scm.com/book/en/v2/Git-Branching-Basic-Branching-and-Merging
@@ -301,16 +307,28 @@ $ git checkout --ours <file/dir>
 ```
 
 ### Rebasing
-Rebasing branches **rewrites commit history** and it is thus not recommeneded to rebase repositories that are already shared with others.
+**Concept**: instead of performing a 3-way merge and creating a _merge commit_ in the process, we can just move all the commits of one branch onto the other as if they happened sequentially; essentially "rebasing" commits after the latest commit of the other branch.
 
-**Concept**: instead of performing a 3-way merge by creating a merge commit, we can just move the "base" of the branch (B) (a commit where it stemmed out from another branch(B)) to extend the `HEAD` of branch A. 
+{{% notice warning %}}
+Rebasing branches **rewrites commit history** and it is thus not recommeneded to rebase commits that are already pushed to remote!
+{{% /notice %}}
+
 ```sh
-# rebase "experiment" branch onto "master" branch
-$ git checkout experiment
+# rebase "feature" branch onto "master" branch
+$ git checkout feature
 $ git rebase master
 ```
 
-![rebase diagram](https://i.imgur.com/K2Vh8na.png)
+![rebase_0](https://i.imgur.com/CBxC74M.png)
+![rebase_1](https://i.imgur.com/Y3UKdlZ.png)
+
+The 3 commits of the `feature` branch are deleted and then re-created (with different _commit_hash_); and then reconnected after the latest commit of the `master` branch.
+
+{{% notice tip %}}
+We often rebase to make current branch up-to-date with the master branch and keep commit graph linear (clean). Avoid rebasing any commits the are already pushed to remote (public) since rebase rewrites history and we might need to do a `git push -f` (_not a good practice_).
+
+Imagine what catastrophe could happen if we rebase `master` onto `feature` !
+{{% /notice %}}
 
 ### Stashing
 ```sh
