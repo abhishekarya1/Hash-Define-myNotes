@@ -307,7 +307,7 @@ $ git checkout --ours <file/dir>
 ```
 
 ### Rebasing
-**Concept**: instead of performing a 3-way merge and creating a _merge commit_ in the process, we can just move all the commits of one branch onto the other as if they happened sequentially; essentially "rebasing" commits after the latest commit of the other branch.
+**Concept**: instead of performing a 3-way merge and creating a _merge commit_ in the process, we can just "replay" all the commits of one branch onto the other as if they happened sequentially; essentially "rebasing" commits after the latest commit of the other branch.
 
 {{% notice warning %}}
 Rebasing branches **rewrites commit history** and it is thus not recommeneded to rebase commits that are already pushed to remote!
