@@ -9,7 +9,7 @@ pre = "<i class=\"devicon-docker-plain colored\"></i> "
 VMs are bulky, take up more RAM and compute power, not easy to hop VMs too inorder to test.
 Docker is a platform to run your apps in virtualized environments. Decoupled from and independent of base OS.
 
-**Containers**: Lightweight standalone runtime environment having only parts of the “full” kernel. Ex - Docker, LXC, etc… Kernel is “trimmed down” and contains only libraries and tools required for a specfic use case.
+**Containers**: Lightweight standalone runtime environment having only parts of the "full" kernel. Ex - Docker, LXC, etc… Kernel is "trimmed down" and contains only libraries and tools required for a specfic use case.
 
 ![](https://i.imgur.com/prJGvDM.png)
 
@@ -35,6 +35,8 @@ _Reference_: [/linux/virtual/#virtualization](/linux/virtual/#virtualization)
 - **Docker CLI**: Client (`docker`) - communicates with Docker Daemon via REST API, thus client can be remote too
 - **Docker Engine**: Docker Daemon (`dockerd`) -> Runtime (`containerd`, `runc`)
 - **Docker Registry**: stores images 
+
+![](https://i.imgur.com/eiG5eWO.png)
 
 **Image**: Blueprint on how to create a container 
 
@@ -70,10 +72,10 @@ Flags on run command:
 -e env_var=VALUE                set environment variable in container
 
 $ docker run -it <name> command
-Run and execute command in container
+Run and execute command in container; keep container terminal open for interaction
 
 $ docker exec -it <name> command
-Execute command in a running container
+Execute command in a running container; keep container terminal open for interaction
 
 $ docker stop <name or ID>
 Stop a container sending SIGTERM
@@ -138,7 +140,7 @@ Multiple images can have same ID but different names if they're just copy of eac
 
 ```txt
 $ docker tag <source> <target>
-Create a new image from source but with a different tag (both have same IDs)
+Rename image - create a new image from source but with a different tag (both have same IDs)
 
 $ docker rmi <name>
 Remove image
@@ -189,9 +191,9 @@ If Dockerfile has the exact same CMD as ENTRYPOINT, then argument will be taken 
 
 **Overriding Entrypoint of Dockerfile w/ terminal command flag**:
 ```txt
-$ docker run --entrypoint foo myapp main.py
+$ docker run --entrypoint java myapp my.jar
 
-overrides entrypoint specified in Dockerfile to run "foo" executable in container
+overrides ENTRYPOINT specified in Dockerfile to run "java" in container; and then take "my.jar" as param
 ```
 
 _Cheatsheet_: https://kapeli.com/cheat_sheets/Dockerfile.docset/Contents/Resources/Documents/index
@@ -199,7 +201,7 @@ _Cheatsheet_: https://kapeli.com/cheat_sheets/Dockerfile.docset/Contents/Resourc
 _Sample_: https://github.com/abhishekarya1/docker-test-app/blob/master/Dockerfile
 
 ### Networking
-- **Bridge network** (_default_): All containers share a single network (bridge) inside host's network (ports can be forwared to access app inside container)
+- **Bridge network** (_default_): Multiple networks inside host's network (ports can be forwared to access app inside container (_bridge_))
 - **None**: Every container as well as host are isolated (`--network=none`)
 - **Host**: Host and all containers operate on same network (i.e. host's) (`--network=host`)
 
@@ -225,7 +227,7 @@ When exposing port of container to host using `-p hostPort:containerPort` is not
 - `inspect` a container to identify network config.
 
 ### Storage
-Data on a container is ephemerous. We often copy files to/from container and host.
+Data on a container is ephemeral. We often copy files to/from container and host.
 
 ```txt
 $ docker cp CONTAINER_NAME:SOURCE_PATH TARGET_PATH
@@ -246,7 +248,7 @@ Volumes are stored in the host's filesystem in `/volumes/<volume_name>` dir in t
 ```txt
 $ docker volume create foobar
 
-/var/lib/docker/foobar is created on host filesystem
+/var/lib/docker/volumes/foobar is created on host filesystem
 ```
 1) **Volume mount** (if mounting from `var/lib/docker/volumes/foobar`) i.e. if a volume is to be mounted
 ```txt
@@ -277,7 +279,7 @@ version: "2"
 
 services:
     foo:                                # custom service name
-        build: ./foo                    # build from "foo" dir
+        build: ./foo                    # build image from "foo" dir (needs Dockerfile present there)
         command: python app.py          # override CMD and ENTRYPOINT from Dockerfile
         ports:
             - 8080:5000                 # host:container (port mapping)
@@ -321,11 +323,14 @@ $ docker compose logs -f foo
 see logs from container "foo"
 ```
 
+**Important Distinction**:
+- `Dockerfile` - how to build an image
+- `docker-compose.yml` - how to configure and run containers
 
 ### Container Orchestration
 Creating multiple containers across multiple hosts, managing them, scaling up or down acc to load.
 
-Ex - Docker swarm, Kubernetes (k8s), etc...
+Ex - Docker Swarm, Kubernetes (k8s), etc...
 
 ### References
 - https://docs.docker.com/get-started/overview/
