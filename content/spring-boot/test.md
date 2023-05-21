@@ -382,9 +382,12 @@ public class IntegrationTest{
 ```
 
 ### Testcontainers
-Used to write Integration tests, use Database Migration like Flyway to populate database container.
+Used to write Integration tests.
 
 Create ephemeral external dependencies like databases, MQs, etc.. for test purposes. Pulls Docker images and runs containers for test scope & duration, needs Docker pre-installed on the system to work.
+
+Use Database Migration like Flyway to populate database container, or use an init `.sql` file containing queries to populate container DB [(link)](https://www.testcontainers.org/modules/databases/jdbc).
+
 
 ```java
 @SpringBootTest	
