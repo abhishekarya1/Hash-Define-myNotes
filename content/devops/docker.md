@@ -156,7 +156,7 @@ Images (child) can be made from other images (base), so when we pull one image i
 
 ### DockerHub
 ```txt
-$ docker login
+$ docker login [-u <username> -p <password>]
 username isn't inferred in the below commands even after login
 
 $ docker pull username/name[:version]		
