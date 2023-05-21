@@ -386,10 +386,6 @@ Used to write Integration tests.
 
 Create ephemeral external dependencies like databases, MQs, etc.. for test purposes. Pulls Docker images and runs containers for test scope & duration, needs Docker pre-installed on the system to work.
 
-**How to populate container DB with data**:
-- use Database Migration like Flyway to populate database container (name is misleading; its just runs `.sql` scripts to create schema, populate data, etc...) ([link](https://stackoverflow.com/questions/57602306/how-to-use-flyway-to-migrate-data-from-one-db-to-another-db))
-- or use an init `.sql` file containing queries to populate container DB ([link](https://www.testcontainers.org/modules/databases/jdbc)).
-
 ```java
 @SpringBootTest	
 @Testcontainers
@@ -428,6 +424,10 @@ public class MyTest{
 ```
 
 We can also externalize common container configs to another class too.
+
+**How to populate container DB with data**:
+- use Database Migration like Flyway to populate database container (name is misleading; its just runs `.sql` scripts to create schema, populate data, etc...) ([link](https://stackoverflow.com/questions/57602306/how-to-use-flyway-to-migrate-data-from-one-db-to-another-db))
+- or use an init `.sql` file containing queries to populate container DB ([link](https://www.testcontainers.org/modules/databases/jdbc)).
 
 https://www.testcontainers.org
 
