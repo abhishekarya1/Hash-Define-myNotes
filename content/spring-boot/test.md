@@ -412,7 +412,7 @@ public class MyTest{
 ```
 
 
-**JDBC URL Short Form**: Just define a database JDBC URL like below and all container related stuff will be taken care of, no need for testcontainer realted annotations too!
+**JDBC URL Short Form**: Just define a database JDBC URL like below and all container related stuff will be taken care of, no need for testcontainer related annotations too!
 ```java
 @SpringBootTest	
 @TestPropertySource(properties = {
@@ -426,8 +426,8 @@ public class MyTest{
 We can also externalize common container configs to another class too.
 
 **How to populate container DB with data**:
-- use Database Migration like Flyway to populate database container (name is misleading; its just runs `.sql` scripts to create schema, populate data, etc...) ([link](https://stackoverflow.com/questions/57602306/how-to-use-flyway-to-migrate-data-from-one-db-to-another-db))
-- or use an init `.sql` file containing queries to populate container DB ([link](https://www.testcontainers.org/modules/databases/jdbc)).
+- use Database Migration like Flyway to populate database container (name is misleading; its just runs `.sql` scripts to create schema, populate data, etc...) [[_clarification_](https://stackoverflow.com/questions/57602306/how-to-use-flyway-to-migrate-data-from-one-db-to-another-db), [_tutorial_](https://youtu.be/q5pfc_bFK-Y)]
+- or use an init `.sql` file containing queries to populate container DB, this file is run automatically by Testcontainers dependency [[_link_](https://www.testcontainers.org/modules/databases/jdbc)]
 
 https://www.testcontainers.org
 
