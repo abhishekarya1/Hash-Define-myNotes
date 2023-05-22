@@ -165,3 +165,31 @@ Use `Spring Reactive Web` dependency in Spring Initializr to use reactive featur
 	<artifactId>spring-boot-starter-webflux</artifactId>
 </dependency>
 ```
+
+### Reactive Data Sources
+For Reactive data sources, we can use any conventional database provider (H2, Postgres, etc) but instead of JDBC we use [R2DBC](https://r2dbc.io/) (Reactive Relational Database Connectivity).
+
+The JPA and Driver dependency for the database provider will be slightly different than the normal ones:
+```xml
+<!-- for ReactiveCrudRepository<> -->
+<dependency>
+	<groupId>org.springframework.boot</groupId>
+	<artifactId>spring-boot-starter-data-r2dbc</artifactId>
+</dependency>
+
+<!-- normal Postgres driver -->
+<dependency>
+	<groupId>org.postgresql</groupId>
+	<artifactId>postgresql</artifactId>
+	<scope>runtime</scope>
+</dependency>
+
+<!-- added automatically with Postgres driver once Spring Initializr detects r2dbc JPA dependency -->
+<dependency>
+	<groupId>org.postgresql</groupId>
+	<artifactId>r2dbc-postgresql</artifactId>
+	<scope>runtime</scope>
+</dependency>
+```
+
+_Reference_: Spring Reactive CRUD Project - [YouTube](https://www.youtube.com/watch?v=x1Dt7K4FrnI)
