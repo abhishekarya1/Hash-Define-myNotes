@@ -50,7 +50,7 @@ It was created for WWW along with HTML by Tim Berners-Lee at CERN. The first sta
 - application layer protocol (layer-7)
 - stateless; not sessionless (cookies implement sessions)
 - communicated over TCP/IP (connection establishment by a 3-way handshake)
-- content negotiation
+- content negotiation, etc...
 - extensible (custom headers, etc...)
 
 [Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP)
@@ -164,7 +164,7 @@ Headers are **case-insensitive**.
 
 Some headers are request only, some are response only and some can be used with both. Headers can have attributes too.
 ```foobar
-header-name: atrrib1=value1; attrib2=value2; ...
+header-name: atrrib1=value1; attrib2=value2; attrib3 ...
 ```
 We can have both user-defined attributes and standard attributes available.
 
@@ -184,12 +184,22 @@ We can specify the content type (of payload) and also let the other party know w
 # specify type of payload
 Content-Type: application/json
 
-# specify client expectation
+# specify expectation
 Accept: application/json
 
 # multiple options with priority (q param)
 Accept: application/json,application/xml;q=0.9,*/*;q=0.8
 ```
+
+A scenario where content negotiation comes in handy:
+```sh
+# Client sends this
+Content-Type: application/xml
+
+# Server doesn't understand XML and sends 415 status back with expected type
+Accept: application/json
+```
+
 **Custom Content-type**: Subject to both client and server underdstanding and knowing how to process them.
 ```sh
 # custom content types
@@ -198,6 +208,8 @@ Content-Type: application/vnd+company.category+html
 Content-Type: application/vnd+company.category+json
 ```
 
+The standard for media types is [MIME Types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) defined by IANA.
+
 ### Encoding Negotiation
 Responses are often sent as **compressed** by the server and uncompressed by the client and vice-versa. 
 
@@ -205,10 +217,13 @@ We can let the server know the compression type we accept and it will send us in
 ```sh
 # specify client expectation
 Accept-Encoding: gzip,compress
-# if server can't send in the format we accept - 406 (Not Acceptable)
-# if server doesn't accept the type we've sent - 415 (Unsupported Media Type)
+# if server doesn't accept the format we accept - 406 (Not Acceptable)
+# if server doesn't understand the type we've sent - 415 (Unsupported Media Type)
 
-# otherwise, response
+# server sends back a response listing thier expectation
+Accept-Encoding: bzip
+
+# otherwise, server sends in the negotiated format
 Content-Encoding: gzip
 ```
 
