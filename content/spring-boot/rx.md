@@ -55,15 +55,27 @@ Notice that the way we write both is exactly the same, but they are opposite w.r
 {{% /notice %}}
 
 
-## Pub-Sub Interfaces and How it Works?
+## Interfaces and How it Works?
 
-**Publisher** - a reactive datasource; `subscribe()` is called on it
+**Publisher** - a reactive datasource; its `subscribe()` method is called passing it a subscriber
 
 **Subscriber** - `onSubscribe()`, `onNext()`, `onError()`, `onComplete()`
 
-**Subscription** - `request(long n)` and `cancel()`  
+**Subscription** - `request(long n)` and `cancel()` 
 
-**Processor** - implements both Publisher and Subscriber; can act as both 
+**Processor** - implements both Publisher and Subscriber; can act as both
+
+```java
+providerObj.subscribe(new Subscriber(){
+	
+	void onSubscribe(Subscription s){
+		s.request(3);
+	}
+
+	// other methods - onNext(), onComplete(), etc
+}
+);
+```
 
 ![pub_sub_method_calls](https://i.imgur.com/aTOLx8q.png)
 
