@@ -184,7 +184,7 @@ The JPA and Driver dependency for the database provider will be slightly differe
 	<scope>runtime</scope>
 </dependency>
 
-<!-- added automatically with Postgres driver once Spring Initializr detects r2dbc JPA dependency -->
+<!-- added automatically with Postgres driver once Spring Initializr detects r2dbc JPA and Postgres dependencies -->
 <dependency>
 	<groupId>org.postgresql</groupId>
 	<artifactId>r2dbc-postgresql</artifactId>
