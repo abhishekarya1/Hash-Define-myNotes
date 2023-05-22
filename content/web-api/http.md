@@ -179,25 +179,39 @@ Status: 200 OK
 A fun [article](https://carluc.ci/http-headers-you-dont-expect/) on custom headers.
 
 ### Content Negotiation
-We can specify the content type (of payload) and also let the other party know what types we accept.
+We can let the other party know what types we accept.
+
+Types:
+- **Server-driven negotiation**: server chooses the type to communicate with (_proactive_)
+- **Agent-driven negotiation**: client chooses the type to communicate with (_reactive_)
+
 ```sh
-# specify type of payload
+# Server-driven negotiation
+
+# client sends this
 Content-Type: application/json
 
-# specify expectation
-Accept: application/json
+# specify client expectation in request
+Accept: application/json, application/xm
 
 # multiple options with priority (q param)
 Accept: application/json,application/xml;q=0.9,*/*;q=0.8
+
+# server chooses one of the types and sends back response in that type
+Content-Type: application/json
 ```
 
-A scenario where content negotiation comes in handy:
 ```sh
-# Client sends this
+# Agent-driven negotiation
+
+# client sends this
 Content-Type: application/xml
 
-# Server doesn't understand XML and sends 415 status back with expected type
-Accept: application/json
+# Server doesn't understand XML and sends 415 status back with expected types
+Accept: application/json, application/ogg
+
+# client sends data in one of the types
+Content-Type: application/json
 ```
 
 **Custom Content-type**: Subject to both client and server underdstanding and knowing how to process them.
