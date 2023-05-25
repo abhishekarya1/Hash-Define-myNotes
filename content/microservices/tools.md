@@ -39,7 +39,7 @@ An app is injected and runs alongside our microservice in the same pod, the comm
 - Deployed as a service
 - Ingress to our cluster from outside - acts as a Load Balancer too
 
-Another famous service mesh implementation is - Hashicorp [Consul](https://www.consul.io/)
+Other popular service mesh implementations are - Hashicorp [Consul](https://www.consul.io/) and [linkerd](https://linkerd.io/) (_much faster than Istio_).
 
 ### References
 - What is a service mesh? - [YouTube](https://youtu.be/QiXK0B9FhO0)
