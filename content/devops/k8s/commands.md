@@ -176,4 +176,4 @@ Write object (deployment, svc, etc...) configs in YAML and "apply" it to create 
 - https://play.instruqt.com/public/topics/getting-started-with-kubernetes
 - https://youtu.be/d6WC5n9G_sM [freeCodeCamp - Jan 19, 2022]
 - https://youtu.be/kTp5xUtcalw [freeCodeCamp - Oct 12, 2022]
-
+- https://kubebyexample.com/concept/pods [All concepts on this site]
