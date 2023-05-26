@@ -56,7 +56,9 @@ A separate API gateway for each kind of client. An API can be used by many clien
 ### Retry
 Send request to a service, if we get a _error response_ back, then retry a fixed number of times before falling back to a `fallbackMethod`.
 
-If we _don't get any response_ back for a certain amount of time - use **Timeout** pattern (`@TimeLimiter` in Resilience4j).
+If we get a TimeoutException after a certain duration of time then we can Retry, otherwise if the processing is happening in the callee service then we have no option other than to sit and wait.
+
+Use **Timeout** pattern (`@TimeLimiter` in Resilience4j) if we want to specify timeout time and if we _don't get any response_ back for that duration then we trigger `fallbackMethod`.
 
 Ex - [Spring Retry](https://www.baeldung.com/spring-retry), Resilience4j.
 
