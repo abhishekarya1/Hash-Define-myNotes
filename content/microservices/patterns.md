@@ -105,7 +105,6 @@ Gradually replace the monolith with microservices. Incremental replacement of po
 
 ![](https://i.imgur.com/17uo0gY.png)
 
-
 ### Saga
 TBD
 
