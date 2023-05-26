@@ -65,9 +65,11 @@ Ex - [Spring Retry](https://www.baeldung.com/spring-retry), Resilience4j.
 ### Circuit Breaker
 If one service is down, we shouldn't waste time sending it requests continually. Prevents requests from reaching a failing service, giving it time to recover.
 
-When calls to a service fail beyond a certain threshold (a percentage of total calls made to it), we declare the circuit `OPEN`, we back-off for sometime and then make the circuit `HALF_OPEN` and send a very limited number of requests to check if the service is up now.
+When calls to a service **fail** or are **slow** beyond a certain threshold (a percentage of total calls made to it), we declare the circuit `OPEN` and subseqent calls are rejected, we back-off for sometime and then make the circuit `HALF_OPEN` and send a very limited number of requests to check if the service is up now.
 
 ![](https://files.readme.io/39cdd54-state_machine.jpg)
+
+[highlight](https://resilience4j.readme.io/docs/circuitbreaker#failure-rate-and-slow-call-rate-thresholds:~:text=The%20state%20of,back%20to%20CLOSED.) from the official docs
 
 ### Bulkhead
 Don't let one service's resources be hogged up by another service.
