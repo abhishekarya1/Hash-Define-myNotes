@@ -101,7 +101,7 @@ Ex - Istio, linkerd.
 ### Strangler Fig
 Gradually replace the monolith with microservices. Incremental replacement of portions of monolith, minimizing downtime.
 
-![](https://i.imgur.com/AdgyM5e.png)
+![](https://i.imgur.com/17uo0gY.png)
 
 
 ### Saga
