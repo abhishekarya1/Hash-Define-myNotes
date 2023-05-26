@@ -167,7 +167,7 @@ It provides many ways to make the app resilience such as **Circuit Breaker**, **
 - _Retrying_ is simply retrying for a few times and waiting for specified time between each attempt.
 - _Rate limiting_ is limiting the amount of requests allowed to be made in a specified time interval.
 
-Requires `starter-actuator` as we can see the circuit state via `/actuator/health` endpoint of the actuator.
+Requires `starter-aop` dependency to work (Retry and other things won't work otherwise without error!!!). Also, requires `starter-actuator` as we can see inside status of Circuit, RetryEvents, etc.. using endpoints of the actuator.
 
 We have to put below annotations on the controller method as it is the starting point of the circuit. The `fallbackMethod` _must_ return same type and take as parameter an `Exception` and _must_ be defined in the same class i.e. Controller.
 
