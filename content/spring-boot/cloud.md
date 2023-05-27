@@ -163,7 +163,7 @@ We use **Resilience4j** here.
 
 It provides many ways to make the app resilience such as **Circuit Breaker**, **Retry**, **Rate Limiter**, Bulkhead, Time Limiter, and Cache.
 
-- _Circuit breaking_ is a mechanism to avoid making further requests if any resource is unavailable, then making a few requests at regular interval to check the status of availability of that resource. Upon failure on first hit, we can call a fallback method too.
+- _Circuit breaking_ is a mechanism to avoid making further requests if any resource is unavailable, then making a few requests at regular interval to check the status of availability of that resource.
 - _Retrying_ is simply retrying for a few times and waiting for specified time between each attempt.
 - _Rate limiting_ is limiting the amount of requests allowed to be made in a specified time interval.
 
@@ -232,11 +232,13 @@ resilience4j:
 
 **HALF_OPEN** - only some calls are being made to check status of service
 
-Based on a **threshold** value that we supply in the config (in percentage), we can expect the circuit breaker to change states.
+Based on a **threshold** value that we supply in the config (in percentage), we can expect the circuit breaker to change states if calls **fail** or are **slow**.
 
 ![Resilience4j state diagram](https://files.readme.io/39cdd54-state_machine.jpg)
 
 We can monitor using **Prometheus** or **Grafana** since there is no integrated dashboard like Hystrix.
+
+[highlight](https://resilience4j.readme.io/docs/circuitbreaker#failure-rate-and-slow-call-rate-thresholds:~:text=The%20state%20of,back%20to%20CLOSED.) from the official docs
 
 ## Config Server
 Configs that are common to all the services can be placed in a central server having a repository (via GitHub). Each individual service can then point to that server and fetch configs duting **bootstrap** stage of the Spring Boot application run.

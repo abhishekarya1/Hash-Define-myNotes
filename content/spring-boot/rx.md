@@ -6,7 +6,11 @@ weight = 15
 
 **Declarative** way of programming, deals with **data streams** and **propagation of change**.
 
-Not neccessarily async, but its a core feature.
+Not neccessarily async, but its a core feature; reacting to a change doesn't require async nature of processing, but the way modern reactive system acheive performance is using async processing.
+
+Outline of reactive systems is in [_Reactive Manifesto_](https://www.reactivemanifesto.org/).
+
+Modern languages use Reactive Data Streams which are async and are specified [_here_](https://www.reactive-streams.org/). 
 
 ## Async
 ### with Concurrency API
@@ -27,13 +31,13 @@ String b = two.join();	// get value
 // join() is just like a get() method; used to get value out from streams/futures 
 ```
 
-### Reactive way
-- cleaner syntax
-- declarative
+### with Reactive Data Streams
+- declarative (cleaner syntax)
 - resuable patterns
-- extremely faster
+- async data streams (faster response times)
+- backpressure to slow down publisher
 
-Since Java 9 we have a **Flow API** that standardizes the operations on reactive libraries, just like JPA for persistance tools.
+Since Java 9 we have a **Flow API** (`java.util.concurrent.Flow`) that standardizes the operations on reactive libraries, just like JPA for persistance tools.
 
 ## Iterator vs Observer
 Similar design patterns, but the only difference is who controls the data flow.
