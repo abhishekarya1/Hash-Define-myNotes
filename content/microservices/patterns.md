@@ -112,5 +112,7 @@ TBD
 ## References
 - https://levelup.gitconnected.com/12-microservices-pattern-i-wish-i-knew-before-the-system-design-interview-5c35919f16a2
 - https://www.vinsguru.com/category/design-pattern/architectural-design-pattern
+- https://dzone.com/articles/design-patterns-for-microservices
+- https://microservices.io/patterns/microservices.html
 
 [^1]: https://www.enjoyalgorithms.com/blog/types-of-load-balancing-algorithms
