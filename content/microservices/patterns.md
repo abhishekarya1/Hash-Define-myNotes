@@ -82,12 +82,44 @@ If we limit requests to 10 using Bulkhead then while those 10 are processing, ot
 
 _Reference_: https://dzone.com/articles/resilient-microservices-pattern-bulkhead-pattern
 
-### Event Sourcing and CQRS
-For every state change, store an event so that a record is kept for the future.
+### Event Sourcing
+Event-driven architecture[^2] allows services to be decoupled from each other. Instead of calling another service directly, we can publish event messages to a centralized Event Bus and other subscribed services receive that event and update their state. Ex - MQs and Kafka Topics.
 
-**Event Sourcing** - keep an "event store" which logs all the change events in the system, we can rollback, replay, etc...
+In Event Sourcing, microservices persist each stage change (_event_) in an event store, which is a datastore of all events in the system. 
 
-**CQRS** - separate service layer classes and DTOs (_models_) for reads (_query_) and writes (_command_)
+The event store also behaves like a message broker. It provides an API that enables services to subscribe to events. When a service saves an event in the event store, it is delivered to all interested subscribers, who then replay it to update their respective states.
+
+https://microservices.io/patterns/data/event-sourcing.html
+
+https://learn.microsoft.com/en-us/azure/architecture/patterns/event-sourcing
+
+### CQRS
+Command and Query Responsibility Segragation
+
+**Problem** - Read and write logic is different. In a highly normalized database, writes are simpler, whereas reads require complex JOINS. One repository doing both read and write can be split into two separating both of these concerns.
+
+Create separate controller, service layer, DTOs inside a singular service to truly separate logic. This way we can also use a custom property and then we can start the application in read-only or write-only mode.
+
+![](https://i.imgur.com/dr6e9qU.png)
+
+To further enhance this, instead of doing reads and writes on a single database, we can use **2 databases** - one for _read_ and one for _write_.
+
+Pros:
+- typical traffic has much lesser writes than reads; scale their databases independently: have more databases replicas for read, place write database much farther geographically
+- if table gets locked by write query, then read isn't possible; isolation
+- we can read from No-SQL and write to SQL or vice-versa
+
+Cons:
+- sync of both the write and read databases is additional overhead; consistency has to be handled with events
+- complex application design; especially if used with Event Sourcing pattern
+
+![](https://i.imgur.com/UgQVgKI.png)
+
+Further, we can totally have two different microservices too, one for reading and one for writing accessing their corresponding databases, allowing them to scale independently.
+
+https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs
+
+https://www.vinsguru.com/cqrs-pattern
 
 ### Sidecar
 Extend microservice functionality by attaching a sidecar service _without_ altering code of the core service.
@@ -106,8 +138,21 @@ Gradually replace the monolith with microservices. Incremental replacement of po
 ![](https://i.imgur.com/17uo0gY.png)
 
 ### Saga
-TBD
+Problem: How to do transactions that span multiple services (_distributed transactions_)?
 
+One example of such transaction is when payment is deducted but inventory is out-of-stock, we then have to rollback transactions across inventory service as well as the payment service.
+
+A saga is a sequence of local transactions. Each local transaction updates the database (of that service only) and publishes a message or event to trigger the next local transaction in the saga.
+
+Two ways to implement Sagas:
+- **Orchestration approach**: an orchestrator (object) tells the participants what local transactions to execute
+- **Choreography approach**: each local transaction publishes events that trigger local transactions in other services
+
+https://microservices.io/patterns/data/saga.html
+
+https://www.vinsguru.com/orchestration-saga-pattern-with-spring-boot
+
+https://www.vinsguru.com/choreography-saga-pattern-with-spring-boot
 
 ## References
 - https://levelup.gitconnected.com/12-microservices-pattern-i-wish-i-knew-before-the-system-design-interview-5c35919f16a2
@@ -116,3 +161,4 @@ TBD
 - https://microservices.io/patterns/microservices.html
 
 [^1]: https://www.enjoyalgorithms.com/blog/types-of-load-balancing-algorithms
+[^2]: https://microservices.io/patterns/data/event-driven-architecture.html (deprecated, replaced by Saga)
