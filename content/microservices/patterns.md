@@ -82,6 +82,22 @@ If we limit requests to 10 using Bulkhead then while those 10 are processing, ot
 
 _Reference_: https://dzone.com/articles/resilient-microservices-pattern-bulkhead-pattern
 
+### Sidecar
+Extend microservice functionality by attaching a sidecar service _without_ altering code of the core service.
+
+The "sidecar" handles tasks such as logging, monitoring, or security, allowing the main service to focus on its core functionality.
+
+Often implemented in Service Mesh with Envoy Proxies.
+
+Ex - Istio, linkerd.
+
+[/microservices/tools/#sidecar-proxy](/microservices/tools/#sidecar-proxy)
+
+### Strangler Fig
+Gradually replace the monolith with microservices. Incremental replacement of portions of monolith, minimizing downtime.
+
+![](https://i.imgur.com/17uo0gY.png)
+
 ### Event Sourcing
 Event-driven architecture[^2] allows services to be decoupled from each other. Instead of calling another service directly, we can publish event messages to a centralized Event Bus and other subscribed services receive that event and update their state. Ex - MQs and Kafka Topics.
 
@@ -121,22 +137,6 @@ https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs
 
 https://www.vinsguru.com/cqrs-pattern
 
-### Sidecar
-Extend microservice functionality by attaching a sidecar service _without_ altering code of the core service.
-
-The "sidecar" handles tasks such as logging, monitoring, or security, allowing the main service to focus on its core functionality.
-
-Often implemented in Service Mesh with Envoy Proxies.
-
-Ex - Istio, linkerd.
-
-[/microservices/tools/#sidecar-proxy](/microservices/tools/#sidecar-proxy)
-
-### Strangler Fig
-Gradually replace the monolith with microservices. Incremental replacement of portions of monolith, minimizing downtime.
-
-![](https://i.imgur.com/17uo0gY.png)
-
 ### Saga
 Problem: How to do transactions that span multiple services (_distributed transactions_)?
 
@@ -148,11 +148,41 @@ Two ways to implement Sagas:
 - **Orchestration approach**: an orchestrator (object) tells the participants what local transactions to execute
 - **Choreography approach**: each local transaction publishes events that trigger local transactions in other services
 
-https://microservices.io/patterns/data/saga.html
+https://www.baeldung.com/cs/saga-pattern-microservices
 
 https://www.vinsguru.com/orchestration-saga-pattern-with-spring-boot
 
 https://www.vinsguru.com/choreography-saga-pattern-with-spring-boot
+
+### Aggregator
+Compose a single response by aggregating the responses of multiple independent microservices.
+
+We can make REST calls to other services using WebClient and `.zip` the results together in an `AggregatorService`. It needs to be async otherwise we'll just keep waiting for responses.
+
+https://www.vinsguru.com/spring-webflux-aggregation
+
+Three ways to implement:
+- **Scatter Gather** (Parallel): parallelly call services, say `order` and `payment` services from the `AggregatorService`
+- **Chain**: if there is a dependency among services, call `order` service first and `payment` later, and then combine in the `AggregatorService`
+- **Branch**: a combination of both patterns above, a branch just like in scatter-gather but there is chaining in each branch
+
+https://medium.com/geekculture/design-patterns-for-microservices-aggregation-pattern-1b8994516fa2
+
+### Observability Patterns
+**Health Check**: expose a `/health` API enpoint in actuator
+
+**Performance Metrics**: with _Micrometer_, _Prometheus_, and _Grafana_
+
+**Log Aggregation**: treat logs as streams and don't store them in file like earlier times, aggregate (_Logstash_) and index them (_Elasticsearch_)
+
+**Distributed Tracing**: trace a request across microservices with _Zipkin_ [[link](/spring-boot/log/#sleuth-and-zipkin)]
+
+### Deployment Patterns
+**Blue-Green Deployment**: two identical production enviroments, only one is live at a given time, helps in upgrading services to newer version with minimal downtime
+
+![](https://i.imgur.com/nJP0R8D.jpg)
+
+**Canary Deployment**: rollout features to a subset of users (_early adopters_) before making them available to all; redirect a part of traffic coming from users to the newer service (`v1.1`), while the majority of traffic still goes to the stable service (`v1.0`).
 
 ## References
 - https://levelup.gitconnected.com/12-microservices-pattern-i-wish-i-knew-before-the-system-design-interview-5c35919f16a2
