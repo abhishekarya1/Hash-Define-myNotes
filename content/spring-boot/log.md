@@ -76,14 +76,16 @@ We can see logs in Grafana too but _without_ the distributed tracing.
 
 ## Distributed Log Tracing
 ### Sleuth and Zipkin
-We used **Zipkin** and **Sleuth** here inorder to trace logs for a request going through multiple services.
+We used **Zipkin** and **Sleuth** (_deprecated_) here inorder to trace logs for a request going through multiple services.
 
-Zipkin server JAR is downloaded and runs separately. We need to include Zipkin client and Sleuth dependencies in services.
+Zipkin server JAR is downloaded and runs separately. We need to include Zipkin client and Micrometer dependencies in services.
 ```xml
 <dependency>
   <groupId>org.springframework.cloud</groupId>
   <artifactId>spring-cloud-sleuth-zipkin</artifactId>
 </dependency>
+
+<!-- below is deprecated; in Spring Boot 3.0, use Micrometer dependency -->
 <dependency>
   <groupId>org.springframework.cloud</groupId>
   <artifactId>spring-cloud-starter-sleuth</artifactId>
@@ -100,7 +102,7 @@ spring:
 
 **TraceId** - One ID for a request no matter how many services it calls
 
-**spanId** - This keeps changing for every service we call in the path while fulfilling a request
+**SpanId** - This keeps changing for every service we call in the path while fulfilling a request
 
 ```sh
 2022-06-20 11:18:54.720  INFO [DEPARTMENT-SERVICE,5ec01b4d1b55f35f,f3aeb60a7471c5af] 21340 --- [nio-9002-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]
@@ -108,7 +110,7 @@ spring:
 # INFO [service-name, traceId, spanId]
 ```
 
-We can also create out own span IDs manually using methods from `spring-cloud-sleuth` (in code).
+We can also create out own Span IDs manually using methods from `spring-cloud-sleuth` (or `micrometer`) (in code).
 
 ### ELK Stack
 

@@ -1,7 +1,7 @@
 +++
 title = "Spring Cloud"
 date = 2022-06-20T08:56:00+05:30
-weight = 12
+weight = 13
 +++
 
 Review: [/microservices](/microservices)
@@ -241,7 +241,11 @@ We can monitor using **Prometheus** or **Grafana** since there is no integrated 
 [highlight](https://resilience4j.readme.io/docs/circuitbreaker#failure-rate-and-slow-call-rate-thresholds:~:text=The%20state%20of,back%20to%20CLOSED.) from the official docs
 
 ## Config Server
-Configs that are common to all the services can be placed in a central server having a repository (via GitHub). Each individual service can then point to that server and fetch configs duting **bootstrap** stage of the Spring Boot application run.
+Configs that are common to all the services can be placed in a central server. 
+
+The config can be **fetched from GitHub**, etc... or it can be **served from the local files** of the config server.
+
+Each individual service can then point to that server and fetch configs during _bootstrap_ stage of the Spring Boot application run.
 
 The `bootstrap.yml` files are where this "pointing to server" logic is placed in a service and they're usually loaded even before `application.yml` file during the application context load.
 
@@ -280,6 +284,7 @@ spring:
 
 ## References
 - Microservices Tutorial - [Daily Code Buffer - YouTube](https://youtu.be/BnknNTN8icw)
+- Microservices in Spring Boot 3.0 - [Daily Code Buffer - YouTube](https://youtu.be/HFl2dzhVuUo)
 - Resilience4j Tutorial - [Daily Code Buffer - YouTube](https://youtu.be/9AXAUlp3DBw)
 - Spring Boot Microservices Full Course - [Programming Techie - YouTube](https://www.youtube.com/playlist?list=PLSVW22jAG8pBnhAdq9S8BpLnZ0_jVBj0c)
 - Mastering Spring Boot 2.0 - Dinesh Rajput (PacktPub) [\[Link\]](https://g.co/kgs/Eb8KHc)
