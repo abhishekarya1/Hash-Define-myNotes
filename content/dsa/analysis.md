@@ -55,7 +55,7 @@ O(n!) or O(n^n)		- Factorial or n-power-n
 
 Q21: for a HP (reciprocal of AP), `1 + 1/2 + 1/3 + ... + 1/n = O(log n)`
 
-for a GP, `n * (1 + 1/2 + 1/4 + 1/8 ... + 1/2^k) = O(n)` since sum `1 + 1/2 + 1/4 + 1/8 ... + 1/2^k = 1`
+for a GP, `n * (1 + 1/2 + 1/4 + 1/8 ... + 1/2^k) = O(n)` since sum `1 + 1/2 + 1/4 + 1/8 ... + 1/2^k = 1` [_example_](https://stackoverflow.com/questions/43773587/time-complexity-ologn-or-on)
 
 Cases:
 - **Best Case**: Element found at index 0 (`O(1)`)
