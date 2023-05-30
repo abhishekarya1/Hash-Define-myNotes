@@ -53,7 +53,7 @@ O(n!) or O(n^n)		- Factorial or n-power-n
 ```
 [Practice](https://discuss.codechef.com/t/multiple-choice-questions-related-to-testing-knowledge-about-time-and-space-complexity-of-a-program/17976)
 
-Q21: for a HP, `1 + 1/2 + 1/3 + ... + 1/n = O(log n)`
+Q21: for a HP (reciprocal of AP), `1 + 1/2 + 1/3 + ... + 1/n = O(log n)`
 
 for a GP, `n * (1 + 1/2 + 1/4 + 1/8 ... + 1/2^k) = O(n)` since sum `1 + 1/2 + 1/4 + 1/8 ... + 1/2^k = 1`
 
