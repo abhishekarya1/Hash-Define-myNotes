@@ -53,6 +53,8 @@ O(n!) or O(n^n)		- Factorial or n-power-n
 ```
 [Practice](https://discuss.codechef.com/t/multiple-choice-questions-related-to-testing-knowledge-about-time-and-space-complexity-of-a-program/17976)
 
+Q21: `1 + 1/2 + 1/3 + ... + 1/n is O(log n)` [_proof_](https://stackoverflow.com/questions/25905118/finding-big-o-of-the-harmonic-series)
+
 Cases:
 - **Best Case**: Element found at index 0 (`O(1)`)
 - **Worst Case**: Element never found (`O(n)`)
