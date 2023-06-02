@@ -67,9 +67,8 @@ class Y extends X {		// inheritance
 
 NOTE: `static` methods belong to class, and they are inherited just like any other method.
 
-### Access Modifiers on Members
-- when X inherits from Y. Only the `public` and `protected` members (fields and methods) of Y are accessible to X.
-- If the two classes are in the same package, then the package (default) members are accessible to X.
+### Access Modifiers on Class
+- only the `public` and package (_default_) access modifiers are allowed on a class. A class with no access modifier (package) access can only be accessed inside the same package.
 
 ### Class Modifiers
 - `final` - class can't be extended; leads to compiler error
