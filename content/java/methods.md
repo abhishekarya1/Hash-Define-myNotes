@@ -30,9 +30,9 @@ public String getStr(){
 ```txt
 private		   --> accessible from within the same class only; not even its subclasses
 
-package access --> default; when we omit any access modifier; accessible only from inside the same package (class or subclass in the same package); if we try to access this from a subclass that's in a different package, there will be error
+package access --> default; when we omit any access modifier; accessible only from inside the same package (class or subclass in the same package); if we try to access this from a subclass that's in a different package, there will be error (aka "package-private")
 
-protected	   --> same class, same package, and subclasses (even if subclass is in a diff package)
+protected	   --> same class, other classes in the same package, and subclasses (even if subclass is in a diff package)
 
 public	 	   --> everywhere
 ```
