@@ -7,6 +7,8 @@ weight = 4
 ## Caching
 Stores data on a _temporary_ basis such that datastore is not accessed on every request and we can send a cached response to repeated requests. This reduces _latency_, prevents unnecessary network calls and increases _responsiveness_. Caches usually store less amount of data than a datastore and access is faster, but reqires expensive hardware to run onto.
 
+Disadvantages: overhead of maintaining consistency between cache and the source of truth such as the DB through cache invalidation, which is NOT an easy task.
+
 ### Locality of Reference 
 Cache is populated by copying data from datastore in majorly two ways:
 - **Spatial Locality**: The data stored nearby to the recently accessed data has higher chances of being accessed next.
