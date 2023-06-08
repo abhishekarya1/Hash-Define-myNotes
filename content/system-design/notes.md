@@ -50,14 +50,3 @@ Types of Databases - [Fireship YT](https://youtu.be/W2Z7fbCLSTw)
 NoSQL Patterns: http://horicky.blogspot.com/2009/11/nosql-patterns.html
 
 Scaling up to your first 10 million users: https://www.youtube.com/watch?v=kKjm4ehYiMs
-
-### Cache
-Need to maintain consistency between caches and the source of truth such as the database through cache invalidation, which is NOT an easy task.
-
-Caching Patterns:
-- Cache-aside
-- Write-through
-- Write-behind (write-back)
-- Refresh-ahead
-
-https://codeahoy.com/2017/08/11/caching-strategies-and-how-to-choose-the-right-one/
