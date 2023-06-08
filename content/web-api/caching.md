@@ -84,17 +84,20 @@ TTL (Time To Live)
 Where to place the cache and how to populate it.
 ```txt
 Cache-aside
-
 Read-through
-
-Write-back (aka Write-behind)
-Write-through
+Write-back (aka Write-behind) (asynchronously write to DB)
+Write-through (synchronously write to DB)
 Write-around (write to DB directly bypassing the cache)
+Refresh-ahead
 ```
 
-_Cache-aside_ requires a separate expensive operation of storing data from the database to the cache for future reads.
+_Cache-aside_ requires a separate expensive operation of storing data from the database to the cache in case of a miss, the application code has to take care of this operation. Ex - Redis and Memcached. One advantage of cache-aside over write-through is that only the data that is read is cached saving cache space.
 
-[Reference](https://notes.eddyerburgh.me/distributed-systems/caching#caching-patterns)
+_Refresh-ahead_ validates frequently/recently accessed cache entries that are about to expire before they are accessed again (_smart prediction_).
+
+[Reference#1](https://notes.eddyerburgh.me/distributed-systems/caching#caching-patterns)
+
+[Reference#2](https://codeahoy.com/2017/08/11/caching-strategies-and-how-to-choose-the-right-one)
 
 ## HTTP Caching
 HTTP is designed to cache as much as possible, so even if no `Cache-Control` is given, responses will get stored and reused if certain conditions are met. This is called **heuristic caching**. All responses should still explicitly specify a `Cache-Control` header.

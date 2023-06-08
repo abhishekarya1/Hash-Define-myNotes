@@ -9,9 +9,10 @@ Scalability - property of a system to continue to maintain desired performance p
 **Tradeoffs**:
 - Performance vs Scalability
 - Latency vs Throughput
-- Consistency vs Availibility (_read below_)
+- Consistency vs Availibility (_read CAP Theorem_)
 
-**CAP Theorem**: in a highly distributed system, choose any two amongst - _Consistency_, _Availibility_, and _Partition Tolerance_ (network breaking up). Networks are always unreliable, so the choice comes down to Consistency vs Availablity.
+### CAP Theorem 
+In a highly distributed system, choose any two amongst - _Consistency_, _Availibility_, and _Partition Tolerance_ (network breaking up). Networks are always unreliable, so the choice comes down to Consistency vs Availablity.
 - **CP** - all nodes reads the latest writes; recover in case of network failures. Used in systems which require atomic reads and writes, if system can't verify sync across nodes (consistency) it will respond with error, violating availablity. Ex - Redis, MongoDB.
 - **AP** - nodes may not have the latest write data; recover in case of network failures. Used in systems where _eventual consistency_ is allowed, or when the system needs to continue sending data back despite external errors. The node won't wait for sync to happen, it will send whatever data it has. Ex - Cassandra, CouchDB.
 
@@ -21,7 +22,42 @@ Video: [What is CAP Theorem?](https://youtu.be/_RbsFXWRZ10)
 
 We do have **CA** in non-distributed systems like RDBMS like MySQL, Postgres, etc... its called **ACID** there.
 
-**Background Jobs**: typically initiated by the system itself not by the user, maintainance tasks etc... returns results asynchronously (later)
-- Schedule-driven
-- Event-driven
+### Databases
+**Federation**: divide database into multiple ones based on functional boundaries
 
+**Sharding**: divide database into multiple ones based on criteria (often non-functional such as geographic proximity to user)
+
+**Denormalization**: duplicate columns are often kept in multiple tables to make reads easier, writes suffer though. We often use **Materialized views** which are cached tables stored when we query the database ex. a complex JOIN
+
+### SQL vs NoSQL
+- often no relations (tables) but key-value store, document store, wide column store, or a graph database
+- de-normalized, JOINs are often done in the application code
+- most NoSQL stores lack true ACID transactions and favor Eventual Consistency
+
+**BASE** is used in NoSQL to describe properties:
+- Basically Available - the system guarantees availability
+- Soft state - the state of the system may change over time, even without input
+- Eventual consistency - the system will become consistent over a period of time, given that the system doesn't receive any input during that period
+
+NoSQL Stores:
+- Key-Value stores: Redis, Memcached
+- Document stores: key-value store with documents (XML, JSON, Binary, etc...) stored as values. Ex - MongoDB, Elasticsearch
+- Wide column store: offer high storage capacity, high availability, and high scalability. Ex - Cassandra
+- Graph stores: stores nodes and their relationship. Ex - Neo4j
+
+Types of Databases - [Fireship YT](https://youtu.be/W2Z7fbCLSTw)
+
+NoSQL Patterns: http://horicky.blogspot.com/2009/11/nosql-patterns.html
+
+Scaling up to your first 10 million users: https://www.youtube.com/watch?v=kKjm4ehYiMs
+
+### Cache
+Need to maintain consistency between caches and the source of truth such as the database through cache invalidation, which is NOT an easy task.
+
+Caching Patterns:
+- Cache-aside
+- Write-through
+- Write-behind (write-back)
+- Refresh-ahead
+
+https://codeahoy.com/2017/08/11/caching-strategies-and-how-to-choose-the-right-one/
