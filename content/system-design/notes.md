@@ -110,4 +110,4 @@ NoSQL Patterns: http://horicky.blogspot.com/2009/11/nosql-patterns.html
 Scaling up to your first 10 million users: https://www.youtube.com/watch?v=kKjm4ehYiMs
 
 ## Networking and Protocols
-[/networking](/networking)
+[/networking](/networking/notes)
