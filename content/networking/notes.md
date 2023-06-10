@@ -185,15 +185,23 @@ _Reference#2_: https://news.ycombinator.com/item?id=35870654
 **DNS Records**: ANS can hold additional info like alias for a domain, sub-domains, etc apart from the IP address info.
 
 ```txt
-A     - stores IPv4 address of the domain
-AAAA  - stores IPv6 address of the domain
-CNAME - stores alias(es) of the domain (canonical name record); to config sub-domains
+A     - stores IPv4 address of the domain (one domain can have many A records each pointing to diff IPs) (provide redundancy and fallbacks; random one is picked)
+
+AAAA  - stores IPv6 address of the domain (same as above)
+
+CNAME - stores alias(es) of the domain (canonical name record); to config sub-domains (points to another hostname, not IP unlike A record)
+
 MX    - mail exchange record, stores mail server address for the domain
+
+NS    - point to another ANS to query to get IP of the domain
 ```
+
+**GeoDNS**: Geographical split horizon (different DNS answers based on client's geographical location), setup different `A` records for different regions in the domain provider DNS serttings (Amazon Route 53 is the DNS service for AWS that allows this).
 
 **Attacks**: DNS poisoning
 
 **Uses**: Site blocking, DNS is unencrypted and sent over UDP. The ISP can see what websites we are visiting but not its contents because of HTTPS/TLS.
+
 ## Important Concepts for Backend Engg
 ### MTU & MSS
 Default MTU size is 1500 bytes (1.5KB). Packets are fragmented if they are larger than that.

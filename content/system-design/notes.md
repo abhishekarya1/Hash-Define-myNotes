@@ -45,20 +45,44 @@ To avoid it being a single-point-of-failure (SPOF), keep another LB as a fail-ov
 ### Caching
 [/web-api/caching](/web-api/caching/)
 
+### Consistent Hashing
+When choosing a server in Load Balancing or a data partition for our request, we can choose a hash function. It can uniformly distribute requests across servers but scaling is an issue - if servers are added or removed, incoming requests will fail if the result of `H(k) = k % n` isn't available.
+
+Solution - Consistent Hashing. Even if we add or remove servers, keys `k` will still be able to find servers after hashing with the same hash function `H` and number of servers that were previously there i.e. `n`.
+
+[Illustration Video](https://youtu.be/UF9Iqmg94tk)
+
+**Advantages**: no need to replace any existing properties - hash function or no. of servers
+
+**Disadvantages**: if we're hashing clockwise, there might be a server that is closer but on the anti-clockwise of the target value we hashed to, we place virtual redundant **Virtual Nodes** to resolve this
+
+The challenge is how to place nodes across hash space so that response time of a request is minimized (directly proportional to the nearest server it can connect to). That server/shard also needs to have the data we need.
+
+Ex - Amazon DynamoDB, Apache Cassandra, Akamai CDN, Load Balancers, etc...
+
+{{% notice note %}}
+Servers are hashed too based on their IP or hostname to map them to the hash space of the request keys `k`, may or may not use the same hash function as the keys. For mapping Virtual Nodes, use another hash function that maps to the same hash space.
+{{% /notice %}}
 
 ## Databases
 ### Partitioning
-- Horizontal partitioning: put different rows into different tables (Sharding)
-- Vertical partitioning: divide our data to store tables related to a specific feature in their own server (Federation)
-- Directory Based Partitioning: we query the directory server that holds the mapping between each tuple key to its DB server (which is sharded)
+- **Horizontal partitioning**: put different rows into different tables (Sharding)
+- **Vertical partitioning**: divide our data to store tables related to a specific feature in their own server (Federation)
+- **Directory Based Partitioning**: we query the directory server that holds the mapping between each tuple key to its DB server (which is sharded)
 
-Partitioning Criteria: key of hash-based, list, round robin, composite
+**Partitioning Criteria**: hash-based, list, round robin, composite
 
-**Sharding**: divide database into multiple ones based on criteria (often non-functional such as geographic proximity to user)
+**Sharding**: divide database into multiple ones based on criteria (often non-functional such as geographic proximity to user). Limitations: we can't easily add more shards since existing data is already divided and we can't change boundaries, JOINs across shards are very expensive.
 
 **Federation**: divide database into multiple ones based on functional boundaries
 
 **Denormalization**: duplicate columns are often kept in multiple tables to make reads easier, writes suffer though. We often use **Materialized views** which are cached tables stored when we query the database ex. a complex JOIN
+
+### Replication
+Two generals problem - the problem with systems that reply on `ACK` for consistency is that the other one doesn't know what is the result if ACK doesnt reach us back, resolution - heierachical replication
+
+- **Active-passive**: only master can handle writes, master propagates writes to slaves, slaves are _read only_ for the client. If master goes down, one of the slaves is promoted to master.
+- **Active-active**: both master and slaves can address writes, consistency between them has to be maintained. One of the slaves continue to function if the existing one goes down.
 
 ### Indexes
 [/data/rdbms/concepts/#indexes](/data/rdbms/concepts/#indexes)
@@ -85,3 +109,5 @@ NoSQL Patterns: http://horicky.blogspot.com/2009/11/nosql-patterns.html
 
 Scaling up to your first 10 million users: https://www.youtube.com/watch?v=kKjm4ehYiMs
 
+## Networking and Protocols
+[/networking](/networking)
