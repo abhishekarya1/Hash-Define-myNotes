@@ -79,7 +79,7 @@ Servers are hashed too based on their IP or hostname to map them to the hash spa
 **Denormalization**: duplicate columns are often kept in multiple tables to make reads easier, writes suffer though. We often use **Materialized views** which are cached tables stored when we query the database ex. a complex JOIN
 
 ### Replication
-Two generals problem - the problem with systems that reply on `ACK` for consistency is that the other one doesn't know what is the result if ACK doesnt reach us back, resolution - heierachical replication
+Two generals problem - the problem with systems that reply on `ACK` for consistency is that the other one doesn't know what is the result if ACK doesnt reach us back, resolution - heierachical replication.
 
 - **Active-passive**: only master can handle writes, master propagates writes to slaves, slaves are _read only_ for the client. If master goes down, one of the slaves is promoted to master.
 - **Active-active**: both master and slaves can address writes, consistency between them has to be maintained. One of the slaves continue to function if the existing one goes down.

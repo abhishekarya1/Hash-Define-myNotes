@@ -194,22 +194,9 @@ Design patterns are often called **GoF** (Gang of Four) design patterns because 
 2. **Structural** (_how objects use each other, their composition_)
 3. **Behavioral** (_assignment of responsibilities between the objects_)
 
-_Reference_: https://www.programcreek.com/java-design-patterns-in-stories
+_Reference#1_: https://www.programcreek.com/java-design-patterns-in-stories
 
-### Creational
-- **Factory**: Class that provides an object we want
-- **Abstract Factory**: Class that provides an object of a factory, which in turn can provide the object we want (a factory of factories)
-- **Singleton**: Only a single object of this class can exist
-- **Builder**: Build objects incrementally; using `builder()` static method and setters that return `this`, placed inside the Class
-- **Prototype**: Clone an object multiple times and each time we can slightly modify its members
-
-### Structural
-- **Adapter**: an additional adapter class can be created to make two incompatible classes compatible with each other  
-- **Bridge**: separate abstraction from its implementation (interface and its concrete class), the interface of one contains interface member of another
-- **Composite**: a tree structure, all nodes have a common method that can show node description
-- **Decorator**: instead of making class for every type of a thing, just create a decorator class by extending the base class, then we can provide a base object to this decorator and it can then act
-
-
+_Reference#2_: https://java-design-patterns.com
 
 ### Anti-Patterns
 _Reference_: https://sourcemaking.com/antipatterns
