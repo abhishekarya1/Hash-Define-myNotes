@@ -35,8 +35,8 @@ Assume `0`-based indexing, we can shift `n` too instead of `1` in the following 
 - Rotating bits: Left = `n << k | n >> (32-k)` and Right = `n >> k | n << (32-k)`
 
 ### Algorithms
-- Brian Kernighan's Algorithm - to find number of set bits in binary representation of a number
-- Russian Peasant (Multiply two numbers using bitwise operators) [[link](https://www.geeksforgeeks.org/russian-peasant-multiply-two-numbers-using-bitwise-operators/)]
+- Brian Kernighan's Algorithm - to find number of set bits in binary representation of a number [[link](https://www.geeksforgeeks.org/count-set-bits-in-an-integer/)]
+- Russian Peasant Multiplication (Multiply two numbers using bitwise operators) [[link](https://www.geeksforgeeks.org/russian-peasant-multiply-two-numbers-using-bitwise-operators/)]
 - Binary Exponentiation [[link](https://cp-algorithms.com/algebra/binary-exp.html#implementation)]
 - Binary GCD [[link](https://cp-algorithms.com/algebra/euclid-algorithm.html#binary-gcd)]
 
