@@ -31,7 +31,7 @@ Assume `0`-based indexing, we can shift `n` too instead of `1` in the following 
 - Checking is number is power of 4: `single set bit having even number of 0s on its right side`
 - Finding position of rightmost set bit: `Do 2's complement, & with original number, take log2(ANDresult)` = `log2(n & -n) + 1`
 - Find XOR of two number without using XOR operator: `(x | y) & (~x | ~y)`
-- XOR from [1 to n] efficiently: [Link](https://www.geeksforgeeks.org/calculate-xor-1-n/) [**XOR repeats on modulo 4**]
+- XOR from [1 to n] efficiently: [Link](https://www.geeksforgeeks.org/calculate-xor-1-n/) [**XOR repeats on modulo 4**] [based on `n % 4` values can be `n, 1, n+1, 0`]
 - Rotating bits: Left = `n << k | n >> (32-k)` and Right = `n >> k | n << (32-k)`
 
 ### Algorithms
@@ -41,5 +41,7 @@ Assume `0`-based indexing, we can shift `n` too instead of `1` in the following 
 - Binary GCD [[link](https://cp-algorithms.com/algebra/euclid-algorithm.html#binary-gcd)]
 
 ### Related Questions
+- Power Set - all subsets [[link](https://leetcode.com/problems/subsets/)]
 - Finding duplicate and missing elements in an array [[link](https://takeuforward.org/data-structure/find-the-repeating-and-missing-numbers/)]
+- Find XOR of numbers in range L to R [[link](https://www.geeksforgeeks.org/find-xor-of-numbers-from-the-range-l-r/)]
 - Finding Binary Representation of a decimal number [[link](https://www.geeksforgeeks.org/binary-representation-of-a-given-number/)]
