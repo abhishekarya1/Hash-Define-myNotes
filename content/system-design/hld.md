@@ -24,6 +24,16 @@ Video: [What is CAP Theorem?](https://youtu.be/_RbsFXWRZ10)
 
 We do have **CA** in non-distributed systems like RDBMS like MySQL, Postgres, etc... it is called **ACID** there.
 
+### Availablity and Consistency
+**Availablity insured by**: two servers fail-over (master-master and master-slave)
+
+**Consistency insured by**: multiple servers, one master, others slave (or all masters)
+
+But how to choose a master/leader?:
+- **Full Mesh**: everyone is connected to everyone so data is shared among everyone, not feasible in large clusters
+- **Coordination Service**: a third party component chooses a leader node, all nodes send their message to leader and leader acts as their representative. Ex - Zookeeper.
+- **Distributed Cache**: 
+
 ### Load Balancing
 Can be used in between web server and service, service and database, etc... knows which services are up and routes traffic to only them, does health check heartbeats for the same.
 
