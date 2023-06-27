@@ -34,7 +34,9 @@ We do have **CA** in non-distributed systems like RDBMS like MySQL, Postgres, et
 But how to choose a master/leader?:
 - **Full Mesh**: everyone is connected to everyone so data is shared among everyone, not feasible in large clusters
 - **Coordination Service**: a third party component chooses a leader node, all nodes send their message to leader and leader acts as their representative. Ex - Zookeeper.
-- **Distributed Cache**: 
+- **Distributed Cache**
+- **Gossip Protocol**
+- **Random Leader Selection**
 
 ### Load Balancing
 Can be used in between web server and service, service and database, etc... knows which services are up and routes traffic to only them, does health check heartbeats for the same.
