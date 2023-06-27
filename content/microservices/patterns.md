@@ -182,7 +182,9 @@ https://medium.com/geekculture/design-patterns-for-microservices-aggregation-pat
 
 ![](https://i.imgur.com/nJP0R8D.jpg)
 
-**Canary Deployment**: rollout features to a subset of users (_early adopters_) before making them available to all; redirect a part of traffic coming from users to the newer service (`v1.1`), while the majority of traffic still goes to the stable service (`v1.0`).
+**Canary Deployment**: rollout features to a subset of users (_early adopters_) before making them available to all; redirect a part of traffic coming from users say 10% ofthe total users to the newer service (`v1.1`), while the majority of traffic still goes to the stable service (`v1.0`).
+
+**A/B Testing**: 50% of users are redirected to `versionA` and the other half to `versionB` to determine whihc one performs better.
 
 ## References
 - https://levelup.gitconnected.com/12-microservices-pattern-i-wish-i-knew-before-the-system-design-interview-5c35919f16a2

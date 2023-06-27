@@ -81,7 +81,7 @@ Servers are hashed too based on their IP or hostname to map them to the hash spa
 ## Databases
 ### Partitioning
 - **Horizontal partitioning**: put different rows into different tables (Sharding)
-- **Vertical partitioning**: divide our data to store tables related to a specific feature in their own server (Federation)
+- **Vertical partitioning**: split columns; divide our data to store tables related to a specific feature in their own server (Federation)
 - **Directory Based Partitioning**: we query the directory server that holds the mapping between each tuple key to its DB server (which is sharded)
 
 **Partitioning Criteria**: hash-based, list, round robin, composite
