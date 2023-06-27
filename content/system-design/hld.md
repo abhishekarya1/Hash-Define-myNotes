@@ -4,6 +4,8 @@ date = 2023-06-01T19:16:00+05:30
 weight = 2
 +++
 
+RSM (Reliability, Scalability, Maintainability) - tradeoff exists between each
+
 Scalability - property of a system to continue to maintain desired performance proportional to the resources added for handling more work
 
 ### Tradeoffs
