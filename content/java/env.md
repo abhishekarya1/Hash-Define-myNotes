@@ -6,7 +6,7 @@ weight = 1
 
 ## About
 
-Java is both a programming language and a platform.
+Java is both a programming language and a platform (because of the JVM that other transpiled languages like Kotlin and Scala runs on).
 
 Created by James Gosling in 1995 at Sun Microsystems (now subsidiary of Oracle Corp). Java 1.0 released in 1996. Originally named "Greentalk", later "Oak" and later Java.
 
@@ -16,7 +16,7 @@ Open-source, maintained by Oracle Corp. Releases are prolific since 2018, releas
 
 Last major update - Java 8 (2014)
 
-LTS releases - Java 11, 18
+LTS releases - Java 8, 11, 17, 21
 
 Java has 4 platforms:
 1. **Java SE** - Standard Edition (Standard language features)
@@ -98,13 +98,17 @@ jshell> /exit
 ## The JDK
 Many open-source as well as proprietary JDK alternatives have popped up over the years. Most popular ones are OracleJDK, OpenJDK, and Amazon Corretto.
 
-OpenJDK is developed by Oracle, OpenJDK, and the Java Community together. However, top-notch companies like Red Hat, Azul Systems, IBM, Apple Inc., and SAP AG also take an active part in its development.
+OpenJDK is developed by Oracle, OpenJDK, and the Java Community together. However, companies like Red Hat, Azul Systems, IBM, Apple Inc., and SAP AG also take an active part in its development.
 
 OracleJDK is solely developed by the Oracle Corporation. It has some additional libraries and licence differences with OpenJDK.
 
 Actually, OpenJDK is an official reference implementation of a Java SE since long time now. It means that it is the accepted official implementation of the Java specification and OracleJDK's as well as all other JDKs' build process is based on that of OpenJDK.
 
+As a rule of thumb, avoid using OracleJDK since Oracle is [greedy](https://sdtimes.com/java/oracle-makes-significant-change-to-its-java-license/) when it comes to licensing, use OpenJDK instead.
+
 **HotSpot VM**: The default JVM's name! It was named at Sun Microsystems in 1999. 
+
+_Reference: https://www.baeldung.com/oracle-jdk-vs-openjdk_
 
 ### GraalVM
 It is basically another hot and popular JDK project created by Oracle. It has the following components:
