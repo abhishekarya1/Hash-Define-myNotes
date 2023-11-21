@@ -47,6 +47,8 @@ javadoc - documentation generator
 
 ### JVM
 
+**HotSpot VM**: The default JVM's name! It was named at Sun Microsystems in 1999. 
+
 `javac` compiler - generates object code (aka Byte code) in `.class` files.
 
 Java Virtual Machine. Converts bytecode to native machine-specific code and runs (interprets) it.
@@ -105,8 +107,6 @@ OracleJDK is solely developed by the Oracle Corporation. It has some additional 
 Actually, OpenJDK is an official reference implementation of a Java SE since long time now. It means that it is the accepted official implementation of the Java specification and OracleJDK's as well as all other JDKs' build process is based on that of OpenJDK.
 
 As a rule of thumb, avoid using OracleJDK since Oracle is [greedy](https://sdtimes.com/java/oracle-makes-significant-change-to-its-java-license/) when it comes to licensing, use OpenJDK instead.
-
-**HotSpot VM**: The default JVM's name! It was named at Sun Microsystems in 1999. 
 
 _Reference: https://www.baeldung.com/oracle-jdk-vs-openjdk_
 
