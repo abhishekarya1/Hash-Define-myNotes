@@ -34,9 +34,9 @@ We do have **CA** in non-distributed systems like RDBMS like MySQL, Postgres, et
 But how to choose a master/leader?:
 - **Full Mesh**: everyone is connected to everyone so data is shared among everyone, not feasible in large clusters
 - **Coordination Service**: a third party component chooses a leader node, all nodes send their message to leader and leader acts as their representative. Ex - Zookeeper.
-- **Distributed Cache**
-- **Gossip Protocol**
-- **Random Leader Selection**
+- **Distributed Cache**: a central source of knowledge (a cache) is placed, nodes fetch data periodically from it 
+- **Gossip Protocol**: each node selects another node periodically and shares data with it
+- **Random Leader Selection**: elect a leader using a simple algorithm
 
 ### Load Balancing
 Can be used in between web server and service, service and database, etc... knows which services are up and routes traffic to only them, does health check heartbeats for the same.
@@ -80,27 +80,6 @@ Servers are hashed too based on their IP or hostname to map them to the hash spa
 {{% /notice %}}
 
 ## Databases
-### Partitioning
-- **Horizontal partitioning**: put different rows into different tables (Sharding)
-- **Vertical partitioning**: split columns; divide our data to store tables related to a specific feature in their own server (Federation)
-- **Directory Based Partitioning**: we query the directory server that holds the mapping between each tuple key to its DB server (which is sharded)
-
-**Partitioning Criteria**: hash-based, list, round robin, composite
-
-**Sharding**: divide database into multiple ones based on criteria (often non-functional such as geographic proximity to user). Limitations: we can't easily add more shards since existing data is already divided and we can't change boundaries, JOINs across shards are very expensive.
-
-**Federation**: divide database into multiple ones based on functional boundaries
-
-**Denormalization**: duplicate columns are often kept in multiple tables to make reads easier, writes suffer though. We often use **Materialized views** which are cached tables stored when we query the database ex. a complex JOIN
-
-### Replication
-Two generals problem - the problem with systems that reply on `ACK` for consistency is that the other one doesn't know what is the result if ACK doesnt reach us back, resolution - heierachical replication.
-
-- **Active-passive**: only master can handle writes, master propagates writes to slaves, slaves are _read only_ for the client. If master goes down, one of the slaves is promoted to master.
-- **Active-active**: both master and slaves can address writes, consistency between them has to be maintained. One of the slaves continue to function if the existing one goes down.
-
-### Indexes
-[/data/rdbms/concepts/#indexes](/data/rdbms/concepts/#indexes)
 
 ### SQL vs NoSQL
 - often no relations (tables) but key-value store, document store, wide column store, or a graph database
@@ -123,6 +102,28 @@ Types of Databases - [Fireship YT](https://youtu.be/W2Z7fbCLSTw)
 NoSQL Patterns: http://horicky.blogspot.com/2009/11/nosql-patterns.html
 
 Scaling up to your first 10 million users: https://www.youtube.com/watch?v=kKjm4ehYiMs
+
+### Indexes
+[/data/rdbms/concepts/#indexes](/data/rdbms/concepts/#indexes)
+
+### Partitioning
+- **Horizontal partitioning**: put different rows into different tables (Sharding)
+- **Vertical partitioning**: split columns; divide our data to store tables related to a specific feature in their own server (Federation)
+- **Directory Based Partitioning**: we query the directory server that holds the mapping between each tuple key to its DB server (which is sharded)
+
+**Partitioning Criteria**: hash-based, list, round robin, composite
+
+**Sharding**: divide database into multiple ones based on criteria (often non-functional such as geographic proximity to user). Limitations: we can't easily add more shards since existing data is already divided and we can't change boundaries, `JOIN` across shards are very expensive.
+
+**Federation**: divide database into multiple ones based on functional boundaries
+
+**Denormalization**: duplicate columns are often kept in multiple tables to make reads easier, writes suffer though. We often use **Materialized views** which are cached tables stored when we query across partitioned databases i.e. a complex `JOIN`
+
+### Replication
+Two generals problem - the problem with systems that reply on `ACK` for consistency is that the other one doesn't know what is the result if ACK doesnt reach us back, resolution - _hierarchical replication_.
+
+- **Active-passive**: only master can handle writes, master propagates writes to slaves, slaves are _read only_ for the client. If master goes down, one of the slaves is promoted to master.
+- **Active-active**: both master and slaves can address writes, consistency between them has to be maintained. One of the slaves continue to function if the existing one goes down.
 
 ## Networking and Protocols
 [/networking](/networking/notes)
