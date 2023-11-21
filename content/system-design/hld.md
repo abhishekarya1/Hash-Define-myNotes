@@ -29,7 +29,7 @@ We do have **CA** in non-distributed systems like RDBMS like MySQL, Postgres, et
 ### Availablity and Consistency
 **Availablity insured by**: two servers fail-over (master-master and master-slave)
 
-**Consistency insured by**: multiple servers, one master, others slave (or all masters)
+**Consistency insured by**: replication to multiple servers, one master, others slave (or all masters)
 
 But how to choose a master/leader?:
 - **Full Mesh**: everyone is connected to everyone so data is shared among everyone, not feasible in large clusters
@@ -49,6 +49,7 @@ Can be used in between web server and service, service and database, etc... know
 - Least connection
 - Least response time
 - Hash source IP, or target IP
+- Random
 
 https://www.enjoyalgorithms.com/blog/types-of-load-balancing-algorithms
 
@@ -75,7 +76,7 @@ The challenge is how to place nodes across hash space so that response time of a
 Ex - Amazon DynamoDB, Apache Cassandra, Akamai CDN, Load Balancers, etc...
 
 {{% notice note %}}
-Servers are hashed too based on their IP or hostname to map them to the hash space of the request keys `k`, may or may not use the same hash function as the keys. For mapping Virtual Nodes, use another hash function that maps to the same hash space.
+Servers are hashed too based on their IP or hostname to map them to the hash space of the request keys `k`, may or may not use the same hash function for which servers are being picked for incoming keys. For mapping Virtual Nodes, we can use another hash function that maps to the same hash space.
 {{% /notice %}}
 
 ## Databases
@@ -111,11 +112,11 @@ Two generals problem - the problem with systems that reply on `ACK` for consiste
 - Soft state - the state of the system may change over time, even without input
 - Eventual consistency - the system will become consistent over a period of time, given that the system doesn't receive any input during that period
 
-NoSQL Stores:
-- Key-Value stores: Redis, Memcached
-- Document stores: key-value store with documents (XML, JSON, Binary, etc...) stored as values. Ex - MongoDB, Elasticsearch
-- Wide column store: offer high storage capacity, high availability, and high scalability. Ex - Cassandra
-- Graph stores: stores nodes and their relationship. Ex - Neo4j
+Types of NoSQL Stores:
+- **Key-Value store**: Redis, Memcached
+- **Document store**: key-value store with documents (XML, JSON, Binary, etc...) stored as values. Ex - MongoDB, Elasticsearch
+- **Wide column store**: for every key, a small table of varying size is stored (columns). Offer high storage capacity, high availability, and high scalability. Ex - Cassandra
+- **Graph store**: stores nodes and their relationship. Ex - Neo4j
 
 Types of Databases - [Fireship YT](https://youtu.be/W2Z7fbCLSTw)
 

@@ -41,7 +41,7 @@ Levels of Load Balancing:
 
 Types of Load Balancing:
 - **Server-Side Balancing**: load balancer decides which service instance to route request to 
-- **Client-Side Balancing**: client itself decides which service instance to send request to
+- **Client-Side Balancing**: client itself decides which service instance to send request to (client doesn't send request to LB in this)
 
 Ex - HAProxy and Nginx. All cloud service providers provide Load Balancers of their own too. We can also implement our own Load Balancing strategy using [Spring Cloud Load Balancer](https://www.baeldung.com/spring-cloud-load-balancer).
 

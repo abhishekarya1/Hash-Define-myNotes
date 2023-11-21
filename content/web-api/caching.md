@@ -93,9 +93,11 @@ Write-around (write to DB directly bypassing the cache)
 Refresh-ahead
 ```
 
-_Cache-aside_ requires a separate expensive operation of storing data from the database to the cache in case of a miss, the application code has to take care of this operation. Ex - Redis and Memcached. One advantage of cache-aside over write-through is that only the data that is read is cached saving cache space.
+_Cache-aside_ requires a separate expensive operation of storing data from the database to the cache in case of a miss, the application code has to take care of this operation. One advantage of cache-aside over write-through is that only the data that is read is cached saving cache space. 
 
 _Refresh-ahead_ validates frequently/recently accessed cache entries that are about to expire before they are accessed again (_smart prediction_).
+
+Caches today like Redis and Memcached can operate in various modes depending on the use case.
 
 [Reference#1](https://notes.eddyerburgh.me/distributed-systems/caching#caching-patterns)
 

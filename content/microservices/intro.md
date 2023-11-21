@@ -103,4 +103,4 @@ _Reference_: https://akfpartners.com/growth-blog/scale-cube
 ---
 **Horizontal scaling (Scaling out)** - Adding more machines to existing pool of resources. Ex - Cassandra, MongoDB.
 
-**Vertical scaling** - Adding more power to existing machines. Ex - MySQL, Amazon RDS.
+**Vertical scaling (Scaling up)** - Adding more power to existing machines. Ex - MySQL, Amazon RDS.
