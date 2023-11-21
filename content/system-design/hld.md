@@ -113,7 +113,7 @@ Scaling up to your first 10 million users: https://www.youtube.com/watch?v=kKjm4
 
 **Partitioning Criteria**: hash-based, list, round robin, composite
 
-**Sharding**: divide database into multiple ones based on criteria (often non-functional such as geographic proximity to user). Limitations: we can't easily add more shards since existing data is already divided and we can't change boundaries, `JOIN` across shards are very expensive.
+**Sharding**: divide database into multiple ones based on criteria (often non-functional such as geographic proximity to user). Limitations: we can't easily add more shards since existing data is already divided and we can't change boundaries, `JOIN` across shards are very expensive. Consistent hashing can help in resolving uneven shard access patterns.
 
 **Federation**: divide database into multiple ones based on functional boundaries
 

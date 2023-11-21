@@ -85,7 +85,7 @@ TTL (Time To Live)
 #### Caching Patterns
 Where to place the cache and how to populate it.
 ```txt
-Cache-aside
+Cache-aside (lazy loading)
 Read-through
 Write-back (aka Write-behind) (asynchronously write to DB)
 Write-through (synchronously write to DB)
@@ -93,7 +93,7 @@ Write-around (write to DB directly bypassing the cache)
 Refresh-ahead
 ```
 
-_Cache-aside_ requires a separate expensive operation of storing data from the database to the cache in case of a miss, the application code has to take care of this operation. One advantage of cache-aside over write-through is that only the data that is read is cached saving cache space. 
+_Cache-aside_ requires a separate expensive operation of storing data from the database to the cache in case of a miss, the application code has to take care of this operation (lazy because it does it later on). One advantage of cache-aside over write-through is that only the data that is read is cached saving cache space. 
 
 _Refresh-ahead_ validates frequently/recently accessed cache entries that are about to expire before they are accessed again (_smart prediction_).
 
