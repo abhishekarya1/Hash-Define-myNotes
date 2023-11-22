@@ -5,10 +5,10 @@ weight = 2
 +++
 
 ## Class
-Everything has to be inside a class in java source file. Filename must match the "entrypoint" classname (incl. case), and it ofcourse can have a `main()` method.
+Everything has to be inside a class in `.java` source file. Filename must match the "entrypoint" classname (incl. case), and it ofcourse must have a `main()` method inside.
 
 - if all are non-public, the class name with file's name runs
-- there can be multiple classes in a java source file but only one can be declared as `public` and it must match the filename
+- there can be multiple classes in a java source file but only one can be declared as `public` and its name must match the filename
 - top-level classes can't be `private` or `protected`, it leads to compiler error
 - top-level classes can't be `static`, it leads to compiler error. Nested classes can be `static` though.
 
@@ -209,7 +209,7 @@ int eleven = 1__________1;
 ## Operators
 Logical/Bitwise operators:
 ```java
-& | ^   // can be applied to both boolean and integer types; works the same way as conditionals: && ||
+& | ^   // can be applied to both boolean and integer types; works the same way as conditionals with boolean type: && ||
 ~       // only for integer types
 ```
 **Logical operators are not short circuited** whereas Conditional operators are.
@@ -237,7 +237,7 @@ int b = (int) a;        // explicit cast from double to int
 1. If two values have different types, Java will convert smaller into larger type
 2. If integral and decimal are being used, integral is converted to decimal type
 3. After the operations, the result value will be of the promoted operands type
-4. **If both variables are of integral type and smaller or equal to int, they are promoted to int first**, even if none of them is `int`
+4. **If both variables are of integral type and smaller or equal to int, they are promoted to int first**, even if none of them is `int`; this is to prevent numeric _overflow_
 ```java
 short x = 5;
 byte y = 5;
@@ -340,7 +340,7 @@ a.equals(b);
 c.equalsIgnoreCase(d);
 
 // Avoid using "==" for string comparison since it compares object references and not actual value
-// Naturally, interned strings can be comapred with ==
+// Naturally, only interned strings can be compared with ==
 ```
 
 ### Building Mutable Strings
@@ -532,7 +532,7 @@ Integer[] arrInt;
 int arr[];
 int [] arr;
 
-int arr[] = new int[5];				//init list not allowed
+int arr[] = new int[5];				//init list not allowed; sets default values
 int arr[] = new int[]{1, 2, 3};     // anonymous array
 int arr[] = {1, 2, 3};              // still allocated in heap
 
@@ -598,21 +598,23 @@ String str = ft.format(new Date());     // 07-05-2022
 ## Garbage Collection
 Frees up memory in heap used by dereferenced objects and objects which has gone out-of-scope. Run by `System.gc()` but nothing is guaranteed. When the garbage collection is triggered by the JVM isn't guaranteed either.
 
-Mark and Sweep algorithm - identify and mark objects to clean, then sweep through and free up space.
+**Mark and Sweep Algorithm** - identify and mark objects to clean, then sweep through and free up space.
 
 Types of garbage collectors in Java:
 1. Serial GC - single threaded, stop everything and run GC
 2. Parallel GC - multiple threaded, stop everything and run GC (aka Throughput Collector)
-3. G1GC (default) - for heap sizes greater thatn 4GB, divide heap into two halves and run GC on each, stop everything and run
+3. Garbage-First (G1) GC (_default_) - for heap sizes greater than 4GB, divide heap into two halves and run GC on each, stop everything and run
 4. ZGC - uses multiple threads running parallely, less pauses, cleans more garbage regions first, scalable (https://inside.java/2023/04/23/levelup-zgc/) 
 
-Stopping everything is called stopping-the-world (STW) or pausing (GC Pause). It halts all the program threads.
+Stopping everything is called stopping-the-world (STW) or pausing (GC Pause). It halts all the program threads. Stopping the world ensures that no one accesses or changes memory during a GC run.
 
-#### finalize
-Called automatically when Garbage Collector is called.
+Reference: https://belief-driven-design.com/looking-at-java-21-generational-zgc-e5c1c/
+
+### finalize
+Called automatically when Garbage Collector is called by the JVM.
 
 ```java
 public void finalize() {
-    // can do anything here
+    // we can do anything here
 } 
 ```
