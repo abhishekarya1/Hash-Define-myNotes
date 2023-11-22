@@ -595,7 +595,7 @@ SimpleDateFormat ft = new SimpleDateFormat("dd-MM-yyyy");
 String str = ft.format(new Date());     // 07-05-2022        
 ```
 
-### Garbage Collection
+## Garbage Collection
 Frees up memory in heap used by dereferenced objects and objects which has gone out-of-scope. Run by `System.gc()` but nothing is guaranteed. When the garbage collection is triggered by the JVM isn't guaranteed either.
 
 Mark and Sweep algorithm - identify and mark objects to clean, then sweep through and free up space.
