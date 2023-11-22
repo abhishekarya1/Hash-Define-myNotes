@@ -118,7 +118,10 @@ Scaling up to your first 10 million users: https://www.youtube.com/watch?v=kKjm4
 
 **Partitioning Criteria**: hash-based, list, round robin, composite
 
-**Sharding**: divide database into multiple ones based on criteria (often non-functional such as geographic proximity to user). Limitations: we can't easily add more shards since existing data is already divided and we can't change boundaries, `JOIN` across shards are very expensive. Consistent hashing can help in resolving uneven shard access patterns.
+**Sharding**: divide database into multiple ones based on criteria (often non-functional such as geographic proximity to user). 
+
+- Pros: convinient storage scaling, faster access due to parallel processing, low latency due to proximity to end-user
+- Cons: we can't easily add more shards since existing data is already divided and we can't change boundaries, `JOIN` across shards are very expensive. Consistent hashing can help in resolving uneven shard access patterns
 
 **Federation**: divide database into multiple ones based on functional boundaries
 
@@ -127,8 +130,9 @@ Scaling up to your first 10 million users: https://www.youtube.com/watch?v=kKjm4
 ### Replication
 Two generals problem - the problem with systems that reply on `ACK` for consistency is that the other one doesn't know if the update has been performed on the other node if `ACK` doesn't reach us back, resolution - _hierarchical replication_.
 
-- **Active-passive**: only master can handle writes, master propagates writes to slaves, slaves are _read only_ for the client. If master goes down, one of the slaves is promoted to master.
-- **Active-active**: both master and slaves can address writes, consistency between them has to be maintained. One of the slaves continue to function if the existing one goes down.
+- **Single Leader** (_does not scales writes_): only master can handle writes, master propagates writes to slaves, slaves are _read only_ for the client. If master goes down, one of the slaves is promoted to master or we can have a fail-over master ready to take over.
+- **Multi-Leader**: multiple nodes are leaders and writes can be done on any of the leader, consistency between them has to be maintained so that no race condition occurs. Eventual consistency is expected here. One of the leader continue to function if one goes down.
+- **Leaderless**: all nodes are equal, writes can be addressed by any of the nodes. Eventual consistency is expected here.
 
 ## Networking and Protocols
 [/networking](/networking/notes)
