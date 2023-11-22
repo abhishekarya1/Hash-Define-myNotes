@@ -83,8 +83,13 @@ Servers are hashed too based on their IP or hostname to map them to the hash spa
 
 ### SQL vs NoSQL
 - often no relations (tables) but key-value store, document store, wide column store, or a graph database
-- de-normalized, JOINs are often done in the application code
-- most NoSQL stores lack true ACID transactions and favor Eventual Consistency
+- flexible schema and flexible datatypes - use the right data model for the right problem rather than fitting every use case into relations
+- de-normalized, `JOIN` are often done in the application code
+- highly distributed across clusters without worrying about normalization, store massive amounts of data fast
+- write focused because of no worry of ACID constraints during write
+- most NoSQL stores lack true ACID transactions and favor Eventual Consistency (and BASE)
+
+Reference: http://highscalability.com/blog/2010/12/6/what-the-heck-are-you-actually-using-nosql-for.html
 
 **BASE** is used in NoSQL to describe properties:
 - Basically Available - the system guarantees availability
@@ -127,3 +132,10 @@ Two generals problem - the problem with systems that reply on `ACK` for consiste
 
 ## Networking and Protocols
 [/networking](/networking/notes)
+
+## Capacity Estimation
+Latency numbers every programmer should know with Humanized Scale: https://gist.github.com/hellerbarde/2843375
+
+ByteByteGo YouTube Video: https://youtu.be/FqR5vESuKe0
+
+Traffic, Storage, and Bandwidth Estimation Example: https://youtu.be/-frNQkRz_IU
