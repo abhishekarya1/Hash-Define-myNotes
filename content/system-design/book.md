@@ -55,7 +55,7 @@ Fixed window counter
 
 - instead of resetting counter for millions of users (write heavy) at window start, reset upon the next request for a single user (smart)
 
-- discard window ts and counter if it has expired, insert new window entry
+- discard window ts and counter (key-value) if it has expired, insert new entry for new window
 
 "user_1_1490868000": 1
 ```
