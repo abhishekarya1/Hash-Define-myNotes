@@ -118,7 +118,7 @@ a = 5;              // initialization
 2. Instance (Object) -> Initialization is either (default, inline, instance initializer block, constructor)
 3. Class/static (Class) -> Initialization is either (default, static initializer block)
 
-More on their initialization [here](/java/oop/#order-of-initialization)
+More on their initialization [here](/java/oop/#order-of-initialization-instance-members)
 
 **Variable Defaults**:
 ```txt
@@ -134,13 +134,15 @@ Do note that the defaults on non-final instance and class/static variables are n
 ```java
 class A {
     // inside some method
-    System.out.println(new B().x);  // prints 0; x still gets initialized with a default value
+    new B();
 }
 
 class B {
-    int x;  // instance member
+    int x;      // instance member
 
-    B(){ }  // user-defined contructor; initializes nothing
+    B(){
+        System.out.println(x);      // prints 0; even before constructor has finished
+    }
 }
 ```
 
