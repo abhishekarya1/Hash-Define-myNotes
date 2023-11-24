@@ -303,7 +303,7 @@ public class Okapi extends GiraffeFamily {
 ### Initializing Classes (static members)
 - Class initialization - sets default values to all its `static` members, executing inline and static initializer blocks
 - It is initialized **atmost once, and may never get initialized at all** if it is not used anywhere in program
-- JVM controls when the class is "loaded" (another term for class initialization) during runtime, usually its in the order of apperance if classes are not parent-child (second example below - class Z)
+- JVM controls when the class is "loaded" (another term for class initialization) during runtime, usually its in the order of usage if classes are not parent-child (second example below - class Z)
 
 Rules: 
 1. If class X has a parent class Y, then Y is loaded first
@@ -463,7 +463,9 @@ class Y extends X{
 ### static Method Hiding
 We follow same 4 rules as overriding, a static method is bound to class so it will depend on the reference or classname we use to call it. **They can't be overriden though**, only hidden.
 
-Compilation error if one is marked `static` and the other is not. 
+Hiding only replaces the parent method on child reference and not on parent's reference unlike Overriding. We use respective references to access them.
+
+Compilation error if one is marked `static` and the other is not (_redefinition error_) 
 
 Also, similar to Overriding, `final static` methods can't be hidden (compilation error if we're trying to hide a method in subclass that is declared as `final static` in parent class).
 
@@ -471,19 +473,21 @@ Also, similar to Overriding, `final static` methods can't be hidden (compilation
 public class MyClass {
     int a = 8;
     public static void main(String args[]) {
-     C x = new C();
-	 P y = x;
-	x.foo();	
-	y.foo();
+     	C x = new C();
+	 	P y = x;
+	 	x.foo();	
+	 	y.foo();
     }
 }
+
 class P{
 	static void foo(){
 	    System.out.print("A");
 	}
 }
- class C extends P{
-     static void foo(){
+
+class C extends P{
+    static void foo(){
 	    System.out.print("B");
 	}
 }
@@ -491,12 +495,11 @@ class P{
 //Output: BA 
 ```
 
-We can also use `super` to call parent's version of hidden method.
+We can also use `super` to call parent's version of the hidden method.
 
 ### Hiding Variables
 Defining a variable with the **same name** as in parent class.
 
-Hiding a variable only replaces the parent variable on child reference and not parent's unlike Overriding.
 ```java
 class P{
 	int a = 1;
@@ -514,12 +517,14 @@ public class C extends P{
 }
 ```
 
-We use `super` to access hidden parent variables.
+We can also use `super` to access hidden parent's variable.
+
+**NOTE** - variable hiding is possible even if they are `final` in the parent class unlike `final` methods (see below section). This is because `final` means diff things when it comes to variables and methods.
 
 ### final Methods
 We cannot override or hide a method declared using `final` in the parent class.
 
-This applies to inherited methods only. Remember how we can mark methods as `private` and no overriding can happen. So a method can be `private final` and then it can exist in both parent and child independently with the exact same signature.
+This applies to methods that are inherited. Remember how we can mark methods as `private` and no overriding can happen. So a method can be `private final` and then it can exist in both parent and child independently with the exact same signature.
 
 
 ## Abstract Class
