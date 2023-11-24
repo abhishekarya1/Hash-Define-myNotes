@@ -131,6 +131,19 @@ final Instance/Class -> no defaults, must be initialized before constructor fini
 
 Do note that the defaults on non-final instance and class/static variables are not by constructor but by compiler itself. They are assigned default values even before any constructor finishes executing!
 
+```java
+class A {
+    // inside some method
+    System.out.println(new B().x);  // prints 0; x still gets initialized with a default value
+}
+
+class B {
+    int x;  // instance member
+
+    B(){ }  // user-defined contructor; initializes nothing
+}
+```
+
 ### var
 ```java
 var name = init_value;	// type is implicitly inferred
