@@ -16,7 +16,7 @@ Open-source, maintained by Oracle Corp. Releases are prolific since 2018, releas
 
 Last major update - Java 8 (2014)
 
-**LTS** releases - vendors provide longer support (security and performance patches) for certain Java versions. For Oracle JDK its 3 years, [no such support](https://stackoverflow.com/a/59800705) for the fully open-source OpenJDK. LTS versions - Java 8, 11, 17, 21
+**LTS** releases - vendors provide longer support (security and performance patches) for a certain Java version. For Oracle JDK its 3 years, [no such support](https://stackoverflow.com/a/59800705) for the fully open-source OpenJDK. LTS versions - Java 8, 11, 17, 21
 
 Java has 4 platforms:
 1. **Java SE** - Standard Edition (Standard language features)
