@@ -28,13 +28,13 @@ public String getStr(){
 
 ### Access Modifiers
 ```txt
-private		   --> accessible from within the same class only; not even its subclasses
-
-package access --> default; when we omit any access modifier; accessible only from inside the same package (class or subclass in the same package); if we try to access this from a subclass that's in a different package, there will be error (aka "package-private")
+public	 	   --> everywhere
 
 protected	   --> same class, other classes in the same package, and subclasses (even if subclass is in a diff package)
 
-public	 	   --> everywhere
+package access --> default; when we omit any access modifier; accessible only from inside the same package (class or subclass in the same package); if we try to access this from a subclass that's in a different package, there will be error (aka "package-private")
+
+private		   --> accessible from within the same class only; not even its subclasses
 ```
 
 ## Argument Passing
