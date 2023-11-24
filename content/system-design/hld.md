@@ -136,10 +136,3 @@ Two generals problem - the problem with systems that reply on `ACK` for consiste
 
 ## Networking and Protocols
 [/networking](/networking/notes)
-
-## Capacity Estimation
-Latency numbers every programmer should know with Humanized Scale: https://gist.github.com/hellerbarde/2843375
-
-ByteByteGo YouTube Video: https://youtu.be/FqR5vESuKe0
-
-Traffic, Storage, and Bandwidth Estimation Example: https://youtu.be/-frNQkRz_IU
