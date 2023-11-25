@@ -135,12 +135,12 @@ interface P{
 	static void foobar(){ }
 }
 
-// interface to interface inheritance
+// interface to interface - inheritance
 interface C extends P{
 	static int foobar() { return 0; }	// valid; since static method wasn't inherited
 }
 
-// interface to class implementation
+// interface to class - implementation
 class Main implements P{
 	foobar();		// invalid
 	Main.foobar();	// invalid
