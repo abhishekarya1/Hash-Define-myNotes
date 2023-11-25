@@ -122,7 +122,7 @@ class Demo implements X{
 }
 ```
 
-- call a specific version among the two using `InterfaceName.super.methodName()` as `InterfaceName.methodName()` won't work
+- In the extended interface or implementing class, call a specific version among the two using `InterfaceName.super.methodName()` as `InterfaceName.methodName()` won't work for non-static methods
 
 ### static Interface Methods
 - must be marked with `static` and must have a method body
