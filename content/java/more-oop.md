@@ -128,16 +128,22 @@ class Demo implements X{
 - must be marked with `static` and must have a method body
 - implicitly `public` (just like any other method in interface)
 - cannot be `abstract` or `final`
-- it is **never inherited by other interfaces or goto implementing class** (unlike normal `static` class methods) and we need to call it with interface name (`InterfaceName.methodName()`) since we can't call it using implementing class ref or name. **We can also have the same method defined in our implementing class since they are never inherited so no overriding can happen**.
+- it is **never inherited by other interfaces or goto implementing class** (unlike normal `static` class methods) and we need to call it with interface name (`InterfaceName.methodName()`) since we can't call it using implementing class ref or name. **We can also have the same method defined in our inheriting interface or implementing class since they are never inherited so no overriding can happen**.
 
 ```java
 interface P{
 	static void foobar(){ }
 }
 
+// interface to interface inheritance
+interface C extends P{
+	static int foobar() { return 0; }	// valid; since static method wasn't inherited
+}
+
+// interface to class implementation
 class Main implements P{
 	foobar();		// invalid
-	Main.foobar();	// invalid; same as above
+	Main.foobar();	// invalid
 	P.foobar();		// valid
 }
 ```
@@ -309,6 +315,8 @@ non-sealed class Bar extends Demo{ }		// non-sealed child (can be inherited by a
 We can omit the `permits` clause from class definition if:
 - Subclass is in the same file as the sealed class
 - Subclass is a nested class inside sealed class
+
+Note that all classes in the file in such a case will be "permitted" and need to define `sealed`, `final`, or `non-sealed`.
 
 ### Sealed Interfaces
 Same rules as in Sealed Classes. 
