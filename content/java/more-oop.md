@@ -172,6 +172,19 @@ interface Q extends P{
 ### private Interface Methods
 Reduce code duplcation inside Interface: Interface methods can be `private` or `private static`. In the former case, they can only be accessed by other non-static methods within the interface and reduce code redundancy. The latter ones can only be accessed by other all methods within the interface. Both are hidden from the concrete class implementing the interface and from outside using class reference since they are `private` and can only be accessed from within the interface only.
 
+```java
+interface X{
+	
+	private String foobar(){	// allowed to have a body
+		return "lorem ipsum";
+	}
+
+	private static String foobar(){		// same; allowed to have a body
+		return "lorem ipsum";
+	}
+}
+```
+
 ### abstract Method Calls
 We can call them too from inside other non-static interface methods.
 ```java
