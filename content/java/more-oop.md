@@ -316,8 +316,6 @@ We can omit the `permits` clause from class definition if:
 - Subclass is in the same file as the sealed class
 - Subclass is a nested class inside sealed class
 
-Note that all classes in the file in such a case will be "permitted" and need to define `sealed`, `final`, or `non-sealed`.
-
 ### Sealed Interfaces
 Same rules as in Sealed Classes. 
 - `permits` here applies to classes that implement the interface or other interfaces that extend it.
