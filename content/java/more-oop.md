@@ -368,7 +368,7 @@ public record Demo(int foo, String bar) implements Foobar{ }
 public record Demo(int foo, String bar){
 	public Demo{									// notice no parentheses ()
 		bar = bar.substring(0, 1).toUpperCase();			// modification to constructor argument only
-		this.foo = foo;			// compiler-error; foo is final
+		this.foo = foo;			// compiler-error; foo is final in instance yet to be created
 		if(foo < 0) throw new IllegalArgumentException();	// validation
 	}
 }
