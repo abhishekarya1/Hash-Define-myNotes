@@ -96,30 +96,32 @@ In a distributed environment, single rate limiter cache (counter, bucket, etc...
 If we use multiple rate limiters, we need **Synchronization** so that both the rate limiter know the current value of counter for a given user, to use them interchangeably. Use a shared cache used by both the rate limiters.
 
 ## Consistent Hashing
-Eficiently choosing a server for our request. Used for Load Balancing.
+Eficiently choosing a server for our request in a distributed and scalable environment. Used for Load Balancing.
+
+Ex - Amazon DynamoDB, Apache Cassandra, Akamai CDN, Load Balancers, etc...
 
 ### Classic Hashing
-Use a uniformly distributed hash function (`hash`) and hash request keys (`key`) and perform modulo on the output with the server pool size (`N`) to route to a server. It can uniformly distribute requests across existing servers but scaling is an issue - if servers are added or removed, all requests need to be remapped to servers now with a new `N` and we may lose of cached data for all requests (_cache miss_).
+Use a uniformly distributed hash function (`hash`), hash request keys (`key`), and perform modulo on the output with the server pool size (`N`) to route to a server. 
 
 ```
 serverIndex = hash(key) % N
 ```
 
+It can uniformly distribute requests across existing servers but scaling is an issue - if servers are added or removed, all requests need to be remapped with a new `N` and we lose cached data for all requests (_cache miss_) since we reassign servers to all requests.
+
 ### Consistent Hashing
 In case of addition or removal of servers, we shouldn't need to remap all they keys but only a subset of them - `1/N`th portion of hash space.
 
-Approach: Hash requests based on some key and hash servers based on IP using the same hash function (`hash`). This ensures equal hash space for both requests and servers and we don't need to perform modulo operation. Ex - `SHA-1`, etc. No change in architecture is required here unlike classical hashing which required change to server pool size (`N`) parameter upon removal or addition of servers.
+**Approach**: Hash requests based on some key and hash servers based on IP using the same hash function (`hash`). This ensures equal hash space for both requests and servers. We don't need to perform modulo operation here. Ex - `SHA-1`, etc. No change in architecture is required here unlike classical hashing which required change to server pool size (`N`) parameter upon removal or addition of servers.
 
-- Hash space, Hash ring - should be same for both requests and server, so use same hash function for both
+- Hash space, Hash ring - should be same for both requests and server, use same hash function for both
 - Partition - hash space between adjacent servers
 
 For each incoming request, if a server is not available for the same hash, probe clockwise (Linear or Binary Search) and use whatever server is encountered first. Each server is now responsible of handling requests of a particular range of hashes from the ring (_partition_).
 
-Addition and removal of servers won't matter now since probe will take care of finding servers.
+Addition and removal of servers won't bother us now since probe will take care of finding servers.
 
-Find affected keys - if a server is added/removed, move anti-clockwise and all keys till the first server is encountered will have to be remapped.
-
-Ex - Amazon DynamoDB, Apache Cassandra, Akamai CDN, Load Balancers, etc...
+Find affected keys - if a server is added/removed, move anti-clockwise from that server and all keys till the first server is encountered will have to be remapped.
 
 [Illustration Video](https://youtu.be/UF9Iqmg94tk)
 
@@ -127,5 +129,7 @@ Ex - Amazon DynamoDB, Apache Cassandra, Akamai CDN, Load Balancers, etc...
 Non-uniform distribution - some servers may get the majority of the traffic, while others sit idle based on their position on the hash ring.
 
 If we're probing clockwise, there might be a server that is closer but on the anti-clockwise direction of the hash, we place virtual redundant **Virtual Nodes** or Replicas to resolve this.
+
+Virtual nodes route to an actual server on the ring.
 
 Place as many virtual nodes across hash space such that response time of a request is minimized (directly proportional to the nearest node it can connect to).
