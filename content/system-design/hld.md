@@ -60,25 +60,6 @@ To avoid it being a single-point-of-failure (SPOF), keep another LB as a fail-ov
 ### Caching
 [/web-api/caching](/web-api/caching/)
 
-### Consistent Hashing
-When choosing a server in Load Balancing or a data partition for our request, we can choose a hash function. It can uniformly distribute requests across servers but scaling is an issue - if servers are added or removed, incoming requests will fail if the result of `H(k) = k % n` isn't available.
-
-Solution - Consistent Hashing. Even if we add or remove servers, keys `k` will still be able to find servers after hashing with the same hash function `H` and number of servers that were previously there i.e. `n`.
-
-[Illustration Video](https://youtu.be/UF9Iqmg94tk)
-
-**Advantages**: no need to replace any existing properties - hash function or no. of servers
-
-**Disadvantages**: if we're hashing clockwise, there might be a server that is closer but on the anti-clockwise of the target value we hashed to, we place virtual redundant **Virtual Nodes** to resolve this
-
-The challenge is how to place nodes across hash space so that response time of a request is minimized (directly proportional to the nearest server it can connect to). That server/shard also needs to have the data we need.
-
-Ex - Amazon DynamoDB, Apache Cassandra, Akamai CDN, Load Balancers, etc...
-
-{{% notice note %}}
-Servers are hashed too based on their IP or hostname to map them to the hash space of the request keys `k`, may or may not use the same hash function for which servers are being picked for incoming keys. For mapping Virtual Nodes, we can use another hash function that maps to the same hash space.
-{{% /notice %}}
-
 ## Databases
 
 ### SQL vs NoSQL

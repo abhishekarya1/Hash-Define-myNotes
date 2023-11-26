@@ -9,7 +9,7 @@ Latency numbers every programmer should know with Humanized Scale: https://gist.
 
 ByteByteGo YouTube Video: https://youtu.be/FqR5vESuKe0
 
-Traffic, Storage, and Bandwidth Estimation Example: https://youtu.be/-frNQkRz_IU
+Traffic (_requests per sec_), Storage, and Bandwidth (_data per sec_) Estimation Example: https://youtu.be/-frNQkRz_IU
 
 ## Framework
 1. Understand the problem
@@ -94,3 +94,38 @@ Return HTTP response code `429 - Too Many Requests`. Also, return response heade
 In a distributed environment, single rate limiter cache (counter, bucket, etc...) can face **Race Condition**. Sorted sets in Redis can resolve this as its operations are atomic.
 
 If we use multiple rate limiters, we need **Synchronization** so that both the rate limiter know the current value of counter for a given user, to use them interchangeably. Use a shared cache used by both the rate limiters.
+
+## Consistent Hashing
+Eficiently choosing a server for our request. Used for Load Balancing.
+
+### Classic Hashing
+Use a uniformly distributed hash function (`hash`) and hash request keys (`key`) and perform modulo on the output with the server pool size (`N`) to route to a server. It can uniformly distribute requests across existing servers but scaling is an issue - if servers are added or removed, all requests need to be remapped to servers now with a new `N` and we may lose of cached data for all requests (_cache miss_).
+
+```
+serverIndex = hash(key) % N
+```
+
+### Consistent Hashing
+In case of addition or removal of servers, we shouldn't need to remap all they keys but only a subset of them - `1/N`th portion of hash space.
+
+Approach: Hash requests based on some key and hash servers based on IP using the same hash function (`hash`). This ensures equal hash space for both requests and servers and we don't need to perform modulo operation. Ex - `SHA-1`, etc. No change in architecture is required here unlike classical hashing which required change to server pool size (`N`) parameter upon removal or addition of servers.
+
+- Hash space, Hash ring - should be same for both requests and server, so use same hash function for both
+- Partition - hash space between adjacent servers
+
+For each incoming request, if a server is not available for the same hash, probe clockwise (Linear or Binary Search) and use whatever server is encountered first. Each server is now responsible of handling requests of a particular range of hashes from the ring (_partition_).
+
+Addition and removal of servers won't matter now since probe will take care of finding servers.
+
+Find affected keys - if a server is added/removed, move anti-clockwise and all keys till the first server is encountered will have to be remapped.
+
+Ex - Amazon DynamoDB, Apache Cassandra, Akamai CDN, Load Balancers, etc...
+
+[Illustration Video](https://youtu.be/UF9Iqmg94tk)
+
+### Virtual Nodes
+Non-uniform distribution - some servers may get the majority of the traffic, while others sit idle based on their position on the hash ring.
+
+If we're probing clockwise, there might be a server that is closer but on the anti-clockwise direction of the hash, we place virtual redundant **Virtual Nodes** or Replicas to resolve this.
+
+Place as many virtual nodes across hash space such that response time of a request is minimized (directly proportional to the nearest node it can connect to).
