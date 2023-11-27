@@ -72,6 +72,8 @@ Sliding window log
 		   }
 ```
 
+**NOTE**: The approach described in most sources including the book has a major caveat. If requests keep coming in, the system won't be able to process any of them after a while since rejected requests will keep filling up log for the rolling window. Store logs only for successful requests to avoid this. [Reference](https://www.reddit.com/r/AskComputerScience/comments/xktn2j/rate_limiting_why_log_rejected_requests/)
+
 ```txt
 Sliding window counter
 
@@ -133,3 +135,28 @@ If we're probing clockwise, there might be a server that is closer but on the an
 Virtual nodes route to an actual server on the ring.
 
 Place as many virtual nodes across hash space such that response time of a request is minimized (directly proportional to the nearest node it can connect to).
+
+## Key-Value Store
+```txt
+Data Partition - consistent hashing
+Data Replication - consistent hashing (copy data onto the next three unique servers towards the clockwise direction)
+Consistency - Quorum Concensus
+Inconsistency Resolution - Versioning (Vector Clock)
+```
+
+### Quorum Concensus
+Ensures data read and write consistency across replicas.
+
+**Approach**: We need atleast `W` replicas to acknowledge a write operation, and atleast `R` replicas to acknowledge a read operation for it to be declared successful, where `N` is the total number of replicas.
+
+**Configuration**:
+```
+If R = 1 and W = N, the system is optimized for a fast read
+If W = 1 and R = N, the system is optimized for fast write
+If W + R > N, strong consistency is guaranteed (guranteed that there is always one node with latest write data and its part of read concensus)
+If W + R <= N, strong consistency is not guaranteed
+```
+
+In case of a read where we get diff values of the same data object from diff replicas, we use versioning to differentiate them. Ex - `(data, timestamp)`, we'll keep the one with the latest timestamp.
+
+[Illustration Video](https://youtu.be/uNxl3BFcKSA)
