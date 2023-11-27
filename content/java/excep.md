@@ -148,13 +148,13 @@ Each `try` must have atleast a single `catch` **OR** a `finally` block.
 
 ```java
 try{	}
-catch(Exception	e){	}   // exception must be getting thrown in the try block
+catch(IOException	e){	}   // exception must be getting thrown in the try block
 finally{	}
 
 ------------------------
 
 try{    }
-catch(Exception e){ }   // exception must be getting thrown in the try block
+catch(IOException e){ }   // exception must be getting thrown in the try block
 
 ------------------------
 
@@ -189,7 +189,7 @@ catch(Exception e){ }		// superclass
 catch(IOException e){ }		// unreachable code; compiler-error
 ```
 
-**Multi-catch block**: Separated by `|` character, only a single object `e` of either. **It can't have related classes** since we're going to enter the same catch block one way or the other if they are all related, so what's even the point.
+**Multi-catch block**: Separated by `|` character, only a single object `e` of either. **It can't have related classes** since we're going to enter the catch block anyway no matter the exception types we specify if they are all related, so what's even the point.
 
 ```java
 catch(Exception1 | Exception2 | Exception3 e){	}
