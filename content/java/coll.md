@@ -239,7 +239,7 @@ Collections.sort(fooList);
 ```txt
 negative number (< 0) - current object less than argument object
 zero (= 0)            - current object equal to argument object
-positive number (< 0) - current object greater than argument object
+positive number (> 0) - current object greater than argument object
 ```
 
 ```java

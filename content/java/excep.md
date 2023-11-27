@@ -69,6 +69,8 @@ void foo(){         // no propagation req since we handled it inside method body
 void bar() throws IOException{ }
 ```
 
+**Unchecked Exceptions**:
+
 ```java
 // we don't need to handle-or-declare Unchecked Exceptions or Errors
 
@@ -89,7 +91,8 @@ void bar() throws IOException{       // declare (propagate)
 }
 ```
 
-**Overriding**: An overriding method (subclass) can declare fewer exceptions than those already declared by the overriden method (superclass). In simple words, we can't add more **checked** exceptions to subclass method, **but can add unchecked ones and subclass of exception declared in superclass method**.
+### Overriding 
+An overriding method (subclass) can declare fewer exceptions than those already declared by the overriden method (superclass). In simple words, we can't add more **checked** exceptions to subclass method, **but can add unchecked ones and subclass of exception declared in superclass method**.
 ```java
 class A{
 	void foo() throws IOException{ }
@@ -186,7 +189,8 @@ catch(Exception e){ }		// superclass
 catch(IOException e){ }		// unreachable code; compiler-error
 ```
 
-**Multi-catch block**: Separated by `|` character, only a single object `e` of either. **It can't have related classes**.
+**Multi-catch block**: Separated by `|` character, only a single object `e` of either. **It can't have related classes** since we're going to enter the same catch block one way or the other if they are all related, so what's even the point.
+
 ```java
 catch(Exception1 | Exception2 | Exception3 e){	}
 catch(FileNotFoundException | IOException e){	}	// invalid; FileNotFoundException is subclass of IOException
@@ -298,7 +302,7 @@ Primary Exception - ArithmeticException ("foo")
 Suppressed Exception(s) - NullPointerException ("bar") on `close()` method call after `try-with-resources`
 
 ### Lost Exceptions with finally
-Any exception thrown in `finally` block will hide every other prior exceptions. This is a bad Java behaviour and exists only for backward compatibility.
+Any exception thrown in `finally` block will supersede every other prior exceptions (they are lost, not even suppressed). This is a bad Java behaviour and exists only for backward compatibility.
 ```java
 class All implements AutoCloseable{
     public void close(){

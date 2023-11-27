@@ -150,7 +150,7 @@ Ensures data read and write consistency across replicas.
 **Approach**: We need atleast `W` replicas to acknowledge a write operation, and atleast `R` replicas to acknowledge a read operation for it to be declared successful, where `N` is the total number of replicas.
 
 **Configuration**:
-```
+```txt
 If R = 1 and W = N, the system is optimized for a fast read
 If W = 1 and R = N, the system is optimized for fast write
 If W + R > N, strong consistency is guaranteed (guranteed that there is always one node with latest write data and its part of read concensus)
