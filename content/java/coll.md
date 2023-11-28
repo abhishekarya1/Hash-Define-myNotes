@@ -554,10 +554,16 @@ List<? super Foobar>      // we can pass any class/interface that is parent of F
 
 Since this gives us mutable lists, tricky things can happen here when inserting superclass and thier subclasses.
 ```java
-3: List<? super IOException> exceptions = new ArrayList<Exception>();
-4: exceptions.add(new Exception());    // compiler-error (tricky)
-5: exceptions.add(new IOException());
-6: exceptions.add(new FileNotFoundException());     // tricky
+public static void main(String[] args) {
+    List<Exception> exceptions = new ArrayList<Exception>();
+    foo(exceptions);
+}
+
+void foo(List<? super IOException> e){      // line 3
+    e.add(new Exception());                 // line 4; compiler-error (tricky)
+    e.add(new IOException());               // line 5
+    e.add(new FileNotFoundException());     // line 6; tricky
+}
 
 /*
 Line 3 references a List that could be List<IOException> or List<Exception> or List<Object>.
