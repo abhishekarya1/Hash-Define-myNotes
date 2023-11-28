@@ -369,24 +369,25 @@ Foo obj3 = new Foo("test", 99);
 ```
 
 ### Type Erasure
-After compilation, both `Foo<Integer>` and `Foo<String>` will become a single class `Foo<Object>`. The compiler takes care of all the object casts to our generic type too.
+After compilation, both `Foo` and `Bar` will become a single class `Object`. The compiler takes care of all the object casts to our generic type too.
 
 ### Overloading and Overriding Generic Methods
 Since all generic types resolve to Object, we have to be careful with overloading and overriding.
 ```java
 void foobar(List<Integer> arr)
 void foobar(List<Float> arr)
-// they both become List<Object> so compiler error
+// compiler error; they both will become "List arr" after type erasure if allowed 
 
 void foobar(List<Integer> arr)
-void foobar(ArrayList<Integer> arr) 
+void foobar(ArrayList<Float> arr) 
 // allowed since its normal overloading
 
 //overriding
-// Overriding is allowed with covariant return types; generic type <> is not considered here because of Type Erasure
+// Overriding is allowed only for covariant types and generic type parameter <> must match exactly
 List<CharSequence> foobar(){ }
 // overriding above method:
 ArrayList<CharSequence> foobar(){ }     // allowed because ArrayList implements List (covariant); vice-versa not allowed
+List<String> foobar(){ }                // not allowed; generic type parameter <> must match exactly
 ```
 
 ### Generic Interfaces
@@ -423,7 +424,7 @@ class Bar implements Foo{
 class MyClass<T>{
     static T foobar;     // compiler-error; generics not allowed on static variables
 
-    static <T> void foo(T m){ }  // allowed on static methods; since they are linked to instance (inherited, hidden, etc...)
+    static <T> void foo(T m){ }  // allowed on static methods; since they can specify type during call
 }
 ```
 
@@ -485,7 +486,7 @@ class X <T super Number> { }    // compiler-error; would become "Object t" after
 
 **Wildcards**: often used with collections. Method level only, no class level bounding ([see below](#some-pitfalls)). 
 
-**Wildcards are checked and enforced at runtime unlike formal type params which are resolved during compile-time (type erasure).** This allows stuff like [PECS](#immutability-when-bounding-pecs-rule).
+**Wildcards are checked and enforced at runtime unlike formal type params which are resolved during compile-time (type erasure).** This allows stuff like [PECS](#immutability-with-wildcards-pecs-rule).
 ```java
 <?>               // unbounded
 <? extends Class> // only those types which are subclasses of Class (upper bound) or Class itself
@@ -567,6 +568,7 @@ Since this gives us mutable lists, surprises can happen here when inserting supe
 ```java
 public static void main(String[] args) {
     List<Exception> exceptions = new ArrayList<Exception>();
+    exceptions.add(new Exception());        // we can always do this
     foo(exceptions);
 }
 
@@ -607,7 +609,7 @@ This is a major reason to use Lower-bounds (`<? super Thing>`) when any other tw
 
 **Reason**: When we use `List<? extends Thing>`, we can be assured that it will always return an object of type `Thing` i.e. each element will behave as `Thing`. We can't add add more or change existing elements because we cannot know at runtime which specific subtype of `Thing` the collection is holding and the element we are adding may not be convertible (subclass of) with the list's existing type.
 
-In contrast, when we use `List<? super Thing>` we can be assured that whatever type is passed to it, it will be added without restrictions since list is of supertype. Here we don't care what is already in the list as long as it will allow a `Thing` (and its subclasses which are also a `Thing`) to be added. But there are no guarantees what type of object you may read from this list, since it can be any of the supertypes of `Thing`.
+In contrast, when we use `List<? super Thing>` we can be assured that whatever type is passed to it, it will be added without restrictions since list is of supertype. Here we don't care what is already in the list as long as it will allow a `Thing` (and its subclasses which are also a `Thing`) to be added. But there are no guarantees what type of object you may read from this list, since it may be any of the supertypes of `Thing` that was stored in the list prior to calling the method with lower bound, or two elements of diff types but both subclasses of `Thing` may exist in the same list.
 
 If we need to produce and consume (removal only) both in the same method, use `List<?>` or `List<Thing>`, then list will be immutable in the called method ([see this](#unbounded-wildcard))
 
