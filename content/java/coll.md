@@ -474,11 +474,11 @@ public <U extends Number> void inspect(U u){  }
 ```java
 // no <T super Number> exists for bounding without wildcards; it exists only for wildcard bounds
 
-class X <T t> { }   // 1; becomes "Object t" after type erasure
+class X <T t> { }   // becomes "Object t" after type erasure
 
 class X <T extends Number> { }  // becomes "Number t" after type erasure
 
-class X <T super Number> { }    // becomes "Object t" after type erasure; so no point in writing this instead of 1
+class X <T super Number> { }    // compiler-error; becomes "Object t" or "Number t" after type erasure; so no point in writing this
 ```
 
 [Reference](http://www.angelikalanger.com/GenericsFAQ/FAQSections/TypeParameters.html#Why%20is%20there%20no%20lower%20bound%20for%20type%20parameters?:~:text=Again%2C%20the%20lower%20bound%20would%20have%20the%20same%20effect%20as%20%22no%20bound%22)
@@ -607,7 +607,7 @@ This is a major reason to use Lower-bounds (`<? super Thing>`) when any other tw
 
 In contrast, when we use `List<? super Thing>` we can be assured that whatever type is passed to it, it will be added without restrictions. Here we don't care what is already in the list as long as it will allow a `Thing` to be added. But there are no guarantees what type of object you may read from this list.
 
-If we use `List<?>` or `List<Thing>`, then list will be immutable in the called method ([see this](#unbounded-wildcard))
+If we need to produce and consume (removal only) both in the same method, use `List<?>` or `List<Thing>`, then list will be immutable in the called method ([see this](#unbounded-wildcard))
 
 {{% notice tip %}}
 **PECS** (Producer Extends Consumer Super): Whenever a method produces (returns/modifies) a type `T`, use `<? extends T>`, and when it consumes (adds element) a list of type `T`, use `<? super T>`. [Example](https://stackoverflow.com/a/2723538)
