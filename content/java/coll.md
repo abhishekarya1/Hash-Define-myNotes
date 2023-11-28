@@ -489,7 +489,7 @@ class X <T super Number> { }    // compiler-error; becomes "Object t" or "Number
 ```java
 <?>               // unbounded
 <? extends Class> // only those types which are subclasses of Class (upper bound) or Class itself
-<? super Class>   // types which are 'Class', this includes all subclasses and 'Class' itself but not its superclasses! (very counter-intuitive)
+<? super Class>   // only those types which are superclasses of Class (lower bound) or Class itself
 ```
 The `Class`  above can also refer to a Interface type. Also, `extends` is applicable for interface too here, meaning the same as `implements` in this context.
 
@@ -553,12 +553,12 @@ List<? extends Foobar>      // we can pass any class/interface that extends Foob
 
 ### Lower-bounded Wildcard
 ```java
-List<? super Foobar>      // we can pass any class/interface that is of type 'Foobar' i.e. subclasses of Foobar and 'Foobar' itself but not its superclasses (very counter-intuitive; see example below)
+List<? super Foobar>      // we can pass any class/interface that is supertype of Foobar, or Foobar ref variable itself
 
-// read: Anything whose super is Foobar
+// BEWARE: above applies to what we can pass to it without compiler-error. We can only add elements that are of type 'Foobar' i.e. subclasses of Foobar and 'Foobar' itself but not its superclasses (very counter-intuitive; see example below)
 
-// Isn't it same as the uppor-bound then?
-// Yes, classes it covers are the exact same set as the upper-bound, the only diff is mutability and thus usage differs (see "PECS" section below)
+// Isn't it the same as the uppor-bound then?
+// Yes, classes it can add are the exact same set as all the upper-bound classes, the only diff is mutability and thus usage differs (see "PECS" section below)
 ```
 
 Since this gives us mutable lists, surprises can happen here when inserting superclass and thier subclasses if above logic is not clear:
@@ -568,7 +568,7 @@ public static void main(String[] args) {
     foo(exceptions);
 }
 
-void foo(List<? super IOException> e){      // line 3
+static void foo(List<? super IOException> e){      // line 3
     e.add(new Exception());                 // line 4; compiler-error (tricky)
     e.add(new IOException());               // line 5
     e.add(new FileNotFoundException());     // line 6; tricky
@@ -576,11 +576,11 @@ void foo(List<? super IOException> e){      // line 3
 }
 
 /*
-Line 3 references a List with lower-bound wildcard
-Line 4 does not compile because Exception is not of type IOException
-Line 5 is fine. IOException can be added
-Line 6 is also fine. FileNotFoundException is a subclass of IOException and thus it is 'IOException'
-Line 7 is fine! SSLException is a subclass of IOException and not related to FileNotFoundException, still they can be put into the same list because of <? super IOException>
+Line 3 references a List with lower-bound wildcard. It can accept any supertype of IOException or IOException itself.
+Line 4 does not compile because Exception is not of type IOException (we can't add a supertype object to list).
+Line 5 is fine. IOException can be added.
+Line 6 is also fine. FileNotFoundException is a subclass of IOException and thus it is 'IOException' (we can add it).
+Line 7 is fine! SSLException is a subclass of IOException and not related to FileNotFoundException, still they can be put into the same list because of <? super IOException> (we can add it).
 */
 ```
 
@@ -625,8 +625,8 @@ public <T> void foobar(List<T extends Main> list) {  }
 public <T> <? extends Main> void foobar(T t) {  }
 // invalid; wildcard used as method's return type
 
-
 // valid examples
 public void foobar(List<? extends Main> list) {  }
 public <T extends Main> void foobar(List<T> list) {  }      // same as above; but declares T type to be reused in method body
+public <T> T first(List<? extends T> list) {   }
 ```
