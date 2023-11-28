@@ -494,7 +494,7 @@ class X <T super Number> { }    // becomes "Object t" after type erasure; so no 
 The `Class`  above can also refer to a Interface type. Also, `extends` is applicable for interface too here, meaning the same as `implements` in this context.
 
 ### Unbounded Wildcard
-Java doesn't allow casts like `List<String>` to `List<Object>` since once its declared as a list of Objects, we can add elements of its subclass types also to it e.g. `Integer`, `Car`, `Dog` etc... So, such conversions aren't allowed therefore we can't use `List<Object>` as a common type. In short - their elements are related but not the Lists themselves, so no cast is allowed.
+Java doesn't allow casts like `List<String>` to `List<Object>` since once its declared as a list of Objects, we can add elements of its subclass types also to it e.g. `Integer`, `Car`, `Dog` etc... So, such conversions aren't allowed therefore we can't use `List<Object>` as a common type. In short - their elements' types are related but not the Lists object themselves, so no cast is allowed.
 
 ```java
 List<Integer> numbers = new ArrayList<>();
@@ -607,7 +607,7 @@ This is a major reason to use Lower-bounds (`<? super Thing>`) when any other tw
 
 In contrast, when we use `List<? super Thing>` we can be assured that whatever type is passed to it, it will be added without restrictions. Here we don't care what is already in the list as long as it will allow a `Thing` to be added. But there are no guarantees what type of object you may read from this list.
 
-Use `List<?>` or `List<Thing>` in all the other cases.
+If we use `List<?>` or `List<Thing>`, then list will be immutable in the called method ([see this](#unbounded-wildcard))
 
 {{% notice tip %}}
 **PECS** (Producer Extends Consumer Super): Whenever a method produces (returns/modifies) a type `T`, use `<? extends T>`, and when it consumes (adds element) a list of type `T`, use `<? super T>`. [Example](https://stackoverflow.com/a/2723538)
