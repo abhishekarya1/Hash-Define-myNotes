@@ -432,7 +432,7 @@ class MyClass<T>{
 static <T> void foo(T m){ }
 public <T, U> int demo(T a, U b){ }
 
-//invoking a generic method explicitly; compile will figure out otherwise
+//invoking a generic method explicitly; compiler will figure out otherwise
 // static methods
 Box.<String>ship("package");
 Box.<String[]>ship(args);
@@ -465,6 +465,9 @@ public <U extends Number> void inspect(U u){  }
 
 // multpile bounds
 <T extends C1 & C2 & C3>
+
+// no <T super Number> exists for bounded types; it exists only for wildcards 
+// reason: see "Unbounded Wildcard" section's first subsection regarding List<Object> below
 ```
 
 **Wildcards**: Used with collections
@@ -476,19 +479,43 @@ public <U extends Number> void inspect(U u){  }
 The `Class`  above can also refer to a Interface type. Also, `extends` is applicable for interface too here, meaning the same as `implements` in this context.
 
 ### Unbounded Wildcard
-We can't cast `List<String>` to `List<Object>` since once its made a list of Objects, we can convert it to other subclass types also e.g. `List<Integer>`, `List<Dog>`, etc... So, Java doesn't allow such conversions and we can't use `List<Object>` as a common type.
+Java doesn't allow casts like `List<String>` to `List<Object>` since once its declared as a list of Objects, we can add elements of its subclass types also to it e.g. `Integer`, `Car`, `Dog` etc... So, such conversions aren't allowed therefore we can't use `List<Object>` as a common type.
+
+```java
+List<Integer> numbers = new ArrayList<>();
+numbers.add(420);
+List<Object> objects = numbers;     // compiler error; conversion not allowed
+objects.add("four twenty");         // to prevent wrongly do this
+```
+
+```java
+public static void printList(List<Object> list) {       // 1
+    list.add(9);    // 2; because why not
+
+    for (Object x: list)
+        System.out.println(x);
+}
+
+public static void main(String[] args) {
+    List<String> keywords = new ArrayList<>();
+    keywords.add("java");
+    printList(keywords);    // compiler error; not allowed because of 1 and to prevent wrongly doing 2
+}
+```
 
 We need to use `<?>` for all such cases where we need to accept "any" type.
 ```java
-List<?> arr = new ArrayList<String>();
+List<?> keywords = new ArrayList<String>();
 // we specified type as <String> otherwise <Object> would've been assigned by default so now we can only insert String into it
 // also arr List will be logically immutable! (see below sections)
 
 // a more practical example would be: 
-public static void printList(List<?> list) {        // use with List<> type
-    for (Object elem : list)
-        System.out.println(elem + " ");
-    System.out.println();
+public static void printList(List<?> list) {
+    // can't add to list (immutable) so we're safe
+    // list remains of only ONE type throughout i.e. supplied in method call
+
+    for (Object x: list)
+        System.out.println(x);
 }
 
 // we can pass any kind of list to it, and it prints it
