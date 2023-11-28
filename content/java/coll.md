@@ -584,14 +584,14 @@ void fooBar(List<?> ls){
 
 This is a major reason to use Lower-bounds (`<? super Thing>`) when any other two could've worked just the same, but with the immutability issue.
 
-**Reason**: When we use `<? extends Thing>`, we can only add objects of type that are subclasses of `Thing`, and we can be assured each element will behave as `Thing`. We can't add add more or change existing elements because we cannot know at runtime which specific subtype of `Thing` the collection is holding.
+**Reason**: When we use `List<? extends Thing>`, we can only add objects of type that are subclasses of `Thing`, and we can be assured each element will behave as `Thing`. We can't add add more or change existing elements because we cannot know at runtime which specific subtype of `Thing` the collection is holding and the element we are adding may not be convertible with it.
 
-In contrast, when we use `<? super Thing>` we can be assured that whatever type is passed to it, it will be added without restrictions. Here we don't care what is already in the list as long as it will allow a `Thing` to be added. But there are no guarantees what type of object you may read from this list.
+In contrast, when we use `List<? super Thing>` we can be assured that whatever type is passed to it, it will be added without restrictions. Here we don't care what is already in the list as long as it will allow a `Thing` to be added. But there are no guarantees what type of object you may read from this list. The object we add to the list are guaranteed to be convertible to list's existing type since they are ancestors of the same class `Thing`!
 
 Use `List<?>` or `List<Thing>` in all the other cases.
 
 {{% notice tip %}}
-Whenever a method produces (returns/modifies) a type `T`, use `? extends T`, and when it consumes (adds element) a list of type `T`, use `? super T`. **PECS** (Producer Extends Consumer Super) Rule: [Example](https://stackoverflow.com/a/2723538)
+**PECS** (Producer Extends Consumer Super): Whenever a method produces (returns/modifies) a type `T`, use `<? extends T>`, and when it consumes (adds element) a list of type `T`, use `<? super T>`. [Example](https://stackoverflow.com/a/2723538)
 {{% /notice %}}
 
 
