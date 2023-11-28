@@ -616,12 +616,12 @@ If we need to produce and consume (removal only) both in the same method, use `L
 
 ### Some Pitfalls
 ```java
-// use type bounds only with methods, not collections
+// use type bounds only with methods and classes, not collections
 public <T> void foobar(List<T extends Main> list) {  }
 // invalid; generic type bound used for collection's type 
 
 
-// use wildcards only with collections, not as bound method types
+// use wildcards only with collections, not as class or method types
 public <T> <? extends Main> void foobar(T t) {  }
 // invalid; wildcard used as method's return type
 
