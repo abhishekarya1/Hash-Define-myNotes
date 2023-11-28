@@ -556,6 +556,9 @@ List<? extends Foobar>      // we can pass any class/interface that extends Foob
 List<? super Foobar>      // we can pass any class/interface that is of type 'Foobar' i.e. subclasses of Foobar and 'Foobar' itself but not its superclasses (very counter-intuitive; see example below)
 
 // read: Anything whose super is Foobar
+
+// Isn't it same as the uppor-bound then?
+// Yes, classes it covers are the exact same set as the upper-bound, the only diff is mutability and thus usage differs (see "PECS" section below)
 ```
 
 Since this gives us mutable lists, surprises can happen here when inserting superclass and thier subclasses if above logic is not clear:
