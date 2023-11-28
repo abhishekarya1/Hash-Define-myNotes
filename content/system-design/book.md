@@ -138,25 +138,82 @@ Place as many virtual nodes across hash space such that response time of a reque
 
 ## Key-Value Store
 ```txt
-Data Partition - consistent hashing
-Data Replication - consistent hashing (copy data onto the next three unique servers towards the clockwise direction)
+Data Partition - Consistent Hashing
+Data Replication - Consistent Hashing (copy data onto the next three unique servers towards the clockwise direction)
 Consistency - Quorum Concensus
 Inconsistency Resolution - Versioning (Vector Clock)
+Failure Detection - Gossip Protocol
+Handling Temporary Failures - Sloppy Quorum with Hinted Handoff
+Handling Permanent Failures - Anti-Entropy Protocol with Merkle Tree
+Lookup - Bloom Filter
 ```
 
 ### Quorum Concensus
 Ensures data read and write consistency across replicas.
 
-**Approach**: We need atleast `W` replicas to acknowledge a write operation, and atleast `R` replicas to acknowledge a read operation for it to be declared successful, where `N` is the total number of replicas.
+**Approach**: Client sends request to a _coordinator node_, all replicas are connected to coordinator and to each other in a ring like fashion. We need atleast `W` replicas to perform and acknowledge a write operation, and atleast `R` replicas to perform and acknowledge a read operation for it to be declared successful, where `N` is the total number of replicas.
 
 **Configuration**:
 ```txt
 If R = 1 and W = N, the system is optimized for a fast read
 If W = 1 and R = N, the system is optimized for fast write
-If W + R > N, strong consistency is guaranteed (guranteed that there is always one node with latest write data and its part of read concensus)
+If W + R > N, strong consistency is guaranteed (guranteed that there is always atleast one overlapping node in reads and writes)
 If W + R <= N, strong consistency is not guaranteed
 ```
 
-In case of a read where we get diff values of the same data object from diff replicas, we use versioning to differentiate them. Ex - `(data, timestamp)`, we'll keep the one with the latest timestamp.
+In case of a read where we get diff values of the same data object from diff replicas, we use versioning to differentiate them. Ex - `(data, timestamp)`, we'll keep the data with the latest timestamp.
 
 [Illustration Video](https://youtu.be/uNxl3BFcKSA)
+
+### Vector Clock
+We keep a Vector Clock `D([Si, Vi])` for each data item in the database and by comparing it we can identify if there is a conflict, where `Si` is the server writing data item `D` and changing its version to `Vi`.
+
+```txt
+Vector Clock = D([Si, Vi])
+
+Example - D([S1, V1], [S2, V2], ..., [Sn, Vn])
+```
+```txt
+Scenarios:
+
+D([Sx, 1])		-- parent
+D([Sx, 2])		-- child
+
+D([Sx, 1])				-- parent
+D([Sx, 1], [Sy, 1])		-- child
+
+D([Sx, 1], [Sy, 2])
+D([Sx, 2], [Sy, 1])		-- conflict; how can Sy version decrease?
+
+D([Sx, 1], [Sy, 1])
+D([Sx, 1], [Sz, 1])		-- conflict; Sy and Sz both don't know the other's write
+
+D([Sx, 1], [Sy, 1], [Sz, 1])	-- resolving above conflict
+```
+
+### Gossip Protocol
+Once a server detects that another server is down, it propagates info to other servers and they check their membership list to confirm that it is indeed down. They mark it as down and propagate the info to other servers.
+
+```txt
+node membership list - memberID, heartbeat counter, last received
+```
+
+If a server's heartbeat counter has not increased for more than predefined periods, the member is considered as offline.
+
+### Sloppy Quorum w/ Hinted Handoff
+Instead of enforcing the quorum requirement, the system chooses the first `W` healthy servers for writes and first `R` healthy servers for reads on the hash ring. Offline servers are ignored.
+
+When the down server is up, changes will be pushed back to achieve data consistency - **Hinted Handoff**.
+
+### Anti-Entropy Protocol w/ Merkle Tree
+Keep replicas in sync so that if one of them goes down, others can continue to function. 
+
+Anti-entropy involves comparing each piece of data on replicas and updating each replica to the newest version. A Merkle tree is used for inconsistency detection and minimizing the amount of data transferred.
+
+A hash tree or Merkle tree is a tree in which every non-leaf node is labeled with the hash of the labels or values (in case of leaves) of its child nodes. Hash trees allow efficient and secure verification of the contents of large data structures.
+
+Build the tree in a bottom-up fashion by comparing hash of every node at a given level, compare data in a top-down fashion.
+
+Used in version control systems like `Git` too.
+
+### Bloom Filter

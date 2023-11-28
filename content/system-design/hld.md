@@ -113,7 +113,7 @@ Two generals problem - the problem with systems that reply on `ACK` for consiste
 
 - **Single Leader** (_does not scales writes_): only master can handle writes, master propagates writes to slaves, slaves are _read only_ for the client. If master goes down, one of the slaves is promoted to master or we can have a fail-over master ready to take over.
 - **Multi-Leader**: multiple nodes are leaders and writes can be done on any of the leader, consistency between them has to be maintained so that no race condition occurs. Eventual consistency is expected here. One of the leader continue to function if one goes down.
-- **Leaderless**: all nodes are equal, writes can be addressed by any of the nodes. Eventual consistency is expected here.
+- **Leaderless**: all nodes are equal, writes can be addressed by any of the nodes. Eventual consistency is expected here. Use quorum concensus.
 
 ## Networking and Protocols
 [/networking](/networking/notes)
