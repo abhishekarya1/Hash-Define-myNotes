@@ -494,7 +494,7 @@ class X <T super Number> { }    // becomes "Object t" after type erasure; so no 
 The `Class`  above can also refer to a Interface type. Also, `extends` is applicable for interface too here, meaning the same as `implements` in this context.
 
 ### Unbounded Wildcard
-Java doesn't allow casts like `List<String>` to `List<Object>` since once its declared as a list of Objects, we can add elements of its subclass types also to it e.g. `Integer`, `Car`, `Dog` etc... So, such conversions aren't allowed therefore we can't use `List<Object>` as a common type. In short - both types of List are not related so no casts.
+Java doesn't allow casts like `List<String>` to `List<Object>` since once its declared as a list of Objects, we can add elements of its subclass types also to it e.g. `Integer`, `Car`, `Dog` etc... So, such conversions aren't allowed therefore we can't use `List<Object>` as a common type. In short - their elements are related but not the Lists themselves, so no cast is allowed.
 
 ```java
 List<Integer> numbers = new ArrayList<>();
