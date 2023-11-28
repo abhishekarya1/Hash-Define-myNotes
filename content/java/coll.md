@@ -421,7 +421,9 @@ class Bar implements Foo{
 
 ```java
 class MyClass<T>{
-    static T foobar;     // compiler-error
+    static T foobar;     // compiler-error; generics not allowed on static variables
+
+    static <T> void foo(T m){ }  // allowed on static methods; since they are linked to instance (inherited, hidden, etc...)
 }
 ```
 
@@ -458,19 +460,30 @@ public record Foo<T, U>(T name, U age){ }
 ```
 
 ### Bounding Generic Types
-Limiting generic types to allow certain types only **as method parameters**.
+Limiting generic types to allow only certain types only.
 
+**Class and Method level bounding without Wildcards**:
 ```java
+class X <T extends Number> { }
 public <U extends Number> void inspect(U u){  }
 
 // multpile bounds
 <T extends C1 & C2 & C3>
-
-// no <T super Number> exists for bounded types; it exists only for wildcards 
-// reason: see "Unbounded Wildcard" section's first subsection regarding List<Object> below
 ```
 
-**Wildcards**: Used with collections
+```java
+// no <T super Number> exists for bounding without wildcards; it exists only for wildcard bounds
+
+class X <T t> { }   // 1; becomes "Object t" after type erasure
+
+class X <T extends Number> { }  // becomes "Number t" after type erasure
+
+class X <T super Number> { }    // becomes "Object t" after type erasure; so no point in writing this instead of 1
+```
+
+[Reference](http://www.angelikalanger.com/GenericsFAQ/FAQSections/TypeParameters.html#Why%20is%20there%20no%20lower%20bound%20for%20type%20parameters?:~:text=If%20lower%20bounds%20were%20permitted%20on%20type%20parameters%2C%20which%20side%20effects%20would%20or%20should%20they%20have%3F)
+
+**Wildcards**: often used with collections. Method level only, no class level bounding ([see below](#some-pitfalls)). Wildcards are checked and enforced at runtime unlike formal type params which are resolved during compile-time (type erasure).
 ```java
 <?>               // unbounded
 <? extends Class> // only those types which are subclasses of Class (upper bound) or Class itself
@@ -479,7 +492,7 @@ public <U extends Number> void inspect(U u){  }
 The `Class`  above can also refer to a Interface type. Also, `extends` is applicable for interface too here, meaning the same as `implements` in this context.
 
 ### Unbounded Wildcard
-Java doesn't allow casts like `List<String>` to `List<Object>` since once its declared as a list of Objects, we can add elements of its subclass types also to it e.g. `Integer`, `Car`, `Dog` etc... So, such conversions aren't allowed therefore we can't use `List<Object>` as a common type.
+Java doesn't allow casts like `List<String>` to `List<Object>` since once its declared as a list of Objects, we can add elements of its subclass types also to it e.g. `Integer`, `Car`, `Dog` etc... So, such conversions aren't allowed therefore we can't use `List<Object>` as a common type. In short - both types of List are not related so no casts.
 
 ```java
 List<Integer> numbers = new ArrayList<>();
@@ -503,7 +516,7 @@ public static void main(String[] args) {
 }
 ```
 
-We need to use `<?>` for all such cases where we need to accept "any" type.
+We need to use `<?>` for all such cases where we need to accept "any" type. Provides simpler syntax and in-built safety.
 ```java
 List<?> keywords = new ArrayList<String>();
 // we specified type as <String> otherwise <Object> would've been assigned by default so now we can only insert String into it
@@ -552,8 +565,8 @@ Line 6 is also fine. FileNotFoundException can also be added to any of those thr
 */
 ```
 
-### Immutability when Bounding
-**Unbounds `<?>` and Upper-bounds `<? extends Foobar>` make the list logically immutable, only removal of elements can be done**. This is applicable even when we call a method that has a bounded type in parameter, the List in called method will be immutable.
+### Immutability when Bounding (PECS Rule)
+**Unbounds `<?>` and Upper-bounds `<? extends Thing>` make the list logically immutable, only removal of elements can be done**. This is applicable even when we call a method that has a bounded type in parameter, the List in called method will be immutable.
 ```java
 List<?> list = new ArrayList<Integer>();
 list.add(1);    // error
@@ -569,11 +582,17 @@ void fooBar(List<?> ls){
 }
 ```
 
-This is a major reason to use Lower-bounds (`<? super Foobar>`) when any other two could've worked just the same, but with the immutability issue.
+This is a major reason to use Lower-bounds (`<? super Thing>`) when any other two could've worked just the same, but with the immutability issue.
 
-**Reason**: When we use `<?>` or `<? extends Foobar>`, we don't know the types that can be added to such list, it can literally be any subclass of `Foobar` even the ones which are not yet created. So Java doesn't allow adding more or changing existing elements. 
+**Reason**: When we use `<? extends Thing>`, we can only add objects of type that are subclasses of `Thing`, and we can be assured each element will behave as `Thing`. We can't add add more or change existing elements because we cannot know at runtime which specific subtype of `Thing` the collection is holding.
 
-In contrast, when we use `<? super Foobar>` we can be assured that whatever type is passed to it, it will be one of `Foobar`'s superclasses only, which trivially exists already.
+In contrast, when we use `<? super Thing>` we can be assured that whatever type is passed to it, it will be added without restrictions. Here we don't care what is already in the list as long as it will allow a `Thing` to be added. But there are no guarantees what type of object you may read from this list.
+
+Use `List<?>` or `List<Thing>` in all the other cases.
+
+{{% notice tip %}}
+Whenever a method produces (returns/modifies) a type `T`, use `? extends T`, and when it consumes (adds element) a list of type `T`, use `? super T`. **PECS** (Producer Extends Consumer Super) Rule: [Example](https://stackoverflow.com/a/2723538)
+{{% /notice %}}
 
 
 ### Some Pitfalls
