@@ -369,10 +369,10 @@ Foo obj3 = new Foo("test", 99);
 ```
 
 ### Type Erasure
-After compilation, both `Foo` and `Bar` will become a single class `Object`. The compiler takes care of all the object casts to our generic type too.
+Type erasure ensures that no new classes are created for parameterized types. After compilation, both `Foo` and `Bar` will become a single class `Object`. Upper bounds `<T extends Foobar>` type erasure converts to `Foobar`. Parameterized types `List<String>` are converted to `List<Object>`.
 
 ### Overloading and Overriding Generic Methods
-Since all generic types resolve to Object, we have to be careful with overloading and overriding.
+**Overloading**: Type erasure can cause duplicate method issues.
 ```java
 void foobar(List<Integer> arr)
 void foobar(List<Float> arr)
@@ -381,12 +381,15 @@ void foobar(List<Float> arr)
 void foobar(List<Integer> arr)
 void foobar(ArrayList<Float> arr) 
 // allowed since its normal overloading
+```
 
-//overriding
-// Overriding is allowed only for covariant types and generic type parameter <> must match exactly
+**Overriding**: allowed only for covariant types and generic type parameter <> must match exactly
+
+Since overriding means we're replacing the parent's method with the child's version on every reference, they need to be fully compatible even the parameter `<>` type must match that of parent's.
+```java
 List<CharSequence> foobar(){ }
-// overriding above method:
-ArrayList<CharSequence> foobar(){ }     // allowed because ArrayList implements List (covariant); vice-versa not allowed
+
+ArrayList<CharSequence> foobar(){ }     // allowed; ArrayList implements List (covariant); vice-versa not allowed
 List<String> foobar(){ }                // not allowed; generic type parameter <> must match exactly
 ```
 
