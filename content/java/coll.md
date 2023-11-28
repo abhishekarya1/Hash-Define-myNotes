@@ -481,7 +481,7 @@ class X <T extends Number> { }  // becomes "Number t" after type erasure
 class X <T super Number> { }    // becomes "Object t" after type erasure; so no point in writing this instead of 1
 ```
 
-[Reference](http://www.angelikalanger.com/GenericsFAQ/FAQSections/TypeParameters.html#Why%20is%20there%20no%20lower%20bound%20for%20type%20parameters?:~:text=If%20lower%20bounds%20were%20permitted%20on%20type%20parameters%2C%20which%20side%20effects%20would%20or%20should%20they%20have%3F)
+[Reference](http://www.angelikalanger.com/GenericsFAQ/FAQSections/TypeParameters.html#Why%20is%20there%20no%20lower%20bound%20for%20type%20parameters?:~:text=Again%2C%20the%20lower%20bound%20would%20have%20the%20same%20effect%20as%20%22no%20bound%22)
 
 **Wildcards**: often used with collections. Method level only, no class level bounding ([see below](#some-pitfalls)). 
 
