@@ -474,11 +474,11 @@ public <U extends Number> void inspect(U u){  }
 ```java
 // no <T super Number> exists for bounding without wildcards; it exists only for wildcard bounds
 
-class X <T t> { }   // becomes "Object t" after type erasure
+class X <T t> { }   // 1; becomes "Object t" after type erasure
 
 class X <T extends Number> { }  // becomes "Number t" after type erasure
 
-class X <T super Number> { }    // compiler-error; becomes "Object t" or "Number t" after type erasure; so no point in writing this
+class X <T super Number> { }    // compiler-error; would become "Object t" after type erasure; so no point in writing this instead of 1
 ```
 
 [Reference](http://www.angelikalanger.com/GenericsFAQ/FAQSections/TypeParameters.html#Why%20is%20there%20no%20lower%20bound%20for%20type%20parameters?:~:text=Again%2C%20the%20lower%20bound%20would%20have%20the%20same%20effect%20as%20%22no%20bound%22)
