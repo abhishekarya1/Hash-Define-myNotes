@@ -483,7 +483,9 @@ class X <T super Number> { }    // becomes "Object t" after type erasure; so no 
 
 [Reference](http://www.angelikalanger.com/GenericsFAQ/FAQSections/TypeParameters.html#Why%20is%20there%20no%20lower%20bound%20for%20type%20parameters?:~:text=If%20lower%20bounds%20were%20permitted%20on%20type%20parameters%2C%20which%20side%20effects%20would%20or%20should%20they%20have%3F)
 
-**Wildcards**: often used with collections. Method level only, no class level bounding ([see below](#some-pitfalls)). Wildcards are checked and enforced at runtime unlike formal type params which are resolved during compile-time (type erasure).
+**Wildcards**: often used with collections. Method level only, no class level bounding ([see below](#some-pitfalls)). 
+
+**Wildcards are checked and enforced at runtime unlike formal type params which are resolved during compile-time (type erasure).** This allows stuff like [PECS](#immutability-when-bounding-pecs-rule).
 ```java
 <?>               // unbounded
 <? extends Class> // only those types which are subclasses of Class (upper bound) or Class itself
@@ -586,7 +588,7 @@ This is a major reason to use Lower-bounds (`<? super Thing>`) when any other tw
 
 **Reason**: When we use `List<? extends Thing>`, we can only add objects of type that are subclasses of `Thing`, and we can be assured each element will behave as `Thing`. We can't add add more or change existing elements because we cannot know at runtime which specific subtype of `Thing` the collection is holding and the element we are adding may not be convertible with it.
 
-In contrast, when we use `List<? super Thing>` we can be assured that whatever type is passed to it, it will be added without restrictions. Here we don't care what is already in the list as long as it will allow a `Thing` to be added. But there are no guarantees what type of object you may read from this list. The object we add to the list are guaranteed to be convertible to list's existing type since they are ancestors of the same class `Thing`!
+In contrast, when we use `List<? super Thing>` we can be assured that whatever type is passed to it, it will be added without restrictions. Here we don't care what is already in the list as long as it will allow a `Thing` to be added. But there are no guarantees what type of object you may read from this list. The object we add to the list are guaranteed to be related to list's existing type since they are ancestors of the same class `Thing`!
 
 Use `List<?>` or `List<Thing>` in all the other cases.
 
