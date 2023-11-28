@@ -622,11 +622,11 @@ public <T> void foobar(List<T extends Main> list) {  }
 
 
 // use wildcards only with collections, not as bound method types
-public <T> <? extends Main> foobar(T t) {  }
+public <T> <? extends Main> void foobar(T t) {  }
 // invalid; wildcard used as method's return type
 
 
 // valid examples
-public <T extends Main> void foobar(List<T> list) {  }
 public void foobar(List<? extends Main> list) {  }
+public <T extends Main> void foobar(List<T> list) {  }      // same as above; but declares T type to be reused in method body
 ```
