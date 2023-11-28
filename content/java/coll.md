@@ -555,10 +555,10 @@ List<? extends Foobar>      // we can pass any class/interface that extends Foob
 ```java
 List<? super Foobar>      // we can pass any class/interface that is supertype of Foobar, or Foobar ref variable itself
 
-// BEWARE: above applies to what we can pass to it without compiler-error. We can only add elements that are of type 'Foobar' i.e. subclasses of Foobar and 'Foobar' itself but not its superclasses (very counter-intuitive; see example below)
+// BEWARE: above applies to what we can pass to it without compiler-error. But we can only add elements that are of type 'Foobar' i.e. subclasses of Foobar and 'Foobar' itself but not its superclasses (very counter-intuitive; see example below)
 
 // Isn't it the same as the uppor-bound then?
-// Yes, classes it can add are the exact same set as all the upper-bound classes, the only diff is mutability and thus usage differs (see "PECS" section below)
+// No, classes it can add are the exact same set as all the upper-bound classes, the diff is callable with supertypes, mutability and thus usage differs (see "PECS" section below)
 ```
 
 Since this gives us mutable lists, surprises can happen here when inserting superclass and thier subclasses if above logic is not clear:
