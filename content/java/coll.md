@@ -557,7 +557,7 @@ List<? super Foobar>      // we can pass any class/interface that is supertype o
 
 // BEWARE: above applies to what we can pass to it without compiler-error. But we can only add elements that are of type 'Foobar' i.e. subclasses of Foobar and 'Foobar' itself but not its superclasses (very counter-intuitive; see example below)
 
-// INTUITION: pass list of the type of any superclass of Foobar, then we can add Foobar and subclasses of Foobar as elements to that list. This isn't possible with upper-bounds.
+// INTUITION: pass list of the type of any superclass of Foobar, then we can add Foobar and subclasses of Foobar as elements to that list. This isn't possible with upper-bounds since we can't get this kind of idea about the type of elements to add there.
 
 // Isn't it the same as the uppor-bound then?
 // No, classes it can add elements of are the exact same set as all the upper-bound classes, the diff is callable with supertypes, mutability and thus usage differs (see "PECS" section below)
@@ -605,9 +605,9 @@ void fooBar(List<?> ls){
 
 This is a major reason to use Lower-bounds (`<? super Thing>`) when any other two could've worked just the same, but with the immutability issue.
 
-**Reason**: When we use `List<? extends Thing>`, we can only add objects of type that are subclasses of `Thing`, and we can be assured each element will behave as `Thing`. We can't add add more or change existing elements because we cannot know at runtime which specific subtype of `Thing` the collection is holding and the element we are adding may not be convertible with it.
+**Reason**: When we use `List<? extends Thing>`, we can be assured that it will always return an object of type `Thing` i.e. each element will behave as `Thing`. We can't add add more or change existing elements because we cannot know at runtime which specific subtype of `Thing` the collection is holding and the element we are adding may not be convertible (subclass of) with the list's existing type.
 
-In contrast, when we use `List<? super Thing>` we can be assured that whatever type is passed to it, it will be added without restrictions. Here we don't care what is already in the list as long as it will allow a `Thing` to be added. But there are no guarantees what type of object you may read from this list.
+In contrast, when we use `List<? super Thing>` we can be assured that whatever type is passed to it, it will be added without restrictions since list is of supertype. Here we don't care what is already in the list as long as it will allow a `Thing` (and its subclasses which are also a `Thing`) to be added. But there are no guarantees what type of object you may read from this list, since it can be any of the supertypes of `Thing`.
 
 If we need to produce and consume (removal only) both in the same method, use `List<?>` or `List<Thing>`, then list will be immutable in the called method ([see this](#unbounded-wildcard))
 
