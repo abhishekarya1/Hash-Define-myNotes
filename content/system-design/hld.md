@@ -108,6 +108,8 @@ Scaling up to your first 10 million users: https://www.youtube.com/watch?v=kKjm4
 
 **Denormalization**: duplicate columns are often kept in multiple tables to make reads easier, writes suffer though. We often use **Materialized views** which are cached tables stored when we query across partitioned databases i.e. a complex `JOIN`
 
+Goals: Uniform distribution of data among nodes and minimal rerouting of traffic if nodes are added or removed. Consistent Hashing is used.
+
 ### Replication
 Two generals problem - the problem with systems that reply on `ACK` for consistency is that the other one doesn't know if the update has been performed on the other node if `ACK` doesn't reach us back, resolution - _hierarchical replication_.
 

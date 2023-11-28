@@ -145,13 +145,13 @@ Inconsistency Resolution - Versioning (Vector Clock)
 Failure Detection - Gossip Protocol
 Handling Temporary Failures - Sloppy Quorum with Hinted Handoff
 Handling Permanent Failures - Anti-Entropy Protocol with Merkle Tree
-Lookup - Bloom Filter
+Fast Lookup - Bloom Filter
 ```
 
 ### Quorum Concensus
 Ensures data read and write consistency across replicas.
 
-**Approach**: Client sends request to a _coordinator node_, all replicas are connected to coordinator and to each other in a ring like fashion. We need atleast `W` replicas to perform and acknowledge a write operation, and atleast `R` replicas to perform and acknowledge a read operation for it to be declared successful, where `N` is the total number of replicas.
+**Approach**: Client sends request to a _coordinator node_, all replicas are connected to a coordinator. We need atleast `W` replicas to perform and acknowledge a write operation, and atleast `R` replicas to perform and acknowledge a read operation for it to be declared successful, where `N` is the number of nodes that store replicas of a particular data (and not the total number of replica nodes in the system).
 
 **Configuration**:
 ```txt
@@ -166,7 +166,7 @@ In case of a read where we get diff values of the same data object from diff rep
 [Illustration Video](https://youtu.be/uNxl3BFcKSA)
 
 ### Vector Clock
-We keep a Vector Clock `D([Si, Vi])` for each data item in the database and by comparing it we can identify if there is a conflict, where `Si` is the server writing data item `D` and changing its version to `Vi`.
+We keep a Vector Clock `D([Si, Vi])` for each data item in the database and by comparing it we can identify if there is a conflict, where `Si` is the server writing data item `D` and updating its version `Vi`.
 
 ```txt
 Vector Clock = D([Si, Vi])
@@ -174,7 +174,7 @@ Vector Clock = D([Si, Vi])
 Example - D([S1, V1], [S2, V2], ..., [Sn, Vn])
 ```
 ```txt
-Scenarios:
+Scenarios: first compare server and then version for both; versions should be less or more across all servers of a clock, not mixed
 
 D([Sx, 1])		-- parent
 D([Sx, 2])		-- child
@@ -183,13 +183,15 @@ D([Sx, 1])				-- parent
 D([Sx, 1], [Sy, 1])		-- child
 
 D([Sx, 1], [Sy, 2])
-D([Sx, 2], [Sy, 1])		-- conflict; how can Sy version decrease?
+D([Sx, 2], [Sy, 1])		-- conflict; how can Sx or Sy version decrease?
 
 D([Sx, 1], [Sy, 1])
-D([Sx, 1], [Sz, 1])		-- conflict; Sy and Sz both don't know the other's write
+D([Sx, 1], [Sz, 1])		-- conflict; Sy and Sz both unaware of the other's write
 
 D([Sx, 1], [Sy, 1], [Sz, 1])	-- resolving above conflict
 ```
+
+Storing vector clocks along with data objects is an overhead.
 
 ### Gossip Protocol
 Once a server detects that another server is down, it propagates info to other servers and they check their membership list to confirm that it is indeed down. They mark it as down and propagate the info to other servers.
@@ -200,20 +202,44 @@ node membership list - memberID, heartbeat counter, last received
 
 If a server's heartbeat counter has not increased for more than predefined periods, the member is considered as offline.
 
-### Sloppy Quorum w/ Hinted Handoff
-Instead of enforcing the quorum requirement, the system chooses the first `W` healthy servers for writes and first `R` healthy servers for reads on the hash ring. Offline servers are ignored.
+Used in P2P systems like BitTorrent.
 
-When the down server is up, changes will be pushed back to achieve data consistency - **Hinted Handoff**.
+### Sloppy Quorum w/ Hinted Handoff
+Instead of enforcing the quorum requirement of choosing from `N` nodes that store replica of a particular data, the system chooses the first `W` healthy nodes for writes and first `R` healthy nodes for reads on the hash ring. Offline servers are ignored.
+
+When the down server goes up, changes will be pushed back to the replicas which are supposed to store that data to achieve data consistency - **Hinted Handoff**.
+
+```txt
+Even if W + R > N, strong consistency can't be guaranteed in case of Sloppy Quorums
+			  	   since with N = 3 (A, B, C), we wrote to nodes A, C and read from D, E because of down servers
+			  	   no overlap even if the condition was satisfied
+			  	   hinted handoff will add data to B once its up
+```
+
+Enabled by default in DynamoDB and Riak.
+
+[Reference](https://jimdowney.net/2012/03/05/be-careful-with-sloppy-quorums/)
 
 ### Anti-Entropy Protocol w/ Merkle Tree
-Keep replicas in sync so that if one of them goes down, others can continue to function. 
+Keep replicas in sync periodically so that if one of them goes down, others have the data we need.
 
 Anti-entropy involves comparing each piece of data on replicas and updating each replica to the newest version. A Merkle tree is used for inconsistency detection and minimizing the amount of data transferred.
 
-A hash tree or Merkle tree is a tree in which every non-leaf node is labeled with the hash of the labels or values (in case of leaves) of its child nodes. Hash trees allow efficient and secure verification of the contents of large data structures.
+A Hash tree or Merkle tree is a tree in which every non-leaf node is labeled with the hash of the labels or replica contents (in case of leaves) of its child nodes. Hash trees allow efficient and secure verification of the contents of large data structures.
 
-Build the tree in a bottom-up fashion by comparing hash of every node at a given level, compare data in a top-down fashion.
+Build the tree in a bottom-up fashion by comparing file integrity hash of every node at a given level, compare hashes in a top-down fashion and find the mismatch replica.
 
 Used in version control systems like `Git` too.
 
 ### Bloom Filter
+Answers the question "Is this item in the set?" with either a confident "no" or a nervous "probably yes". False positives are possible, it is probabilistic.
+
+We can check the database (expensive operation though) after bloom filter has answered with a "probably yes".
+
+Can't remove an item from the Bloom Filter, it never forgets. Removal isn't possible since entries to the table for multiple items overlap most of the times.
+
+Choose all hash functions with equal hash space.
+
+The larger the Bloom Filter, the lesser false positives it will give. Memory and accuracy is a trade-off.
+
+[Illustration Video](https://youtu.be/V3pzxngeLqw?t=207)
