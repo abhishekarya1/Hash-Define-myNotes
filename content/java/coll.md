@@ -489,7 +489,7 @@ class X <T super Number> { }    // becomes "Object t" after type erasure; so no 
 ```java
 <?>               // unbounded
 <? extends Class> // only those types which are subclasses of Class (upper bound) or Class itself
-<? super Class>   // only those types which are superclasses of Class (lower bound) or Class itself
+<? super Class>   // types which are 'Class', this includes all subclasses and 'Class' itself but not its superclasses! (very counter-intuitive)
 ```
 The `Class`  above can also refer to a Interface type. Also, `extends` is applicable for interface too here, meaning the same as `implements` in this context.
 
@@ -540,19 +540,25 @@ public static void printList(List<?> list) {
 ```java
 List<?> arr1 = new ArrayList<>();    // a List type reference; List<Object>
 var arr2 = new ArrayList<>();        // an ArrayList type reference; ArrayList<Object>
+
+// read: Anything
 ```
 
 ### Upper-bounded Wildcard
 ```java
 List<? extends Foobar>      // we can pass any class/interface that extends Foobar, implements Foobar or Foobar ref variable itself
+
+// read: Anything which extends Foobar
 ```
 
 ### Lower-bounded Wildcard
 ```java
-List<? super Foobar>      // we can pass any class/interface that is parent of Foobar, gets implemented by Foobar, or Foobar ref variable itself
+List<? super Foobar>      // we can pass any class/interface that is of type 'Foobar' i.e. subclasses of Foobar and 'Foobar' itself but not its superclasses (very counter-intuitive; see example below)
+
+// read: Anything whose super is Foobar
 ```
 
-Since this gives us mutable lists, tricky things can happen here when inserting superclass and thier subclasses.
+Since this gives us mutable lists, surprises can happen here when inserting superclass and thier subclasses if above logic is not clear:
 ```java
 public static void main(String[] args) {
     List<Exception> exceptions = new ArrayList<Exception>();
@@ -563,17 +569,19 @@ void foo(List<? super IOException> e){      // line 3
     e.add(new Exception());                 // line 4; compiler-error (tricky)
     e.add(new IOException());               // line 5
     e.add(new FileNotFoundException());     // line 6; tricky
+    e.add(new SSLException("xyz"));         // line 7; tricky
 }
 
 /*
-Line 3 references a List that could be List<IOException> or List<Exception> or List<Object>.
-Line 4 does not compile because we could have a List<IOException>, and an Exception object wouldn't fit in there.
-Line 5 is fine. IOException can be added to any of those types.
-Line 6 is also fine. FileNotFoundException can also be added to any of those three types. This is tricky because FileNotFoundException is a subclass of IOException, and the keyword says "super". Java says, "Well, FileNotFoundException also happens to be an IOException, so everything is fine".
+Line 3 references a List with lower-bound wildcard
+Line 4 does not compile because Exception is not of type IOException
+Line 5 is fine. IOException can be added
+Line 6 is also fine. FileNotFoundException is a subclass of IOException and thus it is 'IOException'
+Line 7 is fine! SSLException is a subclass of IOException and not related to FileNotFoundException, still they can be put into the same list because of <? super IOException>
 */
 ```
 
-### Immutability when Bounding (PECS Rule)
+### Immutability with Wildcards (PECS Rule)
 **Unbounds `<?>` and Upper-bounds `<? extends Thing>` make the list logically immutable, only removal of elements can be done**. This is applicable even when we call a method that has a bounded type in parameter, the List in called method will be immutable.
 ```java
 List<?> list = new ArrayList<Integer>();
@@ -594,7 +602,7 @@ This is a major reason to use Lower-bounds (`<? super Thing>`) when any other tw
 
 **Reason**: When we use `List<? extends Thing>`, we can only add objects of type that are subclasses of `Thing`, and we can be assured each element will behave as `Thing`. We can't add add more or change existing elements because we cannot know at runtime which specific subtype of `Thing` the collection is holding and the element we are adding may not be convertible with it.
 
-In contrast, when we use `List<? super Thing>` we can be assured that whatever type is passed to it, it will be added without restrictions. Here we don't care what is already in the list as long as it will allow a `Thing` to be added. But there are no guarantees what type of object you may read from this list. The object we add to the list are guaranteed to be related to list's existing type since they are ancestors of the same class `Thing`!
+In contrast, when we use `List<? super Thing>` we can be assured that whatever type is passed to it, it will be added without restrictions. Here we don't care what is already in the list as long as it will allow a `Thing` to be added. But there are no guarantees what type of object you may read from this list.
 
 Use `List<?>` or `List<Thing>` in all the other cases.
 
