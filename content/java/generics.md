@@ -85,7 +85,12 @@ public record Foo<T, U>(T name, U age){ }
 In the same way, `enum` can be generic too.
 
 ## Type Erasure
-Type erasure ensures that no new classes are created for parameterized types. After compilation, both `Foo` and `Bar` will become a single class `Object`. Upper bounds `<T extends Foobar>` type erasure converts to `Foobar`. Parameterized types `List<String>` are converted to `List<Object>`.
+Type erasure ensures that no new classes are created for parameterized types. 
+
+At compilation time: 
+- type `T` becomes `Object`
+- upper bound `<T extends Foobar>` converts to `Foobar`
+- parameterized types like `List<String>` and `List<Integer>` both are converted to `List<Object>`
 
 ### Overloading and Overriding Generic Methods
 **Overloading**: Type erasure can cause duplicate method issues. So a **check is done before type erasure** and compiler-error is raised if incompatible.
@@ -199,9 +204,9 @@ class X <T super Number> { }    // compiler-error; would become "Object t" after
 [Reference](http://www.angelikalanger.com/GenericsFAQ/FAQSections/TypeParameters.html#Why%20is%20there%20no%20lower%20bound%20for%20type%20parameters?:~:text=Again%2C%20the%20lower%20bound%20would%20have%20the%20same%20effect%20as%20%22no%20bound%22)
 
 ## Bounding with Wildcards
-Often used with collections. Method level only, no class level bounding ([see below](#some-pitfalls-in-usage)). 
+Often used with collections. Method argument level only, no class level bounding ([see below](#some-pitfalls-in-usage)). 
 
-**Wildcards are checked and enforced at runtime unlike formal type params which are resolved during compile-time (type erasure).** This allows stuff like [PECS](#immutability-with-wildcards-pecs-rule).
+**Wildcards are checked and enforced at runtime unlike bounded type params which are resolved during compile-time (type erasure)**. Wildcards decide what types can be accepted as method parameter and not define an actual type `T`. This allows stuff like [PECS](#immutability-with-wildcards-pecs-rule).
 ```java
 <?>               // unbounded
 <? extends Class> // only those types which are subclasses of Class (upper bound) or Class itself
@@ -271,9 +276,11 @@ List<? extends Foobar>      // we can pass any class/interface that extends Foob
 ```java
 List<? super Foobar>      // we can pass any class/interface that is supertype of Foobar, or Foobar ref variable itself
 
+// read: Anything which is supertype of Foobar
+
 // BEWARE: above applies to what we can pass to it without compiler-error. But we can only add elements that are of type 'Foobar' i.e. subclasses of Foobar and 'Foobar' itself but not its superclasses (very counter-intuitive; see example below)
 
-// INTUITION: pass list of the type of any superclass of Foobar, then we can add Foobar and subclasses of Foobar as elements to that list. This isn't possible with upper-bounds since we can't get this kind of idea about the type of elements to add there.
+// INTUITION: pass list of the type of any superclass of Foobar, then we can add Foobar and subclasses of Foobar as elements to that list. This isn't possible with upper-bounds since we can't get this kind of idea about the type of elements to add there because there is no lower bound on the type of list is receives.
 
 // Isn't it the same as the uppor-bound then?
 // No, classes it can add elements of are the exact same set as all the upper-bound classes, the diff is callable with supertypes, mutability and thus usage differs (see "PECS" section below)
