@@ -445,6 +445,8 @@ class C extends P{
 ### @Override Annotation
 we can write a `@Override` on top of methods we are overriding and Java lets us know at compile time if no methods matching it is found in parent class. When everything goes fine, it doesn't impact code in any way.
 
+Note - compiler will only tell us if return types are not compatible, and not the arguments' compatibility, this is where `@Override` annotation is useful.
+
 ```java
 class X{
 	public int foo(char c){

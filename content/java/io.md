@@ -1,7 +1,7 @@
 +++
 title = "I/O"
 date =  2022-06-17T10:33:00+05:30
-weight = 12
+weight = 13
 +++
 
 ## Basics & Terminology

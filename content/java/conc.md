@@ -1,7 +1,7 @@
 +++
 title = "Concurrency"
 date =  2022-06-01T09:38:00+05:30
-weight = 11
+weight = 12
 +++
 
 **Thread**: Smallest unit of execution that can be scheduled to the CPU.

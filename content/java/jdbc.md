@@ -1,7 +1,7 @@
 +++
 title = "JDBC"
 date =  2022-11-25T00:41:00+05:30
-weight = 13
+weight = 14
 +++
 
 ## Basics
