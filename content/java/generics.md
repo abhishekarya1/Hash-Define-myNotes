@@ -95,7 +95,6 @@ At compilation time:
 ### Overloading and Overriding Generic Methods
 **Overloading**: Type erasure can cause duplicate method issues. So a **check is done before type erasure** and compiler-error is raised if incompatible.
 
-For this reason, we can't overload a generic method in child class that is inherited from a parent class.
 ```java
 void foobar(List<Integer> arr)
 void foobar(List<Float> arr)
@@ -108,7 +107,7 @@ void foobar(ArrayList<Float> arr)
 
 **Overriding**: Compatibility is checked for both the return types and the method signature **before type erasure happens**.
 
-Collections are generic too, so the same rule applies here as periviously stated ([here](/java/coll/#collection-types-and-overriding))
+Collections are generic too, so the same rule applies here as previously noted ([here](/java/coll/#collection-types-and-overriding))
 ```java
 List<Number> foobar(){ }        // 1 
 

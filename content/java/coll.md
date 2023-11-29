@@ -97,7 +97,7 @@ Collections define their own type based on the generic `<>` parameter type. `Lis
 
 Check both "type of list" and its "contents" when checking for compatibility.
 
-**Collection Overriding Thumb Rule**: type generic type `<>` should match exactly when overriding collections, collection type itself must be same or covariant
+**Collection Overriding Thumb Rule**: generic type `<>` should match exactly when overriding collections, collection type itself must be same or covariant
 ```java
 class X{
     List<CharSequence> foo(){ }
