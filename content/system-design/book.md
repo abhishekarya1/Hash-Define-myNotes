@@ -138,14 +138,14 @@ Place as many virtual nodes across hash space such that response time of a reque
 
 ## Key-Value Store
 ```txt
-Data Partition - Consistent Hashing
-Data Replication - Consistent Hashing (copy data onto the next three unique servers towards the clockwise direction)
-Consistency - Quorum Concensus
-Inconsistency Resolution - Versioning (Vector Clock)
-Failure Detection - Gossip Protocol
+Data Partition 				- Consistent Hashing
+Data Replication 			- Consistent Hashing (copy data onto the next three unique servers towards the clockwise direction)
+Consistency 				- Quorum Concensus
+Inconsistency Resolution 	- Versioning (Vector Clock)
+Failure Detection 			- Gossip Protocol
 Handling Temporary Failures - Sloppy Quorum with Hinted Handoff
 Handling Permanent Failures - Anti-Entropy Protocol with Merkle Tree
-Fast Lookup - Bloom Filter
+Fast Lookup 				- Bloom Filter
 ```
 
 ### Quorum Concensus
@@ -232,7 +232,7 @@ Build the tree in a bottom-up fashion by comparing file integrity hash of every 
 Used in version control systems like `Git` too.
 
 ### Bloom Filter
-Answers the question "Is this item in the set?" with either a confident "no" or a nervous "probably yes". False positives are possible, it is probabilistic.
+Answers the question "Is this item in the set?" with either a **confident "no"** or a **nervous "probably yes"**. False positives are possible, it is probabilistic.
 
 We can check the database (expensive operation though) after bloom filter has answered with a "probably yes".
 
@@ -243,3 +243,73 @@ Choose all hash functions with equal hash space.
 The larger the Bloom Filter, the lesser false positives it will give. Memory and accuracy is a trade-off.
 
 [Illustration Video](https://youtu.be/V3pzxngeLqw?t=207)
+
+## Distributed Unique ID
+Challenge: generating unique IDs in a distributed environment.
+
+```txt
+Multi-Master Replication 		- use SQL auto_increment on two servers
+UUID 							- generate UUID separately on each app server
+Ticket Server 					- a server that can output unique IDs based on SQL auto_increment, uses single row
+Twitter Snowflake ID 			- a new format for unique IDs
+Instagram's Approach 			- snowflake like IDs
+```
+
+**Multi-Master Replication**: uses the database `auto_increment` feature. Instead of increasing the next ID by 1, we increase it by `k`, where `k` is the number of database servers in use. This is done to divide generated ID space across servers.
+
+Ex - Keep two servers to generate even and odd ID respectively, and round robin between the two servers to load balance and deal with down time. Not much scalable.
+
+```txt
+Server1:
+auto-increment-increment = 2
+auto-increment-offset = 1
+
+Server2:
+auto-increment-increment = 2
+auto-increment-offset = 2
+
+
+Server1 generates ID - 1, 3, 5 ...
+Server2 generates ID - 2, 4, 6 ...
+```
+
+Cons: not scalable or customizable.
+
+**UUID** (_Universally Unique Identifier_): 128-bit standard unique IDs that require no coordination when generating. Every UUID ever generated anywhere is guranteed to be unique!
+
+> "after generating 1 billion UUIDs every second for approximately 86 years would the probability of creating a single duplicate reach 50%" - Wikipedia
+
+```txt
+Standard Representation => lower case Hex groups separated by hyphen = 8-4-4-4-12
+
+Ex - 550e8400-e29b-41d4-a716-446655440000
+```
+
+Cons: super scalable, but not customizable (UUID have a fixed standardized format).
+
+**Ticket Server**: ab(using) `auto_increment` feature of MySQL database and `REPLACE INTO` query to generate ID _using a single row_. Keep multiple tables like `Tickets32` and `Tickets64` for varying size IDs. Keep two servers in a multi-master fashion described above to ensure high availability.
+
+Cons: SPOF, not really scalable or customizable.
+
+[Reference](https://code.flickr.net/2010/02/08/ticket-servers-distributed-unique-primary-keys-on-the-cheap/)
+
+**Snowflake ID**: 64-bit binary ID written as decimal. Guaranteed to be unique since it stores timestamp and machine and datacenter info. `sequence_number` is almost always `0` but if we generate multiple IDs in under 1ms, it is incremented to help us differentiate between them.
+```txt
+snowflake_id = timestamp + datacenter_id + machine_id + sequence_number
+
+Ex - 1541815603606036480
+```
+
+Used at Twitter, Discord, Instagram, and Mastodon.
+
+[Reference](https://blog.twitter.com/engineering/en_us/a/2010/announcing-snowflake)
+
+**Instagram's Approach**: uses snowflake like 64-bit ID. Uses Postgres logical shards feature.
+
+```txt
+id = ts + logical_shard_id + table_auto_increment_seq_value
+```
+
+This Primary ID will be unique across all tables in the application (and as a bonus contains the shard ID).
+
+[Reference](https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c)
