@@ -115,7 +115,7 @@ We get a status code in the response message along with a short text (e.g. `OK`,
 [Status codes cheatsheet](https://www.restapitutorial.com/httpstatuscodes.html)
 
 ### Methods/Verbs
-They are **just a hint** about the action we will perform for the request on the resource. 
+They specify the action we will perform for the request on the resource. They are not merely a hint but servers act upon them. Ex - `HEAD` request's response will always be only headers and no body will be sent by the server back.
 
 ```txt
 GET - read
@@ -135,7 +135,9 @@ HEAD - send only response headers section back
 
 [Response codes for each method](https://restfulapi.net/http-methods/)
 
-Do note that response codes are also just a hint about the response but utmost care should be taken while designing API to make sure responses have self-explanatory status codes.
+Do note that response codes may not be merely a hint about the response, but often do have a function that is understood and acted upon by clients. Ex - `301` and `302` response codes for redirect. Clients instantly redirect to whatever is specified in the response's `location` header.
+
+Utmost care should be taken while designing API to make sure responses have self-explanatory status codes.
 
 #### Idempotence and Safety
 

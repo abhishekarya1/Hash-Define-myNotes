@@ -319,7 +319,7 @@ This Primary ID will be unique across all tables in the application (and as a bo
 [Reference](https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c)
 
 ### URL Shortener
-Specify either `301 - Moved Permanently` (subsequent requests go to new URL) or `302 - Found` (_moved temporarily_, subsequent requests go to short URL, better for analytics) along with a `location` header. It will redirect you to the URL specified in the location header.
+Specify either `301 - Moved Permanently` (subsequent requests go to new URL) or `302 - Found` (_moved temporarily_, subsequent requests keep going to short URL first, better for analytics) along with a `location` header. It will redirect you to the URL specified in the location header.
 
 {{% notice info %}}
 It redirects directly! The response with the code 301 doesn't even show up in Postman. Eliminates the need for any redirect logic implementation.
