@@ -11,15 +11,18 @@ weight = 2
 4 - init
 ```
 ### 1 - BIOS
-It is a **Firmware** - b/w Hardware and Software.
+Basic Input Output System - It is a **Firmware** (b/w Hardware and Software) stored on an EEPROM chip. Identifies hardware, performs a basic sanity check i.e. POST (Power On Self Test), configures it, and invokes the Bootloader from disk. 
 
-**BIOS** (Basic Input Output System) - Firmware that identify's hardware, performs a basic sanity check (POST (Power On Self Test)), configures it, and invokes the bootloader. Stores BIOS code on chip, expects bootloader to be stored in MBR.
+**Legacy BIOS**  - Expects bootloader to be stored in MBR, protective MBR in case of GPT.
 
-**UEFI** (Unified Extensible Firmware Interface) - Created by Intel in 1998 as a successor of BIOS. Uses a specific disk partition for boot (EFI System Partition (ESP)) and uses FAT. On Linux it is located (logical) at `/boot/efi` and files are `.efi`. Stores both UEFI code and bootloader in ESP.
+**UEFI** (Unified Extensible Firmware Interface) - Created by Intel in 1998 as a successor of BIOS. Uses a specific disk partition for boot (EFI System Partition (ESP)) and uses FAT. On Linux it is located (logical) at `/boot/efi` and files are `.efi`. Stores both UEFI code and bootloader in ESP. 
+
+UEFI can find Bootloader manually on all available ESP.
 
 ### 2 - Bootloader
+It can be a two stage process (1st stage bootloader and 2nd stage bootloader).
 
-BIOS looks for Bootloader on disk. It can be a two stage process (1st stage bootloader and 2nd stage bootloader). Bootloader loads Kernel into memory with parameters that can be tweaked.
+Bootloader loads Kernel into memory with parameters that can be tweaked. It is configurable (unlike standardized BIOS or UEFI) so we can configure where to load Kernel from the disk.
 
 **Partition table**: Some space is reserved on MBR or ESP that contains information about how the partitions are organized and where to load the bootloader from.
 
