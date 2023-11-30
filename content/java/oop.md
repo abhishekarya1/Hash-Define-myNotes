@@ -45,30 +45,52 @@ public class Demo {
 ```
 
 ## Inheritance
-```java
-public class Y { }
+All eligible fields and methods are inherited by the Children from Parents.
 
-public class X extends Y { }
+```java
+class X { }
+
+class Y extends X { }
 ```
 
 ```java
+// field inheritance
+
+class X { 
+	int a = 5;
+}
+
+class Y extends X { }
+
+
+// in Main class
+X x = new X();
+Y y = new Y();
+y.a = 6;						// variable "a" is present in Y; copy created when it was inherited
+System.out.println(x.a);		// prints 5
+System.out.println(y.a);		// prints 6
+```
+
+```java
+// method inheritance - same as field inheritance
+
 class X {
-    String foobar() {
+    String foo() {
         return "Lorem Ipsum";
     }
 }
 
 class Y extends X {		// inheritance
     void bar() {
-        System.out.println(foobar()); 	// Lorem Ipsum; method available to children classes
+        System.out.println(foo()); 	// "Lorem Ipsum"; but its calling Y's foo() method since it was inherited!
     }
 }
 ```
 
-NOTE: `static` methods belong to class, and they are inherited just like any other method.
+**NOTE**: `static` methods belong to class, but they are inherited just like any other method. Reason - they are part of the "blueprint", this way the child also gets its very own static method through inheritance.
 
 ### Access Modifiers on Class
-- only the `public` and package (_default_) access modifiers are allowed on a class. A class with no access modifier (package) access can only be accessed inside the same package.
+- only the `public` and package (_default_) access modifiers are allowed on a top-level class. A class with no access modifier (package) access can only be accessed inside the same package.
 
 ### Class Modifiers
 - `final` - class can't be extended; leads to compiler error
@@ -101,7 +123,7 @@ In the above case, the name is set to `"John"` since Java thinks we are assignin
 String name = "John";
 //setter
 void setFoo(String name){
-	this.name = name;			// set to instance
+	this.name = name;			// set to instance variable
 }
 
 // we can use this just like a reference variable - pass in method arguments, call methods using it, we can even use "return this"
@@ -442,10 +464,12 @@ class C extends P{
 }
 //Output: BBBA
 ```
-### @Override Annotation
-we can write a `@Override` on top of methods we are overriding and Java lets us know at compile time if no methods matching it is found in parent class. When everything goes fine, it doesn't impact code in any way.
 
-Note - compiler will only tell us if return types are not compatible, and not the arguments' compatibility, this is where `@Override` annotation is useful.
+### @Override Annotation
+**Accidental Overloading in Child**: if methods' signature doesn't match (Override Rule #1) then it is an overload in child and not override! To explicitly specify that we want override, use `@Override` annotation for a compile-time check.
+
+`@Override` annotation on top of override method in child lets us know at compile time if no methods matching it is found in parent class. When everything goes fine, it doesn't impact code in any way.
+
 
 ```java
 class X{
@@ -455,12 +479,12 @@ class X{
 }
 
 class Y extends X{
-	public int foo(){
+	public int foo(){		// parent method is overloaded in child
 		return 2;
 	}
 }
 
-// no compiler error unless we place a "@Override" atop Y's foo()
+// no compiler error unless we place a "@Override" atop Y's foo() to let it know that we want to override
 ```
 ### static Method Hiding
 We follow same 4 rules as overriding, a static method is bound to class so it will depend on the reference or classname we use to call it. **They can't be overriden though**, only hidden.

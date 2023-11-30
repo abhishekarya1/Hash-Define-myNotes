@@ -372,7 +372,9 @@ listObj.sort((d1, d2) -> d1.marks - d2.marks);
 listObj.sort(Comparator.comparing(Student::getMarks));
 ```
 
-### Traversal using Iterator
+## Iterator
+An object used to loop (iterate) through collections.
+
 ```java
 List<Integer> numbers = new ArrayList<>();
 numbers.add(12);
