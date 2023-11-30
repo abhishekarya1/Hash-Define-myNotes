@@ -19,6 +19,10 @@ class HelloController{
 // run with: $ spring run app.groovy
 ```
 
+{{% notice info %}}
+Spring Boot CLI has removed the `run` command. How to run Groovy scripts effortlessy as it used to be done like above remains unanswered. [Ref](https://github.com/spring-projects/spring-boot/issues/33482#issuecomment-1349992508)
+{{% /notice %}}
+
 ## Actuator
 Used to: **Monitor and view internals** of the Spring Boot application in runtime, we can **control** it too (like `/shutdown`).
 

@@ -7,9 +7,13 @@ weight = 3
 ## Capacity Estimation
 Latency numbers every programmer should know with Humanized Scale: https://gist.github.com/hellerbarde/2843375
 
-ByteByteGo YouTube Video: https://youtu.be/FqR5vESuKe0
+Latency numbers for 2020s: [ByteByteGo Video](https://youtu.be/FqR5vESuKe0)
 
 Traffic (_requests per sec_), Storage, and Bandwidth (_data per sec_) Estimation Example: https://youtu.be/-frNQkRz_IU
+
+```txt
+1 million req/day = 12 req/sec
+```
 
 ## Framework
 1. Understand the problem
@@ -313,3 +317,14 @@ id = ts + logical_shard_id + table_auto_increment_seq_value
 This Primary ID will be unique across all tables in the application (and as a bonus contains the shard ID).
 
 [Reference](https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c)
+
+### URL Shortener
+Specify either `301 - Moved Permanently` (subsequent requests go to new URL) or `302 - Found` (_moved temporarily_, subsequent requests go to short URL, better for analytics) along with a `location` header. It will redirect you to the URL specified in the location header.
+
+{{% notice info %}}
+It redirects directly! The response with the code 301 doesn't even show up in Postman. Eliminates the need for any redirect logic implementation.
+{{% /notice %}}
+
+1. Use message digest hashing algorithms like `SHA-1`, long fixed size hash but we take only a fragment of it which increases collision probability.
+2. Use `base62` encoding: encodes to `0-9a-zA-Z` (total of 62 character mappings), long variable sized output string but we encode the corresponding unique `id` instead, becomes collision-free and short. The only caveat is that it can be reverse engg to find next `id` (next URL) since it is an encoding (two-way).
+

@@ -42,3 +42,8 @@ pm.test("Foobar", () => {
 
 ### Runner
 Use **Runner** to run collections/request: define order, iterations, delay, see summary stats
+
+
+{{% notice info %}}
+Postman has disabled the Scratch Pad (features like Collections and other offline working stuff) for non-logged in users. Last versions with offline support were `10.13.x`.
+{{% /notice %}}
