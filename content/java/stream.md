@@ -14,46 +14,49 @@ Optional.of(5)
 
 System.out.println(Optional.empty());   // Optional.empty
 
-// Optional ref
+// Optional<Object> raw ref (not recommended)
 Optional i = Optional.of(5);
 // Optional ref with formal type parameter
 Optional<Integer> i2 = Optional.of(6);
 
 Foobar fb = null;
-Optional.of(fb);    // NullPointerException; use .ofNullable()
+Optional.of(fb);    // NullPointerException at runtime; use .ofNullable() to prevent
 
-Optional o = Optional.ofNullable(foo);
-// if foo is null, then o is assigned Optional.empty() otherwise Optional.of(foo) is assigned
+Optional<String> o = Optional.ofNullable(foo);
+// if foo is null, then o is assigned by performing Optional.empty() otherwise Optional.of(foo) is performed
 ```
 
 ### Optional Instance Methods
 ```java
 // checking
-isPresent()				// boolean
+boolean isPresent()				// boolean
 // accessing
-get()					// returns value inside Optional
-// without check if we access - NoSuchElementException
+T get()					        // returns value inside Optional
+// if its empty and we access without check - NoSuchElementException at runtime
 
-ifPresent(Consumer)		// use lambda, calls it with value if present
+void ifPresent(Consumer)		// use lambda, calls it with value if present
 
-orElse(T value)				// returns other parameter
-orElseGet(Supplier)		// returns result from Supplier
+T orElse(T value)				// returns value; if Optional is empty
+T orElseGet(Supplier)		    // returns result from Supplier; if Optional is empty
 
-orElseThrow()			// throws NoSuchElementException
-orElseThrow(Supplier)	// throws exception instance supplied by Supplier
+T orElseThrow()			        // throws NoSuchElementException at runtime; if Optional is empty
+T orElseThrow(Supplier)     	// throws an exception instance supplied by Supplier; if Optional is empty
 ```
 
 **Examples**
 ```java
 String s = Optional.ofNullable(str).orElse("A");
 
-o.ifPresent(System.out::println);
-o.ifPresent(x -> System.out.println(x));
+Optional<Integer> o = Optional.of(88);
 
-o.orElseGet(() -> 99);
-o.orElseGet(() -> Math.random());
+o.ifPresent(x -> System.out.println(x));            // prints "88"
+o.ifPresent(System.out::println);                   // using method reference
+
+o.orElseGet(() -> 99);                              // returns "88"; "o" isn't empty
+o.orElseGet(() -> Math.random());       
 
 o.orElseThrow(() -> new IllegalStateException());
+o.orElseThrow(IllegalStateException::new);          // using method reference
 ```
 
 ### Primitive Optionals
@@ -61,7 +64,7 @@ o.orElseThrow(() -> new IllegalStateException());
 OptionalInt i = OptionalInt.of(2);
 i.getAsInt();   // 2
 
-// OptionalDouble, OptionalLong are also available
+// "OptionalDouble" and "OptionalLong" types are also available
 ```
 
 ## Streams
@@ -110,8 +113,8 @@ boolean noneMatch(Predicate)		// sometime terminates
 
 void forEach(Consumer)
 
-reduce()
-collect()
+Optional<T> reduce()
+Collection collect()
 ```
 
 **We can't loop on Stream the way we do on other Collections and arrays.**
@@ -205,9 +208,9 @@ C
 ```
 
 ## Pipeline Pitfalls
-The intermediate methods we call are processed on each element one-by-one. There can be some method like `sorted()` which waits for all elements to arrive.
+The intermediate methods we call are processed on each element one-by-one: **First element through entire Stream -> second element through entire stream -> ...**
 
-**First element through entire Stream -> second element through entire stream -> ...**
+With infinite streams, there can be some intermediate method like `sorted()` which waits for all the elements to arrive to continue processing. Terminal operations like `count()` can appear hung too processing all elements which are coming from an infinite stream.
 
 ```java
 Stream.of("Olaf")
@@ -233,6 +236,11 @@ Stream.generate(() -> "Elsa")
 
 // infinitely hangs; sorted keeps waiting for all elements to arrive but its an inf stream
 
+Stream<Integer> s = Stream.generate(() -> 5);
+System.out.println(s.count());                  
+
+// infinitely hangs; count keeps counting elements but they never stop coming since its an inf stream
+
 Stream.generate(() -> "Elsa")
  .filter(n -> n.length() == 4)
  .limit(2)
@@ -240,6 +248,7 @@ Stream.generate(() -> "Elsa")
  .forEach(System.out::print);
 
 // ElsaElsa
+
 
 Stream<String> str = Stream.of("A", "B", "C");
 System.out.println(str.count());
@@ -249,15 +258,15 @@ System.out.println(str.findFirst());    // runtime error; performing another ter
 ```
 
 ```java
-List<String> ls = new ArrayList<>();
-ls.add("A");
-ls.add("B");
-var s = ls.stream();    // stream isn't actually created here
-ls.add("C");
-s.count();              // stream is craeted in memory here and stream pipeline is run
+List<Integer> ls = new ArrayList<>();
+ls.add(1);
+ls.add(5);
+var s = ls.stream().filter(x -> x < 8);     // stream isn't created and operations aren't performed here
+ls.add(10);                                 // adding an element to Collection
+System.out.println(s.count());              // here stream pipeline actually runs now; stream is created from collection and "10" is removed
 
-// count = 3
-// a stream is evaluated only when terminal operation is performed (lazy evaluation)
+// count = 2
+// a stream is created and pipeline is executed only where a terminal operation is performed (lazy evaluation)
 ```
 
 ### Chaining Pipelines
