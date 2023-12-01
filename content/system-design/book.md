@@ -329,3 +329,27 @@ It redirects directly since its standard HTTP! The response with the code 301 do
 2. Use `base62` encoding: encodes to `0-9a-zA-Z` (total of 62 character mappings), long variable sized output string but we encode the corresponding unique `id` instead, becomes collision-free and short. The only caveat is that it can be reverse engg to find next `id` (next URL) since it is an encoding (two-way).
 
 ### Web Crawler
+BFS search using queues (FIFO)
+
+```txt
+	[Prioritizer]
+		|
+diff queues for diff priority sites (front queues)
+		|
+	[Queue Router]
+		|
+diff queues for each domain (back queues)
+		|
+	[Queue Selector]
+    |	   |	   |
+worker1  worker2   worker3
+```
+
+![](https://i.imgur.com/dBYR3ge.png)
+
+**Optimizations**:
+- use worker nodes to delegate URL crawling (distributed architecture), use consistent hashing
+- cache DNS queries
+- short timeout
+- filter spam pages, redundant pages
+- freshness: recrawl if too old
