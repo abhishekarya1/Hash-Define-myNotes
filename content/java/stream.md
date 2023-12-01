@@ -208,7 +208,13 @@ C
 ```
 
 ## Pipeline Pitfalls
-The intermediate methods we call are processed on each element one-by-one: **First element through entire Stream -> second element through entire stream -> ...**
+With **serial streams**, the intermediate methods we call are processed on each element one-by-one:
+
+```txt
+first element through entire Stream -> 
+second element through entire stream -> 
+and so on ...
+```
 
 With infinite streams, there can be some intermediate method like `sorted()` which waits for all the elements to arrive to continue processing. Terminal operations like `count()` can appear hung too processing all elements which are coming from an infinite stream.
 
