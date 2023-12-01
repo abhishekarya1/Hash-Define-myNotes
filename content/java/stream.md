@@ -267,11 +267,11 @@ System.out.println(str.findFirst());    // runtime error; performing another ter
 List<Integer> ls = new ArrayList<>();
 ls.add(1);
 ls.add(5);
-var s = ls.stream().filter(x -> x < 8);     // stream isn't created and operations aren't performed here
+var s = ls.stream();                        // stream isn't created here!
 ls.add(10);                                 // adding an element to Collection
-System.out.println(s.count());              // here stream pipeline actually runs now; stream is created from collection and "10" is removed
+System.out.println(s.count());              // stream pipeline actually runs here; terminal operation
 
-// count = 2
+// count = 3
 // a stream is created and pipeline is executed only where a terminal operation is performed (lazy evaluation)
 ```
 
