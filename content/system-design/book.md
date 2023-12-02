@@ -318,7 +318,7 @@ This Primary ID will be unique across all tables in the application (and as a bo
 
 [Reference](https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c)
 
-### URL Shortener
+## URL Shortener
 Specify either `301 - Moved Permanently` (subsequent requests go to new URL) or `302 - Found` (_moved temporarily_, subsequent requests keep going to short URL first, better for analytics) along with a `Location` header. It will redirect you to the URL specified in the location header.
 
 {{% notice info %}}
@@ -328,7 +328,7 @@ It redirects directly since its standard HTTP! The response with the code 301 do
 1. Use message digest hashing algorithms like `SHA-1`, long fixed size hash but we take only a fragment of it which increases collision probability.
 2. Use `base62` encoding: encodes to `0-9a-zA-Z` (total of 62 character mappings), long variable sized output string but we encode the corresponding unique `id` instead, becomes collision-free and short. The only caveat is that it can be reverse engg to find next `id` (next URL) since it is an encoding (two-way).
 
-### Web Crawler
+## Web Crawler
 BFS search using queues (FIFO)
 
 ```txt

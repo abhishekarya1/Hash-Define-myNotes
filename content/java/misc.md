@@ -127,3 +127,6 @@ public class Book implements Externalizable {
 ```
 
 Link: https://www.java67.com/2012/10/difference-between-serializable-vs-externalizable-interface.html
+
+
+`Objects` utility class has static methods to check not null etc... Ex - `Objects.nonNull(myObj)`.

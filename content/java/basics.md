@@ -404,7 +404,7 @@ var     // if type is one of the supported types
 
 // variables can be used but they must be "final"
 ```
-- `switch` labels and expressions and case labels can be `String` here too (unlike C/C++) and they have to be compile time constants using `final`
+- `switch` labels and expressions and case labels can be `String` here too (unlike C/C++) and they have to be compile time constant
 ```java
 //combining case values
 case 1, 2:
@@ -423,8 +423,21 @@ var result = switch(day) {
  case 6 -> "Saturday";
  default -> "Invalid value";
 };
+// switch expressions must handle all possible input values so "default" case becomes mandatory all the time!
 
-// switch expressions must handle all cases so default case becomes mandatory
+
+// yield keyword: used to supply value incase we want to execute logic in case output block
+var result = switch(num) {
+ case 0 -> "Zero";
+ case 1 -> "One";
+ case 2 -> "Two";
+ default -> {
+        System.out.println("Number not allowed.");      // executing logic
+        yield "Invalid";                                // must be last statement of the block
+                                                        // otherwise unreachable code compiler-error
+    }
+};
+
 ```
 - `System.exit(0)` can be used to indicate successful termination
 

@@ -64,7 +64,7 @@ D
 
 Two ways to create a thread - 
 1. provide a `Runnable` reference or lambda to `Thread` class constructor (_common_)
-2. create a subclass from `Thread` and override `run()` method (_rare_)
+2. create a subclass from `Thread` and override `run()` method
 
 The `Thread` class implements `Runnable` interface.
 
@@ -85,7 +85,7 @@ job.start();				// we won't wait until foobar() finishes, we will exit once main
 ### Thread Lifeycle
 ![thread life cycle diagram](https://i.imgur.com/xLf6N9c.png)
 
-
+### Sleep and Interrupt
 ```java
 var job = new Thread(() -> taskMethod());
 
@@ -98,8 +98,8 @@ Thread.sleep(1_000);	// sleeps for 1 sec, resumes thread execution upon timeout
 var t2 = Thread.currentThread();	// get instance of current thread
 t2.interrupt();			// used to throw InterruptedException in a sleeping thread
 
-// calling interrupt() on a RUNNABLE thread (either self or from another thread) doesn't change its state (no halts or exceptions) but changes value on Thread.isInterrupted()
-// this is quite trivial though!
+// calling interrupt() on a RUNNABLE thread (either self or from another thread) doesn't change its state (no halts or exceptions) but changes value on:
+t2.isInterrupted();     // returns true
 ```
 Interrupting a running (`RUNNABLE`) thread with `interrupt()`:
 ```java
@@ -308,11 +308,11 @@ for(int i = 0; i < 10; i++){
 	service.submit(() -> incrementX());
 }
 
-// can print in any order; even duplicates, because all 10 threads will access x and overwrites will happen
+// can print in any order; even duplicates, because 10 threads will access x and overwrites will happen
 ```
 
 ### Volatile
-Declaring the variable as `volatile` can help in indicating that the variable can be read or write only by one thread at a given time. But it won't make the code thread-safe because our individual read/write are a thread-safe, but `++x` is actually two opertions `x = x + 1` (add and assign) and it may happen that thread1 writes to `x` and thread2 reads from `x` and then thread1 writes to `x`.
+Declaring the variable as `volatile` indicates not to store the value in that thread's own cache but on a shared cache accessible by all threads. But it won't make the code thread-safe because our individual read/write are a thread-safe, but `++x` is actually two opertions `x = x + 1` (add and assign) and it may happen that thread1 writes to `x` and thread2 reads from `x` and then thread1 writes to `x`.
 
 ```java
 volatile int x = 0;
@@ -334,33 +334,27 @@ Now, our code will output numbers from 0 to 10 with no duplicates but they may o
 
 ### synchronized Blocks
 
-**Monitor**: also called a **Lock** is a structure that supports _mutual exclusion_, a property that atmost one thread can be executing a code block at a given time.
+**Monitor**: also called a **Lock** or **Mutex** is a structure that supports _mutual exclusion_, a property that atmost one thread can be executing a code block at a given time.
 
 Objects can be used as a lock in Java in `synchronized` blocks. All threads must be accessing the same Object and _which object it is doesn't even matter as long its the same Object, preferrably `final` so it doesn't change values as we use it for sync_.
 
 ```java
-// on an Object
-synchronized(this){
-	// code
-}
+// on an Object - block
+synchronized(this) {  }
 
 // on method
-synchronized void foobar(){
-	// code
-}
+synchronized void foobar() {  }
 
-// in static methods
-synchronized(Foobar.class){		// since we can't use "this" keyword
-	// code
-}
+-----------------------------------
+
+// in static method
+synchronized(Foobar.class) {  }		 // since we can't use "this" object here
 
 // on static method
-static synchronized void foobar(){
-	// code
-}
+static synchronized void foobar() {  }
 ```
 
-When a thread arives at the block, it checks the lock status. If the lock isn't available, the thread will transition to a BLOCKED state and waits in queue otherwise it "acquires the lock" and enters the code block.
+When a thread arives at the block, it checks the lock status. If the lock isn't available, the thread will transition to a `BLOCKED` state and waits in queue otherwise it "acquires the lock" and enters the code block.
 
 This will print numbers from 0 to 10 in order without duplicates.
 
@@ -379,7 +373,7 @@ finally{
 
 // above code in synchronized block
 Object obj = new Object();
-synchronized|(obj){
+synchronized(obj){
 	// code
 }
 ```
@@ -462,9 +456,12 @@ Map<String, String> mp = new HashMap<>();
 Map<String, String> cmp = new ConcurrentHashMap<>();
 
 Collections.synchronizedMap(mp);
+
+// or make it immutable
+Collections.unmodifiableMap(mp);
 ```
 
-If we have to create a collection, we use concurrent version of collections available. If we have a non-conurrent collection then we can use synchronized methods from `Collection` interface to make them compatible to threads using synchronized methods.
+If we have to create a collection, we use concurrent version of collections available. If we have a non-conurrent collection then we can use synchronized methods from `Collections` class to make them compatible to threads using synchronized methods that exists for most collections.
 
 Immutable collections are immune to memory inconsistency errors trivially.
 
@@ -498,6 +495,7 @@ collection.parallelStream();
 stream.isParallel();
 ```
 
+### Unordered Method
 When we apply methods which are **order dependent** (`findFirst()`, `limit()`, `skip()`) on parallel stream, we do get what we expect just like in serial stream but performance is hampered since stream is forced by Java to be synchronized-like. 
 
 Solution - use `unordered()` to declare stream as a parallel, and avoid force conversion to serial when such methods are applied.
@@ -506,6 +504,21 @@ stream.unordered().parallel();
 ```
 
 Calling `unordered()` (intermediate operation) on serial stream has no effect on its data but when the stream is made parallel we will have `skip(5)` skipping any 5 random elements and not the first five.
+
+
+### Fork-Join Thread Pool
+All parallel streams use a common Fork-Join Thread Pool, and if you run a long-running task in the stream, you effectively block all threads in the pool. Consequently, you block all other tasks in the program that are unrealted but are using parallel streams!
+
+```java
+List<StockInfo> getStockInfo(Stream<String> companies) {
+    return companies.parallel()
+        .map(this::getStockInfo)        // slow operation; calls method on every element
+        .collect(Collectors.toList());
+}
+
+// this hangs every other method in execution and using parallel streams
+// not only "companies", but any parallel stream!
+```
 
 ### Reductions in Parallel Streams
 Make sure accumulator and combiner have the same output on every step regardless of the order in which they are called in. The accumulator and combiner must be associative, non-interfering, and stateless.

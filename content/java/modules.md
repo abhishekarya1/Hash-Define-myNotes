@@ -64,19 +64,52 @@ Most important module in Java is `java.base` which has Collection, Math, IO, con
 The Java team at Oracle took a huge job of making the JDK modular in version 9. The JDK used to be a monolith and they successfully separated every legacy packages into modules, making it modular since.
 {{% /notice %}}
 
-### Types of Modules
+## Module Path vs Classpath
+**Module Path** - It is a list of artifacts (JARs or bytecode folders) and directories that further contain artifacts.
 
-All code on the classpath lives in an "unnamed" module and can access pretty much everything else, even other modules. Wheareas modules live on their own "named" module paths and we have to `require` or `export` them and describe dependencies on each other.
+```sh
+# modules are in "app-jars" dir, initial module is "myModule"
+$ java --module-path app-jars --module myModule
+```
 
-1. **Named**: name specified in `module-info.java` file, its on module path
-2. **Automatic**: its a JAR file placed in module path, no `module-info.java` file, name specified in JAR's `META-INF/MANIFEST.MF` file by a property `Automatic-Module-Name: name_here`. If name isn't available from this property then Java creates the name by JAR's name by stripping version number, dashes (`-`), and any non-intermediate dot(`.`) characters. Ex - `test-app-1.0.2.jar` becomes `test-app`.
-3. **Unnamed**: it is also a JAR file but in classpath with no need for a name, works like normal Java code, no packages are exposed to other modules unlike the above two
+**Module Resolution**: Beginning with the initial module's name, Java will search the module path for it. If it finds it, it will check its `requires` directives to see what modules it needs and then repeats the process for them. The result of this process is the **Module Graph**.
 
-Code on the classpath can read from module path, but not vice-versa. Due to this reason the module path modules (named and automatic) are readable from everywhere but not unnamed ones as that isn't readable from other modules on the module path.
+Since Java 9, everything must be inside a module, so anything that is not on the module path, but on the **classpath** gets lumped into a single "unnamed module". This does not include unresolved modules.
 
-### Notes and Demo
+Every resolved module is eventually put onto the _module graph_ along with the unnamed module.
+
+## Types of Modules
+
+1. **Named**: modules and modular JARs present on the module path and have a name specified in `module-info.java` file
+
+2. **Automatic**: an automatic module is created for each "regular" JAR on the module path. Name specified in JAR's `META-INF/MANIFEST.MF` file by a property `Automatic-Module-Name: name_here`. If name isn't available from this property then Java creates the name by JAR's name by stripping version number, dashes (`-`), and any non-intermediate dot(`.`) characters. Ex - `test-app-1.0.2.jar` becomes `test-app` module.
+
+3. **Unnamed**: stuff not on module-path but on the classpath gets lumped into an "unnamed module", this includes any modular JAR on the classpath as well! 
+
+|   	|   Class Path	|   Module Path	|
+|---	|---	|---	|
+|  **Regular JAR** 	|   Unnamed Module	|  Automatic Module |
+|  **Modular JAR** 	|   Unnamed Module	|  Named Module 	|
+
+{{% notice note %}}
+Unnamed module can read all exported packages in all modules (module path and unnamed). All packages of unnamed module are exposed since there is no `module-info.java` (module descriptor) present in it to retrict that. In case a modular JAR is placed into classpath, all restrictions imposed by its `module-info.class` loses value.
+
+Named modules can't read unnamed module's contents, since there is no name to refer it with.
+
+An automatic module has no module descriptor, hence they can read all other modules (even unnamed; `requires` is added implicitly for that). Also, anyone can read from the automatic modules provided they `requires` it in their module descriptor. This way, automatic modules act as a bridge from the module to the class path - its an explicit module on the module path but can read the unnamed module.
+{{% /notice %}}
+
+Use Case for Automatic Modules: place a legacy dependency JAR into the module path and it can access everything (unnamed and named) and everyone can read from it using `requires` it by name. Achieving modularity (sort of) with backwards compatibility.
+
+## Notes and Demo
 If we're using a framework like Spring Boot with a build tool like Maven, we don't need to bother about modules as they are handled internally by Maven. We need to take care of the only when we are building via the command-line which is very rare in production env.
 
 Oracle - Modules in JDK 9: https://youtu.be/22OW5t_Mbnk
 
-A good demo video: https://youtu.be/89tplxrXJTU
+A good practical demo video on Basics: https://youtu.be/89tplxrXJTU
+
+Another good video on Module types and Migration: https://youtu.be/6vb5EBY-4ww
+
+Articles:
+- https://dev.java/learn/modules/intro/
+- https://dev.java/learn/modules/unnamed-module
