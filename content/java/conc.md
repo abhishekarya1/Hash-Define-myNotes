@@ -327,7 +327,7 @@ x.incrementAndGet();	// equivalent to ++x
 
 // other methods
 x.set(9);	// assignment
-x.getAndIncreament();	// x++
+x.getAndIncrement();	// x++
 ```
 
 Now, our code will output numbers from 0 to 10 with no duplicates but they may or may not be in order. Because operations are atomic now but we haven't specified any order of execution (incrementing variable x) among threads. A thread that outputs `9` can print after a thread that prints `10`.
@@ -482,7 +482,7 @@ Majorly 3 kinds of liveness affecting issues arise: **Deadlock**, **Starvation**
 
 **Serial streams**: Data is processed in a serial fashion one after the other.
 
-**Parallel streams**: Multiple parallel threads can process data concurrently. The number of threads available to a stream is dependent on the number of CPU cores.
+**Parallel streams**: Multiple parallel threads can process data concurrently. The number of threads available are common for all streams in the program and come from a Fork-Join Thread Pool.
 
 As with threads, the order of operations is never guaranteed in parallel streams.
 
@@ -498,16 +498,16 @@ stream.isParallel();
 ### Unordered Method
 When we apply methods which are **order dependent** (`findFirst()`, `limit()`, `skip()`) on parallel stream, we do get what we expect just like in serial stream but performance is hampered since stream is forced by Java to be synchronized-like. 
 
-Solution - use `unordered()` to declare stream as a parallel, and avoid force conversion to serial when such methods are applied.
+Solution - use `unordered()` to declare stream as unordered, and avoid force conversion of parallel to serial when such methods are applied.
 ```java
 stream.unordered().parallel();
 ```
 
-Calling `unordered()` (intermediate operation) on serial stream has no effect on its data but when the stream is made parallel we will have `skip(5)` skipping any 5 random elements and not the first five.
+Calling `unordered()` (intermediate operation) on serial stream has no effect, but when the stream is made parallel we will have `skip(5)` skipping any 5 random elements and not the first five.
 
 
-### Fork-Join Thread Pool
-All parallel streams use a common Fork-Join Thread Pool, and if you run a long-running task in the stream, you effectively block all threads in the pool. Consequently, you block all other tasks in the program that are unrealted but are using parallel streams!
+### Parallel Stream is Dangerous
+All parallel streams in the program use a common Fork-Join Thread Pool, and if you run a long-running task in the stream, you effectively block all threads in the pool. Consequently, you block all other tasks in the program that are unrelated but are using parallel streams!
 
 ```java
 List<StockInfo> getStockInfo(Stream<String> companies) {
@@ -516,9 +516,53 @@ List<StockInfo> getStockInfo(Stream<String> companies) {
         .collect(Collectors.toList());
 }
 
-// this hangs every other method in execution and using parallel streams
-// not only "companies", but any parallel stream!
+// this hangs every other method in execution using parallel streams
+// not only "companies" stream, but any parallel stream!
 ```
 
 ### Reductions in Parallel Streams
 Make sure accumulator and combiner have the same output on every step regardless of the order in which they are called in. The accumulator and combiner must be associative, non-interfering, and stateless.
+
+## Virtual Threads (Java 21)
+Virtual threads are lightweight threads that can be used in high-throughput concurrent applications.
+
+Uptil now a thread was an instance of `java.lang.Thread` and was called a **Platform Thread** in Java. It maps to the underlying OS thread for its whole lifetime and contains information in the order of megabytes. Consequently, the number of available platform threads is limited to the number of OS threads in a _thread-per-request_ style server environment.
+
+A **Virtual Thread** is also an instance of `java.lang.Thread`, but it isn't _tied_ to a specific OS thread. A virtual thread still runs code on an OS thread. However, when code running in a virtual thread calls a blocking I/O operation, the Java runtime suspends the virtual thread until it can be resumed. The OS thread associated with the suspended virtual thread is now free to perform operations for other virtual threads.
+
+When a virtual thread is blocked, its data is stored (_unmounted_) on the heap temporarily, until it goes back into execution on the _carrier thread_.
+
+They have much smaller memory footprint than a platform thread, thus a single JVM might support millions of virtual threads.
+
+```java
+Runnable task = () -> System.out.println("Hello");
+
+// using Thread class
+Thread virtualThread = Thread.startVirtualThread(task);
+
+// another way
+Thread thread = Thread.ofVirtual().unstarted(task);
+thread.start();
+
+
+// using concurreny API
+ExecutorService service = Executors.newVirtualThreadPerTaskExecutor();
+// creates new virtual thread for each submitted task
+
+
+thread.isVirtual();      // tells if the thread is virtual
+```
+
+Virtual Threads have these _fixed_ properties:
+- they have `NORM_PRIORITY` (5)
+- they are daemon threads
+
+Virtual threads are useful when the number of concurrent tasks is large, and the tasks mostly block on network I/O. They offer no benefit for CPU-intensive tasks. Since CPU cores will be busy doing the intensive task and will block the core for everyone (other virtual threads can't use it meanwhile) unlike Network I/O blocks.
+
+**Benefit of using Virtual Threads**: Instead of writing non-blocking, asynchronous style code with `CompletableFutures` we can write "normal" synchronous style code that uses blocking I/O. Virtual Threads will make sure that blocking I/O on a thread doesn't hog resources. When a thread is ready to be resumed (wait over) it is resumed instantly without the need of specifying any callbacks.
+
+References:
+- https://inside.java/2023/10/30/sip086/
+- https://dev.java/learn/new-features/virtual-threads/
+- https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html
+- https://davidvlijmincx.com/posts/java-virtual-threads/

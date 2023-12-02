@@ -68,13 +68,13 @@ The Java team at Oracle took a huge job of making the JDK modular in version 9. 
 **Module Path** - It is a list of artifacts (JARs or bytecode folders) and directories that further contain artifacts.
 
 ```sh
-# modules are in "app-jars" dir, initial module is "myModule"
-$ java --module-path app-jars --module myModule
+# modules are in "app-jars" dir, initial module is "my.module"
+$ java --module-path app-jars --module my.module
 ```
 
 **Module Resolution**: Beginning with the initial module's name, Java will search the module path for it. If it finds it, it will check its `requires` directives to see what modules it needs and then repeats the process for them. The result of this process is the **Module Graph**.
 
-Since Java 9, everything must be inside a module, so anything that is not on the module path, but on the **classpath** gets lumped into a single "unnamed module". This does not include unresolved modules.
+Since Java 9, everything must be inside a module, so anything that is not on the module path, but on the **classpath** gets lumped into a single "unnamed module". It includes non-modular classes on the module path as they are part of the classpath, but does not include unresolved modules (they are modules that no one `requires` hence they're ignored).
 
 Every resolved module is eventually put onto the _module graph_ along with the unnamed module.
 
@@ -84,10 +84,12 @@ Every resolved module is eventually put onto the _module graph_ along with the u
 
 2. **Automatic**: an automatic module is created for each "regular" JAR on the module path. Name specified in JAR's `META-INF/MANIFEST.MF` file by a property `Automatic-Module-Name: name_here`. If name isn't available from this property then Java creates the name by JAR's name by stripping version number, dashes (`-`), and any non-intermediate dot(`.`) characters. Ex - `test-app-1.0.2.jar` becomes `test-app` module.
 
-3. **Unnamed**: stuff not on module-path but on the classpath gets lumped into an "unnamed module", this includes any modular JAR on the classpath as well! 
+3. **Unnamed**: everything on the classpath (this includes non-modular classes in the module path) gets lumped into an "unnamed module", this includes any modular JAR on the classpath as well! 
 
 |   	|   Class Path	|   Module Path	|
 |---	|---	|---	|
+|  **Modular Code** 	|   Unnamed Module	|  Named Module (if part of module graph)	|
+|  **Non-Modular Code** 	|   Unnamed Module	|  Unnamed Module 	|
 |  **Regular JAR** 	|   Unnamed Module	|  Automatic Module |
 |  **Modular JAR** 	|   Unnamed Module	|  Named Module 	|
 
