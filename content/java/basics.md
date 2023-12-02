@@ -629,14 +629,19 @@ Frees up memory in heap used by dereferenced objects and objects which has gone 
 **Mark and Sweep Algorithm** - identify and mark objects to clean, then sweep through and free up space.
 
 Types of garbage collectors in Java:
-1. Serial GC - single threaded, stop everything and run GC
-2. Parallel GC - multiple threaded, stop everything and run GC (aka Throughput Collector)
-3. Garbage-First (G1) GC (_default_) - for heap sizes greater than 4GB, divide heap into two halves and run GC on each, stop everything and run
-4. ZGC - uses multiple threads running parallely, less pauses, cleans more garbage regions first, scalable (https://inside.java/2023/04/23/levelup-zgc/) 
+1. **Serial GC** - single threaded, stop everything and run GC
+2. **Parallel GC** - multiple threaded, stop everything and run GC (aka Throughput Collector)
+3. **Garbage-First (G1) GC** (_default_) - for heap sizes greater than 4GB, divide heap into two halves and run GC on each, stop everything and run
+4. **Shenandoah GC** (Java 12+) - very short pause times, pause time is independent of the heap size: garbage collecting a 2GB heap or a 200GB heap should have a similar short pause behavior
+5. **ZGC** (Java 15+) - uses multiple threads running parallely, less pauses, very large (multi-terabyte) heaps, scalable
+
+**Generational ZGC** (Java 21) - based on generational hypothesis acc to which young objects are more likely to die first. Logically separates the heap into two generations: a _young generation_ and an _old generation_. When an object is allocated, it is initially placed into the young generation, which is frequently scanned. If an object survives long enough, it will be promoted to the old generation.
 
 Stopping everything is called stopping-the-world (STW) or pausing (GC Pause). It halts all the program threads. Stopping the world ensures that no one accesses or changes memory during a GC run.
 
-Reference: https://belief-driven-design.com/looking-at-java-21-generational-zgc-e5c1c/
+References:
+- https://belief-driven-design.com/looking-at-java-21-generational-zgc-e5c1c/
+- https://inside.java/2023/10/09/sip084/
 
 ### finalize
 Called automatically when Garbage Collector is called by the JVM.

@@ -331,6 +331,8 @@ It redirects directly since its standard HTTP! The response with the code 301 do
 ## Web Crawler
 BFS search using queues (FIFO)
 
+![](https://i.imgur.com/dBYR3ge.png)
+
 ```txt
 	[Prioritizer]
 		|
@@ -345,11 +347,31 @@ diff queues for each domain (back queues)
 worker1  worker2   worker3
 ```
 
-![](https://i.imgur.com/dBYR3ge.png)
-
 **Optimizations**:
-- use worker nodes to delegate URL crawling (distributed architecture), use consistent hashing
+- use single URL Frontier delegating to multiple worker nodes (distributed architecture), use consistent hashing
 - cache DNS queries
 - short timeout
 - filter spam pages, redundant pages
 - freshness: recrawl if too old
+
+## Notification System
+We send request to Third party Push Notification, SMS, or Email servers and they send out message to clients.
+
+```txt
+Microservices [S1 ... Sn]
+	|
+Notification Server (auth, rate limit) + Cache + DB
+	|
+  Queues (one for each - Android, iOS, SMS, Email)
+    |
+ Workers (pull messages from queue and send to third-party, retry mechanism, maintain log, templating)
+ 	|
+ Third Party Service
+ 	|
+  Client
+
+
+Analytics Service (receives events from Notif server the client; to track message delivery and actions by user)
+```
+
+In a distributed system, it is impossible to ensure _exactly-once delivery_ (**Two Generals Problem**). Since there is no ACK from the Third-Party service that the message has reached the Client or not, it is acceptable to send the same message multiple times. To reduce such duplication, maintain a log (for the Worker) to know if the message has been seen before.
