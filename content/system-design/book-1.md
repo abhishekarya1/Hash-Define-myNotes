@@ -396,6 +396,8 @@ Post Cache + Post DB
 
 Fanout Service 			(and its worker clones for each user) (filters users and content)
 
+Notification Service
+
 User Relation DB 		(graph datastore)
 
 User Cache + UserDB
@@ -404,6 +406,4 @@ Message Queues
 
 News Feed Service 		(used only during build feed)
 News Feed Cache 		(stores only <user_id> to <post_id> KV pairs)
-
-Notification Service  	(optional add on)
 ```
