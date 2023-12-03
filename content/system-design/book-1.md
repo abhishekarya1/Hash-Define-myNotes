@@ -1,5 +1,5 @@
 +++
-title = "Book"
+title = "Book 1"
 date = 2023-11-24T08:02:00+05:30
 weight = 3
 +++
@@ -375,3 +375,35 @@ Analytics Service (receives events from Notif server the client; to track messag
 ```
 
 In a distributed system, it is impossible to ensure _exactly-once delivery_ (**Two Generals Problem**). Since there is no ACK from the Third-Party service that the message has reached the Client or not, it is acceptable to send the same message multiple times. To reduce such duplication, maintain a log (for the Worker) to know if the message has been seen before.
+
+## News Feed
+For each user, maintain a temporary (_ephemeral_) **News Feed Cache** and we can read from it and write to it using a **Fanout Service** utilizing User Graph DB.
+
+Stages:
+- Store Feed: Fanout Service writes `user_id` and `post_id` KV pair to News Feed Cache, also store post details in Post DB. And use user details from User DB to filter (user blocklists, etc) before writing to News Feed Cache.
+- Build Feed: On a friend's device when building the feed, primary server contacts News Feed Service to fetch posts, also fetch post and user data corresponding to the `post_id` in the KV pair from respectice DBs.
+
+**Fanout**: one-to-many spread of data
+
+- Fanout on Write: also called _push_ model. Send post to friend's feed caches as soon as its posted. Faster but what if a user isn't that active? we'll be wasting resources. (_pre-compute_ feed)
+- Fanout on Read: also called _pull_ model. When a friend loads the feed, fetch posts from the feed cache of all its friends. Slower to fetch posts but practical.
+
+Choose a hybrid model. Celebrity posts are delivered via pull model, for normal accounts implement push model (since posts and followers will be far lesser).
+
+```txt
+Post Service
+Post Cache + Post DB
+
+Fanout Service 			(and its worker clones for each user) (filters users and content)
+
+User Relation DB 		(graph datastore)
+
+User Cache + UserDB
+
+Message Queues
+
+News Feed Service 		(used only during build feed)
+News Feed Cache 		(stores only <user_id> to <post_id> KV pairs)
+
+Notification Service  	(optional add on)
+```

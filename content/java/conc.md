@@ -6,6 +6,8 @@ weight = 12
 
 **Thread**: Smallest unit of execution that can be scheduled to the CPU.
 
+Max number of threads that can run parallely = Number of CPU cores
+
 **Process**: Group of associated threads. It comprises of multiple threads and a shared memory. Single unit of functionality. A program in execution.
 
 **Task**: Single unit of work performed by a thread.
@@ -59,6 +61,24 @@ B
 C
 4
 D
+*/
+```
+
+```java
+// use t.join() to stop the current thread and wait for thread "t" to finish
+
+Runnable task = () -> System.out.println("Hello");
+Thread thread = new Thread(task);
+thread.start();
+
+thread.join();
+
+System.out.println("World");
+
+// output:
+/* 
+Hello
+World
 */
 ```
 
@@ -423,11 +443,12 @@ public static void main(String[] args) {
 ```
 **NOTE**: Release a lock the same number of times it is acquired by the same thread. Otherwise, the remaining locks will still hold onto the thread.
 
-**Semaphore**: another form of mutex but they work slightly differently: not re-entrant, they permit multiple threads to enter critical section, no thread "owns" a semaphore, only count is tracked in the semaphore and enforced.
+**Semaphore**: signaling mechanisms for restricting access to a single resource, maintains a set of permits, they permit fixed number of multiple threads to enter critical section, no thread "owns" a semaphore, only count is tracked in the semaphore and enforced. Not re-entrant.
 
-Semaphore can be released from outside the thread they are acquired by (unlike Lock). Hence they limit the number of concurrent threads accessing a specific resource.
+Semaphore can be released from outside the thread they are acquired by (unlike Lock). They limit the number of concurrent threads accessing a specific resource (like a funnel).
 
 ```java
+// a counting semaphore
 Semaphore smp = new Semaphore(3);       
 // permits 3 threads to acquire it simultaneously; others get blocked in a queue
 
@@ -442,11 +463,9 @@ public static void printHello(Semaphore smp) {
 }
 ```
 
-**Binary Semaphore**: a semaphore that has only two states: `1` permit available or `0` permits available. 
+**Binary Semaphore**: `new Semaphore(1)` is a semaphore that has only two states: `1` permit available or `0` permits available. 
 
-They can be used in place of Lock, but they are not re-entrant, so the same thread can't re-acquire a critical section, if it tries to then deadlock happens. Deadlock recovery is fast though because semaphore can be released by a thread other than the owner in case of a deadlock.
-
-In case of Lock, if a thread goes to sleep while holding the lock, then other threads get _starved_.
+They can be used as mutex in place of Lock, but they are not re-entrant, so the same thread can't re-acquire a critical section, if it tries to then deadlock happens. Deadlock recovery is fast though because semaphore can be released by a thread other than the owner in case of a deadlock.
 
 ### CyclicBarrier
 Orchestrating tasks, specifies the number of threads to wait for and once the number is reached, execution is resumed on all of the threads that the barrier was "holding".
