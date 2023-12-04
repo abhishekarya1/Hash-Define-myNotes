@@ -5,10 +5,10 @@ weight = 14
 +++
 
 ## Basics
-JDBC (Java DataBase Connectivity) - API in `java.sql` package for creating database connections and executing queries on relational databases.
+JDBC (Java Database Connectivity) - API in `java.sql` package for creating database connections and executing queries on relational databases.
 
 The 5 interfaces of JDBC API:
-- **Driver** (_eastablish a connection to the database_)
+- **Driver** (_eastablish a protocol to communicate with the database_)
 - **Connection** (_send commands to the database_)
 - **PreparedStatement** (_send an SQL query with parameters to the database_)
 - **CallableStatement** (_call a stored procedure from the database_)
@@ -31,6 +31,22 @@ public class MyFirstDatabaseConnection {
 
 ## Building Blocks
 
+### Include the Driver
+Driver are a set of classes that contain logic on how Java code and the database understand each other. They are vendor specific.
+
+Traditionally we used to place a driver JAR in our project. 
+
+Nowadays, with build systems like Maven and Gradle we include it as a dependency.
+
+```xml
+<!-- MySQL Driver Dependency -->
+<dependency>
+	<groupId>com.mysql</groupId>
+	<artifactId>mysql-connector-j</artifactId>
+	<scope>runtime</scope>
+</dependency>
+```
+
 ### Get the JDBC URL
 ```txt
 jdbc:<dbprovider>://<serverURL>/<databaseName>
@@ -41,12 +57,12 @@ many other forms...
 ```
 
 ### Create a Connection
-Either use `DriverManager` or `DataSource`. The latter is better as it has more features and can take input from external sources.
+Either use `DriverManager` or `DataSource` (both are in-built in Java). The latter is better as it has more features and can take input from external sources.
 ```java
 Connection conn = DataSource.getConnection(url);
 ```
 
-### Execute SQL Queries
+### Build & Execute SQL Queries
 
 Use `Statement` interface or its subinterfaces: `PreparedStatement` or `CallableStatement`.
 
@@ -97,7 +113,7 @@ try (var ps = conn.prepareStatement(sql)) {
 // use ps.setObject() for any type
 ```
 
-### Reading ResultSet
+### Read ResultSet
 `ResultSet` has a cursor, and it is indexed from `1` and not `0`, just like a `PreparedStatement`.
 
 ```java
@@ -132,3 +148,7 @@ conn.rollback(sp1);
 ## Closing Resources
 - Closing a `Connection` closes `PreparedStatement` and `ResultSet` too
 - Closing a `PreparedStatement` closes `ResultSet` too
+
+All the above examples on this page used try-with-resources to close resources, this is how its done traditionally.
+
+Although, with modern frameworks such as Spring, it is not recommended to close resources manually unless you know what you're doing, since a connection maybe required to continue the same transaction in another class, etc. Spring provides in-built classes like `JdbcTemplate` to run the query that can automatically close the connection later.

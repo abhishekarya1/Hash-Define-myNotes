@@ -18,7 +18,7 @@ Max number of threads that can run parallely = Number of CPU cores
 
 Analogy - Google Chrome browser is a process, each Tab is a thread and context switching occurs when we switch tabs.
 
-**Thread priority**: It is a number associated with a thread that the scheduler uses to schedule. In Java, it is integer value.
+**Thread priority**: It is a number associated with a thread that the scheduler uses to schedule. In Java, it can be either of these three integer values - `MIN_PRIORITY` (1), `NORM_PRIORITY` (5), `MAX_PRIORITY` (10).
 
 ## Thread class
 Tasks are defined using the `Runnable` functional interface, it takes no arguments and returns nothing. To create a thread use `Thread` class instance. 

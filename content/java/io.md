@@ -75,7 +75,7 @@ File backToFile = nowPath.toFile();
 
 ### Operating on Files and Paths
 ```java
-// commonly used methods on File and Path(s)
+// commonly used methods on File
 isDirectory()
 getName()
 getAbsolutePath()
@@ -83,13 +83,9 @@ getParent()			// get absoulute path of the parent directory
 length()			// size in bytes
 lastModified()
 listFiles()			// List<> of all files in the current directory
-
-// in NIO.2 methods are called on "Files" static class and supplying path's instance to the method
 ```
 
-## NIO
-### NIO.2 Path Operations
-
+Similar instance methods are available with `Path` too:
 ```java
 Path path = Paths.get("/land/hippo/harry.happy");
 System.out.println("The Path Name is: " + path);
@@ -108,6 +104,26 @@ The Path Name is: /land/hippo/harry.happy
 path.subpath(1, 2);		// hippo
 path.subpath(1, 3);		// hippo/harry
 path.subpath(4, 7); 	// IllegalArgumentException; invalid indices
+```
+
+## NIO
+`java.io` package has the legacy IO API.
+
+`java.nio` (New IO) was introduced in Java 1.4 and solved many issues with legacy IO.
+
+Java 7 revamped `java.nio.file` package, commonly known as the **NIO.2** package. Adopted asynchronous approach to non-blocking IO not supported in previous version of the `java.nio` package.
+
+### NIO.2 Files Utility Class
+The `Files` utility class exclusively of static methods that operate on files, directories, or other types of files represented by `Path`.
+```txt
+Files.createDirectory(p) 			-- mkdir
+Files.createDirectories(p1, p2) 	-- mkdir -p
+Files.copy(p1, p2) 					-- cp (creates shallow (non-recursive) copy just like in Unix)
+Files.move(p1, p2) 					-- mv
+Files.delete(p)						-- dir must be empty; error if non-existing
+Files.deleteIfExists(p)				-- dir must be empty; returns true otherwise false
+Files.isSameFile(p1, p2)			-- check if same file/dir; follows symlinks
+Files.mismatch(p1, p2)				-- checks contents of two files like diff command
 ```
 
 ### Resolve, Relativize, Normalize
@@ -164,18 +180,7 @@ System.out.println(p1.normalize());   // shells.txt
 System.out.println(p2.normalize());   // foo/bar (already normalized)
 ```
 
-### Operations on files
-```txt
-Files.createDirectory(p) 			-- mkdir
-Files.createDirectories(p1, p2) 	-- mkdir -p
-Files.copy(p1, p2) 					-- cp (creates shallow (non-recursive) copy just like in Unix)
-Files.move(p1, p2) 					-- mv
-Files.delete(p)						-- dir must be empty; error if non-existing
-Files.deleteIfExists(p)				-- dir must be empty; returns true otherwise false
-Files.isSameFile(p1, p2)			-- check if same file/dir; follows symlinks
-Files.mismatch(p1, p2)				-- checks contents of two files like diff command
-```
-## I/O Streams
+## IO Streams
 - **Byte Streams**: reads/writes as bytes (ends with `InputStream` and `OutputStream`)
 - **Character Streams**: reads/writes as single chars (ends with `Reader` and `Writer`)
 

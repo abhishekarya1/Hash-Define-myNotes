@@ -166,9 +166,7 @@ Foobar foobar = (var a, var b) -> a < b;
 
 ## Data Types
 ```java
-int short long byte
-
-char
+int short long byte char
 
 float double
 
@@ -180,7 +178,7 @@ boolean
 
 - `int` is 4 Bytes
 - `float` is 4 Bytes
-- `char` is unsigned UTF-16, so one char can take one or two bytes. Convertible to `int` and vice-versa.
+- `char` is unsigned UTF-16, so one char can take one or two bytes. It is an integral type.
 - `boolean` is not convertible to `int` and vice-versa, we cannot even use `==` with `int` and `boolean` values. Takes values `true` or `false`. **Size is undefined** and depends on JVM.
 
 ```java
@@ -257,6 +255,11 @@ int b = (int) a;        // explicit cast from double to int
 short x = 5;
 byte y = 5;
 x + y;      // int 
+```
+
+Another example of Integral Promotion:
+```java
+System.out.println('b' + 'i' + 't');        // prints 319; ASCII addition result
 ```
 
 ### Bitwise Complement
