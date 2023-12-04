@@ -377,10 +377,10 @@ Analytics Service (receives events from Notif server the client; to track messag
 In a distributed system, it is impossible to ensure _exactly-once delivery_ (**Two Generals Problem**). Since there is no ACK from the Third-Party service that the message has reached the Client or not, it is acceptable to send the same message multiple times. To reduce such duplication, maintain a log (for the Worker) to know if the message has been seen before.
 
 ## News Feed
-For each user, maintain a temporary (_ephemeral_) **News Feed Cache** and we can read from it and write to it using a **Fanout Service** utilizing User Graph DB.
+For each user, maintain a temporary (_ephemeral_) **News Feed Cache** and we can write to our friend's feed cache, or others can read from our feed cache. Both may use a **Fanout Service** to do so.
 
 Stages:
-- Store Feed: Fanout Service writes `user_id` and `post_id` KV pair to News Feed Cache, also store post details in Post DB. And use user details from User DB to filter (user blocklists, etc) before writing to News Feed Cache.
+- Store Feed: Store post in Post DB, send info to Notification Service, then call Fanout Service to write `user_id` and `post_id` KV pair to News Feed Cache. Use user details from User DB to filter (user blocklists, etc) before writing to News Feed Cache.
 - Build Feed: On a friend's device when building the feed, primary server contacts News Feed Service to fetch posts, also fetch post and user data corresponding to the `post_id` in the KV pair from respectice DBs.
 
 **Fanout**: one-to-many spread of data
@@ -402,7 +402,7 @@ User Relation DB 		(graph datastore)
 
 User Cache + UserDB
 
-Message Queues
+Message Queues 			(one queue per user)
 
 News Feed Service 		(used only during build feed)
 News Feed Cache 		(stores only <user_id> to <post_id> KV pairs)
