@@ -407,3 +407,36 @@ Message Queues 			(one queue per user)
 News Feed Service 		(used only during build feed)
 News Feed Cache 		(stores only <user_id> to <post_id> KV pairs)
 ```
+
+## Chat System
+Both users connect to chat servers via WebSocket Protocol, and servers are synced with each other using MQs in between.
+
+Types:
+- DM (sortable `message_id`)
+- Group Chat (sortable `message_id` and a `channel_id`)
+
+When a new message is to be delivered to client, how can the chat server send us that? Since the connection is initiated by the client and are supposed to be short-lived?
+- **Regular Polling**: client polls server at short intervals, inefficient as it wastes bandwidth
+- **Long Polling**: client holds the connection open till a message arrives or timeout happens, connection is then closed immediately and process restarts. Client holds the connection hostage even when nothing is actually being shared. 
+- **WebSockets Protocol**: layer-7 protocol based on HTTP over port 80/443, starts with a HTTP upgrade handshake and becomes persistent open connection allowing real-time full-duplex communication
+
+Three types of components:
+- Stateless: API Server, Auth Server, Service Discovery to find chat servers 
+- Real-Time: Chat Server and Presence Server
+- Third-Party: Notification Service
+
+Storage:
+- use NoSQL stores like Cassandra (Discord) or HBase (FB Messenger) to store non-structured data quickly, offers high scalability, chat lookups aren't that much so we focus on write speed rather than to optimize reads.
+
+```txt
+Service Discovery - to find our API Server a nearest chat server (Apache Zookeper)
+
+Message Sync Queues - One MQ per Receiver: WeChat uses this, can be not so scalable for Group Chat
+
+Presence Servers - User sends a heartbeat to PS at regular intervals, if timeout happens and we didn't receive it, then user's status changes, fanout status to other users and store last_seen in datastore
+
+Sync Devices of a Single User - store latest message_id in a datastore on chat server shared between both devices
+```
+
+
+
