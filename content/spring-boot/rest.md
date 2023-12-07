@@ -85,7 +85,7 @@ public String showUser(@PathVariable("id") String uid) { }
 public String showUser(@PathVariable String id, @PathVariable Integer age) { }
 ```
 
-**@RequestBody** and **@ResponseBody**: To perform automatic serialization/deserialization of POJO/JSON.
+**@RequestBody** and **@ResponseBody**: To perform automatic serialization/deserialization of POJO/JSON. **Getters, setters and constructor must be present for Jackson library to work**. 
 ```java
 @PostMapping
 public @ResponseBody Course saveCourse(@RequestBody Course course){

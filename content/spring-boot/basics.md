@@ -5,24 +5,24 @@ weight = 1
 +++
 
 ## Spring
-Spring framework offerred a lightweight alternative to Java Enterprise Edition (JEE or J2EE) and moved away from EJBs (Enterprise Java Beans) to Java components like POJOs (Plain Old Java Objects). 
+Released in 2003, Spring framework offerred a lightweight alternative to Java Enterprise Edition (JEE or J2EE) and moved away from EJBs (Enterprise Java Beans) to Java components like POJOs (Plain Old Java Objects). 
 
 Biggest features were - **Dependency Injection (DI)** and **Aspect-oriented programming (AOP)**.
 
 But, Spring was heavy in terms of configuration. There was just too much configs. Spring 3.0 introduced Java based configs as an alternative to XML based configs but still there was too much config and redundancy. This lead to _development friction_.
 
 ## Spring Boot
-Spring Boot is also a framework based on Spring which differs in below core aspects:
+Released in 2014, Spring Boot is a framework based on Spring which differs in below core aspects:
 1. **Automatic Configuration**: common tasks are automatically handled by Spring Boot, like bean creation and component scanning
 2. **Starter Dependencies**: transitive dependencies
 3. **Spring Boot CLI**: unconventional way of developing (using Groovy) (much like Python's Flask)
 4. **Actuator**: to look at internals of a spring boot application during runtime
 
 ### Automatic Configuration
-Many beans are always created in all specific-kind of applications and we don't need to create those in Spring Boot explicitly as **it will look at the dependencies included and create those beans for us automatically** e.g. `jdbcTemplate` bean. All this happens at runtime (more specifically during application startup time).
+Many beans are always created in all specific-kind of applications and we don't need to create those in Spring Boot explicitly as **it will look at the dependencies included and create those beans for us automatically** e.g. `jdbcTemplate` bean is included automatically if we have a SQL driver dependency added. All this happens at runtime (more specifically during application startup time).
 
 ### Starter Dependencies
-If we include a dependency called `spring-boot-starter-web` it will pull around 8-9 other dependencies that we need to build web apps. We also don't have to care about their versions, compatibility, and updates in future. 
+If we include a dependency called `spring-boot-starter-web` it will pull around 8-9 other dependencies that we need to build web apps. We also don't have to care about their versions, compatibility, and updates in future because they work out-of-the-box. 
 
 ### Spring Boot CLI
 Optional component. Provides a way to run a Spring Boot app without a conventional Java project structure, imports and even the need for compilation. Groovy (a Java compatible scripting language) can be used too.
@@ -50,7 +50,7 @@ Gradle is modern but debugging issues can take time.
 Web Server - Tomcat or Jetty (to deploy the app onto)
 
 ## Spring Initializr
-A web app used to generate a demo project for Spring Boot. The project name is always `demo`.
+A web app used to generate a demo project for Spring Boot.
 
 Ways to access -
 1. Using [start.spring.io](https://start.spring.io/)
@@ -63,7 +63,7 @@ Ways to access -
 pom.xml
 
 src.main.java
-			com.demo
+			com.example.demo
 				 DemoApplication.java
 				 controller/
 				 dto/
@@ -134,7 +134,7 @@ public DataSource myDataSource(AnotherClass cls) {		// Spring will automatically
 }
 ```
 ```yaml
-# 2. customize default DatSource class using properties
+# 2. customize default DataSource class using properties
 
 # Connection settings
 spring.datasource.url=
@@ -152,10 +152,14 @@ spring.datasource.min-idle=
 server.port=9000
 server.address=192.168.11.21
 server.session-timeout=1800
+
+# change base path for server
+server.servlet.context-path=/vendormanagement
 ```
 
 ### Excluding Bean auto-configurations
 ```java
+@Configuration
 @EnableAutoConfiguration(exclude=DataSourceAutoConfiguration.class)
 public class ApplicationConfiguration {
 	// code
@@ -178,7 +182,9 @@ This means that the `application.properties` in application classpath will be re
 foo.bar=1337
 ```
 
-### Externalize Properties
+We can supply spring boot bean properties (like `server.port` or `spring.profiles.active`) without externalizing it from the properties file first, but custom properties created by us need to be specified in properties file first (see below section).
+
+### Externalize Custom Properties
 ```txt
 foo.bar=${FOOBAR}
 
@@ -186,7 +192,7 @@ first.name=Abhishek
 foo.bar=My name is ${first.name}
 
 # supplying a default
-server.port=${port:8080}
+foo.bar=${number:420}
 ```
 ```sh
 # via command-line arg
@@ -200,6 +206,8 @@ java -jar demo-app.jar
 ```
 
 ### Renaming properties file
+Can be done, but not recommended to divert from the standard name.
+
 ```java
 public static void main(String[] args) {
 	System.setProperty("spring.config.name", "foobar");		// file is automatically named "foobar.properties"
@@ -211,6 +219,8 @@ $ java -jar myproject.jar --spring.config.name=foobar
 ```
 
 ### Properties to POJO
+This allows access with objects of this class, we can pass it as parameter to methods putting properties in a `List` or a `Map` and access it.
+
 ```java
 // POJO
 @Component
@@ -290,7 +300,7 @@ $ java -jar foobar-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 The default profile (`application.properties`) is always loaded. Any other active profile(s) is loaded on top of it.
 {{% /notice %}}
 
-We can also specify `@Profile("dev")` or `"!dev"` on classes and only if the specified profile is active, the class will be used/run otherwise it will be ignored.
+We can also specify `@Profile("dev")` or `"!dev"` on classes and only if the specified profile is active, the class's bean will be loaded otherwise it will be ignored.
 
 ### Getting property values
 ```java
@@ -356,4 +366,8 @@ database:
 ```sh
 $ java -jar demo-app.jar --server.port=9090
 $ java -Dserver.port=9090 -jar demo-app.jar
+
+# need to use -D flag in the second approach
+# since we're specifying to "java" executable (where flags should've been) and not to our JAR
+# they both mean the same thing
 ```

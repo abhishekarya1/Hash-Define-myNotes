@@ -6,7 +6,7 @@ weight = 2
 
 
 ## Maven
-Build tool that can perform many tasks such as - defining project structure, dependency management, documentation, and various steps (build targets) like validate, verify, test, package, build, install etc... 
+Build tool that can perform many tasks such as - defining project structure, dependency management, documentation, and various steps (build targets) like validate, verify, test, package, install etc...
 
 Reference - https://maven.apache.org/guides/getting-started/index.html
 
@@ -18,7 +18,7 @@ Project Object Model (POM)
 	
 	<!-- Meta -->
 	<groupId>com.example</groupId>
-	<artifactId>Demo</artifactId>
+	<artifactId>demo</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	
@@ -240,7 +240,9 @@ Creating a different module for parent POM:
 
 **Summary**: Define dependencies in `<dependencyManagement>` section in the parent module. Point to parent pom in child/project and add dependency to `<dependencies>` section without version, the version will be taken from the parent.
 
-A `<parent>` (more precisely `<dependencyManagement>`) is like only a "declaration" of dependencies, we have to "actually include" them by adding in `<dependencies>` in child POM in a project and their `<version>` is inherited from the parent or we can override it by explicitly specifying it in the child POM.
+A `<parent>` (more precisely `<dependencyManagement>`) is like only a "declaration" of dependencies, we have to "actually include" them by adding in `<dependencies>` section in child POM in a project and their version is inherited from the parent. We can override version in child POM by explicitly specifying `<version>` tag in the `<dependency>` in child POM.
+
+We often put `<dependencyManagement>` section and add its dependencies in the `<dependencies>` of the same POM, not much useful but cleaner.
 
 ### Multi-Module Maven Project
 Multiple modules inside a single project, each having a different project inside it. All having the same `<groupID>`.

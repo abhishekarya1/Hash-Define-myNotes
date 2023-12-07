@@ -10,7 +10,7 @@ Logging is available in Spring by default provided by `slf4j` (Simple Logging Fa
 ```java
 // in Foobar.java
 
-Logger log = LoggerFactory.getLogger(Foobar.class);		// -- line 1
+Logger log = LoggerFactory.getLogger(Foobar.class);
 
 log.trace("A TRACE Message");
 log.debug("A DEBUG Message");
@@ -49,6 +49,8 @@ logging.file.name=myapp.log
 ```
 
 ### MDC (Mapped Diagnostic Context)
+MDC provides a way to enrich log messages with information that could be unavailable in the scope where the logging actually occurs but that can be indeed useful to better track the execution of the program.
+
 What if we want to log _userId_ of every request coming in? We can do so by setting `MDC.put("userId", userId)` and accessing via log pattern so that userId is printed in every line in the console. It is thread-local too, which means it will only remember it for that particular request only.
 
 _Reference_: https://www.youtube.com/watch?v=tmj6QphzAPo&t=1019s
