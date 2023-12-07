@@ -125,3 +125,12 @@ Step 3 - Kibana         	UI dashboard
 All three run on their own dedicated server separate from our Spring Boot app.
 
 _Reference_: [ELK with Spring Boot Microservices - YouTube](https://youtu.be/QZbZDu1xAr8)
+
+### Grafana Stack
+- Grafana - UI Dashboard
+- Loki - Log Aggregation
+- Tempo - Distributed Tracing
+
+Use Prometheus for collecting metrics.
+
+_Reference_: https://programmingtechie.com/2023/09/09/spring-boot3-observability-grafana-stack/

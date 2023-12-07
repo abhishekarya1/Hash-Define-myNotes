@@ -47,7 +47,6 @@ Controller --> Service (interface) --> Service (impl class)
 // method level
 @RequestMapping(value = "/all", method = RequestMethod.GET)
 @RequestMapping(value = "/all", method = {RequestMethod.GET, RequestMethod.POST})
-@RequestMapping(value = "/all", method = POST)
 
 // @RequestMapping accepts all HTTP methods by default
 
@@ -110,7 +109,7 @@ public JSONObj xmlToJsonConverter(@RequestBody XMLObj xmlObj){
 }
 ```
 
-The `Content-Type` header should be present on the incoming request and needs to match `produces` value otherwise error and upon sending the error (415 Unsupported Media Type) response we will attach an `Accept` header with the `consumes` value.
+The `Content-Type` header should be present on the incoming request and needs to match `consumes` value otherwise error and upon sending the error (415 Unsupported Media Type) response we will attach an `Accept` header with the `consumes` value.
 
 **@RequestHeader**: Get value of request header.
 ```java

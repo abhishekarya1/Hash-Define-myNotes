@@ -119,6 +119,13 @@ class MyCustomBeans{
 	public ServiceA serviceBeanCreator(String s, int n){	// notice return type
 		return new ServiceA("foo", 99);						// we can call any constructor we want here
 	}
+
+
+	// dependency on existence of another bean
+	@Bean
+	public ServiceC myServiceBean(ServiceB s) {		// Spring will automatically init ServiceB Bean before this and use that to init ServiceC here
+		return new ServiceC();
+	}
 }
 ```
 

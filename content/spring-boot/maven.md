@@ -132,9 +132,9 @@ We can also exclude some transitive dependencies using `<exclusions>` tag.
 
 ### Version
 We can:
-- explicitly specify version directly in the `<dependency>` section
-- inherit version from parent (parent POM needs to have a `<dependencyManagement>` section)
-- change parent's version with the `<xxx.version>` tag; only works if version is externalized in parent POM
+- explicitly specify version directly in the `<dependency>` tag
+- inherit version from parent (parent POM needs to have a `<dependencyManagement>` section); no `<version>` tag is specified in this case
+- change parent's version with the `<xxx.version>` tag under `<properties>` section; only works if version is _externalized_ in parent POM and dependency is included in the child POM in `<dependencies>` section or transitively by some other dependency
 
 Externalize dependency version and specify it in the properties tag:
 ```xml
@@ -170,12 +170,10 @@ Change version by specifying another version in `<properties>` section of child 
 </dependencies>
 ```
 
-**Summary**: we can change version for a dependency in the `<properties>` section of child POM provided the parent POM has a `<xxx.version>` tag for it in the `<properties>` section i.e. version is _externalized_.
-
 _Reference_: [SivaLabs - YouTube](https://youtu.be/2dPon1G5S-M)
 
 {{% notice note %}}
-This is why the Log4j vulnerability ([Log4Shell](https://en.wikipedia.org/wiki/Log4Shell)) was such a big deal. Spring starters and parent may have the vulnerable version depending on the Spring version we're using and we need to override with the latest (fixed) version of Log4j in our respective POMs.
+This is why the Log4j vulnerability ([Log4Shell](https://en.wikipedia.org/wiki/Log4Shell)) was such a big deal. Spring starters and parent may have the vulnerable version depending on the Spring version we're using and it was added to our project transitively by some other dependency. We need to override it with the latest (fixed) version of Log4j in our respective POMs.
 {{% /notice %}}
 
 ## Parent and dependencyManagement
@@ -240,7 +238,7 @@ Creating a different module for parent POM:
 
 **Summary**: Define dependencies in `<dependencyManagement>` section in the parent module. Point to parent pom in child/project and add dependency to `<dependencies>` section without version, the version will be taken from the parent.
 
-A `<parent>` (more precisely `<dependencyManagement>`) is like only a "declaration" of dependencies, we have to "actually include" them by adding in `<dependencies>` section in child POM in a project and their version is inherited from the parent. We can override version in child POM by explicitly specifying `<version>` tag in the `<dependency>` in child POM.
+A `<parent>` (more precisely `<dependencyManagement>`) is like only a "declaration" of dependencies, we have to "actually include" them by adding in `<dependencies>` section in child POM in a project and their version is inherited from the parent. We can override version in child POM too (see above section).
 
 We often put `<dependencyManagement>` section and add its dependencies in the `<dependencies>` of the same POM, not much useful but cleaner.
 

@@ -126,12 +126,6 @@ We can define our own bean or use properties to override the default one. Ex - `
 public AnotherClass myDataSource() {		// name doesn't matter; only return type does
 	return new DataSource();
 }
-
-// Dependency Injection
-@Bean
-public DataSource myDataSource(AnotherClass cls) {		// Spring will automatically init AnotherClass Bean before this and use that to init DataSource here
-	return new DataSource(cls);
-}
 ```
 ```yaml
 # 2. customize default DataSource class using properties
