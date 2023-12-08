@@ -1,11 +1,13 @@
 +++
 title = "React"
-date = 2023-12-04T17:32:00+05:30
+date = 2023-11-22T00:00:00+05:30
 weight = 1
 pre = "⚛️ "
 +++
 
 <sub>Started on: 22-11-2023</sub>
+<br>
+<sub>Finished on: 08-12-2023</sub>
 
 Codevolution: 
 - [30 Days Roadmap](https://www.youtube.com/shorts/_1VwcJ2D3eM)
@@ -82,8 +84,8 @@ useCallback: `const cachedFn = useCallback(()=>{ //fn }, [a])` similar to useMem
 
 Difference? useMemo calls the function and caches its return values and returns one of those values, whereas useCallback caches the function itself and returns a function reference
 
-useRef - `const myRef = useRef(init)`, ref can be used as a variable holding values but they do not re-render component upon change. Access value using `myRef.current`. If we put the ref variable itself or any value displayed on screen in a ref (like prop or state) it will not reflect in browser so be careful. 
-We can also store DOM elements in a ref, `const myRef = useRef(null)` and attribute on a JSX element use ref attribute `<input ref = {myRef} />`, when components renders for the first time `myRef` will point to the `<input>` tag and we can do stuff like `myRef.current.focus()` or `.play()`, `.pause()` etc...
+useRef - `const myRef = useRef(init)`, a ref's `current` field can be used as a variable holding values but they do not re-render component upon change. Read/write value to it using `myRef.current = newVal`. If we put this itself or any value displayed on screen in a ref (like prop or state) it will not reflect in browser so be careful. 
+We can also store DOM elements in a ref, `const myRef = useRef(null)` and attribute on a JSX element use ref attribute `<input ref = {myRef} />`, when components renders for the first time `myRef` will point to the `<input>` tag and we can do stuff like `myRef.current.focus()` or `myRef.current.play()`, `myRef.current.pause()` etc.
 
 Error Boundaries - upon error don't remove UI element instead display fallback UI, error boundary is a special component that wraps code prone to error, `ErrorBoundary` is a custom "foobar" class component that we wrote with overridden lifecycle methods
 
@@ -93,11 +95,23 @@ Error Boundaries - upon error don't remove UI element instead display fallback U
 </ErrorBoundary>
 ```
 
+Portals - render components outside root DOM element, by default everything is rendered as child of `App` component placed in `<div id="root">` element of the DOM (`index.html`). If we want to render any HTML code in another  HTML tag other than "root". We can do so using Portals.
+`{createPortal(children, domNode)}`
+```js
+// in component JSX
+{ createPortal(<p>Test</p>, document.getElementById("overlays")) }
+
+// in index.html
+<div id="overlays"></div>
+```
+The code will directly be injected in the "overlays" tag, and will act as children of whatever component its called from, meaning we can pass props, state etc. as we would to a normal child, Ex - used to create Modal popups
+
+Custom Hooks - put common logic to components in a normal JS function defined in its own file and named `useXXXX` so that linters etc. recognize it as a custom hook
+
+React Server Components - SSR, render JS not in the user browser but on the server, some areas on the page instantly load, we can also access data layer right from inside a server component so no need of APIs. React Frameworks like Next.js and Remix use them internally.
+
+Explore Ecosystem - Axios, React Router, Redux Toolkit
 
 ---
 
-
-Portals - render components outside DOM
-Custom Hooks - reuse logic
-React Server Components
-Explore Ecosystem - axios, react router, redux
+Class Components & Legacy most used topics

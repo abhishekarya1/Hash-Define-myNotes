@@ -102,7 +102,7 @@ validate		-- validate existance of schema; if not found then throw exception
 
 _References_: https://stackoverflow.com/questions/42135114/how-does-spring-jpa-hibernate-ddl-auto-property-exactly-work-in-spring
 
-## CommandLineRunner
+## CommandLineRunner Bean
 Always executes upon server run.
 ```java
 @Configuration
@@ -137,12 +137,24 @@ repository.findByEmailContaining("gmail.com");
 repository.findByNameNotNull();
 ```
 
+When we save a DTO object to database as a row, JPA automatically stores PK (`@Id`) of the newly created row in the DTO object back! 
+```java
+User user = new User();
+
+user.getUserId();		// null here
+
+repository.save(user);
+
+user.getUserId();		// 1 here
+```
+
 _Reference_: https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods
 
 ## Query
 Specifying queries explicitly with _@Query_ annotation.
 ```java
 // JPQL query; based on class attrs and not column names, ?1 is first parameter
+
 @Query("select s from Student s where s.email = ?1")
 Student getStudentByEmailAddress(String email);		// method name doesn't matter now
 
@@ -150,13 +162,6 @@ Student getStudentByEmailAddress(String email);		// method name doesn't matter n
 String getStudentByEmailAddress(Long id);
 ```
 
-### Native Queries
-```java
-@Query(
-	value="SELECT * from student_table WHERE name = 'Abhishek';",
-	nativeQuery = true
-	)
-```
 ### Named Params
 ```java
 @Query("select s from Student s where s.email = :email")
@@ -164,6 +169,15 @@ Student getStudentByEmailAddress(String email);
 
 @Query("select s from Student s where s.email = :emailId")
 Student getStudentByEmailAddress(@Param("emailId") String email);	// diff param name that arg name with @Param
+```
+
+### Native Queries
+Use actual table names and column names in the query and mark it as native. We can use both `:name` and `?1` params in native query too.
+```java
+@Query(
+	value="SELECT * from student_table WHERE name = ?1",
+	nativeQuery = true
+	)
 ```
 
 ## Modifying
@@ -360,7 +374,9 @@ private List<Owner> ownerList;
 ```
 
 ## Paging and Sorting
-`JpaRepository` extends from `PagingAndSortingRepository` and we can pass `Pageable` along with a sort param.
+`JpaRepository` extends from both `PagingAndSortingRepository` and `CrudRepository` and contains methods from both of them.
+
+We can pass it `Pageable` objects along with sort param to allow paging and sorting.
 
 ### Paging
 ```java
