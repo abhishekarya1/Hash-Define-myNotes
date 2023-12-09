@@ -70,23 +70,28 @@ class Hello{
 - `final` instance variables must be assigned a value before constructor/constructor chain finishes
 
 ## Variable Arguments
+The vararg syntax `...` only works in method declaration signature, compiler-error otherwise if used as a substitute for `[]` in class or method body.
+
+**Rules**:
+1. Only 1 vararg can be present
+2. vararg must occur at the last of parameter list
+
 ```java
-void foobar(String... str){
-	//use for each loop to iterate over s here
+void foobar(String... str){			// or foobar(String ...str)
+
 	for(String s : str){
-		// print
+		// code
 	}
 }
 
-/* Rules:
-1. Only 1 vararg can be present
-2. vararg must occur at the last of parameter list
-*/
-
-// Calling
+// Call
 String[] strArr = {"john", "doe"};
 foobar(strArr)
 foobar("foo", "bar")
+
+
+// compiler-error
+String... arr = {"a", "b", "c"};
 ```
 
 ## static
