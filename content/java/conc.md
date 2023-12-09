@@ -609,7 +609,6 @@ References:
 - https://inside.java/2023/10/30/sip086/
 - https://dev.java/learn/new-features/virtual-threads/
 - https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html
-<<<<<<< HEAD
 - https://davidvlijmincx.com/posts/java-virtual-threads/
 
 ## Async Processing - CompletableFuture
@@ -638,7 +637,6 @@ CompletableFuture<Void> future = completableFuture.thenRun(() -> System.out.prin
 future.get();
 ```
 
-Reference: https://www.baeldung.com/java-completablefuture
-=======
+Reference: 
+- https://www.baeldung.com/java-completablefuture
 - https://davidvlijmincx.com/posts/java-virtual-threads/
->>>>>>> 4d6221636ba2df4a848c5e8d068246bb5b034c9d
