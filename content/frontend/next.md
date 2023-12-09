@@ -21,11 +21,29 @@ docs/[[...slug]]
 _lib
 
 (auth)
+
+
+page.tsx and export default
+layout.tsx
+template.tsx
+
+
+metadata object
+generatedMetadata function object
+
+
+<Link href="/products">Go to Products<Link/>
+
+
+"use client";
+
+
+useRouter
 ```
 
 ---
 
-A React Framework for building production-ready web applications. Everything is in-built - routing, optimized rendering, data fetching, bundling, compiling, and more
+A React Framework for building production-ready web applications. Everything is built-in: routing, optimized rendering, data fetching, bundling, compiling, SEO, and more.
 
 Components are by-default server components here, unless explicitly marked as client component using `use client` at the top.
 
@@ -72,10 +90,11 @@ But `/docs` will fail now as it doesn't have its own `page.tsx`. We can use `[[.
 ## Not Found Page
 Either create a global `not-found.tsx` and place in `app` folder root.
 
-```ts
+```js
 // invoke it anywhere in the component
 import { notFound } from "next/navigation";
 
+// in component function
 if(params.reviewId > 999){
 	notFound();
 }
@@ -91,6 +110,101 @@ We can have multiple functions in the `page.tsx` but atleast one has to be `expo
 **Private Folders**: name a route folder as `_foobar` and it won't be accessible in the browser
 
 **Route Group**: name a folder as `(foobar)` and it won't have its own URL segment anymore
+
+## Layouts
+Place common HTML tags in a `layout.tsx` file and it will be applied to a route and all its children.
+
+The `layout.tsx` file in `app` folder (_mandatory_) allow common HTML tags such as `<header>` and `<footer>` placed in the file, to display on all it and its children route pages too.
+
+**Nested Layout**: create `layout.tsx` file in a route's folder and it will be applied to it and all its children routes. Do note that any other layout of this route's parent will also be applied to its children.
+
+**Route Group Layout**: place a `layout.tsx` file in a route group folder `(auth)` to scope layout to its child folders only
+
+## Metadata
+Place objects in either `layout.tsx` or `page.tsx` and Next generates HTML tags automatically. The latter takes precedence if there is ambiguity.
+
+**Static Metadata Object**: create `metadata` object in the file
+```js
+export const metadata = {
+	title: "Foobar::Home",
+	description: "Homepage of Foobar"
+};
+```
+
+They will be rendered as `<title>` and `<meta name="description" content="Homepage of Foobar">` in the browser.
+
+**Dynamic Metadata**: create `generatedMetadata` function object in the file
+
+```js
+import { Metadata } from "next";
+
+export const generatedMetadata = ({ params }): Metadata => {
+	return {
+		title: `Product ${params.productId}`
+	};
+};
+```
+
+### title
+Set titles in the above two approaches, either as `string` type (shown above) or `Metadata` type (shown below).
+
+```js
+import { Metadata } from "next";
+
+export const metadata: Metadata = {
+	title: {
+		absolute: "Override both the below titles to display this one",
+		default: "Fallback to this title if no title is defined in layout.tsx or page.tsx",
+		template: "%s | Get the value before pipe from children's title field"
+	}
+};
+```
+
+## Link Component Navigation
+
+```js
+import Link from "next/link";
+
+// in JSX
+
+// static link
+<Link href="/products">Go to Products<Link/>
+
+// dynamic link
+let productId = 100;
+<Link href=`/products/${productId}`>Go to {productId}<Link/>
+
+// replace history; on back button click we go back to Home and not the previous page
+<Link href="/products" replace>Go to Products<Link/>
+```
+
+### Navigating Programmatically
+Use `useRouter` hook in a client component.
+
+```js
+"use client";
+import { useRouter } from "next/navigation";
+
+// in component function
+const router = useRouter();
+
+const handleClick = () => {
+	console.log("Redirecting to Home...");
+
+	router.push("/");
+
+	// other methods
+	router.replace("/");		// reset browser stack history and goto Home
+	router.back();				// goto previous page in browser stack
+	router.forward();			// goto next page in browser stack
+}
+```
+
+## Templates
+Any state variable disaplyed on the screen in the `layout.tsx` doesn't reset value when navigating between routes, it stays on the screen! 
+
+Use `template.tsx` if we want to have new state variable initialized for every route we goto. Everything else is same as layout.
+
 
 ## References
 - Codevolution Playlist - [YouTube](https://youtube.com/playlist?list=PLC3y8-rFHvwjOKd6gdf4QtV1uYNiQnruI&si=1R3UV3WIhVnJR0sO)
