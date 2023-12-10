@@ -5,7 +5,7 @@ weight = 12
 +++
 
 ## Testcontainers
-Used to write Integration tests.
+Used to write Integration or Repository tests.
 
 Create ephemeral external dependencies like databases, MQs, etc.. for test purposes. Pulls Docker images and runs containers for test scope & duration, needs Docker pre-installed on the system to work.
 
@@ -50,7 +50,8 @@ We can also externalize common container configs to another class too.
 
 **How to populate container DB with data**:
 - use Database Migration like Flyway to populate database container (name is misleading; its just runs `.sql` scripts to create schema, populate data, etc...) [[_clarification_](https://stackoverflow.com/questions/57602306/how-to-use-flyway-to-migrate-data-from-one-db-to-another-db), [_tutorial_](https://youtu.be/q5pfc_bFK-Y)]
-- or use an init `.sql` file containing queries to populate container DB, this file is run automatically by Testcontainers dependency [[_link_](https://www.testcontainers.org/modules/databases/jdbc)]
+- or use an init `.sql` file containing queries to populate container DB, this file is run automatically by Testcontainers dependency [[_link_](https://java.testcontainers.org/modules/databases/jdbc/#using-a-classpath-init-script)]
+- or use an init Java method to populate [[_link_](https://java.testcontainers.org/modules/databases/jdbc/#using-an-init-function)]
 
 https://www.testcontainers.org
 
@@ -104,6 +105,7 @@ A small library to test async services; the status is obtained by aÂ _Callable_Â
 @Test public void updatesCustomerStatus() {
 	// Publish an asynchronous message to a broker (e.g. RabbitMQ):
 	messageBroker.publishMessage(updateCustomerStatusMessage); 
+
 	// Awaitility lets you wait until the asynchronous operation completes:
 	await().atMost(5, SECONDS).until(customerStatusIsUpdated());
 ```
@@ -111,7 +113,7 @@ A small library to test async services; the status is obtained by aÂ _Callable_Â
 https://www.baeldung.com/awaitility-testing
 
 ## WireMock and MockServer
-Mock an external API integration instead of calling the real one (that may cost us money).
+Create and up a mock server that mimics an external API integration, instead of calling the real one (that may cost us money).
 
 ```java
 // create mock server
@@ -148,7 +150,7 @@ void shouldGetFailureResponseWhenGitHubApiFailed() throws Exception {
 ## Playwright
 Created by Microsoft for writing end-to-end tests; alternative to Selenium.
 
-Calls our service from an agent - Chromium, Firefox, etc... loads the page and we can then specify which buttons user clicks, doing search from search bar, etc...
+Calls our service as a browser agent - Chromium, Firefox, etc... loads the page and we can then specify which buttons user clicks, doing search from search bar, etc...
 
 https://playwright.dev/java/docs/running-tests
 

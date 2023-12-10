@@ -13,8 +13,8 @@ Use a `jre` as the base image rather than a `jdk`.
 {{% /notice %}}
 
 ## Generating Docker Images
-### 1. Remove Layers of JAR using Dockerfile
-- extract JAR and copy only selective layers into the image
+### 1. Split the JAR using Layered Dockerfile
+- instead of adding the whole JAR to image, we split JAR contents into diff folders and then copy some folders selectively to a fresh new image
 
 ```docker
 # add and extract the JAR to the /extracted dir inside the jre image
@@ -23,7 +23,7 @@ WORKDIR extracted
 ADD target/*.jar app.jar
 RUN java -Djarmode=layertools -jar app.jar extract
 
-# selectively copy extracted layers to /application dir inside the jre image
+# take a fresh jre image and selectively copy extracted layers to /application dir inside it
 FROM eclipse-temurin:17.0.4.1_1-jre
 WORKDIR application
 COPY --from=builder extracted/dependencies/ ./
@@ -40,8 +40,11 @@ $ docker build -t foobar-service -f Dockerfile.layered .
 ```
 
 ### 2. Maven Build Plugin
-Run the below command and Maven build plugin (added by default by Spring Initializr) takes care of layering as in above approach implicitly.
+Use Maven goal `spring-boot:build-image` goal provided by Maven build plugin (added by default by Spring Initializr) takes care of layering as in above approach implicitly.
 
+This approach **doesn't need a `Dockerfile` to be present** in the app directory, it ignores it if present. Since, best practices of creating Spring Boot app images are applied by Maven.
+
+Specify image name and other properties in `pom.xml` or with mvn command (shown below)
 ```sh
 $ mvn spring-boot:build-image -Dspring-boot.build.image.imageName=abhishekarya1/myapp
 ```
@@ -51,7 +54,7 @@ Configure Google's [Jib plugin](https://cloud.google.com/java/getting-started/ji
 
 **It doesn't even need Docker to be installed on the machine!**
 
-**It doesn't even need a Dockerfile to be present!** It is highly opinionated and auto-applies best practices when building the image.
+**It doesn't even need a `Dockerfile` to be present!** It is highly opinionated and auto-applies best practices when building the image.
 
 ## GraalVM & Compression
 A 1.5MB Java Container App? Yes you can! by Shaun Smith - Devoxx - [YouTube](https://youtu.be/6wYrAtngIVo)
