@@ -184,9 +184,9 @@ void testFun(){
 Framework to **mock layers below the layer we want to test**.
 
 ### Mocking
-Use _@Mock_ to mock objects. Every method call we make on mocks will return `null` or `[]` or `0` unless we stub its methods with (`when`-`then`).
+Use _@Mock_ to mock a `class` or an `interface`. Every method call we make on mocks will immediately return `null` or `[]` or `0` unless we stub its methods with (`when`-`then` or `doReturn`). The method on a Mock never actually runs.
 
-Its just like a wireframe with all the method names, their return types, etc... available to it but can't run any logic inside of them. We use stubs to provide logic to Mocks.
+Its just like a wireframe with all the method names, their return types, etc... available to it but can't run any logic inside of them. We use stubs to provide logic to Mock methods.
 ```java
 // 1: using annotation
 @Mock
@@ -205,22 +205,28 @@ Foobar foobar = mock(Foobar.class);		// no need to enable with any other stateme
 With JUnit 4 we used `@RunWith(SpringRunner.class)` but it is outdated legacy way.
 
 ### InjectMocks
-If we create a _@Mock_ of a class that has other classes in it, then those included classes will be `null`. We should create _@Mock_ for each of the constituent classes and inject into the parent. 
+For testing we need to run instance methods of the class under test, and if it has other classes as its members, then they will be initialized to `null` and we'll get NPE when we run the test and method accesses those dependencies in the code.
 
-**@InjectMocks**: Create a _@Mock_ and inject all other _@Mock_ in the current test class into it.
+**@InjectMocks**: Create an instance (of the test class member its specified upon) and inject all _@Mock_ defined in the current test class into it. Since we're creating an instance, it can't be used on an `interface`.
 ```java
-// Game class
-class Game {
-    private Player player;
+// Service class
+class Service {
+    private Repository repo;
 }
 
-// GameTest class
+// Service test class
 @Mock
-Player player;
+Repository repo;
 
 @InjectMocks
-Game game;		// since game requires player
+Service service;		// Service requires repo object; Service must be a concrete class
 ```
+
+{{% notice tip %}}
+Mnemonic: _"mock the repo, inject mocks the serviceImpl"_
+{{% /notice %}}
+
+If our service under test calls another service (has it as a member ofc), _@Mock_ the other service and stub it just like we do with repositories.
 
 ### Spying
 It actually calls the method and returns live data if not stubbed.
@@ -314,8 +320,8 @@ assertThat(emailAddress).contains("@gmail.com");
 assertThat(year).isLessThan(2023);
 ```
 
-## Specialized Tests (aka Slice Tests)
-###  Controller Test (WebMvcTest)
+## Test Slices
+###  Controller Tests (WebMvcTest)
 Makes calls to our controller endpoints, service layer to be mocked here.
 
 Use only `@MockBean` with `@WebMvcTest` to mock service layer.
@@ -328,7 +334,7 @@ The reason is that for a WebMvcTest, Spring creates mock Controller bean (notice
 @WebMvcTest(controllers = MyController.class)
 public class MyControllerTest {
 
-    @Autowired						// notice
+    @Autowired						// notice; not mocked
     private MockMvc mockMvc;
 
     @MockBean
@@ -348,6 +354,13 @@ public class MyControllerTest {
 
 _@WebMvcTest_ includes _@AutoConfigureMockMvc_ automatically.
 
+### Service Tests
+"Normal" tests, most of the tests in any app will be these.
+
+[recall this](#injectmocks)
+
+**Summary**: In the test, trigger methods on the instance of the class under test created by _@InjectMocks_. Mock and stub every other member repo or service.
+
 ### DataJpaTest
 Sets up an in-memory H2 database and performs run tests using it. Modern way is to use Testcontainers.
 
@@ -360,7 +373,7 @@ public class JpaRepositoryTest {
     private EntityManager entityManager;
 
     @Autowired
-    private ProductRepository respository;		// JPA repository; notice no mocking
+    private ProductRepository respository;		// JPA repository; notice not mocked
 
     @Test
     public void testRepo() {
@@ -371,11 +384,13 @@ public class JpaRepositoryTest {
 }
 ```
 
-**Testing JDBC Repositories**: in a normal JUnit test, mock `jdbcTemplate` and stub it.
+**Testing JDBC Repositories**: in a normal JUnit test, _@Mock_ `jdbcTemplate` and stub it, then _@InjectMocks_ into `repositoryImpl`.
 
 ---
-## Integration Testing
-Ups the server and run tests on it when we annotate the test class with _@SpringBootTest_ and use `MockMvc` to hit the enpoints.
+## Integration Tests
+Ups the server and run tests on it when we annotate the test class with _@SpringBootTest_ and use `MockMvc` to hit the controller endpoints.
+
+Since we're using `MockMvc`, we need to annotate the test with `@AutoConfigureMockMvc` too.
 
 No mocking to be done in this kind of test.
 
