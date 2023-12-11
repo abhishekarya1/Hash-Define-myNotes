@@ -320,4 +320,10 @@ _Reference#4_: https://maven.apache.org/guides/introduction/introduction-to-depe
 ## Gradle
 Modern, more declarative, and unlike Maven it supports [Monorepos](https://monorepo.tools).
 
+Build script (`build.gradle`) is written either in Groovy or Kotlin. It is equivalent of pom.xml here.
+
+`settings.gradle` defines project name and module relationships (in multi-module projects)
+
+**Build Lifecycle Goals**: `clean`, `compile`, `test`, and `build` (equivalent to install goal in Maven)
+
 [Reference Video](https://youtu.be/gKPMKRnnbXU)
