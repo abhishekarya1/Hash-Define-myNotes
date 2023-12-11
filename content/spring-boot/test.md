@@ -207,7 +207,7 @@ With JUnit 4 we used `@RunWith(SpringRunner.class)` but it is outdated legacy wa
 ### InjectMocks
 For testing we need to run instance methods of the class under test, and if it has other classes as its members, then they will be initialized to `null` and we'll get NPE when we run the test and method accesses those dependencies in the code.
 
-**@InjectMocks**: Create an instance (of the test class member its specified upon) and inject all _@Mock_ defined in the current test class into it. Since we're creating an instance, it can't be used on an `interface`.
+**@InjectMocks**: Creates an instance (of the test class member its specified upon) and inject all _@Mock_ defined in the current test class into it. Since we're creating an instance, it can't be used on an `interface`.
 ```java
 // Service class
 class Service {

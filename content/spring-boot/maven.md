@@ -243,7 +243,7 @@ A `<parent>` (more precisely `<dependencyManagement>`) is like only a "declarati
 We often put `<dependencyManagement>` section and add its dependencies in the `<dependencies>` of the same POM, not much useful but cleaner.
 
 ### Multi-Module Maven Project
-Multiple modules inside a single project, each having a different project inside it. All having the same `<groupID>`.
+Multiple modules (projects) inside a single project, each having a different project inside it. All having the same `<groupID>`.
 
 1. Place common `<dependencyManagement>` and `<build> <plugins>` in parent's POM
 2. Add all `<modules> <module>` artifact ids in parent's POM
@@ -260,7 +260,7 @@ Placing parent POM at root (one level above child POMs):
  . -- pom.xml
 ```
 
-**Advantages**: easier to manage dependencies & build plugins and Maven building together. Projects may still have to be run separately if we want to up the server.
+**Advantages**: easier to manage dependencies and build plugins, builds all modules when build is triggered for the parent. Projects may still have to be run separately if we want to up the server.
 
 ### BOM
 BOM (Bill Of Materials) is a POM which contains `<dependencyManagement>` section and is used to supply list of dependencies to other POMs.
@@ -315,3 +315,9 @@ _Reference#2_: https://reflectoring.io/maven-bom
 _Reference#3_: https://github.com/FasterXML/jackson-bom
 
 _Reference#4_: https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Importing_Dependencies
+
+
+## Gradle
+Modern, more declarative, and unlike Maven it supports [Monorepos](https://monorepo.tools).
+
+[Reference Video](https://youtu.be/gKPMKRnnbXU)
