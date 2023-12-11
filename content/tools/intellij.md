@@ -1,7 +1,7 @@
 +++
 title = "IntelliJ IDEA"
 date = 2023-05-03T21:01:00+05:30
-weight = 2
+weight = 1
 +++
 
 ## Config

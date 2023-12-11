@@ -2,7 +2,7 @@
 title = "Next"
 date = 2023-12-08T17:00:00+05:30
 weight = 2
-pre = "🔼 "
+pre = "<i class=\"devicon-nextjs-original colored\"></i> "
 +++
 
 ## Cheatsheet
@@ -26,6 +26,7 @@ _lib
 page.tsx and export default
 layout.tsx
 template.tsx
+loading.tsx
 
 
 metadata object
@@ -201,10 +202,12 @@ const handleClick = () => {
 ```
 
 ## Templates
-Any state variable disaplyed on the screen in the `layout.tsx` doesn't reset value when navigating between routes, it stays on the screen! 
+Any state variable displayed on the screen in the `layout.tsx` doesn't reset value when navigating between routes, it stays on the screen! 
 
 Use `template.tsx` if we want to have new state variable initialized for every route we goto. Everything else is same as layout.
 
+## Loading
+Use `loading.tsx` file placed in route folder to disaply temporary content till actual content loads.
 
 ## References
 - Codevolution Playlist - [YouTube](https://youtube.com/playlist?list=PLC3y8-rFHvwjOKd6gdf4QtV1uYNiQnruI&si=1R3UV3WIhVnJR0sO)

@@ -1,7 +1,7 @@
 +++
 title = "Networking"
 date =  2023-05-08T19:47:00+05:30
-weight = 14
+weight = 11
 chapter = true
 pre = "🌐 "
 +++

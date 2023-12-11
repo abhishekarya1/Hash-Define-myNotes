@@ -37,9 +37,9 @@ url = "https://github.com/abhishekarya1"
 weight = 10
 
 [[menu.shortcuts]]
-name = "<i class='fas fa-laptop-code'></i> Blog"
-identifier = "myblog"
-url = "https://abhishekarya1.github.io"
+name = "<i class='fas fa-laptop-code'></i> Site"
+identifier = "mysite"
+url = "https://abhishekarya.com"
 weight = 11
 
 [[menu.shortcuts]]

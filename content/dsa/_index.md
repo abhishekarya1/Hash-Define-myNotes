@@ -1,7 +1,7 @@
 +++
 title = "DSA"
 date = 2020-07-12T11:30:30+05:30
-weight = 9
+weight = 10
 chapter = true
 pre = "👨‍💻 "
 +++

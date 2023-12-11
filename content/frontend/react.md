@@ -2,7 +2,7 @@
 title = "React"
 date = 2023-11-22T00:00:00+05:30
 weight = 1
-pre = "⚛️ "
+pre = "<i class=\"devicon-react-original colored\"></i> "
 +++
 
 <sub>Started on: 22-11-2023</sub>

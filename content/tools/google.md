@@ -1,7 +1,7 @@
 +++
 title = "Google Dorking"
 date = 2021-12-10T12:45:42+05:30
-weight = 1
+weight = 5
 +++
 
 ```md

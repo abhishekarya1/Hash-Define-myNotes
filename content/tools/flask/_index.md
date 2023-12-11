@@ -1,7 +1,7 @@
 +++
 title = "Flask"
 date =  2020-11-28T22:33:22+05:30
-weight = 12
+weight = 4
 chapter = true
 pre = "<i class='devicon-flask-original'></i> "
 +++

@@ -1,9 +1,9 @@
 +++
 title = "C++"
 date =  2022-02-01T11:36:28+05:30
-weight = 2
+weight = 1
 chapter = true
-pre = "<i class='devicon-cplusplus-plain colored'></i> "
+pre = "<i class='devicon-cplusplus-plain'></i> "
 +++
 ### Notes
 
