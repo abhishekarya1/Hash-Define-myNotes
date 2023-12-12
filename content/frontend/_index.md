@@ -8,5 +8,5 @@ pre = "🦄 "
 
 # Frontend
 - ⚛️ React
-- 🔼 Next
+- ▲ Next
 - **TS** Typescript

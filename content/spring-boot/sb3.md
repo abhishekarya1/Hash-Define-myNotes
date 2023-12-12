@@ -12,10 +12,10 @@ weight = 16
 5. URL pattern matching changed. URLs terminated with slash (`localhost:8080/foo/`) no longer redirect to non-terminating with slash (_"normal"_) ones (`localhost:8080/foo`). [link](/spring-boot/rest/#slash-terminated-urls-in-spring-boot-30)
 
 **Additions/Improvements**:
-1. Spring Native (AoT image generation with GraalVM and Maven Build Plugin) (without the need for any third-party dependency)
-2. `ProblemDetail` object for better error reporting
-3. Improvements to Micrometer (`Observability` API)
-4. `@HttpExchange` (exactly like OpenFeignClient but without the need for any third-party dependency)
+1. Spring Native: Maven Build Plugin supports AoT image generation with GraalVM out-of-the-box, without the need for any third-party dependency
+2. `ProblemDetail` response object for better error reporting
+3. Improvements to Micrometer (`Observability` API): wraps around endpoint responses to observe and gather stats 
+4. `@HttpExchange` (exactly like OpenFeign but without the need for any third-party dependency)
 
 ### References
 - https://www.baeldung.com/spring-boot-3-spring-6-new

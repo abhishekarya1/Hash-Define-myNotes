@@ -230,7 +230,7 @@ $ git branch -a
 # Delete branch (if no unmerged changes are there in it), we can't delete branch we're currently on (obviously, lol!)
 $ git branch -d <branchname>
 # Deleting using above won't delete branches from remote, use below to do so
-$ git push -d <branchname>
+$ git push -d <remotename> <branchname>
 ```
 
 Newer `git switch` command (as an alternative to `git checkout`):

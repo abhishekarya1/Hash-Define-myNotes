@@ -4,7 +4,7 @@ date = 2022-12-06T12:56:00+05:30
 weight = 15
 +++
 
-**Declarative** way of programming, deals with **data streams** and **propagation of change**.
+**Declarative** way of programming modern services, deals with **data streams** and **propagation of change** (_event-driven_).
 
 Not neccessarily async, but its a core feature; reacting to a change doesn't require async nature of processing, but the way modern reactive system acheive performance is using async processing.
 
@@ -34,7 +34,8 @@ String b = two.join();	// get value
 ### with Reactive Data Streams
 - declarative (cleaner syntax)
 - resuable patterns
-- async data streams (faster response times)
+- async data streams (faster response times), uses threads internally
+- highly scalable
 - backpressure to slow down publisher
 
 Since Java 9 we have a **Flow API** (`java.util.concurrent.Flow`) that standardizes the operations on reactive libraries, just like JPA for persistance tools.
@@ -96,13 +97,13 @@ Reactive sources/streams:
 ```java
 // Flux
 Flux<String> fStr = Flux.just("A", "B", "C");
-Flux<Integer> fNnum = Flux.range(1, 10);
+Flux<Integer> fNum = Flux.range(1, 10);
 
 // Mono
 Mono<Integer> mono = Mono.just(9);
 
 // delay of 1 sec between emission of each element
-Flux<Integer> fNnum = Flux.range(1, 10).delayElements(Duration.ofSeconds(1));	
+Flux<Integer> fNum = Flux.range(1, 10).delayElements(Duration.ofSeconds(1));	
 
 // unresponsive stream: never emit, observer keeps waiting infinitely
 Flux.never();
@@ -174,8 +175,8 @@ We can tell the data source to slow down in case we are taking too long to proce
 ## Project Reactor and Spring Boot
 In web apps, [Netty](https://netty.io/) server controls the reactive aspects, we just use Flux or Mono everywhere in the app code and perform operations only on them.
 
-Use `Spring Reactive Web` dependency in Spring Initializr to use reactive features in Spring Boot. It uses Project Reactor by default.
-```java
+Use `Spring Reactive Web` dependency in Spring Initializr to use reactive features in Spring Boot. It also adds Project Reactor dependency too by default.
+```xml
 <dependency>
 	<groupId>org.springframework.boot</groupId>
 	<artifactId>spring-boot-starter-webflux</artifactId>
@@ -183,7 +184,9 @@ Use `Spring Reactive Web` dependency in Spring Initializr to use reactive featur
 ```
 
 ### Reactive Data Sources
-For Reactive data sources, we can use any conventional database provider (H2, Postgres, etc) but instead of JDBC we use [R2DBC](https://r2dbc.io/) (Reactive Relational Database Connectivity).
+For Reactive data sources, we can use any conventional database provider (H2, Postgres, etc) but instead of JPA we use [R2DBC](https://r2dbc.io/) (Reactive Relational Database Connectivity). 
+
+Do note that R2DBC doesn't support entity relationships (_@OnetoOne_, etc) as of yet, so it isn't a full replacement for JPA.
 
 The JPA and Driver dependency for the database provider will be slightly different than the normal ones:
 ```xml
@@ -208,4 +211,38 @@ The JPA and Driver dependency for the database provider will be slightly differe
 </dependency>
 ```
 
+```java
+// repo
+public interface ProductRepository extends ReactiveCrudRepository<Product, Long>{	}
+
+// controller
+@GetMapping("/all")
+public Flux<Product> listAllProducts(){
+	return productRepo.findAll();
+}
+```
+
 _Reference_: Spring Reactive CRUD Project - [YouTube](https://www.youtube.com/watch?v=x1Dt7K4FrnI)
+
+## WebClient vs RestTemplate
+Now deprecated, `RestTemplate` followed a thread-per-request model, serverely limiting as well as it was blocking the flow until result of the external service call was available.
+
+Spring WebFlux introduces a non-blocking way using `WebClient`. It returns a Publisher which the client (browser) subscribes to, without blocking the code flow. As and when the data is available from the "slowservice", the client receives it async-ly.
+
+```java
+// create client instance
+WebClient client = WebClient.builder().baseUrl("localhost:8081/slowservice").build();
+
+// call service
+Flux<Tweet> tweets = client.get().retrieve().bodyToFlux(Tweet.class);
+
+// subscribe to service output
+tweets.subscribe(System.out::println);
+
+// method exits asap without blocking
+log.info("Exiting NON-BLOCKING Controller ASAP!");
+
+// results are received and printed later
+```
+
+[Reference](https://www.baeldung.com/spring-webclient-resttemplate#webclient-example)
