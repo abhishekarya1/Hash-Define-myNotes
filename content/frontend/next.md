@@ -24,9 +24,11 @@ _lib
 
 
 page.tsx and export default
+not-found.tsx
 layout.tsx
 template.tsx
 loading.tsx
+error.tsx
 
 
 metadata object
@@ -207,7 +209,18 @@ Any state variable displayed on the screen in the `layout.tsx` doesn't reset val
 Use `template.tsx` if we want to have new state variable initialized for every route we goto. Everything else is same as layout.
 
 ## Loading
-Use `loading.tsx` file placed in route folder to disaply temporary content till actual content loads.
+Use `loading.tsx` file placed in route folder to display temporary content till actual content loads.
+
+## Error Handling
+Use `error.tsx` file placed in route folder with Client Component. Can receive an optional `error` prop. 
+
+```js
+"use client";
+
+export default function ErrorBoundary( { error } ){
+	return <div> { error.message } </div>
+}
+```
 
 ## References
 - Codevolution Playlist - [YouTube](https://youtube.com/playlist?list=PLC3y8-rFHvwjOKd6gdf4QtV1uYNiQnruI&si=1R3UV3WIhVnJR0sO)

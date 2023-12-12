@@ -306,6 +306,10 @@ Usually we have a `public` method making calls to multiple private methods durin
 ## ReflectionTestUtils
 Provided by Spring. Uses Java Reflection API internally to modify class under test at runtime. We can set fields, invoke methods, and even call `private` methods of an object.
 
+```java
+ReflectionTestUtils.invokeMethod(productService, "checkProductExpiryMethod", productId, country);
+```
+
 _Guide_: https://www.baeldung.com/spring-reflection-test-utils
 
 
