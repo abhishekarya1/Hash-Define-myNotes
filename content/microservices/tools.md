@@ -24,7 +24,7 @@ Traffic splitting & canary deployment (aka Rolling upgrades) are easier when we 
 **Motto** - separate all the above responsibilities from microservice to service mesh framework; that's why microservice don't have hefty code doing all the above (_Single Responsibility Principle_)
 
 ### Sidecar proxy
-An app is injected and runs alongside our microservice in the same pod, the communication is done between proxy apps
+An app is injected and runs alongside our microservice in the same pod, the communication is done between proxy apps. No need for any additional logic in the actual microservice.
 
 ### Istio
 [Istio](https://istio.io/) extends Kubernetes to establish a service mesh.

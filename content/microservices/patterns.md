@@ -8,7 +8,7 @@ weight = 4
 ### Service Discovery & Registry
 One component (_service_) called Service Registry in the system, it enables dynamic routing between services. Essential for scaling apps.
 
-The app registers themselves upon startup and sent _Heartbeat_ (`/health` endpoint) signals peridically to let the registry know they are up and running. Multiple instances of the same service can be registered.
+The app registers themselves upon startup and sends _Heartbeat_ (or check status using `/health` endpoint) signals peridically to let the registry know they are up and running. Multiple instances of the same service can be registered.
 
 The registry is not a single point of failure though, as there is a local copy of registry cached on every service which can be used for routing incase of outage of registry.
 
@@ -169,7 +169,7 @@ Three ways to implement:
 https://medium.com/geekculture/design-patterns-for-microservices-aggregation-pattern-1b8994516fa2
 
 ### Observability Patterns
-**Health Check**: expose a `/health` API enpoint in actuator
+**Health Check**: expose a `/health` API enpoint in actuator; it is polled by Service Mesh and Service Registry to check alive status of the microservice
 
 **Performance Metrics**: with _Micrometer_, _Prometheus_, and _Grafana_
 
@@ -182,9 +182,11 @@ https://medium.com/geekculture/design-patterns-for-microservices-aggregation-pat
 
 ![](https://i.imgur.com/nJP0R8D.jpg)
 
-**Canary Deployment**: rollout features to a subset of users (_early adopters_) before making them available to all; redirect a part of traffic coming from users say 10% ofthe total users to the newer service (`v1.1`), while the majority of traffic still goes to the stable service (`v1.0`).
+**Canary Deployment**: rollout features to a subset of users (_early adopters_) before making them available to all; redirect a part of traffic coming from users say 10% of the total users to the newer service (`v1.1`), while the majority of traffic still goes to the stable service (`v1.0`).
 
-**A/B Testing**: 50% of users are redirected to `versionA` and the other half to `versionB` to determine whihc one performs better.
+**Rolling Deployment**: slowly replace the pods containing old version with the pods containing new version of the code (in k8s).
+
+A/B Testing: 50% of users are redirected to `versionA` and the other half to `versionB` to determine which one performs better.
 
 ## References
 - https://levelup.gitconnected.com/12-microservices-pattern-i-wish-i-knew-before-the-system-design-interview-5c35919f16a2
