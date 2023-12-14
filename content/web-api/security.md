@@ -6,11 +6,11 @@ weight = 5
 
 ### Summary
 ```txt
-Basic Authentication
+Basic Auth
 
-Session Based Authentication
+Session Based Auth
 
-Token Based Authentication
+Token Based Auth
 	API Key
 	Bearer Token
 	JWT
@@ -18,11 +18,11 @@ Token Based Authentication
 ```
 
 ### Authentication vs Authorization
-Authentication deals with the identity of the user: The "Who are you?" part.
+Authentication deals with the identity of the user: The "Who are you?" part. Prove identity using passwords.
 
-Authorization deals with the access of resources for a user: The "Can you access that?" part.
+Authorization deals with the access of resources for a user: The "Can you access that?" part. Follows authentication.
 
-## Basic Authentication
+## Basic Auth
 ```foobar
 Authorization: Basic <"username:password" encoded in base64>
 ```
@@ -35,14 +35,16 @@ In APIs, there is no prompt so it acts like a simple API key. Always use HTTPS/T
 
 [Reference](https://roadmap.sh/guides/basic-authentication)
 
-## Session Based Authentication
+## Session Based Auth
 A random unique identifier called session token (_aka_ session ID) is generated and stored on successful login onto the server and shared back with the client. Client also stores it in either cookies or local storage (if cookies are disabled). The client has to send that token in every subsequent request.
+
+Often uses cookies since storage on client and sending in subsequent request is to be done.
 
 On every request, the server checks if session is still valid for that user. When the user logs out, the session id gets deleted from the server and subsequently the client, and that session id is never used again.
 
 [Reference](https://roadmap.sh/guides/session-authentication)
 
-## Token Based Authentication
+## Token Based Auth
 - Always use HTTPS/TLS in conjunction with token based authentication mechanisms since tokens can be visible to everyone.
 
 - Tokens are usually generated on and fetched from the server (using another auth mechanism like username and password) and sent in subsequent requests. They have an expiration time and must be fetched again (refreshed) after that time has passed otherwise they become invalid and server returns a `401` as response status code.
