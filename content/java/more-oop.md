@@ -259,18 +259,31 @@ enum Alphabet {
 
     Alphabet(String a) { }		// mandatory; can only be private or package-access
 
-    // create an instance field and an optional getter to access - "Z", "Y", "X"
+    // create an optional instance field and its getter to access - "Z", "Y", "X"
 }
 ```
+
+Multiple constant values are allowed too:
+```java
+// multiple-constants complex enum
+enum Alphabet {
+    A("Z", 26), 
+    B("Y", 25),
+    C("X", 24);
+
+    Alphabet(String s, Integer i) { }
+}
+```
+
 ```java
 public enum Season{
 	WINTER("Low"), SPRING("Medium"), SUMMER("High");	// constructor calls to initialize
 	// ; not optional, values always comes before construtors, methods
 
-	public final String expVis;		// optional field to access "Low"/"Medium"/"High", can be non-final too but bad practice
+	public final String expVis;		// optional field to access value "Low"/"Medium"/"High", can be non-final too but bad practice
 
-	private Season(String expVis){		// constructor, always private or pacakge-access, runs only on first access to a constant, never runs again 
-		this.expVis = expVis;	// set value to enum instance var
+	private Season(String expVis){		// mandatory constructor, always private or pacakge-access, runs only on first access to a constant, never runs again 
+		this.expVis = expVis;	// implicitly happens; sets value to enum instance var
 	}
 
 	public void getExpVis(){				// getter method
