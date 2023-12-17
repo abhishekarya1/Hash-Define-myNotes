@@ -544,7 +544,7 @@ When we apply methods which are **order dependent** (`findFirst()`, `limit()`, `
 
 Solution - use `unordered()` to declare stream as unordered, and avoid force conversion of parallel to serial when such methods are applied.
 ```java
-stream.unordered().parallel();
+stream.unordered();
 ```
 
 Calling `unordered()` (intermediate operation) on serial stream has no effect, but when the stream is made parallel we will have `skip(5)` skipping any 5 random elements and not the first five.

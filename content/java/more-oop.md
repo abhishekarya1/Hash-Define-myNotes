@@ -321,7 +321,7 @@ public enum Seasons{
 ```
 
 ### Inheritance
-- Enums can't be `extend`ed or inherited. We also can't create an Enum object with `new`.
+- Enums can't be `extend`ed or inherited. We also can't create an Enum object with `new`. Since they already extend `java.lang.Enum` class.
 - Enums can `implement` interfaces and they have to define abstract methods of those interfaces.
 
 ## Sealed Class (Java 17)
