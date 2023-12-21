@@ -317,6 +317,18 @@ _Reference#3_: https://github.com/FasterXML/jackson-bom
 _Reference#4_: https://maven.apache.org/guides/introduction/introduction-to-dependency-mechanism.html#Importing_Dependencies
 
 
+## Maven Daemon (mvnd)
+Maven builds can be slow. To make them faster Apache has created an alternative - `mvnd` built using GraalVM. So its faster and uses less memory than a traditional JVM startup.
+
+It embeds Maven (so no need to install Maven separately), plus its replaceable with traditional Maven in existing projects.
+
+The actual builds happen inside a long living background process, a.k.a. daemon, parallelly on multiple CPU cores. When we trigger a build
+for the first time the `mvnd` daemon gets started, current build takes roughly the same time but subsequent builds will noticeably be much faster.
+
+**Link**: https://github.com/apache/maven-mvnd
+
+**Demo**: https://www.mastertheboss.com/jboss-frameworks/jboss-maven/introduction-to-maven-daemon-mvnd/
+
 ## Gradle
 Modern, more declarative, and unlike Maven it supports [Monorepos](https://monorepo.tools).
 

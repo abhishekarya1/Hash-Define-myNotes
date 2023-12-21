@@ -1,5 +1,5 @@
 +++
-title = "Autowiring"
+title = "Beans and Autowiring"
 date = 2023-05-09T18:18:00+05:30
 weight = 7
 +++
@@ -130,6 +130,32 @@ class MyCustomBeans{
 ```
 
 The Bean created above will automatically be injected in Spring Proxy since this is a `@Configuration` class.
+
+### Lazy Initialization
+All beans are created and injected into the Application Context during startup. To cut down startup time, we can make it so such that beans are only initialized and injected just before they are used in the code.
+
+1. Global setting in properties file (applies to all beans in the app):
+```sh
+spring.main.lazy-initialization=true
+```
+
+2. or, Specify on _@Configuration_ class that has bean definitions or on individual _@Bean_
+```java
+@Lazy						// specify here; applies to all beans in the class
+@Configuration
+public class MyCustomBeans{
+
+	@Lazy							// or here
+	@Bean
+	ServiceA serviceBeanCreator(){
+		return new ServiceA();
+	}
+}
+```
+
+We can also make all beans lazy using the properties file and do _@Lazy(false)_ on specific beans to make only them load at startup.
+
+Reference: https://www.baeldung.com/spring-boot-lazy-initialization
 
 ## @Autowired on Setters and Constructors
 

@@ -183,6 +183,8 @@ Use `Spring Reactive Web` dependency in Spring Initializr to use reactive featur
 </dependency>
 ```
 
+This webflux dependency also makes the default embedded HTTP application server as _Netty_, rather than _Tomcat_.
+
 ### Reactive Data Sources
 For Reactive data sources, we can use any conventional database provider (H2, Postgres, etc) but instead of JPA we use [R2DBC](https://r2dbc.io/) (Reactive Relational Database Connectivity). 
 
