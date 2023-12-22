@@ -17,7 +17,7 @@ Three ways to use Maven:
 - maven wrapper
 
 ### Standalone
-Download `.zip` and run from command-line in the project, needs JAVA_HOME configured in Path.
+Download `.zip` and run from command-line in the project directory, needs the `JAVA_HOME` environment variable pointing to a JDK installation, or have the `java` executable on the `PATH` variable.
 ```sh
 $ mvn clean install
 ```
@@ -32,6 +32,8 @@ A `mwnw` script file placed in the project root directory (besides the `pom.xml`
 ```sh
 $ ./mwnw clean install
 ```
+
+Requires `JAVA_HOME` environment variable configured in the system.
 
 ## Maven with Spring
 ### pom.xml

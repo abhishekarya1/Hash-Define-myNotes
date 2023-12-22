@@ -1,5 +1,5 @@
 +++
-title = "Other Tools"
+title = "Others"
 date = 2023-12-11T14:20:00+05:30
 weight = 17
 +++
@@ -83,3 +83,10 @@ Hilla API: Integrates Spring Boot Java backends with reactive frontends implemen
 **AppDynamics** - performance monitoring
 
 [Metrics & Distributed Logs](../log/#metrics)
+
+## Other Microservices Frameworks
+In the order of popularity:
+- [Quarkus](https://quarkus.io/) (by Red Hat)
+- [Micronaut](https://micronaut.io/)
+- [Helidon](https://helidon.io/) (by Oracle)
+- [Vert.x](https://vertx.io/) (by Eclipse)
