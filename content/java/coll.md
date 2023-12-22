@@ -397,3 +397,13 @@ while(it.hasNext()) {
 
 System.out.println(numbers);
 ```
+
+## Third-Party Collection Libraries
+Offers more collections such as `ImmutableMap`, `BiMap` (map which can be accessed via values and keys as well!), `MultiMap` (map a key to multiple values!), etc...
+
+Most popular are:
+- **Google Guava** (simple to use and actively developed)
+- Apache Commons Collections (slightly faster and offers much more features)
+
+Comparison: https://www.baeldung.com/apache-commons-collections-vs-guava
+Guava Demo: https://www.baeldung.com/guava-collections
