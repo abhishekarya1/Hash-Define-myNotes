@@ -228,6 +228,10 @@ Map.ofEntries(
 Map.copyOf(collection)
 ```
 
+They all create immutable maps, but the differences are:
+- `Map.of()` is slightly weird syntax because of the boxing of adjacent values as a KV pair, also it can max have 10 KV pairs, unlike Collection methods like `List.of()`, `Set.of()`, etc...
+- `Map.ofEntries()` introduced in Java 9 allows creation of more than 10 KV pairs, that too in a more intuitive syntax.
+
 ### Map Methods
 ```java
 Map<String, String> map = new HashMap<>();

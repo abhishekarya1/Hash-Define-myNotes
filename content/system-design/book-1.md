@@ -438,5 +438,33 @@ Presence Servers - User sends a heartbeat to PS at regular intervals, if timeout
 Sync Devices of a Single User - store latest message_id in a datastore on chat server shared between both devices
 ```
 
+## Search Autocomplete
+Ping with GET request multiple times each second as the user is typing.
 
+```txt
+search?q=di
+search?q=din
+search?q=dinn
+search?q=dinne
+search?q=dinner
+```
+
+Get _k_ most searched queries using Trie data structure for fast re**trie**val. Build tries periodically with query data from the Aggregator Service and store in Trie DB.
+
+
+## YouTube
+```txt
+CDN - store videos as BLOB (Binary Large OBjects)
+API Servers - everything else
+```
+
+**Upload**: transcode video and save metadata, replicate to CDN worldwide
+```txt
+Transcoding - video container (.mp4, .webm) and compression codec (H.264, VP9, HEVC) 
+
+split video in sections (GOP alignment), split video into channels (video, audio, captions, watermark) (use DAG to process parallelly), save diff resolutions of the same video
+```
+
+
+**Stream**: download in chunks using protocol like MPEG-DASH or Apple HLS
 
