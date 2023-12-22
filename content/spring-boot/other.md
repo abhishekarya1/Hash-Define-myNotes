@@ -44,6 +44,32 @@ Liquibase will not run any changeset found to be exactly matching the schema in 
 - [Using Liquibase with Spring Boot](https://contribute.liquibase.com/extensions-integrations/directory/integration-docs/springboot/springboot/)
 - [Flyway and Liquibase - Video Demo](https://youtu.be/KjPlcXkk7xY)
 
+## JOOQ (Object Oriented Querying)
+Library that:
+- generates Java classes from existing DB schema, and
+- build type-safe SQL queries in its own DSL (that emulates SQL in Java)
+
+It is like the opposite of ORMs like Hibernate, where we write code first and then represent DB schema with entity classes, after that database is created or modified. With Jooq, database is existing and we generate Java code using its schema.
+
+When querying, Jooq DSL checks types at compile-time unlike JPQL in JPA.
+
+Jooq works much "closely" to SQL and the DB vendor's dialect, so the reason to use Jooq is to leverage the full power of the database underneath, unlike JPA where the goal is to abstract as much database specific details as possible.
+
+**References**: 
+- https://www.baeldung.com/jooq-intro
+- https://github.com/jOOQ/jOOQ
+
+## Vaadin Framework
+A web framework that allows to write UI code in pure Java! Based on _Web Component_ standard like React, Angular, etc. 
+
+Vaadin offers many other tools too such as Hilla.
+
+Hilla API: Integrates Spring Boot Java backends with reactive frontends implemented in TypeScript. Call Java service code directly from UI code in the browser!
+
+**References**: 
+- https://en.wikipedia.org/wiki/Vaadin
+- https://hilla.dev
+
 ## Pre-Deployment Scans
 **Sonarqube** - code best practices, test coverage, etc
 
@@ -52,7 +78,6 @@ Liquibase will not run any changeset found to be exactly matching the schema in 
 **Twistlock** - Docker container vulnerability
 
 **Snyk** - OWASP security vulnerability
-
 
 ## Post-Deployment Monitoring
 **AppDynamics** - performance monitoring
