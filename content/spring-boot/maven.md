@@ -25,7 +25,7 @@ $ mvn clean install
 This is currently (Dec 2023) the only way to use [mvnd](#maven-daemon-mvnd) (Maven Daemon).
 
 ### IDE Bundled
-Most IDEs like STS and IntelliJ bundle Maven inside them. We just need to run goals using menu provided in the IDE, with zero prior installation and configuration.
+Most IDEs like STS and IntelliJ bundle Maven standalone dir inside them. We just need to run goals using menu provided in the IDE, with zero prior installation and configuration.
 
 ### Maven Wrapper
 A `mwnw` script file placed in the project root directory (besides the `pom.xml`). We can run maven goals in command-line directly using the script.
