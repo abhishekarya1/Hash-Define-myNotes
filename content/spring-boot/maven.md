@@ -17,7 +17,9 @@ Three ways to use Maven:
 - maven wrapper
 
 ### Standalone
-Download `.zip` and run from command-line in the project directory. Needs the `JAVA_HOME` environment variable pointing to a JDK installation, or have the `java` executable on the `PATH` variable. Also, add the `bin` dir to `PATH` in order to use `mvn` command from anywhere.
+Download `.zip` and run from command-line in the project directory. 
+
+Needs the `JAVA_HOME` environment variable pointing to a JDK installation, or have the `java` executable on the `PATH` variable. Also, add the `bin` dir to `PATH` in order to use `mvn` command from anywhere.
 ```sh
 $ mvn clean install
 ```
