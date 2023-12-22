@@ -10,6 +10,30 @@ Build tool that can perform many tasks such as - defining project structure, dep
 
 Reference - https://maven.apache.org/guides/getting-started/index.html
 
+## Installation
+Three ways to use Maven:
+- standalone
+- IDE bundled
+- maven wrapper
+
+### Standalone
+Download `.zip` and run from command-line in the project, needs JAVA_HOME configured in Path.
+```sh
+$ mvn clean install
+```
+
+This is currently (Dec 2023) the only way to use [mvnd](#maven-daemon-mvnd) (Maven Daemon).
+
+### IDE Bundled
+Most IDEs like STS and IntelliJ bundle Maven inside them. We just need to run goals using menu provided in the IDE, with zero prior installation and configuration.
+
+### Maven Wrapper
+A `mwnw` script file placed in the project root directory (besides the `pom.xml`). We can run maven goals in command-line directly using the script.
+```sh
+$ ./mwnw clean install
+```
+
+## Maven with Spring
 ### pom.xml
 Project Object Model (POM)
 ```xml
@@ -74,15 +98,11 @@ $ mvn clean install  # chaining
 
 References: https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#a-build-lifecycle-is-made-up-of-phases
 
-## Surefire Plugin
+### Surefire Plugin
 The "Maven Surefire Plugin" enables us to run test with maven commands like `mvn test`. The `spring-boot-maven-plugin` added by default by the Spring Initializr takes care of this.
 
-## Maven Wrapper
-A `mwnw` script file placed in the root of the directory besides the `pom.xml`. We can run maven goals using command line directly using it.
-```
-$ ./mwnw clean install
-```
 
+## Dependency Sources
 ### SNAPSHOT version
 `SNAPSHOT` is the latest in the development branch, as soon as it goes to release, `SNAPSHOT` can be removed from the name.
 
