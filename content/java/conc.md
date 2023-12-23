@@ -551,7 +551,7 @@ Calling `unordered()` (intermediate operation) on serial stream has no effect, b
 
 
 ### Parallel Stream is Dangerous
-All parallel streams in a program use a common Fork-Join Thread Pool, and if you run a long-running task in the stream, you're effectively blocking multiple threads in the pool. Consequently, you may end up blocking all other tasks in the program that are unrelated but are using parallel streams if all ForkJoinPool threads become busy!
+All parallel streams in a program use a common Fork-Join Thread Pool, and if you run a long-running task in the stream, you're effectively holding multiple threads in the pool. Consequently, you may end up blocking all other tasks in the program that are unrelated but are using parallel streams if all ForkJoinPool threads become busy!
 
 ```java
 List<StockInfo> getStockInfo(Stream<String> companies) {
@@ -560,11 +560,11 @@ List<StockInfo> getStockInfo(Stream<String> companies) {
         .collect(Collectors.toList());
 }
 
-// this hangs (blocks) every other method in execution using parallel streams if another thread isn't available in the pool
+// this hangs (blocks) every other method in execution that is using parallel streams if enough threads aren't available in the pool
 // not only "companies" stream, but any parallel stream part of the code flow!
 ```
 
-Number of threads in ForkJoinPool = Number of logical CPU cores - 1, it is a fixed sized pool and other tasks have to wait for threads to become available.
+`Number of threads in ForkJoinPool = Number of logical CPU cores - 1`, it is a fixed sized pool and other tasks have to wait till threads become available.
 
 ### Reductions in Parallel Streams
 Make sure accumulator and combiner have the same output on every step regardless of the order in which they are called in. The accumulator and combiner must be associative, non-interfering, and stateless.
