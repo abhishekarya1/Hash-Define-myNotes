@@ -4,6 +4,13 @@ date = 2023-12-11T14:20:00+05:30
 weight = 17
 +++
 
+## Other Microservices Frameworks
+In the order of popularity:
+- [Quarkus](https://quarkus.io/) (by Red Hat)
+- [Micronaut](https://micronaut.io/)
+- [Helidon](https://helidon.io/) (by Oracle)
+- [Vert.x](https://vertx.io/) (by Eclipse)
+
 ## Liquibase
 Database schema change management tool. In simple words - a version control for DB schema changes. Vendor-agnostic (since we can write in XML, JSON, YAML) unlike Flyway (which only allows `.sql`).
 
@@ -70,6 +77,13 @@ Hilla API: Integrates Spring Boot Java backends with reactive frontends implemen
 - https://en.wikipedia.org/wiki/Vaadin
 - https://hilla.dev
 
+## jgitver
+Automatic semantic versioning, no need to change application build version in `pom.xml` on every deploy.
+
+Link: https://jgitver.github.io
+
+Demo: https://youtu.be/v5Kj0oZO-HM
+
 ## Pre-Deployment Scans
 **Sonarqube** - code best practices, test coverage, etc
 
@@ -84,9 +98,3 @@ Hilla API: Integrates Spring Boot Java backends with reactive frontends implemen
 
 [Metrics & Distributed Logs](../log/#metrics)
 
-## Other Microservices Frameworks
-In the order of popularity:
-- [Quarkus](https://quarkus.io/) (by Red Hat)
-- [Micronaut](https://micronaut.io/)
-- [Helidon](https://helidon.io/) (by Oracle)
-- [Vert.x](https://vertx.io/) (by Eclipse)
