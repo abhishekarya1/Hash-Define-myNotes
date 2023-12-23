@@ -7,9 +7,12 @@ chapter = true
 
 # #define
 
-A collection of all my notes and elucidations by [Abhishek Arya](https://www.github.com/abhishekarya1).
+My personal knowledgebase - works as a [Second Brain](https://fortelabs.com/blog/basboverview/) and [Zettelkasten](https://fortelabs.com/blog/how-to-take-smart-notes/).
 
-{{% button href="https://abhishekarya.com" icon="fas fa-pen" %}} Visit Site{{% /button %}} &nbsp;
+<br>
+
+{{% button href="https://abhishekarya.com" icon="fas fa-globe" %}} Website{{% /button %}} &nbsp;
+{{% button href="https://www.github.com/abhishekarya1" icon="fas fa-code" %}} Github{{% /button %}}&nbsp;
 {{% button href="mailto:abhishekarya102@gmail.com" icon="fas fa-envelope" %}} Email{{% /button %}}
 
 [![Netlify Status](https://api.netlify.com/api/v1/badges/51b66ca2-9deb-4c24-be37-f618ddfdec12/deploy-status)](https://app.netlify.com/sites/hashdefine/deploys)
