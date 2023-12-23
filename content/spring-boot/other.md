@@ -78,7 +78,11 @@ Hilla API: Integrates Spring Boot Java backends with reactive frontends implemen
 - https://hilla.dev
 
 ## jgitver
-Automatic semantic versioning, no need to change application build version in `pom.xml` on every deploy.
+Automatic semantic versioning using Git tags, commits, and branches. No need to change application build version in `pom.xml` everytime as it shows changes (pollutes) in working-tree everytime we create a new version.
+
+Upon `mvn install`, jgitver calculates the new version and writes it to the version info POM inside the generated JAR, and all other relevant spots.
+
+Add to Maven as an extension plugin, or in Gradle as a dependency. Use `mvn validate` to check version calculation.
 
 Link: https://jgitver.github.io
 
