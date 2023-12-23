@@ -84,7 +84,7 @@ World
 
 Two ways to create a thread - 
 1. provide a `Runnable` reference or lambda to `Thread` class constructor (_common_)
-2. create a subclass from `Thread` and override `run()` method
+2. create a subclass from `Thread` and override `run()` method (things to do in thread goes in it)
 
 The `Thread` class implements `Runnable` interface.
 
@@ -564,7 +564,7 @@ List<StockInfo> getStockInfo(Stream<String> companies) {
 // not only "companies" stream, but any parallel stream part of the code flow!
 ```
 
-Number of threads in ForkJoinPool = Number of logical CPU cores - 1, it is a fixed sized pool and other tasks have to wait for a thread to become available.
+Number of threads in ForkJoinPool = Number of logical CPU cores - 1, it is a fixed sized pool and other tasks have to wait for threads to become available.
 
 ### Reductions in Parallel Streams
 Make sure accumulator and combiner have the same output on every step regardless of the order in which they are called in. The accumulator and combiner must be associative, non-interfering, and stateless.
