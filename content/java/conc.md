@@ -551,7 +551,7 @@ Calling `unordered()` (intermediate operation) on serial stream has no effect, b
 
 
 ### Parallel Stream is Dangerous
-All parallel streams in the program use a common Fork-Join Thread Pool, and if you run a long-running task in the stream, you effectively block all threads in the pool. Consequently, you block all other tasks in the program that are unrelated but are using parallel streams!
+All parallel streams in the program use a common Fork-Join Thread Pool, and if you run a long-running task in the stream, you're effectively blocking a thread in the pool. Consequently, you may end up blocking all other tasks in the program that are unrelated but are using parallel streams if all ForkJoinPool threads become busy!
 
 ```java
 List<StockInfo> getStockInfo(Stream<String> companies) {
@@ -560,9 +560,11 @@ List<StockInfo> getStockInfo(Stream<String> companies) {
         .collect(Collectors.toList());
 }
 
-// this hangs every other method in execution using parallel streams
-// not only "companies" stream, but any parallel stream!
+// this hangs every other method in execution using parallel streams if no other thread is avaialble in the pool
+// not only "companies" stream, but any parallel stream part of the code flow!
 ```
+
+Number of threads in ForkJoinPool = Number of logical CPU cores - 1, it is a fixed sized pool and other tasks have to wait for a thread to become available.
 
 ### Reductions in Parallel Streams
 Make sure accumulator and combiner have the same output on every step regardless of the order in which they are called in. The accumulator and combiner must be associative, non-interfering, and stateless.
@@ -612,7 +614,7 @@ References:
 - https://davidvlijmincx.com/posts/java-virtual-threads/
 
 ## Async Processing - CompletableFuture
-CompletableFuture is a framework to execute code asynchronously and return a `Future<T>` reference.
+CompletableFuture is a framework to execute code asynchronously and return a `Future<T>` reference. It also uses `ForkJoinPool` just like streams.
 
 `class CompletableFuture<T> implements Future<T>` so we can store output of function in CompletableFuture too as shown in the examples below:
 ```java
