@@ -614,7 +614,9 @@ References:
 - https://davidvlijmincx.com/posts/java-virtual-threads/
 
 ## Async Processing - CompletableFuture
-CompletableFuture is a framework to execute code asynchronously and return a `Future<T>` reference. It also uses `ForkJoinPool` just like streams.
+CompletableFuture is a framework to execute code asynchronously and return a `Future<T>` reference.
+
+By default, it uses the common `ForkJoinPool` just like Streams.
 
 `class CompletableFuture<T> implements Future<T>` so we can store output of function in CompletableFuture too as shown in the examples below:
 ```java
@@ -639,6 +641,16 @@ CompletableFuture<Void> future = completableFuture.thenRun(() -> System.out.prin
 future.get();
 ```
 
+```java
+// stop execution and waits for all futures to complete
+CompletableFuture<Void> combinedFuture  = CompletableFuture.allOf(cf1, cf2, cf3);
+```
+
+```java
+// specify our own ExecutorService Pool so it doesn't use common ForkJoinPool
+ExecutorService exec = Executors.newFixedThreadPool(20);
+CompletableFuture<String> comFut = CompletableFuture.thenSupplyAsync(cf, exec);
+```
+
 Reference: 
 - https://www.baeldung.com/java-completablefuture
-- https://davidvlijmincx.com/posts/java-virtual-threads/
