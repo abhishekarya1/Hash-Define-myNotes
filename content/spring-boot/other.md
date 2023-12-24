@@ -62,8 +62,11 @@ When querying, Jooq DSL checks types at compile-time unlike JPQL in JPA.
 
 Jooq works much "closely" to SQL and the DB vendor's dialect, so the reason to use Jooq is to leverage the full power of the database underneath, unlike JPA where the goal is to abstract as much database specific details as possible.
 
+Besides building and fetching simple SQL queries, we can also fetch associations i.e. data from One-to-One, One-to-Many, and Many-to-Many relations using a single query.
+
 **References**: 
 - https://www.baeldung.com/jooq-intro
+- Tutorial Series - https://www.sivalabs.in/tags/jooq
 - https://github.com/jOOQ/jOOQ
 
 ## Vaadin Framework
