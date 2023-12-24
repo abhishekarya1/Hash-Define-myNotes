@@ -42,7 +42,7 @@ useRouter().push("/goHere");
 @notifications slots as props in layout.tsx of parent
 @notifications/archived (unmatched routes) and default.tsx
 
-intercepting routes with (.)foobar
+intercepting routes with (.) folders
 ```
 
 ---
@@ -295,7 +295,8 @@ Create folders with `(.)foobar` and display its `page.tsx` when we go from curre
 (...) to match segments from the root app dir
 ```
 
-To create Modals - use combination of both slot (`@modal`) and intercept single image item page (`photo-gallery/9`) from the main gallery page.
+### Parallel Intercepting - Modals
+Modals can be created using these two concepts - disaply image by intercepting single image item page (`photo-gallery/9`) from the main gallery page which contains a slot (`@modal`).
 
 ```txt
 \photo-gallery
