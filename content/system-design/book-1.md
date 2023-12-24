@@ -458,13 +458,30 @@ CDN - store videos as BLOB (Binary Large OBjects)
 API Servers - everything else
 ```
 
-**Upload**: transcode video and save metadata, replicate to CDN worldwide
+**Upload**: transcode video and save metadata (use Completion Queue and Completion Handler), replicate to CDN worldwide
 ```txt
-Transcoding - video container (.mp4, .webm) and compression codec (H.264, VP9, HEVC) 
+Video must be quickly playable on all kinds of devices, with seek (random access). Trancode it, save diff bitrate (for adaptive bitrate), and save diff resolutions.
 
-split video in sections (GOP alignment), split video into channels (video, audio, captions, watermark) (use DAG to process parallelly), save diff resolutions of the same video
+Transcoding - video container (.mp4, .webm) and compression codec (H.264, VP9, HEVC), split video in sections (GOP alignment), split video into channels (video, audio, captions, watermark) (use DAG), save diff resolutions of the same video
+
+DAG: we can configure and parallelize steps in transcoding by defining a DAG, combine them all at the end. Use DAG scheduler to put task messages in the queue.
 ```
 
+Use MQs between every component to make entire pipeline async. Get a "pre-signed" URL from Amazon S3 or Azure Blob Storage using API, and use that URL to upload video files to them.
 
-**Stream**: download in chunks using protocol like MPEG-DASH or Apple HLS
+```txt
+DRM - Google Widevine
 
+AES Encryption - encrypt video during upload, decrypt during playback
+
+Long-Tail Distribution - store most popular videos in CDN, videos with very less views in Video Servers
+```
+
+**Stream**: download in chunks using streaming protocols like MPEG-DASH (Dynamic Adaptive Streaming over HTTP), Apple HLS (HTTP Live Streaming), or WebRTC. The resolution and bitrate may change frequently based on the client's network bandwidth.
+
+Enhancements - live streaming (real-time video transcoding) and content filtering.
+
+**References**:
+- GOP: https://aws.amazon.com/blogs/media/part-1-back-to-basics-gops-explained
+- HTTP Video Streaming: https://aws.amazon.com/blogs/media/back-to-basics-http-video-streaming
+- Streaming Protocols: https://www.dacast.com/blog/streaming-protocols

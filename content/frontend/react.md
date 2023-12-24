@@ -26,7 +26,7 @@ Functional components & export (default and Named `{ ... }`)
 
 Component Lifecycle - Mounting, Updating, Unmounting, Error Handling. Diff methods are called as and when the component goes through stages above
 
-JSX (evaluate JS within curly-braces, single-element return, fragment `<>`, camelCase attributes, double-curlies `{{ ... }}` to pass an object). Everytime state variable changes or new props values are recieved, the component function runs and JSX is returned again to provide dynamic content
+JSX (evaluate JS within curly-braces, single-element return, fragment `<>`, optionally warp with parentheses `return (<> </>);` for increased readability and avoiding errors after JS Automatic-semicolon-insertion, camelCase attributes, double-curlies `{{ ... }}` to pass an object). Everytime state variable changes or new props values are recieved, the component function runs and JSX is returned again to provide dynamic content
 
 Virtual DOM - copy of actual DOM, actual DOM changing is expensive so we change virtual DOM and at the end match with actual DOM and change only what is mismatch, not whole
 

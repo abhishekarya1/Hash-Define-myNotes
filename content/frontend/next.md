@@ -10,25 +10,24 @@ pre = "<i class=\"devicon-nextjs-original colored\"></i> "
 users    products
 
 products/[productId]
-
 products/[productId]/reviews/[reviewId]
 
 docs/[...slug]
-
 docs/[[...slug]]
 
 
 _lib
-
 (auth)
 
 
 page.tsx and export default
-not-found.tsx
+not-found.tsx, notFound() method call
 layout.tsx
-template.tsx
+template.tsx (init state variables on every render)
 loading.tsx
+
 error.tsx
+Error Recovery with {reset} callback
 
 
 metadata object
@@ -36,12 +35,14 @@ generatedMetadata function object
 
 
 <Link href="/products">Go to Products<Link/>
-
+useRouter().push("/goHere");
 
 "use client";
 
+@notifications slots as props in layout.tsx of parent
+@notifications/archived (unmatched routes) and default.tsx
 
-useRouter
+intercepting routes with (.)foobar
 ```
 
 ---
@@ -110,23 +111,23 @@ We can have multiple files in a route folder but there can be only one `page.tsx
 
 We can have multiple functions in the `page.tsx` but atleast one has to be `export default` (only this will rendered)
 
-**Private Folders**: name a route folder as `_foobar` and it won't be accessible in the browser
+**Private Folders**: name a route folder as `_foobar` and it and all its subfolders are excluded from routing
 
-**Route Group**: name a folder as `(foobar)` and it won't have its own URL segment anymore
+**Route Group**: name a folder as `(foobar)` and it won't need its own segment in the URL (_transparent_) when accessing subfolder routes (used to group related routes together for programmer ease)
 
 ## Layouts
-Place common HTML tags in a `layout.tsx` file and it will be applied to a route and all its children.
+Place common HTML tags in a `layout.tsx` file and it will be applied to a route and all its children. It is also applied to `not-found.tsx`, `error.tsx`, etc files.
 
 The `layout.tsx` file in `app` folder (_mandatory_) allow common HTML tags such as `<header>` and `<footer>` placed in the file, to display on all it and its children route pages too.
 
 **Nested Layout**: create `layout.tsx` file in a route's folder and it will be applied to it and all its children routes. Do note that any other layout of this route's parent will also be applied to its children.
 
-**Route Group Layout**: place a `layout.tsx` file in a route group folder `(auth)` to scope layout to its child folders only
+**Route Group Layout**: as as good developer practice, place a `layout.tsx` file in a route group folder `(auth)` to scope layout to only certain route folders grouped logically
 
 ## Metadata
 Place objects in either `layout.tsx` or `page.tsx` and Next generates HTML tags automatically. The latter takes precedence if there is ambiguity.
 
-**Static Metadata Object**: create `metadata` object in the file
+**Static Metadata Object**: create `metadata` object in the page file
 ```js
 export const metadata = {
 	title: "Foobar::Home",
@@ -136,7 +137,7 @@ export const metadata = {
 
 They will be rendered as `<title>` and `<meta name="description" content="Homepage of Foobar">` in the browser.
 
-**Dynamic Metadata**: create `generatedMetadata` function object in the file
+**Dynamic Metadata**: create `generatedMetadata` function object in the page file
 
 ```js
 import { Metadata } from "next";
@@ -181,7 +182,7 @@ let productId = 100;
 <Link href="/products" replace>Go to Products<Link/>
 ```
 
-### Navigating Programmatically
+### Navigating with useRouter
 Use `useRouter` hook in a client component.
 
 ```js
@@ -208,7 +209,7 @@ Any state variable displayed on the screen in the `layout.tsx` doesn't reset val
 
 Use `template.tsx` if we want to have new state variable initialized for every route we goto. Everything else is same as layout.
 
-## Loading
+## Loading Page
 Use `loading.tsx` file placed in route folder to display temporary content till actual content loads.
 
 ## Error Handling
@@ -220,6 +221,89 @@ Use `error.tsx` file placed in route folder with Client Component. Can receive a
 export default function ErrorBoundary( { error } ){
 	return <div> { error.message } </div>
 }
+```
+
+Any errors in the child components too will display this page.
+
+**Error in Layouts** - any error thrown in `layout.tsx` won't be handled by the same folder's `error.tsx`. Place error file in parent folder to catch errors in subfolder layouts.
+
+### Error Recovery
+Use the provided `reset` callback function variable to re-render route page, if there is no errors on re-render the new route page is displayed instead of error page.
+```js
+"use client";
+
+export default function ErrorBoundary( { error, reset } ){
+	return <button onClick = { reset }>Try again</button>
+}
+```
+
+## Parallel Routes with Slots
+```js
+// in Dashboard component
+<Foo \>
+<Bar \>
+<Foobar \>
+```
+Instead of composing components like above, we can use them as "slots" to divide page into sections - every slot is a mini-app with its own error handling, sub-navigation, and state management.
+
+Create route folders named as `@foobar` called "slots" to make parallel routes. They are automatically passed to the parent route folder's `layout.tsx` as props (no need to import). The additional `children` prop is nothing but content from `dashboard/page.tsx`.
+
+```js
+/*
+
+\dashboard
+	@analytics
+	@notifications
+	@users
+
+*/
+
+// in dashboard/layout.tsx
+export default function MyDashboardLayout( { children, analytics, notifications, users } ){		// notice 4 slots
+	return <div> {children} </div>
+}
+```
+
+They aren't directly accessible from the browser even if we use their name in URL segments.
+
+### Sub-Routing and Unmatched Routes
+We can create normal route folders `archived` in a slot route folder `@notifications` and then we can route from `localhost:8080/dashboard` to `localhost:8080/dashboard/archived` (notice no _notifications_ in URL).
+
+**Unmatched Routes**: if this folder exists for under this slot folder only and not for other parallel slots:
+- Navigating from UI - other slots retain their previously active state and display that
+- Page Refresh - this will cause 404 error page to display unless we define `default.tsx` for every slot including the `children` slot
+
+### Conditional Routes
+```js
+// in dashboard/layout.tsx
+export default function MyDashboardLayout( { children, users, guests } ){
+	const isLoggedIn = true;
+	return isLoggedIn ?
+		( <div> { children } </div> ) : 
+		( guests );
+}
+```
+
+## Intercepting Routes
+Open another page when user wants to go to a page.
+
+Create folders with `(.)foobar` and display its `page.tsx` when we go from current route to `foobar` route. Subsequently on a reload, display actual route page rather than the intercept page.
+
+```txt
+(.) to match segments on the same level
+(..) to match segments one level above
+(...) to match segments from the root app dir
+```
+
+To create Modals - use combination of both slot (`@modal`) and intercept single image item page (`photo-gallery/9`) from the main gallery page.
+
+```txt
+\photo-gallery
+	\[id]
+	\@modal
+		\(..)photo-gallery/[id]
+			page.tsx
+		default.tsx
 ```
 
 ## References
