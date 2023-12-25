@@ -103,6 +103,11 @@ Caches today like Redis and Memcached can operate in various modes depending on 
 
 [Reference#2](https://codeahoy.com/2017/08/11/caching-strategies-and-how-to-choose-the-right-one)
 
+### Caching Tools
+Web caching at HTTP protocol level is done using:
+- [Varnish Cache](https://varnish-cache.org/intro/index.html#intro) is used on a reverse proxy. It is generally faster than Squid Cache.
+- [Squid Cache](http://www.squid-cache.org/Intro/why.html) is often used on forward proxy, but can also be used on a reverse proxy.
+
 ## HTTP Caching
 HTTP is designed to cache as much as possible, so even if no `Cache-Control` is given, responses will get stored and reused if certain conditions are met. This is called **heuristic caching**. All responses should still explicitly specify a `Cache-Control` header.
 
