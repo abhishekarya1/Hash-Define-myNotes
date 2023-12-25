@@ -485,3 +485,25 @@ Enhancements - live streaming (real-time video transcoding) and content filterin
 - GOP: https://aws.amazon.com/blogs/media/part-1-back-to-basics-gops-explained
 - HTTP Video Streaming: https://aws.amazon.com/blogs/media/back-to-basics-http-video-streaming
 - Streaming Protocols: https://www.dacast.com/blog/streaming-protocols
+
+## Google Drive
+Needs sync so strong consistency is expected, use a relational database (ACID out-of-the-box).
+
+Use third-party large storage service like Amazon Simple Storage Service (S3). Provides automatic cross-region replication, sharding, etc.
+
+Allow resumable uploads `?uploadType=resumable` to recover from network failure during uploads.
+
+```txt
+Block Server - split files into blocks before uploading to S3, compress (gzip, bzip2) and encrypt each block, store block metadata (block_id, hash, block_order) in Metadata DB to avoid duplicates, etc.
+
+Delta Sync - on file modification, only modified blocks are synced using a sync algorithm e.g. Differential Synchronization
+```
+
+Notification service is used for sync - accessed by other active clients via long polling. If a client is offline, save file changes in cache or offline backup MQ to replay when it becomes active.
+
+**Optimizations**:
+- Cold Storage: infrequently accessed data can be moved to another storage service like Amazon S3 Glacier
+- Real-time file modification (Google Docs) using DifDifferential Synchronization Strategies
+
+**Links**:
+- Differential Synchronization Strategies - https://neil.fraser.name/writing/sync/
