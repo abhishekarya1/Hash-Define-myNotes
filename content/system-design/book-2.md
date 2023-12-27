@@ -54,24 +54,38 @@ Updation: as we've multiple replicas of quadtree servers, when a new business is
 
 5. **Google S2**: in-memory store based on Hilbert Curve. It maps a sphere to a 1D index. Any two points that are closer to each other will be close on the 1D space too. This approach doesn't divide space into quadrants but covering arbitrary areas are possible (Geofencing using Region Cover Algorithms).
 
+### Storage
+```txt
+LBS uses - Geohash/Quadtree, Business Info (both are Redis)
+Business Service uses - Business Metadata DB (Postgres) + replicas
+```
+
+Business updates are handled via a nightly job, which syncs the SQL database with the two Redis stores across all LBS replicas.
+
+Sharding isn't recommended since Geohash and Quadtree doesn't take up that much space. We have replicas of LBS servers across all available regions. 
+
+We can shard Business Metadata DB's `business_metadata` table on `business_id` though as it can become quite large.
+
 ### Data Model
+Business Metadata DB relations and schema:
 ```txt
 Table = geospatial_index
 Column = geohash
 Column = business_id
+
+Table = business_metadata
+Column = business_id (PK)
+other business related info...
 ```
 
-1. Geohash as PK: store list of all businesses in that hash as a JSON list. Diffcult to add/remove businesses.
-2. `business_id` as PK: multiple businesses will have the same Geohash. Recommended approach since rows are denormalized.
+For `geospatial_index` table, the schema options are:
+1. Geohash as PK: store list of all businesses in that hash as a JSON list. Slow to update (locking required to prevent concurrent updates to the row) but easy to read.
+2. `business_id` as PK: multiple businesses will have the same Geohash. Slow to read (all rows must be read) but easy to write (either insert or delete, no locking required).
 
-### Storage
-```txt
-LBS - Geohash/Quadtree, Business Metadata Cache (both use Redis)
-Business Service - Business Metadata (Postgres) + replicas
-```
+Since reads from the SQL database aren't first priority and writes have the leisure to be slow (nightly job), its recommended to use the second approach as its much simpler.
 
-Business updates are handled via a nightly job, which updates the two Redis stores across all LBS replicas.
+Redis **Cache** servers and KV pairs on them:
+- Geohash: `(geohash, list_of_businesses)`
+- Business Info: `(business_id, business_info_object)`
 
-Sharding isn't recommended since Geohash and Quadtree doesn't take up that much space. We can have read replicas of quadtree servers across regions.
-
-Caching too isn't recommended because Redis Geohash, Quadtree, and S2 are already very fast as they're in-memory stores.
+Update to these two caches will be nightly, from the main SQL database.
