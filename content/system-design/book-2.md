@@ -55,19 +55,23 @@ Updation: as we've multiple replicas of quadtree servers, when a new business is
 5. **Google S2**: in-memory store based on Hilbert Curve. It maps a sphere to a 1D index. Any two points that are closer to each other will be close on the 1D space too. This approach doesn't divide space into quadrants but covering arbitrary areas are possible (Geofencing using Region Cover Algorithms).
 
 ### Storage
+Two levels of storage: 
+- Redis cache servers on LBS for faster reads 
+- SQL database servers for heavy write volume and bulk storage
+
 ```txt
-LBS uses - Geohash/Quadtree, Business Info (both are Redis)
-Business Service uses - Business Metadata DB (Postgres) + replicas
+LBS uses - Geohash, Business Info (both are Redis)
+Business Service uses - Business DB (Postgres) + replicas
 ```
 
 Business updates are handled via a nightly job, which syncs the SQL database with the two Redis stores across all LBS replicas.
 
 Sharding isn't recommended since Geohash and Quadtree doesn't take up that much space. We have replicas of LBS servers across all available regions. 
 
-We can shard Business Metadata DB's `business_metadata` table on `business_id` though as it can become quite large.
+We can shard Business DB's tables on `business_id` as they can become quite large in size.
 
 ### Data Model
-Business Metadata DB relations and schema:
+Business DB relations and schema:
 ```txt
 Table = geospatial_index
 Column = geohash
@@ -78,7 +82,7 @@ Column = business_id (PK)
 other business related info...
 ```
 
-For `geospatial_index` table, the schema options are:
+For `geospatial_index` relation, the schema options are:
 1. Geohash as PK: store list of all businesses in that hash as a JSON list. Slow to update (locking required to prevent concurrent updates to the row) but easy to read.
 2. `business_id` as PK: multiple businesses will have the same Geohash. Slow to read (all rows must be read) but easy to write (either insert or delete, no locking required).
 
@@ -88,4 +92,4 @@ Redis **Cache** servers and KV pairs on them:
 - Geohash: `(geohash, list_of_businesses)`
 - Business Info: `(business_id, business_info_object)`
 
-Update to these two caches will be nightly, from the main SQL database.
+Update to these two caches will be nightly, from the SQL Business DB.
