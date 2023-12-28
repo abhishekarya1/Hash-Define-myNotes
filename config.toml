@@ -18,13 +18,13 @@ home = [ "HTML", "RSS", "JSON"]
   # Author of the site, will be used in meta information
   author = "Abhishek Arya"
   # Description of the site, will be used in meta information
-  description = "My notes and elucidations revolving around programming."
+  description = "My personal knowledgebase works as a second brain."
   # Set this to true to disable copy-to-clipboard button for inline code.
   disableInlineCopyToClipBoard = true
   # Order sections in menu by "weight" or "title". Default to "weight"
   ordersectionsby = "weight"
   # Change default color scheme with a variant one. Can be "red", "blue", "green".
-  themeVariant = "blue"
+  themeVariant = "mine"
   showVisitedLinks = false
   disableBreadcrumb = false
   disableNextPrev = false

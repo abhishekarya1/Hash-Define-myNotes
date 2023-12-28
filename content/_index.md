@@ -7,7 +7,7 @@ chapter = true
 
 # #define
 
-<img src="https://i.imgur.com/u1qEYoH.jpg" style="max-width: 30%; height: auto;">
+<img src="https://i.imgur.com/TmRwOsj.jpg" style="max-width: 45%; height: auto;">
 
 My personal knowledgebase - works as a [Second Brain](https://fortelabs.com/blog/basboverview/) and [Zettelkasten](https://fortelabs.com/blog/how-to-take-smart-notes/).
 
