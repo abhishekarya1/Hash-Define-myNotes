@@ -8,7 +8,7 @@ RSM (Reliability, Scalability, Maintainability) - tradeoff exists between each
 
 Scalability - property of a system to continue to maintain desired performance proportional to the resources added for handling more work
 
-### Tradeoffs
+## Tradeoffs
 - Performance vs Scalability
 - Latency vs Throughput
 - Consistency vs Availibility (_read CAP Theorem_)
@@ -26,6 +26,13 @@ Video: [What is CAP Theorem?](https://youtu.be/_RbsFXWRZ10)
 
 We do have **CA** in non-distributed systems like RDBMS like MySQL, Postgres, etc... it is called **ACID** there.
 
+## Consistency Types
+In increasing order of consistency, decreasing order of efficiency:
+- **Linearizable Consistency** (Strong): all update operations are strictly ordered
+- **Causal Consistency** (Weak): updates to the same key are ordered, but it fails when aggregation operations are present (query that updates data corresponding to multiple keys) since aggregation operations like `sum(1,2)` utilize multiple keys `read(1)` and `read(2)` and overall ordering will decide the operation `sum` output
+- **Eventual Consistency** (Weak): no ordering of updates, they can be propagated in any order
+- **Quorum Consistency** (Flexible): we can configure `R` and `W` nodes to have strong or weak consistency depending on the use case
+
 ### Availablity and Consistency
 **Availablity insured by**: two servers fail-over (master-master and master-slave)
 
@@ -38,7 +45,7 @@ But how to choose a master/leader?:
 - **Gossip Protocol**: each node selects another node periodically and shares data with it
 - **Random Leader Selection**: elect a leader using a simple algorithm
 
-### Load Balancing
+## Load Balancing
 Can be used in between web server and service, service and database, etc... knows which services are up and routes traffic to only them, does health check heartbeats for the same.
 
 **Types**: layer-4 and layer-7 [/networking/notes/#load-balancers](/networking/notes/#load-balancers)
@@ -57,7 +64,7 @@ To avoid it being a single-point-of-failure (SPOF), keep another LB as a fail-ov
 
 [/microservices/patterns/#load-balancing](/microservices/patterns/#load-balancing)
 
-### Caching
+## Caching
 [/web-api/caching](/web-api/caching/)
 
 ## Databases
