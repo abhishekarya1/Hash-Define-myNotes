@@ -1,10 +1,10 @@
 
 :root{
     
-    --MAIN-TEXT-color:#323232; /* Color of text by default */
+    --MAIN-TEXT-color: #323232; /* Color of text by default */
     --MAIN-TITLES-TEXT-color: #5e5e5e; /* Color of titles h2-h3-h4-h5 */
-    --MAIN-LINK-color:#BF544B; /* Color of links */
-    --MAIN-LINK-HOVER-color:#b54940; /* Color of hovered links */
+    --MAIN-LINK-color: #da3d2f; /* Color of links */
+    --MAIN-LINK-HOVER-color: #BF544B; /* Color of hovered links */
     --MAIN-ANCHOR-color: #BF544B; /* color of anchors on titles */
 
     --MENU-HEADER-BG-color: #BF544B; /* Background color of menu header */
