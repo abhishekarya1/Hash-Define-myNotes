@@ -5,7 +5,7 @@ weight = 2
 pre = "<i class='fas fa-pen' style='color: white'></i> "
 +++
 
-### Indexes
+## Indexes
 Data structure that points to other data on the database for faster access. Sort of like a index of a book. When we have to query, DBMS will internally query this index instead of actual table data directly.
 
 An index is a tree made **on** top of the table, where it is used to access table rows (leaf nodes). Refer diagram link below for more clarity.
@@ -26,7 +26,7 @@ CREATE UNIQUE INDEX myIndex
 ON employees(name);
 ```
 
-#### Types of Indexes
+### Types of Indexes
 
 **Clustered / Primary**: clustered index uses primary key column values of the table as intermediate nodes in B-Tree. The table rows are [**sorted acc to key and then stored**](https://docs.microsoft.com/en-us/sql/relational-databases/indexes/clustered-and-nonclustered-indexes-described?view=sql-server-ver16#:~:text=Clustered%20indexes%20sort%20and%20store%20the%20data%20rows%20in%20the%20table%20or%20view%20based%20on%20their%20key%20values) in a B-Tree leafs, and leaf nodes of the tree have **actual table data** and all leafs are in ascending order. Along with sorting, the table rows are also rearranged into blocks so that it suits the index (tree). **Only one** clustered index can exist in a given table (since there can only be 1 PK and only one asc sort for it), whereas, multiple non-clustered indexes can exist for a given table. In most RDBMS, clustered index is automatically created using PK upon table creation.
 
@@ -45,7 +45,7 @@ Other types of index:
 
 _Reference_: [Database index - Wikipedia](https://en.wikipedia.org/wiki/Database_index)
 
-#### Indexes are not magic!
+### Indexes are not magic!
 It is not always guaranteed that index will result in faster queries, for example, using `LIKE` clause even on indexed columns leads to slow queries since we have to match sequentially with the pattern. Other such cases are:
 
 - when most of the tuples values are redundant. Ex - a gender column will only have some possible values
@@ -64,7 +64,7 @@ _Reference_: https://www.postgresqltutorial.com/postgresql-indexes
 
 
 
-### Transactions
+## Transactions
 A transaction is a _sequence of operations_ performed (using one or more SQL statements) on a database as _a single logical unit of work_.
 
 Ex - A bank fund transfer from user A to B is essentially just a simple transfer, but comprises of many operations like subtract funds from A and add funds to B.
@@ -81,26 +81,28 @@ DBMS like MySQL and Postgres "gurantee" **ACID** (Atomicity, Consistency, Isolat
 
 [TCL Commands](/db/rdbms/mysql/#tcl)
 
-#### Issues
+### Issues
 When two or more transactions read/write to a common data resource, below issues can be faced:
 
 1. **Dirty Reads**: transaction reads uncommitted data from another transaction
 
-2. **Phantom Reads**: re-execute a query and see a different **set of rows** matching the query conditions (predicate typically using `WHERE` clause) than those which were returned earlier; due to another transaction addding or deleting rows corresponding to the predicate and committing it
+2. **Phantom Reads**: re-execute a query and see a **different set of rows** matching the query predicate (conditions typically using `WHERE` clause) than those which were returned earlier; due to another transaction addding or deleting rows corresponding to the predicate and committing it
 	
-	The term "phantom" is used because these additional rows seem to appear out of nowhere, like ghosts or phantoms. 
+	The term "phantom" is used because these additional rows seem to appear out of nowhere between reads, like ghosts or phantoms. 
 
-3. **Non-repeatable Reads**: reads the same piece of data (like a _row_) twice at different points in time and each time gets a different value of it
+3. **Non-repeatable Reads**: reads the same piece of data (like a _row_) twice at different points in time and each time gets different value of it
 
-#### Isolation Levels
+	It is different from phantom reads because insertion/deletion of new rows doesn't matter here, since we're just concerned with a fixed set of rows changing values between reads.
 
-4 levels are defined by SQL standard to avoid above issues. In increasing order of isolation:
+### Isolation Levels
+
+4 levels are defined by SQL standard to avoid above issues. In increasing order of isolation, decreasing order of efficiency:
 
 1. **Read Uncommitted**: can read data that is uncommitted in other transactions; often leads to dirty reads.
 
 2. **Read Committed** (_default in Postgres_): guarantees that only the data that had been committed can be read. Any uncommited data in other transaction is transparent to us; dirty reads are avoided here.
 
-3. **Repeatable Read**: guarantees that once we have read some data, it will always return the same **set of data** in future too. Holds read and write locks for all row(s) that transaction operates on. Due to this, non-repeatable reads are avoided as other transactions cannot update or delete the row(s) that are locked. (Row level locking)
+3. **Repeatable Read**: guarantees that once we have read some data, it will return the same values for that data during the entire duration of the transaction. Holds read and write locks for all row(s) that transaction operates on. Due to this, non-repeatable reads are avoided as other transactions cannot update or delete the row(s) that are locked. (Row level locking)
 
 	Phantom reads can occur here as another transaction may insert additional rows that match the query predicate. Since locking a set of rows doesn't prevent insertion of more rows.
 
@@ -115,5 +117,5 @@ https://www.postgresql.org/docs/7.2/transaction-iso.html
 https://stackoverflow.com/questions/4034976/difference-between-read-commited-and-repeatable-read
 
 
-### Normalization
-
+## Normalization
+TBD
