@@ -270,7 +270,7 @@ HTTP/2 enabled multiple parallel requests over a single connection using streams
 
 If segments with seq 2,3,4 have arrived but seq 1 has not, then server won't send ACK for any of them, and client will eventually have to retransmit those segments. Segments 2,3,4 were received but they are useless now.
 
-Segents can totally arrive out-of-order but none one of them can be skipped, they all have to arrive until seq 4 for server to reply with ACK.
+Segments can totally arrive out-of-order but none one of them can be skipped, they all have to arrive until seq 4 for server to reply with ACK.
 
 ### Proxies
 **Forward Proxy**: Client1, Client2 -> Proxy -> Server
