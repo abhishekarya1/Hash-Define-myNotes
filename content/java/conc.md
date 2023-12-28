@@ -516,11 +516,37 @@ Liveness is the ability of an application to execute in a timely manner. If it b
 
 Majorly 3 kinds of liveness affecting issues arise: **Deadlock**, **Starvation**, and **Livelock**.
 
-1. **Deadlock**: Two or more threads being blocked forever, each one waiting for other to release resources.
-2. **Starvation**: One thread perpetually keeps waiting for a resource to become available.
-3. **Livelock**: A special kind of deadlock in which threads appear to be live and working actively on their respective tasks, but they are just working while waiting for a resource to become available and are in a deadlock.
+**Race condition**: when a shared resouce is modified by two threads at the exact same time. The application has to decide which modification to keep or discard both. It often leads to invalid data when it occurs.
 
-**Race condition**: When a resouce is modified by two threads at the exact same time. The application has to decide which modification to keep or discard both. It often leads to invalid data when it occurs.
+### Deadlock
+Two or more threads being blocked forever, each one waiting for other to release resources.
+
+```java
+// first thread enters this; after acquiring lock for obj1
+synchronized (obj1){
+    synchronized (obj2){  }
+}
+
+// second thread enters this; after acquiring lock for obj2
+synchronized (obj2){
+    synchronized (obj1){  }
+}
+
+// both keep waiting for each other to release locks on thier respective nested sync block's obj
+// so that they can acquire lock and enter nested sync block but it never happens - circular waiting
+```
+
+**Identify**: Use `jstack` or `jvisualvm` to generate Thread Dump and analyze it to identify deadlocks.
+
+**Resolve**: avoid nested locks, order locks properly, use `ReentrantLock` avoiding usage of `synchronized` blocks as they offer `tryLock()` with timeout.
+
+### Starvation
+A thread perpetually keeps waiting for a resource to become available. Unresolved deadlocks always lead to the starvation of both the threads involved.
+
+### Livelock
+A special kind of deadlock in which threads appear to be live (changing states) but actually they are just stuck in a loop, unable to make progress, effectively stuck in an unproductive cycle of reacting to each other.
+
+Ex - two people attempting to pass each other in a corridor.
 
 ## Parallel Streams
 
