@@ -86,9 +86,11 @@ When two or more transactions read/write to a common data resource, below issues
 
 1. **Dirty Reads**: transaction reads uncommitted data from another transaction
 
-2. **Phantom Reads**: two exact same queries (with same predicate typically using `WHERE` clause) returning different rows as output when run at an interval (or in separate transactions); due to another transaction _changing data corresponding to the predicate_ and committing it
+2. **Phantom Reads**: re-execute a query and see a different **set of rows** matching the query conditions (predicate typically using `WHERE` clause) than those which were returned earlier; due to another transaction addding or deleting rows corresponding to the predicate and committing it
+	
+	The term "phantom" is used because these additional rows seem to appear out of nowhere, like ghosts or phantoms. 
 
-3. **Non-repeatable Reads**: reads the same _row_ twice at different points in time and gets a different value each time
+3. **Non-repeatable Reads**: reads the same piece of data (like a _row_) twice at different points in time and each time gets a different value of it
 
 #### Isolation Levels
 
@@ -98,9 +100,11 @@ When two or more transactions read/write to a common data resource, below issues
 
 2. **Read Committed** (_default in Postgres_): guarantees that only the data that had been committed can be read. Any uncommited data in other transaction is transparent to us; dirty reads are avoided here.
 
-3. **Repeatable Read**: guarantees that once we have read some data, it will always return the same data in future too. Holds read and write locks for _all row(s) that transaction operates on_. Due to this, non-repeatable reads are avoided as other transactions cannot read, write, update or delete the row(s) that are locked. (Row level locking)
+3. **Repeatable Read**: guarantees that once we have read some data, it will always return the same **set of data** in future too. Holds read and write locks for all row(s) that transaction operates on. Due to this, non-repeatable reads are avoided as other transactions cannot update or delete the row(s) that are locked. (Row level locking)
 
-4. **Serializable**: locks the whole table to a transaction so every other concurrent transaction is blocked to read/write to the entire table. (Table level locking)
+	Phantom reads can occur here as another transaction may insert additional rows that match the query predicate. Since locking a set of rows doesn't prevent insertion of more rows.
+
+4. **Serializable**: locks the whole table to a transaction so every other concurrent transaction is blocked to modify or add/remove from the entire table (Table level locking), this effectively forces the transactions to be ordered (serial)
 
 5. **Snapshot**: makes the same guarantees as serializable, but not by requiring that no concurrent transaction can modify the data. Instead, it forces every reader to see its own version of the world (it's own "SNAPSHOT"). This makes it very easy to program against as well as very scalable as it does not block concurrent updates. However, that benefit comes with a price: extra server resource consumption.
 
