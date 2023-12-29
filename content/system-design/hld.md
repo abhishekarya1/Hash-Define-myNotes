@@ -55,14 +55,14 @@ Weak consistency (Causal & Eventual) levels are too loose, hence we often pair t
 
 **Quorum Consistency** (Flexible): we can configure `R` and `W` nodes to have strong or weak consistency depending on the use case ([notes](/system-design/book-1/#quorum-concensus))
 
-Analogue within a single database node: when we modify a piece of data from multiple transactions, [**isolation levels**](/data/rdbms/concepts/#isolation-levels) come into the picture.
+Within a single database node, when we modify a piece of data from multiple transactions, [**isolation levels**](/data/rdbms/concepts/#isolation-levels) come into the picture.
 
 ### Summary
 
 <img src="https://i.imgur.com/4At8dkV.png" style="max-width: 65%; height: auto;">
 
 From the POV of `Follower 2` replica in the diagram above:
-- linearizably consistent system will ensure we write first before read is done (global ordering in the system), to the outside obserever the system acts as if it were a single entity
+- linearizably consistent system will ensure we write first before read is done (global ordering in the system), to the outside observer (`Servers`) the system acts as if it were a single entity
 - if the system is eventually consistent, then read can be done out-of-order from write and value of `x` can be sent immediately without blocking, even though write was the first operation coming into the system. Both the followers and leader will converge to `x=2` eventually.
 
 ## Load Balancing
