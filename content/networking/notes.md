@@ -292,3 +292,17 @@ Segments can totally arrive out-of-order but none one of them can be skipped, th
 - _stateless_, routes requests to a backend servers; since it understands where the request starts and where it ends, it can smartly send them over to different servers for stateless processing
 - API Gateway logic: authentication, apply filters, cache responses, limit usage
 - since it requires to understand protocols, we need LB provider service that supports our protocol, someone that supports our encryption algo, since LB will decrypt (_expensive_)
+
+### Video Streaming Protocols
+HTTP-DASH and HLS use TCP.
+
+Dynamic Adaptive Bitrate Streaming (DASH) over HTTP - variable bitrate and resolution.
+
+### Conferencing with WebRTC
+WebRTC uses UDP for direct communication between clients (P2P). 
+
+To facilitate address finding and authentication we use non-peer servers like:
+
+**STUN Server**: used to establish a direct UDP connection between two clients, let peers know each other's external address to start the P2P streams transmission behind the NAT
+
+**TURN Server**: used to establish a relayed UDP or TCP connection between two clients. Here, the traffic must be relayed through the TURN server to bypass restrictive firewall rules

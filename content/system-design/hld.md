@@ -38,16 +38,32 @@ But how to choose a master/leader?:
 - **Gossip Protocol**: each node selects another node periodically and shares data with it
 - **Random Leader Selection**: elect a leader using a simple algorithm
 
-## Types of Consistency
-When we update a data store from multiple replicas, handling of these incoming updates needs to be performed - consistency.
+## Levels of Consistency
+Max Consistency - all writes are available globally to everyone reading from any part of the system. In simple words, ensures that every node or replica has the same view of data at a given time, irrespective of which client has updated the data.
 
-In increasing order of consistency, decreasing order of efficiency:
-- **Linearizable Consistency** (Strong): all update operations to the system are strictly ordered
+In a distributed system, we read/write to multiple replicas of a data store from multiple client servers, handling of these incoming queries/updates needs to be performed such that data in all the replicas is in a consistent state.
+
+In decreasing order of consistency, increasing order of efficiency:
+- **Linearizable Consistency** (Strong): all read/write operations in the system are strictly ordered, easy to do on a single-threaded single-server architecture but need to use [RAFT Concensus Algorithm](https://raft.github.io/) for global ordering when there are multiple replicas of data store. Lots of HOL blocking to achieve ordering.
 - **Causal Consistency** (Weak): updates to the same key are ordered, but it fails when aggregation operations are present (query that updates data corresponding to multiple keys) since aggregation operations like `sum(1,2)` utilize multiple keys `read(1)` and `read(2)` and overall ordering will decide the operation `sum` output
-- **Eventual Consistency** (Weak): no ordering of updates, they can be performed as soon as they come in
-- **Quorum Consistency** (Flexible): we can configure `R` and `W` nodes to have strong or weak consistency depending on the use case
+- **Eventual Consistency** (Weak): no ordering of reads/writes, they can be performed as soon as they come in (_efficient_), only guarantee here is that all replicas in the system eventually "converge" to the same state given that no writes come after a point and system remains alive long enough. Conflict resolution (anti-entropy and reconciliation) is often required here since writes are not ordered (which one to write first?). Ex - DNS and YouTube view counter.
+	
+Weak consistency (Causal & Eventual) levels are too loose, hence we often pair them with some sort of stronger guarantees like:
+- **Read-your-writes consistency**: a client that makes a write request will immediately see the updated value when it makes a read request, even if the update has not yet propagated to all servers
+- **Monotonic Read**: a client will only see values that are as up-to-date or more up-to-date than the values it has previously seen. A client's reads will always see a fresh value and never see an older value again. (_always read newer_)
+- **Monotonic Write**: a client will only see values that are as up-to-date or older than the values it has previously written. A client's writes will always be fresh, it will never see new values updated by another client. (_always write newer_)
 
-Analogue within a single database node: when we modify a piece of data from multiple transactions, [isolation levels](/data/rdbms/concepts/#isolation-levels) come into the picture.
+**Quorum Consistency** (Flexible): we can configure `R` and `W` nodes to have strong or weak consistency depending on the use case ([notes](/system-design/book-1/#quorum-concensus))
+
+Analogue within a single database node: when we modify a piece of data from multiple transactions, [**isolation levels**](/data/rdbms/concepts/#isolation-levels) come into the picture.
+
+### Summary
+
+<img src="https://i.imgur.com/4At8dkV.png" style="max-width: 65%; height: auto;">
+
+From the POV of `Follower 2` replica in the diagram above:
+- linearizably consistent system will ensure we write first before read is done (global ordering in the system), to the outside obserever the system acts as if it were a single entity
+- if the system is eventually consistent, then read can be done out-of-order from write and value of `x` can be sent immediately without blocking, even though write was the first operation coming into the system. Both the followers and leader will converge to `x=2` eventually.
 
 ## Load Balancing
 Can be used in between web server and service, service and database, etc... knows which services are up and routes traffic to only them, does health check heartbeats for the same.
@@ -93,6 +109,7 @@ Types of NoSQL Stores:
 - **Document store**: key-value store with documents (XML, JSON, Binary, etc...) stored as values. Ex - MongoDB, Elasticsearch
 - **Wide column store**: for every key, a small table of varying size is stored (columns). Offer high storage capacity, high availability, and high scalability. Ex - Cassandra
 - **Graph store**: stores nodes and their relationship. Ex - Neo4j
+- **Timeseries store**: optimized for storing time and events data. Ex - InfluxDB
 
 Types of Databases - [Fireship YT](https://youtu.be/W2Z7fbCLSTw)
 
@@ -122,11 +139,20 @@ Scaling up to your first 10 million users: https://www.youtube.com/watch?v=kKjm4
 Goals: Uniform distribution of data among nodes and minimal rerouting of traffic if nodes are added or removed. Consistent Hashing is used.
 
 ### Replication
+How to copy data?
+- Execute **Write-Ahead-Log** ([WAL](/data/rdbms/postgresql/#write-ahead-logging-wal)) of one replica onto the other
+- **Change Data Capture** (CDC): sending events that indicate data changes and allow subscribers to process these events and make necessary transformations (suitable for cross-database replication where two DB are of diff paradigms)
+
 Two generals problem - the problem with systems that reply on `ACK` for consistency is that the other one doesn't know if the update has been performed on the other node if `ACK` doesn't reach us back, resolution - _hierarchical replication_.
 
 - **Single Leader** (_does not scales writes_): only master can handle writes, master propagates writes to slaves, slaves are _read only_ for the client. If master goes down, one of the slaves is promoted to master or we can have a fail-over master ready to take over.
 - **Multi-Leader**: multiple nodes are leaders and writes can be done on any of the leader, consistency between them has to be maintained so that no race condition occurs. Eventual consistency is expected here. One of the leader continue to function if one goes down.
 - **Leaderless**: all nodes are equal, writes can be addressed by any of the nodes. Eventual consistency is expected here. Use quorum concensus.
+
+Problems in replication:
+- **Split-Brain Problem**: happens when there are even number of masters in a system, half of them have a value of `x=1` and the other half has `x=2`, but we need a single unambiguous value of `x`. Auto-reconciliation like timestamp comparisons can be done, sometimes manual-reconciliation too. Better to have an odd number of nodes to avoid this problem, in such a system even if there is a split, a strict quorum is possible.
+
+- **Write Amplification Problem** (WA): when replicating data from a master to a replica, we've to write `n` times if there are `n` replicas in the system. In such a system, what happens when one of the replicas fails to ack the write? should we wait for it (_indefinite_ wait) or move on (_stale_ data on that replica).
 
 ## Networking and Protocols
 [/networking](/networking/notes)
