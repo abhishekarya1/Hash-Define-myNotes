@@ -6,7 +6,7 @@ weight = 12
 
 **Thread**: Smallest unit of execution that can be scheduled to the CPU.
 
-Max number of threads that can run parallely = Number of CPU cores
+Max number of threads that can run parallely at a time = Number of CPU cores, other threads are blocked.
 
 **Process**: Group of associated threads. It comprises of multiple threads and a shared memory. Single unit of functionality. A program in execution.
 
@@ -590,7 +590,7 @@ List<StockInfo> getStockInfo(Stream<String> companies) {
 // not only "companies" stream, but any parallel stream part of the code flow!
 ```
 
-`Number of threads in ForkJoinPool = Number of logical CPU cores - 1`, it is a fixed sized pool and other tasks have to wait till threads become available.
+By default, `Number of threads in common ForkJoinPool = Number of logical CPU cores - 1`, it is a fixed sized pool and other tasks have to wait till threads become available. We can customize the size of pool of course.
 
 ### Reductions in Parallel Streams
 Make sure accumulator and combiner have the same output on every step regardless of the order in which they are called in. The accumulator and combiner must be associative, non-interfering, and stateless.

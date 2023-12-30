@@ -12,6 +12,8 @@ Scalability - property of a system to continue to maintain desired performance p
 - Performance vs Scalability
 - Latency vs Throughput
 - Consistency vs Availibility (_read CAP Theorem_)
+- Latency vs Memory (_caching_)
+- Latency vs Accuracy (_cache freshness_)
 
 ### CAP Theorem and PACELC
 In a highly distributed system, choose any two amongst - _Consistency_, _Availibility_, and _Partition Tolerance_ (network breaking up). Networks are always unreliable, so the choice comes down to Consistency vs Availablity.
@@ -46,7 +48,7 @@ In a distributed system, we read/write to multiple replicas of a data store from
 In decreasing order of consistency, increasing order of efficiency:
 - **Linearizable Consistency** (Strong): all read/write operations in the system are strictly ordered, easy to do on a single-threaded single-server architecture but need to use [RAFT Concensus Algorithm](https://raft.github.io/) for global ordering when there are multiple replicas of data store. Lots of HOL blocking to achieve ordering.
 - **Causal Consistency** (Weak): updates to the same key are ordered, but it fails when aggregation operations are present (query that updates data corresponding to multiple keys) since aggregation operations like `sum(1,2)` utilize multiple keys `read(1)` and `read(2)` and overall ordering will decide the operation `sum` output
-- **Eventual Consistency** (Weak): no ordering of reads/writes, they can be performed as soon as they come in (_efficient_), only guarantee here is that all replicas in the system eventually "converge" to the same state given that no writes come after a point and system remains alive long enough. Conflict resolution (anti-entropy and reconciliation) is often required here since writes are not ordered (which one to write first?). Ex - DNS and YouTube view counter.
+- **Eventual Consistency** (Weak): no ordering of reads/writes, they can be performed as soon as they come in (_highly available_), only guarantee here is that all replicas in the system eventually "converge" to the same state given that no writes come after a point and system remains alive long enough. Conflict resolution (anti-entropy and reconciliation) is often required here since writes are not ordered (which one to write first?). Ex - DNS and YouTube view counter.
 	
 Weak consistency (Causal & Eventual) levels are too loose, hence we often pair them with some sort of stronger guarantees like:
 - **Read-your-writes consistency**: a client that makes a write request will immediately see the updated value when it makes a read request, even if the update has not yet propagated to all servers
@@ -87,8 +89,8 @@ To avoid it being a single-point-of-failure (SPOF), keep another LB as a fail-ov
 ## Caching
 [/web-api/caching](/web-api/caching/)
 
-## Databases
 
+## Database
 ### SQL vs NoSQL
 - often no relations (tables) but key-value store, document store, wide column store, or a graph database
 - flexible schema and flexible datatypes - use the right data model for the right problem rather than fitting every use case into relations
@@ -154,5 +156,65 @@ Problems in replication:
 
 - **Write Amplification Problem** (WA): when replicating data from a master to a replica, we've to write `n` times if there are `n` replicas in the system. In such a system, what happens when one of the replicas fails to ack the write? should we wait for it (_indefinite_ wait) or move on (_stale_ data on that replica).
 
-## Networking and Protocols
+
+### Migration
+Transfer data from an old DB to a new one with minimal downtime.
+
+**Naive Approach**:
+```txt
+Stop old DB
+DB_copy from old
+DB_upload to new
+Point services to new DB
+```
+
+Downside is the downtime of database during migration.
+
+**Simple Approach**:
+
+Utilities like [pg_dump](https://www.postgresql.org/docs/current/app-pgdump.html) can take backup without stopping the database server so it remains operational buring backup.
+
+Creating a backup (dump) of a large database will take some time. Any inserts or updates that come in during this backup time will've to be populated to new database i.e. entries after timestamp `x` at which the backup started. These new entries will be much smaller in number than entire existing database backup.
+
+```txt
+DB_copy to new 									(starts at x)
+DB_copy to new with timestamp > x 				(starts at y)
+Add trigger on old to send queries to new 		(starts at z)
+DB_copy to new with: y < timestamp < z
+``` 
+
+If update queries on data yet to be backed up happens with trigger, we can do UPSERT (INSERT if not present, UPDATE otherwise).
+
+If we've less data, we can run backup at `x` and add trigger to old at `y`, skipping step 2 above (second iteration of DB_copy). After that, we only need to copy data from backup start uptil trigger was added i.e `x < timestamp < y`.
+
+**Optimized Approach**:
+
+Setup CDC or SQL Triggers first, and then transfer data from old to new using backup.
+
+After the new DB is populated we want to point clients to the new DB instead of old DB, all read/write should happen on new DB. 
+
+Use `VIEW` tables as proxy created from new DB (transformations can be done to mimic old DB) but name them same as in old DB so that code pointing to old DB still works. Rename old DB to "old_DB_obsolete" (_unpoint_).
+
+Once everything is working fine, refactor service code to point to new DB (some downtime to restart services). We can delete the proxy `VIEW`s after that.
+
+**Diff Cloud Providers**:
+
+When migrating from Azure to AWS, we can't add a trigger as in simple approach or create a view proxy as in optimized approach.
+
+We use a `DB Proxy` server in such a case. Reads are directed to the old DB, writes to both old and new. Any views needed are present in the proxy server. Rest of the steps remains the same.
+
+It requires two restarts though - one to point services to DB Proxy and other is to point services to AWS when we're done with the migration.
+
+## Networking
 [/networking](/networking/notes)
+
+## Observability
+**Logs and Metrics**: centralized logs with trace and gather metrics in a timeseries DB
+
+**Anomaly Detection**: detecting faults
+- Confidence Intervals - may flag black friday traffic spikes as anomaly
+- Holt-Winters Algorithm - looks at historical seasonal metrics to flag issues (not only spikes)
+
+**Root Cause Analysis**: finding out cause of faults, correlation in metrics
+- Manual - "Five Whys" Technique (ask five layers of why questions about the fault)
+- Automatic - Principal Component Analysis (PCA) or Spearman's Coefficient (automated, used in large organizations)
