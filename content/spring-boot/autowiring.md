@@ -111,6 +111,8 @@ Actually, `interface` can also have a `@Component` annotation (useless though) i
 ## Creating custom Beans with @Configuration and @Bean
 We can create custom beans other than the `@Component` mechanism, with `@Configuration` class and `@Bean` annotations:
 
+The default spring bean scope is **Singleton** (only one instance of the spring bean will be created and injected into the proxy)
+
 ```java
 @Configuration
 class MyCustomBeans{
