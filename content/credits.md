@@ -21,4 +21,3 @@ Thanks to [matcornic](https://github.com/matcornic) and all the contributors for
 
 * [Netlify](https://www.netlify.com) - Continuous deployment and hosting of this site
 * [Hugo](https://gohugo.io/) - This site is built with HUGO v0.82
-
