@@ -1,5 +1,5 @@
 +++
-title = "#define HOME"
+title = "Home"
 date = 2019-01-23T23:12:30+05:30
 weight = 0
 chapter = true

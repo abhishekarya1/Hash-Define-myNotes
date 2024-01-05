@@ -377,7 +377,7 @@ listObj.sort(Comparator.comparing(Student::getMarks));
 ```
 
 ## Iterator
-An object used to loop (iterate) through collections.
+An object used to loop (iterate) through collections (based on Iterator design pattern).
 
 ```java
 List<Integer> numbers = new ArrayList<>();
@@ -396,6 +396,53 @@ while(it.hasNext()) {
 }
 
 System.out.println(numbers);
+```
+
+### Fail-Fast Iterators (default)
+What happens if underlying collection is modified after the iterator has been created? Iterator may throw a `ConcurrentModificationException` (best effort basis).
+
+Collections maintain an internal counter called `modCount`. Each time an item is added or removed from the Collection, this counter gets incremented. When iterating, on each `next()` call, the current value of `modCount` gets compared with the initial value. If there's a mismatch, it throws `ConcurrentModificationException` which aborts the entire operation.
+
+```java
+Iterator<Integer> it = numbers.iterator();
+
+while (it.hasNext()) {
+    Integer n = it.next();
+    numbers.add(50);                    // ConcurrentModificationException
+}
+```
+
+Removal is fine if done with Iterator's remove() method and not Collection's remove() method:
+```java
+while (it.hasNext()) {
+    if (it.next() == 40) {
+        it.remove();          // fine; removes 40
+    }
+}
+
+while (it.hasNext()) {
+    if (it.next() == 40) {
+        numbers.remove(0);      // ConcurrentModificationException
+    }
+}
+```
+
+### Fail-Safe Iterators
+Iterators on Collections from `java.util.concurrent` package such as `ConcurrentHashMap`, `CopyOnWriteArrayList`, etc.. are Fail-Safe in nature.
+
+They are aware of the elements being added to the underlying collection and update `modCount` accordingly concurrently.
+
+```java
+ConcurrentHashMap<String, Integer> map = new ConcurrentHashMap<>();
+map.put("First", 10);
+map.put("Second", 20);
+
+Iterator<String> it = map.keySet().iterator();
+
+while (it.hasNext()) {
+    String key = it.next();
+    map.put("Third", 30);       // fine; loop executes 3 times
+}
 ```
 
 ## Third-Party Collection Libraries
