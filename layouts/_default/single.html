@@ -1,9 +1,5 @@
 {{ partial "header.html" . }}
 
-{{ if eq .Page.Title "Changelog" }}
-	{{ partial "changelog.html" . }}
-{{ end }}
-
 {{ .Content }}
 
 <footer class="footline">
