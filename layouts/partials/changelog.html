@@ -3,8 +3,10 @@
 <blockquote>
 	{{- if $.GitInfo -}}
 		<a href="{{ .Site.Params.gitRepo }}/commit/{{ .GitInfo.Hash }}" target="_blank" rel="noopener">{{ .GitInfo.AbbreviatedHash }}</a>
-		<br><code>{{ .GitInfo.CommitDate | time.Format "Mon Jan 2 15:04:05 2006 IST"}}</code>
-		<br><strong>{{ .GitInfo.Subject }}</strong>
+		
+		<code>{{ .GitInfo.CommitDate | time.Format "Mon Jan 2 15:04:05 2006 IST"}}</code>
+		
+		<strong>{{ .GitInfo.Subject }}</strong>
 	{{- else -}}
 		Something is wrong! Can't fetch the latest commmit info.
 	{{- end -}}
