@@ -4,8 +4,9 @@ disableToc: true
 ---
 
 ---
-#### Next 14 commits summary
+#### Next 9 commits summary
 ```
+f1c5924    Sat Jan 6 16:17:32 2024 +0530    added changelog button to index page
 6e4decf    Sat Jan 6 16:12:53 2024 +0530    updated changelog logic, added gitinfo var to track latest commit
 a5fe459    Sat Jan 6 15:09:07 2024 +0530    updated script to reflect changelog updates
 39da1a3    Sat Jan 6 14:56:57 2024 +0530    updated log-commit script to clear before writing
@@ -19,7 +20,6 @@ f011ade    Fri Jan 5 23:00:40 2024 +0530    meta info changes and changelog page
 6e70509    Mon Jan 1 10:48:48 2024 +0530    added clarif to Alg Analysis
 b5dea6c    Sun Dec 31 13:30:15 2023 +0530    added clarif to Sping Bean
 fc5c94f    Sat Dec 30 17:37:28 2023 +0530    added clarif to DB Indexes
-a473b67    Sat Dec 30 16:28:26 2023 +0530    added content to SD HLD
 ```
 
 Check full commit history and diffs here: https://github.com/abhishekarya1/Hash-Define-myNotes/commits

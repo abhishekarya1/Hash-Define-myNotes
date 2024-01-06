@@ -4,10 +4,10 @@
 file_name="./content/changelog.md"
 
 # clear line range
-sed -i '9,22d' "$file_name"
+sed -i '9,17d' "$file_name"
 
 # summary command
-summary_output=$(git log -n 14 --pretty=format:"%h    %cd    %s")
+summary_output=$(git log -n 9 --pretty=format:"%h    %cd    %s")
 
 # line number to insert the output
 line_number=9
