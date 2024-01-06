@@ -31,7 +31,8 @@ home = [ "HTML", "RSS", "JSON"]
   disableBreadcrumb = false
   disableNextPrev = false
   search = true
-  
+  gitRepo = "https://github.com/abhishekarya1/Hash-Define-myNotes"
+
 [[menu.shortcuts]] 
 name = "<i class='fab fa-github'></i> Github "
 identifier = "mygithub"
