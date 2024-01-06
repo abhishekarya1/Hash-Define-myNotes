@@ -1,6 +1,6 @@
 [build]
   publish = "public"
-  command = "hugo"
+  command = "./log-commits.sh && hugo"
 
 [build.environment]
   HUGO_THEME = "hugo-theme-learn"
