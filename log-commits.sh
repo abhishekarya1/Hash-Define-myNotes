@@ -3,6 +3,9 @@
 # output file
 file_name="./content/changelog.md"
 
+# clear line range
+sed -i '8,22d' "$file_name"
+
 # summary command
 summary_output=$(git log -n 15 --pretty=format:"%h    %cd    %s")
 

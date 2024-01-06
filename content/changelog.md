@@ -5,6 +5,21 @@ disableToc: true
 
 **Last 15 commits summary**:
 ```
+8fb06af    Sat Jan 6 14:42:14 2024 +0530    updated highlight.js and changelog page finalized
+79895d4    Sat Jan 6 11:40:38 2024 +0530    added log-commits script and hook
+3c6251f    Sat Jan 6 01:02:23 2024 +0530    test commit in content folder
+80dc99b    Sat Jan 6 00:59:11 2024 +0530    changelog page added
+f011ade    Fri Jan 5 23:00:40 2024 +0530    meta info changes and changelog page added, last updated added to menu-footer
+1b799d9    Thu Jan 4 22:21:27 2024 +0530    added section to SD - IR
+0f96457    Thu Jan 4 21:41:32 2024 +0530    added favicon and front_image locally
+6e70509    Mon Jan 1 10:48:48 2024 +0530    added clarif to Alg Analysis
+b5dea6c    Sun Dec 31 13:30:15 2023 +0530    added clarif to Sping Bean
+fc5c94f    Sat Dec 30 17:37:28 2023 +0530    added clarif to DB Indexes
+a473b67    Sat Dec 30 16:28:26 2023 +0530    added content to SD HLD
+bc7e94d    Sat Dec 30 00:24:49 2023 +0530    added content to SD HLD
+8ea1af0    Fri Dec 29 23:41:38 2023 +0530    added content to SD HLD
+a41621f    Fri Dec 29 00:41:04 2023 +0530    added clarif to HLD
+ebd45fa    Fri Dec 29 00:01:25 2023 +0530    changed link color to bright red
 ```
 
 Check full commit history and diffs here: https://github.com/abhishekarya1/Hash-Define-myNotes/commits
