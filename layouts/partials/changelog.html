@@ -1,9 +1,0 @@
-<blockquote>
-{{- if $.GitInfo -}}
-	<p><strong>Message</strong> - {{ .GitInfo.Subject }}</p>
-	<p><strong>Timestamp</strong> - {{ .GitInfo.CommitDate }}</p>
-	<p><strong>Hash</strong> - <a href="https://github.com/abhishekarya1/Hash-Define-myNotes/commit/{{ .GitInfo.Hash }}" target="_blank" rel="noopener">{{ .GitInfo.AbbreviatedHash }}</a></p>
-{{- else -}}
-	Something seems wrong! No info available.
-{{- end -}}
-</blockquote>
