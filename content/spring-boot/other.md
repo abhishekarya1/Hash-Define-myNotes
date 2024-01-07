@@ -81,15 +81,21 @@ Hilla API: Integrates Spring Boot Java backends with reactive frontends implemen
 - https://hilla.dev
 
 ## jgitver
-Automatic semantic versioning using Git tags, commits, and branches. No need to change application build version in `pom.xml` everytime as it shows changes (pollutes) in working-tree everytime we create a new version.
+We usually don't change the version in the `pom.xml` in local project but install Maven plugin on the CI system (e.g Jenkins) to inject a version number before final build `mvn install`. We can then make code changes and commit (send to CI for build) without worrying about versioning.
 
-Upon `mvn install`, jgitver calculates the new version and writes it to the version info POM inside the generated JAR, and all other relevant spots.
+jgitver is one such plugin that performs automatic semantic versioning using git tags, commits, and branches.
 
-Add to Maven as an extension plugin, or in Gradle as a dependency. Use `mvn validate` to check version calculation.
+Upon `mvn install`, jgitver calculates the new version and writes it to the version info POM inside the generated JAR, and all other relevant spots. The `pom.xml` version tag is a dummy in this case and isn't edited at all!
+
+Add to CI pipeline Maven as an extension plugin, or in Gradle as a dependency. Use `mvn validate` to check version calculation.
+
+Maven provides `maven:release` goals for this purpose which edits `pom.xml` and make a commit afterwards leading to git history pollution.
 
 Link: https://jgitver.github.io
 
 Demo: https://youtu.be/v5Kj0oZO-HM
+
+Maven CI Friendly Versions: https://maven.apache.org/maven-ci-friendly.html
 
 ## Pre-Deployment Scans
 **Sonarqube** - code best practices, test coverage, etc

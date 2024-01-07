@@ -393,6 +393,26 @@ String.valueOf(n)     // n is primitive or any other type
 x.toString()        // where x is of type Integer
 ```
 
+### String Interpolation
+Injecting variable values into a string is called "String Interpolation".
+
+```java
+// + operator
+name = "Heisenberg"
+age = 69
+System.out.println("My name is " + name + " and I am " + age + "years old.");
+
+// String.format() method
+name = "Heisenberg"
+age = 69
+System.format("My name is %s and I am %d years old.", name, age);
+
+
+// using StringBuilder
+// MessageFormat.format() method
+```
+Other programming languages like Python and Javascript make it much easier to interpolate strings.
+
 ## Control Structures
 - `switch` supports the following types: 
 ```java
