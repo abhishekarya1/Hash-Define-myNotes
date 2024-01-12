@@ -47,3 +47,27 @@ Cache regional streaming server address (`india.mumbai.01a`) on client device ra
 Transformation service can use something like [ffmpeg](https://ffmpeg.org/) utility to transform video files.
 
 [System Diagram](https://medium.com/@interviewready/designing-a-live-video-streaming-system-like-espn-14c8b3ff16c3#Architecture-Diagram) 
+
+## Real-time Turn-based Game like Chess.com
+```txt
+Matchmaking Service
+Game Engine
+Analytics Engine
+```
+
+**Matchmaking Service**: initiator user sends game preferences JSON, use in-memory cache with TTL, persist to DB if match begins, otherwise evict
+
+**Game Engine**: enforce rules so that clients don't modify app and cheat. Connect clients to reverse proxy (RP) and RPs connect to Game Engines. For every move we need to validate it. We don't even trust the timestamp that the client is sending to us and we try to approx actual TS based on the avg ping of the user.
+
+This is why its not a good idea to connect client-to-client (P2P) over WebRTC because client can cheat if there is no rule validation.
+
+**Analytics Engine**: stream to this component from GEs via MQs to analyze session data and store stats after match
+
+After matchmaking request is success. Alice connects to RP (RP-India), and first move request is sent to Game Engine (India), but GE-India doesn't know where is Bob (who is connected to RP-Canada). So GE-India asks RP-India where is Bob connected, and since RP have a shared storage (Gateway DB cache) for all connected clients to the worldwide RPs, we can send data to Bob from GE-India -> RP-Canada -> Bob.
+
+Bob doesn't make a direct connection to GE-India server but RP does it for him. This doesn't help latency ofcourse since requests have to be routed to GE-India anyways.
+
+Active game's state is saved to sharded distributed caches (shard by even and odd `match_id`) modified by the Game Engine. Cache KV pairs - `match(match_id, match_state_object)`. Consistent Hashing isn't suitable here since reassignment can cause illegal moves to happen, we want sticky connections here which may lead to downtime if new cache shards are added.
+
+How to update Game Engine avoiding **Thundering Herd Problem** of connections flooding in as soon as clients have updaed their app versions? Add a `Connections Service` between RPs and GEs so RPs never break connection even if RP to GE connection is down (i.e. when GE is down).
+
