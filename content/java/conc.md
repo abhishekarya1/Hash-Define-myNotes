@@ -489,6 +489,26 @@ BrokenBarrierException
 // so its called three times, and everytime threads resume in set of 5
 ```
 
+### CountDownLatch
+`CountDownLatch` is another synchronization aid and its instance has a counter field, which we decrement manually using `countDown()` method. The current thread gets blocked until counter reaches `0`. Note that we manually decrease the counter after each "task" completion and it's not necessarily the thread count like a `CyclicBarrier`.
+
+```java
+// in main method
+CountDownLatch countDownLatch = new CountDownLatch(5);      // create latch
+
+foobar(1, countDownLatch);
+
+// call foobar() and wait for all tasks to complete
+countDownLatch.await();
+
+
+// task method
+void foobar(int x, CountDownLatch countDownLatch){
+    // do some processing and after that dec counter
+    countDownLatch.countDown();
+}
+```
+
 ## Concurrent Collections
 Threads must have a consistent view of a collection at all times.
 
