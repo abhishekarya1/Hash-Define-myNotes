@@ -97,6 +97,21 @@ Stream.iterate(2, n -> n+2);	// 2 4 6 8 ...
 Stream.iterate(1, n -> n < 50, n -> n+2);	// 1 3 5 7 ... 49
 ```
 
+## Stream vs Loops
+**We can't loop on Stream the way we do on other Collections and arrays.**
+```java
+Stream<Integer> s = Stream.of(1, 2, 3);
+for(Integer i : s){ }   // does not compile
+```
+
+**Streams perform a lot worse on smaller data, its better to use a simple `for` loop.**
+- functional style of programming
+- syntactically terse and clean code
+- faster on large data
+- parallel processing with parallel stream
+
+As a rule-of-thumb, if your list has less than order of a few thousand elements, its better to use a `for` or a `while` loop performance-wise.
+
 ## Common Terminal Operations
 ```java
 long count()
@@ -117,11 +132,6 @@ Optional<T> reduce()
 Collection collect()
 ```
 
-**We can't loop on Stream the way we do on other Collections and arrays.**
-```java
-Stream<Integer> s = Stream.of(1, 2, 3);
-for(Integer i : s){	}	// does not compile
-```
 ### reduce() and collect()
 **reduce()**: reduce entire stream to a single value.
 ```java
@@ -329,4 +339,15 @@ stats.getAverage();
 ```
 
 ## Advanced Stream Pipeline Concepts
-TBD
+Spliterators 
+
+## Practice Questions and Solutions
+Array to stream conversion, using indices in stream - [link](https://leetcode.com/problems/find-words-containing-character/solutions/4576478/solution-using-java-8-streams-api/)
+
+converting stream to a single `String` - [link](https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent/solutions/4576826/java-8-streams-api-solution/)
+
+dynamic `int` value in stream pipeline based on input `String` - [link](https://leetcode.com/problems/count-items-matching-a-rule/solutions/4577017/java-8-stream-api-solution/)
+
+String Splitting - [link](https://leetcode.com/problems/reverse-words-in-a-string/solutions/4581391/java-8-stream-api-solution/)
+
+Create stream from a `String` using `IntStream c = str.chars()`
