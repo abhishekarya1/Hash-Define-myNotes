@@ -210,3 +210,6 @@ Link: https://www.handakafunda.com/number-system-concepts-for-cat-even-factors-o
 13. [Friendly Pair](https://www.geeksforgeeks.org/check-given-two-number-friendly-pair-not/) - Two numbers whose ratio of sum of divisors and number itself is equal. <br>
 14. [P-Smooth Number or P-friable Number](https://www.geeksforgeeks.org/p-smooth-numbers-p-friable-number/) - An integer is _P–smooth_ number if the _largest Prime factor of that number <= p_. 1 is considered (by OEIS) as P–smooth number for any possible value of P because it does not have any prime factor. <br>
 15. [k-Hyperperfect Number](https://www.geeksforgeeks.org/determine-whether-a-given-number-is-a-hyperperfect-number/) - A number _n_ is called _k-hyperperfect_ if: _n = 1 + k ∑idi_ where all _di_ are the proper divisors of _n_. Taking _k = 1_ will give us _perfect numbers_. <br>
+
+### LC Problems
+- Bulb Switcher [link](https://leetcode.com/problems/bulb-switcher/)
