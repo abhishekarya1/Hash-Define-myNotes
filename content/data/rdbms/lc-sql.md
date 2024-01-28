@@ -53,7 +53,7 @@ WHERE e.salary > m.salary
 -- comma is equivalent to CROSS JOIN if no WHERE clause is specified
 ```
 
-### Join Internals
+### SELECT clause with Joins 
 A transient "join" table is created (projection) which can be accessed in the `SELECT` clause using original table aliases.
 
 ```sql
@@ -63,7 +63,7 @@ GROUP BY b.name
 ```
 In the above example, `COUNT(a.id)` counts rows from the transient table and not the original `A a` table.
 
-### No Venn Diagram for Joins
+### No Venn Diagrams for Joins
 Because there can be more rows than the size of each of the tables in the case we perform an inner join without predicate, joins in SQL are not set operations, like in this case which was supposed to be set intersection and we expected nothing common.
 
 Because of the above reason, its [not accurate to represent joins with Venn Diagrams](https://blog.jooq.org/say-no-to-venn-diagrams-when-explaining-joins/), but they are mostly correct for basic understanding. SQL provides set operations - `UNION`, `INTERSECT`, `EXCEPT` (aka `MINUS` in vendor-specific dialects)
@@ -74,20 +74,28 @@ Equi joins are fairly intuitive but non-equi joins are what helps in [problem so
 Problem solving tips:
 - irl, a single `Employees` table may store lots of data like employee-manager details, `Processes` table can store process start-finish timestamps - do self join to solve
 
-### ON vs WHERE clause with Join
+### ON vs WHERE clause with Joins
+**ON** - applied during the join operation (only rows matching the criteria are picked for joining)
+
+**WHERE** - applied after the join operation (on transient table)
+
 ```sql
 -- typical use case: performs join and applies where condition on transient join table
 SELECT *
-FROM A a1 JOIN A a2 ON a1.id = a2.id
-WHERE a1.id < 3
+FROM A a JOIN B b ON a.id = b.id
+WHERE a.id < 3
 
--- clubbing condition in join predicate (equivalent to above)
+-- clubbing condition in join predicate (equivalent to above only for inner joins)
 SELECT *
-FROM A a1 JOIN A a2 ON a1.id = a2.id AND a1.id < 3
+FROM A a JOIN A b ON a.id = b.id AND a.id < 3
 ```
 [db-fiddle](https://www.db-fiddle.com/f/kwBLvL8WUSbxvjSprJg5ce/300)
 
 While they may appear equivalent and that's the case with Inner Joins, but not with Outer Joins! [db-fiddle](https://www.db-fiddle.com/f/kwBLvL8WUSbxvjSprJg5ce/303)
+
+Inner Join - The filtering can happen anywhere and the end result is same.
+
+Outer Join - The left table is added as it is (LEFT JOIN) and we consider only rows matching the predicate for join from `b`. This creates a total of atleast _rowCount(A)_ rows. But if we apply condition in WHERE clause, we will end up with only some rows that match the condition.
 
 [Reference](https://www.atlassian.com/data/sql/difference-between-where-and-on-in-sql)
 
