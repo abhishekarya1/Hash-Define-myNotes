@@ -1,5 +1,5 @@
 +++
-title = "MySQL"
+title = "SQL Basics"
 date =  2020-11-29T18:25:50+05:30
 weight = 1
 pre = "<i class='devicon-mysql-plain'></i> "
@@ -471,6 +471,8 @@ graph TB;
     C --> F(RIGHT) 
     C --> G(FULL)
 {{< /mermaid >}}
+
+JOINs are cross-product with filters applied on it.
 
 **EQUI JOIN**: Any of the above joins that performs join based on equality `=`  of two columns, each in either table. Ex - `A.x = B.y`
 

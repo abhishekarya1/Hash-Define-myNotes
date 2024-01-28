@@ -1,7 +1,7 @@
 +++
 title = "Concepts"
 date =  2022-06-24T10:42:00+05:30
-weight = 2
+weight = 3
 pre = "<i class='fas fa-pen' style='color: white'></i> "
 +++
 

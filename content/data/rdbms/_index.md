@@ -18,6 +18,6 @@ https://www.mysqltutorial.org
 ### PostgreSQL
 https://www.postgresqltutorial.com
 
-Amigoscode - Learn PostgreSQL Tutorial - [YouTube](https://youtu.be/qw--VYLpxG4) 
-
 PSQL Cheatsheet - https://postgrescheatsheet.com
+
+Leetcode (SQL 50) - https://leetcode.com/studyplan/top-sql-50

@@ -1,7 +1,7 @@
 +++
 title = "PostgreSQL"
 date =  2022-06-21T08:40:00+05:30
-weight = 3
+weight = 4
 pre = "<i class='devicon-postgresql-plain colored'></i> "
 +++
 
