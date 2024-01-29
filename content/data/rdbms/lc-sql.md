@@ -73,8 +73,7 @@ Equi joins are fairly intuitive but non-equi joins are what helps in [problem so
 
 Problem solving tips:
 - irl, a single `Employees` table may store lots of data like employee-manager details, `Processes` table can store process start-finish timestamps - do self join to solve
-- many problems can be solved with subqueries or CTE too, but solving it with joins can be better for execution time and space constraints
-- 
+- many problems can be solved with subqueries or CTE too, but solving it with joins can be better for execution time and space constraints 
 
 ### ON vs WHERE clause with Joins
 **ON** - applied during the join operation (only rows matching the criteria are picked for joining)
@@ -95,9 +94,15 @@ FROM A a JOIN A b ON a.id = b.id AND a.id < 3
 
 While they may appear equivalent and that's the case with Inner Joins, but not with Outer Joins! [db-fiddle](https://www.db-fiddle.com/f/kwBLvL8WUSbxvjSprJg5ce/303)
 
+<<<<<<< HEAD
 **Effect on Inner Join** - The filtering can happen anywhere and the end result is same.
 
 **Effect on Outer Join** - The left table is added as it is (LEFT JOIN) and we consider only rows matching the predicate for join from table `B b`. This creates a total of atleast _rowCount(A)_ rows. But if we apply condition in WHERE clause, we will end up with a handful of rows that match the condition.
+=======
+Inner Join - The filtering can happen anywhere and the end result is same.
+
+Outer Join - The left table is added as it is (LEFT JOIN) and we consider only rows matching the predicate for join from `b`. This creates a total of atleast _rowCount(A)_ rows. But if we apply condition in WHERE clause, we will end up with only some rows that match the condition.
+>>>>>>> aac5eacbf32561c024b2fa0a10ce34e6422be253
 
 [Reference](https://www.atlassian.com/data/sql/difference-between-where-and-on-in-sql)
 
