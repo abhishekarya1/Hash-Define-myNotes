@@ -5,6 +5,31 @@ weight = 2
 pre = "🪑 "
 +++
 
+### MySQL vs PostgreSQL for Problem Solving
+
+MySQL is better to write queries without lookin up stuff.
+
+Reasons:
+```sql
+-- division in postgres is always integral, in mysql its float by default; it messes up with averages a lot
+SELECT 2/5       -- Postgres = 0, MySQL = 0.4
+-- need to cast any one operand with postgres
+SELECT 2/5::numeric -- Postgres = 0.4
+
+
+-- IF(expr, t_val, f_val) is not available in Postgres, need to use case expression
+IF(transaction_state = 'approved', 1, 0)  -- MySQL
+CASE transaction_state WHEN 'approved' THEN 1 ELSE 0 END  -- Postgres
+
+
+-- MySQL allows columns that are not part of GROUP BY clause to be part of SELECT clause
+SELECT c1, c2, c3, c4 FROM table GROUP BY c2   -- invalid in most SQL flavors, valid in MySQL  
+```
+
+[Reference](https://dba.stackexchange.com/questions/294989/is-mysql-breaking-the-standard-by-allowing-selecting-columns-that-are-not-part-o)
+
+This comparison is strictly from the POV of the ease of problem solving (writing queries) and doesn't apply to real-world use cases in any way.
+
 ## Handling NULL
 Always use `IS` or `IS NOT` with `NULL`, don't use `= NULL` since its incorrect SQL and will always be unequal (_false_) even with `NULL`.
 
@@ -27,6 +52,9 @@ LENGTH(str) > 0
 -- date types can be subtracted
 -- if date2 is yesterday and date1 is today then
 date1 - date2 = 1
+
+-- Postgres type cast
+data_val::numeric
 ```
 
 ## Joining
@@ -94,22 +122,26 @@ FROM A a JOIN A b ON a.id = b.id AND a.id < 3
 
 While they may appear equivalent and that's the case with Inner Joins, but not with Outer Joins! [db-fiddle](https://www.db-fiddle.com/f/kwBLvL8WUSbxvjSprJg5ce/303)
 
-<<<<<<< HEAD
 **Effect on Inner Join** - The filtering can happen anywhere and the end result is same.
 
 **Effect on Outer Join** - The left table is added as it is (LEFT JOIN) and we consider only rows matching the predicate for join from table `B b`. This creates a total of atleast _rowCount(A)_ rows. But if we apply condition in WHERE clause, we will end up with a handful of rows that match the condition.
-=======
-Inner Join - The filtering can happen anywhere and the end result is same.
-
-Outer Join - The left table is added as it is (LEFT JOIN) and we consider only rows matching the predicate for join from `b`. This creates a total of atleast _rowCount(A)_ rows. But if we apply condition in WHERE clause, we will end up with only some rows that match the condition.
->>>>>>> aac5eacbf32561c024b2fa0a10ce34e6422be253
 
 [Reference](https://www.atlassian.com/data/sql/difference-between-where-and-on-in-sql)
 
-## Advance Querying and Aggregation
+## Grouping and Aggregation
+SQL can calculate quantities like `COUNT(id)`, `SUM(qty)`, `AVG(price)` from the whole table for us. If we specify groups using `GROUP BY`, the aggregate method is applied on each group separately! [demo problem](https://leetcode.com/problems/project-employees-i/)
 
-`GROUP BY` groups rows and we can display aggregate quantities from the table in `SELECT` clause like `COUNT(id)`, `SUM(qty)`, etc. Apply conditions on group set using `HAVING` clause. [link](https://leetcode.com/problems/customer-who-visited-but-did-not-make-any-transactions/)
+In the demo problem above, the `e.experience_years` is calculated for each group (we grouped on `p.project_id`) of the transient join table.
 
+`GROUP BY` groups rows display one of each in the output, we can display aggregate quantities for each group in the `SELECT` clause (see demo above). Apply conditions on which groups are displayed with `HAVING` clause. [link](https://leetcode.com/problems/managers-with-at-least-5-direct-reports/)
+
+[previous notes](https://hashdefine.netlify.app/data/rdbms/basics/#group-by)
+
+Learnings from [LC - Queries Quality and Percentage](https://leetcode.com/problems/queries-quality-and-percentage)
+- we can filter rows before grouping using `WHERE` clause
+- to calulate avg percentage here we'd need `count of rating < 3 / count(rating)`, calculating numerator here is tricky since we want to apply condition within a group! Using `AVG(IF(rating < 3, 1, 0)) * 100` is smart way to achieve this. Another verbose way is `SUM(IF(rating < 3, 1, 0)) / COUNT(rating) * 100`.
+
+### Advance Querying
 Use `REGEXP` in MySQL, or `~` in Postgres:
 ```sql
 WHERE name REGEXP '^[a-zA-Z0-9]+$'  -- MySQL
