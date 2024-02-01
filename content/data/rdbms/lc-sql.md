@@ -140,6 +140,10 @@ In the demo problem above, the `e.experience_years` is calculated for each group
 Learnings from [LC - Queries Quality and Percentage](https://leetcode.com/problems/queries-quality-and-percentage)
 - we can filter rows before grouping using `WHERE` clause
 - to calulate avg percentage here we'd need `count of rating < 3 / count(rating)`, calculating numerator here is tricky since we want to apply condition within a group! Using `AVG(IF(rating < 3, 1, 0)) * 100` is smart way to achieve this. Another verbose way is `SUM(IF(rating < 3, 1, 0)) / COUNT(rating) * 100`.
+- `COUNT(DISTINCT subject_id)` [problem](https://leetcode.com/problems/number-of-unique-subjects-taught-by-each-teacher/)
+- JOIN messes up with the aggregate function calculations since it introduces extra rows that forms groups with exceeded counts, and therefore sum, avg, etc.
+- Filtering using subquery - subquery lists rows with minimum `order_date` among a `customer_id` group, `IN` performs filtering [problem](https://leetcode.com/problems/immediate-food-delivery-ii/)
+
 
 ### Advance Querying
 Use `REGEXP` in MySQL, or `~` in Postgres:
