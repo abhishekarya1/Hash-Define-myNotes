@@ -140,10 +140,22 @@ In the demo problem above, the `e.experience_years` is calculated for each group
 Learnings from [LC - Queries Quality and Percentage](https://leetcode.com/problems/queries-quality-and-percentage)
 - we can filter rows before grouping using `WHERE` clause
 - to calulate avg percentage here we'd need `count of rating < 3 / count(rating)`, calculating numerator here is tricky since we want to apply condition within a group! Using `AVG(IF(rating < 3, 1, 0)) * 100` is smart way to achieve this. Another verbose way is `SUM(IF(rating < 3, 1, 0)) / COUNT(rating) * 100`.
-- `COUNT(DISTINCT subject_id)` [problem](https://leetcode.com/problems/number-of-unique-subjects-taught-by-each-teacher/)
-- JOIN messes up with the aggregate function calculations since it introduces extra rows that forms groups with exceeded counts, and therefore sum, avg, etc.
-- Filtering using subquery - subquery lists rows with minimum `order_date` among a `customer_id` group, `IN` performs filtering [problem](https://leetcode.com/problems/immediate-food-delivery-ii/)
 
+`COUNT(DISTINCT subject_id)` [problem](https://leetcode.com/problems/number-of-unique-subjects-taught-by-each-teacher/)
+
+JOIN messes up with the aggregate function calculations since it introduces extra rows that forms groups with exceeded counts, and therefore sum, avg, etc.
+
+Filtering using subquery - subquery lists rows with minimum `order_date` among a `customer_id` group, `IN`/`FROM` performs filtering
+
+Problems on filtering rows with only the minimum date from a group using Subquery:
+- [problem](https://leetcode.com/problems/immediate-food-delivery-ii/)
+- [problem](https://leetcode.com/problems/game-play-analysis-iv/)
+- [problem](https://leetcode.com/problems/product-sales-analysis-iii/)
+
+
+Find top row otherwise _null_ if zero rows returned: wrap inside `SELECT (subquery) AS num` and it'll display _null_ if no rows are present as output of subquery [problem](https://leetcode.com/problems/biggest-single-number/)
+
+The following looks like a JOIN problem but is a basic count one, since JOIN ruins count in aggregates [problem](https://leetcode.com/problems/customers-who-bought-all-products/)
 
 ### Advance Querying
 Use `REGEXP` in MySQL, or `~` in Postgres:
