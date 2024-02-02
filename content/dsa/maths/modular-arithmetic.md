@@ -2,7 +2,7 @@
 title = "Modular Arithmetic"
 date =  2020-07-12T13:09:11+05:30
 weight = 7
-pre = "<b>6.</b> "
+pre = "<b>7.</b> "
 +++
 
 ### Remainders and % Operator

@@ -8,9 +8,6 @@ pre = "👨‍💻 "
 
 # Data Structures and Algorithms
 
-Addictive and fun.
-
-
 ### References
 [Competitive Programming 3 by Steven Halim](#)
 [Competitive Programmer’s Handbook by Antti Laaksonen](https://cses.fi/book/book.pdf)
