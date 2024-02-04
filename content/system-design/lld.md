@@ -4,9 +4,9 @@ date = 2022-11-28T21:35:00+05:30
 weight = 1
 +++
 
-## Programming Paradigms & OOP
+## Programming Languages
 
-### Programming Paradigms
+### Paradigms
 {{<mermaid>}}
 graph LR;
     A[Programming Languages]
@@ -19,6 +19,86 @@ graph LR;
 {{< /mermaid >}}
 
 **Structural Languages**: structured into blocks that interact with each other. A method, a class, everything is a code block.
+
+### Typing
+Programming Languages can be put into the following categories:
+
+Based on variable's type:
+- **Dynamically Typed** - (aka _Duck Typing_) variables have no fixed type, can assign/reassign at runtime with any value of any type
+- **Statically Typed** - variables have a type either inferred (by type inference - `auto` in C++ or `var` in Java, Go, TypeScript) or an explicitly defined type. Type must be known at compile-time.
+
+```py
+# python - dynamic typed
+a = 5
+print(type(a))	# int
+a = "five"
+print(type(a))	# str
+```
+
+```js
+// js - dynamic typed
+let a = 5;
+console.log(typeof a);	// number
+a = "five";
+console.log(typeof a);	// string
+```
+
+```java
+// java, c, cpp - static typed
+int a = 5;
+a = "five";		// invalid; compiler-error
+```
+
+```go
+// go - static typed, inference can make it look like dynamic typed but its not
+var a int = 5
+var b = 5
+c := "five"
+```
+
+Based on variable's value casting at runtime:
+- **Strongly Typed** - type casts don't happen implicitly at runtime, any conversion must be explicit
+- **Weakly Typed** - (aka _Loosely Typed_) type casts at runtime can happen implicitly, no restrictions (crazy behavior!)
+
+```py
+# python - strong typed
+a = 5 + "five"		# TypeError
+```
+
+```js
+// js - weak typed
+let a = 5 + "five";		// valid
+```
+
+The [lines are blurry](https://en.wikipedia.org/wiki/Strong_and_weak_typing#:~:text=However%2C%20there%20is%20no%20precise%20technical%20definition%20of%20what%20the%20terms%20mean%20and%20different%20authors%20disagree%20about%20the%20implied%20meaning%20of%20the%20terms%20and%20the%20relative%20rankings%20of%20the%20%22strength%22%20of%20the%20type%20systems%20of%20mainstream%20programming%20languages.) with Strong and Weak typing. Examples: 
+- while all of the following are strongly typed, in Java `int` to `boolean` cast isn't possible, either explicitly or implicitly. But C, C++, Python allows cast from other types to `bool`
+- C and C++ also allow other casts which make them weaker than Java and Python.
+
+Also Java has overloaded `+` operator by default that allows adding other types to a `String`!
+```java
+// java - strong typed, but one exception
+String a = 5 + "five";		// valid
+```
+
+**Summary**:
+{{% notice note %}}
+Dynamic - variables don't have fixed type, we can put literal of any type in it (no type checking at compile-time, often there is no compile-time xD)
+
+Weak - variable values don't have fixed types (can be casted implicitly at runtime)
+{{% /notice %}}
+
+```txt
+C/C++ 		- static, strong (weaker than Java though)
+Java 		- static, strong
+Go  		- static, strong
+TypeScript  - static, strong
+
+Python 		- dynamic, strong
+
+JavaScript  - dynamic, weak
+PHP		    - dynamic, weak
+Shell 		- dynamic, weak
+```
 
 ### OOP
 Everything is an object and every action must be performed on an object by an object's methods.
