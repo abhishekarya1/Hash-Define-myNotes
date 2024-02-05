@@ -157,10 +157,15 @@ Find top row otherwise _null_ if zero rows returned: wrap inside `SELECT (subque
 
 The following looks like a JOIN problem but is a basic count one, since JOIN ruins count in aggregates [problem](https://leetcode.com/problems/customers-who-bought-all-products/)
 
+Perhaps the most popular question in SQL: Finding second highest quantity, use `SELECT DISTINCT ... OFFSET 1 LIMIT 1` or subquery with `MAX(salary)` [problem](https://leetcode.com/problems/second-highest-salary/)
+
 ### Advance Querying
 Use `REGEXP` in MySQL, or `~` in Postgres:
 ```sql
 WHERE name REGEXP '^[a-zA-Z0-9]+$'  -- MySQL
 WHERE name ~ '^[a-zA-Z0-9]+$'       -- PostgreSQL
 WHERE name LIKE 'abhi%'             -- Both, but limited pattern matching (not Regex)
+
+SELECT GROUP_CONCAT(products)       -- concat and display all col values of a group separated by a comma (,)
+SELECT STRING_AGG(products, ',')    -- equivalent to the above in PostgreSQL
 ```
