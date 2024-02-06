@@ -36,11 +36,11 @@ Assume `0`-based indexing, we can shift `n` too instead of `1` in the following 
 
 ### Algorithms
 - Brian Kernighan's Algorithm - to find number of set bits in binary representation of a number [[link](https://www.geeksforgeeks.org/count-set-bits-in-an-integer/)]
-- Russian Peasant Multiplication (Multiply two numbers using bitwise operators) [[link](https://www.geeksforgeeks.org/russian-peasant-multiply-two-numbers-using-bitwise-operators/)]
+- Russian Peasant Multiplication and Egyptian Multiplication (Multiply two numbers using bitwise operators) [[link](https://www.geeksforgeeks.org/russian-peasant-multiply-two-numbers-using-bitwise-operators/)]
 - Binary Exponentiation [[link](https://cp-algorithms.com/algebra/binary-exp.html#implementation)]
 - Binary GCD [[link](https://cp-algorithms.com/algebra/euclid-algorithm.html#binary-gcd)]
 
-### Related Questions
+### Related Questions & Tricks
 - Power Set - all subsets [[link](https://leetcode.com/problems/subsets/)]
 - Find XOR of numbers in range L to R [[link](https://www.geeksforgeeks.org/find-xor-of-numbers-from-the-range-l-r/)]
 - Find Binary Representation of a decimal number [[link](https://www.geeksforgeeks.org/binary-representation-of-a-given-number/)]
@@ -48,6 +48,9 @@ Assume `0`-based indexing, we can shift `n` too instead of `1` in the following 
 **Forming two buckets trick**:
 - Find duplicate and missing elements in an array [[link](https://takeuforward.org/data-structure/find-the-repeating-and-missing-numbers/)]
 - Find two elements occuring odd numnber of times [[link](https://takeuforward.org/data-structure/two-odd-occurring/)]
+
+**Counting Bits trick**: usually we can count set bits in `log n` time using Brian-Kernighan's Algorithm, but if we need to count set bits for each number in range `[0 - n]` we can do so in `O(n)` time using DP as `dp[i] = dp[i/2] + i%2` where `dp[0] = 0` is the base case [problem](https://leetcode.com/problems/counting-bits/) [video](https://www.youtube.com/watch?v=awxaRgUB4Kw)
+- this is based on the simple observation that for a number `N` shifting it rightwards by 1 (dividing by 2; halving) will either have equal set bits (if `N` is even) or 1 extra set bits (if `N` is odd) since shifting causes LSB to get lost
 
 ### TC of Bitwise Algorithms
 Everything we do on a binary representation of a number is `log n` time, since a number's binary representation can contain atmost `n` bits.
