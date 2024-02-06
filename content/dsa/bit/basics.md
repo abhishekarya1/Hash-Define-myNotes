@@ -38,11 +38,11 @@ RIGHT SHIFT (`<<`) - Right shift performed _k_ times divides the number by _2<su
 
 
 ## Binary Negative - 2s Complement Form
-We needed a system to represent negative numbers in binary. 1s complement won't work because it will yield two representations for `0`, `0000` (`+0`) and its 1s complement `1111` (`-0`????).
+We needed a system to represent negative numbers in binary. 1s complement won't work because it will yield two representations for `0`, `0000` (`+0`) and its 1s complement `1111` (`-0` wtf lol).
 
-Finally we settled on 2s complement to represent negative numbers, this way zero has a single representation and addition also checks out `n + (-n) = 0`.
+Finally we settled on 2s complement to represent negative numbers, this way zero has a single representation.
 
-With `n` bits, we can represent numbers in the range [_−2<sup>n-1</sup>_, _2<sup>n-1</sup> − 1_].
+With `n` bits, we can represent numbers in the range [_−2<sup>n/2</sup>_, _2<sup>n/2</sup> − 1_] which is often written as [_−2<sup>n-1</sup>_, _2<sup>n-1</sup> − 1_].
 
 After _2<sup>n-1</sup> - 1_ positives, numbers loop around to lowest negative value as shown in the below diagram:
 
@@ -60,7 +60,8 @@ int main() {
 ```
 
 {{% notice notice %}}
-It is not always possible to see a negative number written in binary form and tell what number it is by magnitude calc using powers of 2. It works for `-4 = 1100, +4 = 0100` but not for `-5 = 1011, +5 = 0101` and many others.
+It is not always possible to see a negative number written in binary form and tell what number it is by magnitude calc using powers of 2. It works for `-4 = 1100, +4 = 0100` but not for `-5 = 1011, +5 = 0101` and many others. Hence, ssomeone needs to explicitly tell us that it is a 2s complement binary numbers.
+
 {{% /notice %}}
 
 ```txt
@@ -71,3 +72,17 @@ since, 2s complement = 1s complement + 1
 => ~n = -(n+1)
 ```
 
+### Sign Bit
+Often the MSB is said to be "sign bit" in programming languages. It is not explicitly decided (changed) but is the feature of using 2s complement signed binary number system.
+
+```txt
+00001 = +1
+11111 = -1
+
+We can judge the sign of a binary number by seeing only its MSB (that's why its caled a Sign Bit)
+```
+
+## Addition (+)
+Addition is not really native to binary numbers. We often end up with overflown carry bit, the reason why adder circuits like half & full have two outputs, a `carry` and a `sum`.
+
+In programming languages, apart from `0`, addition of numbers with their negatives in 2c complement system has overflow which is discarded to get result as `0`.
