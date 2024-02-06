@@ -48,3 +48,6 @@ Assume `0`-based indexing, we can shift `n` too instead of `1` in the following 
 **Forming two buckets trick**:
 - Find duplicate and missing elements in an array [[link](https://takeuforward.org/data-structure/find-the-repeating-and-missing-numbers/)]
 - Find two elements occuring odd numnber of times [[link](https://takeuforward.org/data-structure/two-odd-occurring/)]
+
+### TC of Bitwise Algorithms
+Everything we do on a binary representation of a number is `log n` time, since a number's binary representation can contain atmost `n` bits.
