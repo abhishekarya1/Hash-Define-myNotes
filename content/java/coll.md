@@ -11,7 +11,7 @@ graph TB;
     A[java.util.Collection]
     A --> B(List)
     A --> C(Queue)
-    C --> J{PriorityQueue}
+    C --> K{PriorityQueue}
     C --> G(Deque)
     B --> E{ArrayList}
     B --> F{LinkedList}
