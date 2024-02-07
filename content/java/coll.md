@@ -11,6 +11,7 @@ graph TB;
     A[java.util.Collection]
     A --> B(List)
     A --> C(Queue)
+    C --> J{PriorityQueue}
     C --> G(Deque)
     B --> E{ArrayList}
     B --> F{LinkedList}
@@ -173,7 +174,7 @@ Use `ArrayDeque` if you don't need List methods.
 
 Single ended FIFO queue - `Queue<>` (`<- remove <- ... <- add <-`) (`front --- back`)
 
-We often use queues as stacks so we use `Deque<>` which has `push()`/`pop()` and `First`/`Last` methods available extra.
+We often use queues as stacks (recommended over the legacy `Stack` collection class), use `Deque<>` which has `push()`/`pop()` and `First`/`Last` methods available extra which push and pop at the same side (front).
 
 ```java
 // a Deque<Integer> q -> 1 2 3
