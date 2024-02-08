@@ -510,22 +510,27 @@ void foobar(int x, CountDownLatch countDownLatch){
 ```
 
 ## Concurrent Collections
-Threads must have a consistent view of a collection at all times.
+All threads must have a consistent view of a collection at all times. Therefore any kind of collection (non-sync/sync/concurrent) can be read from across threads unless there is modification to it in real-time.
 
-Even if used in a single thread, we can have `ConcurrentModificationException` at runtime when trying to access a non-concurrent collection. So when dealing with threads, always use concurrent collections.
+Even if used in a single thread, we can have `ConcurrentModificationException` at runtime when we try to modify a non-concurrent collection from within that thread itself while iterating on it (Fail-Fast iterators). So when dealing with threads, always use concurrent collections.
 
 ```java
+// non-concurrent collection
 Map<String, String> mp = new HashMap<>();
 
+// use a concurrent collection - multiple threads at a time can modify
 Map<String, String> cmp = new ConcurrentHashMap<>();
 
+// or make an existing one synchronized - single thread at a time can modify
 Collections.synchronizedMap(mp);
 
-// or make it immutable
+// or make an existing one immutable - none can modify
 Collections.unmodifiableMap(mp);
 ```
 
 If we have to create a collection, we use concurrent version of collections available. If we have a non-conurrent collection then we can use synchronized methods from `Collections` class to make them compatible to threads using synchronized methods that exists for most collections.
+
+There is a diffrence between synchronized and concurrent collections though! An existing collection made synchronized can only be accessed by only a single thread at a time (acquires lock on the entire object). A concurrent collection is superior, it will allow collection's access by multiple-threads at the same time by dividing and assigning segments to each thread trying to access it (acquires locks on separate segments of object). 
 
 Immutable collections are immune to memory inconsistency errors trivially.
 
