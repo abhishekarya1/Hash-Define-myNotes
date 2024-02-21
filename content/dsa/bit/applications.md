@@ -42,8 +42,11 @@ Assume `0`-based indexing, we can shift `n` too instead of `1` in the following 
 
 ### Related Questions & Tricks
 - Power Set - all subsets [[link](https://leetcode.com/problems/subsets/)]
-- Find XOR of numbers in range L to R [[link](https://www.geeksforgeeks.org/find-xor-of-numbers-from-the-range-l-r/)]
 - Find Binary Representation of a decimal number [[link](https://www.geeksforgeeks.org/binary-representation-of-a-given-number/)]
+
+**Operations on Range**:
+- Find XOR of numbers in range L to R [[link](https://www.geeksforgeeks.org/find-xor-of-numbers-from-the-range-l-r/)]
+- Find AND of numbers in range L to R [[link](https://leetcode.com/problems/bitwise-and-of-numbers-range/)]
 
 **Forming two buckets trick**:
 - Find duplicate and missing elements in an array [[link](https://takeuforward.org/data-structure/find-the-repeating-and-missing-numbers/)]
