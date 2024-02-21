@@ -48,8 +48,8 @@ Assume `0`-based indexing, we can shift `n` too instead of `1` in the following 
 - Find XOR of numbers in range L to R [[link](https://www.geeksforgeeks.org/find-xor-of-numbers-from-the-range-l-r/)] - use XOR's modulo property for ranges `ans = [L - R] = [1 - R] ^ [1 - (L-1)]`
 - Find AND of numbers in range L to R [[link](https://leetcode.com/problems/bitwise-and-of-numbers-range/submissions/)]
 	- Brute Force: linear time, TLE on LC
-	- Shifting: needs only L and R
-	- Keep unsetting rightmost set bit: builds answer by skipping lots of elements in the range
+	- Shifting Approach: needs only L and R as both of their common part is also common to all numbers in the range. Common part will yield the same as AND's result (common part), rest will become `0` (shift out and shift back replacing it with 0s)
+	- Keep Unsetting Rightmost Set Bit Approach: build answer, do `n & (n-1)` and this unsets the rightmost bit and AND operation on this position with any other number will yield `0` at this position in the final answer, so we keep doing this to form ans till `ans > left` (in the last iteration `left & (left-1)` will happen)
 
 **Forming two buckets trick**:
 - Find duplicate and missing elements in an array [[link](https://takeuforward.org/data-structure/find-the-repeating-and-missing-numbers/)]
