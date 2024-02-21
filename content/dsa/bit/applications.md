@@ -46,7 +46,10 @@ Assume `0`-based indexing, we can shift `n` too instead of `1` in the following 
 
 **Operations on Range**:
 - Find XOR of numbers in range L to R [[link](https://www.geeksforgeeks.org/find-xor-of-numbers-from-the-range-l-r/)] - use XOR's modulo property for ranges `ans = [L - R] = [1 - R] ^ [1 - (L-1)]`
-- Find AND of numbers in range L to R [[link](https://leetcode.com/problems/bitwise-and-of-numbers-range/)] - `n & n-1` will set the rightmost set bit to `0` and all AND operations with lesser numbers in range will always remain `0` at that bit position, do this till ans is greater than left
+- Find AND of numbers in range L to R [[link](https://leetcode.com/problems/bitwise-and-of-numbers-range/submissions/)]
+	- Brute Force: linear time, TLE on LC
+	- Shifting: needs only L and R
+	- Keep unsetting rightmost set bit: builds answer by skipping lots of elements in the range
 
 **Forming two buckets trick**:
 - Find duplicate and missing elements in an array [[link](https://takeuforward.org/data-structure/find-the-repeating-and-missing-numbers/)]
