@@ -84,6 +84,22 @@ forEach()
 equals()
 ```
 
+### Array to List
+```java
+Arrays.asList(nums);
+
+// if nums[] is of container-class type "Integer", then above will work
+// if nums[] is of primitive type "int", then above will NOT work (no autoboxing for arrays. only single element)
+```
+
+```java
+// primitive int[] has to be converted using a loop
+List<Integer> listNums = new ArrayList<>();
+for(int e : nums){      
+    listNums.add(e);    // autoboxing
+}
+```
+
 ### List to Array
 ```java
 Object[] arr = list.toArray();
