@@ -56,7 +56,10 @@ The `List<>` created with constructor are mutable ofcourse because of this dynam
 ### Creating Lists with Factory Methods
 ```txt
 Arrays.asList(varargs)	 // can only update existing elements, not add or remove additional
+                         // changes to the returned list "write through" to the original array
+
 List.of(varargs)		 // purely immutable; error on any modification
+
 List.copyOf(collection)	 // purely immutable; error on any modification
 ```
 
@@ -86,10 +89,16 @@ equals()
 
 ### Array to List
 ```java
-List<Integer> listNums = Arrays.asList(nums);
+Arrays.asList(nums);
 
-// if nums[] is of wrapper-class type "Integer", then above will work
-// if nums[] is of primitive type "int", then above will NOT work (no autoboxing for arrays, only single element)
+// if nums array is of wrapper-class type Integer[], then above will work
+// if nums array is of primitive type int[], then above will NOT work (no autoboxing for arrays, only single element)
+
+// acts as a bridge = changes to the returned list "write through" to the original array!
+Integer[] list = {1, 2, 3};
+List<Integer> listWrapper = Arrays.asList(list);
+listWrapper.set(1, 99);
+System.out.println(list[1]);    // 99
 ```
 
 ```java
