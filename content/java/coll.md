@@ -391,6 +391,11 @@ Collections.reverse(collection);   // reverses whatever current order is there
 listObj.sort((d1, d2) -> d1.marks - d2.marks);
 // alternatively
 listObj.sort(Comparator.comparing(Student::getMarks));
+
+// use null as parameter for natural ordering
+listObj.sort(null);
+// alternatively; explicitly specify comparator
+listObj.sort(Comparator.naturalOrder());
 ```
 
 ## Iterator
