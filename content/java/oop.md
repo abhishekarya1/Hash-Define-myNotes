@@ -45,7 +45,9 @@ public class Demo {
 ```
 
 ## Inheritance
-All eligible fields and methods are inherited by the Children from Parents.
+All eligible fields and methods are inherited by the Children from Parents i.e. they can be accessed from the subclass.
+
+Note that inheritance doesn't create a "different copy" of members and methods of superclass in subclass, rather it makes eligible members and methods accessible in the subclass.
 
 ```java
 class X { }
@@ -54,25 +56,28 @@ class Y extends X { }
 ```
 
 ```java
-// field inheritance
+// member inheritance
 
 class X { 
 	int a = 5;
 }
 
-class Y extends X { }
+class Y extends X {
+    void print(){
+        System.out.println(this.a + "," + super.a);
+    }
+}
 
 
 // in Main class
-X x = new X();
 Y y = new Y();
-y.a = 6;						// variable "a" is present in Y; copy created when it was inherited
-System.out.println(x.a);		// prints 5
-System.out.println(y.a);		// prints 6
+y.a = 6;						// variable "a" is accessible in Y; its inherited
+y.print();
+// Output: "6, 6"
 ```
 
 ```java
-// method inheritance - same as field inheritance
+// method inheritance - same as member inheritance
 
 class X {
     String foo() {
@@ -80,7 +85,7 @@ class X {
     }
 }
 
-class Y extends X {		// inheritance
+class Y extends X {
     void bar() {
         System.out.println(foo()); 	// "Lorem Ipsum"; but its calling Y's foo() method since it was inherited!
     }
@@ -90,11 +95,12 @@ class Y extends X {		// inheritance
 **NOTE**: `static` methods belong to class, but they are inherited just like any other method. Reason - they are part of the "blueprint", this way the child also gets its very own static method through inheritance.
 
 ### Accessing Private Members and Methods with Inheritance (Getters/Setters)
-`private` methods of a superclass are not inherited by subclass but they can be accessed using inherited `public` methods in the subclass.
+`private` methods of a superclass are not inherited by subclass (unaccessible) but they can be accessed using inherited eligible methods in the subclass.
 
 ```java
 // only method caller() is inherited by the Child class 
 // but it can access private members and methods of Parent class too via public method
+
 public class Parent {
     public void caller() {
         printHello();
@@ -119,7 +125,7 @@ public class Main {
 ```
 
 ```java
-// this is how Getters and Setters work (set values to private members)
+// this is how Getters and Setters work (access private members)
 
 private String name;
 
