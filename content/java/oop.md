@@ -89,6 +89,49 @@ class Y extends X {		// inheritance
 
 **NOTE**: `static` methods belong to class, but they are inherited just like any other method. Reason - they are part of the "blueprint", this way the child also gets its very own static method through inheritance.
 
+### Accessing Private Members and Methods with Inheritance (Getters/Setters)
+`private` methods of a superclass are not inherited by subclass but they can be accessed using inherited `public` methods in the subclass.
+
+```java
+// only method caller() is inherited by the Child class 
+// but it can access private members and methods of Parent class too via public method
+public class Parent {
+    public void caller() {
+        printHello();
+    }
+
+    private void printHello() {
+        System.out.println("Parent");
+    }
+}
+
+public class Child extends Parent {	}
+
+public class Main {
+    public static void main(String[] args) {
+        Child c = new Child();
+        // calling inherited public method of Child
+        c.caller();				
+    }
+}
+
+// Output: "Parent"
+```
+
+```java
+// this is how Getters and Setters work (set values to private members)
+
+private String name;
+
+public void setName(String name){
+    this.name = name;
+}
+
+public String getName(){
+	return name;
+}
+```
+
 ### Access Modifiers on Class
 - only the `public` and package (_default_) access modifiers are allowed on a top-level class. A class with no access modifier (package) access can only be accessed inside the same package.
 
