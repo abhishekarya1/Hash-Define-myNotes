@@ -4,7 +4,7 @@ date = 2022-06-10T02:05:00+05:30
 weight = 6
 +++
 
-### Java Bean
+## Java Bean
 It is a standard that has a formal [specification](https://download.oracle.com/otndocs/jcp/7224-javabeans-1.01-fr-spec-oth-JSpec/) (114 pages btw!) too.
 
 It is nothing but a regular class with:
@@ -12,7 +12,7 @@ It is nothing but a regular class with:
 2. all fields are `private`, use getters & setters
 3. implements `java.io.Serializable` interface
 
-### IoC and DI
+## IoC and DI
 
 Inversion of Control (IoC) is a **principle** in software engineering which transfers the control of objects or portions of a program to a container or framework.
 
@@ -24,29 +24,55 @@ Dependency injection (DI) is a **pattern we can use to implement** IoC, where th
 public class Store {
     private Item item;		// Store has an item; dependency
 
-    public Store(Item item) {
+    public Store(Item item) {   // set item using constructor
+        this.item = item;
+    }
+
+    public setItem(Item item){  // or set item using setter
         this.item = item;
     }
 }
 ```
 
-_**@Autowired**_ is most commonly used dependency injection, it is a form of "field-based dependency injection", it used Reflection internally and is more costlier than "constructor-based DI" and "setter-based DI".
+_**@Autowired**_ is the annotation that facilitates DI in Spring.
 
 ```java
-// constructor-based injection: create a store with item included
-return new Store(item);
+// constructor-based injection: Spring finds Item bean and creates the Store bean using it (by calling this constructor)
+private Item item;
 
-// setter-based injection: set item to a store
-store.setIem(item);
-
-// field-based injection: inject an item field in store using Reflection (set field - new Item())
 @Autowired
-Item item;
+public Store(Item item) {
+    this.item = item;
+}
+
+
+// setter-based injection: Spring finds Item bean and creates the Store bean using it (by calling this setter)
+private Item item;
+
+@Autowired
+public setItem(Item item) {
+    this.item = item;
+}
+
+// field-based injection: inject an item field in Store bean using Reflection API (setField - new Item())
+@Autowired
+private Item item;
 ```
 
-_References_: https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring
+{{% notice tip %}}
+Since Spring 4.3, classes with a single constructor can omit the `@Autowired` annotation. So we can just use `@RequiredArgsConstructor` (Lombok annotation) and avoid writing a single constructor too.
+{{% /notice %}}
 
-### AOP
+### Drawbacks of Field-Based Injection
+Field-based injection is slower since it uses Reflection and it can lead to issues like Circular Dependency.
+
+Constructor-based and settter-based injections are recommended. They are more natural from the OOP standpoint too.
+
+_References_: 
+- https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring
+- https://www.baeldung.com/constructor-injection-in-spring
+
+## AOP
 Aspect-oriented Programming (AOP) is a programming (meta-programming) paradigm that complements the OOP paradigm.
 
 We have a separate **Aspect** (similar to class) for each of the common features that our app may need like Transaction, Logging, Security, etc... These features are called **cross-cutting concerns** because all of our main logic classes will need them at some point. Aspects have methods.
