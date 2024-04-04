@@ -416,8 +416,8 @@ class Z{
 No default value. 
 
 `final` variables of the three types:
-1. Class -> must be initialized exactly once during class initialization
-2. Instance ->  must be initialized exactly once before the **first constructor or constructor chain** finishes (example below)
+1. Class (`static`) -> must be initialized exactly once during class initialization
+2. Instance ->  must be initialized exactly once during instance initialization. Either in **constructor (or before the constructor chain finishes)** or in **instance initializer block** (example below)
 3. Local -> initialization isn't neccessary but accessing without it will be compiler error
 
 If constructor chaining is there, make sure every `final` instance variable is initialized before we exit the chain
@@ -435,8 +435,19 @@ class Demo{
 	}
 }
 
-// c1 fails to set value for b so compiler error
-// c2 also fails to set value for a
+// c1 fails to set value for b; compiler-error
+// c2 also fails to set value for a; compiler-error
+
+class Demo{
+    final int a;
+    final String b;
+
+    {
+        a = 5;
+        b = "foobar";
+    }
+}
+// works fine; no errors
 ```
 
 ## Inheriting Members
