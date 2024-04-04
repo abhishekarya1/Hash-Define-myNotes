@@ -47,7 +47,7 @@ public class Demo {
 ## Inheritance
 All eligible fields and methods are inherited by the Children from Parents i.e. they can be accessed from the subclass.
 
-Note that inheritance doesn't create a "different copy" of members and methods of superclass in subclass, rather it makes eligible members and methods accessible in the subclass.
+Note that inheritance doesn't create a "different copy" of members and methods of superclass inside the subclass, rather it makes all eligible members and methods accessible via the subclass. This is possible because a superclass instance is created (Instantiation chain) within the subclass's instance when we explicitly create a subclass instance.
 
 ```java
 class X { }
