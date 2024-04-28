@@ -4,6 +4,8 @@ date =  2022-11-28T22:02:00+05:30
 weight = 15
 +++
 
+## Misc Points
+
 Shallow Copy (_reference variables_), Deep Copy (_copying data to new object manually_), Cloning (_copying data to new object with clone() method_) `newObj = oldObj.clone()`
 
 **Marker Interfaces**: Interfaces that have no methods and constants defined in them. They are there for helping the compiler and JVM to get run time-related information regarding the objects. Ex - `Serializable` interface.
@@ -158,3 +160,141 @@ Link: https://www.java67.com/2012/10/difference-between-serializable-vs-external
 **Diamond Operator**: `<>` optional to provide any type information, still need to be used as a placeholder. Ex - `List<String> list = new ArrayList<>()`
 
 **Utility Class**: Java provides many utility classes that are `final`, can't be instantiated (`private` constructor), and contains only `static` methods that often take in an instance. Ex - `Files`, `Executors`, `Objects`, etc...
+
+**Iterator vs ListIterator**: `ListIterator` is a more specific interface of the `Iterator` interface i.e. `public interface ListIterator<E> extends Iterator<E>`. It can traverse in forward (`it.next()`) as well as backward direction (`it.previous()`) and can also add or update elements of the underlying data structure unlike the generic `Iterator`.
+```java
+List<Integer> list = new ArrayList<>();
+
+ListIterator<Integer> it = list.listIterator();
+
+it.next();
+it.previous();
+it.add(1);
+it.set(2);
+```
+
+They are only available to use for `List` interface and its impl classes like `ArrayList`, `LinkedList`, `Vector`, and `Stack` (last two are legacy).
+
+**What is Load Factor?** It is the threshold at which a data structure (collection) is resized to accomodate for future incoming data. Default is `0.75` which means that when 75% of the current size is populated, the collection will be resized to a bigger one.
+
+**Can `null` element be added to a collection?** only one `null` can be added to `HashMap` and `HashSet`. For all the other non-major collections, it depends. Ex - it can't be added to `TreeSet` (as a `Comparator` is required here) but allowed in `LinkedHashSet`.
+
+## Top Interview Questions on Collections Internals
+
+### Importance of hashCode() and equals()
+**equals() and hashCode() contract**: Two instances that return true for `equals()` must also have the same `hashCode()` value. Typically, if they are not overriden with custom impl, `equals()` calc based on the memory address of the instance in the heap, and `hashCode()` calc based on the memory address too. We often need to override and provide custom impl for these methods based entirely on instance members and not its memory address.
+
+In the below code, identical objects are considered diff incorrectly since `hashCode()` isn't overriden:
+```java
+Set<Person> set = new HashSet<>();
+
+set.add(new Person("A", 3));
+set.add(new Person("A", 3));
+
+System.out.println(set.size());     // 2
+```
+
+Override default impl of the `hashCode()` method of `Person` class based on its content.
+
+Do note that they are properly overriden on Wrapper classes as well as core classes like `String` (compare contents rather than memory address).
+
+```java
+Set<Integer> set = new HashSet<>();
+set.add(1);
+set.add(1);
+System.out.println(set.size());     // 1
+```
+
+### HashMap
+
+Undelying data structures are backing array of size `16` (buckets) and a linked list attached to each bucket cell.
+
+Methods to manage elements are `hashCode()` and `equals()` that are present in every class (inherited from `java.lang.Object` class) and need to be overwritten for proper functioning of Map.
+
+`HashMap` class's `put(k, v)` method:
+```java
+V put(K key, V value){
+    int hash = hash(key);       // calc hash
+
+    putVal(hash, key, value);   // puts data in linked list
+}
+
+int hash(K key){
+    key.hashCode() % 16;      // same but using bitwise operation
+}
+```
+
+A node in the attached linked lists:
+```txt
+┌────────────────┬──────────────────┬─────────────────┬─────────────────┐
+│    key         │       value      │      hash       │       next      │
+└────────────────┴──────────────────┴─────────────────┴─────────────────┘
+```
+
+There are bound to be hash collisions since the backing array is only of size `16`, whenever there is a node present on the bucket we are hashed to, we check for equality of objects using `equals()` method and replace if they are equal otherwise attach to the end of linked list at that bucket.
+
+{{% notice note %}}
+There can only be one `null` key in a HashMap and it is written to bucket indexed as `0`.
+{{% /notice %}}
+
+```java
+Map<Integer, String> mp = new HashMap<>();
+mp.put(null, "ABC");
+System.out.println(mp.get(null));   // prints "ABC"
+```
+
+### HashSet
+It uses `HashMap` internally! Keys are the entities we want to put in the set and value is constant `PRESENT` (random instance of `Object` class) if the entity exists in the set.
+
+`HashSet` class:
+```java
+static final Object PRESENT = new Object();
+
+public HashSet() {
+    map = new HashMap<>();
+}
+
+public boolean add(E e) {
+    return map.put(e, PRESENT) == null;
+}
+
+public boolean remove(Object o) {
+    return map.remove(o) == PRESENT;
+}
+```
+
+**Immutability of Keys**: Keys are nothing but instances but they must be immutable if they're being put into a set. This is to avoid miss (unable to find key) for instances that were added to the set previously and were modifed after the addition. As a solution, we can add the modified instance again after modification and it will also be put into the set.
+
+### LinkedHashMap
+It uses a doubly-linked list and used to implement LRU cache. Its parent is `HashMap` and its not thread-safe.
+
+Ordering is preserved either by - **insertion** or **access** (LRU)
+
+```java
+// constructors
+LinkedhashMap();    // default; capacity = 16, LF = 0.75
+
+LinkedhashMap(int capacity);    // LF = 0.75
+
+LinkedhashMap(int capacity, float loadFactor, boolean accessOrder); // true = accessOrder; false = insertion order
+```
+
+If insertion order is followed, access (`get()`) won't lead to any structural modifications. But, on every access in a access ordered map, the entire structure changes (to maintain LRU item's constant time access).
+
+Performance overhead is more than a normal HashMap and a slightly more memory footprint because of the bigger DLL node.
+
+### ConcurrentHashMap
+Part of `java.util.concurrent` package.
+
+Use this when thread-safety is required and changes to the underlying data structure shouldn't throw `ConcurrentModificationException`.
+
+Features:
+- **Fine-grained Locking**: only some segments are locked, not the whole map
+- **Non-blocking Reads**: only writes acquire a lock, not reads
+
+In a `Collections.syncronizedMap(mp)`, whole map is locked even for reads! It wraps all methods and code in sort-of `synchronized` method/block, but only a single thread can access the code at a given time, no matter which code - read or write.
+
+### CopyOnWriteList
+No segment locking unlike `ConcurrentHashMap` but employs a diff strategy to achieve thread-safety. A copy of the list is created and modified on writes, it is then used to replace the original copy so that changes get reflected in the original. On a read, just read from the original as no locking is required as no concurrent modification is taking place on the original copy.
+
+This has significant processing overhead and memory footprint compared to normal List implementations.

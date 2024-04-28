@@ -485,3 +485,6 @@ Most popular are:
 
 Comparison: https://www.baeldung.com/apache-commons-collections-vs-guava
 Guava Demo: https://www.baeldung.com/guava-collections
+
+## Interview Questions based on Collections Internals
+[/java/misc/#top-interview-questions-on-collections-internals](/java/misc/#top-interview-questions-on-collections-internals)
