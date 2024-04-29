@@ -443,7 +443,7 @@ while (it.hasNext()) {
 }
 ```
 
-Removal is fine if done with Iterator's remove() method and not Collection's remove() method:
+Removal is fine if done with Iterator's `it.remove()` method and not Collection Impl class `list.remove()` method:
 ```java
 while (it.hasNext()) {
     if (it.next() == 40) {
@@ -457,6 +457,10 @@ while (it.hasNext()) {
     }
 }
 ```
+
+{{% notice note %}}
+Only structural modifications (add/remove elements) leads to a `ConcurrentModificationException` with FF iterators; and not updation of existing elements. Ex - update to a list using `list.set(2, "X")`.
+{{% /notice %}}
 
 ### Fail-Safe Iterators
 Iterators on Collections from `java.util.concurrent` package such as `ConcurrentHashMap`, `CopyOnWriteArrayList`, etc.. are Fail-Safe in nature.

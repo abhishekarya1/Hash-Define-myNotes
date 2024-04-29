@@ -175,6 +175,8 @@ it.set(2);
 
 They are only available to use for `List` interface and its impl classes like `ArrayList`, `LinkedList`, `Vector`, and `Stack` (last two are legacy).
 
+**Fail-fast vs Fail-safe Iterators**: `Iterator` on FF on classic collections, and on thread-safe collections (`CopyOnWriteList`, `ConcurrentHashMap`, etc) FS they are FS. [notes link](/java/coll/#iterator)
+
 **What is Load Factor?** It is the threshold at which a data structure (collection) is resized to accomodate for future incoming data. Default is `0.75` which means that when 75% of the current size is populated, the collection will be resized to a bigger one.
 
 **Can `null` element be added to a collection?** only one `null` can be added to `HashMap` and `HashSet`. For all the other non-major collections, it depends. Ex - it can't be added to `TreeSet` (as a `Comparator` is required here) but allowed in `LinkedHashSet`.
@@ -242,6 +244,8 @@ Map<Integer, String> mp = new HashMap<>();
 mp.put(null, "ABC");
 System.out.println(mp.get(null));   // prints "ABC"
 ```
+
+**Performance improvement of HashMap** (since Java 8): buckets are limited (only 16), collisions are more likely to occur with increasing map entries leading to poor performance. When a bucket's LL grows beyond a certain threshold, it switches from using LL (`O(n)` operations) to using a Balanced Tree (specifically, a Red-Black Tree) to maintain performance.
 
 ### HashSet
 It uses `HashMap` internally! Keys are the entities we want to put in the set and value is constant `PRESENT` (random instance of `Object` class) if the entity exists in the set.
