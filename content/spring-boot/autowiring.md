@@ -197,3 +197,24 @@ class Main{
 ```
 
 _Reference_: https://stackoverflow.com/a/56089288
+
+
+## Bean Scopes in Spring
+
+Specify scopes on classes using `@Scope` annotation on them. Ex - `@Scope("prototype")` or with constant using 	`@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)`.
+
+- **Singleton** (_default_): single bean instance per Spring IoC container
+- **Prototype**: a new bean instance is created every time a bean is requested with `ctx.getBean("Foobar")`
+- **Request** (`@RequestScope`): only a single instance will be created and available during the complete lifecycle of an HTTP Request
+- **Session** (`@SessionScope`): only a single instance will be created and available during the complete lifecycle of an HTTP Session
+- **Application** (`@ApplicationScope`): only a single instance will be created and available during the complete lifecycle of `ServletContext`
+
+## Bean Life Cycle in Spring
+1. Start application
+2. Spring IoC Container started
+3. Bean Constructed and all its dependencies injected into it
+4. Bean's `init()` method is called
+5. Bean's `@PostConstruct` annotated method is called
+6. Bean's `@PreDestroy` annotated method is called
+
+_Reference_: https://javatechonline.com/spring-bean-life-cycle-method-examples/
