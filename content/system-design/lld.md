@@ -426,7 +426,7 @@ pet.speak();
 
 **Law of Demeter** (_Principle of Least Knowledge_) - Don't talk to strangers. Call methods of only "closely" related objects and not `foo.bar.baz.qux` when `foo` and `qux` aren't [closely related](https://java-design-patterns.com/principles/#law-of-demeter) but rather chained.
 
-**Composition over Inheritance**: prefer composition rather than inheritance; because it is much less rigid and can be changed later, composition also allows multiple inheritance like relation which Java doesn't allow on concrete classes
+**Composition over Inheritance**: prefer composition rather than inheritance; because it is much less rigid and can be changed later, composition also allows multiple inheritance like relation which Java doesn't allow with concrete classes (diamond problem).
 ```java
 // an Employee is a Person, and a Manager is both
 
