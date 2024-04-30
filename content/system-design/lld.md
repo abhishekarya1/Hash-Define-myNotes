@@ -25,7 +25,7 @@ Programming Languages can be put into the following categories:
 
 Based on variable's type:
 - **Dynamically Typed** - (aka _Duck Typing_) variables have no fixed type, can assign/reassign at runtime with any value of any type
-- **Statically Typed** - variables have a type either inferred (by type inference - `auto` in C++ or `var` in Java, Go, TypeScript) or an explicitly defined type. Type must be known at compile-time.
+- **Statically Typed** - variables have a type either inferred (by type inference - `auto` in C++ or `var` in Java, Go, TypeScript) or an explicitly defined type. Variable's type must be known at compile-time.
 
 ```py
 # python - dynamic typed
@@ -72,9 +72,9 @@ let a = 5 + "five";		// valid
 
 The [lines are blurry](https://en.wikipedia.org/wiki/Strong_and_weak_typing#:~:text=However%2C%20there%20is%20no%20precise%20technical%20definition%20of%20what%20the%20terms%20mean%20and%20different%20authors%20disagree%20about%20the%20implied%20meaning%20of%20the%20terms%20and%20the%20relative%20rankings%20of%20the%20%22strength%22%20of%20the%20type%20systems%20of%20mainstream%20programming%20languages.) with Strong and Weak typing. Examples: 
 - while all of the following are strongly typed, in Java `int` to `boolean` cast isn't possible, either explicitly or implicitly. But C, C++, Python allows cast from other types to `bool`
-- C and C++ also allow other casts which make them weaker than Java and Python.
+- C and C++ also allow other casts which make them weaker than Java and Python
 
-Also Java has overloaded `+` operator by default that allows adding other types to a `String`!
+Also Java has overloaded `+` operator by default that allows adding other types to a `String`! (an exception)
 ```java
 // java - strong typed, but one exception
 String a = 5 + "five";		// valid
@@ -82,9 +82,9 @@ String a = 5 + "five";		// valid
 
 **Summary**:
 {{% notice note %}}
-Dynamic - variables don't have fixed type, we can put literal of any type in it (no type checking at compile-time, often there is no compile-time xD)
+**Dynamic** - variables don't have fixed type, we can put literal of any type in it (no type checking at compile-time, often there is no compile-time xD)
 
-Weak - variable values don't have fixed types (can be casted implicitly at runtime)
+**Weak** - assigned literal values to variables don't have fixed type (can be implicitly casted at runtime depending on usage context)
 {{% /notice %}}
 
 ```txt
@@ -134,18 +134,129 @@ Helps create extensible, maintainable, and understandable code.
 
 ### SOLID
 1. Single Responsibility
-2. Open-Close
+2. Open/Closed (OXCM)
 3. Liskov Substitution
 4. Interface Segregation
-5. Dependency Inversion/Injection
+5. Dependency Inversion
 
 _Reference_: https://www.baeldung.com/solid-principles
 
-**Liskov Substitution**:
+1. **Single Responsibility**: a class should have only one reason to change; do one thing and do it well
 
-A superclass should be substitutable by any of its subclasses, without breaking any existing functionality.
+Ex - `Invoice` class can be split into the following three classes:
+- `Invoice` class
+- `InvoicePrinter` class
+- `InvoiceDAO` class
 
-Ex - _Penguin_ is a technically a _Bird_, but it is flightless. We can't replace Bird object with Penguin object and expect things to not break.
+Code:
+
+```java
+class Invoice{
+	// members
+	long id;
+	int price;
+
+	// constructor
+	Invoice(long id, int price, int discount){
+		this.id = id;
+		this.price = price - (price * discount / 100);
+	}
+
+	// methods
+	void printInvoice(){
+		System.out.println("Invoice: " + id + ", and price = " + price);
+	}
+
+	void saveInvoiceToDB(){
+		// save to DB logic
+	}
+}
+```
+
+The above class can change because of multiple reasons such as changes in database storing logic, or price discount calc (e.g. adding GST taxation). 
+
+A better way to write the above class without violating SRP by splitting functionality across multiple classes is:
+
+```java
+class Invoice{
+	// members
+	long id;
+	int price;
+
+	// constructor
+	Invoice(long id, int price, int discount){
+		this.id = id;
+		this.price = price - (price * discount / 100);
+	}
+
+}
+
+
+class InvoicePrinter{
+	Invoice invoice;
+
+	InvoicePrinter(Invoice invoice){
+		this.invoice = invoice;
+	}
+
+	void print(){
+		System.out.println("Invoice: " + invoice.id + ", and price = " + invoice.price);
+	}
+}
+
+
+class InvoiceDao{
+	Invoice invoice;
+
+	InvoiceDao(Invoice invoice){
+		this.invoice = invoice;
+	}
+
+	void saveToDB(){
+		// save to DB logic
+	}
+}
+```
+
+2. **Open/Closed**: add functionality by extending and not modifying the code directly
+
+Ex - implement new functionality so that we can save invoices to a file in a filesystem (FS) as well
+
+```java
+class InvoiceDao{
+	Invoice invoice;
+
+	InvoiceDao(Invoice invoice){
+		this.invoice = invoice;
+	}
+
+	void saveToDB(){
+		// save to DB logic
+	}
+
+	void saveToFile(){				// added new method in existing class (VIOLATION!)
+		// save to file logic
+	}
+}
+```
+
+```java
+class InvoiceDaoFS extends InvoiceDao{
+	Invoice invoice;
+
+	InvoiceDao(Invoice invoice){
+		this.invoice = invoice;
+	}
+
+	void saveToFile(){				// added new method in new class extending existing DAO
+		// save to file logic
+	}
+}
+```
+
+3. **Liskov Substitution**: a superclass should be substitutable by any of its subclasses, without breaking any existing functionality. This is possible only if the subclass adds new behaviour on top of its superclass and not narrow it down.
+
+Ex - _Penguin_ is a technically a _Bird_, but it is flightless. We can't replace Bird object with Penguin object and expect things to not break in the way the below example is written.
 
 ```java
 // Violation
@@ -163,13 +274,12 @@ class Sparrow extends Bird {
 class Penguin extends Bird {
 	@Override
 	void fly(){
-		throw new AssertionError("I can't fly!");	// can't fly
+		throw new AssertionError("I can't fly!");	// can't fly; narrows down superclass behaviour
 	}
 }
-
-// can't replace Bird object with Penguin object wherever Bird object is being used, since Penguin object's fly() method will break
-
-// Fix
+```
+We can't replace `Bird` object with `Penguin` object wherever `Bird` object is being used, since `Penguin` object's `fly()` method will break, whenever we call it (try to fly). A possible fix is to refactor the code as shown below:
+```java
 interface Flight {
 	void fly();
 }
@@ -178,7 +288,7 @@ class Bird { }
 
 class Sparrow extends Bird implements Flight {
 	@Override
-	void fly(){ } 
+	void fly(){ }
 	// flight capable; makes sense
 }
 
@@ -189,15 +299,101 @@ class Penguin extends Bird {
 // Penguin class can be substituted for Bird class now
 ```
 
-Another example is Electric cars, they're cars without an engine. A `Car` class can have `MotorCar` and `ElectricCar` subclasses, but `ElectricCar` object can't replace wherever `Car` object is used since it won't have `ignition()` method.
+Another example is electric car as it doesn't have an engine. A `Car` class can have `MotorCar` and `ElectricCar` subclasses, but `ElectricCar` object can't replace wherever `Car` object is used since it'll return `NullPointerException` when instance member `engine` is accessed as `engine == null` for `ElectricCar` instance.
 
 {{% notice tip %}}
-Liskov Substitution is more about "making sense" rather than our code breaking if it's violated. A subclass inherits all members from its parent so it is a valid substitute for its parent, but as we saw in the penguin example above, it doesn't make any sense to treat a penguin as a "normal" bird. Or an electric car as a "normal" Car.
+Liskov Substitution is also about "making sense" rather than our code breaking if it's violated (narrow down superclass). A subclass inherits all members from its parent so it is a valid substitute for its parent, but as we saw in the penguin example above, it doesn't make any sense to treat a penguin as a "normal" bird. Or an electric car as a "normal" Car.
 
-Other extreme examples - Hotdog as a Dog, Rubber Duck as a Duck, etc...
+Other extreme examples - Hotdog as a Dog, Rubber Duck as a Duck, etc. We can totally do it if the superclasses are empty, but it doesn't make any sense.
 
-There is nothing really stopping us from inheriting "Burger" from "Metal" class, but it should make sense is all what Liskov Substitution Principle is all about.
+Additionally, there is nothing really stopping us from inheriting "Burger" from "Metal" class even if they both aren't empty, but it should make sense too.
 {{% /notice %}}
+
+4. **Interface Segregation**: create a separate `interface` for each distinct functionality and later provide their respective implementation. By such fine-grained splitting, we won't need to provide impl to unrequired interface methods in the impl concrete class.
+
+```java
+// so much to do for a Bear Keeper
+public interface BearKeeper {
+    void washTheBear();
+    void feedTheBear();
+    void petTheBear();
+}
+```
+
+Split to diff interfaces acc to functionality: 
+```java
+public interface BearCleaner {
+    void washTheBear();
+}
+
+public interface BearFeeder {
+    void feedTheBear();
+}
+
+public interface BearPetter {
+    void petTheBear();
+}
+```
+
+And then implement each interface as needed:
+```java
+public class BearCarer implements BearCleaner, BearFeeder {
+
+    public void washTheBear() {
+        //I think we missed a spot...
+    }
+
+    public void feedTheBear() {
+        //Tuna Tuesdays...
+    }
+}
+
+public class CrazyPerson implements BearPetter {
+
+    public void petTheBear() {
+        //Good luck with that!
+    }
+}
+```
+
+5. **Dependency Inversion**: classes should only depend upon (use) interfaces and not other concrete classes. Interfaces should also use other interfaces only.
+
+Simply put, when components of our system have dependencies, we don't want directly inject a component's dependency (concrete `class`) into another. Instead, we should use a level of abstraction (`interface`) between them.
+
+Inversion here refers to the dependency that
+
+```java
+// tight coupling using concrete classes (WiredKeyboard and WiredMouse)
+public class PC{
+    private final WiredKeyboard keyboard;
+    private final WiredMouse mouse;
+
+    public PC(WiredKeyboard keyboard, WiredMouse monitor) {
+        this.keyboard = keyboard;
+        this.monitor = monitor;
+    }
+}
+```
+
+Instead, we can refactor the above class as:
+```java
+// loose coupling using interface types
+public class PC{
+    private final Keyboard keyboard;
+    private final Mouse mouse;
+
+    public PC(Keyboard keyboard, Mouse monitor) {
+        this.keyboard = keyboard;
+        this.monitor = monitor;
+    }
+}
+
+// then we can pass any kind of object to "PC" class as long as its of type "Keyboard" and "Mouse"
+public class WiredKeyboard implements Keyboard { }
+public class BluetoothKeyboard implements Keyboard { }
+public class WiredMouse implements Mouse { }
+public class BluetoothMouse implements Mouse { }
+```
 
 ### Other Principles
 
@@ -205,9 +401,12 @@ There is nothing really stopping us from inheriting "Burger" from "Metal" class,
 
 **KISS**: Keep It Simple Stupid
 
-**DRY**: Don't Repeat Yourselves
+**DRY**: Don't Repeat Yourselves (_not only line duplication, but each significant piece of functionality should be implemented in
+just one place in the source code_)
 
 **Hollywood Principle**: "_Don't call us, we'll call you._" (another name for Inversion-of-Control)
+
+**Minimise Coupling**, **Maximize Cohesion**, **Be Orthogonal** (_independent_)
 
 **Encapsulate what varies**:
 ```java
@@ -224,6 +423,8 @@ pet.speak();
 ``` 
 
 **Program against abstractions**: program by keeping interfaces and their relations and interactions in mind. Don't take concrete classes into consideration while designing.
+
+**Law of Demeter** (_Principle of Least Knowledge_) - Don't talk to strangers. Call methods of only "closely" related objects and not `foo.bar.baz.qux` when `foo` and `qux` aren't [closely related](https://java-design-patterns.com/principles/#law-of-demeter) but rather chained.
 
 **Composition over Inheritance**: prefer composition rather than inheritance; because it is much less rigid and can be changed later, composition also allows multiple inheritance like relation which Java doesn't allow on concrete classes
 ```java
