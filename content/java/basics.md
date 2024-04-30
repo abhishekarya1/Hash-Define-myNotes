@@ -57,7 +57,8 @@ class Hello{
 ```
 - `java.lang.*` is always implicitly imported regardless
 - if files have same `package` declarations, then they need not `import` each other explicitly as it's trivial 
-- only classes can be imported and not methods or fields unless `import static` is used
+- only classes can be imported and not single methods or fields
+- use `import static` to import static methods and fields of a class (to access without instantiation)
 - importing a lot of classes doesn't impact compilation or runtimes at all in Java
 - an import with wildcard (`import java.nio.*`) only imports classes from the current package and not from children pacakages too
 - Specificity takes precedence. If `java.util.Date` and `java.sql.*` both are imported, then `Date` is fetched from `util` package

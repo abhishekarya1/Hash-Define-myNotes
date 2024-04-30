@@ -332,7 +332,9 @@ for(int i = 0; i < 10; i++){
 ```
 
 ### Volatile
-Declaring the variable as `volatile` indicates not to store the value in that thread's own cache but on a shared cache accessible by all threads. But it won't make the code thread-safe because our individual read/write are a thread-safe, but `++x` is actually two opertions `x = x + 1` (add and assign) and it may happen that thread1 writes to `x` and thread2 reads from `x` and then thread1 writes to `x`.
+Declaring the variable as `volatile` indicates not to store the value in that thread's own cache but on a shared cache accessible by all threads. As a result, any write to this variable will immediately be visible to all the other threads.
+
+But it won't make the code thread-safe because our individual read/write are a thread-safe, but `++x` is actually two operations `x = x + 1` (add and assign) and it may happen that thread1 writes to `x` and thread2 reads from `x` and then thread1 writes to `x`.
 
 ```java
 volatile int x = 0;
@@ -368,7 +370,10 @@ synchronized void foobar() {  }
 -----------------------------------
 
 // in static method
-synchronized(Foobar.class) {  }		 // since we can't use "this" object here
+synchronized(Foobar.class) {  }		 // since we can't use "this" object here; so we use class object
+
+Test t = new Test();
+synchronized(t) {  }                 // create and use any random instance
 
 // on static method
 static synchronized void foobar() {  }
