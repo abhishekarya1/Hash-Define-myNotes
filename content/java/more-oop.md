@@ -559,6 +559,20 @@ We can't implement two or more interfaces at the same time as the syntax doesn't
 
 Anonymous Classes don't have a constructor as they don't have a name. As a result, we can't instantiate it more than one time and only a single instance exists for each distinct Anonymous Class.
 
+Note that the methods defined in anonymous class aren't accessible using reference of superclass:
+```java
+class Super{ }
+
+// anon class in main()
+Super s = new Super(){
+	void getSup(){ }
+};
+
+s.getSup();		// compiler-error; cannot resolve method
+```
+
+Hence, we mostly use anon classes for overriding methods (of super class or implementing interface ones).
+
 ## Polymorphism
 
 ### Object v Reference
