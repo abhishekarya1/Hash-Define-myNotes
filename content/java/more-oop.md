@@ -432,7 +432,7 @@ Class within another class.
 1. **Inner Class**: non-static type defined at member level
 2. **Static Nested Class**: static type defined at member level
 3. **Local Class**: class defined within a method body
-4. **Anonymous Class**: local class with no name
+4. **Anonymous Class**: local class with no name (extending a class or implementing an interface)
 
 Since nested classes are defined at member level in another class, it can be `public`, package access, `protected` and `private` just like other members and unlike top-level classes.
 
@@ -531,14 +531,15 @@ Since there are two class files created for each class by compiler, there is no 
 ### Anonymous Class
 Local class but it doesn't have a name. Ends with a semi-colon (`;`) since its a one-liner variable declaration only.
 
-Two types of Anonymous Classes:
-- `extends` another `class`
-- `implements` an `interface`
+Two types of Anonymous Classes exist:
+- extending another `class`
+- implementing an `interface`
 
 ```java
 Demo d = new Demo(){			// anon class extends "Demo" class
 
 	// define our own members and methods inside
+	// just like a typical class
 	int getCost(){ return 5; }
 };
 ```
