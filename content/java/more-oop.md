@@ -530,21 +530,33 @@ Since there are two class files created for each class by compiler, there is no 
 
 ### Anonymous Class
 Local class but it doesn't have a name. Ends with a semi-colon (`;`) since its a one-liner variable declaration only.
+
+Two types of Anonymous Classes:
+- `extends` another `class`
+- `implements` an `interface`
+
 ```java
-Demo d = new Demo(){
- int getCost(){ return 5; }
+Demo d = new Demo(){			// anon class extends "Demo" class
+
+	// define our own members and methods inside
+	int getCost(){ return 5; }
 };
+```
+
+```java
+class Demo(){ }
+Demo o = new Demo(){ };		// extends
+Foobar o = new Foobar(1, "abc"){ };		// extends; with parameterized constructor of superclass
+
+interface Demo(){ }
+Demo o = new Demo(){ };		// implements "Demo" interface
 ```
 
 We can't extend and implement at the same time (unlike other nested classes incl. Local class). And when doing either one also, we don't use `extends` or `implements` keywords.
 
-```java
-abstract class Demo(){ }
-Demo o = new Demo(){ };		// extends
+We can't implement two or more interfaces at the same time as the syntax doesn't allow this.
 
-interface Demo(){ }
-Demo o = new Demo(){ };		// implements
-```
+Anonymous Classes don't have a constructor as they don't have a name. As a result, we can't instantiate it more than one time and only a single instance exists for each distinct Anonymous Class.
 
 ## Polymorphism
 

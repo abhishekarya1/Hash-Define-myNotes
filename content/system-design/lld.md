@@ -360,8 +360,6 @@ public class CrazyPerson implements BearPetter {
 
 Simply put, when components of our system have dependencies, we don't want directly inject a component's dependency (concrete `class`) into another. Instead, we should use a level of abstraction (`interface`) between them.
 
-Inversion here refers to the dependency that
-
 ```java
 // tight coupling using concrete classes (WiredKeyboard and WiredMouse)
 public class PC{
