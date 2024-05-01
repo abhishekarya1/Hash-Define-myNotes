@@ -1,7 +1,7 @@
 +++
 title = "IR"
 date = 2024-01-04T18:00:00+05:30
-weight = 5
+weight = 6
 +++
 
 ## Email Service like Gmail

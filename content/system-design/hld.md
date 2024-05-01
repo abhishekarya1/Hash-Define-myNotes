@@ -1,7 +1,7 @@
 +++
 title = "High Level Design"
 date = 2023-06-01T19:16:00+05:30
-weight = 2
+weight = 3
 +++
 
 RSM (Reliability, Scalability, Maintainability) - tradeoff exists between each
