@@ -103,6 +103,8 @@ Shell 		- dynamic, weak
 ### OOP
 Everything is an object and every action must be performed on an object by an object's methods.
 
+[OOP Concepts - Notes](/java/oop/#concepts)
+
 **Composition vs Aggregation**: both are associations, former is a _strong_ one, the latter is a _weak_ association.
 ```java
 // composition: one can't exist without another
