@@ -201,10 +201,10 @@ Override default impl of the `hashCode()` method of `Person` class based on its 
 Do note that they are properly overriden on Wrapper classes as well as core classes like `String` (compare contents rather than memory address).
 
 ```java
-Set<Integer> set = new HashSet<>();
-set.add(1);
-set.add(1);
-System.out.println(set.size());     // 1
+Set<String> st = new HashSet<>();
+st.add("ABC");
+st.add("ABC");
+System.out.println(st.size());     // 1
 ```
 
 ### HashMap
