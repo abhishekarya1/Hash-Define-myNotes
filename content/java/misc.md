@@ -226,14 +226,14 @@ int hash(K key){
 }
 ```
 
-A node in the attached linked lists:
+A node in the attached backing linked lists of `HashMap`:
 ```txt
 ┌────────────────┬──────────────────┬─────────────────┬─────────────────┐
 │    key         │       value      │      hash       │       next      │
 └────────────────┴──────────────────┴─────────────────┴─────────────────┘
 ```
 
-There are bound to be hash collisions since the backing array is only of size `16`, whenever there is a node present on the bucket we are hashed to, we check for equality of objects using `equals()` method and replace if they are equal otherwise attach to the end of linked list at that bucket.
+**put() operation**: There are bound to be hash collisions since the backing array is only of size `16`, whenever there is a non-zero sized LL present on the bucket we are hashed to, we check (linear search) if the key already exists by comparing `hash` value present in LL nodes and then verify again by comparing the key we're currently searching and `key` value from LL using `equals()` method and replace if they are equal otherwise attach new node to the end of linked list at that bucket.
 
 {{% notice note %}}
 There can only be one `null` key in a HashMap and it is written to bucket indexed as `0`.
@@ -244,6 +244,8 @@ Map<Integer, String> mp = new HashMap<>();
 mp.put(null, "ABC");
 System.out.println(mp.get(null));   // prints "ABC"
 ```
+
+**get() operation**: we goto bucket and check for non-zero sized LL, if nodes are present linearly search them for `hash` value match and once found verify with using `equals()` on search key and LL nodes key.
 
 **Performance improvement of HashMap** (since Java 8): buckets are limited (only 16), collisions are more likely to occur with increasing map entries leading to poor performance. When a bucket's LL grows beyond a certain threshold, it switches from using LL (`O(n)` operations) to using a Balanced Tree (specifically, a Red-Black Tree) to maintain performance.
 
@@ -270,11 +272,15 @@ public boolean remove(Object o) {
 **Immutability of Keys**: Keys are nothing but instances but they must be immutable if they're being put into a set. This is to avoid miss (unable to find key) for instances that were added to the set previously and were modifed after the addition. As a solution, we can add the modified instance again after modification and it will also be put into the set.
 
 ### LinkedHashMap
-It uses a doubly-linked list and used to implement LRU cache. Its parent is `HashMap` and its not thread-safe.
+It is just like a normal `HashMap` but **attaches nodes across buckets in a circular doubly-linked list fashion** using `before` and `after` links in LL node so that it can maintain ordering. It is not thread-safe.
 
-Ordering is preserved either by - **insertion** or **access** (LRU)
+There is a dummy `Head` node which is present in the impl of `LinkedHashMap` to ensure addition of Circular DLL nodes relative to it. A newly inserted or accessed node is moved to the end of the list (`before` link of `Head` node). Conversely, the least recently used (LRU) element is at the beginning of the list, just `after` the `Head` node.
+
+Ordering is preserved either by - **insertion order** or **access order**. Used to implement LRU cache when access ordering is enabled.
 
 ```java
+public class LinkedhashMap extends HashMap implements Map { }
+
 // constructors
 LinkedhashMap();    // default; capacity = 16, LF = 0.75
 
@@ -283,9 +289,18 @@ LinkedhashMap(int capacity);    // LF = 0.75
 LinkedhashMap(int capacity, float loadFactor, boolean accessOrder); // true = accessOrder; false = insertion order
 ```
 
-If insertion order is followed, access (`get()`) won't lead to any structural modifications. But, on every access in a access ordered map, the entire structure changes (to maintain LRU item's constant time access).
+If insertion order is followed, access (`get()`) won't lead to any structural modifications. But, on every access in a access ordered map, the links to nodes rearranges (to maintain LRU item's constant time access).
 
-Performance overhead is more than a normal HashMap and a slightly more memory footprint because of the bigger DLL node.
+A node in the attached backing linked lists of `LinkedHashMap`:
+```txt
+┌──────────────┬──────────────┬──────────────┬─────────────┬──────────────┬──────────────┐
+│      key     │     value    │     hash     │    next     │    before    │     after    │
+└──────────────┴──────────────┴──────────────┴─────────────┴──────────────┴──────────────┘
+```
+
+The answer here makes the relatively low-complexity of `LinkedHashMap` over `HashMap` more clear - [link](https://stackoverflow.com/a/31700750).
+
+Performance overhead is more than a normal HashMap due to links rearranging and a slightly more memory footprint because of the bigger DLL nodes.
 
 ### ConcurrentHashMap
 Part of `java.util.concurrent` package.
@@ -299,6 +314,8 @@ Features:
 In a `Collections.syncronizedMap(mp)`, whole map is locked even for reads! It wraps all methods and code in sort-of `synchronized` method/block, but only a single thread can access the code at a given time, no matter which code - read or write.
 
 ### CopyOnWriteList
-No segment locking unlike `ConcurrentHashMap` but employs a diff strategy to achieve thread-safety. A copy of the list is created and modified on writes, it is then used to replace the original copy so that changes get reflected in the original. On a read, just read from the original as no locking is required as no concurrent modification is taking place on the original copy.
+No segment locking unlike `ConcurrentHashMap` but employs a diff strategy to achieve thread-safety. 
+
+A copy of the list is created and modified on writes, it is then used to replace the original copy so that changes get reflected in the original. On a read, just read from the original as no locking is required as no concurrent modification is taking place on the original copy.
 
 This has significant processing overhead and memory footprint compared to normal List implementations.
