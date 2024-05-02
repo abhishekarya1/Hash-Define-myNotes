@@ -175,7 +175,7 @@ it.set(2);
 
 They are only available to use for `List` interface and its impl classes like `ArrayList`, `LinkedList`, `Vector`, and `Stack` (last two are legacy).
 
-**Fail-fast vs Fail-safe Iterators**: `Iterator` on FF on classic collections, and on thread-safe collections (`CopyOnWriteList`, `ConcurrentHashMap`, etc) FS they are FS. [notes link](/java/coll/#iterator)
+**Fail-fast vs Fail-safe Iterators**: `Iterator` on FF on classic collections, and on thread-safe collections (`CopyOnWriteList`, `ConcurrentHashMap`, etc) they are FS. [notes link](/java/coll/#iterator)
 
 **What is Load Factor?** It is the threshold at which a data structure (collection) is resized to accomodate for future incoming data. Default is `0.75` which means that when 75% of the current size is populated, the collection will be resized to a bigger one.
 
