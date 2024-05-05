@@ -257,7 +257,7 @@ enum Alphabet {
     B("Y"),
     C("X");
 
-    Alphabet(String a) { }		// mandatory; can only be private or package-access
+    Alphabet(String a) { }		// mandatory for complex enums; can only be private or package-access
 
     // create an optional instance field and set its value in the constructor
     // create and use its getter to access - "Z", "Y", "X"
@@ -283,7 +283,7 @@ public enum Season{
 
 	public final String expVis;		// optional field to set to and access value "Low"/"Medium"/"High", can be non-final too but bad practice
 
-	private Season(String expVis){		// mandatory constructor, always private or pacakge-access, runs only on first access to a constant, never runs again 
+	private Season(String expVis){		// mandatory constructor, always implicitly private, runs only on first access to a constant, never runs again on subsequent accesses
 		this.expVis = expVis;	 	// important; set value to enum instance var
 	}
 
@@ -320,9 +320,13 @@ public enum Seasons{
 }
 ```
 
-### Inheritance
-- Enums can't be `extend`ed or inherited. We also can't create an Enum object with `new`. Since they already extend `java.lang.Enum` class.
+### Inheritance and Meta Properties
+- Enums can't be `extend`ed or inherit from another class (since they already implicitly extend `java.lang.Enum` class). We also can't create an Enum object with `new` like a normal class.
 - Enums can `implement` interfaces and they have to define abstract methods of those interfaces.
+- In an Enum, only a single object exists for each constant (Singleton) as there is only one constructor call only on first access to a constant.
+- The complex enum constructor is always implicitly `private` (can't be made `public` or `protected`) otherwise the programmer can call the constructor and create instances on the fly which defeats the purpose of fixed constants in enum.
+- For complex enums, we may optionally need to declare the enum members (for getting values) and a custom constructor to set values to them. We just can't call the constructor ourselves, Java does that for us implicitly.
+- Enums are free to have unrelated (to value) variables and setter methods.
 
 ## Sealed Class (Java 17)
 A class that restricts which other classes can **directly** extend from it.

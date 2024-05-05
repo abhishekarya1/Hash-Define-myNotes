@@ -53,53 +53,6 @@ public class Test {
 }
 ```
 
-**Singleton Class**: Only one instance can exist of this class
-```java
-class TestSingle{
-   private int value = 999;		// private properties
-   private Test obj;			// self-reference to the only instance
-   private TestSingle(){}		// private constructor
-   
-   // getter
-   public int getValue(){
-       return this.value;
-   }
-
-   // return the object to the user; since we can't use Constructor
-   public static TestSingle getInstance(){
-       
-       // create a new object if the object is not already created and return the object
-       if(obj == null){
-           obj = new Test();
-       }
-
-       return obj;
-   }
-}
-``` 
-
-Double-checked locking in Singleton: to make sure that only one instance of a class exists across all threads too, put the instance existance checker logic in a `synchronized` block
-```java
-private static volatile Singleton obj;
-
-public static Singleton getInstance(){ 
-    // Single Checked
-    if (obj == null) {
-        
-        // Double Checked
-        synchronized (Singleton.class){
-            if (obj == null) {
-                obj = new Singleton();
-            }
-        }
-    }
-
-    return obj;
-}
-```
-
-Use Object as a Key in HashMap or HashSet - `equals()` and `hashCode()` should be properly defined for that object
-
 `wait()` and `notify()` mechanism in Thread: call wait() on a object in multiple threads to make then all wait, we can then call notify() from another class to wake up any 1 arbitrary thread waiting, use `notifyAll()` to wake up all threads. Mandatory condition is that the object on which we are synchronizing must be the same object on which we're calling the wait and notify methods. [_reference_](https://www.oreilly.com/library/view/java-threads-second/1565924185/ch04s02.html)
 
 ```java
