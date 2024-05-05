@@ -4,7 +4,6 @@ date = 2024-05-01T18:33:00+05:30
 weight = 2
 +++
 
-## GoF Design Patterns
 **Design Patterns**: guidelines providing solutions to recurring problems and good practices in software.
 
 Design patterns are often called **GoF** (Gang of Four) design patterns because of [the book](https://g.co/kgs/RzdfZ2) that first outlined these design patterns 20 years ago, named so because of its 4 authors. 
@@ -21,7 +20,8 @@ _Reference#2_: https://java-design-patterns.com
 
 ## Creational Patterns
 
-**Prototype** - create new object (clone) from an older (prototype) one.
+### Prototype
+Create new object (clone) from an older (prototype) one.
 
 Issues with manually mapping members using getter/setters:
 - need to know what members exist in the original object
@@ -53,7 +53,8 @@ Student cloneObj = (Student) obj.clone();
 ```
 
 
-**Singleton** - only 1 instance of the class should exist at runtime.
+### Singleton
+Only 1 instance of this class should exist at runtime.
 
 Types of implementations of this pattern:
 1. _Eager_: initializing the field inline at class init and returning it everytime in the future
@@ -140,7 +141,8 @@ public enum DBConnection{
 DBConnection obj = DBConnection.INSTANCE;
 ```
 
-**Factory** - create objects on-the-go by keeping all the object creation logic at one place.
+### Factory
+Create objects on-the-go by keeping all the object creation logic at one place.
 
 If a change is required in the creation logic in future, then we just need to modify the factory class. Ex - adding a `Rectangle` shape to the below example.
 
@@ -165,7 +167,8 @@ public class ShapeFactory{
 Shape obj = Shape.getShape("Square");
 ```
 
-**Abstract Factory** - a factory-of-factory to get factory class instances. It is not merely an _interface_ which factory _class_ implements as the name might suggest.
+### Abstract Factory
+A factory-of-factory to get factory class instances. It is not merely an _interface_ which factory _class_ implements as the name might suggest.
 
 `AbstractCPUFactory` concrete class gives us the appropriate vendor's factory object (either `IntelFactory` or `AMDFactory`), on which in turn we have to call `getInstance()` to get appropriate `CPU` object. `CPUFactory` is just an interface for both factories.
 
@@ -219,9 +222,12 @@ CPUFactory factory = absFactory.getFactoryInstance("AMD");		// get factory objec
 CPU obj = factory.getInstance(7);								// get object from factory
 ```
 
-**Builder** - useful in creating objects in a step-by-step manner.
+### Builder
+Useful in creating objects in a step-by-step manner. Helps skip initialization of optional fields.
 
-`static` method `builder()` and a non-static method `build()`, every setter method returns `this` object itself.
+Issues with existing approaches: instead of making a huge constructor with all members as param we can create multiple smaller ones, but now we will face a challenge of constructor redefinitions. Ex - constructor `Foobar(int id, String name)` clashes with overloaded constructor `Foobar(int age, String name)` because of parameter data types and `Foobar` class has all the four members.
+
+A `static` method `builder()` and a non-static method `build()`, every setter method returns `this` object itself.
 
 ```java
 class Student{
@@ -260,7 +266,7 @@ class Student{
 // in main()
 Student obj = Student.builder().setId(1).setName("Pinkman").setAge(26).build();
 ```
-
+## Others
 **Adapter** (aka Wrapper) - lets you wrap an otherwise incompatible object in an adapter to make it compatible with another class. 
 
 Create an "adapter" concrete class `AppleAdapter` with the object as property we want to convert from e.g. `Orange` and `extend` this class from `Apple` (target object). The class `AppleAdapter` is of type Apple but has an Orange field such that we can take orange object as input to the constructor and call apple methods on it i.e. treat it as an apple.
