@@ -4,6 +4,7 @@ date = 2024-05-01T18:33:00+05:30
 weight = 2
 +++
 
+## Introduction
 **Design Patterns**: guidelines providing solutions to recurring problems and good practices in software.
 
 Design patterns are often called **GoF** (Gang of Four) design patterns because of [the book](https://g.co/kgs/RzdfZ2) that first outlined these design patterns 20 years ago, named so because of its 4 authors. 
@@ -56,16 +57,16 @@ Student cloneObj = (Student) obj.clone();
 ### Singleton
 Only 1 instance of this class should exist at runtime.
 
-Types of implementations of this pattern:
-1. _Eager_: initializing the field inline at class init and returning it everytime in the future
-2. _Lazy_: create a new object or returns the existing one depending upon its existence
-3. _Synchronized method_: only one thread at a time can acess the method; avoids race condition and creation of two objects simultaneously
-4. _Double checked locking_: optimization of the previous approach. Avoid locking everytime with `synchronized` method, instead put `synchronized` block around the object creation code.
+Ways of implementing this pattern:
+1. **Eager**: initializing the field inline at class init and returning it everytime in the future
+2. **Lazy**: create a new object or returns the existing one depending upon its existence
+3. **synchronized method**: only one thread at a time can acess the method; avoids race condition and creation of two objects simultaneously
+4. **Double checked locking (synchronized block)**: optimization of the previous approach. Avoid locking everytime with `synchronized` method, instead put `synchronized` block around the object creation code.
 	- first check makes sure that if object isn't `null` (already exists) then we don't have to acquire lock
 	- second check is there to make sure that object wasn't created by another parallel thread in the duration in which we were waiting to acquire the lock
-5. _Enum_: `enum` in Java have only a single object per constant in the entire runtime. Define an `enum` with a single constant and use it as Singleton object.
+5. **Enum**: `enum` in Java have only a single object per constant in the entire runtime. Define an `enum` with a single constant and use it as Singleton object.
 
-Make constructor private (no instance can be made using `new` then).
+Make the constructor private (no instance can be made using `new` then).
 
 ```java
 // 1. Eager
