@@ -18,6 +18,7 @@ _Reference#1_: https://www.programcreek.com/java-design-patterns-in-stories
 
 _Reference#2_: https://java-design-patterns.com
 
+_Reference#3_: Concept && Coding - Udemy
 
 ## Creational Patterns
 
@@ -226,7 +227,9 @@ CPU obj = factory.getInstance(7);								// get object from factory
 ### Builder
 Useful in creating objects in a step-by-step manner. Helps skip initialization of optional fields.
 
-Issues with existing approaches: instead of making a huge constructor with all members as param we can create multiple smaller ones, but now we will face a challenge of constructor redefinitions. Ex - constructor `Foobar(int id, String name)` clashes with overloaded constructor `Foobar(int age, String name)` because of parameter data types and `Foobar` class has all the four members.
+Issues with existing approaches: 
+- make a huge constructor with all members as param; not ideal
+- create multiple smaller constructors, but here we will face a challenge of constructor redefinitions. Ex - constructor `Foobar(int id, String name)` clashes with overloaded constructor `Foobar(int age, String name)` because of parameter data types and `Foobar` class has all the four members.
 
 A `static` method `builder()` and a non-static method `build()`, every setter method returns `this` object itself.
 
@@ -267,20 +270,157 @@ class Student{
 // in main()
 Student obj = Student.builder().setId(1).setName("Pinkman").setAge(26).build();
 ```
+
+A more thread-safe way is to create a separate `abstract class` or an inner `static class` for Builder (some code duplication is present as members are defined again in the Builder class if not inner class).
+
+```java
+// Builder Pattern using inner static class
+class Student{
+	private int id;
+	private String name;
+	private int age;
+
+	private Student(Builder builder){		// modified constructor
+		this.id = builder.id;
+		this.name = builder.name;
+		this.age = builder.age;
+	}
+
+	// define getters here
+
+	// inner class can access private memebers of its containing outer class
+	public static class Builder{
+		public Student setId(int id){
+			this.id = id;
+			return this;
+		}
+
+		public Student setName(String name){
+			this.name = name;
+			return this;
+		}
+
+		public Student setAge(int age){
+			this.age = age;
+			return this;
+		}
+
+		public Student build(){
+			return new Student(this);		// modified build method
+		}
+	}
+}
+
+// in main()
+Student obj = new Student.Builder().setId(1).setName("Pinkman").setAge(26).build();
+```
+
+## Structural Patterns
+They all are based on **HAS-A** relationship i.e. aggregation (and composition). Some make use of **IS-A** relationship too.
+
+### Decorator
+Add features layer-by-layer on an existing object without modifying the code for it. The modified decorator object is also an object and it is decoratable recursively any number of times (i.e. both **HAS-A** and **IS-A** relationships).
+
+Ex - used in `Collections.synchronizedXXX()` and `Collections.unmodifiableXXX()`.
+
+```java
+interface BasePizza{
+	public int cost();
+}
+
+class Margherita implements BasePizza{
+	@Override
+	public int cost(){
+		return 100;
+	}
+}
+
+class Farmhouse implements BasePizza{
+	@Override
+	public int cost(){
+		return 200;
+	}
+}
+
+// decorator class (it IS-A BasePizza too)
+interface PizzaDecorator extends BasePizza{ }
+
+// concrete decorator class
+class JalepenoTopping implements PizzaDecorator{
+	BasePizza basePizza;	// object to decorate; HAS-A
+
+	public JalepenoTopping(BasePizza basePizza){
+		this.basePizza = basePizza;
+	}
+
+	@Override
+	public int cost(){
+		return this.basePizza.cost() + 10;		// decorate cost() method
+	}
+}
+
+// in main()
+BasePizza pizzaObj = new MushroomTopping(new JalepenoTopping(new Margherita()));		// recursive decoration
+pizzaObj.cost();	// return final cost with all the toppings
+```
+
+### Composite
+Whenever classes' relationship hierarchy is like a Russian Doll (recursive tree), we use this design pattern to model it. Ex - Filesystem.
+
+```java
+interface FileSystem{ }
+
+class File implements FileSystem{
+	String fileName;
+}
+
+class Directory implements FileSystem{
+	String directoryName;
+	List<FileSystem> fileSystemList;		// recursive composition (one-to-many)
+}
+
+```
+
+### Adapter
+Allows objects with incompatible interfaces to work together. Involves a single adapter class which is responsible for communication between the two different interfaces.
+
+Ex - `Arrays.asList()` adapts array `T[]` type to `List<T>` type, changes are propagated back to array too.
+
+```java
+// existing interface
+interface OldInterface {
+    void oldMethod();
+}
+
+// new interface
+interface NewInterface {
+    void newMethod();
+}
+
+// adapter class for new interface to make it compatible with old
+class Adapter implements NewInterface {
+    private OldInterface oldObject;			// HAS-A relation
+
+    public Adapter(OldInterface oldObject) {
+        this.oldObject = oldObject;
+    }
+
+    public void newMethod() {
+        oldObject.oldMethod();		// adaptation
+    }
+}
+
+
+// define concrete classes for all interfaces to use adapter
+```
+
+
 ## Others
-**Adapter** (aka Wrapper) - lets you wrap an otherwise incompatible object in an adapter to make it compatible with another class. 
-
-Create an "adapter" concrete class `AppleAdapter` with the object as property we want to convert from e.g. `Orange` and `extend` this class from `Apple` (target object). The class `AppleAdapter` is of type Apple but has an Orange field such that we can take orange object as input to the constructor and call apple methods on it i.e. treat it as an apple.
-
-Ex - `java.util.Arrays#asList()` adapts `List<>`  to `Array` type.
-
-**Decorator** - much like Adapter Pattern but types we are decorating to-and-from are related (implement a single interface `Troll` or `Girl`). Getter of one calls another's and return values are modified (_decoration_). Ex - `java.util.Collections#synchronizedXXX()` and `java.util.Collections#unmodifiableXXX()`
-
 **Facade** - provide a unified class that initializes a bunch of classes whenever it is initialized. `Computer` class initializes `CPU`, `Memory`, `Display` objects and store it in its properties.
 
 **Observer** - when one object changes state, all its dependents are notified and updated automatically. Ex - `java.util.EventListener` and Project Reactor.
 
-**Strategy** - Situation
+
 
 ## Anti-Patterns
 _Reference_: https://sourcemaking.com/antipatterns
