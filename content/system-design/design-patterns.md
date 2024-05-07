@@ -342,7 +342,7 @@ class Farmhouse implements BasePizza{
 	}
 }
 
-// decorator class (it IS-A BasePizza too)
+// decorator (it IS-A BasePizza too)
 interface PizzaDecorator extends BasePizza{ }
 
 // concrete decorator class
@@ -382,7 +382,7 @@ class Directory implements FileSystem{
 ```
 
 ### Adapter
-Allows objects with incompatible interfaces to work together. Involves a single adapter class which is responsible for communication between the two different interfaces.
+Allows objects with incompatible interfaces to work together (aka Wrapper). Involves a single adapter class which is responsible for communication between the two different interfaces.
 
 Ex - `Arrays.asList()` adapts array `T[]` type to `List<T>` type, changes are propagated back to array too.
 
@@ -397,30 +397,121 @@ interface NewInterface {
     void newMethod();
 }
 
-// adapter class for new interface to make it compatible with old
-class Adapter implements NewInterface {
-    private OldInterface oldObject;			// HAS-A relation
+// Adapter class for old interface to make it compatible with new interface
+class Adapter implements NewInterface {		// wrap with new
+    private OldInterface oldObject;			// HAS-A relation (wraps around old)
 
     public Adapter(OldInterface oldObject) {
         this.oldObject = oldObject;
     }
 
+    @Override
     public void newMethod() {
         oldObject.oldMethod();		// adaptation
     }
 }
 
-
-// define concrete classes for all interfaces to use adapter
+// define concrete classes for all interfaces to use them
 ```
 
+### Facade
+Hides the system complexity from the client. Provide a unified class that initializes a bunch of classes and calls complex logic steps on them instead of Client doing it directly on the base objects. 
+
+Ex - `ComputerFacade` class initializes `CPU`, `Memory`, `Display` objects and has a **HAS-A** relation with them (objects as members).
+
+```java
+class CPU{
+	public void powerUp(){ }
+}
+
+class Memory{
+	public void start(){ }
+}
+
+class Display{
+	public void showSplashScreen(){ }
+}
+
+class ComputerFacade{
+	private CPU cpu;				// HAS-A relation
+	private Memory memory;
+	private Display display;
+
+	public ComputerFacade(){		// init member objects here
+		this.cpu = new CPU();
+		this.memory = new Memory();
+		this.display = new Display();
+	}
+
+	public void boot(){				// hiding complexity; Client now needs to call only this method
+		cpu.powerUp();
+		memory.start();
+		display.showSplashScreen();
+	}
+}
+
+// in main()
+ComputerFacade obj = new ComputerFacade();
+obj.boot();
+```
+
+We can also chain multiple facades i.e. one facade calling another, which in turn calls the complex logic.
+
+**How is it diff from Proxy?** It takes multiple objects whereas a proxy takes only a single one.
+
+**How is it diff from Adapter?** There are no compatibility issues we're solving here. Facade creates a layer over existing interfaces to combine them.
+
+### Proxy
+Create a proxy wrapper class around an original class, and Client calls the original via the proxy.
+
+**Why go through a proxy?**
+- Access Restrictions (Filtering, Marshalling & Unmarshalling)
+- Caching
+- Pre & Post Processing
+
+Ex - Spring Application Proxy creates a proxy class for every class (Bean) in the application using Spring AOP and CGLIB.
+
+```java
+interface Computer{
+	void boot();
+}
+
+
+class Laptop implements Computer{
+	@Override
+	void boot(){ 
+		//boot logic here 
+	}
+}
+
+class LaptopProxy implements Computer{
+	Laptop laptop;							// HAS-A relation
+
+	public LaptopProxy(Laptop laptop){
+		this.laptop = laptop;
+	}
+
+	@Override
+	void boot(){
+		if(laptop.powerOnSelfTest() == true){		// pre-processing
+			laptop.boot();							// call via proxy
+		}
+		else {
+			throw new RuntimeException("Already running!");
+		}
+	}
+}
+
+// all calls intended for Laptop will instead be made on the LaptopProxy object
+laptop laptopObj = new Laptop();
+Computer laptopProxyObj = new LaptopProxy(laptopObj);
+laptopProxyObj.boot();
+```
+
+Proxies can be chained too i.e. one proxy calls another, which in turns calls another proxy.  
 
 ## Others
-**Facade** - provide a unified class that initializes a bunch of classes whenever it is initialized. `Computer` class initializes `CPU`, `Memory`, `Display` objects and store it in its properties.
-
 **Observer** - when one object changes state, all its dependents are notified and updated automatically. Ex - `java.util.EventListener` and Project Reactor.
-
-
 
 ## Anti-Patterns
 _Reference_: https://sourcemaking.com/antipatterns
