@@ -145,12 +145,12 @@ Helps create extensible, maintainable, and understandable code.
 
 _Reference_: https://www.baeldung.com/solid-principles
 
-1. **Single Responsibility**: a class should have only one reason to change; do one thing and do it well
+1. **Single Responsibility**: a class should have only one reason to change; do one thing and do it well.
 
 Ex - `Invoice` class can be split into the following three classes:
-- `Invoice` class
-- `InvoicePrinter` class
-- `InvoiceDAO` class
+- `Invoice` class - main entity
+- `InvoicePrinter` class - to print entity values to the console
+- `InvoiceDAO` class - to persist entity values into a database
 
 Code:
 
@@ -177,7 +177,7 @@ class Invoice{
 }
 ```
 
-The above class can change because of multiple reasons such as changes in database storing logic, or price discount calc (e.g. adding GST taxation). 
+**Problem**: The above class can change because of multiple reasons such as changes in database storing logic, or price discount calc (e.g. adding GST taxation). 
 
 A better way to write the above class without violating SRP by splitting functionality across multiple classes is:
 
@@ -195,7 +195,6 @@ class Invoice{
 
 }
 
-
 class InvoicePrinter{
 	Invoice invoice;
 
@@ -208,7 +207,6 @@ class InvoicePrinter{
 	}
 }
 
-
 class InvoiceDao{
 	Invoice invoice;
 
@@ -220,9 +218,16 @@ class InvoiceDao{
 		// save to DB logic
 	}
 }
+
+// in main()
+Invoice invoiceObj = new Invoice(1L, 100, 50);
+InvoicePrinter invoicePrinterObj = new InvoicePrinter(invoiceObj);
+invoicePrinterObj.print();
 ```
 
-2. **Open/Closed**: add functionality by extending and not modifying the code directly
+In the example above, we can also avoid composition and supply `Invoice` object directly as a method parameter `void print(Invoice invoiceObj){ }` just as we do in Controller, Service, and Repository layers in SpringBoot appication.
+
+2. **Open/Closed**: add functionality by extending and not modifying the code directly.
 
 Ex - implement new functionality so that we can save invoices to a file in a filesystem (FS) as well
 
@@ -258,7 +263,7 @@ class InvoiceDaoFS extends InvoiceDao{
 }
 ```
 
-3. **Liskov Substitution**: a superclass should be substitutable by any of its subclasses, without breaking any existing functionality. This is possible only if the subclass adds new behaviour on top of its superclass and not narrow it down.
+3. **Liskov Substitution**: a superclass should be substitutable by any of its subclasses, without breaking any existing functionality. This is possible only if the subclass _adds_ new behaviour on top of its superclass and _not narrows it down_.
 
 Ex - _Penguin_ is a technically a _Bird_, but it is flightless. We can't replace Bird object with Penguin object and expect things to not break in the way the below example is written.
 
