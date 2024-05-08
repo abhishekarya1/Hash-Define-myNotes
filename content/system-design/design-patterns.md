@@ -620,6 +620,10 @@ fishObj.breatheProcess();
 
 ![bridge_design_pattern_UML_diagram](https://i.imgur.com/gbuvIOA.png)
 
+**Advantages of Bridge Pattern**:
+- we can now create new breathing mechanisms as concrete Implementor classes without creating an Abstraction concrete class for them. Ex - create a `WormBreatheImplementor` (they breathe through their skin).
+- we can supply breathing mechanisms to various Abstraction concrete classes at runtime. Ex - pass `FishBreatheImplementor` to constructor of `Dog` class!
+
 **Abstract class vs Interface for this pattern**: if we use `abstract class` as Abstraction, then we can place `BreatheImplementor` object composition in the abstract class itself, declare `breatheProcess()` method as abstract. In the example above we used `interface` and thus we need to place composition object in the concrete class of the abstraction.
 
 ## Others
