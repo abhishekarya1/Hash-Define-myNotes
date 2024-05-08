@@ -376,7 +376,7 @@ class File implements FileSystem{
 
 class Directory implements FileSystem{
 	String directoryName;
-	List<FileSystem> fileSystemList;		// recursive composition (one-to-many)
+	List<FileSystem> fileSystemList;		// recursive composition (one-to-many association)
 }
 
 ```
@@ -485,7 +485,7 @@ class Laptop implements Computer{
 }
 
 class LaptopProxy implements Computer{
-	Laptop laptop;							// HAS-A relation
+	Computer laptop;							// HAS-A relation
 
 	public LaptopProxy(Laptop laptop){
 		this.laptop = laptop;
@@ -503,12 +503,124 @@ class LaptopProxy implements Computer{
 }
 
 // all calls intended for Laptop will instead be made on the LaptopProxy object
-laptop laptopObj = new Laptop();
+Computer laptopObj = new Laptop();
 Computer laptopProxyObj = new LaptopProxy(laptopObj);
 laptopProxyObj.boot();
 ```
 
 Proxies can be chained too i.e. one proxy calls another, which in turns calls another proxy.  
+
+### Bridge
+It decouples an abstraction from its implementation so that the two can vary independently.
+
+![bridge_pattern_summary_UML_diagram](https://i.imgur.com/GX0oNC8.png)
+
+```java
+interface LivingThings{
+	void breatheProcess();
+}
+
+class Animal implements LivingThings{
+	@Override
+	public void breatheProcess(){
+		// nose
+	}
+}
+
+class Fish implements LivingThings{
+	@Override
+	public void breatheProcess(){
+		// gills
+	}
+}
+
+class Tree implements LivingThings{
+	@Override
+	public void breatheProcess(){
+		// leaves
+	}
+}
+
+// Problem - we can't have an entirely new breathing mechanism without creating a new concrete class (impl) with new logic for the interface (abstraction) method
+
+// create a Bridge interface - and now we can independently (of class) create many impl of it that define a new kind of breathing mechanism
+
+interface BreatheImplementor{
+	void breathe();
+}
+
+class AnimalBreatheImplementor implements BreatheImplementor{
+	@Override
+	void breathe(){
+		// nose
+	}
+}
+
+class FishBreatheImplementor implements BreatheImplementor{
+	@Override
+	void breathe(){
+		// gills
+	}
+}
+
+class TreeBreatheImplementor implements BreatheImplementor{
+	@Override
+	void breathe(){
+		// leaves
+	}
+}
+
+
+// and modify existing classes as follows
+class Animal implements LivingThings{
+	BreatheImplementor breatheImpl;			// Bridge Link (object HAS-A composition)
+
+	public Animal(BreatheImplementor breatheImpl){
+		this.breatheImpl = breatheImpl;
+	}
+
+	@Override
+	public void breatheProcess(){
+		breatheImpl.breathe();				// calls method of implementor impl
+	}
+}
+
+class Fish implements LivingThings{
+
+	BreatheImplementor breatheImpl;
+
+	public Fish(BreatheImplementor breatheImpl){
+		this.breatheImpl = breatheImpl;
+	}
+
+	@Override
+	public void breatheProcess(){
+		breatheImpl.breathe();
+	}
+}
+
+class Tree implements LivingThings{
+
+	BreatheImplementor breatheImpl;
+
+	public Tree(BreatheImplementor breatheImpl){
+		this.breatheImpl = breatheImpl;
+	}
+
+	@Override
+	public void breatheProcess(){
+		breatheImpl.breathe();
+	}
+}
+
+// in main()
+LivingThings fishObj = new Fish(new FishBreatheImplementor());		// supply which implementor to use here
+fishObj.breatheProcess();
+```
+
+![bridge_design_pattern_UML_diagram](https://i.imgur.com/gbuvIOA.png)
+
+**Abstract class vs Interface for this pattern**: if we use `abstract class` as Abstraction, then we can place `BreatheImplementor` object composition in the abstract class itself, declare `breatheProcess()` method as abstract. In the example above we used `interface` and thus we need to place composition object in the concrete class of the abstraction.
 
 ## Others
 **Observer** - when one object changes state, all its dependents are notified and updated automatically. Ex - `java.util.EventListener` and Project Reactor.

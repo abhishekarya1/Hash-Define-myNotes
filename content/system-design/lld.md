@@ -127,6 +127,8 @@ class Water {
 }
 ```
 
+Note that in Composition we can also instantiate the `new Heart()` object inside the class itself (either inline or inside the constructor) such that it gets created automatically when `Human` class is initizalized and/or instantiated, but such code need not be present in case of Aggregation.
+
 For cleaner code, functions should be:
 - **Pure Functions**: always produce same output for the same input, no side-effects (mutate other resources)
 - **Command Query Separation** (CQRS): either perform an action (_command_) on a resource to change its state, or return some data (_query_) back to the caller but not both
