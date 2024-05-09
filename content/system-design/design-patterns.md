@@ -626,6 +626,92 @@ fishObj.breatheProcess();
 
 **Abstract class vs Interface for this pattern**: if we use `abstract class` as Abstraction, then we can place `BreatheImplementor` object composition in the abstract class itself, declare `breatheProcess()` method as abstract. In the example above we used `interface` and thus we need to place composition object in the concrete class of the abstraction.
 
+### Flyweight
+Reduce the memory usage by sharing data among multiple objects.
+
+There is no aggregation/composition required here as other patterns. 
+
+**Applications of this pattern**:
+- Design a Game (display diff types of robots on screen; only co-ordinates differ)
+- Design a Word Processor (display diff types of characters on screen; only co-ordinates differ)
+
+**Where to apply this pattern**:
+- memory is limited
+- multiple objects share data:
+	- _Intrinsic_: single constant copy of data shared among all objects
+	- _Extrinsic_: changes based on the Client input and differs for each object
+- creation of object is expensive
+
+**Implementation steps**:
+- from object, remove all extrinsic data and keep only the intrinsic data (this is a "Flyweight" object)
+- this object class can be immutable
+- extrinsic data can be passed to Flyweight object using method parameters
+- once the Flyweight object is created it can be cached and reused wherever required
+
+
+```java
+interface IRobot{
+	public void display(int x, int y);
+}
+
+// Flyweight class
+class HumanRobot implements IRobot{
+	private String type;
+	private Sprites body;
+
+	public HumanRobot(String type, Sprites body){
+		this.type = type;
+		this.body = body;
+	}
+
+	public String getType(){
+		return this.type;
+	}
+
+	public Sprites getBody(){
+		return this.body;
+	}
+
+	@Override
+	public void display(int x, int y){
+		// render image
+	}
+}
+
+// Factory (do caching here in a static Map<String, Sprites>)
+class RobotFactory{
+	private static Map<String, Sprites> robotObjectCache = new HashMap<>();
+
+	public static IRobot createRobot(String type){
+		if(robotObjectCache.containsKey(type)){
+			return robotObjectCache.get(type);			// cache read
+		}
+		else{
+			if(type.equals("HUMAN")){
+				IRobot robotObj =  new HumanRobot(type, new HumanSprite());
+				robotObjectCache.put(type, robotObj);		// cache write
+				return robotObj;
+			}
+			else if(type.equals("DOG")){
+				IRobot robotObj = new DogRobot(type, new DogSprite());
+				robotObjectCache.put(type, robotObj);		// cache write
+				return robotObj;
+			}
+		}
+		return null;
+	}
+}
+
+// in main()
+// create multiple human robots (object reused implicitly since its cached) and display them at diff co-ordinates
+IRobot humanRobotObj = RobotFactory.createRobot("HUMAN");		// writes object to cache
+humanRobotObj.display(1, 0);
+IRobot humanRobotObj1 = RobotFactory.createRobot("HUMAN");		// reads cached object
+humanRobotObj1.display(2, 0);
+IRobot humanRobotObj2 = RobotFactory.createRobot("HUMAN");		// reads cached object
+humanRobotObj2.display(3, 0);
+```
+
 ## Others
 **Observer** - when one object changes state, all its dependents are notified and updated automatically. Ex - `java.util.EventListener` and Project Reactor.
 
