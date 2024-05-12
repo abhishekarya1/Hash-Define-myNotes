@@ -344,7 +344,7 @@ class Farmhouse implements BasePizza{
 
 // decorator (it IS-A BasePizza too)
 interface PizzaDecorator extends BasePizza{
-	String getColor();
+	String getColor();		// introduce new behavior(s) here
 }
 
 // concrete decorator class
@@ -361,7 +361,7 @@ class JalepenoTopping implements PizzaDecorator{
 	}
 
 	@Override
-	public String getColor(){		// introduce new behavior; Decorator interface's method 	
+	public String getColor(){
 		return "Green";
 	}
 }
@@ -469,7 +469,7 @@ We can also chain multiple facades i.e. one facade calling another, which in tur
 **How is it diff from Adapter?** There are no compatibility issues we're solving here. Facade creates a layer over existing interfaces to combine them.
 
 ### Proxy
-Create a proxy wrapper class around an original class, and Client calls the original via the proxy.
+Create another proxy wrapper class around an original class implementing the same common interface, and Client calls the original via the proxy object.
 
 **Why go through a proxy?**
 - Access Restrictions (Filtering, Marshalling & Unmarshalling)
@@ -515,7 +515,9 @@ Computer laptopProxyObj = new LaptopProxy(laptopObj);
 laptopProxyObj.boot();
 ```
 
-Proxies can be chained too i.e. one proxy calls another, which in turns calls another proxy.  
+Proxies can be chained too i.e. one proxy calls another, which in turns calls another proxy.
+
+This is similar to the Decorator Pattern but we don't need another interface like `ToppingDecorator` here as we don't need to introduce new behavior (methods) here but only calling the original object's methods via a proxy.
 
 ### Bridge
 It decouples an abstraction from its implementation so that the two can vary independently.
