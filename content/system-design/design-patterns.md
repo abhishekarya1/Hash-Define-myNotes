@@ -319,7 +319,7 @@ Student obj = new Student.Builder().setId(1).setName("Pinkman").setAge(26).build
 They all are based on **HAS-A** relationship i.e. aggregation (and composition). Some make use of **IS-A** relationship too.
 
 ### Decorator
-Add features layer-by-layer on an existing object without modifying the code for it. The modified decorator object is also an object and it is decoratable recursively any number of times (i.e. both **HAS-A** and **IS-A** relationships).
+Add features layer-by-layer on an existing object without modifying the code for it. The modified decorator object is also an object of a common interface and it is thus decoratable recursively any number of times (i.e. both **HAS-A** and **IS-A** relationships).
 
 Ex - used in `Collections.synchronizedXXX()` and `Collections.unmodifiableXXX()`.
 
@@ -343,7 +343,9 @@ class Farmhouse implements BasePizza{
 }
 
 // decorator (it IS-A BasePizza too)
-interface PizzaDecorator extends BasePizza{ }
+interface PizzaDecorator extends BasePizza{
+	String getColor();
+}
 
 // concrete decorator class
 class JalepenoTopping implements PizzaDecorator{
@@ -357,6 +359,11 @@ class JalepenoTopping implements PizzaDecorator{
 	public int cost(){
 		return this.basePizza.cost() + 10;		// decorate cost() method
 	}
+
+	@Override
+	public String getColor(){		// introduce new behavior; Decorator interface's method 	
+		return "Green";
+	}
 }
 
 // in main()
@@ -368,7 +375,7 @@ pizzaObj.cost();	// return final cost with all the toppings
 Whenever classes' relationship hierarchy is like a Russian Doll (recursive tree), we use this design pattern to model it. Ex - Filesystem.
 
 ```java
-interface FileSystem{ }
+interface FileSystem{ }		// optionally introduce a common ls() method to list info of file or dir contents
 
 class File implements FileSystem{
 	String fileName;
