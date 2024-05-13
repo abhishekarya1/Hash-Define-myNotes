@@ -137,7 +137,7 @@ They are only available to use for `List` interface and its impl classes like `A
 ## Top Interview Questions on Collections Internals
 
 ### Importance of hashCode() and equals()
-**equals() and hashCode() contract**: Two objects that return true for `equals()` must also have the same `hashCode()` value.
+**equals() and hashCode() contract**: Two objects that return true for `equals()` must also have the same `hashCode()` value. Hence if we override one, we must override the other too.
 
 Typically, if they are not overriden with custom impl, `equals()` calc based on the memory address of the instance in the heap, and `hashCode()` calc based on the memory address too. We often need to override and provide custom impl for these methods based entirely on instance members and not its memory address.
 
