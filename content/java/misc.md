@@ -177,6 +177,8 @@ public int hashCode(){
 }
 ```
 
+`Objects.hash()` utility class static method uses a variant of the well-known hash function called "MurmurHash" and produces variable length integral numbers as output hash.
+
 Do note that they are properly overriden on Wrapper classes as well as core classes like `String` (compare contents rather than memory address).
 
 ```java
