@@ -152,7 +152,7 @@ set.add(new Student(1, "A"));
 System.out.println(set.size());     // 2
 ```
 
-Override default impl of the `hashCode()` method of `Person` class based on its contents.
+Override default impl of the `hashCode()` method of `Student` class based on its contents.
 
 ```java
 // Ex - overriding for Student class
@@ -167,6 +167,8 @@ public boolean equals(Object obj){
     if(this.id == studentObj.id && this.name.equals(studentObj.name)){
         return true;
     }
+
+    return false;
 }
 
 @Override
