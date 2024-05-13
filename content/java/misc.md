@@ -137,19 +137,43 @@ They are only available to use for `List` interface and its impl classes like `A
 ## Top Interview Questions on Collections Internals
 
 ### Importance of hashCode() and equals()
-**equals() and hashCode() contract**: Two instances that return true for `equals()` must also have the same `hashCode()` value. Typically, if they are not overriden with custom impl, `equals()` calc based on the memory address of the instance in the heap, and `hashCode()` calc based on the memory address too. We often need to override and provide custom impl for these methods based entirely on instance members and not its memory address.
+**equals() and hashCode() contract**: Two objects that return true for `equals()` must also have the same `hashCode()` value.
 
-In the below code, identical objects are considered diff incorrectly since `hashCode()` isn't overriden:
+Typically, if they are not overriden with custom impl, `equals()` calc based on the memory address of the instance in the heap, and `hashCode()` calc based on the memory address too. We often need to override and provide custom impl for these methods based entirely on instance members and not its memory address.
+
+In the below code, identical objects are considered diff incorrectly since default `hashCode()` isn't overriden and its inherited from `java.lang.Object` class:
+
 ```java
-Set<Person> set = new HashSet<>();
+Set<Student> set = new HashSet<>();
 
-set.add(new Person("A", 3));
-set.add(new Person("A", 3));
+set.add(new Student(1, "A"));
+set.add(new Student(1, "A"));
 
 System.out.println(set.size());     // 2
 ```
 
-Override default impl of the `hashCode()` method of `Person` class based on its content.
+Override default impl of the `hashCode()` method of `Person` class based on its contents.
+
+```java
+// Ex - overriding for Student class
+@Override
+public boolean equals(Object obj){
+    if(this == obj){
+        return true;
+    }
+
+    Student studentObj = (Student) obj;     // explicit cast (Object to Student)
+
+    if(this.id == studentObj.id && this.name.equals(studentObj.name)){
+        return true;
+    }
+}
+
+@Override
+public int hashCode(){
+    return Objects.hash(this.id, this.name);    // utility class; varargs and handles null implicitly
+}
+```
 
 Do note that they are properly overriden on Wrapper classes as well as core classes like `String` (compare contents rather than memory address).
 
@@ -161,8 +185,9 @@ System.out.println(st.size());     // 1
 ```
 
 ### HashMap
+Underlying data structures are backing array of size `16` (buckets) and a linked list attached to each bucket cell. 
 
-Undelying data structures are backing array of size `16` (buckets) and a linked list attached to each bucket cell.
+Equivalent of `unordered_map<>` in C++ which also uses hash table (array/buckets) internally.
 
 Methods to manage elements are `hashCode()` and `equals()` that are present in every class (inherited from `java.lang.Object` class) and need to be overwritten for proper functioning of Map.
 
@@ -186,7 +211,7 @@ A node in the attached backing linked lists of `HashMap`:
 └────────────────┴──────────────────┴─────────────────┴─────────────────┘
 ```
 
-**put() operation**: There are bound to be hash collisions since the backing array is only of size `16`, whenever there is a non-zero sized LL present on the bucket we are hashed to, we check (linear search) if the key already exists by comparing `hash` value present in LL nodes and then verify again by comparing the key we're currently searching and `key` value from LL using `equals()` method and replace if they are equal otherwise attach new node to the end of linked list at that bucket.
+**put() operation**: There are bound to be hash collisions since the backing array is only of size `16`, whenever there is a non-zero sized LL present on the bucket we are hashed to, we check (linear search) if the key already exists by comparing `hash` value present in LL nodes and then verify again by comparing the key we're currently searching and `key` value from LL using `equals()` method and replace if they are equal otherwise attach new node to the end of linked list at that bucket. 
 
 {{% notice note %}}
 There can only be one `null` key in a HashMap and it is written to bucket indexed as `0`.
@@ -200,7 +225,11 @@ System.out.println(mp.get(null));   // prints "ABC"
 
 **get() operation**: we goto bucket and check for non-zero sized LL, if nodes are present linearly search them for `hash` value match and once found verify with using `equals()` on search key and LL nodes key.
 
+Worst case TC for `get()` and `put()` operations = `O(n)`, considering every key hashes to the same bucket (unequally distributed hash function).
+
 **Performance improvement of HashMap** (since Java 8): buckets are limited (only 16), collisions are more likely to occur with increasing map entries leading to poor performance. When a bucket's LL grows beyond a certain threshold, it switches from using LL (`O(n)` operations) to using a Balanced Tree (specifically, a Red-Black Tree) to maintain performance.
+
+Note that `TreeMap` (ordered Maps) also use Red-Black Trees internally in Java.
 
 ### HashSet
 It uses `HashMap` internally! Keys are the entities we want to put in the set and value is constant `PRESENT` (random instance of `Object` class) if the entity exists in the set.
@@ -222,12 +251,14 @@ public boolean remove(Object o) {
 }
 ```
 
-**Immutability of Keys**: Keys are nothing but instances but they must be immutable if they're being put into a set. This is to avoid miss (unable to find key) for instances that were added to the set previously and were modifed after the addition. As a solution, we can add the modified instance again after modification and it will also be put into the set.
+**Immutability of Keys**: Keys are nothing but instances but they must be immutable if they're being put into a set. This is to avoid _miss_ (unable to find key) for instances that were added to the set previously and were modifed after the addition.
+
+As a solution, we can add the modified instance again after modification and it will also be put into the set. But beware that if the instance has a `timestamp` member then we end up having a lot of copies of the same instance (_redundancy_) differing only by timestamp. 
 
 ### LinkedHashMap
 It is just like a normal `HashMap` but **attaches nodes across buckets in a circular doubly-linked list fashion** using `before` and `after` links in LL node so that it can maintain ordering. It is not thread-safe.
 
-There is a dummy `Head` node which is present in the impl of `LinkedHashMap` to ensure addition of Circular DLL nodes relative to it. A newly inserted or accessed node is moved to the end of the list (`before` link of `Head` node). Conversely, the least recently used (LRU) element is at the beginning of the list, just `after` the `Head` node.
+There is a dummy `Head` node which is present in the impl of `LinkedHashMap` to ensure addition of Circular DLL nodes relative to it. A newly inserted or accessed node is inserted at the end of the list (`before` link of `Head` node). Conversely, the least recently used (LRU) element is at the beginning of the list, just `after` the `Head` node. This way it follows the fashion `... -> 1 -> 2 -> 3 -> Head -> 1 -> ...`
 
 Ordering is preserved either by - **insertion order** or **access order**. Used to implement LRU cache when access ordering is enabled.
 
