@@ -40,9 +40,11 @@ System.out.println("World");
 
 Threads always proceed **_asynchronously_** with each other. Demonstrated in below example.
 ```java
-new Thread(()->{ for(int i=0;i<5;i++){
-		System.out.println(i);
-}}).start();
+new Thread(()->{ 
+        for(int i = 0; i < 5; i++){
+		  System.out.println(i);
+        }
+}).start();
 new Thread(()->{
 	System.out.println("A");
 	System.out.println("B");
@@ -82,11 +84,37 @@ World
 */
 ```
 
-Two ways to create a thread - 
-1. provide a `Runnable` reference or lambda to `Thread` class constructor (_common_)
-2. create a subclass from `Thread` and override `run()` method (things to do in thread goes in it)
+A Class is used to create a Thread. **Two ways to create**:
+1. implement `Runnable` interface in your class: override (implement) `run()` method and call the the Thread class constructor by supplying this class object as a parameter (_recommended_)
+2. create a subclass (extend) from `Thread` class: override `run()` method and call `start()` on the class object (_limited because no multiple inheritance allowed in Java_)
 
-The `Thread` class implements `Runnable` interface.
+```java
+// 1
+class Foo implements Runnable{
+    @Override
+    public void run(){
+        System.out.println("foo");
+    }
+}
+
+// 2
+class Bar extends Thread{
+    @Override
+    public void run(){
+        System.out.println("bar");
+    }
+}
+
+// in main()
+Runnable task = new Foo();
+Thread t1 = new Thread(task);
+t1.start();
+
+Thread t2 = new Bar();
+t2.start();
+```
+
+Things to do in the thread go inside the `run()` method. It is the only method present in the `Runnable` interface. The `Thread` class itself implements `Runnable` interface and that's why it has the `run()` method available to it by default.
 
 ### Thread Types
 
