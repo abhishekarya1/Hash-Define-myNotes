@@ -306,9 +306,9 @@ It violates the equals and hashcode contract by design! Since it doesn't use tho
 
 It uses reference equality operator (`==`) on key search operations instead of `equals()` and uses the JVM provided identity hashcode of the object instead of generating hascode using the `hashCode()` method of the object. Hence we don't need to override the `equals()` method for key objects to be put in the map since it won't be used to compare keys anyways.
 
-It allows mutable keys too as every key object is unique anyways when we do reference comparison using `==`.
+It doesn't face the mutable key problem as every key object is unique anyways when we do reference comparison using `==`.
 
-`IdentityHashMap` isn't thread-safe but we can always use `Collections synchronizedMap(identityHashMap)` to make it so.
+`IdentityHashMap` isn't thread-safe but we can always use `Collections synchronizedMap(identityHashMap)` to make it sync.
 
 ```java
 Map<String, String> identityHashMap = new IdentityHashMap<>();
