@@ -304,9 +304,9 @@ In a `Collections.syncronizedMap(mp)`, whole map is locked even for reads! It wr
 ### IdentityHashMap
 It violates the equals and hashcode contract by design! Since it doesn't use those two methods and every object is unique irrespective of its content and also has a unique hashcode.
 
-It uses reference equality operator (`==`) on key search operations instead of `equals()` and uses the JVM provided identity hashcode of the object instead of generating hascode using the `hashCode()` method of the object. Hence we don't need to override the `equals()` method for key objects to be put in the map since it won't be used to compare keys anyways.
+It uses reference equality operator (`==`) on key search operations instead of `equals()` and uses the JVM provided identity hashcode of the object instead of generating hascode using the `hashCode()` method of the object. Hence we don't neccessarily need to override the `equals()` method for key objects to be put in the map since it won't be used to compare keys anyways.
 
-It doesn't face the mutable key problem as every key object is unique anyways when we do reference comparison using `==`.
+It doesn't face the mutable key problem as a key object's instance members can be modified after adding the object to the Map and it will still have the same memory address. Unlike `equals()` which changes based on object members.
 
 `IdentityHashMap` isn't thread-safe but we can always use `Collections synchronizedMap(identityHashMap)` to make it sync.
 
