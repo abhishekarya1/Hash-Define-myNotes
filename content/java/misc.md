@@ -302,11 +302,13 @@ Features:
 In a `Collections.syncronizedMap(mp)`, whole map is locked even for reads! It wraps all methods and code in sort-of `synchronized` method/block, but only a single thread can access the code at a given time, no matter which code - read or write.
 
 ### IdentityHashMap
-It violates the equals and hashCode contract by design! And uses reference equality operator (`==`) on key search operations. Hence we don't need to override the `equals()` method for key objects to be put in the map since it won't be used to compare keys anyways.
+It violates the equals and hashcode contract by design! Since it doesn't use those two methods and every object is unique irrespective of its content and also has a unique hashcode.
 
-It allows mutable keys too as every key object will be unique anyways (diff memory address) when we do reference comparison. 
+It uses reference equality operator (`==`) on key search operations instead of `equals()` and uses the JVM provided identity hashcode of the object instead of generating hascode using the `hashCode()` method of the object. Hence we don't need to override the `equals()` method for key objects to be put in the map since it won't be used to compare keys anyways.
 
-`IdentityHashMap` isn't thread-safe but we can always use `Collections synchronizedMap(identityHashMap)`.
+It allows mutable keys too as every key object is unique anyways when we do reference comparison using `==`.
+
+`IdentityHashMap` isn't thread-safe but we can always use `Collections synchronizedMap(identityHashMap)` to make it so.
 
 ```java
 Map<String, String> identityHashMap = new IdentityHashMap<>();
@@ -318,7 +320,7 @@ identityHashMap.put(new String("foo"), "Alice");     // adding duplicate key
 System.out.println(identityHashMap.size());         // 3; would've been 2 if any other HashMap type
 ```
 
-**Usage**: it is used when we want to cache all objects based on their object reference, takes up a lot of storage but keeps record of all unique objects created.
+**Usage**: it is used when we want to cache all objects (base uniqueness on their object reference), takes up a lot of storage but keeps record of all unique objects created in the system.
 
 ### CopyOnWriteList
 No segment locking unlike `ConcurrentHashMap` but employs a diff strategy to achieve thread-safety. 
