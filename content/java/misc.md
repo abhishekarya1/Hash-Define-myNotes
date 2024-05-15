@@ -301,6 +301,25 @@ Features:
 
 In a `Collections.syncronizedMap(mp)`, whole map is locked even for reads! It wraps all methods and code in sort-of `synchronized` method/block, but only a single thread can access the code at a given time, no matter which code - read or write.
 
+### IdentityHashMap
+It violates the equals and hashCode contract by design! And uses reference equality operator (`==`) on key search operations. Hence we don't need to override the `equals()` method for key objects to be put in the map since it won't be used to compare keys anyways.
+
+It allows mutable keys too as every key object will be unique anyways (diff memory address) when we do reference comparison. 
+
+`IdentityHashMap` isn't thread-safe but we can always use `Collections synchronizedMap(identityHashMap)`.
+
+```java
+Map<String, String> identityHashMap = new IdentityHashMap<>();
+identityHashMap.put(new String("foo"), "John");
+identityHashMap.put(new String("bar"), "Doe");
+
+identityHashMap.put(new String("foo"), "Alice");     // adding duplicate key
+
+System.out.println(identityHashMap.size());         // 3; would've been 2 if any other HashMap type
+```
+
+**Usage**: it is used when we want to cache all objects based on their object reference, takes up a lot of storage but keeps record of all unique objects created.
+
 ### CopyOnWriteList
 No segment locking unlike `ConcurrentHashMap` but employs a diff strategy to achieve thread-safety. 
 
