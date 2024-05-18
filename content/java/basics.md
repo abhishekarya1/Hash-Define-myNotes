@@ -362,6 +362,23 @@ c.equalsIgnoreCase(d);
 // Naturally, only interned strings can be compared with ==
 ```
 
+### Iterating on a String
+For-Each loop doesn't work on `String` object as it doesn't implement the `Iterable` interface.
+
+The below works in C++ but not in Java:
+```java
+String str = "foobar";
+for(char c : str){          // compiler-error; Foreach not applicable to type 'java.lang.String'
+    // logic
+}
+
+// fixed
+String str = "foobar";
+for(char c : str.toCharArray()){
+    // logic
+}
+```
+
 ### Building Mutable Strings
 ```java
 import java.lang.*;
@@ -463,7 +480,7 @@ var result = switch(num) {
 };
 
 ```
-- `System.exit(0)` can be used to indicate successful termination
+- `System.exit(0)` can be used to indicate successful termination, it even skips `finally` block execution
 
 - for-each loop
 ```java
@@ -576,6 +593,7 @@ Integer[] arrInt;
 ```
 
 ## Arrays
+- Considered as objects, and all arrays are direct subclasses of `java.util.Object` class
 - Implements `Cloneable` and `java.io.Serializable` interfaces
 - always dynamically allocated unlike C & C++
 - values defaults to `0` or `false` or `null`

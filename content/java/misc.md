@@ -8,12 +8,13 @@ weight = 15
 
 Shallow Copy (_reference variables_), Deep Copy (_copying data to new object manually_), Cloning (_copying data to new object with clone() method_) `newObj = oldObj.clone()`
 
-**Marker Interfaces**: Interfaces that have no methods and constants defined in them. They are there for helping the compiler and JVM to get run time-related information regarding the objects. Ex - `Serializable` interface.
+Cloning can be customized overriding the `clone()` method of the `Object` class, and indicating by implementing `Cloneable` marker interface.
+
+**Marker Interfaces**: Interfaces that have no methods and constants defined in them. They are there for helping the compiler and JVM to get run time-related information regarding the objects. Ex - `Serializable`, `Cloneable` interface.
 
 `>>` vs `>>>` operator: [_link_](https://www.interviewbit.com/java-interview-questions/#difference-between-and-operators-in-java)
 
-
-Double-brace initialization:
+**Double-Brace Initialization**:
 ```java
 Set<String> countries = new HashSet<String>() {
         {
@@ -75,38 +76,6 @@ String being immutable is a:
 - security measure: an SQL query stored as String can't be modified in transit (prevents SQL injections)
 - security risk: as the object will remain in heap before it is garbage collected by JVM (we don't control its lifetime).
 Use `char[]` to store passwords and manual erasure of each element is possible (as opposed to String as they are immutable) as soon as its work is done.
-
-**Serializable vs Externalizable Interfaces**: a class extending `Serializable` interface can be serialized/deserialized to/from `ObjectInputStream`/`ObjectOutputStream`. It is a Marker Interface so it doesn't have any methods.
-
-`Externalizable` is a sub-interface of `Serializable` and also used for the same purpose. It has two additional methods where we can specify our custom logic after/before serialization/deserialization.
-
-```java
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Book implements Externalizable {
-    private String author;
-    private String title;
-    private int price;
-
-    @Override
-    public void writeExternal(ObjectOutputStream out) throws IOException {
-        out.writeObject(author);
-        out.writeObject(title);
-        out.writeInt(price);
-    }
-
-    @Override
-    public void readExternal(ObjectInputStream in) throws IOException, ClassNotFoundException {
-        this.author = (String) in.readObject();
-        this.title = (String) in.readObject();
-        this.price = in.readInt();
-    }
-}
-```
-
-Link: https://www.java67.com/2012/10/difference-between-serializable-vs-externalizable-interface.html
-
 
 `Objects` utility class has static methods to check not null etc... Ex - `Objects.nonNull(myObj)`.
 

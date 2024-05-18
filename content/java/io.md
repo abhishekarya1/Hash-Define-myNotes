@@ -226,14 +226,106 @@ var writer = Files.newBufferedWriter(output);
 
 A class is considered serializable if it implements the `java.io.Serializable` interface and contains instance members that are either serializable or marked `transient`. 
 
-All Java primitives and the String class are serializable. 
+All Java primitives, wrapper classes, and the String class are serializable. 
 
 The `ObjectInputStream` and `ObjectOutputStream` classes can be used to read and write a Serializable object from and to an I/O stream, respectively.
 
 {{% notice info %}}
-Instance members marked `transient` are not serialized/deserialized, they take `null` or `0` default values when serialized/deserialized.
+Instance members marked `transient` are not serialized/deserialized by default, they take `null` or `0` default values when serialized/deserialized.
+
+Also, `static` members of the class aren't serialized either as Serialization is only for non-transient instance members.
 {{% /notice %}}
 
-**Make a class Serializable**:
+### Make a class Serializable
 1. must implement `java.io.Serializable` interface
-2. must have all instance members as either `implements Serializable` or `transient`
+2. must have all instance members implementing `Serializable` interface or be marked `transient` (or `static`)
+
+### Custom Serialization
+We can customize serialization of instance members e.g. change values, encode/decode at serialization and deserialization etc. by adding `writeObject` and `readObject` methods in the serialization/deserialization classes.
+
+```java
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Student implements Serializable {
+    private static final long serialVersionUID = 1L;		// version metadata
+
+    private int id;
+    private transient String name;		// transient member
+
+    // custom serialization logic
+    private void writeObject(ObjectOutputStream oos) {
+        oos.defaultWriteObject();		// serialize the non-transient fields
+        oos.writeObject(name != null ? name.toUpperCase() : null);		// serialize the transient field
+    }
+
+    // custom deserialization logic
+    private void readObject(ObjectInputStream ois) {
+        ois.defaultReadObject();		// deserialize the non-transient fields
+        name = (String) ois.readObject();		// deserialize the transient field
+    }
+}
+
+```
+
+Note that we can even serialize/deserialize `transient` members as well in the custom logic in the methods above!
+
+**What's `serialVersionUID` in the code above**? It acts as a version control for the class being serialized and deserialized, so that the sender and receiver both know which version of the class was used to create byte stream. This field is `static` but it is serialized by Java (only exception to the rule!)
+
+```java
+// version 1
+public class Student implements Serializable {
+    private int id;
+    private String name;
+}
+
+// version 2 - modified the class's code and added another instance member
+public class Student implements Serializable {
+    private int id;
+    private String name;
+    private int age;
+}
+
+/*
+Problem:
+sender serializes from version1 class and if the receiver deserializes the byte stream to Student POJO class for version2 the value of "age" will be 0 (default) as it didn't exist while serializing.
+
+Solution:
+Version both of them by adding the field "serialVersionUID" with diff version nums - "1L" and "2L" and then a "InvalidClassException" will be thrown because class versions being serialized from doesn't match with the class version being deserialized to.
+*/
+```
+
+### Externalizable Interface
+
+**Serializable vs Externalizable Interfaces**: a class extending `Serializable` interface can be serialized/deserialized to/from `ObjectInputStream`/`ObjectOutputStream`. It is a Marker Interface so it doesn't have any methods.
+
+`Externalizable` is a sub-interface of `Serializable` and also used for the same purpose. It is not a marker interface though. 
+
+It has two methods (that we **must** implement unlike `Serializable` interface) where we can specify our custom logic after/before serialization/deserialization.
+
+```java
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Book implements Externalizable {
+    private String author;
+    private String title;
+    private int price;
+
+    @Override
+    public void writeExternal(ObjectOutputStream out) {
+        out.writeObject(author);
+        out.writeObject(title);
+        out.writeInt(price);
+    }
+
+    @Override
+    public void readExternal(ObjectInputStream in) {
+        this.author = (String) in.readObject();
+        this.title = (String) in.readObject();
+        this.price = in.readInt();
+    }
+}
+```
+
+The difference is just that the `Serializable` interface has a default behavior (skips `transient` members) and that makes it optional for the programmer to provide custom logic for serialization/deserialization. But if we implement `Externalizable` interface, we must implement logic for serialization/deserialization.
