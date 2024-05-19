@@ -405,7 +405,7 @@ interface NewInterface {
 }
 
 // Adapter class for old interface to make it compatible with new interface
-class Adapter implements NewInterface {		// wrap with new
+class Adapter implements NewInterface {		// Adapter is of type new
     private OldInterface oldObject;			// HAS-A relation (wraps around old)
 
     public Adapter(OldInterface oldObject) {
@@ -419,7 +419,16 @@ class Adapter implements NewInterface {		// wrap with new
 }
 
 // define concrete classes for all interfaces to use them
+
+// in main()
+OldInterface oldObj = new OldImplClass();	// old's object
+NewInterface newObj = new Adapter(oldObj);	// adapt it to new
+newObj.newMethod();		// call on new's object performs old's logic now
 ```
+
+**Usage**: to make a `Client` call on a `NewInterface` method backward-compatible with `OldInterface` method (shown in the example code above).
+
+Note that if the `Client` would've been calling `OldInterface` and we wanted to provide new behavior (forward-compatibility), we would've just overriden `oldMethod()` in its impl class and not used an adapter at all.
 
 ### Facade
 Hides the system complexity from the client. Provide a unified class that initializes a bunch of classes and calls complex logic steps on them instead of Client doing it directly on the base objects. 
@@ -444,8 +453,8 @@ class ComputerFacade{
 	private Memory memory;
 	private Display display;
 
-	public ComputerFacade(){		// init member objects here
-		this.cpu = new CPU();
+	public ComputerFacade(){		// pass objects in constructor params
+		this.cpu = new CPU();		// or init member objects here (recommended)
 		this.memory = new Memory();
 		this.display = new Display();
 	}
