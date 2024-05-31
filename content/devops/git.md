@@ -62,6 +62,9 @@ $ git commit -a -m "made changes to existing files only"
 # Amending last commit (will overwrite a previous commit)
 $ git commit --amend -m "forgot to add a file in repo"
 
+# Amending last commit (but only change author info and not message)
+$ git commit --amend --no-edit
+
 # Pushing to remote (if remote is already set)
 $ git push
 
@@ -192,19 +195,36 @@ For `pull` from remote, changes are `fetch`ed for all branches on a `pull` in an
 
 ### Tags
 Uniquely named points in Git. We can `checkout` to a tag quickly when needed.
+
+Git treats tags as branches - they originate on a commit, we can checkout to them, and we need to push them explicitly to the remote.
+
 ```sh
 # view all
 $ git tag
 
-# create new lightweight tag
+# view a specific tag ("v1.0.foo")
+$ git show v1.0.foo
+
+# create new lightweight tag (tags the latest commit)
 $ git tag v2.0 -m "an optional message"
 
 # create new annotated tag (better as it stores more info about creator)
 $ git tag -a v2.0 -m "an optional message"
 
+# create a tag for an existing commit (and not only for the latest commit)
+$ git tag -a v2.0 -m "an optional message" <commit_hash>
+
 # remove
 $ git tag -d v2.0
+
+# tags have to be explicitly pushed (they won't be pushed to remote with a normal push)
+$ git push origin v2.0
+
+# push all tags
+$ git push --tags
 ```
+
+GitHub web will only show annotated tags (and not lighweight ones). This is important as we must've an annotated tag to create GitHub Releases.
 
 ### Branching
 Renaming or deleting branches isn't a good idea when working on a repo that multiple people are using.

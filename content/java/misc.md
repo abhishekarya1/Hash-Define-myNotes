@@ -6,6 +6,20 @@ weight = 15
 
 ## Misc Points
 
+How to execute code before the `main()` method? Write the code in `static{ }` block of the class containing `main()` method so that it runs during class initialization. Doing it in the instance initializer block won't work since JVM doesn't call this class (and `main()` method) using a class instance.
+
+```java
+public class Test {
+    public static void main(String[] args) {
+        System.out.print("foo");
+    }
+
+    static { System.out.print("bar"); }
+}
+
+// Output: "barfoo"
+```
+
 Shallow Copy (_reference variables_), Deep Copy (_copying data to new object manually_), Cloning (_copying data to new object with clone() method_) `newObj = oldObj.clone()`
 
 Cloning can be customized overriding the `clone()` method of the `Object` class, and indicating by implementing `Cloneable` marker interface.
