@@ -179,7 +179,7 @@ boolean
 
 - `int` is 4 Bytes
 - `float` is 4 Bytes
-- `char` is unsigned UTF-16, so one char can take one or two bytes. It is an integral type.
+- `char` is unsigned Unicode (superset of ASCII), encoded as UTF-16 so one char can take one or two bytes. It is an integral type.
 - `boolean` is not convertible to `int` and vice-versa, we cannot even use `==` with `int` and `boolean` values. Takes values `true` or `false`. **Size is undefined** and depends on JVM.
 
 ```java
