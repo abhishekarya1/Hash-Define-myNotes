@@ -283,9 +283,14 @@ spring.profiles.active=dev
 
 Notice that the default profile is always active. So when we run the app, it reads from `application.properties` (default) and then sees `spring.profiles.active=dev` and loads the dev profile **too**. So we can place common properties in default and dev exclusive properties in dev property file as both will be loaded on runtime. Any properties present in both will be overriden by dev's version.
 
-We can have multiple profiles too active atop default profile.
+We can have multiple custom profiles active in Spring Boot (atop default profile). Use comma when specifying in default properties file or command-line:
+```sh
+spring.profiles.active=dev,qa
+```
 
-When in production, we often specify profile from command-line and it has the same effect but no hardcoding in `application.properties`. This will work the same as above i.e. **loads both default and dev profiles**.
+In the above example, any properties common in both the profiles will be overriden by the one which is loaded at the last i.e. `qa` profile properties will override the same ones if they're present in `dev` profile.
+
+When in production, we often specify profile from command-line when running the JAR and it has the same effect but no hardcoding in `application.properties`. This will work the same as above i.e. **loads both default and dev profiles**.
 ```sh
 $ java -jar foobar-0.0.1-SNAPSHOT.jar --spring.profiles.active=dev
 ``` 
