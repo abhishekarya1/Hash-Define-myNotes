@@ -311,3 +311,122 @@ No segment locking unlike `ConcurrentHashMap` but employs a diff strategy to ach
 A copy of the list is created and modified on writes, it is then used to replace the original copy so that changes get reflected in the original. On a read, just read from the original as no locking is required as no concurrent modification is taking place on the original copy.
 
 This has significant processing overhead and memory footprint compared to normal List implementations.
+
+## Java 21 New Features
+
+Java 21 was GA released on Sept, 2023. It is the latest LTS release.
+
+Next LTS release will be Java 25 in Sept, 2025 (Oracle's 2 year cycle for LTS releases).
+
+1. [**Virtual Threads**](/java/conc/#virtual-threads-java-21)
+2. [**Generational ZGC**](/java/basics/#garbage-collection)
+3. **String Templates** (for String Interpolation) (first preview in 21, second preview in 22) (see [Java 22 notes below](/java/misc/#java-22-new-features) for explanation)
+4. **Pattern Matching for `switch`**:
+Pattern matching in Java refers to a feature that allows you to check an object against a given type and, if the object is of that type, extract a variable of that type in a single step. Basically `instanceof` operator usage.
+
+Conventional way is by using `instanceof` operator with `if-else` ladder but since Java 21 we can use it in `switch` block/expression.
+
+```java
+// Pattern matching using instanceof
+
+// object "o" is checked if its of type String
+// if it is, then its put in a new reference variable "s" and we can call "length()" method in it
+// otherwise calling "length()" method on object "o" would be a compiler error
+
+Object o = "foobar";
+
+if (o instanceof String s){
+    System.out.println("This is a String of length " + s.length());
+} else {
+    System.out.println("This is not a String");
+}
+```
+
+```java
+// Pattern matching using switch expression
+
+Object o = ...;     // any object
+
+String formatter = switch(o) {
+    case Integer i -> String.format("int %d", i);
+    case Long l    -> String.format("long %d", l);
+    case Double d  -> String.format("double %f", d);
+    case Object o  -> String.format("Object %s", o.toString());
+}
+```
+
+5. **Record Pattern**: 
+
+```java
+record Point(int x, int y) {}
+
+Object o = ...;     // any object
+
+if (o instanceof Point(int x)) {     // compiler-error
+}
+
+```
+
+_Reference_: https://dev.java/learn/pattern-matching/
+
+## Java 22 New Features
+
+Java 22 was GA released on March, 2024. It is the release for the first half of 2024. 
+
+1. **Unnamed Variables**:
+
+We often use the variable `_` in Go to ignore index while iterating using a for range loop:
+```go
+msg := "foobar"
+
+// iterate over the string using a for loop and ignore the index
+for _, c := range msg {
+    fmt.Printf("%c\n", c)
+}
+```
+
+We can now do something similar to the above in Java 22 onwards in for-each loop:
+```java
+for (var _ : nums) {
+    cnt++;
+    if (cnt > limit) {
+        // side effects; doesn't use _ loop variable in business logic
+    }
+}
+```
+
+2. **String Templates (for String Interpolation)**:
+String interpolation always looked clumsy in Java code using the default overloaded `+` operator, or using `String.format()` which can cause type mismatch.
+
+```java
+int age = 69;
+
+String s1 = "I am " + age + " years old";
+String s2 = String.format("I am %d years old", age);
+
+log.info("I am {} years old", age);              // SLF4J Logger
+System.out.printf("I am %d years old", age);     // prints to STDOUT
+
+// String Interpolation using String Template
+String s3 = STR."I am \{age} years old";
+```
+
+3. **Statements before super(...) or this(...) call**:
+The first statement in a class constructor must be either a `this()` (call to another overloaded constructor) or `super()` (call to superclass constructor).
+
+This is changed in Java 22! It now allows statements _before_ the `super()` (or `this()`) constructor call.
+
+```java
+public Test(){
+    System.out.println("foobar");    // valid
+    super();
+}
+``` 
+
+4. **Regional Pinning for G1GC**:
+It is a performance optimization technique for the G1 Garbage Collector (G1GC). G1GC partitions the heap into fixed-size memory region. During garbage collection cycles, it identifies and collects regions with a high concentration of dead objects, improving memory efficiency. 
+
+Region pinning allows developers to designate specific memory regions as _pinned_, preventing them from being moved during garbage collection cycles. 
+
+This is super useful for frequently accessed data. Pinning those regions ensures the data remains readily available in its current location, potentially reducing memory access times and improving application performance.
+

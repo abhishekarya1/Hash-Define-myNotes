@@ -101,7 +101,7 @@ data_type name = init_value;
 ```
 
 - identifiers can start with currency symbol like `$`, etc...
-- single underscore (`_`) isn't a valid identifier name (unlike C/C++)
+- single underscore (`_`) isn't a valid identifier name (unlike C/C++) (this changed in 2024 with [Java 22](/java/misc/#java-22-new-features))
 - Garbage value concept doesn't exist here so any uninitialized variable's access is error
 - Since no garbage value is assigned, there is truly a separation between declaration and definition in Java, even for `final` variables
 ```java
