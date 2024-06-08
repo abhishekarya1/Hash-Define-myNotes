@@ -20,6 +20,20 @@ public class Test {
 // Output: "barfoo"
 ```
 
+`Integer` wrapper class tricky question on JVM **Integer Cache**:
+```java
+Integer a = 127;
+Integer b = 127;
+System.out.println(a == b);     // true; uses cached integer object ref for both
+
+Integer a = 128;
+Integer b = 128;
+System.out.println(a == b);     // false; uses diff refs
+
+/* For Integer objects, Java caches instances of Integer values in the range of -128 to 127. This is known as the "Integer Cache". 
+When you create an Integer within this range, Java will return a reference to an existing cached object rather than creating a new one. */
+```
+
 Shallow Copy (_reference variables_), Deep Copy (_copying data to new object manually_), Cloning (_copying data to new object with clone() method_) `newObj = oldObj.clone()`
 
 Cloning can be customized overriding the `clone()` method of the `Object` class, and indicating by implementing `Cloneable` marker interface.
