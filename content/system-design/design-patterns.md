@@ -10,8 +10,8 @@ weight = 2
 Design patterns are often called **GoF** (Gang of Four) design patterns because of [the book](https://g.co/kgs/RzdfZ2) that first outlined these design patterns 20 years ago, named so because of its 4 authors. 
 
 3 types of Design Patterns:
-1. **Creational** (_how to create objects or a group of related objects_)
-2. **Structural** (_how objects use each other, their composition_)
+1. **Creational** (_how to create objects or a group of related objects_) - **5**
+2. **Structural** (_how objects use each other, their composition_) - **7**
 3. **Behavioral** (_assignment of responsibilities between the objects_)
 
 _Reference#1_: https://www.programcreek.com/java-design-patterns-in-stories
@@ -735,6 +735,3 @@ humanRobotObj2.display(3, 0);
 
 ## Anti-Patterns
 _Reference_: https://sourcemaking.com/antipatterns
-
-## Cheatsheet
-**Creational Patterns**: Prototype, Singleton, Factory, AbstractFactory, Builder
