@@ -7,12 +7,12 @@ weight = 4
 ## Concepts
 1. Classes - logical entity only, blueprint
 2. Object - instance of a class, has a **state, behaviour, and identity**
-3. Abstraction - hiding internal details
-4. Encapsulation - clubbing data and methods that act on that data together
+3. Abstraction - separate "how" from "what" i.e. concrete impl from declaration (`interface` and `abstract class`) 
+4. Encapsulation - clubbing data and methods that act on that data together (Getters and Setters, `animal.speak()` method call)
 5. Polymorphism - same name, many forms
 6. Inheritance - IS-A relationship
-7. Aggregation - HAS-A relationship
-8. Data Hiding - Hiding data among each other in code
+7. Association - HAS-A relationship (Aggregation and Composition (`final`))
+8. Data Hiding - hiding data among components from each other in code (access modifiers)
 
 **Why Java isn't a purely OOP language?**: Because a purely OOP language needs to have every data type as an object, and everything we do on those objects must be done via calling methods.
 
