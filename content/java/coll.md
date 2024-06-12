@@ -74,8 +74,9 @@ add(Element)        // add at end
 add(index, Element) // add at index and move others towards end
 set(index, Element) // replace at index
 get(index)
-remove(index)
-remove(Element)
+
+remove(int index)   // remove at a specific index
+remove(T Element)   // remove an element having suppied value (overloaded method; smarter)
 
 isEmpty()
 size()

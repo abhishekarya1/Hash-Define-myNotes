@@ -730,8 +730,277 @@ IRobot humanRobotObj2 = RobotFactory.createRobot("HUMAN");		// reads cached obje
 humanRobotObj2.display(3, 0);
 ```
 
-## Others
-**Observer** - when one object changes state, all its dependents are notified and updated automatically. Ex - `java.util.EventListener` and Project Reactor.
+## Behavioral Patterns
+
+### Strategy
+
+If we have classes `PassengerVehicle`, `SportsVehicle`, and `OffRoadVehicle` that inherit from a base class `Vehicle`, there may be a lot of code duplication in `drive()` method if some of the classes override it with special drive capability and some don't. Its better to provide the capability dynamically (using a Strategy `interface`) rather than letting code get duplicated.
+
+In short, Strategy pattern enables choosing the best-suited algorithm at runtime.
+
+```java
+class Vehicle{
+	void drive(){
+		// normal drive logic
+	}
+}
+
+class PassengerVehicle extends Vehicle{
+	void drive(){
+		// normal drive capability
+	}
+}
+
+class SportsVehicle extends Vehicle{
+	@Override
+	void drive(){
+		// special drive capability
+	}
+}
+
+class OffRoadVehicle extends Vehicle{
+	@Override
+	void drive(){
+		// special drive capability; duplicated again in sibling class
+	}
+}
+
+```
+
+```java
+// using Strategy Pattern
+interface DriveStrategy{
+	void drive();
+}
+
+class OffRoadDriveStrategy implements DriveStrategy{
+	@Override
+	void drive(){
+		// special drive capability
+	}
+}
+
+class Vehicle{
+	DriveStrategy ds;		// aggregation
+
+	Vehicle(DriveStrategy ds){		// set in constructor
+		this.ds = ds;
+	}
+}
+
+class OffRoadVehicle extends Vehicle{
+	OffRoadVehicle(DriveStrategy ds){
+		super(ds);
+	}
+}
+
+// usage
+DriveStrategy dsOffRoad = new OffRoadDriveStrategy();	// create strategy impl concrete class of interface
+Vehicle offRoadObj = new OffRoadVehicle(dsOffRoad);		// supply strategy to vehicle instance
+offRoadObj.drive();
+```
+
+{{% notice note %}}
+Note that the UML diagram and syntax is similar to the **Bridge Pattern** (_structural_), but here it provides implementor (strategy) to a concrete class `Vehicle` rather than an abstraction i.e. no abstraction on LHS (tighter coupling than Bridge Pattern).
+{{% /notice %}}
+
+### Observer
+When one object (_observable_) changes state, all its dependents (_observers_) are notified and updated automatically. Ex - `java.util.EventListener` and Spring WebFlux Project Reactor.
+
+![observer_uml_diagram](https://i.imgur.com/Bf63MCt.png)
+
+```java
+// observable
+interface WheatherStation{
+	void add(Observer obs);
+	void remove(Observer obs);
+	void notify();
+	void setTemparature(double temp);
+	double getTemparature();
+}
+
+// observable - concrete class
+class WheatherStationImpl implements WheatherStation{
+	List<Observer> observerList = new ArrayList<>();		// HAS-A; all observers' list
+
+	int temp = 0;	// data
+
+	@Override
+	void add(Observer obs){
+		// add obs to observerList
+		observerList.add(obs);
+	}
+
+	@Override
+	void remove(Observer obs){
+		// remove obs from observerList
+		observerList.remove(obs);
+	}
+
+	@Override
+	void notify(){
+		// update all observers
+		for(var e : observerList){
+			e.update();
+		}
+	}
+
+	@Override
+	void setTemparature(double temp){
+		this.temp = temp;
+		this.notify();			// set new val and notify observers
+	}
+
+	@Override
+	double getTemparature(){
+		return temp;
+	}
+
+}
+
+// observer
+interface Display{
+	void update();
+}
+
+// observer - concrete classes
+class TVDisplay{
+	WheatherStation observable; 	// observable aggregation here
+
+	public TVDisplay(observable obs){
+		this.observable = obs;
+	}
+
+	@Override
+	void update(){
+		observable.getTemparature();
+		// trigger Email logic here
+	}
+}
+
+class PhoneDisplay{
+	WheatherStation observable; 	// observable aggregation here (HAS-A)
+
+	public PhoneDisplay(observable obs){
+		this.observable = obs;
+	}
+
+	@Override
+	void update(){
+		observable.getTemparature();
+		// trigger SMS logic here
+	}
+}
+
+// usage
+WheatherStation observable = new WheatherStationImpl();
+Display tvObj = new TVDisplay(observable);
+Display phoneObj = new PhoneDisplay(observable);
+observable.add(tvObj);
+observable.add(phoneObj);
+observable.setTemparature(53.0);
+
+// SMS and email is triggered
+```
+
+In short, observable has a ref (`List`) to all its observers and whenever data changes in observable, it calls `notify()` to notify all observers and calls _their_ `update()` method. The data can then be get from the observable's object inside the observer's update method body.
+
+We can supply an object of observable too in this update method call (`update(Object o)`) but in the above example we used aggregation (HAS-A) to place observable object in the observer too which is a cleaner approach and doesn't require `instanceof` pattern matching in the observer update method.
+
+### State
+We can model any state machine (_automata_) using this pattern. Ex - Vending Machine.
+
+Keep a `State` ref object (HAS-A) inside the `VendingMachine` object and at any given point its type will give us the state the machine is in. Supply `VendingMachine` object to state transition method and use setter on it to change state on the machine object.
+
+![state_uml_diagram](https://i.imgur.com/BqNuaX3.png)
+
+```java
+class VendingMachine{
+	State state;		// HAS-A state object to track vm state
+	
+	public VendingMachine(){
+		this.state = new IdleState();		// constructor; init state
+	}
+
+	// define shelf, item codes, and prices, and other logic
+}
+
+// abstraction - base state 
+interface State{
+	// declare all state transition methods here (operations)
+}
+
+// concrete - all states
+class IdleState implements State{
+	// override relevant methods for each state
+	// return Exception on the rest
+
+	@Override
+	void clickOnInsertCoinButton(VendingMachine vm){	// state transition function
+		vm.setVmState(new HasMoneyState());				// use setter to transition state
+	}
+}
+
+class HasMoneyState implements State{ }
+class SelectionState implements State{ }
+class DispenseState implements State{ }
+
+// usage
+VendingMachine vm = new VendingMachine();		// init VM
+State vmState = vm.getVendingMachineState();	// get VM state
+vmState.clickOnInsertCoinButton(vm);			// VM state changes internally when we call transition func
+vmState.selectProduct(vm);
+vmState.dispenseProduct(vm);
+```
+
+### Chain Of Responsibility
+Provides more than one receiver objects a chance to handle a request. The receiving objects are chained and the request is passed along the chain until an object handles it.
+
+**Applications**:
+- Logger Levels
+- ATM Withdrawal Denominations
+- Vending Machine Change Denominations
+
+To form chain we set `nextLogProcessor` in abstract class (parent) for each instance using `super()` and if current object isn't allowed to handle it, we call `log()` method of its `super` (abstract class). In the `log()` method of abstract class we call the `log()` method of the `nextLogProcessor`.
+
+```java
+// Log Processor Abstraction
+abstract class LogProcessor{
+	LogProcessor nextLogProcessor;		// HAS-A aggregation pointing to next handler in chain
+
+	LogProcessor(LogProcessor logProcessor){
+		this.nextLogProcessor = logProcessor;
+	}
+
+	void log(int logLevel, String message){
+		if(nextLogProcessor != null){
+			nextLogProcessor.log(logLevel, message);
+		}
+	}
+}
+
+// Log Processors - Concrete
+class ErrorLogProcessor extends LogProcessor{
+	ErrorLogProcessor(LogProcessor nextLogProcessor){		// form chain using constructor super() calls
+		super(nextLogProcessor);
+	}
+
+	@Override
+	void log(int logLevel, String message){
+		if(logLevel == 1){
+			System.out.println("ERROR: " + message);	// handle here
+		} else {
+			super.log(logLevel, message);				// call log() of super
+		}
+	}
+}
+
+// usage
+LogProcessor loggerObj = new InfoLogProcessor(new DebugLogProcessor(new ErrorLogProcessor(null)));
+loggerObj.log(1, "exception occured");	// error
+loggerObj.log(2, "debug message");		// debug
+loggerObj.log(3, "info message");		// info
+```
 
 ## Anti-Patterns
 _Reference_: https://sourcemaking.com/antipatterns
