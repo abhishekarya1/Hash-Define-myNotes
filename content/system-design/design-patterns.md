@@ -736,7 +736,7 @@ humanRobotObj2.display(3, 0);
 
 If we have classes `PassengerVehicle`, `SportsVehicle`, and `OffRoadVehicle` that inherit from a base class `Vehicle`, there may be a lot of code duplication in `drive()` method if some of the classes override it with special drive capability and some don't. Its better to provide the capability dynamically (using a Strategy `interface`) rather than letting code get duplicated.
 
-In short, Strategy pattern enables choosing the best-suited algorithm at runtime.
+In short, Strategy pattern enables choosing the best-suited algorithm at runtime, and avoid code duplication across sibling classes.
 
 ```java
 class Vehicle{
@@ -786,12 +786,18 @@ class Vehicle{
 	Vehicle(DriveStrategy ds){		// set in constructor
 		this.ds = ds;
 	}
+
+	void drive(){
+		ds.drive();		// calls strategy's drive() method
+	}
 }
 
 class OffRoadVehicle extends Vehicle{
 	OffRoadVehicle(DriveStrategy ds){
 		super(ds);
 	}
+
+	// drive() method is inherited here and can be called here
 }
 
 // usage
@@ -865,7 +871,7 @@ interface Display{
 
 // observer - concrete classes
 class TVDisplay{
-	WheatherStation observable; 	// observable aggregation here
+	WheatherStation observable; 	// observable aggregation here (HAS-A) (optional)
 
 	public TVDisplay(observable obs){
 		this.observable = obs;
@@ -879,7 +885,7 @@ class TVDisplay{
 }
 
 class PhoneDisplay{
-	WheatherStation observable; 	// observable aggregation here (HAS-A)
+	WheatherStation observable; 	// observable aggregation here (HAS-A) (optional)
 
 	public PhoneDisplay(observable obs){
 		this.observable = obs;
@@ -910,7 +916,7 @@ We can supply an object of observable too in this update method call (`update(Ob
 ### State
 We can model any state machine (_automata_) using this pattern. Ex - Vending Machine.
 
-Keep a `State` ref object (HAS-A) inside the `VendingMachine` object and at any given point its type will give us the state the machine is in. Supply `VendingMachine` object to state transition method and use setter on it to change state on the machine object.
+Keep a `State` ref object (HAS-A) inside the `VendingMachine` object and at any given point its type will give us the state the machine is in. Supply `VendingMachine` object to state transition method in state classes and use setter on it to change state on the machine object.
 
 ![state_uml_diagram](https://i.imgur.com/BqNuaX3.png)
 
@@ -1001,6 +1007,122 @@ loggerObj.log(1, "exception occured");	// error
 loggerObj.log(2, "debug message");		// debug
 loggerObj.log(3, "info message");		// info
 ```
+
+### Command
+Stores requests as command objects allowing performing an action or undoing it at a later time.
+
+Divide logic into 3 parts by introducing a layer (_command_) between client (_invoker_) and handler (_receiver_):
+- Invoker
+- Command
+- Receiver
+
+```java
+// receiver/handler
+class AirConditioner{
+	boolean powerOnState;
+
+	AirConditioner(){
+		this.powerOnState = false;
+	}
+
+	void turnOn(){
+		this.powerOnState = true;
+		// start display, fans, etc.
+	}
+}
+
+// base command - abstraction
+interface ICommand{
+	void execute();
+}
+
+// commands - concrete classes
+class TurnOnACCommand implements ICommand{
+	AirConditioner ac;		// HAS-A aggregation
+
+	TurnOnACCommand(AirConditioner ac){
+		this.ac = ac;
+	}
+
+	@Override
+	void execute(){		// proxy call via command layer
+		ac.turnOn();
+	}
+}
+
+// remote control - client/invoker
+class RemoteControl{
+	ICommand powerButton;
+
+	void setPowerButtonCommand(ICommand command){
+		this.powerButton = command;
+	}
+
+	void pressPowerButton(){
+		powerButton.execute();
+	}
+}
+
+// usage
+AirConditioner ac = new AirConditioner();
+RemoteControl remote = new RemoteControl();
+remote.setPowerButtonCommand(new TurnOnACCommand(ac));	// set command to a button on the remote, and AC to command
+remote.pressPowerButton();		// press button
+```
+
+This pattern is popularly used to implement Undo/Redo functionality. Each command has a `undo()` method and we maintain command history in a `Stack<ICommand>` in the client (`RemoteControl`):
+
+```java
+interface ICommand{
+	void execute();
+	void undo();		// undo method added to each command
+}
+
+class TurnOnACCommand implements ICommand{
+	AirConditioner ac;
+
+	TurnOnACCommand(AirConditioner ac){
+		this.ac = ac;
+	}
+
+	@Override
+	void execute(){	
+		ac.turnOn();
+	}
+
+	@Override
+	void undo(){			// undo method added
+		ac.turnOff();
+	}
+} 
+
+
+class RemoteControl{
+	Stack<ICommand> acCommandHistory = new Stack<>();		// maintain history of operations in Client
+	
+	ICommand command;
+
+	void setPowerButtonCommand(ICommand command){
+		this.command = command;
+	}
+
+	void pressPowerButton(){
+		command.execute();
+		acCommandHistory.add(command);
+	}
+
+	void undo(){		// undo last operation
+		if(!acCommandHistory.isEmpty()){
+			ICommand lastCommand = acCommandHistory.pop();
+			lastCommand.undo();
+		}
+	}
+}
+```
+
+### Template
+When multiple classes follow a fixed set of steps. It also ensures flexibility as the steps can be customized with supplied logic.
+
 
 ## Anti-Patterns
 _Reference_: https://sourcemaking.com/antipatterns
