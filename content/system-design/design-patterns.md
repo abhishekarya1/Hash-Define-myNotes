@@ -1063,7 +1063,7 @@ class RemoteControl{
 	}
 }
 
-// usage
+// usage in main method (Client)
 AirConditioner ac = new AirConditioner();
 RemoteControl remote = new RemoteControl();
 remote.setPowerButtonCommand(new TurnOnACCommand(ac));	// set command to a button on the remote, and AC to command
@@ -1121,8 +1121,74 @@ class RemoteControl{
 ```
 
 ### Template
-When multiple classes follow a fixed set of steps. It also ensures flexibility as the steps can be customized with supplied logic.
+When multiple classes follow a fixed set of steps and we want to ensure flexibility too such that each step can be customized with their own specific logic.
 
+```java
+// template class
+abstract class PaymentFlow{
+	abstract void validateRequest();
+	abstract void calculateFees();
+	abstract void debitAmount();
+	abstract void creditAmount();
+
+	// un-overridable template method
+	final void sendMoney(){
+		// step 1
+		validateRequest();
+		// step 2
+		calculateFees();
+		// step 3
+		debitAmount();
+		// step 4
+		creditAmount();
+	}
+}
+
+
+// create a concrete class using template
+class PayToFriend extends PaymentFlow{
+	@Override
+	void validateRequest(){
+		// validate payment request
+	}
+
+	@Override
+	void calculateFees(){
+		// no fees when sending to a friend
+	}
+
+	@Override
+	void debitAmount(){
+		// debit from account
+	}
+
+	@Override
+	void creditAmount(){
+		// credit to friend's account
+	}
+
+	// no overriding sendMoney() method
+}
+
+// another concrete class from template
+class PayToMerchant extends PaymentFlow{ }
+
+// usage
+PayToFriend payment = new PayToFriend();
+payment.sendMoney();
+```
+
+### Memento
+This pattern enables us to store the previous states (_snapshots_) of an object. This can be used when we want Undo functionality.
+
+Also known as "Snapshot Pattern". It does not expose the object's internal implementation since we use `createMemento()` and `restoreMemento()` methods on the object.
+
+**Components**:
+- Originator - represents object whose state has to be saved
+- Memento - intermediary object that stores state of the originator
+- Caretaker - stores all mementos (i.e. states) throughout the history in a `List<Memento>`
+
+![memento_java_code](https://i.imgur.com/pqvbmnz.png)
 
 ## Anti-Patterns
 _Reference_: https://sourcemaking.com/antipatterns
