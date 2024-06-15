@@ -1181,7 +1181,9 @@ payment.sendMoney();
 ### Memento
 This pattern enables us to store the previous states (_snapshots_) of an object. This can be used when we want Undo functionality.
 
-Also known as "Snapshot Pattern". It does not expose the object's internal implementation since we use `createMemento()` and `restoreMemento()` methods on the object.
+Also known as "Snapshot Pattern". A Memento class object is used as captured snapshot and has the same data members as originator class. 
+
+It does not expose the object's internal implementation since we use `createMemento()` and `restoreMemento()` methods on the originator object.
 
 **Components**:
 - Originator - represents object whose state has to be saved
@@ -1189,6 +1191,26 @@ Also known as "Snapshot Pattern". It does not expose the object's internal imple
 - Caretaker - stores all mementos (i.e. states) throughout the history in a `List<Memento>`
 
 ![memento_java_code](https://i.imgur.com/pqvbmnz.png)
+
+### Iterator
+Helps to access the elements sequentially and makes the client agnostic about the internal storage implementation of the underlying data structure.
+
+Ex - `iterator()` method on Java collections:
+```java
+List list = List.of(1, 2, 3);		// collection; aggregator
+
+Iterator it = list.iterator();		// iterator for collection
+
+while(it.hasNext()){
+	Object e = it.next();
+	System.out.println(e);
+}
+```
+
+Custom implementation of the design pattern for a `Library` (as **Aggregator**) and `BookIterator` (as **Iterator**):
+
+![iterator_UML_code](https://i.imgur.com/lwSWHKz.png)
+
 
 ## Anti-Patterns
 _Reference_: https://sourcemaking.com/antipatterns
