@@ -1211,6 +1211,69 @@ Custom implementation of the design pattern for a `Library` (as **Aggregator**) 
 
 ![iterator_UML_code](https://i.imgur.com/lwSWHKz.png)
 
+### Null Object
+Null Object pattern handles "empty" objects gracefully.
+
+It can do so by avoiding `NullPointerException` at every step but we want to avoid writing `null` checks for every object everywhere in the code.
+
+**Points**:
+- a Null Object replaces `null` return type
+- no need to put `if` object null checks anywhere
+- Null Object reflects _do nothing_ or _default_ behavior
+	
+```java
+interface Vehicle{
+	int getTankCapacity();
+	int getSeatingCapacity();
+}
+
+class Car extends Vehicle{
+	@Override
+	int getTankCapacity(){
+		return 40;
+	}
+
+	@Override
+	int getSeatingCapacity(){
+		return 5;
+	}
+}
+
+// Null Object (default behavior)
+class NullVehicle extends Vehicle{
+	@Override
+	int getTankCapacity(){
+		return 0;
+	}
+	
+	@Override
+	int getSeatingCapacity(){
+		return 0;
+	}
+}
+
+
+// usage in Factory
+class VehicleFactory{
+	static Vehicle getInstance(String vehicleType){
+		if("Car".equals(vehicleType)){
+			return new Car();
+		} else {
+			return new NullVehicle();		// Null Object instead of "null"
+		}
+	}
+}
+
+// in main method (Client)
+Vehicle obj = VehicleFactory.getInstance("Foobar");
+printDetails(obj);
+
+static void printDetails(Vehicle v){
+	System.out.println(v.getTankCapacity());		// no need of "null" check here now
+	System.out.println(v.getSeatingCapacity());
+}
+```
+
 
 ## Anti-Patterns
 _Reference_: https://sourcemaking.com/antipatterns
