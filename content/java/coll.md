@@ -291,9 +291,10 @@ map.replaceAll((k, v) -> k+v);  // if key and values are numeric; takes BiFuncti
 ### Ordering of Keys
 **HashMap**: unordered keys. Implemented internally using a array of linked lists. [notes](/java/misc/#hashmap)
 
-**TreeMap**: has ordered keys unlike `HashMap`. We've to supply a `Comparator` when creating a `TreeMap` to specify relative ordering of keys. Uses Red-Black Tree internally (self-balancing trees).
+**TreeMap**: has ordered keys unlike `HashMap`. We've to supply a `Comparator` when creating a `TreeMap` to specify relative ordering of keys. If a comparator isn't passed in the `TreeMap` constructor call, it orders the keys in their natural order (_default_). Uses Red-Black Tree internally (a type of self-balancing tree).
 
 ```java
+// ordering of keys in a HashMap isn't always guaranteed
 Map<Integer, String> mp = new HashMap<>();
 mp.put(1, "X");
 mp.put(2, "Y");
@@ -305,6 +306,9 @@ for (var e : mp.keySet()) {
 
 // Output: 123
 
+-----------------------------------------------------------------------
+
+// ordering of keys in a TreeMap is always guaranteed
 Map<Integer, String> mp = new TreeMap<>(Comparator.reverseOrder());     // changed only this
 mp.put(1, "X");
 mp.put(2, "Y");
