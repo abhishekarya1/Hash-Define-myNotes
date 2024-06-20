@@ -261,13 +261,13 @@ It is just like a normal `HashMap` but **attaches nodes across buckets in a circ
 
 There is a dummy `Head` node which is present in the impl of `LinkedHashMap` to ensure addition of Circular DLL nodes relative to it. A newly inserted or accessed node is inserted at the end of the list (`before` link of `Head` node). Conversely, the least recently used (LRU) element is at the beginning of the list, just `after` the `Head` node. This way it follows the fashion `... -> 1 -> 2 -> 3 -> Head -> 1 -> ...`
 
-Ordering is preserved either by - **insertion order** or **access order**. Used to implement LRU cache when access ordering is enabled.
+Ordering is preserved either by - **insertion order** (_default_) or **access order**. Used to implement LRU cache when access ordering is enabled.
 
 ```java
 public class LinkedhashMap extends HashMap implements Map { }
 
 // constructors
-LinkedhashMap();    // default; capacity = 16, LF = 0.75
+LinkedhashMap();    // default; capacity = 16, LF = 0.75, order = insertion
 
 LinkedhashMap(int capacity);    // LF = 0.75
 
