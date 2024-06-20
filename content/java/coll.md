@@ -240,7 +240,7 @@ q.poll();   // no exception
 If we try and `get` an element from an empty collection, it will throw `NoSuchElementException` at runtime (unchecked exception).
 
 ## Map
-Key-value pairs and access time is linear. Unordered. Can only contain duplicate values, not keys.
+Key-value pairs and access time is linear. Can only contain duplicate values, not keys.
 
 ### Creating Maps with Factory Methods
 All are immutable.
@@ -286,6 +286,35 @@ map.getOrDefault("A", "Alpha");
 map.putIfAbsent("C", "Cat");    // otherwise ignore
 map.replace("B", "Bear");       // replace value for key "B" with "Bear"
 map.replaceAll((k, v) -> k+v);  // if key and values are numeric; takes BiFunction
+```
+
+### Ordering of Keys
+**HashMap**: unordered keys. Implemented internally using a array of linked lists. [notes](/java/misc/#hashmap)
+
+**TreeMap**: has ordered keys unlike `HashMap`. We've to supply a `Comparator` when creating a `TreeMap` to specify relative ordering of keys. Uses Red-Black Tree internally (self-balancing trees).
+
+```java
+Map<Integer, String> mp = new HashMap<>();
+mp.put(1, "X");
+mp.put(2, "Y");
+mp.put(3, "Z");
+
+for (var e : mp.keySet()) {
+    System.err.println(e);
+}
+
+// Output: 123
+
+Map<Integer, String> mp = new TreeMap<>(Comparator.reverseOrder());     // changed only this
+mp.put(1, "X");
+mp.put(2, "Y");
+mp.put(3, "Z");
+
+for (var e : mp.keySet()) {
+    System.err.println(e);
+}
+
+// Output: 321
 ```
 
 ## Sorting Data
