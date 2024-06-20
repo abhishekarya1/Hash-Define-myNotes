@@ -42,17 +42,52 @@ private		   --> accessible from within the same class only; not even its subclas
 Primitives & references vars  -->	Pass-by-value
 Objects  					  -->	Pass-by-reference
 
-Since there are no explicit references in Java unlike C++. We say everything is pass-by-value in Java which means a new reference variable is created in called method and not actual object/array is created in memory again. 
+Since there are no explicit references in Java unlike C++. We say everything is pass-by-value in Java which means a new reference variable is created in called method and not actual object/array is created in memory again.
 ```
 
+Passing mutable types like `List<T>` or `Map<K, V>`:
 ```java
-public void foo(String str){	// new ref variable "str"; points to same string in heap
+public void addElement(List<String> listStr){	// new ref variable "listStr"; points to same list of string in heap
+	listStr.add("B");
 }
 
 public void bar(){
-	String a = new String("test");	// string in heap
-	foo(a);							// method call
+	List<String> listStr = new ArrayList<>();	// list of string in heap
+	listStr.add("A");
+	addElement(listStr);		// method call
+	System.out.println(listStr.size());
 }
+
+// Output: 2
+```
+
+Since wrapper class objects like `String` and `Integer` are immutable, their reference can't be modified but can be re-assigned (re-pointed):
+```java
+public static void foo() {
+	String s = "test";
+	change(s);
+	System.out.println(s);
+}
+
+public static void change(String s){	// new variable created (pass-by-value); ref to old
+	s = "eeee";		// re-assignment
+}
+
+// Output: test
+
+------------------------------------------
+
+public void foo(){
+	Integer n = 5;
+	increment(n);
+	System.out.println(n);
+}
+
+public void increment(Integer n){		// new variable created (pass-by-value); ref to old
+	n = n + 2;		// re-assignment
+}
+
+// Output: 5
 ```
 
 ## Local and Instance Variables

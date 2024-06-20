@@ -592,6 +592,23 @@ Integer[] arrInt;
 // both are different
 ```
 
+### Immutability and Pass-by-Value
+Just like the `String` class is immutable, wrapper classes like `Integer` too are immutable and always Pass-by-Value (everything in Java is).
+
+```java
+public static void main(String[] args) {
+    Integer n = 5;
+    increment(n);
+    System.out.println(n);
+}
+    
+public static void increment(Integer n){
+    n = n + 6;      // re-assignment of ref variable
+}
+
+// Output: 5
+```
+
 ## Arrays
 - Considered as objects, and all arrays are direct subclasses of `java.util.Object` class
 - Implements `Cloneable` and `java.io.Serializable` interfaces
