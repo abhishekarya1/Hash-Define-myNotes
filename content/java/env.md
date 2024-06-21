@@ -106,7 +106,7 @@ OracleJDK is solely developed by the Oracle Corporation. It has some additional 
 
 Actually, OpenJDK is an official reference implementation of a Java SE since long time now. It means that it is the accepted official implementation of the Java specification and OracleJDK's as well as all other JDKs' build process is based on that of OpenJDK.
 
-As a rule of thumb, avoid using OracleJDK since Oracle is [greedy](https://sdtimes.com/java/oracle-makes-significant-change-to-its-java-license/) when it comes to licensing, use OpenJDK instead.
+As a rule of thumb, avoid using OracleJDK since Oracle is [greedy](https://sdtimes.com/java/oracle-makes-significant-change-to-its-java-license/) when it comes to licensing, use OpenJDK instead. Updated 2024 article on Oracle JDK licencing [here](https://www.theregister.com/2024/06/20/oracle_java_licence_teams/).
 
 _Reference: https://www.baeldung.com/oracle-jdk-vs-openjdk_
 
