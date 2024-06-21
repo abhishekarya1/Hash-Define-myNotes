@@ -7,7 +7,7 @@ weight = 18
 ## Spring
 
 **Spring Application Optimizations**:
-- Service: async processing `@Async`, use Spring WebFlux for REST API calls
+- Service: async processing `@Async`, use WebFlux's WebClient for inter-service REST API calls
 - Database: optimize queries, use proper repository abstraction (e.g. `JpaRepository`, `CrudRepository`), implement caching, connection pooling,
 - Security: enable HTTP response compression, configure stateless sessions in Spring Security
 
@@ -49,7 +49,7 @@ public class AsyncService {
 ```
 
 {{% notice note %}}
-Note that there is no `CompletableFuture.supplyAsync()` or any other of its method being called that runs the logic inside it in a separate theread. Here, Spring runs the entire method body in a separate thread because of the `@Async` annotation and we've to return a `Future<T>` type.
+Note that there is no `CompletableFuture.supplyAsync()` or any other of its method being called that runs the logic inside it in a separate theread. Here, Spring runs the entire method body in a separate thread because of the `@Async` annotation and we've to return original return type `T` wrapped as `Future<T>` type.
 {{% /notice %}}
 
 We can also define our own executors (i.e. thread type and pool) for our Async method or at the class level too.
@@ -93,7 +93,7 @@ public class MyApplication{
 - connection pooling
 - cloud auto-scale services (Elastic Beanstalk)
 
-**Calling other services**: be async (use WebFlux), implement circuit breaker, rate limit with exponential backoff, and cache responses to reduce network requests.
+**Calling other services**: be async (use WebFlux's WebClient), implement circuit breaker, rate limit with exponential backoff, and cache responses to reduce network requests.
 
 **Event-driven architecture**: for intra-app event driven communniication we can use events API provided in Spring.
 - event publisher class should extend `ApplicationEvent` and publish an event using `ApplicationEventPublisher` object autowired inside it
