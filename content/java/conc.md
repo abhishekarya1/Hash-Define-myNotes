@@ -689,7 +689,7 @@ Virtual Threads have these _fixed_ properties:
 
 Virtual threads are useful when the number of concurrent tasks is large, and the tasks mostly block on network I/O. They offer no benefit for CPU-intensive tasks. Since CPU cores will be busy doing the intensive task and will block the core for everyone (other virtual threads can't use it meanwhile) unlike Network I/O blocks.
 
-**Benefit of using Virtual Threads**: Instead of writing non-blocking, asynchronous style code with `CompletableFutures` we can write "normal" synchronous style code that uses blocking I/O. Virtual Threads will make sure that blocking I/O on a thread doesn't hog resources. When a thread is ready to be resumed (wait over) it is resumed instantly without the need of specifying any callbacks.
+**Benefit of using Virtual Threads**: Instead of writing non-blocking, asynchronous style code with `CompletableFuture` we can write "normal" synchronous style code that uses blocking I/O. Virtual Threads will make sure that blocking I/O on a thread doesn't hog resources. When a thread is ready to be resumed (wait over) it is resumed instantly without the need of specifying any callbacks.
 
 References:
 - https://inside.java/2023/10/30/sip086/
@@ -698,7 +698,10 @@ References:
 - https://davidvlijmincx.com/posts/java-virtual-threads/
 
 ## Async Processing - CompletableFuture
-CompletableFuture is a framework to execute code asynchronously and return a `Future<T>` reference.
+
+`Future<T>` was introduced earlier in Java and needed more functionality (like non-blocking operations, chaining, and combining multiple futures) so `CompletableFuture<T>` was added to Java.
+
+CompletableFuture is a framework to execute code asynchronously and return a reference immediately. It is named so because we can explicitly complete it by using `complete(T t)` method on its ref and it returns `t` as its completion result.
 
 By default, it uses the common `ForkJoinPool` just like Streams.
 
@@ -706,11 +709,15 @@ By default, it uses the common `ForkJoinPool` just like Streams.
 ```java
 // perform a computation async - takes in a Supplier
 CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(() -> "Hello");
-// get value from future instance
-future.get();
+// get value from future instance; it is a blocking call
+completableFuture.get();
+
+// explicitly compelte the future and get value (used in error handling scenarios)
+completableFuture.complete("Done!");
 
 
-// to process the result of a computation - feed it to a function or consumer - chaining
+// to process the result of a computation - feed it to a function or consumer (chaining)
+// note that these are non-blocking just like supplyAsync() and do not block the calling thread
 
 // feed result of async computation into a Function
 CompletableFuture<String> future = completableFuture.thenApply(s -> s + " World");
