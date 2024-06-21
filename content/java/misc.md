@@ -131,6 +131,25 @@ They are only available to use for `List` interface and its impl classes like `A
 
 **Can `null` element be added to a collection?** only one `null` can be added to `HashMap` and `HashSet`. For all the other non-major collections, it depends. Ex - it can't be added to `TreeSet` (as a `Comparator` is required here) but allowed in `LinkedHashSet`.
 
+**Collection vs List remove() method is overloaded**: 
+```java
+// List and ArrayList have two remove methods overloaded
+List<Integer> list = new ArrayList<>(List.of(1, 2, 3));
+list.remove(2);     // calls remove(int index); closest without autoboxing
+System.out.println(list);
+
+// Output: [1, 2]
+
+
+Collection<Integer> list = new ArrayList<>(List.of(1, 2, 3));
+list.remove(2);     // calls remove(Object o) of Collection interface
+System.out.println(list);
+
+// Output: [1, 3]
+```
+
+The `interface Collection` doesn't have a `remove(int index)` method because the referred collection can be unindexed like a `Set`, so it just has the `remove(Object o)` method available at its level of abstraction.
+
 ## Top Interview Questions on Collections Internals
 
 ### Importance of hashCode() and equals()
