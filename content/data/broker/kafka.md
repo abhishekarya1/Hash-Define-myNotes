@@ -59,9 +59,9 @@ When we put consumers in separate groups, we are able to consume a Partition fro
 
 
 ### Message Queue vs Kafka
-Messages are deleted from MQ by MQ system after they are consumed in a prod-con model.
+Messages are deleted from MQ by MQ system after they are consumed in a prod-con model. The message deletion can be turned off in most MQ platforms but the general idea of MQ is remove-on-consume.
 
-Notice that Kafka broker itself is ignorant about _offsets_. A separate numeric offset is maintained by each consumer based on which message they are reading. The messages themselves are not deleted from the partition when they are consumed and successfully finish processing. They are deleted after a retention period has passed or disk quota limit is reached, so Kafka acts as a **"Distributed Commit Log"** or more recently as a "Distributing Streaming Platform".
+This is not the case in Kafka. Notice that Kafka broker itself is ignorant about _offsets_. A separate numeric offset is maintained by each consumer based on which message they are reading. The messages themselves are not deleted from the partition when they are consumed and successfully finish processing. They are deleted after a retention period has passed or disk quota limit is reached, so Kafka acts as a **"Distributed Commit Log"** or more recently as a "Distributing Streaming Platform".
 
 ## Zookeeper
 We can run multiple brokers having exact same topic in a leader-follower hierarchy.

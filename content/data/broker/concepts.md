@@ -30,6 +30,8 @@ Messages in MQs can be _ordered_ (FIFO order) or _unordered_ (high priority ones
 - _one-to-one_; one producer, one consumer
 - message is _deleted_ from MQ by MQ system after consumption, they can also configured to be deleted on consumer-ack (RabbitMQ has this config)
 
+The message deletion can be turned off in most MQ platforms but the general idea of MQ is remove-on-consume.
+
 **Disadvantages**:
 - low latency but slower than Kafka
 - throughput is not as high as Kafka
