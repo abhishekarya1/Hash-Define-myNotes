@@ -53,8 +53,14 @@ Some pipeline steps can run in parallel too, each on a separate agent or all on 
 
 **Paramerterized Jobs**: We can set environment variables and other parameters in the job while setting it up, and access those parameters in the Jenkinsfile to trigger conditional builds. To supply value to the parameter use "Build with Parameters" option from the left sidebar.
 
+## Spinnaker
+Jenkins can deploy to any public cloud provider but we will need plugins to do that. Also its not native to Kubernetes and deployment strategies, configs, and rollbacks may not be straightforward with Jenkins.
 
-### References
+We have [Spinnaker](https://spinnaker.io/) that has first-class support for deploying to any public cloud service. It is also a pipeline which can be visualized and it is more suited for kubernetes deployments.
+
+So the build artifacts (JAR) are often provided as input to the Spinnaker pipeline for continuous deployment (CD).
+
+## References
 - https://www.jenkins.io/doc/book/
 - TechWorld with Nana - [YouTube](https://www.youtube.com/playlist?list=PLy7NrYWoggjw_LIiDK1LXdNN82uYuuuiC)
 - Learn Jenkins! Complete Jenkins Course - Zero to Hero - [YouTube](https://youtu.be/6YZvp2GwT0A)

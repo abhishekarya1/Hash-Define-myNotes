@@ -55,7 +55,7 @@ When we put consumers in separate groups, we are able to consume a Partition fro
 
 ![consumer group](https://i.imgur.com/YogLz0Q.png)
 
-### Distributed
+### Zookeeper
 We can run multiple brokers having exact same topic in a leader-follower hierarchy.
 
 Zookeper is the manager as it stores cluster metadata and clients information. It runs on a separate server and has fail-overs.
@@ -65,6 +65,8 @@ Zookeeper takes care of routing for read-write operations:
 - read from a follower
 
 ![zookeeper distributed](https://i.imgur.com/PWMZzwh.png)
+
+Since Kafka 2.8.0, we don't need a Zookeeper and a concensus algorithm (RAFT) is used.
 
 ---
 ## Spring Boot Kafka
@@ -111,6 +113,13 @@ public getMessage(String msg){
 
 
 ```
+
+## Interview Questions
+**ISR** (In-Sync Replicas): they are replicas which are up-to-date with leader's data.
+
+**Consumer Lag**: the diff between the latest offset of the partition and the latest offset which the consumer has consumed.
+
+**Offset Updates**: offset is updated and committed only after successful processing of the message by the consumer, otherwise it will lead to message loss if consumer fails (or goes down) and we already update the offset.
 
 ## References
 - Apache Kafka Crash Course - Hussein Nasser - [YouTube](https://youtu.be/R873BlNVUB4)
