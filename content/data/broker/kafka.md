@@ -49,9 +49,8 @@ Kafka can do both prod/con (_default_) as well as pub/sub model using consumer g
 ### Consumer Group
 Each partition must be consumed by **only a single consumer in one group** but the inverse isn't true! One consumer is free to consume from multiple partitions.
 
-This is because a partition is ordered and we don't want multiple consumers from the same group to take messages from it.
+When we put consumers in separate groups, we are able to consume a Partition from multiple consumers (one-to-many mapping). And when we put all consumers in a single group each Partition can only be consumed from a single consumer (one-to-one mapping). 
 
-When we put consumers in separate groups, we are able to consume a Partition from multiple consumers.
 - act as a queue; put all consumers in one group (_default_) (shown in below image)
 - act as a pub/sub; put one consumer in one group
 
