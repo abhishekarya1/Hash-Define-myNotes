@@ -20,7 +20,7 @@ It is built in Java and Scala so its native to Java environment.
 ## Components
 - **Cluster** - group of kafka servers
 - **Broker** - a single kafka server (replicated for high-availability)
-- **Topic** (aka _Stream_) - group of partitions, can be spread across multiple brokers; no ordering of incoming messages guaranteed
+- **Topic** (aka _Stream_) - logical category; group of partitions, can be spread across multiple brokers; no ordering of incoming messages guaranteed
 - **Partition** - indexed log (array) and hence ordering is guaranteed among messages received by a particular partition; replicated for data redundancy
 
 - **Publisher** - writes messages to topics
@@ -29,6 +29,8 @@ It is built in Java and Scala so its native to Java environment.
 - **Zookeeper** - central manager: stores cluster metadata, clients information, routes writes exclusively to leader broker and reads to both leader and follower brokers
 
 ![kafka components](https://i.imgur.com/BtLuPCj.png)
+
+![topic and partitions](https://i.imgur.com/NX0GAP3.png)
 
 ## Features
 **Replication**: it exists at every level. Cluster, Broker, Partitions are configured to be data replicated in a well configured kafka system.
@@ -45,12 +47,12 @@ There is another metadata often part of the message that is **Schema**. It indic
 Kafka can do both prod/con (_default_) as well as pub/sub model using consumer groups.
 
 ### Consumer Group
-Each partition must be consumed by only a single consumer in one group but the inverse isn't true! One consumer is free to consume from multiple partitions.
+Each partition must be consumed by **only a single consumer in one group** but the inverse isn't true! One consumer is free to consume from multiple partitions.
 
-This is because a partition is ordered and we don't want multiple consumers to take messages from it and cause chaos.
+This is because a partition is ordered and we don't want multiple consumers from the same group to take messages from it.
 
 When we put consumers in separate groups, we are able to consume a Partition from multiple consumers.
-- act as a queue; put all consumers in one group (_default_)
+- act as a queue; put all consumers in one group (_default_) (shown in below image)
 - act as a pub/sub; put one consumer in one group
 
 ![consumer group](https://i.imgur.com/YogLz0Q.png)
@@ -110,8 +112,6 @@ kafkaTemplate.send(topicName, msg);
 public getMessage(String msg){
 	// processing
 }
-
-
 ```
 
 ## Interview Questions
