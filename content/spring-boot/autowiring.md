@@ -215,6 +215,8 @@ Specify scopes on classes using `@Scope` annotation on them. Ex - `@Scope("proto
 3. Bean Constructed and all its dependencies injected into it
 4. Bean's `init()` method is called
 5. Bean's `@PostConstruct` annotated method is called
-6. Bean's `@PreDestroy` annotated method is called
+6. Use the Bean - call its methods
+7. Bean's `@PreDestroy` annotated method is called
+8. Bean's `destroy()` method is called
 
 _Reference_: https://javatechonline.com/spring-bean-life-cycle-method-examples/
