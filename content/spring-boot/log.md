@@ -62,7 +62,9 @@ Old way is to use `logback.xml` and Spring will use that if it is present, other
 
 ## Metrics
 ### Prometheus and Grafana
-Metrics collection (Prometheus) and visualization (Grafana).
+Metrics collection and storage (Prometheus) and metrics and log visualization (Grafana).
+
+Micrometer is the default facade provided by Spring for metrics, just like Slf4j for logs.
 
 1. Expose the micrometer endpoint. `micrometer-registry-prometheus` dependency adds an endpoint `/actuator/prometheus` which lists all metrics for the app
 2. The micrometer endpoint is configured in Prometheus running on a diff dedicated server
@@ -72,9 +74,11 @@ Metrics collection (Prometheus) and visualization (Grafana).
 SPRING BOOT APP <--polls-- PROMETHEUS <--polls-- GRAFANA
 ```
 
-Config polling interval and other settings in a `Prometheus.yml` file on the Prometheus server.
+Config polling interval and other settings in a `Prometheus.yml` file on the Prometheus server. It has its own local time-series database to store metrics history.
 
-We can see logs in Grafana too but _without_ the distributed tracing.
+We see logs in Grafana but _without_ the distributed tracing.
+
+We can also configure metrics export to other dashboards and Time-Series DB like Datadog and Influx DB. As well as configure alerts to Slack etc using Web Hooks in case an anomaly is detected.
 
 ## Distributed Log Tracing
 ### Sleuth and Zipkin
@@ -127,10 +131,16 @@ All three run on their own dedicated server separate from our Spring Boot app.
 _Reference_: [ELK with Spring Boot Microservices - YouTube](https://youtu.be/QZbZDu1xAr8)
 
 ### Grafana Stack
-- Grafana - UI Dashboard
-- Loki - Log Aggregation
-- Tempo - Distributed Tracing
+
+```txt
+Loki - Log Aggregation
+Tempo - Distributed Tracing
+Grafana - UI Dashboard
+```
 
 Use Prometheus for collecting metrics.
 
 _Reference_: https://programmingtechie.com/2023/09/09/spring-boot3-observability-grafana-stack/
+
+### Other tools
+Splunk
