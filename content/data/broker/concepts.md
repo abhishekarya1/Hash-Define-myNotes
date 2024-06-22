@@ -28,6 +28,7 @@ Simple MQ - single FIFO pipeline.
 Messages in MQs can be _ordered_ or _unordered_.
 
 - _one-to-one_; one producer, one consumer
+- message is deleted from MQ after consumption
 
 ### Pub-Sub Model
 Publisher puts messages in the queue, subscriber(s) consume them. Broadcasting.
@@ -35,6 +36,7 @@ Publisher puts messages in the queue, subscriber(s) consume them. Broadcasting.
 - _one-to-many_; one producer, many consumers
 - _unordered_ mostly
 - _scalability_: add multiple consumers to consume messages faster 
+- message is not deleted from queue after consumption by any one consumer
 
 **Disadvantages**:
 - not for mission critical synchronous systems
