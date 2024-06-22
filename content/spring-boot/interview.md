@@ -70,8 +70,6 @@ Alternatively, actuator's `/beans` endpoint can also list all beans, need to exp
 
 **YAML vs Properties**: YAML is cleaner and structured, properties is simple and verbose. YAML files cannot be loaded by using the `@PropertySource` annotation so that's a negative.
 
-**How to change the default Embedded Servlet Container?** It is nothing but the web server, and by default its Tomcat. We can exclude the Tomcat dependency under `spring-boot-starter-web` and add another dependency like `spring-boot-starter-webflux` or `io.netty` to have Netty as the application server.
-
 **How to disable a specific Auto-Configuration?**: find out the configuration class that configures the functionality and use `exclude` property in main class annotation.
 ```java
 @SpringBootApplication(exclude = {"DataSourceAutoConfiguration.class"})

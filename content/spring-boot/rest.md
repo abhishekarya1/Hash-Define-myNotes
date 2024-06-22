@@ -1,5 +1,5 @@
 +++
-title = "Spring ReST"
+title = "Spring ReST and Server"
 date = 2022-06-07T00:27:00+05:30
 weight = 8
 +++
@@ -223,3 +223,24 @@ void demo(){ }
 ```
 
 _Reference_: https://www.baeldung.com/spring-boot-3-url-matching
+
+
+## Calling other Rest API in code
+
+**RestTemplate**: synchronous (now deprecated)
+
+**RestClient**: synchronous (`spring-boot-starter-web` dependency)
+
+**WebClient**: asynchronous and reactive (`spring-boot-starter-webflux` dependency) [notes](/spring-boot/reactive/#webclient---async-web-api-calls)
+
+
+## Embedded Servlet Container
+The default web server in Spring Boot is Tomcat provided only if we include the `spring-boot-starter-web` dependency. 
+
+To change it, we can exclude the Tomcat dependency under `starter-web` and add another dependency like `starter-webflux` or `io.netty` to have Netty as the web server.
+
+Tomcat works on a **Thread-per-Request model**. It creates a new thread for each incoming request and that can get very limiting as by default it uses "normal" threads and not Virtual Threads (introduced in Java 21).
+
+The default max number of simultaneous requests that can be accepted by the Tomcat server is 200. This can be changed using the `server.tomcat.threads.max` property. But we will obviously be limited by our CPU cores on the max threads that can execute parellely.
+
+If we're using Spring Boot 3.2.0+ with Java 21+ then we can use the property `spring.threads.virtual.enabled=true` to use Virtual Thread throughout the application. This brings the response times down significantly in applications where there aren't enough threads (i.e. threads with blocking I/O slowing us down).

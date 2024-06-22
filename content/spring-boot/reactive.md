@@ -226,10 +226,12 @@ public Flux<Product> listAllProducts(){
 
 _Reference_: Spring Reactive CRUD Project - [YouTube](https://www.youtube.com/watch?v=x1Dt7K4FrnI)
 
-## WebClient vs RestTemplate
+## WebClient - Async Web API Calls
 Now deprecated, `RestTemplate` followed a thread-per-request model, serverely limiting as well as it was blocking the flow until result of the external service call was available.
 
-Spring WebFlux introduces a non-blocking way using `WebClient`. It returns a Publisher which the client (browser) subscribes to, without blocking the code flow. As and when the data is available from the "slowservice", the client receives it async-ly.
+Spring Web has a `RestClient` for synchronous web API calls which is a replacement for the now deprecated `RestTemplate`.
+
+Additionally, Spring WebFlux introduces a non-blocking way using `WebClient`. It returns a Publisher which the client (browser) subscribes to, without blocking the code flow. As and when the data is available from the "slowservice", the client receives it async-ly.
 
 ```java
 // create client instance
