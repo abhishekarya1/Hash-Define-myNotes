@@ -33,13 +33,13 @@ It is built in Java and Scala so its native to Java environment.
 ![topic and partitions](https://i.imgur.com/NX0GAP3.png)
 
 ## Features
-**Replication**: it exists at every level. Cluster, Broker, Partitions are configured to be data replicated in a well configured kafka system.
+**Replication**: it exists at every level. Cluster, Broker, Partitions are configured to be data replicated and fail-overs in place in a well configured Kafka system.
 
-**Messages** are just bytes of information to Kafka and its agnostic to their meaning. There is a component **Key** (numeric hash) that can be appended to a message which can then be used to decide the partition the message goes to using modulo operation i.e. `key_hash % N` where `N` is the number of partitions in the topic the message is destined to.
+**Messages** are just bytes of information to Kafka and its agnostic to their meaning. There is a component **Key** (numeric hash) that can be appended to a message which can then be used to decide the partition the message goes to using modulo operation i.e. `key_hash % N` where `N` is the number of partitions in the topic the message is destined to. The producer tries to uniformly distribute messages among all partitions.
 
-There is another metadata often part of the message that is **Schema**. It indicates what kind of data the message contains i.e. JSON or XML etc to the consumer. This schema can be stored as Kafka Headers or we can decide specific topics for specific message types.
+**Schema** is another optional metadata put in the message sometimes. It indicates what kind of data the message contains (i.e. JSON or XML etc) to the consumer. This schema can be stored as Kafka Headers or we can dedicate specific topics for specific message types.
 
-**Offset**: the consumer tracks messages already processed using an integral number called _offset_ and it maintain its current count so that it can resume from that point in the future. The producer tries to uniformly distribute messages among all partitions.
+**Offset**: each consumer tracks messages already processed by it using an integral number called _offset_ and it maintain its current count so that it can resume from that point in the future if processing fails. 
 
 **Retention**: there is a temp storage threshold (1GB per partition) or message TTL (7 days) after which they are deleted.
 
@@ -57,7 +57,13 @@ When we put consumers in separate groups, we are able to consume a Partition fro
 
 ![consumer group](https://i.imgur.com/YogLz0Q.png)
 
-### Zookeeper
+
+### Message Queue vs Kafka
+Messages are deleted from MQ by MQ system after they are consumed in a prod-con model.
+
+Notice that Kafka broker itself is ignorant about _offsets_. A separate numeric offset is maintained by each consumer based on which message they are reading. The messages themselves are not deleted from the partition when they are consumed and successfully finish processing. They are deleted after a retention period has passed or disk quota limit is reached, so Kafka acts as a **"Distributed Commit Log"** or more recently as a "Distributing Streaming Platform".
+
+## Zookeeper
 We can run multiple brokers having exact same topic in a leader-follower hierarchy.
 
 Zookeper is the manager as it stores cluster metadata and clients information. It runs on a separate server and has fail-overs.
@@ -70,7 +76,6 @@ Zookeeper takes care of routing for read-write operations:
 
 Since Kafka 2.8.0, we don't need a Zookeeper and a concensus algorithm (RAFT) is used.
 
----
 ## Spring Boot Kafka
 Spring Boot automatically adds `@EnableKafka` when we add `@SpringBootApplication` annotation. So, we needn't add it explicitly.
 ```txt

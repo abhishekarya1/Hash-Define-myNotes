@@ -22,24 +22,28 @@ Not only data messages, but tasks messages can be put in queues too.
 
 **Streaming Data Pipelines**: huge volume of data (\~100K requests/sec) can be sent between services
 
-### Prod-Con Model
-Simple MQ - single FIFO pipeline.
+### Prod-Con Model (MQ)
+Simple MQ - single FIFO pipeline. Ex - IBM WebSphere MQ, Rabbit MQ, Apache Active MQ, etc.
 
-Messages in MQs can be _ordered_ or _unordered_.
+Messages in MQs can be _ordered_ (FIFO order) or _unordered_ (high priority ones are processed first).
 
 - _one-to-one_; one producer, one consumer
-- message is deleted from MQ after consumption
-
-### Pub-Sub Model
-Publisher puts messages in the queue, subscriber(s) consume them. Broadcasting.
-
-- _one-to-many_; one producer, many consumers
-- _unordered_ mostly
-- _scalability_: add multiple consumers to consume messages faster 
-- message is not deleted from queue after consumption by any one consumer
+- message is _deleted_ from MQ by MQ system after consumption, they can also configured to be deleted on consumer-ack (RabbitMQ has this config)
 
 **Disadvantages**:
-- not for mission critical synchronous systems
+- low latency but slower than Kafka
+- throughput is not as high as Kafka
+
+### Pub-Sub Model (Kafka)
+Publisher puts messages in a central system, subscriber(s) consume them. Broadcasting. Acts as a Distributed Commit Log.
+
+- _one-to-many_; one producer, many consumers
+- message is _not deleted_ from Topic after consumption by consumers (see [Kafka notes](/data/broker/kafka/))
+- _unordered_ mostly
+- _scalability_: add multiple consumers to consume messages faster 
+
+**Disadvantages**:
+- not for mission critical synchronous systems where ack is required
 - not for non-idempotent tasks like financial transactions
 
 ## References
