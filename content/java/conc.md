@@ -764,6 +764,7 @@ One scenario is when we run CompletableFuture async thread and immediately block
 Another scenario can be if all user threads exit before async processing in a daemon thread completes. Consider the following example:
 ```java
 CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+    // System.out.println(Thread.currentThread().isDaemon());
     Thread.sleep(2000);
     System.out.println("A");
     Thread.sleep(2000);
@@ -779,11 +780,12 @@ System.err.println("Exiting...");
 // Reason: the async thread is from ForkJoinPool and its a daemon thread. If main thread exits first, JVM forces daemon threads to terminate too.
 ```
 
-We can provide a custom `ExecutorService` thread pool to make async thread as a User thread. 
+To solve this issue, we can provide a custom `ExecutorService` thread pool to make async thread as a User thread. 
 
-We need to either wait sometime and let the async daemon thread complete (`sleep()`) or block the main thread indefinitely (`get()` or `join()`) until async daemon thread completes:
+Another solution is to either wait sometime and let the async daemon thread complete (`sleep()`) or block the main thread indefinitely (`get()` or `join()`) until async daemon thread completes:
 ```java
 CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+        // System.out.println(Thread.currentThread().isDaemon());
     Thread.sleep(2000);
     System.out.println("A");
     Thread.sleep(2000);
