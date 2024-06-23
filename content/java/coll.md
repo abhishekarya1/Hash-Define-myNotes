@@ -321,6 +321,56 @@ for (var e : mp.keySet()) {
 // Output: 321
 ```
 
+### Iteration
+Maps don't implement `Iterator` interface and are thus not iterable. We use a for loop to iterate on them:
+
+```java
+// iterate on keys
+for(var e : mp.keySet()){
+    System.out.println(e);
+}
+
+// iterate on values
+for(var e : mp.values()){
+    System.out.println(e);
+}
+```
+
+A map's keys are unique and form a Set. Hence we can also get entrySet (`Set<Entry<K, V>>`) of map and iterate on it:
+```java
+// iterate on both keys and values as Entry<K, V>
+for(var e : mp.entrySet()){
+    System.out.println(e.getKey() + ", " + e.getValue());
+}
+
+// the Set collection is iterable so we can use iterator with it too
+```
+
+Another piece of code helpful in building a frequency map:
+```java
+String str = "foobar";
+Map<Character, Integer> mp = new HashMap<>();
+
+// normal verbose way
+for(Character c : str.toCharArray()){
+    if(mp.containsKey(c)) {
+        mp.put(c, mp.get(c) + 1);
+    } else{
+        mp.put(c, 1);
+    }
+}
+
+// better shorter way
+for(Character c : str.toCharArray()){
+    mp.put(c, mp.getOrDefault(c, 0) + 1);
+}
+
+// lesser known short way
+for(Character c : str.toCharArray()){
+    mp.merge(c, 1, Integer::sum);
+}
+```
+
 ## Sorting Data
 
 ### Comparable
