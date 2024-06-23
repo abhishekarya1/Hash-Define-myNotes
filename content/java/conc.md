@@ -721,16 +721,12 @@ completableFuture.complete("Done!");
 
 // feed result of async computation into a Function
 CompletableFuture<String> future = completableFuture.thenApply(s -> s + " World");
-future.get();
 
 // feed to a Consumer and it returns a Void placeholder type 
 CompletableFuture<Void> future = completableFuture.thenAccept(s -> System.out.println("Computation returned: " + s));
-future.get();
 
 // nothing to feed, nothing to get back; print a line in the console on future.get() call 
 CompletableFuture<Void> future = completableFuture.thenRun(() -> System.out.println("Computation finished."));
-future.get();
-
 
 // provide a callback to run upon completion using whenComplete method (non-blocking)
 completableFuture.whenComplete((result, exception) -> {
@@ -742,10 +738,14 @@ completableFuture.whenComplete((result, exception) -> {
         System.err.println("Exception: " + exception.getMessage());
     }
 });
+
+
+// avoid doing a blocking operation like get() where you don't want to wait. Use chaining and callbacks.
 ```
 
-Stop execution and waits for all futures to complete:
+Stop execution of current thread and waits for all futures to complete:
 ```java
+// blocking operation
 CompletableFuture<Void> combinedFuture  = CompletableFuture.allOf(cf1, cf2, cf3);
 ```
 
