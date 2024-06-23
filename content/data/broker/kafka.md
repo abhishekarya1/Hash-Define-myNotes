@@ -89,7 +89,7 @@ If we send POJO to Kafka, we specify "JSON" serializer/deserializer here
 ```
 **Create a Topic**:
 ```java
-// create a topic
+// create a topic (optional ofcourse)
 @Configuration
 public class TopicConfig{
 
@@ -107,7 +107,7 @@ public class TopicConfig{
 @Autowired
 KafkaTemplate<String, String> kafkaTemplate;
 
-kafkaTemplate.send(topicName, msg);
+kafkaTemplate.send(topicName, msg);		// this returns a CompletableFuture ref
 ```
 **Consumer**:
 ```java
@@ -117,6 +117,25 @@ public getMessage(String msg){
 	// processing
 }
 ```
+
+### Error Handling
+For handling errors that happen during the consumption of the messages, we can specify the number of retry attempts to perform before sending them over to the Dead Letter Topic (DLT).
+
+Kafka creates `N-1` retry topics (`foobar-retry-0`, `foobar-retry-1`, etc.) and puts failed messages in them if retry is needed. Since default retry attempts are 3 therefore Kafka creates 2 retry topics for each of our main topic.
+
+```java
+@RetryableTopic(attempts = "4")
+@KafkaListener(topics = "foobar")
+
+// retry atmost 4 times (default is 3 if we don't have this annotation)
+
+@DltHandler
+// define a method here to process failed messages (fetched from Dead Letter Topic)
+```
+
+{{% notice note %}}
+_Why do we need retry topics? Didn't we only commit offset when a message is successfully consumed by the consumer? If we don't update the offset then we will process the failed message again right?_ That is true, but we have retry topics to ensure **exactly once semantics** otherwise consumer doesn't have any idea how many retries it has already done and it will go in an infinite loop. So the consumer does retries once from every retry topic created. Kind of verbose 😅.
+{{% /notice %}}
 
 ## Interview Questions
 **ISR** (In-Sync Replicas): they are replicas which are up-to-date with leader's data.
@@ -128,5 +147,5 @@ public getMessage(String msg){
 ## References
 - Apache Kafka Crash Course - Hussein Nasser - [YouTube](https://youtu.be/R873BlNVUB4)
 - Spring Boot: Event Driven Architecture using Kafka - Programming Techie - [YouTube](https://youtu.be/-ebTPcHANnI)
-- Spring Boot + Apache Kafka Tutorial - Java Guides - [YouTube](https://youtube.com/playlist?list=PLGRDMO4rOGcNLwoack4ZiTyewUcF6y6BU)
+- Spring Boot 3 Apache Kafka Tutorial - Java Techie - [YouTube](https://youtu.be/c7LPlWvxZcQ)
 - https://learning.oreilly.com/library/view/kafka-the-definitive/9781492043072/

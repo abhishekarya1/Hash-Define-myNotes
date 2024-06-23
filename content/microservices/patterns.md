@@ -126,8 +126,8 @@ Pros:
 - we can read from No-SQL and write to SQL or vice-versa
 
 Cons:
-- sync of both the write and read databases is additional overhead; consistency has to be handled with events
-- complex application design; especially if used with Event Sourcing pattern
+- sync of both the write and read databases is additional overhead; consistency has to be handled with Event Sourcing (use a write-to-readDB service) or CDC (Change Data Capture) at the database level
+- complex application design
 
 ![](https://i.imgur.com/UgQVgKI.png)
 

@@ -699,20 +699,20 @@ References:
 
 ## Async Processing - CompletableFuture
 
-`Future<T>` was introduced earlier in Java and needed more functionality (like non-blocking operations, chaining, and combining multiple futures) so `CompletableFuture<T>` was added to Java.
+`Future<T>` was introduced earlier in Java and needed more functionality (like non-blocking operations, chaining, callbacks, and combining multiple futures) so `CompletableFuture<T>` was added to Java.
 
 CompletableFuture is a framework to execute code asynchronously and return a reference immediately. It is named so because we can explicitly complete it by using `complete(T t)` method on its ref and it returns `t` as its completion result.
 
-By default, it uses the common `ForkJoinPool` just like Streams.
+By default, it uses the common `ForkJoinPool` just like Streams. We can provide a custom `ExecutorService` to it too. 
 
 `class CompletableFuture<T> implements Future<T>` so we can store output of function in CompletableFuture too as shown in the examples below:
 ```java
 // perform a computation async - takes in a Supplier
 CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(() -> "Hello");
-// get value from future instance; it is a blocking call
+// get value from future instance; it is a blocking call as it waits for return value
 completableFuture.get();
 
-// explicitly compelte the future and get value (used in error handling scenarios)
+// explicitly compelte the future and get value (can be used in error handling scenarios)
 completableFuture.complete("Done!");
 
 
@@ -730,17 +730,29 @@ future.get();
 // nothing to feed, nothing to get back; print a line in the console on future.get() call 
 CompletableFuture<Void> future = completableFuture.thenRun(() -> System.out.println("Computation finished."));
 future.get();
+
+
+// provide a callback to run upon completion using whenComplete method (non-blocking)
+completableFuture.whenComplete((result, exception) -> {
+    if (exception == null) {
+        // the computation completed normally
+        System.out.println("Result: " + result);
+    } else {
+        // the computation completed with an exception
+        System.err.println("Exception: " + exception.getMessage());
+    }
+});
 ```
 
+Stop execution and waits for all futures to complete:
 ```java
-// stop execution and waits for all futures to complete
 CompletableFuture<Void> combinedFuture  = CompletableFuture.allOf(cf1, cf2, cf3);
 ```
 
+Specify our own ExecutorService so it doesn't use common `ForkJoinPool`:
 ```java
-// specify our own ExecutorService Pool so it doesn't use common ForkJoinPool
 ExecutorService exec = Executors.newFixedThreadPool(20);
-CompletableFuture<String> comFut = CompletableFuture.thenSupplyAsync(cf, exec);
+CompletableFuture<String> comFut = CompletableFuture.thenSupplyAsync(task, exec);
 ```
 
 Reference: 
