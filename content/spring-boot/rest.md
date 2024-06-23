@@ -224,7 +224,6 @@ void demo(){ }
 
 _Reference_: https://www.baeldung.com/spring-boot-3-url-matching
 
-
 ## Calling other Rest API in code
 
 **RestTemplate**: synchronous (now deprecated)
@@ -244,3 +243,12 @@ Tomcat works on a **Thread-per-Request model**. It creates a new thread for each
 The default max number of simultaneous requests that can be accepted by the Tomcat server is 200. This can be changed using the `server.tomcat.threads.max` property. But we will obviously be limited by our CPU cores on the max threads that can execute parellely.
 
 If we're using Spring Boot 3.2.0+ with Java 21+ then we can use the property `spring.threads.virtual.enabled=true` to use Virtual Thread throughout the application. This brings the response times down significantly in applications where there aren't enough threads (i.e. threads with blocking I/O slowing us down).
+
+## Layers before Controller
+**Tomcat --> Filter --> Servlet --> Interceptor --> Controller**
+
+We can modify request at any layer before the Controller. From Interceptor onwards we have Spring Context awareness, prior layers are handled by Servlet API and not Spring. 
+
+We commonly modify requests by creating a custom Filter (`Filter`), Servlet (`DispatcherServlet`) or a custom Interceptor (`HandlerInterceptor`) (_best_).
+
+_Reference_: [Using Interceptor in Spring Boot - YouTube](https://youtu.be/DuMf8Nwb-9w)
