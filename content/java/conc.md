@@ -703,7 +703,7 @@ References:
 
 CompletableFuture is a framework to execute code asynchronously and return a reference immediately. It is named so because we can explicitly complete it by using `complete(T t)` method on its ref and it returns `t` as its completion result.
 
-By default, it uses the common `ForkJoinPool` just like Streams. We can provide a custom `ExecutorService` to it too. 
+By default, it uses the common `ForkJoinPool` threads just like Streams (they are Daemon Threads). We can provide a custom `ExecutorService` to it too (the are User Threads).
 
 `class CompletableFuture<T> implements Future<T>` so we can store output of function in CompletableFuture too as shown in the examples below:
 ```java
@@ -712,7 +712,7 @@ CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(() -
 // get value from future instance; it is a blocking call as it waits for return value
 completableFuture.get();
 
-// explicitly compelte the future and get value (can be used in error handling scenarios)
+// explicitly complete the future and get value (can be used in error handling scenarios)
 completableFuture.complete("Done!");
 
 
@@ -728,6 +728,7 @@ CompletableFuture<Void> future = completableFuture.thenAccept(s -> System.out.pr
 // nothing to feed, nothing to get back; print a line in the console on future.get() call 
 CompletableFuture<Void> future = completableFuture.thenRun(() -> System.out.println("Computation finished."));
 
+
 // provide a callback to run upon completion using whenComplete method (non-blocking)
 completableFuture.whenComplete((result, exception) -> {
     if (exception == null) {
@@ -740,10 +741,10 @@ completableFuture.whenComplete((result, exception) -> {
 });
 
 
-// avoid doing a blocking operation like get() where you don't want to wait. Use chaining and callbacks.
+// avoid doing a blocking operation like get() where you don't want to wait. Use chaining and callbacks to process async computation's result.
 ```
 
-Stop execution of current thread and waits for all futures to complete:
+Stop execution of current thread and wait for all futures to complete:
 ```java
 // blocking operation
 CompletableFuture<Void> combinedFuture  = CompletableFuture.allOf(cf1, cf2, cf3);
@@ -753,6 +754,54 @@ Specify our own ExecutorService so it doesn't use common `ForkJoinPool`:
 ```java
 ExecutorService exec = Executors.newFixedThreadPool(20);
 CompletableFuture<String> comFut = CompletableFuture.thenSupplyAsync(task, exec);
+```
+
+### Blocking
+**Why is blocking tricky with async processing?** Because we may end up blocking where we shouldn't and not blocking where we should've.
+
+One scenario is when we run CompletableFuture async thread and immediately block right after that to get result value (e.g. calling `get()`), then we aren't really going async. We should use chaining and callbacks to process the result.
+
+Another scenario can be if all user threads exit before async processing in a daemon thread completes. Consider the following example:
+```java
+CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+    Thread.sleep(2000);
+    System.out.println("A");
+    Thread.sleep(2000);
+    System.out.println("B");
+    Thread.sleep(2000);
+    System.out.println("C");
+});
+
+System.err.println("Exiting...");
+
+// Output: "Exiting..." and then process finishes with exit code 0!
+
+// Reason: the async thread is from ForkJoinPool and its a daemon thread. If main thread exits first, JVM forces daemon threads to terminate too.
+```
+
+We can provide a custom `ExecutorService` thread pool to make async thread as a User thread. 
+
+We need to either wait sometime and let the async daemon thread complete (`sleep()`) or block the main thread indefinitely (`get()` or `join()`) until async daemon thread completes:
+```java
+CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+    Thread.sleep(2000);
+    System.out.println("A");
+    Thread.sleep(2000);
+    System.out.println("B");
+    Thread.sleep(2000);
+    System.out.println("C");
+});
+
+System.err.println("Exiting...");
+// Thread.sleep(10000);
+future.join();
+
+/* Output: 
+Exiting...
+A
+B
+C
+*/
 ```
 
 Reference: 
