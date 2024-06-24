@@ -40,6 +40,11 @@ String b = two.join();	// get value
 
 Since Java 9 we have a **Flow API** (`java.util.concurrent.Flow`) that standardizes the operations on reactive libraries, just like JPA for persistance tools.
 
+{{% notice tip %}}
+In short, Reactive Streams offer a more powerful and declarative yet flexible model for handling _continuous data streams_ and complex asynchronous data processing scenarios compared to `CompletableFuture` (where we have to do everything manually).
+{{% /notice %}}
+
+
 ## Iterator vs Observer
 Similar design patterns, but the only difference is who controls the data flow.
 
