@@ -96,10 +96,15 @@ signature = HMAC_SHA256(header.payload, SECRET)
 - the contents of a JWT are visible to everyone
 - claims can be private too (have names that have no meaning)
 - can be passed in header, body or as a query param
-- we can pass it as `Authorization: Bearer <jwt_token>`
+- we can pass it as `Authorization: Bearer <jwt_token>` HTTP header
+
+**Some Tips and Pointers**:
+- if someone gets JWT and modifies the claims, then signature verification will not match so it is safe. But never store anything confidential in claims.
+- we can encrypt JWT token to enhance security (and not only send it as Base64 string). It is done using JSON Web Encryption (JWE) standard.
+- we can have asymmetric encryption of JWT signatures rather than a symmetric one in which a private (secret) has to be shared between the token creator server and the token verifier server (if they are separate).
+- on a user logout, the JWT token doesn't expire automatically immediately. Need to impl JWT forced expiration logic in the application such that it does.
 
 [Reference](https://roadmap.sh/guides/jwt-authentication)
-
 
 ### OAuth 2.0
 Used to get a token from a third party server in order to access its resources.
