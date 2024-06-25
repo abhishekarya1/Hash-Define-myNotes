@@ -21,21 +21,21 @@ It is built in Java and Scala so its native to Java environment.
 - **Cluster** - group of kafka servers
 - **Broker** - a single kafka server (replicated for high-availability)
 - **Topic** (aka _Stream_) - logical category; group of partitions, can be spread across multiple brokers; no ordering of incoming messages guaranteed
-- **Partition** - indexed log (array) and hence ordering is guaranteed among messages received by a particular partition; replicated for data redundancy
-
+- **Partition** - indexed log (array) and hence ordering is guaranteed among messages received by a particular partition; data is replicated for redundancy
 - **Publisher** - writes messages to topics
 - **Consumer** and **Consumer Group** - read messages from topics by taking ownership of specified partitions
-
-- **Zookeeper** - central manager: stores cluster metadata, clients information, routes writes exclusively to leader broker and reads to both leader and follower brokers
+- **Zookeeper** - management component; stores cluster metadata, clients information, routes writes exclusively to leader broker and reads to both leader and follower brokers
 
 ![kafka components](https://i.imgur.com/BtLuPCj.png)
 
-![topic and partitions](https://i.imgur.com/NX0GAP3.png)
+![topic and partitions](https://i.imgur.com/T9NJwAp.png)
 
 ## Features
-**Replication**: it exists at every level. Cluster, Broker, Partitions are configured to be data replicated and fail-overs in place in a well configured Kafka system.
+**Replication**: it exists at every level. Cluster, Broker, Partitions are configured to be data replicated and have fail-overs in place in a well configured Kafka system.
 
-**Messages** are just bytes of information to Kafka and its agnostic to their meaning. There is a component **Key** (numeric hash) that can be appended to a message which can then be used to decide the partition the message goes to using modulo operation i.e. `key_hash % N` where `N` is the number of partitions in the topic the message is destined to. The producer tries to uniformly distribute messages among all partitions.
+**Assigning Partitions to Consumers**: a consumer is assigned a partition to read from by Kafka. It makes sure all consumers are evenly balanced across partitions. If we want, we can control this assignment directing messages to specific paritions based on the Message Key (see below).
+
+**Messages** are just bytes of information to Kafka and its agnostic to their meaning. There is a component **Key** (numeric hash) that can be appended to a message which can then be used to manually decide the partition the message goes to using modulo operation i.e. `key_hash % N` where `N` is the number of partitions in the topic the message is destined to. The producer tries to uniformly distribute messages among all partitions.
 
 **Schema** is another optional metadata put in the message sometimes. It indicates what kind of data the message contains (i.e. JSON or XML etc) to the consumer. This schema can be stored as Kafka Headers or we can dedicate specific topics for specific message types.
 
@@ -44,36 +44,45 @@ It is built in Java and Scala so its native to Java environment.
 **Retention**: there is a temp storage threshold (1GB per partition) or message TTL (7 days) after which they are deleted.
 
 ## Both Models
-Kafka can do both prod/con (_default_) as well as pub/sub model using consumer groups.
+Kafka can do both prod/con (MQ) as well as pub/sub model using consumer groups.
 
 ### Consumer Group
 Each partition must be consumed by **only a single consumer in one group** but the inverse isn't true! One consumer is free to consume from multiple partitions.
 
 When we put consumers in separate groups, we are able to consume a Partition from multiple consumers (one-to-many mapping). And when we put all consumers in a single group each Partition can only be consumed from a single consumer (one-to-one mapping). 
 
-- act as a queue; put all consumers in one group (_default_) (shown in below image)
-- act as a pub/sub; put one consumer in one group
+- a partition acts as a FIFO queue - put all consumers in one group; direct messages to specific partitions based on their key
+- a partition acts as a pub/sub - put one consumer in one group; let Kafka populate partitions of a topic
 
-![consumer group](https://i.imgur.com/YogLz0Q.png)
+![consumer group](https://i.imgur.com/HXoGjTe.png)
 
+**Avoiding Redundant Message Processing**: a single message in a partition will be consumed multiple times if its consumers happen to be from diff groups, Kafka has no awareness to prevent it as its just a storage. Hence we need to make sure that we designate groups to consumers in a way that doesn't lead to redundant processing.
 
-### Message Queue vs Kafka
+**Rebalancing**: Kafka ensures that partitions are evenly distributed among consumers in a group. If a consumer joins or leaves the group, Kafka will rebalance the partitions among the available consumers within the same group.
+
+_Reference_: [Kafka Partitions and Consumer Groups - Medium](https://medium.com/javarevisited/kafka-partitions-and-consumer-groups-in-6-mins-9e0e336c6c00)
+
+### Message Queues vs Kafka
 Messages are deleted from MQ by MQ system after they are consumed in a prod-con model. The message deletion can be turned off in most MQ platforms but the general idea of MQ is remove-on-consume.
 
 This is not the case in Kafka. Notice that Kafka broker itself is ignorant about _offsets_. A separate numeric offset is maintained by each consumer based on which message they are reading. The messages themselves are not deleted from the partition when they are consumed and successfully finish processing. They are deleted after a retention period has passed or disk quota limit is reached, so Kafka acts as a **"Distributed Commit Log"** or more recently as a "Distributing Streaming Platform".
 
 ## Zookeeper
-We can run multiple brokers having exact same topic in a leader-follower hierarchy.
+Zookeper is the coordinator and the manager, it stores the metadata too.
 
-Zookeper is the manager as it stores cluster metadata and clients information. It runs on a separate server and has fail-overs.
+We can run multiple brokers having exact same topic in a leader-follower hierarchy. Zookeeper handles leader election and replica management.
 
-Zookeeper takes care of routing for read-write operations:
-- write to leader; change is propagated to all followers
-- read from a follower
+It stores cluster metadata and clients information as well. It runs on a separate server and has fail-over instances running.
+
+It also takes care of routing for read-write operations:
+- redirect writes to leader; change is propagated to all followers
+- redirect reads from a follower
 
 ![zookeeper distributed](https://i.imgur.com/PWMZzwh.png)
 
-Since Kafka 2.8.0, we don't need a Zookeeper and a concensus algorithm (RAFT) is used.
+{{% notice tip %}}
+Since Kafka 2.8.0, we don't necessarily need a Zookeeper and a concensus algorithm (RAFT) can be used, its called KRaft (Kafka RAFT).
+{{% /notice %}}
 
 ## Spring Boot Kafka
 Spring Boot automatically adds `@EnableKafka` when we add `@SpringBootApplication` annotation. So, we needn't add it explicitly.

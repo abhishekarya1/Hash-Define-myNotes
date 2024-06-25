@@ -35,7 +35,7 @@ We rarely use webpage form based auth. OAuth2.0 is used mostly. But standalone J
 
 [JWT notes](/web-api/security/#jwt-json-web-token)
 
-- needs a secret key (e.g. SHA512)
+- need a secret (we can use anything but here we use a random SHA512 hash)
 - create token - specify creation time, expiration time, custom claims and sign the token with the secret key
 - issue toke - if username and password are correct, call create token method in JWT service
 - verify token

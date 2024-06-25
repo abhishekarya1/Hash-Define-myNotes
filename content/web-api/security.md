@@ -98,13 +98,17 @@ signature = HMAC_SHA256(header.payload, SECRET)
 - can be passed in header, body or as a query param
 - we can pass it as `Authorization: Bearer <jwt_token>` HTTP header
 
+**Refresh Tokens**: JWT tokens can be refreshed if the client sends the security server a Refresh Token. The server initially sends both the Access Token and a Refresh Token to the client at the time of token creation and issue. The client stores the refresh token securely, often in a secure HTTP-only cookie or local storage. It can then use it later to get another access token **without terminating the session**.
+
 **Some Tips and Pointers**:
 - if someone gets JWT and modifies the claims, then signature verification will not match so it is safe. But never store anything confidential in claims.
 - we can encrypt JWT token to enhance security (and not only send it as Base64 string). It is done using JSON Web Encryption (JWE) standard.
 - we can have asymmetric encryption of JWT signatures rather than a symmetric one in which a private (secret) has to be shared between the token creator server and the token verifier server (if they are separate).
-- on a user logout, the JWT token doesn't expire automatically immediately. Need to impl JWT forced expiration logic in the application such that it does.
+- on a user logout, the JWT token doesn't expire automatically immediately. We need to impl JWT forced expiration logic in the application such that it does.
 
-[Reference](https://roadmap.sh/guides/jwt-authentication)
+**References**:
+- https://roadmap.sh/guides/jwt-authentication
+- JWT - ByteByteGo - [YouTube](https://youtu.be/P2CPd9ynFLg)
 
 ### OAuth 2.0
 Used to get a token from a third party server in order to access its resources.

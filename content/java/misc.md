@@ -129,6 +129,8 @@ They are only available to use for `List` interface and its impl classes like `A
 
 **What is Load Factor?** It is the threshold at which a data structure (collection) is resized to accomodate for future incoming data. Default is `0.75` which means that when 75% of the current size is populated, the collection will be resized to a bigger one.
 
+**Resizing after Load Factor is reached**: Memory locations are contiguous in collections like List and HashMap so data has to be "copied over" to the newly allocated memory location (_expensive_). We can't simple "stretch" and resize as we may have memory being occupied by other programs surrounding the original allocated memory. In case of HashMap this is even more expensive as a rehash is required (since backing array size changes; see below notes section on HashMap).
+
 **Can `null` element be added to a collection?** only one `null` can be added to `HashMap` and `HashSet`. For all the other non-major collections, it depends. Ex - it can't be added to `TreeSet` (as a `Comparator` is required here) but allowed in `LinkedHashSet`.
 
 **Collection vs List remove() method is overloaded**: 
@@ -250,6 +252,11 @@ Worst case TC for `get()` and `put()` operations = `O(n)`, considering every key
 **Performance improvement of HashMap** (since Java 8): buckets are limited (only 16), collisions are more likely to occur with increasing map entries leading to poor performance. When a bucket's LL grows beyond a certain threshold, it switches from using LL (`O(n)` operations) to using a Balanced Tree (specifically, a Red-Black Tree) to maintain performance.
 
 Note that `TreeMap` (ordered Maps) also use Red-Black Trees internally in Java.
+
+### Resizing
+A HashMap's initial default capacity is 16, default load factor is 0.75. So what happens when load factor is bypassed?
+
+Just like lists and other collections, HashMap's capacity has to be increased when load factor is crossed. But since HashMap use hashing and it is dependent upon the number of buckets (`N`) in the backing array. We need to rehash the keys and store them in the newly allocated memory locations, a relatively more expensive operation than Lists.
 
 ### HashSet
 It uses `HashMap` internally! Keys are the entities we want to put in the set and value is constant `PRESENT` (random instance of `Object` class) if the entity exists in the set.
