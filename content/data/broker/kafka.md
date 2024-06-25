@@ -39,33 +39,35 @@ It is built in Java and Scala so its native to Java environment.
 
 **Schema** is another optional metadata put in the message sometimes. It indicates what kind of data the message contains (i.e. JSON or XML etc) to the consumer. This schema can be stored as Kafka Headers or we can dedicate specific topics for specific message types.
 
-**Offset**: each consumer tracks messages already processed by it using an integral number called _offset_ and it maintain its current count so that it can resume from that point in the future if processing fails. 
+**Offset**: for each consumer Kafka tracks messages already processed by it using an integral number called _offset_ and it maintain its current count so that it can resume from that point in the future if processing fails.
 
 **Retention**: there is a temp storage threshold (1GB per partition) or message TTL (7 days) after which they are deleted.
 
-## Both Models
-Kafka can do both prod/con (MQ) as well as pub/sub model using consumer groups.
+## Both Consumption Modes
+Kafka does pub/sub model well, but we can also do prod/con (MQ) using consumer groups.
 
 ### Consumer Group
 Each partition must be consumed by **only a single consumer in one group** but the inverse isn't true! One consumer is free to consume from multiple partitions.
 
-When we put consumers in separate groups, we are able to consume a Partition from multiple consumers (one-to-many mapping). And when we put all consumers in a single group each Partition can only be consumed from a single consumer (one-to-one mapping). 
+When we put consumers in separate groups, we are able to consume a Partition from multiple consumers (one-to-many mapping). And when we put all consumers in a single group each Partition can only be consumed from a single consumer (one-to-one mapping).
 
 - a partition acts as a FIFO queue - put all consumers in one group; direct messages to specific partitions based on their key
 - a partition acts as a pub/sub - put one consumer in one group; let Kafka populate partitions of a topic
 
 ![consumer group](https://i.imgur.com/HXoGjTe.png)
 
+Fig. Kafka Consumer Groups and Partitions (pub/sub)
+
 **Avoiding Redundant Message Processing**: a single message in a partition will be consumed multiple times if its consumers happen to be from diff groups, Kafka has no awareness to prevent it as its just a storage. Hence we need to make sure that we designate groups to consumers in a way that doesn't lead to redundant processing.
 
-**Rebalancing**: Kafka ensures that partitions are evenly distributed among consumers in a group. If a consumer joins or leaves the group, Kafka will rebalance the partitions among the available consumers within the same group.
+**Rebalancing**: Kafka ensures that partitions are evenly distributed among consumers in a group. If a consumer joins or leaves the group, Kafka will rebalance all the partitions among the available consumers within the same group.
 
 _Reference_: [Kafka Partitions and Consumer Groups - Medium](https://medium.com/javarevisited/kafka-partitions-and-consumer-groups-in-6-mins-9e0e336c6c00)
 
 ### Message Queues vs Kafka
 Messages are deleted from MQ by MQ system after they are consumed in a prod-con model. The message deletion can be turned off in most MQ platforms but the general idea of MQ is remove-on-consume.
 
-This is not the case in Kafka. Notice that Kafka broker itself is ignorant about _offsets_. A separate numeric offset is maintained by each consumer based on which message they are reading. The messages themselves are not deleted from the partition when they are consumed and successfully finish processing. They are deleted after a retention period has passed or disk quota limit is reached, so Kafka acts as a **"Distributed Commit Log"** or more recently as a "Distributing Streaming Platform".
+This is not the case in Kafka. A separate numeric _offset_ is maintained by Kafka for each consumer based on which message they are reading and its updated after a successful consumption of a message. The messages themselves are not deleted from the partition when they are consumed and successfully finish processing. They are deleted after a retention period has passed or disk quota limit is reached, so Kafka acts as a **"Distributed Commit Log"** or more recently as a "Distributing Streaming Platform".
 
 ## Zookeeper
 Zookeper is the coordinator and the manager, it stores the metadata too.
@@ -85,20 +87,19 @@ Since Kafka 2.8.0, we don't necessarily need a Zookeeper and a concensus algorit
 {{% /notice %}}
 
 ## Spring Boot Kafka
-Spring Boot automatically adds `@EnableKafka` when we add `@SpringBootApplication` annotation. So, we needn't add it explicitly.
+Spring Boot automatically adds `@EnableKafka` when we add `@SpringBootApplication` annotation. So we needn't add it explicitly.
 ```txt
 configs in properties file:
 
 kafka broker server ip
 consumer group (in consumer only)
 key-value serializer/deserializer
-
-If we send String to Kafka, we specify "String" serializer/deserializer here
-If we send POJO to Kafka, we specify "JSON" serializer/deserializer here
+	- if we send String to Kafka, we specify "String" serializer/deserializer here
+	- if we send POJO to Kafka, we specify "JSON" serializer/deserializer here
 ```
 **Create a Topic**:
 ```java
-// create a topic (optional ofcourse)
+// create a topic (optional ofcourse if topic already exists)
 @Configuration
 public class TopicConfig{
 

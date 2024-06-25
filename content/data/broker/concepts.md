@@ -46,7 +46,7 @@ Publisher puts messages in a central system, subscriber(s) consume them. Broadca
 
 **Disadvantages**:
 - not for mission critical synchronous systems where ack is required
-- not for non-idempotent tasks like financial transactions
+- not for non-idempotent tasks like financial transactions; because a single message can be processed multiple times
 
 ## References
 - https://www.gentlydownthe.stream/
