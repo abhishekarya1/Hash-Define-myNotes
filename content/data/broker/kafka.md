@@ -51,12 +51,14 @@ Each partition must be consumed by **only a single consumer in one group** but t
 
 When we put consumers in separate groups, we are able to consume a Partition from multiple consumers (one-to-many mapping). And when we put all consumers in a single group each Partition can only be consumed from a single consumer (one-to-one mapping).
 
-- a partition acts as a FIFO queue - put all consumers in one group; direct messages to specific partitions based on their key
-- a partition acts as a pub/sub - put one consumer in one group; let Kafka populate partitions of a topic
+- acts as prod/con (MQ) - put all consumers in one group; one partition only maps to one consumer then
+- acts as pub/sub - put one consumer in one group; one partition can map to multiple consumers then
 
 ![consumer group](https://i.imgur.com/HXoGjTe.png)
 
 Fig. Kafka Consumer Groups and Partitions (pub/sub)
+
+We can also use a single partition as a directly-mapped FIFO queue! We can route a message to a specific partition based on Key, and then map a specific consumer to that partition manually (in the code for consumer config).
 
 **Avoiding Redundant Message Processing**: a single message in a partition will be consumed multiple times if its consumers happen to be from diff groups, Kafka has no awareness to prevent it as its just a storage. Hence we need to make sure that we designate groups to consumers in a way that doesn't lead to redundant processing.
 
