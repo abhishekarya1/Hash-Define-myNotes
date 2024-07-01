@@ -8,6 +8,10 @@ _Refresher_: [/spring-boot/concepts/#ioc-and-di](/spring-boot/concepts/#ioc-and-
 
 Spring always finds Beans and adds them to ApplicationContext/Proxy, if the Bean is not defined anywhere in our `@ComponentScan` scope then its a compile-time error.
 
+Multiple beans of the same type can exist but each one of them has a unique name so that we can identify them while autowiring.
+
+The default bean scope in Spring is **Singleton** (only one instance of a Spring bean having a specific name will be created and injected into the proxy). Multiple beans of the same type may exist but singleton property in Spring is based on their name (bean names have to be unique).
+
 ## Autowiring Errors
 ### No Qualifying bean of type
 For dependency to eliglible for autowiring, it needs to have a `@Component` or equivalent annotation on the implementing concrete class (and not `interface`) otherwise autowiring will fail with error `No qualifying bean of type [...] found for dependency...`
@@ -56,13 +60,13 @@ class Main{
 - use `@Service("")` along with `@Qualifier("")` to specify more explicitly
 - use `@Primary` on the class which should always be autowired in case of ambiguity unless specified otherwise
 ```java
-// 1. specify service name as @Autowired field's name
+// 1. specify service name as @Autowired field's name to select which bean to use
 class Main{
 	@Autowired
 	private AutoService serviceA;		// instance of ServiceA is injected
 }
 
-// 2. use @Service("") along with @Qualifier("")
+// 2. use @Service("") along with @Qualifier("") to select which bean to use
 @Service("foo")
 class ServiceA implements AutoService { }
 
@@ -76,7 +80,7 @@ class Main{
 	private AutoService autoService;	// ServiceB is injected
 }
 
-// 3. use @Primary to indicate a default impl
+// 3. use @Primary to indicate a default impl (if nothing is specified when using and there is ambiguity, this bean will be used)
 @Service
 @Primary
 class ServiceA implements AutoService { }
@@ -90,7 +94,7 @@ class Main{
 	private AutoService autoService;	// ServiceA is injected
 }
 
-// if both @Primary and @Qualifier mechanisms are ambiguous, then @Qualifier takes precedence (ofc!)
+// if both @Primary and @Qualifier mechanisms are ambiguous, then @Qualifier takes precedence (ofc as its more explicit and closer to usage (autowiring location))
 ```
 _Reference_: https://www.baeldung.com/spring-autowire
 
@@ -111,8 +115,6 @@ Actually, `interface` can also have a `@Component` annotation (useless though) i
 ## Creating custom Beans with @Configuration and @Bean
 We can create custom beans other than the `@Component` mechanism, with `@Configuration` class and `@Bean` annotations:
 
-The default spring bean scope is **Singleton** (only one instance of the spring bean will be created and injected into the proxy)
-
 ```java
 @Configuration
 class MyCustomBeans{
@@ -122,8 +124,7 @@ class MyCustomBeans{
 		return new ServiceA("foo", 99);						// we can call any constructor we want here
 	}
 
-
-	// dependency on existence of another bean
+	// dependency on the existence of another bean
 	@Bean
 	public ServiceC myServiceBean(ServiceB s) {		// Spring will automatically init ServiceB Bean before this and use that to init ServiceC here
 		return new ServiceC();
@@ -131,7 +132,27 @@ class MyCustomBeans{
 }
 ```
 
+THe bean name can be specified in the `@Bean` annotation and by default the method name is taken as the bean name unless explicitly specified:
+```java
+@Bean
+public Demo foo(){		// bean name is "foo" (default is method name)
+	return new Demo();
+}
+
+@Bean("bar")			// bean name is "bar", explicitly specified bean name
+public Demo foo(){
+	return new Demo();
+}
+```
+
 The Bean created above will automatically be injected in Spring Proxy since this is a `@Configuration` class.
+
+### Overriding Beans
+Points to remember regarding overriding of beans:
+- **Explicit Bean Naming**: if two beans of the same type but diff names are defined, they will not override each other. Beans only override when they have the same name (which defaults to the method name in configuration classes if not explicitly set).
+- **Configuration Class Order**: Spring processes configuration classes in the order they are found. If you have multiple configuration classes defining beans of the same type, the last one processed will override the previous ones. But the order of processing by Spring isn't predictable so we can specify `@Primary` on our own override bean or use `@Qualifier` with bean impl to use while autowiring (in this we need to modify existing code though).
+
+**Usage**: it is often used to override classes (beans) imported from a JAR dependency with custom bean implementation. [Interview Question](/spring-boot/interview/#spring)
 
 ### Lazy Initialization
 All beans are created and injected into the Application Context during startup. To cut down startup time, we can make it so such that beans are only initialized and injected just before they are used in the code.
@@ -141,7 +162,7 @@ All beans are created and injected into the Application Context during startup. 
 spring.main.lazy-initialization=true
 ```
 
-2. or, Specify on _@Configuration_ class that has bean definitions or on individual _@Bean_
+2. or, Specify on `@Configuration` class that has bean definitions or on individual `@Bean`
 ```java
 @Lazy						// specify here; applies to all beans in the class
 @Configuration

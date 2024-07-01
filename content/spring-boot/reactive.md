@@ -174,6 +174,19 @@ mono.blockOptional();				// returns emitted value (if any)
 ### Convert Flux to Mono
 Several operations like `count()` on a flux return a mono. We then in turn perform operations on that mono.
 
+### Combine Flux and Mono async
+If we block and combine them then that's not a good way. Instead we combine them using the provided methods so that there is no blocking and we get back a `Flux` to subcribe to (keeping things async):
+```java
+// static method from Flux class (waits for mono to finish before flux)
+Flux<T> merged = Flux.concat(mono, flux);
+
+// methods from flux/mono instance
+// concat waits for mono to finish before emitting flux
+Flux<T> merged = mono.concatWith(flux);
+// merge emts messages as soon as they are available from either source (recommended)
+Flux<T> merged = mono.mergeWith(flux);
+```
+
 ### Backpressure
 We can tell the data source to slow down in case we are taking too long to process data it emits.
 

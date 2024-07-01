@@ -80,6 +80,44 @@ public class MyApplication{
 }
 ```
 
+**Override a method on a class imported from JAR dependency**: create a subclass and override the method (overrides on parent class ref too) and declare a custom bean of original type in a config class.
+```java
+// original class autowired in existing code
+@Autowired
+OriginalClass originalClass;
+
+// original class
+@Component
+public class OriginalClass {
+    @Override
+    public void methodToOverride() {
+        System.out.println("Original implementation");
+    }
+}
+
+// create a custom class
+public class CustomClass extends OriginalClass {
+    @Override
+    public void methodToOverride() {
+        System.out.println("Custom implementation");
+    }
+}
+
+// config class with bean override
+@Configuration
+public class CustomConfiguration {
+
+    @Bean
+    @Primary        // optionally mark it as primary in case any ambiguity occurs later
+    public OriginalClass customClass() {    // return type is important here
+        return new CustomClass();
+    }
+}
+
+// ensure proper component scan in Spring so that our custom bean is picked up
+// our custom bean will override the original bean from the JAR if it has the same type (since its defined in a configuration class)
+```
+
 ## Microservices
 
 **Scaling for high traffic**:

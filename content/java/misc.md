@@ -152,6 +152,40 @@ System.out.println(list);
 
 The `interface Collection` doesn't have a `remove(int index)` method because the referred collection can be unindexed like a `Set`, so it just has the `remove(Object o)` method available at its level of abstraction.
 
+**var keyword tricky questions**:
+```java
+var list1 = new ArrayList<>();       // ArrayList<Object>
+var list2 = new ArrayList<String>(); // ArrayList<String>
+
+var list3 = List.of("foo", "bar");   // List<String> (Java infers it automatically!)
+```
+
+**Intersection Type**: rather than using a common superclass ref, we can also specify a type using Generics as follows:
+```java
+// a generic method using a superclass ref
+public void process(FlyableAndSwimmable animal) {
+    animal.fly();
+    animal.swim();
+}
+
+// same generic method with a intersection type
+public <T extends Flyable & Swimmable> void process(T animal) {
+    animal.fly();
+    animal.swim();
+}
+
+// Benefit: saves the effort for creating a new interface just to get a new combined type to use.
+```
+
+The JVM uses this for implicit typing too if we use `var` keyword:
+```java
+var list = List.of(2, "foo");   // List<Serializable & Comparable<...> & Constable & ConstantDesc>
+
+// note that JVM could've taken the type as List<Object> but it didn't and used an intersection type instead.
+```
+
+We can't explicitly create intersection types in normal code but can only use them if we use Java Generics (in method params or as a return type).
+
 ## Top Interview Questions on Collections Internals
 
 ### Importance of hashCode() and equals()
