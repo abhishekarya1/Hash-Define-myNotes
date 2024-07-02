@@ -58,7 +58,7 @@ class Main{
 ### Resolving Ambiguity
 - specify service name as `@Autowired` field's name
 - use `@Service("")` along with `@Qualifier("")` to specify more explicitly
-- use `@Primary` on the class which should always be autowired in case of ambiguity unless specified otherwise
+- use `@Primary` on the class which should always be autowired in case of ambiguity (if there are multiple beans of the same type) unless specified otherwise
 ```java
 // 1. specify service name as @Autowired field's name to select which bean to use
 class Main{
@@ -80,7 +80,7 @@ class Main{
 	private AutoService autoService;	// ServiceB is injected
 }
 
-// 3. use @Primary to indicate a default impl (if nothing is specified when using and there is ambiguity, this bean will be used)
+// 3. use @Primary to indicate a preferred impl (if multiple impl are present and there is ambiguity, this bean impl will be used)
 @Service
 @Primary
 class ServiceA implements AutoService { }
@@ -94,7 +94,7 @@ class Main{
 	private AutoService autoService;	// ServiceA is injected
 }
 
-// if both @Primary and @Qualifier mechanisms are ambiguous, then @Qualifier takes precedence (ofc as its more explicit and closer to usage (autowiring location))
+// if both @Primary and @Qualifier mechanisms are present and causing ambiguity, then @Qualifier takes precedence (ofc as its more explicit and closer to usage (autowiring location))
 ```
 _Reference_: https://www.baeldung.com/spring-autowire
 
@@ -116,7 +116,10 @@ Actually, `interface` can also have a `@Component` annotation (useless though) i
 The usual way we have beans is using annotation like `@Component` and the name of the bean is always taken as lowercase in this case:
 ```java
 @Component
-class Foobar{}		// a bean named "foobar" (notice the lowercase) is created
+class Foobar{}		// default naming; a bean named "foobar" (notice the lowercase) is created
+
+@Component("Baz")
+class Foobar{}		// explicit naming; a bean named "Baz" is created (no case conversion since its explicit)
 ```
 
 We can create custom beans other than the `@Component` mechanism, with `@Configuration` class and `@Bean` method annotations:
@@ -138,7 +141,7 @@ class MyCustomBeans{
 }
 ```
 
-THe bean name can be specified in the `@Bean` annotation and by default the method name is taken as the bean name unless explicitly specified, no restriction of lowercase names here since we can specify anything explicitly here:
+The bean name can be specified in the `@Bean` annotation and by default the method name is taken as the bean name unless explicitly specified, no restriction of lowercase names here since we can specify anything explicitly here:
 ```java
 @Bean
 public Demo foo(){		// bean name is "foo" (default is method name)
@@ -153,12 +156,12 @@ public Demo foo(){
 
 The Beans created above will automatically be injected in Spring Proxy since this is a `@Configuration` class.
 
-### Overriding Beans
-Remember that all beans have a unique name globally in the Spring context, hence each and every bean can be identified using its name and as a result, they are overridden too using their names.
+### Bean Overriding
+Remember that all beans have a unique name globally in the Spring context, hence each and every bean can be identified using its name and as a result, they are overridden too using their names be it same type or not.
 
 Points to remember regarding overriding of beans:
-- **Explicit Bean Naming**: if two beans of the same type but diff names are defined, they will not override each other. Beans only override when they have the same name (which defaults to the method name in configuration classes if not explicitly set).
-- **Configuration Class Order**: Spring processes configuration classes in the order they are found. If you have multiple configuration classes defining beans of the same name, the last one processed will override the previous ones. But the order of processing by Spring isn't predictable so we can specify `@Primary` on our own override bean or use `@Qualifier` with bean impl to use while autowiring (in this we need to modify existing code though).
+- **Explicit Bean Naming**: if two beans of the same type but diff names are defined, they will not override each other. Beans only override when they have the same name.
+- **Configuration Class Order**: Spring processes configuration classes in the order they are found. If you have multiple configuration classes defining beans of the same name, the last one processed will override all the previous ones. But the order of processing by Spring isn't predictable. 
 
 ```java
 // configuration class
@@ -175,16 +178,33 @@ public Foobar getFoobarBean(){
 // this doesn't cause any application startup errors but the below bean overrides the above one since they have the same name
 
 @Bean("foobar")
-public Foo getFoo(){
-	return new Foo();
+public Test getTestBean(){
+	return new Test();
 }
 
-// this will still override above beans even if it is of diff type, since it has the same name (no startup errors)
+// this will still override above beans even if it is of diff type, since it has the same name (no startup errors here too)
+
+// only one bean named "foobar" is created for the above three methods
+```
+
+### Bean Selection
+We can also completely avoid bean overriding in certain scenarios using bean selection mechanisms provided by Spring.
+
+If multiple beans of the same type are present and even if they have diff names we can use `@Primary` on one of the bean or use `@Qualifier("")` to specify name of bean to use while autowiring (in this we need to modify existing code though) to prefer a particular bean making things more explicit.
+
+```java
+// Beans present of type Foobar class are - foobar, foo, bar
+class Service{
+	@Autowired
+	Foobar fb;		// ambiguous; application startup failure: required a single bean, but 2 were found
+}
+
+// resolve the above error just like we resolved ambiguity in interface autowiring: Autowired field name, @Primary, @Qualifier annotations
 ```
 
 **Usage**: it is often used to override classes (beans) imported from a JAR dependency with custom bean implementation. [Interview Question](/spring-boot/interview/#spring)
 
-### Lazy Initialization
+## Lazy Initialization
 All beans are created and injected into the Application Context during startup. To cut down startup time, we can make it so such that beans are only initialized and injected just before they are used in the code.
 
 1. Global setting in properties file (applies to all beans in the app):
