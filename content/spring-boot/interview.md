@@ -115,7 +115,7 @@ public class CustomConfiguration {
 }
 
 // ensure proper component scan in Spring so that our custom bean is picked up
-// our custom bean will override the original bean from the JAR if it has the same type (since its defined in a configuration class)
+// our custom bean will override the original bean from the JAR if it has the same name (since its defined in a configuration class)
 ```
 
 ## Microservices

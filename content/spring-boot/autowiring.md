@@ -6,9 +6,9 @@ weight = 7
 
 _Refresher_: [/spring-boot/concepts/#ioc-and-di](/spring-boot/concepts/#ioc-and-di)
 
-Spring always finds Beans and adds them to ApplicationContext/Proxy, if the Bean is not defined anywhere in our `@ComponentScan` scope then its a compile-time error.
+Spring always finds Beans and adds them to ApplicationContext/Proxy, the `@ComponentScan` must specify scope to scan for bean definitions otherwise it results in a compile-time error if a bean is autowired somewhere in our application code and not scanned under component scan.
 
-Multiple beans of the same type can exist but each bean in Spring context has a unique name (globally, and not only for its type). If multiple bean of the same name exist, one overrides the other. This also helps us to identify them while autowiring.
+Multiple beans of the same type can exist but each bean in Spring context has a **unique name** (globally, and not only for its type). If multiple bean of the same name exist, one overrides the other. Their unique name also helps us to identify them while autowiring.
 
 The default bean scope in Spring is **Singleton** (only one instance of a Spring bean having a specific name will be created and injected into the proxy). Multiple beans of the same type may exist but singleton property in Spring is based on their name (bean names have to be globally unique).
 
@@ -113,46 +113,52 @@ Actually, `interface` can also have a `@Component` annotation (useless though) i
 {{% /notice %}}
 
 ## Creating custom Beans with @Configuration and @Bean
-We can create custom beans other than the `@Component` mechanism, with `@Configuration` class and `@Bean` annotations:
+The usual way we have beans is using annotation like `@Component` and the name of the bean is always taken as lowercase in this case:
+```java
+@Component
+class Foobar{}		// a bean named "foobar" (notice the lowercase) is created
+```
+
+We can create custom beans other than the `@Component` mechanism, with `@Configuration` class and `@Bean` method annotations:
 
 ```java
 @Configuration
 class MyCustomBeans{
 
 	@Bean
-	public ServiceA serviceBeanCreator(String s, int n){	// notice return type
-		return new ServiceA("foo", 99);						// we can call any constructor we want here
+	public ServiceA serviceABean(String s, int n){	// notice return type
+		return new ServiceA("foo", 99);				// we can call any constructor we want here
 	}
 
 	// dependency on the existence of another bean
 	@Bean
-	public ServiceC myServiceBean(ServiceB s) {		// Spring will automatically init ServiceB Bean before this and use that to init ServiceC here
+	public ServiceC serviceCBean(ServiceB s) {		// Spring will automatically init ServiceB Bean before this and use that to init ServiceC here
 		return new ServiceC();
 	}
 }
 ```
 
-THe bean name can be specified in the `@Bean` annotation and by default the method name is taken as the bean name unless explicitly specified:
+THe bean name can be specified in the `@Bean` annotation and by default the method name is taken as the bean name unless explicitly specified, no restriction of lowercase names here since we can specify anything explicitly here:
 ```java
 @Bean
 public Demo foo(){		// bean name is "foo" (default is method name)
 	return new Demo();
 }
 
-@Bean("bar")			// bean name is "bar", explicitly specified bean name
+@Bean("Bar")			// bean name is "Bar", explicitly specified bean name
 public Demo foo(){
 	return new Demo();
 }
 ```
 
-The Bean created above will automatically be injected in Spring Proxy since this is a `@Configuration` class.
+The Beans created above will automatically be injected in Spring Proxy since this is a `@Configuration` class.
 
 ### Overriding Beans
-Remember that beans need to have a unique name globally in the Spring context, hence each and every bean can be identified using its name and as a result, they are overridden too using their names.
+Remember that all beans have a unique name globally in the Spring context, hence each and every bean can be identified using its name and as a result, they are overridden too using their names.
 
 Points to remember regarding overriding of beans:
 - **Explicit Bean Naming**: if two beans of the same type but diff names are defined, they will not override each other. Beans only override when they have the same name (which defaults to the method name in configuration classes if not explicitly set).
-- **Configuration Class Order**: Spring processes configuration classes in the order they are found. If you have multiple configuration classes defining beans of the same type, the last one processed will override the previous ones. But the order of processing by Spring isn't predictable so we can specify `@Primary` on our own override bean or use `@Qualifier` with bean impl to use while autowiring (in this we need to modify existing code though).
+- **Configuration Class Order**: Spring processes configuration classes in the order they are found. If you have multiple configuration classes defining beans of the same name, the last one processed will override the previous ones. But the order of processing by Spring isn't predictable so we can specify `@Primary` on our own override bean or use `@Qualifier` with bean impl to use while autowiring (in this we need to modify existing code though).
 
 ```java
 // configuration class
@@ -173,7 +179,7 @@ public Foo getFoo(){
 	return new Foo();
 }
 
-// this will still override above beans even if it of diff type, since it has the same name (no startup errors)
+// this will still override above beans even if it is of diff type, since it has the same name (no startup errors)
 ```
 
 **Usage**: it is often used to override classes (beans) imported from a JAR dependency with custom bean implementation. [Interview Question](/spring-boot/interview/#spring)
