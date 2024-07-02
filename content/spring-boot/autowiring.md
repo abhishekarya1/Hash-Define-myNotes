@@ -187,6 +187,8 @@ public Test getTestBean(){
 // only one bean named "foobar" is created for the above three methods
 ```
 
+**Usage**: it is often used to override classes (beans) imported from a JAR dependency with custom bean implementation. [Interview Question](/spring-boot/interview/#spring)
+
 ### Bean Selection
 We can also completely avoid bean overriding in certain scenarios using bean selection mechanisms provided by Spring.
 
@@ -201,8 +203,6 @@ class Service{
 
 // resolve the above error just like we resolved ambiguity in interface autowiring: Autowired field name, @Primary, @Qualifier annotations
 ```
-
-**Usage**: it is often used to override classes (beans) imported from a JAR dependency with custom bean implementation. [Interview Question](/spring-boot/interview/#spring)
 
 ## Lazy Initialization
 All beans are created and injected into the Application Context during startup. To cut down startup time, we can make it so such that beans are only initialized and injected just before they are used in the code.
