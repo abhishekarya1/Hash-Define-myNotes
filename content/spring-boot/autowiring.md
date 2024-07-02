@@ -8,7 +8,7 @@ _Refresher_: [/spring-boot/concepts/#ioc-and-di](/spring-boot/concepts/#ioc-and-
 
 Spring always finds Beans and adds them to ApplicationContext/Proxy, if the Bean is not defined anywhere in our `@ComponentScan` scope then its a compile-time error.
 
-Multiple beans of the same type can exist but each bean in Spring context has a unique name (globally, and not only for its type). This also helps us to identify them while autowiring.
+Multiple beans of the same type can exist but each bean in Spring context has a unique name (globally, and not only for its type). If multiple bean of the same name exist, one overrides the other. This also helps us to identify them while autowiring.
 
 The default bean scope in Spring is **Singleton** (only one instance of a Spring bean having a specific name will be created and injected into the proxy). Multiple beans of the same type may exist but singleton property in Spring is based on their name (bean names have to be globally unique).
 
@@ -148,11 +148,33 @@ public Demo foo(){
 The Bean created above will automatically be injected in Spring Proxy since this is a `@Configuration` class.
 
 ### Overriding Beans
-Remember that beans need to have a unique name globally in the Spring context, hence each and every bean can be identified using its name and as a result, overridden too using their names.
+Remember that beans need to have a unique name globally in the Spring context, hence each and every bean can be identified using its name and as a result, they are overridden too using their names.
 
 Points to remember regarding overriding of beans:
 - **Explicit Bean Naming**: if two beans of the same type but diff names are defined, they will not override each other. Beans only override when they have the same name (which defaults to the method name in configuration classes if not explicitly set).
 - **Configuration Class Order**: Spring processes configuration classes in the order they are found. If you have multiple configuration classes defining beans of the same type, the last one processed will override the previous ones. But the order of processing by Spring isn't predictable so we can specify `@Primary` on our own override bean or use `@Qualifier` with bean impl to use while autowiring (in this we need to modify existing code though).
+
+```java
+// configuration class
+@Bean("foobar")
+public Foobar getFoobar(){
+	return new Foobar();
+}
+
+@Bean("foobar")
+public Foobar getFoobarBean(){
+	return new Foobar();
+}
+
+// this doesn't cause any application startup errors but the below bean overrides the above one since they have the same name
+
+@Bean("foobar")
+public Foo getFoo(){
+	return new Foo();
+}
+
+// this will still override above beans even if it of diff type, since it has the same name (no startup errors)
+```
 
 **Usage**: it is often used to override classes (beans) imported from a JAR dependency with custom bean implementation. [Interview Question](/spring-boot/interview/#spring)
 
@@ -231,6 +253,8 @@ Specify scopes on classes using `@Scope` annotation on them. Ex - `@Scope("proto
 - **Request** (`@RequestScope`): only a single instance will be created and available during the complete lifecycle of an HTTP Request
 - **Session** (`@SessionScope`): only a single instance will be created and available during the complete lifecycle of an HTTP Session
 - **Application** (`@ApplicationScope`): only a single instance will be created and available during the complete lifecycle of `ServletContext`
+
+_Reference_: Bean Scopes - Selenium Express [YouTube](https://www.youtube.com/watch?v=xpKbs8FHUi4)
 
 ## Bean Life Cycle in Spring
 1. Start application
