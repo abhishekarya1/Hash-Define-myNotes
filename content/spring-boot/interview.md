@@ -80,7 +80,7 @@ public class MyApplication{
 }
 ```
 
-**Override a method on a class imported from JAR dependency**: create a subclass and override the method (overrides on parent class ref too) and declare a custom bean of original type in a config class with the same name `@Bean("")` or use `@Primary`. We should try to avoid changing code too much here since original class maybe autowired at multiple places in the code.
+**Override a method on a class imported from JAR dependency**: create a subclass and override the method (overrides on parent class ref too) and declare a custom bean of original type in a config class with the same name `@Bean("")` or use `@Primary`. We should try to avoid changing code too much here since original class maybe autowired at multiple places in the code hence `@Qualifier` isn't a good solution here.
 ```java
 // original class autowired in multiple places in existing code
 @Autowired
@@ -107,8 +107,8 @@ public class CustomClass extends OriginalClass {
 @Configuration
 public class CustomConfiguration {
 
-    @Bean("originalClass")  // same name as the original class (necessary for overriding)
-    @Primary        // optionally we can mark it as primary
+    @Bean("originalClass")  // same name as the original class (bean overriding)
+    @Primary        // alternatively we can mark it as primary (better way; bean selection)
     public OriginalClass customClass() {
         return new CustomClass();
     }
@@ -116,7 +116,7 @@ public class CustomConfiguration {
 
 // ensure proper component scan in Spring so that our custom bean is picked up
 // our custom bean will override the original bean from the JAR if it has the same name
-// optionally if we mark it using the @Primary annotation, it ensures that if there are multiple beans of the same type, Spring will prefer the custom bean even if names are diff
+// alternatively if we mark it using the @Primary annotation, it ensures that if there are multiple beans of the same type, Spring will prefer the custom bean even if names are diff
 ```
 
 ## Microservices

@@ -96,6 +96,9 @@ class Main{
 
 // if both @Primary and @Qualifier mechanisms are present and causing ambiguity, then @Qualifier takes precedence (ofc as its more explicit and closer to usage (autowiring location))
 ```
+
+The same three strategies above can be used to **autowire a superclass type** if multiple subclasses of it are present and there is ambiguity on which subclass instance Spring should autowire. Read below section on [Bean Selection](/spring-boot/autowiring/#bean-selection) for detail.
+
 _Reference_: https://www.baeldung.com/spring-autowire
 
 ### Exceptions to @Component on Interfaces - JPA
@@ -192,10 +195,10 @@ public Test getTestBean(){
 ### Bean Selection
 We can also completely avoid bean overriding in certain scenarios using bean selection mechanisms provided by Spring.
 
-If multiple beans of the same type are present and even if they have diff names we can use `@Primary` on one of the bean or use `@Qualifier("")` to specify name of bean to use while autowiring (in this we need to modify existing code though) to prefer a particular bean making things more explicit.
+If multiple beans of the same type (interface or superclass) are present and even if they have diff names we can use `@Primary` on one of the bean or use `@Qualifier("")` to specify name of bean to use while autowiring (in this we need to modify existing code though) to prefer a particular bean making things more explicit.
 
 ```java
-// Beans present of type Foobar class are - foobar, foo, bar
+// Beans present of type Foobar are - foobar, foo, bar (all subclasses of Foobar class)
 class Service{
 	@Autowired
 	Foobar fb;		// ambiguous; application startup failure: required a single bean, but 2 were found

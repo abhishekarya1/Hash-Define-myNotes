@@ -12,7 +12,7 @@ As soon as we include the dependency it:
 - puts all endpoints behind authentication (web login form) and generates password for default user (`user`) on every startup
 
 **Features**:
-- rnable/disable authentication on certain endpoints (Authorization)
+- enable/disable authentication on certain endpoints (Authorization)
 - provides Role-based access control (RBAC) out-of-the-box
 - populates database table automatically if we provide correct model and service beans
 - customize login and error pages
@@ -49,14 +49,16 @@ We rarely use webpage form based auth. OAuth2.0 is used mostly. But standalone J
 ![Spring Batch Flow Diagram](https://i.imgur.com/79pktH2.png)
 
 **Terminology**:
-- Job
-- Step
+- **Job** (runs steps)
+- **Step** (runs tasklets)
+- **Tasklet** (has `execute()` method which contains custom logic to run)
 - Listener - `JobListener` and `StepListener`
-- `JobRepository` (stores execution stats to database)
+- `JobLauncher` (launches job using its `run()` method)
+- `JobRepository` (stores execution stats to a database)
 - `ItemReader`
 - `ItemProcessor`
 - `ItemWriter`
-- Chunk based processing
+- Chunk-oriented processing (Chuck based Tasklet)
 - Repeats
 - Scheduling
 
