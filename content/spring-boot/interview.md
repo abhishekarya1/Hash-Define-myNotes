@@ -13,46 +13,7 @@ weight = 18
 
 If anything goes wrong, debug using Actuator `/metrics` and Prometheus metrics stats.
 
-**Async processing in Spring Boot**: use `@Async` annotation on methods and `@EnableAsync` on any one of the configuration classes. Spring Boot will run this method in a separate thread. Also, the method call must come from outside the class (same concept as the Transactional Spring Proxy Bean interception).
-
-An `@Async` method can return `void`, `Future`, or `CompletableFuture` (which is a subtype of Future only).
-
-```java
-@Configuration
-@EnableAsync
-public class AsyncConfig {
-    // configuration related to async processing can go here if needed
-}
-
-// Service class
-@Service
-public class AsyncService {
-
-    @Async
-    public CompletableFuture<String> performAsyncTask() throws InterruptedException {
-        // simulate a long-running task
-        Thread.sleep(5000);
-
-        // return an already completed task with given value
-        return CompletableFuture.completedFuture("Task Completed");
-    }
-}
-
-// Controller class
-@GetMapping("/async")
-    public String executeAsync() throws InterruptedException, ExecutionException {
-        CompletableFuture<String> future = asyncService.performAsyncTask();
-        // you can do other tasks here
-        // wait for the async task to complete and get the result
-        return future.get();
-    }
-```
-
-{{% notice note %}}
-Note that there is no `CompletableFuture.supplyAsync()` or any other of its method being called that runs the logic inside it in a separate theread. Here, Spring runs the entire method body in a separate thread because of the `@Async` annotation and we've to return original return type `T` wrapped as `Future<T>` type.
-{{% /notice %}}
-
-We can also define our own executors (i.e. thread type and pool) for our Async method or at the class level too.
+**Async processing in Spring Boot**: we can use `@Async` annotation provided in Spring Boot instead of writing our own CompletableFutures everytime. [notes](/spring-boot/async-events/#spring-async)
 
 **List all beans in a Spring Boot application**:
 ```java
@@ -132,9 +93,7 @@ public class CustomConfiguration {
 
 **Calling other services**: be async (use WebFlux's WebClient), implement circuit breaker, rate limit with exponential backoff, and cache responses to reduce network requests.
 
-**Event-driven architecture**: for intra-app event driven communniication we can use events API provided in Spring.
-- event publisher class should extend `ApplicationEvent` and publish an event using `ApplicationEventPublisher` object autowired inside it
-- event listener class should extend `ApplicationListener` and listen using `@EventListener` annotation on a method. The method signature declares the event type it consumes.
+**Event-driven architecture**: for intra-app event driven communication we can use events API provided in Spring. [notes](/spring-boot/async-events/#spring-events)
 
 **Soft Delete**: mark rows as delted = `true` in a boolean column. On reads, filter out these marked rows from the output.
 

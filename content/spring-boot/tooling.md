@@ -1,8 +1,48 @@
 +++
-title = "Others"
+title = "Tooling"
 date = 2023-12-11T14:20:00+05:30
 weight = 17
 +++
+
+## Lombok
+Provides annotations to avoid writing a ton of boilerplate code.
+
+```xml
+<dependency>
+    <groupId>org.projectlombok</groupId>
+    <artifactId>lombok</artifactId>
+</dependency>
+```
+
+```java
+// class level annotations
+@Data                   // generate getter setters for all fields
+@Builder                // Builder pattern
+@AllArgsConstructor     // constructor with all args
+@NoArgsConstructor      // constructor with no args
+
+@Slf4j                  // logs (slf4j log)
+@CommonsLog             // same as above (but for Apache commons log)
+@Log                    // same as above (but for java.util log)
+
+@Generated              // to mark the component as generated; excepted from coverage checks
+@ToString               // generates toString() for the class 
+@EqualsAndHashCode      // generates hashcode() and equals() for fields of class
+@Value                  // make immutable class (diff from Spring's @Value used to read properties)
+                        // all fields are made private and final by default, and setters are not generated
+@SneakyThrows           // throw any checked exception without declaring it! (no compiler-error)
+```
+
+```java
+// field level annotations
+@Getter         // generate getter for the field
+@Setter         // generate setter for the field
+
+// specify access modifier
+@Getter(AccessLevel.PRIVATE)    // PUBLIC, PROTECTED, PACKAGE, or NONE (disable)
+String empName;
+```
+**Reference**: https://projectlombok.org/features/all
 
 ## Other Microservices Frameworks
 In the order of popularity:

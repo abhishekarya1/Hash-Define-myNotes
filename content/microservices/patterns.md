@@ -21,14 +21,21 @@ Ex - Netflix Eureka.
 ### API Gateway
 A single entry point of traffic for all services, a reverse proxy, often registered as a service with the Service Registry. 
 
+We can place this as a Forward Proxy too. One use case for it is API response aggregation i.e. combine responses from User Service and Payment Service and send as a single response back to the user.
+
 Manage traffic before it reaches services:
-- perform filtering, processing, etc.. of incoming requests
-- verfy API keys
-- enforce usage quotas and rate limit
-- cache responses
-- monitoring and reporting
+- routing, load balancing 
+- perform filtering and transformation of incoming API requests
+- security - verfy API keys
+- enforce usage quotas and rate limit (throttling)
+- cache API responses (e.g. Varnish Cache)
+- metrics, monitoring, reporting
 
 Ex - Spring Cloud API Gateway and Azure APIM.
+
+**Note**: Just like other core services in a good distributed system, API Gateway also has fail-overs to ensure high availability such that there is no SPOF in the system.
+
+_Reference_: API Gateway - [YouTube](https://youtu.be/xtd5GQl4Dxc)
 
 ### Load Balancing
 Distribute traffic evenly across all service instances, ensuring optimal performance, and preventing service overload.
