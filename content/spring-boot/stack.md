@@ -7,6 +7,8 @@ weight = 19
 ## Spring Security
 **Dependency**: `spring-boot-starter-security`
 
+**Enable Annotation**: `@EnableWebSecurity`
+
 As soon as we include the dependency it:
 - disallows all POST endpoints (need to disable CSRF to allow them)
 - puts all endpoints behind authentication (web login form) and generates password for default user (`user`) on every startup
@@ -26,6 +28,7 @@ After defining a `SecurityFilterChain` bean with matchers for which page must di
 - `UserDetails` model
 - `PasswordEncoder` - e.g. `BcryptPasswordEncoder`
 - `AuthenticationProvider` (this ) - e.g. `DaoAuthenticationProvider` (mandatory bean to define and pass service and password encoder to it)
+- `AuthenticationManager` (bean to trigger authentication)
 
 **References**:
 - [Spring Boot 3 - Basics & User Based Auth - YouTube](https://youtu.be/9J-b6OlPy24)
@@ -35,16 +38,19 @@ We rarely use webpage form based auth. OAuth2.0 is used mostly. But standalone J
 
 [JWT notes](/web-api/security/#jwt-json-web-token)
 
-- need a secret (we can use anything but here we use a random SHA512 hash)
-- create token - specify creation time, expiration time, custom claims and sign the token with the secret key
-- issue toke - if username and password are correct, call create token method in JWT service
-- verify token
+Create a JWT util class that contains all methods related to JWT impl. Also create a filter class for JWT which is always called before username and password auth and checks for "Authentication" HTTP header's presence and conditionally triggers JWT processing or do nothing (i.e. normal login screen username password auth).
+
+- decide on a secret (we can use any string but here we use a random SHA512 hash, but keep it the same for all token generation and verification)
+- create token - call createToken method of the JWT util, set subject on token as username from the `UserDetails` object, specify creation time, expiration time, custom claims and sign the token with the secret key
+- verify token (create a custom filter bean of type `OncePerRequestFilter`, override its `doFilterInternal()` method and in there write logic to extract token from HTTP request (Authentication header mostly) and call verifyToken method of JWT util)
 
 **References**:
 - [Spring Boot 3 - JWT Authentication & Authorization](https://youtu.be/HYBRBkYtpeo)
 
 ## Spring Batch
 **Dependency**: `spring-boot-starter-batch`
+
+**Enable Annotation**: `@EnableBatchProcessing`
 
 ![Spring Batch Flow Diagram](https://i.imgur.com/79pktH2.png)
 
@@ -64,6 +70,8 @@ We rarely use webpage form based auth. OAuth2.0 is used mostly. But standalone J
 
 ## Spring Integration
 **Dependency**: `spring-boot-starter-integration`
+
+**Enable Annotation**: `@EnableIntegration`
 
 Often used with Spring Batch to decouple components within the application.
 
