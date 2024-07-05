@@ -317,35 +317,40 @@ where lat_n < 137 order by lat_n desc limit 1;
 ```
 
 ### Subqueries
-We can have simple subqueries, correlated subqueries, and use subqueries with `EXISTS/NOT EXISTS`, `IN/NOT IN`, `ANY/ALL` clauses.
+We can have **simple** and **correlated** subqueries. Use subqueries with `EXISTS/NOT EXISTS`, `IN/NOT IN`, `ANY/ALL` clauses.
 
 ```sql
 -- subquery in projection
 SELECT atribute1, attribute2, (subquery) FROM demo;
 
--- select from subquery; aka derived table
+-- select from subquery; aka Derived Table
 SELECT atribute1, ..., attributeN FROM (subquery) AS subquery_alias;
 -- alias is mandatory as because everything in the FROM clause must have a name
 ```
+
+Two types of subqueries:
 ```sql
--- simple subquery
+-- simple subquery: inner query is independent of outer query
+-- employees whose salary is greater than average of all employees in the company
 SELECT 
     employee_id, first_name, last_name, salary
 FROM
     employees
 WHERE
-    salary = (SELECT MAX(salary) FROM employees)
+    salary > (SELECT AVG(salary) FROM employees)    -- executed only once for all rows of outer query
 
--- correlated subquery
+-- correlated subquery: inner query uses outer table's column
+-- employees whose salary is greater than average of all employees in thier respective departments
 SELECT 
     employee_id, 
-    first_name, 
+    first_name,
     last_name
 FROM
     employees e
-WHERE
-    NOT EXISTS(SELECT * FROM dependents d
-    WHERE d.employee_id = e.employee_id)    -- parent table alias used here; correlation
+WHERE 
+    salary > (SELECT AVG(salary) 
+                FROM employees 
+                WHERE department_id = e.department_id);     -- correlation; executed once for each row for all rows of outer query
 ```
 
 ### EXISTS

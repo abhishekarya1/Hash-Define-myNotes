@@ -121,7 +121,7 @@ Command and Query Responsibility Segragation
 
 **Problem** - Read and write logic is different. In a highly normalized database, writes are simpler, whereas reads require complex JOINS. One repository doing both read and write can be split into two separating both of these concerns.
 
-Create separate controller, service layer, DTOs inside a singular service to truly separate logic. This way we can also use a custom property and then we can start the application in read-only or write-only mode.
+Create separate controller, service layer, DTOs inside a singular service to truly separate logic. This way we can also use a custom property and these beans annotated with `@ConditionalOnProperty` and then we can start the application in read-only or write-only mode.
 
 ![](https://i.imgur.com/dr6e9qU.png)
 
@@ -133,7 +133,7 @@ Pros:
 - we can read from No-SQL and write to SQL or vice-versa
 
 Cons:
-- sync of both the write and read databases is additional overhead; consistency has to be handled with Event Sourcing (use a write-to-readDB service) or CDC (Change Data Capture) at the database level
+- sync of both the write and read databases is additional overhead; consistency has to be handled with Event Sourcing (trigger an event on a write using Kafka as event store to a dedicated write-to-readDB service) or CDC (Change Data Capture) at the database level
 - complex application design
 
 ![](https://i.imgur.com/UgQVgKI.png)

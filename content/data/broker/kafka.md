@@ -37,7 +37,7 @@ It is built in Java and Scala so its native to Java environment.
 
 **Messages** are just bytes of information to Kafka and its agnostic to their meaning. There is a component **Key** (numeric hash) that can be appended to a message which can then be used to manually decide the partition the message goes to using modulo operation i.e. `key_hash % N` where `N` is the number of partitions in the topic the message is destined to. The producer tries to uniformly distribute messages among all partitions.
 
-**Schema** is another optional metadata put in the message sometimes. It indicates what kind of data the message contains (i.e. JSON or XML etc) to the consumer. This schema can be stored as Kafka Headers or we can dedicate specific topics for specific message types.
+**Schema** is another optional metadata put in the message sometimes. It indicates what kind of data the message contains (i.e.String, JSON, or XML etc). This schema metadata can be stored in Kafka Headers or we can dedicate specific topics for specific message types.
 
 **Offset**: for each consumer Kafka tracks messages already processed by it using an integral number called _offset_ and it maintain its current count so that it can resume from that point in the future if processing fails.
 
@@ -90,15 +90,7 @@ Since Kafka 2.8.0, we don't necessarily need a Zookeeper and a concensus algorit
 
 ## Spring Boot Kafka
 Spring Boot automatically adds `@EnableKafka` when we add `@SpringBootApplication` annotation. So we needn't add it explicitly.
-```txt
-configs in properties file:
 
-kafka broker server ip
-consumer group (in consumer only)
-key-value serializer/deserializer
-	- if we send String to Kafka, we specify "String" serializer/deserializer here
-	- if we send POJO to Kafka, we specify "JSON" serializer/deserializer here
-```
 **Create a Topic**:
 ```java
 // create a topic (optional ofcourse if topic already exists)
@@ -128,6 +120,45 @@ kafkaTemplate.send(topicName, msg);		// this returns a CompletableFuture ref
 public getMessage(String msg){
 	// processing
 }
+```
+
+### Properties Config and Message Schema
+```txt
+kafka broker server ip
+consumer group (in consumer only)
+key-value serializer/deserializer
+	- if we send String messages to Kafka, we specify "String" serializer/deserializer in producer/consumer value
+	- if we send JSON (or POJO) messages to Kafka, we specify "JSON" serializer/deserializer in producer/consumer value
+	- producer/consumer key is always "String" serializer/deserializer
+```
+
+How does the consumer know what kind of data a message has? Since Kafka stores messages as just raw bytes, we need to provide serialization/deserialization **schema** info in headers of a message to indicate what kind of data the message has.
+
+In Spring Boot, we can specify this in properties file as follows:
+
+```sh
+# Kafka bootstrap servers
+spring.kafka.bootstrap-servers=localhost:9092
+
+# Producer configuration (for JSON message)
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.springframework.kafka.support.serializer.JsonSerializer
+
+# Consumer configuration (for JSON message)
+spring.kafka.consumer.group-id=my-group
+spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.value-deserializer=org.springframework.kafka.support.serializer.JsonDeserializer
+
+# -------------------------------------------------------------------------------------------------------------
+
+# Producer configuration (for String message)
+spring.kafka.producer.key-serializer=org.apache.kafka.common.serialization.StringSerializer
+spring.kafka.producer.value-serializer=org.apache.kafka.common.serialization.StringSerializer
+
+# Consumer configuration (for String message)
+spring.kafka.consumer.group-id=my-group
+spring.kafka.consumer.key-deserializer=org.apache.kafka.common.serialization.StringDeserializer
+spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.StringDeserializer
 ```
 
 ### Error Handling
