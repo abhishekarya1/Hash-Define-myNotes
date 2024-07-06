@@ -24,7 +24,7 @@ There has been major changes in the things we configure for Spring Security with
 
 ### User Database Auth
 After defining a `SecurityFilterChain` bean with matchers for which page must display login screen, we can define the following:
-- `UserDetailsService`
+- `UserDetailsService` (calls user repo JpaRepository)
 - `UserDetails` model
 - `PasswordEncoder` - e.g. `BcryptPasswordEncoder`
 - `AuthenticationProvider` (this ) - e.g. `DaoAuthenticationProvider` (mandatory bean to define and pass service and password encoder to it)
@@ -40,9 +40,13 @@ We rarely use webpage form based auth. OAuth2.0 is used mostly. But standalone J
 
 Create a JWT util class that contains all methods related to JWT impl. Also create a filter class for JWT which is always called before username and password auth and checks for "Authentication" HTTP header's presence and conditionally triggers JWT processing or do nothing (i.e. normal login screen username password auth).
 
-- decide on a secret (we can use any string but here we use a random SHA512 hash, but keep it the same for all token generation and verification)
-- create token - call createToken method of the JWT util, set subject on token as username from the `UserDetails` object, specify creation time, expiration time, custom claims and sign the token with the secret key
-- verify token (create a custom filter bean of type `OncePerRequestFilter`, override its `doFilterInternal()` method and in there write logic to extract token from HTTP request (Authentication header mostly) and call verifyToken method of JWT util)
+- **Decide on a SECRET**: we can use any string but here we use a random SHA512 hash, but keep it the same for all token generation and verification. It is used to generate the symmetric key for signature part of JWT token.
+- **Create Token**: call createToken method of the JWT util, set subject claim on token as username from the `UserDetails` object, specify creation time, expiration time, custom claims and sign the token with secret key.
+- **Extract Token from HTTP Request**: create a custom filter bean of type `OncePerRequestFilter`, override its `doFilterInternal()` method and in there write logic to extract token from HTTP request ("Authentication" header mostly).
+- **Validate Token**: extract the subject claim (i.e. username) from the token and call validateToken method of JWT util. Whenever we extract any claim, it always validates the token with symmetric key (generated using the SECRET) while extracting. The validateToken method _checks expiration time_ of the token and _checks if the username exists_ in the database (uses `UserDetailsService` to do so and fetches its password and roles too).
+- After this, set the security context as authenticated to skip the login screen post JWT validation. This makes sure that the username and password auth happens internally for the username for which JWT token was passed and the user isn't prompted for login.
+
+[JWT util methods - GitHub](https://github.com/afsalashyana/Spring-Boot-Tutorials/blob/master/LearnJWT/src/main/java/com/genuinecoder/jwt/webtoken/JwtService.java)
 
 **References**:
 - [Spring Boot 3 - JWT Authentication & Authorization](https://youtu.be/HYBRBkYtpeo)
