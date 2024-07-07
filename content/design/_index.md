@@ -8,3 +8,4 @@ pre = "✨ "
 
 # Design
 
+Basics of Graphic Design
