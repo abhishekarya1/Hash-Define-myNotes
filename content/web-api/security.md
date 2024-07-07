@@ -91,7 +91,7 @@ signature = HMAC_SHA256(header.payload, SECRET)
 	"iat": "1590969600"
 }
 
-// SECRET - server stores it, used to generate a symmetric key for HMAC algorithm to create signature part of JWT token
+// SECRET - server stores it, used to generate a symmetric key for HMAC algorithm to create and verify signature part of JWT token
 ```
 
 The signature (anti-tampering measure) proves that the token is received as-is (as server generated it) from the client and the username and expiration date present in it are correct. So token verification in JWT boils down to just checking the signature validity and then we can extract payload (claims) and identify user and their access rights from that info.
