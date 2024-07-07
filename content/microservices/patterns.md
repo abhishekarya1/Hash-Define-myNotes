@@ -108,9 +108,11 @@ Gradually replace the monolith with microservices. Incremental replacement of po
 ### Event Sourcing
 Event-driven architecture[^2] allows services to be decoupled from each other. Instead of calling another service directly, we can publish event messages to a centralized Event Bus and other subscribed services receive that event and update their state. Ex - MQs and Kafka Topics.
 
-In Event Sourcing, microservices persist each stage change (_event_) in an event store, which is a datastore of all events in the system. 
+In Event Sourcing, microservices persist each stage change (_event_) in an event store, which is a datastore of all events in the system. The other services can then "react" to these state changes. 
 
 The event store also behaves like a message broker. It provides an API that enables services to subscribe to events. When a service saves an event in the event store, it is delivered to all interested subscribers, who then replay it to update their respective states.
+
+Use Case: implementing Choreography Saga.
 
 https://microservices.io/patterns/data/event-sourcing.html
 
@@ -145,21 +147,23 @@ https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs
 https://www.vinsguru.com/cqrs-pattern
 
 ### Saga
-Problem: How to do transactions that span multiple services (_distributed transactions_)?
+**Problem**: How to do atomic operations that span multiple services (_distributed transactions_)?
 
-One example of such transaction is when payment is deducted but inventory is out-of-stock, we then have to rollback transactions across inventory service as well as the payment service.
+One example of such transaction is when payment is deducted but inventory is out-of-stock, we then have to "rollback" transactions across inventory service as well as the payment service.
 
-A saga is a sequence of local transactions. Each local transaction updates the database (of that service only) and publishes a message or event to trigger the next local transaction in the saga.
+A saga is a sequence of local transactions carried out across diff microservices. Each local transaction updates the database (of that service only) and publishes a message/event/call to trigger the next transaction in the saga (in another service).
+
+Every operation that is part of the Saga can be rolled back by a _compensating transaction_. Further, the Saga pattern guarantees that either all operations complete successfully or the corresponding compensation transactions are run to undo the work previously completed. So in a way, compensating transactions in Saga are equivalent of rollback in local transactions.
 
 Two ways to implement Sagas:
-- **Orchestration approach**: an orchestrator (object) tells the participants what local transactions to execute
-- **Choreography approach**: each local transaction publishes events that trigger local transactions in other services
+- **Orchestration approach**: an orchestrator (can be another microservice) tells other services what transaction to execute. Uses Scatter Gather Aggregator pattern - [example](https://www.vinsguru.com/orchestration-saga-pattern-with-spring-boot).
+- **Choreography approach**: a service publishes events on completion of a local transaction that can trigger local transactions in other services. Uses Event Sourcing with Kafka - [example](https://www.vinsguru.com/choreography-saga-pattern-with-spring-boot).
+
+Tools used to implement Saga pattern:
+- Orchestrators: [Apache Camel](https://camel.apache.org/components/4.4.x/eips/saga-eip.html) and [Camunda](https://camunda.com/)
+- Chroreography: [Axon Framework](https://docs.axoniq.io/reference-guide/axon-framework/sagas)
 
 https://www.baeldung.com/cs/saga-pattern-microservices
-
-https://www.vinsguru.com/orchestration-saga-pattern-with-spring-boot
-
-https://www.vinsguru.com/choreography-saga-pattern-with-spring-boot
 
 ### Aggregator
 Compose a single response by aggregating the responses of multiple independent microservices.

@@ -121,3 +121,69 @@ By default, the publisher (`ApplicationEventPublisher`) waits for all its listen
 Spring itself publishes many events upon diff stages of IoC container init and shutdown and we can listen and act on them as well.
 
 _Reference_: Spring Boot Application Events - [YouTube](https://youtu.be/imF5ja5OkAo)
+
+## Spring Cloud Stream
+A framework for building message-driven microservice applications. Spring Cloud Stream builds upon Spring Boot to create standalone, production-grade Spring applications and provides vendor agnostic connectivity to message brokers (Kafka and RabbitMQ are most supported ones).
+
+```xml
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-stream</artifactId>
+</dependency>
+
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-function-context</artifactId>
+</dependency>
+
+<!-- middleware specific dependency; depends on what we're using -->
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-stream-kafka</artifactId>
+</dependency>
+
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
+</dependency>
+```
+
+**Binders**: we have destination binders which are responsible for providing the necessary configuration and implementation to facilitate integration with external messaging systems. They are abstraction that makes Spring Cloud Stream vendor agnostic.
+
+```java
+@SpringBootApplication
+public class SampleApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(SampleApplication.class, args);
+	}
+
+	// just define a Function<> bean and it acts as a bridge between input and output
+    @Bean
+	public Function<String, String> uppercase() {
+	    return value -> value.toUpperCase();
+	}
+}
+```
+
+Specify broker address and function name in config (notice that its used as key too):
+```yaml
+spring:
+  cloud:
+    stream:
+      kafka:
+        binder:
+          brokers: localhost:9092
+      function:
+        definition: uppercase
+      bindings:
+        uppercase-in:
+          destination: input-topic
+          group: input-group
+        uppercase-out:
+          destination: output-topic
+```
+
+_Reference_: 
+- https://docs.spring.io/spring-cloud-stream/reference/spring-cloud-stream.html#spring-cloud-stream-reference
+- [GitHub](https://github.com/vinsguru/vinsguru-blog-code-samples/blob/master/architectural-pattern/saga-orchestration/order-orchestrator/src/main/resources/application.yaml) code for this [article](https://www.vinsguru.com/orchestration-saga-pattern-with-spring-boot/) by vinsguru
