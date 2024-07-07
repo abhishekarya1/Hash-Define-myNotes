@@ -101,6 +101,10 @@ The signature (anti-tampering measure) proves that the token is received as-is (
 - can be passed in header, body or as a query param
 - we can pass it as `Authorization: Bearer <jwt_token>` HTTP header
 
+**Pros**: lightweight, stateless, standalone as no token store is required on the server-side.
+
+**Cons**: since its standalone, the token has full authority. This means that if anyone gets their hands on the token they can impersonate us till it expires.
+
 **Refresh Tokens**: JWT tokens can be refreshed if the client sends the security server a Refresh Token. The server initially sends both the Access Token and a Refresh Token to the client at the time of token creation and issue. The client stores the refresh token securely, often in a secure HTTP-only cookie or local storage. It can then use it later to get another access token **without terminating the session**.
 
 **Some Tips and Pointers**:
