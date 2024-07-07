@@ -147,17 +147,17 @@ https://learn.microsoft.com/en-us/azure/architecture/patterns/cqrs
 https://www.vinsguru.com/cqrs-pattern
 
 ### Saga
-**Problem**: How to do atomic operations that span multiple services (_distributed transactions_)?
+**Problem**: How to make sure operations that span multiple services are atomic? Distributed Transactions.
 
 One example of such transaction is when payment is deducted but inventory is out-of-stock, we then have to "rollback" transactions across inventory service as well as the payment service.
 
 A saga is a sequence of local transactions carried out across diff microservices. Each local transaction updates the database (of that service only) and publishes a message/event/call to trigger the next transaction in the saga (in another service).
 
-Every operation that is part of the Saga can be rolled back by a _compensating transaction_. Further, the Saga pattern guarantees that either all operations complete successfully or the corresponding compensation transactions are run to undo the work previously completed. So in a way, compensating transactions in Saga are equivalent of rollback in local transactions.
+Every operation that is part of the Saga can be rolled back by a **compensating transaction**. Further, the Saga pattern guarantees that either all operations complete successfully or the corresponding compensation transactions are run to undo the work previously completed. So in a way, compensating transactions in Saga are equivalent of rollback in local transactions.
 
 Two ways to implement Sagas:
-- **Orchestration approach**: an orchestrator (can be another microservice) tells other services what transaction to execute. Uses Scatter Gather Aggregator pattern - [example](https://www.vinsguru.com/orchestration-saga-pattern-with-spring-boot).
-- **Choreography approach**: a service publishes events on completion of a local transaction that can trigger local transactions in other services. Uses Event Sourcing with Kafka - [example](https://www.vinsguru.com/choreography-saga-pattern-with-spring-boot).
+- **Orchestration approach**: an orchestrator (can be another microservice) triggers transactions in other services manually by calling their API endpoints. Compensating transactions here run based on the API response. Using Scatter Gather Aggregator pattern - [example](https://www.vinsguru.com/orchestration-saga-pattern-with-spring-boot).
+- **Choreography approach**: a service publishes events to a event store on completion of a local transaction that can trigger local transactions in other services. Compensating transactions here run based on the failure event published to event store by another service. Using Event Sourcing Pattern with Kafka - [example](https://www.vinsguru.com/choreography-saga-pattern-with-spring-boot).
 
 Tools used to implement Saga pattern:
 - Orchestrators: [Apache Camel](https://camel.apache.org/components/4.4.x/eips/saga-eip.html) and [Camunda](https://camunda.com/)
