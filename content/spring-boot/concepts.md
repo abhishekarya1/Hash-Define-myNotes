@@ -34,10 +34,15 @@ public class Store {
 }
 ```
 
-_**@Autowired**_ is the annotation that facilitates DI in Spring.
+_**@Autowired**_ is the annotation that facilitates DI in Spring. It is placed in the class in which we want to inject beans, either on field, setter, or constructor.
 
 ```java
-// constructor-based injection: Spring finds Item bean and creates the Store bean using it (by calling this constructor)
+// field-based injection: Spring directly injects an Item bean to item field in Store bean using Java Reflection API (setField - new Item())
+@Autowired
+private Item item;
+
+
+// constructor-based injection: Spring finds Item bean and creates the Store bean (by calling this constructor)
 private Item item;
 
 @Autowired
@@ -45,28 +50,24 @@ public Store(Item item) {
     this.item = item;
 }
 
-// optional dependencies in constructor args can be handled by using the annotation in params
+// optional dependencies can be handled by using the annotation for constructor args
 private final Item item;
 private Foobar foobar;
 
 @Autowired
 public Store(Item item, @Autowired(required = false) foobar) {
     this.item = item;
-    this.foobar = foobar;   // supplied bean; otherwise null
+    this.foobar = foobar;   // sets supplied bean; otherwise null
 }
 
 
-// setter-based injection: Spring finds Item bean and creates the Store bean using it (by calling this setter)
+// setter-based injection: Spring finds Item bean and sets the field value in the Store bean (by calling this setter)
 private Item item;
 
 @Autowired
 public setItem(Item item) {
     this.item = item;
 }
-
-// field-based injection (this is used in class in which to inject): inject an item field in Store bean using Reflection API (setField - new Item())
-@Autowired
-private Item item;
 ```
 
 {{% notice tip %}}
