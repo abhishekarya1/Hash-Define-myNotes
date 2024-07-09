@@ -45,6 +45,16 @@ public Store(Item item) {
     this.item = item;
 }
 
+// optional dependencies in constructor args can be handled by using the annotation in params
+private final Item item;
+private Foobar foobar;
+
+@Autowired
+public Store(Item item, @Autowired(required = false) foobar) {
+    this.item = item;
+    this.foobar = foobar;   // supplied bean; otherwise null
+}
+
 
 // setter-based injection: Spring finds Item bean and creates the Store bean using it (by calling this setter)
 private Item item;
@@ -54,19 +64,19 @@ public setItem(Item item) {
     this.item = item;
 }
 
-// field-based injection: inject an item field in Store bean using Reflection API (setField - new Item())
+// field-based injection (this is used in class in which to inject): inject an item field in Store bean using Reflection API (setField - new Item())
 @Autowired
 private Item item;
 ```
 
 {{% notice tip %}}
-Since Spring 4.3, classes with a single constructor can omit the `@Autowired` annotation. So we can just use `@RequiredArgsConstructor` (Lombok annotation) and avoid writing a single constructor too.
+Since Spring 4.3, classes with a single constructor can omit the `@Autowired` annotation on the constructor.
 {{% /notice %}}
 
 ### Drawbacks of Field-Based Injection
 1. **Field-based injection is slower**: it uses Reflection internally which is slower than other ways of injection.
 
-2. **Makes it harder to write tests**: if the class under test has other class dependencies (composition), we often use `@InjectMocks` to inject mocked instances of those dependencies into the instance of class under test. A better way is to create dependency class instances manually and pass them to class's constructor or setter so that there is no `NullPointerException` later on when the dependency's method is called in the test run (no early detection of `null` dependencies).
+2. **Makes it harder to write tests**: if the class under test has other class dependencies (composition), we often use `@InjectMocks` to inject mocked instances of those dependencies into the instance of class under test (since `@Autowired` DI doesn't work in slice tests). A better way is to create dependency class instances manually and pass them calling the injected class's constructor (or setter) so that there is no `NullPointerException` later on when the dependency's method is called in the test run (no early detection of `null` dependencies).
 
 3. **Circular dependencies issue**: there is no way for early detection of circular dependencies if we use field-based injection. Such circular code leads to application startup error.
 
