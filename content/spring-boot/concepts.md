@@ -64,13 +64,18 @@ Since Spring 4.3, classes with a single constructor can omit the `@Autowired` an
 {{% /notice %}}
 
 ### Drawbacks of Field-Based Injection
-Field-based injection is slower since it uses Reflection and it can lead to issues like Circular Dependency.
+1. **Field-based injection is slower**: it uses Reflection internally which is slower than other ways of injection.
 
-Constructor-based and settter-based injections are recommended. They are more natural from the OOP standpoint too.
+2. **Makes it harder to write tests**: if the class under test has other class dependencies (composition), we often use `@InjectMocks` to inject mocked instances of those dependencies into the instance of class under test. A better way is to create dependency class instances manually and pass them to class's constructor or setter so that there is no `NullPointerException` later on when the dependency's method is called in the test run (no early detection of `null` dependencies).
+
+3. **Circular dependencies issue**: there is no way for early detection of circular dependencies if we use field-based injection. Such circular code leads to application startup error.
+
+Constructor-based and settter-based injection is recommended. They are more natural from the OOP standpoint too since they don't use any Spring Boot "magic" (reflection).
 
 _References_: 
 - https://www.baeldung.com/inversion-control-and-dependency-injection-in-spring
 - https://www.baeldung.com/constructor-injection-in-spring
+- Sivalabs - Avoid using Field Injection - [YouTube](https://www.youtube.com/watch?v=koxu51eqDiQ&t=1137s)
 
 ## AOP
 Aspect-oriented Programming (AOP) is a programming (meta-programming) paradigm that complements the OOP paradigm.
