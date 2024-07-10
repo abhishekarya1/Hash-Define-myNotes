@@ -34,6 +34,23 @@ System.out.println(a == b);     // false; uses diff refs
 When you create an Integer within this range, Java will return a reference to an existing cached object rather than creating a new one. */
 ```
 
+**Minor trick questions**:
+```java
+// operator association
+System.out.println("Asd" + 10 + 20);    // "Asd1020"
+System.out.println(10 + 20 + "Asd");    // "30Asd"
+
+
+// string immutability
+String str = "Arya";
+str.replace("A", "x");
+System.out.println(str);    // "Arya"
+
+str = str.replace("A", "x");
+System.out.println(str);    // "xrya"
+str.toUpperCase();          // same as above
+```
+
 Shallow Copy (_reference variables_), Deep Copy (_copying data to new object manually_), Cloning (_copying data to new object with clone() method_) `newObj = oldObj.clone()`
 
 Cloning can be customized overriding the `clone()` method of the `Object` class, and indicating by implementing `Cloneable` marker interface.
@@ -63,6 +80,12 @@ String's length() isn't accurate - counts code points rather than no. of chars, 
 **Island of Isolation**: The way Mark & Sweep algorithm work is that it starts the scan from the GC root (`main()` method) and follows all references. Everything that is marked (reachable) is not removed, everything else is sweeped (removed).
 
 ```java
+// normal GC scenario
+String s1 = new String("Foo");
+s1 = new String("Bar");
+// String object with value "Foo" isn't referenced anywhere from GC root; hence its GC'ed later
+
+// Island of Isolation
 public class Test {
    Test ib;    
    public static void main(String [] str){

@@ -20,6 +20,12 @@ Analogy - Google Chrome browser is a process, each Tab is a thread and context s
 
 **Thread priority**: It is a number associated with a thread that the scheduler uses to schedule. In Java, it can be either of these three integer values - `MIN_PRIORITY` (1), `NORM_PRIORITY` (5), `MAX_PRIORITY` (10).
 
+
+{{% notice info %}}
+Everything in Java runs on a single thread (hence synchronously) called `main` unless we use concurrency features like Thread, Concurrency API, `CompletableFuture`, etc.
+{{% /notice %}}
+
+
 ## Thread class
 Tasks are defined using the `Runnable` functional interface, it takes no arguments and returns nothing. To create a thread use `Thread` class instance. 
 

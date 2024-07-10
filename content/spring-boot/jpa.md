@@ -74,6 +74,10 @@ Another way to get a projection with plain DTOs (no _@Entity_) is to make a quer
 
 _References_ (interface and constructor expression techniques): https://stackoverflow.com/questions/22007341/spring-jpa-selecting-specific-columns
 
+{{% notice warn %}}
+Getters and setters must be present for the entity class so that JPA can perform read and write to them.
+{{% /notice %}}
+
 ## Validations
 Doing validations on the persistance layer isn't recommended since it means that we've worked with invalid objects at the higher layers so far.
 
@@ -113,13 +117,25 @@ public class StudentConfig {
             Student s1 = Student.builder().name("Abhishek").email("abhishekarya102@gmail.com").build();		// pojo creation
             repository.save(s1);	// method call
         };
+    }
+}
 ```
 
-## Methods
+## JPA Provided Methods
 ```java
-// default methods from JpaRepository
-repository.save(s1);		// insert into query
-repository.findAll();		// select * query
+T repository.save(T);		// insert into query; populates the id (primary key) on the same object and also returns it
+List<T> repository.findAll();		// select * query
+```
+
+When we save a DTO object to database as a row, JPA automatically stores PK (`@Id`) of the newly created row in the DTO object back! 
+```java
+User user = new User();
+
+user.getUserId();		// null here
+
+repository.save(user);
+
+user.getUserId();		// 1 here
 ```
 
 We can build our own custom methods **following the naming conventions and impl will be automatically done!**.
@@ -135,17 +151,6 @@ public interface StudentRepository extends JpaRepository<Student, Long> {	// <En
 repository.findByEmail("abhishek@gmail.com");
 repository.findByEmailContaining("gmail.com");
 repository.findByNameNotNull();
-```
-
-When we save a DTO object to database as a row, JPA automatically stores PK (`@Id`) of the newly created row in the DTO object back! 
-```java
-User user = new User();
-
-user.getUserId();		// null here
-
-repository.save(user);
-
-user.getUserId();		// 1 here
 ```
 
 _Reference_: https://docs.spring.io/spring-data/jpa/docs/current/reference/html/#jpa.query-methods
@@ -376,7 +381,11 @@ private List<Owner> ownerList;
 ## Paging and Sorting
 `JpaRepository` extends from both `PagingAndSortingRepository` and `CrudRepository` and contains methods from both of them.
 
-We can pass it `Pageable` objects along with sort param to allow paging and sorting.
+We can pass it `Pageable` objects along with sort param to allow paging and sorting. 
+
+{{% notice tip %}}
+The page number comes from the HTTP request to Controller -> Service -> Repository, when we are performing paging on API responses (_a highly recommended practice_).
+{{% /notice %}}
 
 ### Paging
 ```java

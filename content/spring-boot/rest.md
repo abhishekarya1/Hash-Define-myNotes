@@ -11,6 +11,10 @@ weight = 8
 </dependency>
 ```
 
+{{% notice info %}}
+Spring Boot is inherently multi-threaded as it works on a **Thread-per-Request model**. The server (Tomcat) creates a new thread for each incoming request and excutes the whole flow's code on it. This is often a bottleneck and needs thread management (configure Tomcat thread max etc).
+{{% /notice %}}
+
 ## Layers
 ```txt
 Controller layer				--> front side
