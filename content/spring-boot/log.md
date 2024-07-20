@@ -5,7 +5,7 @@ weight = 4
 +++
 
 ## Basics
-Logging is available in Spring by default provided by `slf4j` (Simple Logging Facade 4 Java) implemented by `Logback`, successor to the infamous `log4j`. We don't need any dependencies for it separately.
+Logging is available in Spring by default provided by **SLF4J** (Simple Logging Facade 4 Java) implemented by **Apache Logback**, successor to the infamous Log4j. We don't need any dependencies for these separately.
 
 ```java
 // in Foobar.java

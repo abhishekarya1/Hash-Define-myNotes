@@ -217,16 +217,40 @@ C
 */
 ```
 
-## Pipeline Pitfalls
-With **serial streams**, the intermediate methods we call are processed on each element one-by-one:
+## More on Stream Operations
 
+### Stateful vs Stateless Operations
+
+**Stateless**: elements of the stream are processed one-by-one, and no state info is retained for previously processed elements of the stream. Ex - `filter()`, `map()`, `forEach()` etc.
 ```txt
-first element through entire Stream -> 
-second element through entire stream -> 
+first element through entire stream till terminal operation -> 
+second element through entire stream till terminal operation -> 
 and so on ...
 ```
 
-With infinite streams, there can be some intermediate method like `sorted()` which waits for all the elements to arrive to continue processing. Terminal operations like `count()` can appear hung too processing all elements which are coming from an infinite stream.
+**Stateful**: state info is retained for previously processed elements, there maybe some _wait_ or _processing_ involved here when processing elements of the stream (e.g. with `sorted()`). Ex - `sorted()`, `limit()`, `distinct()`, `count()`  etc. 
+
+```txt
+first element stops at stateful operation -> 
+second element stops at stateful operation ->
+and so on ...
+all stream elements arrive and sorting happens ->
+next operations run... 
+```
+
+### Short-circuiting Streams
+Some operations on streams can terminate processing early without processing all the elements of the stream. Ex - intermediate operations like `limit()` and terminal operations like `findFirst()`, `anyMatch()`, etc.
+
+These short-circuiting operations are efficient because they can reduce the amount of work done by the stream pipeline by stopping the processing as soon as a conclusive result is found.
+
+## Pipeline Pitfalls
+
+### Pitfalls with Infinite Streams
+Stateless methods work fine on both finite and infinite streams. As they're processed one-by-one till terminal operation.
+
+With serial streams, the stateful methods run in a finite amount of time.
+
+**With infinite streams, stateful methods like `sorted()` cause pitfalls** as it waits for all the elements to arrive to continue processing. This fills up the heap memory and causes `OutOfMemoryError` runtime exception. Terminal operations like `count()` can appear hung too since its busy processing all elements which are coming from the infinite stream.
 
 ```java
 Stream.of("Olaf")
@@ -250,7 +274,7 @@ Stream.generate(() -> "Elsa")
  .limit(2)
  .forEach(System.out::print);
 
-// infinitely hangs; sorted keeps waiting for all elements to arrive but its an inf stream
+// infinitely hangs, OutOfMemoryError runtime exception; sorted keeps storing and waiting for all elements to arrive but its an inf stream
 
 Stream<Integer> s = Stream.generate(() -> 5);
 System.out.println(s.count());                  
@@ -272,7 +296,8 @@ System.out.println(str.findFirst());    // runtime error; performing another ter
 
 // java.lang.IllegalStateException: stream has already been operated upon or closed
 ```
-
+### Mutable Collection to Stream
+Creating a stream from an existing collection and modifying the underlying collection afterwards:
 ```java
 List<Integer> ls = new ArrayList<>();
 ls.add(1);
@@ -282,13 +307,15 @@ ls.add(10);                                 // adding an element to Collection
 System.out.println(s.count());              // stream pipeline actually runs here; terminal operation
 
 // count = 3
-// a stream is created and pipeline is executed only where a terminal operation is performed (lazy evaluation)
+// a stream is created and pipeline is executed only where a terminal operation is performed (lazy evaluation).
+// alt expl: streams don't read the data from the source (the list in this case) until a terminal operation is executed. 
 ```
 
 ### Chaining Pipelines
+We can immediately convert to stream after a terminal operation:
 ```java
 long count = Stream.of("goldfish", "finch")
-	.filter(s -> s.length()> 5)
+	.filter(s -> s.length() > 5)
 	.collect(Collectors.toList())
 	.stream()			// chaining
 	.count();
