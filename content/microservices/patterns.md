@@ -189,13 +189,18 @@ https://medium.com/geekculture/design-patterns-for-microservices-aggregation-pat
 **Distributed Tracing**: trace a request across microservices with _Zipkin_ [[link](/spring-boot/log/#sleuth-and-zipkin)]
 
 ### Deployment Patterns
-**Blue-Green Deployment**: two identical production enviroments, only one is live at a given time, helps in upgrading services to newer version with minimal downtime
+
+Given below are deployment strategies that have zero downtime:
+
+**Big Bang Deployment**: replace old application with new (involves downtime), and then after the deployment all traffic is received by the new version. Rollbacks are very expensive here.
+
+**Blue-Green Deployment**: two identical production enviroments, only one is live at a given time and all traffic is routed to it, the other is on standby, helps in upgrading services to newer version with minimal downtime.
 
 ![](https://i.imgur.com/nJP0R8D.jpg)
 
-**Canary Deployment**: rollout features to a subset of users (_early adopters_) before making them available to all; redirect a part of traffic coming from users say 10% of the total users to the newer service (`v1.1`), while the majority of traffic still goes to the stable service (`v1.0`).
+**Canary Deployment**: rollout features to a subset of users (_early adopters_) before making them available to all; redirect a part of traffic coming from users say 10% of the total users to the newer service (`v1.1`), while the majority of traffic still goes to the stable service (`v1.0`). If anything goes wrong, we can recover faster in this strategy.
 
-**Rolling Deployment**: slowly replace the pods containing old version with the pods containing new version of the code (in k8s).
+**Rolling Deployment**: slowly replace the pods containing old version with the pods containing new version of the code (in k8s). Also known as **Phased Deployment**.
 
 A/B Testing: 50% of users are redirected to `versionA` and the other half to `versionB` to determine which one performs better.
 
