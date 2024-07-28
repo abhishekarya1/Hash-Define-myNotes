@@ -5,16 +5,16 @@ weight = 1
 +++
 
 ## Spring
-Released in 2003, Spring framework offerred a lightweight alternative to Java Enterprise Edition (JEE or J2EE) and moved away from EJBs (Enterprise Java Beans) to Java components like POJOs (Plain Old Java Objects). 
+Released in 2003, Spring framework offerred a lightweight alternative to Java Enterprise Edition (JEE or J2EE) Servlets and moved away from EJBs (Enterprise Java Beans) to Java components like POJO Beans and provided Annotations.
 
-Biggest features were - **Dependency Injection (DI)** and **Aspect-oriented programming (AOP)**.
+Biggest features were - **Dependency Injection (DI)** (IoC) and **Aspect-oriented programming (AOP)**.
 
-But, Spring was heavy in terms of configuration. There was just too much configs. Spring 3.0 introduced Java based configs as an alternative to XML based configs but still there was too much config and redundancy. This lead to _development friction_.
+But Spring was heavy in terms of configuration. There was just too much manually written XML configs. Spring 3.0 introduced Java code based configs as an alternative to XML based configs but still there was too much config and redundancy. This lead to _development friction_.
 
 ## Spring Boot
 Released in 2014, Spring Boot is a framework based on Spring which differs in below core aspects:
 1. **Automatic Configuration**: common tasks are automatically handled by Spring Boot, like bean creation and component scanning
-2. **Starter Dependencies**: transitive dependencies
+2. **Starter Dependencies**: facet-based transitive dependencies
 3. **Spring Boot CLI**: unconventional way of developing (using Groovy) (much like Python's Flask)
 4. **Actuator**: to look at internals of a spring boot application during runtime
 
@@ -163,13 +163,13 @@ public class ApplicationConfiguration {
 ## Properties
 We can set properties via command-line parameters, OS environment variables, `application.properties` file (or `.yml`) inorder of precedence.
 
-If defined in `application.properties` file, they are searched in below order:
-1. `/config` sub-directory of working directory
-2. working directory
-3. `config` package in the `classpath`
-4. `classpath` root
+If defined in `application.properties` file, they are searched by name in below order:
+1. a `/config` subdir of the current directory
+2. the current directory
+3. a `config` package on the `classpath`
+4. the `classpath` root (src/main/resources dir becomes JAR's root)
 
-This means that the `application.properties` in application classpath will be replaced by the one (if placed) inside `/config` directory. Also, `appliaction.yml` will take precedence over `application.properties` if both are available side-by-side in the same directory.
+This means that the `application.properties` in application classpath will be replaced by the one (if placed) inside `/config` directory. Also, `appliaction.yml` will take precedence over `application.properties` if both are available alongside each other in the same directory.
 
 ```txt
 # define any custom property and use it
@@ -177,6 +177,11 @@ foo.bar=1337
 ```
 
 We can supply spring boot bean properties (like `server.port` or `spring.profiles.active`) without externalizing it from the properties file first, but custom properties created by us need to be specified in properties file first (see below section).
+
+{{% notice tip %}}
+A common pattern I've seen in production is to have a separate `config` module which contains all the properties files. We include this module as a dependency in the primary (`service`) module and delete the `application.properties` file from the primary module, and then Spring Boot uses the properties files from the `config` module automatically since they're on the classpath now.
+{{% /notice %}}
+
 
 ### Externalize Custom Properties
 ```txt
@@ -199,7 +204,7 @@ java -jar demo-app.jar
 # we often configure helm charts in production to supply them
 ```
 
-### Renaming properties file
+### Renaming properties file (Anti-Pattern)
 Can be done, but not recommended to divert from the standard name.
 
 ```java
@@ -361,7 +366,15 @@ database:
 	user: user
 ```
 
-## Running JARs
+## Packaging as JAR
+
+Most applications are packaged and shipped as a JAR now, they are called _Uber JAR_ or _Fat JAR_ since they bundle every dependency inside them and can be deployed as standalone.
+
+We can generate JAR using Maven as follows, packaging type can be set in pom.xml:
+```sh
+$ mvn package
+```
+
 ```sh
 $ java -jar demo-app.jar --server.port=9090
 $ java -Dserver.port=9090 -jar demo-app.jar
@@ -370,3 +383,5 @@ $ java -Dserver.port=9090 -jar demo-app.jar
 # since we're specifying to "java" executable (where flags should've been) and not to our JAR
 # they both mean the same thing
 ```
+
+WAR isn't commonly used nowadays as it bundles frontend (JavaScript) as well as backend code (Java) inside them and nowadays there is a separation amongst them. They are used in JBOSS server (WildFly) deployments.

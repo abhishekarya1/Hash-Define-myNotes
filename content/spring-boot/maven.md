@@ -6,7 +6,9 @@ weight = 2
 
 
 ## Maven
-Build tool that can perform many tasks such as - defining project structure, dependency management, documentation, and various steps (build targets) like validate, verify, test, package, install etc...
+Build tool that can perform many tasks such as - defining project structure, dependency management, documentation, and various steps (build targets) like validate, verify, test, package, install etc.
+
+It also provides a variety of plugins to perform diff repetetive tasks.
 
 Reference - https://maven.apache.org/guides/getting-started/index.html
 
@@ -19,12 +21,10 @@ Three ways to use Maven:
 ### Standalone
 Download `.zip` and run from command-line in the project directory. 
 
-Needs the `JAVA_HOME` environment variable pointing to a JDK installation, or have the `java` executable on the `PATH` variable. Also, add the `bin` dir to `PATH` in order to use `mvn` command from anywhere.
+Needs the `JAVA_HOME` environment variable pointing to a JDK installation, or have the `java` executable on the `PATH` variable. Also, add the `bin` dir to `PATH` in order to use `mvn` command from anywhere (_optional_).
 ```sh
 $ mvn clean install
 ```
-
-This is currently (Dec 2023) the only way to use [mvnd](#maven-daemon-mvnd) (Maven Daemon).
 
 ### IDE Bundled
 Most IDEs like STS and IntelliJ bundle Maven standalone dir inside them. We just need to run goals using menu provided in the IDE, with zero prior installation and configuration.
@@ -87,9 +87,20 @@ Project Object Model (POM)
 </project>
 ```
 
-### Maven Goals
+### Maven Lifecycle, Phases, and Goals
+
+Each Maven command has a hierachy of operations it performs: 
+- **Lifecycle**: `default`, `clean`, `site`
+	- **Phases**: `validate`, `compile`, `test`, `package`, `verify`, `install`, `deploy`
+		- **Goals**: more fine-tuned operations inside phases e.g. `mvn install install:install` or `mvn dependency:tree`
+
+{{% notice note %}}
+Running a phase also runs all its previous phases too implicitly before running the specified phase. Ex - install runs validate, compile, test, package, and verify.
+{{% /notice %}}
+
+Below are some of the most commonly used Maven Build Phases:
 ```sh
-$ mvn compile	# compile; classes placed in /target/classes
+$ mvn compile	# compile using javac; classes placed in /target/classes dir
 $ mvn test		# compile test and run them
 $ mvn test-compile	# compile tests but don't execute them
 $ mvn package	# generate JAR
@@ -100,11 +111,19 @@ $ mvn clean		# delete /target directory
 $ mvn clean install  # chaining
 ```
 
+We can also specify custom goals for a particular phase by specifying a `<plugin>` in the pom.xml.
+
 References: https://maven.apache.org/guides/introduction/introduction-to-the-lifecycle.html#a-build-lifecycle-is-made-up-of-phases
+
+### Maven Dependency Scopes
+Maven dependencies can be scoped to provide a much cleaner dependency inclusion (avoid dependency pollution) and optimized build and execution processes. Use `<scope>` tag to specify it (_optional_; `compile` is default when nothing is specified).
+
+Most commonly used scopes are: `compile`, `runtime`, `test` (for starter-test dependencies), `import` (for BOM imports), etc.
+
+Reference: https://www.baeldung.com/maven-dependency-scopes
 
 ### Surefire Plugin
 The "Maven Surefire Plugin" enables us to run test with maven commands like `mvn test`. The `spring-boot-maven-plugin` added by default by the Spring Initializr takes care of this.
-
 
 ## Dependency Sources
 ### SNAPSHOT version
@@ -117,8 +136,7 @@ Ex - `foobar-1.0-SNAPSHOT` is released as `foobar-1.0` and new development versi
 
 **Remote repositories**: located on the web or a company's internal server (e.g. JFrog Artifactory). Configure them in `settings.xml` file.
 
-**Central repository**: located on the web provided by Apache Community (https://mvnrepository.com/)
-
+**Central repository**: located on the public web provided by Apache Community (https://mvnrepository.com/)
 
 ## Starter Dependencies
 **Facet-based dependencies**: Starter dependencies are named to specify the facet or kind of functionality they provide. Ex - `starter-web`, `starter-activemq`, `starter-batch`, `starter-cache`, etc...
@@ -267,7 +285,7 @@ A `<parent>` (more precisely `<dependencyManagement>`) is like only a "declarati
 We often put `<dependencyManagement>` section and add its dependencies in the `<dependencies>` of the same POM, not much useful but cleaner.
 
 ### Multi-Module Maven Project
-Multiple modules (projects) inside a single project, each having a different project inside it. All having the same `<groupID>`.
+Multiple modules (projects) inside a single project, each having a different project inside it. All having the same `<groupID>` (_optional but good practice_).
 
 1. Place common `<dependencyManagement>` and `<build> <plugins>` in parent's POM
 2. Add all `<modules> <module>` artifact ids in parent's POM
