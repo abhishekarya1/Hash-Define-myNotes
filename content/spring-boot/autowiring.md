@@ -285,9 +285,8 @@ Specify scopes on classes using `@Scope` annotation on them. Ex - `@Scope("proto
 
 ### Bean with Proxy Mode
 {{% notice note %}}
-If a singleton bean `Controller` (eager init) has a dependency upon another bean `User` (request scoped; lazy init), how does Spring Proxy get init without `BeanB` being present? Ans - application startup error if we don't configure `proxyMode`.
+If a singleton bean `Controller` (eager init) has a dependency upon another bean `User` (request scoped; lazy init), how does Spring Proxy get init without `User` bean being present? Answer - application startup failure error if we don't configure `proxyMode` manually.
 {{% /notice %}}
-
 
 ```java
 @Component
