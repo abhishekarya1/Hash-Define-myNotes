@@ -208,7 +208,7 @@ class Service{
 ```
 
 ## Lazy Initialization
-All beans are created and injected into the Application Context during startup. To cut down startup time, we can make it so such that beans are only initialized and injected just before they are used in the code.
+All singleton beans are created and injected into the Application Context during startup. To cut down startup time, we can make it so such that beans are only initialized and injected just before they are used in the code.
 
 1. Global setting in properties file (applies to all beans in the app):
 ```sh
@@ -231,7 +231,7 @@ public class MyCustomBeans{
 
 We can also make all beans lazy using the properties file and do _@Lazy(false)_ on specific beans to make only them load at startup.
 
-Reference: https://www.baeldung.com/spring-boot-lazy-initialization
+_Reference_: https://www.baeldung.com/spring-boot-lazy-initialization
 
 ## @Autowired on Setters and Constructors
 
@@ -277,13 +277,29 @@ _Reference_: https://stackoverflow.com/a/56089288
 
 Specify scopes on classes using `@Scope` annotation on them. Ex - `@Scope("prototype")` or with constant using 	`@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)`.
 
-- **Singleton** (_default_): single bean instance per Spring IoC container
-- **Prototype**: a new bean instance is created every time a bean is requested with `ctx.getBean("Foobar")`
-- **Request** (`@RequestScope`): only a single instance will be created and available during the complete lifecycle of an HTTP Request
-- **Session** (`@SessionScope`): only a single instance will be created and available during the complete lifecycle of an HTTP Session
-- **Application** (`@ApplicationScope`): only a single instance will be created and available during the complete lifecycle of `ServletContext`
+- **Singleton** (_default_): single bean instance per Spring IoC container (eagerly created on Spring Proxy init).
+- **Prototype**: a new bean instance is created laziliy each time a bean is used. Ex - on `ctx.getBean("Foobar")` or on every bean usage in another bean.
+- **Request** (`@RequestScope`): only a single instance will be created laziliy and available during the complete lifecycle of an HTTP Request.
+- **Session** (`@SessionScope`): only a single instance will be created laziliy and available during the complete lifecycle of an HTTP Session (they start on API endpoint call and end after timeout or manually closed).
+- **Application** (`@ApplicationScope`): only a single instance will be created laziliy and available during the complete lifecycle of `ServletContext` (multiple IoC share a single instance of such bean).
 
-_Reference_: Bean Scopes - Selenium Express [YouTube](https://www.youtube.com/watch?v=xpKbs8FHUi4)
+### Bean with Proxy Mode
+{{% notice note %}}
+If a singleton bean `Controller` (eager init) has a dependency upon another bean `User` (request scoped; lazy init), how does Spring Proxy get init without `BeanB` being present? Ans - application startup error if we don't configure `proxyMode`.
+{{% /notice %}}
+
+
+```java
+@Component
+@Scope(value = "request", proxyMode = ScopedProxyMode.TARGET_CLASS)		// configure proxyMode for lazy bean
+public class User{ }
+```
+
+This inserts a dummy (proxy) bean during application startup and later when a HTTP request is made and an actual bean is init and available, it is replaced.
+
+_References_: 
+- Bean Scopes - Selenium Express [YouTube](https://www.youtube.com/watch?v=xpKbs8FHUi4)
+- Bean Scopes - Concept && Coding [YouTube](https://youtu.be/JGFNn6Eqp64)
 
 ## Bean Life Cycle in Spring
 1. Start application
