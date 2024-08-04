@@ -228,6 +228,43 @@ void demo(){ }
 
 _Reference_: https://www.baeldung.com/spring-boot-3-url-matching
 
+
+## How to do File Uploads and Downloads?
+**For upload**: HTTP request type is `form-data` with key as `file` and value as the actual file uploaded from file selector. This ensures header `Content-Type = multipart/form-data` is added automatically in Postman.
+
+```java
+// controller method for upload endpoint
+String uploadFile(@RequestParam("file") MultipartFile file){ }
+```
+
+**For download**: return back a response entity with special headers.
+```java
+// controller method return statement for download endpoint
+return ResponseEntity.ok()
+       .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + resource.getFilename() + "\"")
+       .body(resource);
+```
+
+We can save to local filesystem (using Java IO), or to SQL database as `BLOB` type (use Data JPA's default `save()` method to save entity):
+```java
+// in entity class, saves file data as blob
+@Lob
+byte[] data;
+```
+
+Also, we need to specify the following parameters in `application.properties`:
+```sh
+# enable file upload/download on servlet
+spring.servlet.multipart.enabled=true
+
+# threshold after which files are written to disk
+spring.servlet.multipart.file-size-threshold=2KB
+# max file size
+spring.servlet.multipart.max-file-size=200MB
+# max request Size
+spring.servlet.multipart.max-request-size=215MB
+``` 
+
 ## Calling other Rest API in code
 
 **RestTemplate**: synchronous (now deprecated)
@@ -256,3 +293,4 @@ We can modify request at any layer before the Controller. From Interceptor onwar
 We commonly modify requests by creating a custom Filter (`Filter`), Servlet (`DispatcherServlet`) or a custom Interceptor (`HandlerInterceptor`) (_best_).
 
 _Reference_: [Using Interceptor in Spring Boot - YouTube](https://youtu.be/DuMf8Nwb-9w)
+
