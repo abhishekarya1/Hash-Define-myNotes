@@ -207,6 +207,39 @@ class Service{
 // resolve the above error just like we resolved ambiguity in interface autowiring: Autowired field name, @Primary, @Qualifier annotations
 ```
 
+### Dynamically including Beans
+We can dynamically include beans in the following ways instead of relying on static code:
+- manually check a property (use `@Value`) and use if-else in `@Bean` method to include the wanted bean
+- based on a property value (use `@ConditionalOnProperty`), etc.
+- based on profile (use `@Profile`)
+
+```java
+@Configuration
+class AppConfig{
+	@Value("${pet.isDog}")
+	boolean flag;
+
+	@Bean
+	public Pet animal(){
+		if(flag == true){
+			return new Dog();
+		} else {
+			return new Cat();
+		}
+	}
+}
+
+// below 2 ways be used on @Bean annotation too instead of @Component
+
+@Component
+@ConditionalOnProperty(prefix="foobar", name="enabled", havingValue="true", matchIfMissing=false)
+class Foobar{ }
+
+@Component
+@Profile("qa")
+class Foobar{ }
+```
+
 ## Lazy Initialization
 All singleton beans are created and injected into the Application Context during startup. To cut down startup time, we can make it so such that beans are only initialized and injected just before they are used in the code.
 

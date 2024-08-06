@@ -322,9 +322,47 @@ private String foobar;
 // we can directly use "${foo.bar}" at some limited places in our code
 ```
 
-Do note that the property that is being referred to in `@Value` tag must exist and corresponding profile loaded otherwise its a compiler-error. e.g. In the above case, `foo.bar` must exist in properties file and its profile must be loaded otherwise compiler-error. We can provide default value to avoid compiler-error.
+Do note that the property that is being referred to in `@Value` tag must exist (i.e corresponding profile loaded) and match data type of variable its transferred to (`foobar` here), otherwise its a compiler-error. e.g. In the above case, `foo.bar` must exist in properties file and its profile must be loaded, and its value must be of type string, otherwise compiler-error. We can provide default value to avoid compiler-error.
 
 So, its bad to keep properties exclusive to non-default profiles in our code as they will all fail when we load with default profile in future.
+
+### Multiple Reprsntn of Boolean values in Properties (Relaxed Binding)
+Some property values are special and can be transferred to boolean types in code using `@Value` even if they aren't `true` or `false`.
+
+This is becasue Spring Boot uses **Relaxed Binding** and doesn't just transfer property values but rather processes them "smartly".
+
+```txt
+# all of the below are equivalent
+
+example.property=true
+example.property=on
+example.property=yes
+example.property=1
+```
+
+{{% notice tip %}}
+If a property with value as `on` is transferred to `String` type it won't cause any errors, and as we saw that if its transferred to `boolean` it will be `true`!
+{{% /notice %}}
+
+More examples of relaxed binding is that all of the below are equivalent and hence completely interchangeable with each other!:
+```
+# Dot Separated
+foo.bar.baz=qux
+
+# Camel Case
+fooBarBaz=qux
+
+# Kebab Case
+foo-bar-baz=qux
+
+# Snake Case
+foo_bar_baz=qux
+
+# Mixed Usage
+foo.bar-baz=qux
+```
+
+Everything discussed above works the same way in YAML too.
 
 ### Property source
 We can specify which property file to take values from using the _@PropertySource_ annotation.
