@@ -26,7 +26,7 @@ Video: [What is CAP Theorem?](https://youtu.be/_RbsFXWRZ10)
 
 **PACELC Theorem**: In case of ("PAC") we need to choose between C or A, (E)lse (even if system is running normally in the absence of partitions), we need to choose between (L)atency and (C)onsistency.
 
-We do have **CA** in non-distributed systems like RDBMS like MySQL, Postgres, etc... it is called **ACID** there.
+We do have **CA** in non-distributed systems like RDBMS like MySQL, Postgres, etc... it is called **ACID** there and its a fundamental property of SQL transactions.
 
 ### Availablity and Consistency
 **Availablity insured by**: two servers fail-over (master-master and master-slave)

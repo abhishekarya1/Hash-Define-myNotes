@@ -20,6 +20,8 @@ graph LR;
 
 **Structural Languages**: structured into blocks that interact with each other. A method, a class, everything is a code block.
 
+**Functional Paradigm**: follows Lambda Calculus, and functions are first-class citizens (function can be an object) which allows for Higher Order Functions (HOF) i.e. functions that take other function objects are arguments.
+
 ### Typing
 Programming Languages can be put into the following categories:
 
