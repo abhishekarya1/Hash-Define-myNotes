@@ -190,7 +190,7 @@ static import java.util.Arrays.asList;		// invalid! order is wrong
 ## Overloading
 - compile-time polymorphism
 - Same method names but different signatures (parameter types, order, arity). **We can overload by any change in the parameter list**
-- return type or `static`ness cannot be a distinguishing factor for overloading methods (compiler-error; same methods, so no overloading)
+- return type or `static`ness cannot be a distinguishing factor for overloading methods (compiler-error; same methods, so no overloading). This is because from caller's POV, return type or `static`ness doesn't matter, so they aren't part of overloading
 - so trivially, `static` methods can be overloaded by any other method since `static`ness doesn't matter in overloading
 
 ```java
