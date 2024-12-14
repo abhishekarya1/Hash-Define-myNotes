@@ -16,7 +16,7 @@ Open-source, maintained by Oracle Corp. Releases are prolific since 2018, releas
 
 Last major update - Java 8 (2014)
 
-**LTS** releases - vendors provide longer support (security and performance patches) for a certain Java version. For Oracle JDK its 3 years, [no such support](https://stackoverflow.com/a/59800705) for the fully open-source OpenJDK. LTS versions - Java 8, 11, 17, 21
+**LTS** releases - vendors provide longer support (security and performance patches) for a certain Java version. For Oracle JDK its 3 years, [no such guaranteed premium support](https://stackoverflow.com/a/59800705) for the fully open-source OpenJDK, they implement patches as and when feasible. LTS versions - Java 8, 11, 17, 21.
 
 Java has 4 platforms:
 1. **Java SE** - Standard Edition (Standard language features)
@@ -98,13 +98,13 @@ jshell> /exit
 ```
 
 ## The JDK
-Many open-source as well as proprietary JDK alternatives have popped up over the years. Most popular ones are OracleJDK, OpenJDK, and Amazon Corretto.
+Many open-source as well as proprietary JDK alternatives have popped up over the years. Most popular ones are OracleJDK, OpenJDK, Amazon Corretto, Adoptium Temurin (by Eclipse), and Azul Zulu.
 
 OpenJDK is developed by Oracle, OpenJDK, and the Java Community together. However, companies like Red Hat, Azul Systems, IBM, Apple Inc., and SAP AG also take an active part in its development.
 
 OracleJDK is solely developed by the Oracle Corporation. It has some additional libraries and licence differences with OpenJDK.
 
-Actually, OpenJDK is an official reference implementation of a Java SE since long time now. It means that it is the accepted official implementation of the Java specification and OracleJDK's as well as all other JDKs' build process is based on that of OpenJDK.
+Actually, OpenJDK is an official reference implementation of a Java SE since long time now. It means that it is the accepted official implementation of the Java specification and OracleJDK's as well as all other JDKs' build process is identical and acc to the standard.
 
 As a rule of thumb, avoid using OracleJDK since Oracle is [greedy](https://sdtimes.com/java/oracle-makes-significant-change-to-its-java-license/) when it comes to licensing, use OpenJDK instead. Updated 2024 article on Oracle JDK licencing [here](https://www.theregister.com/2024/06/20/oracle_java_licence_teams/).
 
@@ -136,5 +136,4 @@ Many other languages can prodcue Bytecode that is runnable on JVM.
 Popular ones are - Kotlin, Groovy, Scala, Clojure.
 
 ## References
-- JavaNotesForProfessionals.pdf (Chapter 169, Appendix B)
 - https://www.ibm.com/cloud/blog/jvm-vs-jre-vs-jdk

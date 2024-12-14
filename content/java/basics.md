@@ -423,8 +423,7 @@ System.out.println("My name is " + name + " and I am " + age + "years old.");
 // String.format() method
 name = "Heisenberg"
 age = 69
-System.format("My name is %s and I am %d years old.", name, age);
-
+String.format("My name is %s and I am %d years old.", name, age);
 
 // using StringBuilder
 // MessageFormat.format() method

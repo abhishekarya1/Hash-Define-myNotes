@@ -5,7 +5,7 @@ weight = 3
 +++
 
 ## Method Declaration
-- a single underscore (`_`) isn't a valid method name (it isn't a valid identifier in Java)
+- a single underscore (`_`) isn't a valid method name (it wasn't a valid identifier in Java till Java 22, but still can't be used as a method name)
 ```java
 public static final int foo() throws IOException, SQLException {
 	// body
