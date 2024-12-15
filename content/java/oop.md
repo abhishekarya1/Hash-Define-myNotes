@@ -275,7 +275,7 @@ class Y extends X{ }
 ```
 
 {{% notice tip %}}
-Call to `this()` and `super()` is only allowed in a constructor body.
+Call to `this()` and `super()` is only allowed in a constructor body. So its only for constructor to constructor calls (i.e. constructor chaining).
 {{% /notice %}}
 
 ### Private Constructors
@@ -315,6 +315,9 @@ o.b = 2;
 ### Anonymous Objects
 ```java
 foobar(new Demo());		// initialized but not stored in a reference variable
+
+// is stored in ref var "m" defined as method's param
+foobar(Demo m){ }
 ```
 
 ### Order of Initialization (Instance members)
@@ -695,8 +698,9 @@ Make a class immutable to tighten security and not have to deal with concurrency
 - avoid initializing mutable references in constructor, create a defensive copy for them
 
 ```java
+// avoid returning references to mutable types
 class X{
-	private List<string> foo;
+	private List<string> foo = new ArrayList<>();
 
 	public List<String> getFoo(){
 		return foo;
@@ -719,9 +723,9 @@ public String getFooElement(int index){
 ```
 
 ```java
-// defensive copy
+// need for a defensive copy
 class X{
-	private final List<string> foo = new ArrayList<>();
+	private List<string> foo;
 
 	public X(List<String> foo){
 		this.foo = foo;
