@@ -650,7 +650,7 @@ Every class inherits from `java.lang.Object` class so every class is "related" t
 {{% /notice %}}
 
 ### Casting Interfaces
-While holding a reference to a class object its not possible to tell if its compatible with an interface reference since it can be of some subclass might be implementing that interface, so identifying bad casts at compile-time isn't possible with interfaces. There is one exception to this, it is listed below the following code.
+While holding a reference to a class object its not possible to tell if its compatible with an interface reference since that object can be of some a subclass that might be implementing that interface, so identifying bad casts at compile-time isn't possible with interfaces. There is one exception to this, it is listed below the following code.
 ```java
 public interface Mammal { }
 public interface Aquatic { }
