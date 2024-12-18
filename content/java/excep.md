@@ -109,30 +109,11 @@ class A{
 }
 
 class B extends A {
-	voif foo() throws IOException, SQLException{ }		// invalid
+	void foo() throws IOException, SQLException{ }		// invalid
 }
 ``` 
 
-Since the exceptions list are inherited by subclass, we can't add more because the overriden method can be called from parent reference and it won't expect the new error introduced in subclass method and catch can be written without it. 
-
-Below security issue will ensue if we allow a subclass method to add exceptions to list during compile-time:
-
-```java
-class A{
-	void foo(){ }
-}
-
-class B extends A {
-	void foo() throws IOException{ }       // compiler-error; but lets suppose this is valid
-
-    public static void main(String args[]){
-        super.foo();		// no handling required; class A declared no exceptions so need to catch or declare any; this is a security lapse
-
-        B obj = new B();
-        obj.foo();		   // have to handle or declare IOException due to this line
-    }
-}
-```
+When you override a method in a subclass, the overriding method must follow the contract of the parent method. This ensures that the overridden method remains compatible with the parent method and does not introduce unexpected behavior for code that uses the parent reference. **By adding new checked exceptions, the subclass forces the calling code to handle or declare exceptions that the parent method didn't require**. This makes the subclass incompatible with the parent class in terms of its API contract (i.e. this is a violation of the _Liskov Substitution Principle_).
 
 ### Printing an exception
 ```java

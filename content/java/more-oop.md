@@ -593,15 +593,17 @@ public interface Y{
 
 public class Z extends X implements Y{
 	char n = 'C';
-	char bar(){ return 'B'; }
+	public char bar(){ return 'B'; }
 }
 
 Z o = new Z();				// self ref
 o.bar();					// B
+o.foo();					// A
 System.out.println(o.n);	// C
 
 Y p = o;					// interface ref
 p.bar();					// B
+p.foo();					// error
 p.n;						// error
 
 X q = p;					// parent ref
@@ -643,26 +645,31 @@ class Bar{
 }
 ```
 
+{{% notice tip %}}
+Every class inherits from `java.lang.Object` class so every class is "related" to each other, but here UNRELATED means they can be siblings as well (i.e. children of `Object` class or some other parent class), but only if they're parent-child then only they are related and cast compatibility can be checked at runtime.
+{{% /notice %}}
+
 ### Casting Interfaces
-While holding a reference to a class object its not possible to tell if its compatible with an interface reference since some subclass might be implementing that interface, so identifying bad casts at compile-time isn't possible with interfaces. There is one exception to this, it is listed below the following code.
+While holding a reference to a class object its not possible to tell if its compatible with an interface reference since it can be of some subclass might be implementing that interface, so identifying bad casts at compile-time isn't possible with interfaces. There is one exception to this, it is listed below the following code.
 ```java
-public interface FourLegged{ }
-public interface Canine{ }
+public interface Mammal { }
+public interface Aquatic { }
 
-public class Wolf implements Canine{ }
+public class Whale implements Mammal { }
 
-Canine c = new Wolf();					// or Wolf w = new Wolf();
-FourLegged dog = (FourLegged)c;			// compiles just fine; even tho both interface are unrelated
+Mammal m = new Whale();                // or Whale w = new Whale();
+Aquatic waterAnimal = (Aquatic)m;     // compiles fine, even though the interfaces are unrelated
 
 // throws ClassCastException at runtime
 
-// in the above case, class Wolf may have a subclass Dog which implements FourLegged interface, in that case above will be valid if "Canine c = new Dog();"
-// this is why it is allowed to compile; since that subclass will be both a "Canine" and a "FourLegged" (multiple inheritance using interface)
+// However, if Whale had a subclass (e.g., Dolphin) that implemented both Mammal and Aquatic, 
+// the cast would work at runtime. This is why the compiler allows it; such a subclass would 
+// be both a Mammal and an Aquatic (multiple inheritance via interfaces)
 
 // EXCEPTION - if class is marked "final" then the compiler will know that there are no possible subclasses that might implement an interface we are casting to, so in that case it leads to a compile-time error
 ```
 
-### instanceof
+### instanceof operator
 ```java
 // instanceof operator checks for compatible types and returns boolean; prevents ClassCastException at runtime
 
