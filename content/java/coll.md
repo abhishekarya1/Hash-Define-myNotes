@@ -446,19 +446,32 @@ Collections.sort(list, (d1, d2) -> d1.weight - d2.weight);
 Comparator<Duck> byWeight = Comparator.comparing(Duck::getWeight);  // another way using Comparator.comparing() static method which generates a lambda automatically
 ```
 
-### Comparator Chaining
+### Building Comparators
+
+**Comparator.comparing()** - builds a comparator. Provide getter method for a field to be used for comparison as method reference (_keyExtractor_), returns a suitable Comparator.
 
 ```java
-// build a comparator; provide getter for field being used to perform comparison; returns a Comparator
-Comparator.comparing(Function);                 // compare by results of a Function that returns any Object
-Comparator.comparingInt(ToIntFunction);         // compare by results of a Function that returns an int
-Comparator.comparingLong(ToLongFunction);       // compare by results of a Function that returns a long
-Comparator.comparingDouble(ToDoubleFunction);   // compare by results of a Function that returns a double
+Comparator.comparing(Function);                 // compare by results of a method that returns any Wrapper class object
+
+Comparator.comparingInt(ToIntFunction);         // compare by results of a method that returns a primitive int
+Comparator.comparingLong(ToLongFunction);       // compare by results of a method that returns a primitive long
+Comparator.comparingDouble(ToDoubleFunction);   // compare by results of a method that returns a primitive double
 
 Comparator.naturalOrder();  // no need to specify any field/getter; works only on known types like Integer, String, etc..
 Comparator.reverseOrder();  // no need to specify any field/getter; works only on known types like Integer, String, etc..
+```
 
-// chaining with more methods
+For comparing objects of classes which don't have a natural ordering or implement `Comparable` interface, we need to provide a Comparator for comparing them i.e. `Comparator.comparing(Function, Comparator.comparing(Function))`:
+```java
+// comparing Student objects based on method that returns object of "Foo"
+Comparator.comparing(Student::getFoo);
+
+// but "Foo" itself needs comparator to identify ordering, here we used the "rank" field of "Foo" for that
+Comparator.comparing(Student::getFoo, Comparator.comparing(Foo::getRank));
+```
+
+**Comparator Chaining** with available methods:
+```java
 .reversed();
 .thenComparing(Function);    // if previous comparator returns 0 (a tie), run this, otherwise return the value from previous
 .thenComparingInt(ToIntFunction);
@@ -467,14 +480,20 @@ Comparator.reverseOrder();  // no need to specify any field/getter; works only o
 
 // example
 Comparator<Foo> c = Comparator.comparing(Foo::getMarks).thenComparing(Foo::getName);
-// compare by marks; or by name if marks comparison is a tie.
+// compare by marks; or by name if marks comparison is a tie
 ```
 
 ### Sorting Methods
-`Collections.sort()` can use both `Comparable` as well as `Comparator`. Returns `void`, modifies the collection supplied to it. 
+```java
+// two overloaded versions of sort method of Collections class
 
-- while `Comparable<T>` is usually implemented within the class whose objects are being compared as `int compareTo(T a)` override, called implicitly by `Collections.sort()` 
-- and `Comparator`'s `int compare(U a, U b)` method is usually implemented using lambda expression passed as the second argument of `Collections.sort()`
+Collections.sort(List<T> list)
+Collections.sort(List<T> list, Comparator<? super T> c)
+```
+`Collections.sort()` can use both `Comparable` as well as `Comparator`. Returns `void`, modifies the collection supplied to it in-place. 
+
+- while `Comparable<T>` is usually implemented within the class whose objects are being compared (`T`) as `int compareTo(T a)` override, called implicitly when we use `Collections.sort(fooList)`.
+- and `Comparator`'s `int compare(U a, U b)` method is usually implemented using lambda expression passed as the second argument e.g. `Collections.sort(fooList, fooComp)`.
 
 Other ways to sort:
 ```java
@@ -568,10 +587,11 @@ while (it.hasNext()) {
 Offers more collections such as `ImmutableMap`, `BiMap` (map which can be accessed via values and keys as well!), `MultiMap` (map a key to multiple values!), etc...
 
 Most popular are:
-- **Google Guava** (simple to use and actively developed)
+- Google Guava (simple to use and actively developed)
 - Apache Commons Collections (slightly faster and offers much more features)
 
 Comparison: https://www.baeldung.com/apache-commons-collections-vs-guava
+
 Guava Demo: https://www.baeldung.com/guava-collections
 
 ## Interview Questions based on Collections Internals
