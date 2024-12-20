@@ -7,7 +7,7 @@ weight = 11
 ## Modules
 In Python, modules are `.py` files and we can put multiple such files into a folder having `__init__.py` file and call it a package.
 
-In Java, multiple packages can be combined to form a module and such module must have a `module-info.java` file called Module Descriptor at its root directory.
+In Java, multiple packages can be combined to form a module and such module must have a `module-info.java` file called **Module Descriptor** at its root directory.
 
 Java 9 introduced JPMS (Java Platform Module System). Each module is created into a modular JAR. This allows data hiding for entire packages, while access modifiers allow data hiding on class level.
 
@@ -61,7 +61,11 @@ When we say we are exposing the packages to others means that only `public` memb
 Most important module in Java is `java.base` which has Collection, Math, IO, concurrency, etc.. Other modules include `java.sql` (JDBC), `java.xml` (XML), `java.desktop` (AWT and Swing). It is automatically available to all modular applications and we need not write `require` for it explicitly. 
 
 {{% notice info %}}
-The Java team at Oracle took a huge job of making the JDK modular in version 9. The JDK used to be a monolith and they successfully separated every legacy packages into modules, making it modular since.
+The Java team at Oracle undertook a huge job of making the JDK modular in version 9. The JDK used to be a monolith and they successfully separated every legacy packages into modules, making it modular since.
+{{% /notice %}}
+
+{{% notice tip %}}
+You may often see a file called `package-info.java` in codebases, but it is serves completely diff functionality than `module-info.java` as it only provides metadata for documentation purposes (javadoc) and its entirely optional.
 {{% /notice %}}
 
 ## Module Path vs Classpath
