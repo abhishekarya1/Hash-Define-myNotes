@@ -37,7 +37,7 @@ module foo.bar{
 	requires transitive newmod;
 }
 
-// if requiresments don't exist then its a compiler error
+// if requirements don't exist then its a compiler error
 // no two "requires/requires transitive" are allowed on same package name in the same module since its redundant
 
 
@@ -54,7 +54,7 @@ open module foo.bar.testpack { }
 // no redundant open statements allowed inside now
 ```
 
-Reference Code Link: https://github.com/boyarsky/sybex-1Z0-829-chapter-12, _Refer diagrams in Book too for clarity_
+Reference Code Link: https://github.com/boyarsky/sybex-1Z0-829-chapter-12 ,_Refer diagrams in Book too for clarity_
 
 When we say we are exposing the packages to others means that only `public` members will be accessible along with `protected` ones if accessed from a subclass.
 
