@@ -10,10 +10,13 @@ weight = 9
 ```java
 class Foo<T>{
     private T foo;
-    private T bar;
 
     public void setFoo(T foo){
         this.foo = foo;
+    }
+
+    public T getFoo(){
+        return this.foo;
     }
 }
 
@@ -186,9 +189,12 @@ obj.bar(99);                        // Integer
 class X <T extends Number> { }
 public <U extends Number> void inspect(U u){  }
 
-// multpile bounds
+// multpile bounds aka Intersection Types
 <T extends C1 & C2 & C3>
+<T extends Flyable & Swimmable>
 ```
+
+Read note on Intersection Types [here](/java/misc/#misc-points).
 
 ```java
 // no <T super Number> exists for bounding without wildcards; it exists only for wildcard bounds
