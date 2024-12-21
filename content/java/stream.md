@@ -28,7 +28,7 @@ Optional<String> o = Optional.ofNullable(foo);
 
 ### Optional Instance Methods
 ```java
-// checking
+// checking for empty
 boolean isPresent()				// boolean
 // accessing
 T get()					        // returns value inside Optional
@@ -48,6 +48,10 @@ T orElseThrow(Supplier)     	// throws an exception instance supplied by Supplie
 String s = Optional.ofNullable(str).orElse("A");
 
 Optional<Integer> o = Optional.of(88);
+
+if(o.isPresent()){
+    Integer i = o.get();
+}
 
 o.ifPresent(x -> System.out.println(x));            // prints "88"
 o.ifPresent(System.out::println);                   // using method reference
@@ -140,7 +144,8 @@ public Optional<T> reduce(BinaryOperator accumulator)		// 2, no seed so return t
 public U reduce(U identity, BiFunction accumulator, BinaryOperator combiner)	// 3, when dealing with different data types
 
 // identity is the initial value of the reduction
-// accumulator combines the current result with the current value in the stream
+// accumulator is a function that takes two parameters: a partial result of the reduction operation and the next element of the stream
+// combiner is only needed when combining partial results in parallel streams or when accumulator params is of diff types (even in serial streams)
 
 // examples - 1
 Stream.of(3, 5, 6);
@@ -167,7 +172,7 @@ public R collect(Collector collector)
 TreeSet<String> set = stream.collect(
  TreeSet::new,		// init
  TreeSet::add,		// accumulate
- TreeSet::addAll);	// combnine all objects if parallel
+ TreeSet::addAll);	// combine all objects if parallel reductions
 
 // much easier syntaxes
 stream.toList();    // only available for List since it is most commonly used
@@ -182,8 +187,8 @@ Stream<T> filter(Predicate)
 Stream<T> distinct()		// returns only distinct element Stream
 Stream<T> limit(long n)		// finite Stream of size n
 Stream<T> skip(long n)		// skip first n elements
-Stream<T> map(Function)		// map (replace) stream elements with another elements
-Stream<T> flatMap(Function)	// map stream elements with another stream's entire elements
+Stream<T> map(Function)		// map (replace) stream elements with another element (1:1 mapping)
+Stream<T> flatMap(Function)	// map stream elements with multiple elements (1:N mapping) and flatten the results
 Stream<T> sorted()
 Stream<T> sorted(Comparator)
 Stream<T> peek(Consumer)	// can modify state of stream (be careful!)
@@ -365,16 +370,34 @@ stats.getSum();
 stats.getAverage();
 ```
 
-## Advanced Stream Pipeline Concepts
-Spliterators 
+## Advanced Stream Concepts
+- [Spliterator](https://www.baeldung.com/java-spliterator): used to traverse (`tryAdvance()`) and partition streams (`trySplit()`) into two equal halves and process those partitions independently.
+- [Java 9 Stream API Improvements](https://www.baeldung.com/java-8-streams#1-takewhile-and-dropwhile): `takeWhile()` and `dropWhile()` intermediate operations, both take a `Predicate` as input param.
+- [Collectors](https://www.baeldung.com/java-collectors): `groupingBy()` and `partitioningBy()` to store stream elements in a Map.
+- [Java 24 Stream Gatherers](https://docs.oracle.com/en/java/javase/22/core/stream-gatherers-01.html)
 
-## Practice Questions and Solutions
-Array to stream conversion, using indices in stream - [link](https://leetcode.com/problems/find-words-containing-character/solutions/4576478/solution-using-java-8-streams-api/)
+## Snippets and Practice Excercises 
 
-converting stream to a single `String` - [link](https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent/solutions/4576826/java-8-streams-api-solution/)
+### Useful Snippets
+```java
+// convert String to stream
+IntStream c = str.chars()
 
-dynamic `int` value in stream pipeline based on input `String` - [link](https://leetcode.com/problems/count-items-matching-a-rule/solutions/4577017/java-8-stream-api-solution/)
+// convert stream to String
+Collectors.joining()
+Collectors.joining(", ", "PRE-", "-POST")    // optional separator, prefix, or postfix
 
-String Splitting - [link](https://leetcode.com/problems/reverse-words-in-a-string/solutions/4581391/java-8-stream-api-solution/)
+// convert array to stream
+Arrays.stream(arr)
 
-Create stream from a `String` using `IntStream c = str.chars()`
+// primitive stream to wrapper class stream
+IntStream nums = IntStream.of(1, 2, 3);
+Stream<Integer> list = nums.boxed();        // returns a Stream<Integer>
+List<Integer> list = nums.boxed().collect(Collectors.toList());     // collect into to list as usual
+```
+
+### Excercises
+- Array to stream conversion, using indices in stream - [link](https://leetcode.com/problems/find-words-containing-character/solutions/4576478/solution-using-java-8-streams-api/)
+- Converting stream to a single `String` - [link](https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent/solutions/4576826/java-8-streams-api-solution/)
+- Dynamic `int` value in stream pipeline based on input `String` - [link](https://leetcode.com/problems/count-items-matching-a-rule/solutions/4577017/java-8-stream-api-solution/)
+- String Splitting - [link](https://leetcode.com/problems/reverse-words-in-a-string/solutions/4581391/java-8-stream-api-solution/)
