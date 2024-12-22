@@ -6,7 +6,7 @@ weight = 12
 
 **Thread**: Smallest unit of execution that can be scheduled to the CPU.
 
-Max number of threads that can run parallely at a time = Number of CPU cores, other threads are blocked.
+Max number of threads that can run parallely at a given point in time = Number of CPU cores, other threads are blocked.
 
 **Process**: Group of associated threads. It comprises of multiple threads and a shared memory. Single unit of functionality. A program in execution.
 
@@ -198,8 +198,6 @@ class Test extends Thread {
     @Override
     public void run() {
         System.out.println("A");
-
-        var t = Thread.currentThread();
         try {
             Thread.sleep(5000);		// 5 sec
         } catch (InterruptedException e) {
@@ -214,7 +212,7 @@ public class Main {
     public static void main(String[] args) {
         var t = new Test();
         t.start();
-        t.interrupt();		// called immediately after thread start (< 5 sec)
+        t.interrupt();		// called within 5 sec after thread start
         System.out.println("Z");
         System.out.println("Y");
         System.out.println("X");
@@ -284,7 +282,7 @@ Future<?> result = service.submit(t1);		// Future ref's formal type is whatever 
 result.isDone()						// returns true if completed, exception or cancelled 
 result.isCancelled()				// returns true if cancelled
 result.cancel()						// attempts to cancel and returns true if successfully cancelled
-result.get()						// get result or wait endlessly
+result.get()						// get result or wait endlessly (indefinite blocking)
 result.get(10, TimeUnit.SECONDS)	// get result or wait for specified time, throw TimeoutException upon timeout
 ```
 
@@ -482,12 +480,10 @@ public static void main(String[] args) {
 ```
 **NOTE**: Release a lock the same number of times it is acquired by the same thread. Otherwise, the remaining locks will still hold onto the thread.
 
-**Semaphore**: signaling mechanisms for restricting access to a single resource, maintains a set of permits, they permit fixed number of multiple threads to enter critical section, no thread "owns" a semaphore, only count is tracked in the semaphore and enforced. Not re-entrant.
+**Semaphore**: signaling mechanisms for restricting access to a single resource, maintains a set of permits, they permit fixed number of multiple threads to enter critical section. They are used to limit the number of concurrent threads accessing a specific resource (like a funnel).
 
-Semaphore can be released from outside the thread they are acquired by (unlike Lock). They limit the number of concurrent threads accessing a specific resource (like a funnel).
-
+- **Counting Semaphore**: permit count is strictly more than 1.
 ```java
-// a counting semaphore
 Semaphore smp = new Semaphore(3);       
 // permits 3 threads to acquire it simultaneously; others get blocked in a queue
 
@@ -502,9 +498,12 @@ public static void printHello(Semaphore smp) {
 }
 ```
 
-**Binary Semaphore**: `new Semaphore(1)` is a semaphore that has only two states: `1` permit available or `0` permits available. 
+- **Binary Semaphore**: `new Semaphore(1)` is a semaphore that has only two states: `1` permit available or `0` permits available. Permit count is exactly 1.
 
-They can be used as mutex in place of Lock, but they are not re-entrant, so the same thread can't re-acquire a critical section, if it tries to then deadlock happens. Deadlock recovery is fast though because semaphore can be released by a thread other than the owner in case of a deadlock.
+Are Locks and Binary Semaphores interchangeably used? Yes, they can be. But there are significant diff between the two:
+- Semaphores release an be signalled from outside the thread they are acquired by (unlike Lock). 
+- They are not re-entrant, no thread "owns" a semaphore, only count is tracked in the semaphore and enforced. If a thread tries to acquire a semaphore it already holds, then it will derease permit count, and if there are no permits left then it will block indefinitely unless released (deadlock).
+- Deadlock recovery is fast in semaphores because they can be released by a thread other than the thread acquiring it.
 
 ### CyclicBarrier
 Orchestrating tasks, specifies the number of threads to wait for and once the number is reached, execution is resumed on all of the threads that the barrier was "holding".
@@ -703,13 +702,13 @@ References:
 - https://docs.oracle.com/en/java/javase/21/core/virtual-threads.html
 - https://davidvlijmincx.com/posts/java-virtual-threads/
 
-## Async Processing - CompletableFuture
+## Async Processing with CompletableFuture
 
 `Future<T>` was introduced earlier in Java and needed more functionality (like non-blocking operations, chaining, callbacks, and combining multiple futures) so `CompletableFuture<T>` was added to Java.
 
 CompletableFuture is a framework to execute code asynchronously and return a reference immediately. It is named so because we can explicitly complete it by using `complete(T t)` method on its ref and it returns `t` as its completion result.
 
-By default, it uses the common `ForkJoinPool` threads just like Streams (they are Daemon Threads). We can provide a custom `ExecutorService` to it too (the are User Threads).
+By default, it uses the common `ForkJoinPool` threads just like Streams (they are Daemon Threads). We can provide a custom `ExecutorService` to it too (they are User Threads).
 
 `class CompletableFuture<T> implements Future<T>` so we can store output of function in CompletableFuture too as shown in the examples below:
 ```java
@@ -717,6 +716,12 @@ By default, it uses the common `ForkJoinPool` threads just like Streams (they ar
 CompletableFuture<String> completableFuture = CompletableFuture.supplyAsync(() -> "Hello");
 // get value from future instance; it is a blocking call as it waits for return value
 completableFuture.get();
+
+// run logic without any return - - takes in a Runnable
+CompletableFuture<Void> future = CompletableFuture.runAsync(() -> {
+    System.out.println("Foo");
+    System.out.println("Bar");
+});
 
 // explicitly complete the future and get value (can be used in error handling scenarios)
 completableFuture.complete("Done!");
@@ -759,10 +764,10 @@ CompletableFuture<Void> combinedFuture  = CompletableFuture.allOf(cf1, cf2, cf3)
 Specify our own ExecutorService so it doesn't use common `ForkJoinPool`:
 ```java
 ExecutorService exec = Executors.newFixedThreadPool(20);
-CompletableFuture<String> comFut = CompletableFuture.thenSupplyAsync(task, exec);
+CompletableFuture<String> comFut = CompletableFuture.supplyAsync(task, exec);
 ```
 
-### Blocking
+### Blocking and Daemon Thread Pitfall
 **Why is blocking tricky with async processing?** Because we may end up blocking where we shouldn't and not blocking where we should've.
 
 One scenario is when we run CompletableFuture async thread and immediately block right after that to get result value (e.g. calling `get()`), then we aren't really going async. We should use chaining and callbacks to process the result.
