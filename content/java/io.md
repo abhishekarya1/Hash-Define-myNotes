@@ -15,7 +15,7 @@ weight = 13
 
 **Root Directory**: The topmost directory of the system. In Windows, its `C:\` and in Linux its `/`.
 
-**File Separator**: In Windows-based systems its `\` (backslash) and in Unix-based systems its `/` (forward slash).
+**File Separator**: In Windows-based systems its `\` (backslash) and in Unix-based systems its `/` (forward slash). But paths with both kinds of slashes work on Windows but Linux is strict about its slash (`/)`.
 
 ```java
 System.out.print(System.getProperty("file.separator"));		// prints "\" on Windows
@@ -47,6 +47,8 @@ File foo = new File("/home/foo");
 File fooFile3 = new File(foo, "data/bar.txt");
 
 System.out.println(fooFile1.exists());	// to check if file exists on the disk
+
+File foo = new File("foo.txt");    // relative paths start at classpath root
 ```
 
 `Path` and `Paths` are interfaces and we use `static` methods to provide path. They are immutable just like `String`.
@@ -64,7 +66,7 @@ System.out.println(Files.exists(fooPath1));		// checking existance with static m
 
 Notice that `foo.txt` can be a file or a directory too, even though it has a file extension.
 
-Also, `/`(forward slash) and `\` (backslash) are interchangeably useable and `\\` (double slashes) are replaced by single slash by the compiler.
+Also, `/`(forward slash) and `\` (backslash) are interchangeably usable and `\\` (double slashes) are replaced by single slash by the compiler.
 
 ### Conversion b/w File and Path
 ```java
@@ -106,6 +108,27 @@ path.subpath(1, 3);		// hippo/harry
 path.subpath(4, 7); 	// IllegalArgumentException; invalid indices
 ```
 
+### Reading File Contents
+Plethora of ways exist to read files. One of the most efficient being using the `BufferedReader`:
+
+```java
+// reading a File using BufferedReader
+String fileName = "foo.txt";
+try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+    String line;
+    while ((line = reader.readLine()) != null) {
+        System.out.println(line);
+    }
+} catch (IOException e) {
+    System.err.println("Error reading file: " + e.getMessage());
+}
+```
+
+{{% notice info %}}
+Always close streams to avoid _resource leaks_ and _locks_ either manually or create them in try-with-resources block so that they auto close.
+{{% /notice %}}
+
+
 ## NIO
 `java.io` package has the legacy IO API.
 
@@ -114,7 +137,7 @@ path.subpath(4, 7); 	// IllegalArgumentException; invalid indices
 Java 7 revamped `java.nio.file` package, commonly known as the **NIO.2** package. Adopted asynchronous approach to non-blocking IO not supported in previous version of the `java.nio` package.
 
 ### NIO.2 Files Utility Class
-The `Files` utility class exclusively of static methods that operate on files, directories, or other types of files represented by `Path`.
+The `Files` utility class exclusively of static methods that operate on files, directories, or other types of files represented by `Path`. It doesn't take `File` as input, only `Path`.
 ```txt
 Files.createDirectory(p) 			-- mkdir
 Files.createDirectories(p1, p2) 	-- mkdir -p
@@ -225,6 +248,10 @@ var writer = Files.newBufferedWriter(output);
 - **De-serialization**: byte stream to object
 
 A class is considered serializable if it implements the `java.io.Serializable` interface and contains instance members that are either serializable or marked `transient`. 
+
+{{% notice note %}}
+The `Serializable` interface is a _Marker Interface_, it doesn't have any methods or members, its empty.
+{{% /notice %}}
 
 All Java primitives, wrapper classes, and the String class are serializable. 
 
