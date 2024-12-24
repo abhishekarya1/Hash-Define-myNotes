@@ -1,7 +1,7 @@
 +++
 title = "C"
 date = 2019-01-23T23:12:30+05:30
-weight = 16
+weight = 17
 chapter = true
 pre = "<i class='devicon-c-plain colored'></i> "
 +++

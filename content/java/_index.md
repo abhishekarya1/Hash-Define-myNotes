@@ -1,7 +1,7 @@
 +++
 title = "Java"
 date =  2022-05-04T00:50:04+05:30
-weight = 3
+weight = 4
 chapter = true
 pre = "<i class=\"devicon-java-plain colored\"></i> "
 +++

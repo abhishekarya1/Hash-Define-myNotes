@@ -34,7 +34,10 @@ Namespaces are one honking great idea -- let's do more of those!
 ```
 
 ### References
-<center>[Learn X in Y Minutes](https://learnxinyminutes.com/docs/python/)</center>
-<center>[Programiz](https://www.programiz.com/python-programming)</center> 
-<center>[Corey Schafer - YouTube](https://www.youtube.com/c/Coreyms)</center>
-<center>[Telusko - YouTube](https://www.youtube.com/watch?v=qiSCMNBIP2g)</center>
+https://learnxinyminutes.com/python
+
+https://www.programiz.com/python-programming
+
+Corey Schafer - [YouTube](https://www.youtube.com/c/Coreyms)
+
+Telusko - [YouTube](https://www.youtube.com/watch?v=qiSCMNBIP2g)
