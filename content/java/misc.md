@@ -355,11 +355,11 @@ Ordering is preserved either by - **insertion order** (_default_) or **access or
 public class LinkedHashMap extends HashMap implements Map { }
 
 // constructors
-LinkedHashMap();    // default; capacity = 16, LF = 0.75, order = insertion
+new LinkedHashMap();    // default; capacity = 16, LF = 0.75, order = insertion
 
-LinkedHashMap(int capacity);    // LF = 0.75
+new LinkedHashMap(int capacity);    // LF = 0.75
 
-LinkedHashMap(int capacity, float loadFactor, boolean accessOrder); // true = accessOrder; false = insertion order
+new LinkedHashMap(int capacity, float loadFactor, boolean accessOrder); // true = accessOrder; false = insertion order
 ```
 
 If insertion order is followed, access (`get()`) won't lead to any structural modifications. But, on every access in a access ordered map, the links to nodes rearranges (to maintain LRU item's constant time access).
@@ -389,9 +389,9 @@ Features:
 In a `Collections.syncronizedMap(mp)`, whole map is locked even for reads! It wraps all methods and code in sort-of `synchronized` method/block, but only a single thread can access the code at a given time, no matter which code - read or write.
 
 ### IdentityHashMap
-It uses default impl of `equals()` (which uses reference equality operator `==`) and `hashCode()` (which uses the JVM provided identity hashcode) on key search operations.
+It doesn't use `equals()` or `hashCode()` for its operations. Rather it uses reference equality operator (`==`) and the JVM provided identity hashcode.
 
-Since it doesn't use the `equals()` and `hashCode()` methods, overriding them is optional and hence there is no gurantee that the `hashCode()` and `equals()` contract is satisfied for objects being put as key in an `IdentityHashMap`.
+Since it doesn't use the `equals()` and `hashCode()` methods at all, overriding them is optional and hence there is no gurantee that the `hashCode()` and `equals()` contract is satisfied for objects being put as key in an `IdentityHashMap`.
 
 It doesn't face the mutable key problem as a key object's instance members can be modified after adding the object to the Map and it will still have the same memory address. Unlike `equals()` which changes based on object members.
 
