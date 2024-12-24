@@ -681,3 +681,16 @@ if(obj instanceof FoobarClass){ }
 null instanceof String
 // false
 ```
+
+**Pattern Matching**: using `instanceof` to check instance type and put it in a variable of suitable type in a single expression.
+```java
+if(obj instanceof String){
+	String s = (String) obj;	// explicit cast
+	System.out.println(s);
+}
+
+// instead of the above we can do the following
+if(obj instanceof String s){
+	System.out.println(s);
+}
+```

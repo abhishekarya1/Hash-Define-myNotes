@@ -105,25 +105,30 @@ public class Test {
 }
 ```
 
-`wait()` and `notify()` mechanism in Thread: call wait() on a object in multiple threads to make then all wait, we can then call notify() from another class to wake up any 1 arbitrary thread waiting, use `notifyAll()` to wake up all threads. Mandatory condition is that the object on which we are synchronizing must be the same object on which we're calling the wait and notify methods. [_reference_](https://www.oreilly.com/library/view/java-threads-second/1565924185/ch04s02.html)
+**`wait()` and `notify()` mechanism in Thread**: call wait() on a object in multiple threads to make them all wait, we can then call notify() from another class to wake up any one random thread waiting, use `notifyAll()` to wake up all waiting threads. Mandatory condition is that the object on which we are synchronizing must be the same object on which we're calling the wait and notify methods. [_reference_](https://www.oreilly.com/library/view/java-threads-second/1565924185/ch04s02.html)
 
 ```java
+// arbitrary object used as a monitor
 Mon object = new Mon();
 
-// in waiting class
+// in waiting thread
 synchronized(object){ 
     object.wait();
+    // releases lock on "object" and waits indefinitely
 }
 
-// in notifying class
+// in notifying thread
 synchronized(object){
     object.notify();
+    // notifies any random thread waiting on "object" but doesn't release lock instantly, only after this sync block finishes
 }
 ```
 
-`wait()` vs `sleep()`: sleep makes thread `TIMED_WAIT` that gets over after timeout (thread doesn't release lock), wait makes thread lose its ownership (releases lock), state as `BLOCKED` and must be notified from outside using notify or notifyAll method using the same object as a monitor for sync block.
+We wrap these in sync block because monitor (`object`) needs to be available for locking before we do `wait` or `notify` on it. Be very careful when designing to avoid deadlocks and other concurrency issues.
 
-String being immutable is a:
+**`wait()` vs `sleep()`**: sleep makes thread `TIMED_WAIT` that gets over after timeout (thread doesn't release lock), `wait` makes thread lose its ownership (releases lock), state as `BLOCKED` and must be notified from outside using `notify` or `notifyAll` method using the same object as a monitor for sync block.
+
+**String being immutable** is a:
 - security measure: an SQL query stored as String can't be modified in transit (prevents SQL injections)
 - security risk: as the object will remain in heap before it is garbage collected by JVM (we don't control its lifetime).
 Use `char[]` to store passwords and manual erasure of each element is possible (as opposed to String as they are immutable) as soon as its work is done.
@@ -156,7 +161,7 @@ They are only available to use for `List` interface and its impl classes like `A
 
 **Can `null` element be added to a collection?** only one `null` can be added to `HashMap` and `HashSet`. For all the other non-major collections, it depends. Ex - it can't be added to `TreeSet` (as a `Comparator` is required here) but allowed in `LinkedHashSet`.
 
-**Collection vs List remove() method is overloaded**: 
+**Collection vs List `remove()` method is overloaded**: 
 ```java
 // List and ArrayList have two remove methods overloaded
 List<Integer> list = new ArrayList<>(List.of(1, 2, 3));
@@ -347,14 +352,14 @@ There is a dummy `Head` node which is present in the impl of `LinkedHashMap` to 
 Ordering is preserved either by - **insertion order** (_default_) or **access order**. Used to implement LRU cache when access ordering is enabled.
 
 ```java
-public class LinkedhashMap extends HashMap implements Map { }
+public class LinkedHashMap extends HashMap implements Map { }
 
 // constructors
-LinkedhashMap();    // default; capacity = 16, LF = 0.75, order = insertion
+LinkedHashMap();    // default; capacity = 16, LF = 0.75, order = insertion
 
-LinkedhashMap(int capacity);    // LF = 0.75
+LinkedHashMap(int capacity);    // LF = 0.75
 
-LinkedhashMap(int capacity, float loadFactor, boolean accessOrder); // true = accessOrder; false = insertion order
+LinkedHashMap(int capacity, float loadFactor, boolean accessOrder); // true = accessOrder; false = insertion order
 ```
 
 If insertion order is followed, access (`get()`) won't lead to any structural modifications. But, on every access in a access ordered map, the links to nodes rearranges (to maintain LRU item's constant time access).
@@ -369,6 +374,8 @@ A node in the attached backing linked lists of `LinkedHashMap`:
 The answer here makes the relatively low-complexity of `LinkedHashMap` over `HashMap` more clear - [link](https://stackoverflow.com/a/31700750).
 
 Performance overhead is more than a normal HashMap due to links rearranging and a slightly more memory footprint because of the bigger DLL nodes.
+
+There is a `LinkedHashSet` too which uses `LinkedHashMap` as its underlying data struture, just like `HashMap` and `HashSet`.
 
 ### ConcurrentHashMap
 Part of `java.util.concurrent` package.
@@ -417,8 +424,7 @@ Next LTS release will be Java 25 in Sept, 2025 (Oracle's 2 year cycle for LTS re
 
 1. [**Virtual Threads**](/java/conc/#virtual-threads-java-21)
 2. [**Generational ZGC**](/java/basics/#garbage-collection)
-3. **String Templates** (for String Interpolation) (first preview in 21, second preview in 22) (see [Java 22 notes below](/java/misc/#java-22-new-features) for explanation)
-4. **Pattern Matching for `switch`**:
+3. **Pattern Matching for `switch`**:
 Pattern matching in Java refers to a feature that allows you to check an object against a given type and, if the object is of that type, extract a variable of that type in a single step. Basically `instanceof` operator usage.
 
 Conventional way is by using `instanceof` operator with `if-else` ladder but since Java 21 we can use it in `switch` block/expression.
@@ -440,7 +446,7 @@ if (o instanceof String s){
 ```
 
 ```java
-// Pattern matching using switch expression
+// Pattern matching using switch expression (new feature)
 
 Object o = ...;     // any object
 
@@ -452,14 +458,15 @@ String formatter = switch(o) {
 }
 ```
 
-5. **Record Pattern**: 
+4. **Pattern Matching for Records** is possible too: 
 
 ```java
 record Point(int x, int y) {}
 
-Object o = ...;     // any object
+Object o = ...; // any object
 
-if (o instanceof Point(int x)) {     // compiler-error
+if (o instanceof Point(int x, int y)) {
+    // do something with x and y
 }
 
 ```
@@ -487,28 +494,12 @@ We can now do something similar to the above in Java 22 onwards in for-each loop
 for (var _ : nums) {
     cnt++;
     if (cnt > limit) {
-        // side effects; doesn't use _ loop variable in business logic
+        // don't use _ loop variable in business logic here
     }
 }
 ```
 
-2. **String Templates (for String Interpolation)**:
-String interpolation always looked clumsy in Java code using the default overloaded `+` operator, or using `String.format()` which can cause type mismatch.
-
-```java
-int age = 69;
-
-String s1 = "I am " + age + " years old";
-String s2 = String.format("I am %d years old", age);
-
-log.info("I am {} years old", age);              // SLF4J Logger
-System.out.printf("I am %d years old", age);     // prints to STDOUT
-
-// String Interpolation using String Template
-String s3 = STR."I am \{age} years old";
-```
-
-3. **Statements before super(...) or this(...) call**:
+2. Better constructors with **Statements before super(...) or this(...) call**:
 The first statement in a class constructor must be either a `this()` (call to another overloaded constructor) or `super()` (call to superclass constructor).
 
 This is changed in Java 22! It now allows statements _before_ the `super()` (or `this()`) constructor call.
@@ -520,10 +511,15 @@ public Test(){
 }
 ``` 
 
-4. **Regional Pinning for G1GC**:
+3. **Regional Pinning for G1GC**:
 It is a performance optimization technique for the G1 Garbage Collector (G1GC). G1GC partitions the heap into fixed-size memory region. During garbage collection cycles, it identifies and collects regions with a high concentration of dead objects, improving memory efficiency. 
 
-Region pinning allows developers to designate specific memory regions as _pinned_, preventing them from being moved during garbage collection cycles. 
+    Region pinning allows developers to designate specific memory regions as _pinned_, preventing them from being moved during garbage collection cycles. 
 
-This is super useful for frequently accessed data. Pinning those regions ensures the data remains readily available in its current location, potentially reducing memory access times and improving application performance.
+    This is super useful for frequently accessed data. Pinning those regions ensures the data remains readily available in its current location, potentially reducing memory access times and improving application performance.
 
+## Java 23 New Features (Sept 2024)
+1. Generational ZGC is the default for ZGC now
+2. JavaDoc documentation comments can be written in Markdown rather than solely in a mixture of HTML and JavaDoc `@`-tags.
+
+Lots of preview features like better constructors and pattern matching with `switch` were continued as preview features. And String Templates was dropped completely.
