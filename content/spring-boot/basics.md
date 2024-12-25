@@ -186,6 +186,7 @@ A common pattern I've seen in production is to have a separate `config` module w
 
 
 ### Externalize Custom Properties
+Properties can be extenalized even from the `.properties` file to command-line arguments, environment variables, etc:
 ```txt
 foo.bar=${FOOBAR}
 
@@ -196,14 +197,17 @@ foo.bar=My name is ${first.name}
 foo.bar=${number:420}
 ```
 ```sh
-# via command-line arg
+# override property via command-line arg
+java -jar demo-app.jar --first.name=Bob
+
+# replace placeholder via command-line arg
 java -jar demo-app.jar --FOOBAR=Abhishek
 
-# via env variables
+# replace placeholder via env variable
 set FOOBAR=Abhishek
 java -jar demo-app.jar
 
-# we often configure helm charts in production to supply them
+# we often configure placeholder values in helm charts in production to supply them
 ```
 
 ### Renaming properties file (Anti-Pattern)

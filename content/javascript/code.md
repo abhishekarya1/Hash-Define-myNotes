@@ -97,7 +97,7 @@ typeof num 		// number
 
 // the other operators convert string to numeric, after stripping surrounding whitespaces
 '1' - 2 	// -1
-2 + '1' 	// 3
+2 - '1' 	// 1
 
 // chaining assignments are possible
 a = b = c = 5
