@@ -15,11 +15,10 @@ But Spring was heavy in terms of configuration. There was just too much manually
 Released in 2014, Spring Boot is a framework based on Spring which differs in below core aspects:
 1. **Automatic Configuration**: common tasks are automatically handled by Spring Boot, like bean creation and component scanning
 2. **Starter Dependencies**: facet-based transitive dependencies
-3. **Spring Boot CLI**: unconventional way of developing (using Groovy) (much like Python's Flask)
-4. **Actuator**: to look at internals of a spring boot application during runtime
+3. **Spring Boot CLI**, **Actuator**, DevTools and many other tools available for building Webapps, Microservices, Serverless, Even-driven, Batch applications.
 
 ### Automatic Configuration
-Many beans are always created in all specific-kind of applications and we don't need to create those in Spring Boot explicitly as **it will look at the dependencies included and create those beans for us automatically** e.g. `jdbcTemplate` bean is included automatically if we have a SQL driver dependency added. All this happens at runtime (more specifically during application startup time).
+Many beans are always created in all specific-kind of applications and we don't need to create those in Spring Boot explicitly as **it will look at the dependencies included and create and default configure those beans for us automatically** e.g. `jdbcTemplate` bean is included automatically if we have a SQL driver dependency added. All this happens at runtime (more specifically during application startup time).
 
 ### Starter Dependencies
 If we include a dependency called `spring-boot-starter-web` it will pull around 8-9 other dependencies that we need to build web apps. We also don't have to care about their versions, compatibility, and updates in future because they work out-of-the-box. 
@@ -47,7 +46,7 @@ Maven is rigid and redundant but reliable.
 
 Gradle is modern but debugging issues can take time.
 
-Web Server - Tomcat or Jetty (to deploy the app onto)
+Web Server - Tomcat or Jetty (to deploy the app onto).
 
 ## Spring Initializr
 A web app used to generate a demo project for Spring Boot.
@@ -76,8 +75,11 @@ src.main.resources/
 			templates/
 
 src.test.java
-			com.demo
+			com.example.demo
 				  DemoApplicationTest.java
+
+target/
+	classes
 ```
 
 {{% notice note %}}

@@ -5,7 +5,7 @@ weight = 3
 +++
 
 ## Spring Boot CLI
-We can write groovy applications and they don't require any conventional Java project structure, imports, or even compilation.
+We can write Groovy srpipts and they don't require any conventional Java project structure, imports, or even compilation.
 ```java
 // app.groovy
 @RestController
@@ -20,7 +20,7 @@ class HelloController{
 ```
 
 {{% notice info %}}
-Spring Boot CLI has removed the `run` command. How to run Groovy scripts effortlessy as it used to be done like above remains unanswered. [Ref](https://github.com/spring-projects/spring-boot/issues/33482#issuecomment-1349992508)
+Starting from Spring Boot CLI version `3.0.0`, the `run` command has been removed. Groovy scripts can't be run as shown above without downgrading to version `2.7.1`. [Ref](https://github.com/spring-projects/spring-boot/issues/33482#issuecomment-1349992508)
 {{% /notice %}}
 
 ## Actuator
