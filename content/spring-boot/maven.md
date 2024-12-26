@@ -6,7 +6,7 @@ weight = 2
 
 
 ## Maven
-Build tool that can perform many tasks such as - defining project structure, dependency management, documentation, and various steps (build targets) like validate, verify, test, package, install etc.
+Build tool that can perform many tasks such as - defining project structure, dependency management, moving resources, and various build stages like validate, verify, test, package, install etc.
 
 It also provides a variety of plugins to perform diff repetetive tasks.
 
@@ -30,9 +30,9 @@ $ mvn clean install
 Most IDEs like STS and IntelliJ bundle Maven standalone dir inside them. We just need to run goals using menu provided in the IDE, with zero prior installation and configuration.
 
 ### Maven Wrapper
-A `mwnw` script file placed in the project root directory (besides the `pom.xml`). We can run maven goals in command-line directly using the script.
+A `mvnw` script file placed in the project root directory (besides the pom.xml). We can run maven goals in command-line directly using the script.
 ```sh
-$ ./mwnw clean install
+$ ./mvnw clean install
 ```
 
 Requires `JAVA_HOME` environment variable configured in the system.
