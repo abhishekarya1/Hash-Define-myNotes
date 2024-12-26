@@ -446,4 +446,25 @@ let user = {
 let sym = Symbol.for("name")
 // get name by symbol
 alert(Symbol.keyFor(sym))		// name
+
+// object to primitive conversions: they aren't always possible and JS tries to guess and perform it
+
+// hints: JS has only 3 "hints" when deciding such object to primitive conversions 
+date1 - date2   // number hint
+alert(obj)      // string hint
+obj1 + obj2     // default hint (when confused between number and string)
+
+// uses symbolic key method [Symbol.toPrimitive] to convert 
+// or else uses obj.valueOf() or obj.toString() based on whatever exists
+let user = {
+  name: "John",
+  money: 1000,
+
+  [Symbol.toPrimitive](hint) {
+    alert(`hint: ${hint}`)
+    return hint == "string" ? `{name: "${this.name}"}` : this.money
+  }
+}
 ```
+
+
