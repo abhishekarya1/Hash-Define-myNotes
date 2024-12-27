@@ -467,4 +467,12 @@ let user = {
 }
 ```
 
+### Quick Tips
+1. with binary `+` operator, the operands are converted to string type for string concat
+2. with any other operator incl. relative, operands are converted to `number` type
+3. `null` becomes `0` and `undefined` becomes `NaN` in such numeric conversion
+4. `null == undefined` and they don't equal anything else, not even to themselves! (sweet couple; no numeric conversion for these)
 
+```js
+NaN === NaN   // false
+```

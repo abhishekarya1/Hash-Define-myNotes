@@ -51,6 +51,13 @@ System.out.println(str);    // "xrya"
 str.toUpperCase();          // same as above
 ```
 
+**Floating-point limitations**:
+```java
+System.out.println(0.1 + 0.2 == 0.3);       // false; its 0.30000000000000004
+
+// nothing new here, all popular programming languages suffer from the same issue because they all use IEEE-754 (aka Double Precision Floating Point Numbers).
+```
+
 Shallow Copy (_reference variables_), Deep Copy (_copying data to new object manually_), Cloning (_copying data to new object with clone() method_) `newObj = oldObj.clone()`
 
 Cloning can be customized overriding the `clone()` method of the `Object` class, and indicating by implementing `Cloneable` marker interface.
