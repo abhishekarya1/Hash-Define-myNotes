@@ -4,7 +4,7 @@ date = 2022-11-09T13:04:00+05:30
 weight = 5
 +++
 
-## ExceptionHandler
+## ExceptionHandler and RestControllerAdvice
 We often propagate exceptions till the controller and let it throw them to let the user know what is the issue in their request, etc.
 
 Whatever exception reaches the Controller, if we want we can handle them without wrapping controller code in try-catch blocks.
@@ -15,7 +15,7 @@ Whatever exception reaches the Controller, if we want we can handle them without
 
 ```java
 // 1 
-class MyCustomException extends RuntimeException{
+class MyCustomException extends Exception{
 	public MyCustomException(String message){
 		super(message);
 	}
@@ -34,14 +34,17 @@ public getMethod(){
 // 3 - for a single controller
 // in Controller class
 @ExceptionHandler
-public String myErrorHandler(MyCustomException mce){		// parameter matters here
-        return "Message to be sent in response body.";
+public String myErrorHandler(MyCustomException mce){		// parameter type matters here
+		// send error HTTP response here
+        return "oops! some error has occured.";
 }
 
 // alternatively
 @ExceptionHandler(MyCustomException.class)		// cleaner syntax
 public String myErrorHandler(){					// notice no params
-        return "Message to be sent in response body.";
+		// send error HTTP response here
+        return "oops! some error has occured.";
+
 }
 
 // 3 - for multiple controllers
@@ -51,12 +54,14 @@ public class globalErrorHandler{
 
 	@ExceptionHandler(MyCustomException.class)
 	public String myErrorHandler(){		
-        return "Message to be sent in response body.";
+		// send error HTTP response here
+        return "oops! some error has occured.";
+
 	}
 }
 ```
 
-The `@ExceptionHandler` present in the same `@RestController` will have more precedence over the global one present in the `@RestControllerAdvice`, so it can override it.
+The `@ExceptionHandler` present in the same `@RestController` will have more precedence over the global one present in the `@RestControllerAdvice`. So if a handler is present in the controller for an exception type then advice's handler won't be called.
 
 ## Validations
 Use `starter-validation` dependency to apply validations on fields.
@@ -84,7 +89,7 @@ private String name;
 
 ### Triggering Validations
 
-**Class-level annotaion**: `@Validated` validates all params for all methods of the class on which it is used
+**Class-level**: `@Validated` validates all params for all methods of the class on which it is used
 
 ```java
 @Validated				// notice
@@ -99,7 +104,7 @@ class MyController{
 }
 ```
 
-**Method-level annotation**: `@Valid` validates any type (primitive, simple, or POJO) when placed on a method parameter
+**Method parameter-level**: `@Valid` validates any type (primitive, simple, or POJO) when placed on a POJO field or method parameter
 
 ```java
 @RequestMapping
@@ -109,27 +114,27 @@ public Course saveCourse(@Valid @RequestBody Course course,			// Course POJO has
 }
 ```
 
-**Cascaded Validation**: Validating an object that's member of a class (nested object)
+**Nested validation** (**Field-level**): validating an object that's member of a class (composition)
 ```java
 public class UserAddress {
     @NotBlank
     private String countryCode;
 }
 
-public class UserAccount {
+public class UserInfo {
     @Valid 					// notice
     @NotNull
-    private UserAddress useraddress;
+    private UserAddress userAddress;
 }
 
-// UserAddress is validated as a method argument in its Controller method
+// UserInfo is validated as a method argument in its Controller method
 ```
 
-Triggering validation on `UserAddress` will now trigger it automatically (cascade) for `UserAccount` as well. Otherwise it wouldn't have triggered if we were missing the `@Valid` in `UserAccount` i.e. we've to _explicitly cascade_ for every layer! 
+Triggering validation on `UserInfo` will now trigger it automatically (cascade) for `UserAddress` as well. Otherwise it wouldn't have triggered if we were missing the `@Valid` in `UserInfo` i.e. we've to _explicitly cascade_ for every layer, validations don't cascade! 
 
 [Reference](https://stackoverflow.com/questions/41005850/validation-nested-models-in-spring-boot)
 
-**Validation Groups**: We can also group together fields and trigger validation only for specific group(s) using `@Validated(GroupFooBar.class)` at the _method-level_.
+**Validation Groups**: We can also group together fields and trigger validation only for specific group(s) using `@Validated(GroupFooBar.class)` at the field level (or method parameter level).
 
 ```java
 public class UserAccount {
@@ -156,7 +161,7 @@ public void saveBasicInfoStep(
 ```
 
 {{% notice note %}}
-`@Validated` can also be used at the method-level and it will work the same as `@Valid`, but not vice-versa. Actually, `@Validated` was introduced later to enable implementation of validation groups at method-level so it checks out.
+`@Validated` can also be used at the method parameter level and it will work the same as `@Valid`, but not vice-versa. Actually, `@Validated` was introduced later to enable implementation of validation groups at method parameter level so it checks out.
 {{% /notice %}}
 
 ## References
