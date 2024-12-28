@@ -8,7 +8,7 @@ _Refresher_: [/spring-boot/concepts/#ioc-and-di](/spring-boot/concepts/#ioc-and-
 
 Spring always finds Beans and adds them to ApplicationContext/Proxy, the `@ComponentScan` must specify scope to scan for bean definitions otherwise it results in a compile-time error if a bean is autowired somewhere in our application code and not scanned under component scan.
 
-Multiple beans of the same type can exist but each bean in Spring context has a **unique name** (globally, and not only for its type). If multiple bean of the same name exist, one overrides the other. Their unique name also helps us to identify them while autowiring.
+Multiple beans of the same type can exist but each bean in Spring context has a **unique name globally**, and not only for its type. If multiple bean of the same name exist, one overrides the other. Their unique name also helps us to identify them while autowiring.
 
 The default bean scope in Spring is **Singleton** (only one instance of a Spring bean having a specific name will be created and injected into the proxy). Multiple beans of the same type may exist but singleton property in Spring is based on their name (bean names have to be globally unique).
 
@@ -266,8 +266,7 @@ We can also make all beans lazy using the properties file and do _@Lazy(false)_ 
 
 _Reference_: https://www.baeldung.com/spring-boot-lazy-initialization
 
-## @Autowired on Setters and Constructors
-
+## Injecting Beans with @Autowired
 So far, the most popular way is to autowire/inject a Bean to a field. But it is Relection based and slower than the other two ways. We can also do setter and constructor based injections (_recommended_):
 
 ```java
@@ -302,12 +301,11 @@ class Main{
 	}
 }
 ```
+[My Notes](/spring-boot/concepts/#injecting-with-autowired)
 
 _Reference_: https://stackoverflow.com/a/56089288
 
-
 ## Bean Scopes in Spring
-
 Specify scopes on classes using `@Scope` annotation on them. Ex - `@Scope("prototype")` or with constant using 	`@Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)`.
 
 - **Singleton** (_default_): single bean instance per Spring IoC container (eagerly created on Spring Proxy init).
@@ -339,8 +337,9 @@ _References_:
 3. Bean Constructed and all its dependencies injected into it
 4. Bean's `init()` method is called
 5. Bean's `@PostConstruct` annotated method is called
-6. Use the Bean - call its methods
-7. Bean's `@PreDestroy` annotated method is called
-8. Bean's `destroy()` method is called
+6. Inject bean into the Spring Application Proxy
+7. Use the Bean - call its methods
+8. Bean's `@PreDestroy` annotated method is called
+9. Bean's `destroy()` method is called
 
 _Reference_: https://javatechonline.com/spring-bean-life-cycle-method-examples/

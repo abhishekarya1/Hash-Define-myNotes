@@ -34,12 +34,12 @@ Controller --> Service (interface) --> Service (impl class)
 
 @Component
 @Controller
-@Service			// goes on service impl
-@Repository			// goes on repo impl
+@Service		// goes on service impl
+@Repository		// goes on repo impl
 
-@Configuration      // config class
+@Configuration      	// config class
 
-@Autowired			// inject bean (autowire an interface only when atleast one impl bean exists)
+@Autowired		// inject bean (autowire an interface only when atleast one impl bean exists)
 ```
 
 **@RequestMapping**: Specify endpoint methods.
@@ -117,7 +117,7 @@ The `Content-Type` header should be present on the incoming request and needs to
 
 **@RequestHeader**: Get value of request header.
 ```java
-GetMapping("/double")
+@GetMapping("/double")
 public String doubleNumber(@RequestHeader("my-number") int myNumber) { }
 ```
 
@@ -131,42 +131,49 @@ void teaPot() {}
 
 **Consider all of the stuff mentioned above as `required = true` unless specified otherwise explicitly by the programmer**.
 
-## Entity<> Objects
+## Entity<T> Objects
 We can also serialize/deserialize to specialized `Entity<>` generic classes that provide methods to extract headers, body, status code, etc... They often use/return other companion classes like `HttpHeaders`, `HttpStatus`, `URI`, etc...
 
 ```java
+// neither of the entities have setters because they are immutable classes as they represent state i.e. they are value objects (VO).
+
 HttpEntity<POJO> he   // can be used as both request and response
 he.getBody();
 he.getHeaders();
 
-ResponseEntity<POJO> res  	// use as method return type only; otherwise error; extends HttpEntity<>
-res.getBody();
-res.getStatusCode();
-res.getStatusCodeValue();
-res.getHeaders();
+// use as method return type only, otherwise error; extends HttpEntity<T>
+ResponseEntity<POJO> res
+return new ResponseEntity<>("Congrats!", HttpStatus.OK);	// build with constructor
+return ResponseEntity.ok()
+			.header("foo", "bar")
+			.body("lorem ipsum");
 
-// often used with restTemplate to form request to send
-RequestEntity<POJO> req 	// use as method argument only; otherwise error; extends HttpEntity<>
-res.getBody();
-res.getMethod();
-res.getType();
-res.getUrl();
-res.getHeaders();
+// use as method argument only, otherwise error; extends HttpEntity<T>
+RequestEntity<POJO> req
+req.getBody();
+req.getMethod();
+req.getType();
+req.getUrl();
+req.getHeaders();
 
+// often used with RestTemplate to form a request to send
+var req = RequestEntity.post(new URI("www.example.org"))
+					      .header("foo", "bar")
+					      .body("lorem ipsum");
 
 // correct usage
-ResponseEntity<String> getMethod(RequestEntity<String> req){  }
+ResponseEntity<T> getMethod(RequestEntity<T> req){  }
 ```
 
 ## HTTP Status Codes
 ```java
-// first way
-@ResponseStatus(HttpStatus.CREATED)
+// first way with annotation
+@ResponseStatus(HttpStatus.OK)
 
-// second way
-ResponseEntity<Foobar> res = new ResponseEntity<>();
-res.setStatusCode(HttpStatus.CREATED);
-return res;
+// second way with ResponseEntity<T>
+return new ResponseEntity<>(HttpStatus.OK);	// build with constructor
+return ResponseEntity.ok();
+return ResponseEntity.status(HttpStatus.OK);
 ```
 
 ## Routing
@@ -203,7 +210,6 @@ void anotherDemo(){ }
 
 _Reference_: https://www.baeldung.com/spring-requestmapping
 
-
 ### Slash terminated URLs in Spring Boot 3.0
 URL pattern matching was changed in Spring Boot version 3.0. 
 
@@ -228,7 +234,6 @@ void demo(){ }
 
 _Reference_: https://www.baeldung.com/spring-boot-3-url-matching
 
-
 ## How to do File Uploads and Downloads?
 **For upload**: HTTP request type is `form-data` with key as `file` and value as the actual file uploaded from file selector. This ensures header `Content-Type = multipart/form-data` is added automatically in Postman.
 
@@ -248,7 +253,7 @@ return ResponseEntity.ok()
 We can save to local filesystem (using Java IO), or to SQL database as `BLOB` type (use Data JPA's default `save()` method to save entity):
 ```java
 // in entity class, saves file data as blob
-@Lob
+@Lob 		// not a typo
 byte[] data;
 ```
 
@@ -281,7 +286,7 @@ To change it, we can exclude the Tomcat dependency under `starter-web` and add a
 
 Tomcat works on a **Thread-per-Request model**. It creates a new thread for each incoming request and that can get very limiting as by default it uses "normal" threads and not Virtual Threads (introduced in Java 21).
 
-The default max number of simultaneous requests that can be accepted by the Tomcat server is 200. This can be changed using the `server.tomcat.threads.max` property. But we will obviously be limited by our CPU cores on the max threads that can execute parellely.
+The default max number of simultaneous requests that can be accepted by the Tomcat server is 200. This can be changed using the `server.tomcat.threads.max` property. But we will obviously be limited by our CPU cores on the max threads that can execute parallely.
 
 If we're using Spring Boot 3.2.0+ with Java 21+ then we can use the property `spring.threads.virtual.enabled=true` to use Virtual Thread throughout the application. This brings the response times down significantly in applications where there aren't enough threads (i.e. threads with blocking I/O slowing us down).
 

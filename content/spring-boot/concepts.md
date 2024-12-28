@@ -34,7 +34,8 @@ public class Store {
 }
 ```
 
-_**@Autowired**_ is the annotation that facilitates DI in Spring. It is placed in the class in which we want to inject beans, either on field, setter, or constructor.
+### Injecting with @Autowired
+**@Autowired** is the annotation that facilitates DI in Spring. It is placed in the class in which we want to inject beans, either on field, setter, or constructor.
 
 ```java
 // field-based injection: Spring directly injects an Item bean to item field in Store bean using Java Reflection API (setField - new Item())
@@ -55,7 +56,7 @@ private final Item item;
 private Foobar foobar;
 
 @Autowired
-public Store(Item item, @Autowired(required = false) foobar) {
+public Store(Item item, @Autowired(required = false) Foobar foobar) {
     this.item = item;
     this.foobar = foobar;   // sets supplied bean; otherwise null
 }
@@ -98,6 +99,16 @@ Traditionally, these common features would usually require a method call to the 
 Spring framework can read the aspect configuration file and call a method from Aspect before executing a method from our main class. After the Aspect method is finished with its execution, the main method can resume. This is how "wrapping" of Aspects is achieved on methods in our main logic.
 
 Classes are free of any code calls since all the "triggers" are specified in the aspect configuration. This alleviates the need to change code calls in class when we need to change something in future. Single point of change = Aspect configuration.
+
+### Glossary
+- **Cross-cutting concern**: parts of a program that rely on or must affect many other parts of the program.
+- **Aspect**: a class that implements cross-cutting concerns.
+- **Advice**: actions taken for a particular join point.
+- **JoinPoint**: a specific point in the application execution flow.
+- **PointCut**: regex that are matched with joinpoints to determine which advice to execute.
+- **Weaving**: process of linking aspects with other objects to create the advised proxy objects. This can be done at compile time, load time or at runtime. Spring AOP performs weaving at the runtime.
+
+![aop_diagram_showing_glossary_terms](https://i.imgur.com/ohzRNtn.png)
 
 _References_: 
 
