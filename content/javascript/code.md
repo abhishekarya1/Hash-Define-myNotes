@@ -467,7 +467,7 @@ let user = {
 }
 ```
 
-### Quick Tips
+## Quick Tips
 1. with binary `+` operator, the operands are converted to string type for string concat
 2. with any other operator including relative, operands are converted to `number` type
 3. `null` becomes `0` and `undefined` becomes `NaN` in such numeric conversion

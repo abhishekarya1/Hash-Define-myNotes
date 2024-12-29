@@ -320,3 +320,89 @@ WeakMap.set('foo', 'bar')	// Error
 
 // WeakMap and WeakSet do not support iteration and methods keys(), values(), entries() so there is no way to access all the elements
 ```
+
+## More on Objects
+```js
+// all objects can be used with Object.keys(), Object.values(), Object.entries() methods, even if they have their own obj.entries() methods
+let user = {
+  name: "John",
+  age: 30
+}
+
+Object.keys(user)     // ["name", "age"]
+Object.values(user)   // ["John", 30]
+Object.entries(user)  // [ ["name","John"], ["age",30] ]
+
+// they all ignore symbolic properties ofcourse
+
+Object.entries(obj)       // gets an array of key/value pairs from obj
+Object.fromEntries(arr)   // convert 2-D pairs array into an object
+
+// Destructuring Assignment: store arrays or objects into individual variables
+let arr = [1, 2, 3]
+let [x, y, z] = arr
+
+let obj = { name: 'Alice', age: 30 }
+let { age, name } = obj     // order doesn't matter for correct mapping, JS handles it implicitly
+
+// general syntax
+let [item1 = defaultValue, item2, ...rest] = array
+let {prop : varName = defaultValue, ...rest} = object
+
+// extra elements in array or unmapped props in object are ignored, if we try to map to some prop which doesn't exist in object, then it is assigned "undefined" 
+
+// works flawlessly with nested objects and arrays too
+
+// Trick: swap variables using destructuring assignments
+let guest = "Alice"
+let admin = "Bob"
+[guest, admin] = [admin, guest]
+// here we create a temporary array of two variables and immediately destructure it in swapped order
+```
+
+## Date and Time
+```js
+let now = new Date()
+alert(now)    // Sun Dec 29 2024 15:18:10 GMT+0530 (India Standard Time)
+
+// micro-benchmarking: benchmarking language features (not much meaningful thoughlet date1 = new Date(0);
+let start = new Date(0);
+let end = new Date();
+end - start     // date-number conversion, then subtraction
+
+end.getTime() - start.getTime()   // much faster; no date-number conversion is done
+
+// below is the same as new Date().getTime() but no object is created; no Garbage Collection hassles
+let start = Date.now()    
+let end = Date.now()
+```
+
+## JSON
+JavaScript Object Notation was initially created for JS but now its a standalone specification for data exchange.
+
+JSON is represented in JS as strings.
+
+```js
+// JSON static class methods
+let json = JSON.parse(str)      // convert json string to object
+let str = JSON.stringify(json)  // convert object to json string
+
+// JSON must be valid for parsing especially with valid double-quotes ("")
+
+/*
+
+JSON.stringify() skips the following properties: 
+- function properties (methods)
+- symbolic keys and their values
+- properties that store "undefined"
+
+There must be no circular references in nested properties, otherwise error.
+
+*/
+
+// general syntax
+let json = JSON.stringify(value[, replacer, space])
+let value = JSON.parse(str[, reviver])
+
+// we an implement a custom toJSON() method - JSON.stringify automatically calls it if available
+```
