@@ -95,19 +95,18 @@ class Foo{
 }
 ```
 
-**Exception Propagation**: Runtime exceptions need not be declared with `throws` but checked ones have to be declared. If a method propagates an exception (doesn't handle it), rollback will happen for it too if `rollbackFor` property specifies it.
+**Exception Propagation**: Declare checked exceptions as usual. If a method propagates an exception (doesn't handle it), rollback will happen for it if `rollbackFor` property specifies it. Rollback will happen for every method the exception propagates to, until its handled.
 ```java
 class Foo{
-    @Transactional(rollbackFor = SQLException.class)    // rollback is becuase of exception propagation; not in the same transaction as bar()
+    @Transactional(rollbackFor = SQLException.class)    // rolls back; because of exception propagation; not in the same transaction as bar()
     public void foo() throws SQLException {
         bar.fun2();      // external method call; unhandled exception
     }  
 }
 
-
 // another class
 class Bar{
-    @Transactional(rollbackFor = SQLException.class, propagation = Propagation.REQUIRES_NEW)    // new transaction
+    @Transactional(rollbackFor = SQLException.class, propagation = Propagation.REQUIRES_NEW)    // new transaction; rolls back
     public void fun2() throws SQLException{
         throw new SQLException();       // exception occurs here
     }
@@ -200,7 +199,7 @@ public String getAddress(Customer customer) { }
 ```
 
 ### Storage in Cache
-Spring will take care of storing in cache based on cache provider. Ex - In the above example, we specify `cacheName` as "students" and Redis will not neccessarily use the same name as-it-is to create keys, the name is often a combination of `cacheName` and various other stuff like student name and other fields whose fetching and decoding is taken care of implicitly.   
+Spring will take care of storing in cache based on cache provider. Ex - In the above example, we specify `cacheName` as "students" and Redis won't neccessarily use the same name as-it-is to create keys, the name is often a combination of `cacheName` and various other stuff like student name and other fields whose fetching and decoding is taken care of implicitly.   
 
 ## References
 - https://www.baeldung.com/transaction-configuration-with-jpa-and-spring

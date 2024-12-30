@@ -10,7 +10,7 @@ An **ORM** (Object Relationship Mapper) is a tool that can map POJOs to Rows (in
 
 The goal of using an ORM is: To **make code database provider agnostic** by **generating SQL queries from code**, so we can swap Postgres for H2 or MySQL and no change will be required in the code. Ex - [Hibernate](https://hibernate.org/) is an ORM.
 
-ORMs are _generally_ a bit slower than native SQL since they just add another layer of abstraction but imo they are worth it as they can solve a plethora of safety and optimization problems [0].
+ORMs are _generally_ a bit slower than native SQL since they just add another layer of abstraction but imo they are worth it as they can solve a plethora of safety and optimization problems.
 
 We can always write DB provider native SQL, handle the mapping manually, and query via JDBC but that's often a very tedious and "manual" task even for simpler applications.
 
@@ -49,7 +49,7 @@ Data Access Layer -> JPA (spec) -> Hibernate (impl engine) -> JDBC -> Database
 // attribute level
 @Id 		// primary key
 @SequenceGenerator @GeneratedValue	// generate a unique number everytime or use a sequence
-@Column		// specify name and constraints on a column (nullable, unique, updatable, length, etc...)
+@Column		// optional; specify name and constraints on a column (nullable, unique, updatable, length, etc...)
 @Embedded	// embed another POJO into this entity (will be made into same table's columns)
 @Transient	// ignore the field; field isn't persisted to database
 ```	
@@ -66,7 +66,12 @@ So, camelCase attribute names in POJO becomes snake_case in table column names
 ```
 
 ### More on Entity
-Entity is nothing but projection (subset columns) from the actual table. If our _@Entity_ class name is same as table's then no need of _@Table_ annotation, same goes for _@Column_ too. Also an _@Entity_ class will always need an _@Id_ field to be present inside it and a no-args constructor.
+Entity is nothing but projection (subset columns) from the actual table. If our _@Entity_ class name is same as table's then no need of _@Table_ annotation, same goes for _@Column_ too. 
+
+An _@Entity_ class must have:
+- an _@Id_ field present in it
+- a no-args constructor
+- getters and setters so that JPA can perform read and write to fields
 
 We need not have all the columns in _@Entity_. Only those which are available will be fetched, created, or updated just like a normal DTO. Others will be empty or error based on not empty validations.
 
@@ -74,14 +79,12 @@ Another way to get a projection with plain DTOs (no _@Entity_) is to make a quer
 
 _References_ (interface and constructor expression techniques): https://stackoverflow.com/questions/22007341/spring-jpa-selecting-specific-columns
 
-{{% notice warn %}}
-Getters and setters must be present for the entity class so that JPA can perform read and write to them.
-{{% /notice %}}
-
 ## Validations
-Doing validations on the persistance layer isn't recommended since it means that we've worked with invalid objects at the higher layers so far.
+While writing an entity to DB, doing validations on the persistance layer isn't recommended since it means that we've worked with invalid objects at the higher layers so far.
 
-That said, the Spring Data JPA supports validations out-of-the-box i.e. We don't need to trigger validations by writing `@Validated` or `@Valid`, instead we just define validations in the `@Entity` class and they are enforced implicitly when JPA is working with them.
+While reading from DB, the entity validations make more sense on the persistence layer. Match these validations with the DB schema as a recommended practice.
+
+That said, the Spring Data JPA supports validations out-of-the-box i.e. we don't need to trigger validations by writing `@Validated` or `@Valid`, instead we just define validations in the `@Entity` class and they are triggered/enforced implicitly when JPA is working with them.
 
 [Validation Notes](/spring-boot/exception/#validations)
 
@@ -99,7 +102,7 @@ create 			-- drop all existing tables and create new
 create-drop		-- create tables and drop it upon program finish. used in testing.
 update 			-- add schema but don't delete any prior ones
 none (default)	-- make no changes to any schema
-validate		-- validate existance of schema; if not found then throw exception
+validate		-- validate existence of schema; if not found then throw exception
 ```
 
 **Create a database manually and specify URL in properties file using `spring.datasource.url` property and when the application is run, all of the _@Entity_ will be made (or mapped, if they already exist) into table in the specified database**.
@@ -179,6 +182,7 @@ Student getStudentByEmailAddress(@Param("emailId") String email);	// diff param 
 ### Native Queries
 Use actual table names and column names in the query and mark it as native. We can use both `:name` and `?1` params in native query too.
 ```java
+// Native SQL query
 @Query(
 	value="SELECT * from student_table WHERE name = ?1",
 	nativeQuery = true
@@ -186,7 +190,7 @@ Use actual table names and column names in the query and mark it as native. We c
 ```
 
 ## Modifying
-To use modifying and DDL queries in _@Query_.
+Use modifying annotation on DDL queries alongwith _@Query_:
 ```java
 @Modifying
 @Transactional
@@ -264,8 +268,8 @@ Other cascade options like `PERSIST` and `DELETE` are also available.
 
 This will fetch all data in `Owner` and `Pet` when `findAll()` is done on `Pet` due to the bi-directional mapping and `FetchType.ALL`.
 
-#### More on Bi Directional Mapping
-`Owner` has reference to `Pet` but not the other way round and it is oblivious to existance of `Owner`.
+#### More on Bi-Directional Mapping
+`Owner` has reference to `Pet` but not the other way round and it is oblivious to existence of `Owner`.
 
 ```java
 // in Pet entity
@@ -389,19 +393,20 @@ The page number comes from the HTTP request to Controller -> Service -> Reposito
 
 ### Paging
 ```java
-Pageable firstPagewithThreeRecords = PageRequest.of(0, 3);
 Pageable secondPageWithTwoRecords = PageRequest.of(1, 2);
-        
-List<Course> courses = courseRepository.findAll(secondPageWithTwoRecords).getContent();
-long totalElements = courseRepository.findAll(secondPageWithTwoRecords).getTotalElements();
-long totalPages = courseRepository.findAll(secondPageWithTwoRecords).getTotalPages();
 
-System.out.println("totalPages = " + totalPages);	// 2
-System.out.println("totalElements = " + totalElements);	// 5
-System.out.println("courses = " + courses);	// 2 records on 2nd page
+Page<Course> page = courseRepository.findAll(secondPageWithTwoRecords);
+
+List<Course> courses = page.getContent();
+long totalElements = page.getTotalElements();
+long totalPages = page.getTotalPages();
+
+System.out.println("Total Pages: " + totalPages);	// 3
+System.out.println("Total Elements: " + totalElements);		// 5
+System.out.println("Courses: " + courses);		// 2 records on 2nd page
 ```
 
-Use `PageRequest.of(pageNumber, pageSize, Sort)` to create `Pageable` ref to pass to `findAll()` and we can call more methods upon output.
+Use `PageRequest.of(pageNumber, pageSize, Sort)` to create `Pageable` ref to pass to `findAll()` and we can call more methods on its output.
 
 ### Sort
 Third param of `PageRequest.of()` can be used for sorting pages. Pages are created after sorting on entire table is applied.
@@ -425,7 +430,7 @@ Pageable sortByTitleAndCreditDesc = PageRequest.of(
         
 List<Course> courses = courseRepository.findAll(sortByTitle).getContent();
 
-System.out.println("courses = " + courses);
+System.out.println("Courses: " + courses);
 ```
 
 ## References
