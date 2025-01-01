@@ -271,7 +271,7 @@ alert("Hello")
 
 ## Decorators, Forwarding and Borrowing with call/apply, bind
 ```js
-// Decorators are wrapper functions that call other functions adding functionalities such as caching, conditional calls, invocation counter, etc.
+// Decorators are wrapper functions that call other functions (Forwarding) adding functionalities such as caching, conditional calls, invocation counter, etc.
 
 let user = { 
   name: "Alice",
@@ -290,14 +290,14 @@ myFunc(2)   // this = undefined
 let admin = { name: "Bob" }
 
 // pass different objects as "this"
-getName.call( user )  // Alice
-getName.call( admin ) // Bob
+user.getName.call( user )  // Alice
 
-// Method Borrowing - use a method from an object and call it by passing another object as context.
+// Method Borrowing - use a method from an object and call it by passing another object as context
+user.getName.call( admin ) // Bob
 
-// we can also use func.apply(context, args) where args is not spread-syntax and expects an array-like object, this is called "Call Forwarding"
+// we can also use func.apply(context, args) where args is not spread-syntax and expects an array-like object
 
-// Trick#1 to solve lost "this" - wrap in another function
+// Trick#1 to solve lost "this" - wrap function call in another function
 let user = { 
   name: "Alice",
   getName() {
@@ -310,10 +310,9 @@ let myFunc = function() {
 }
 myFunc()  // Alice
 
-// Trick#2 is Binding - bind context with function using func.bind(context) and then it can be called from anywhere without context too
+// Trick#2 is Binding - bind context with function using func.bind(context) and the bounded variant can be called from anywhere without context too
 let myFunc = user.getName.bind(user)
 myFunc()    // Alice; context preserved in bounded function ref
-getName()   // Alice; can even call directly now!
 
 // bind functions and methods context and arguments to create Partial/Partially Applied Functions
 let boundFunc = func.bind(context, [arg1], [arg2], ...)

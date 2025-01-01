@@ -66,7 +66,7 @@ assertAll(
 _References_: https://junit.org/junit5/docs/current/api/org.junit.jupiter.api/org/junit/jupiter/api/Assertions.html
 
 ### Test Instance
-For each _@Test_, a new instance of the test class is created. Ramifications of this is that if we have a shared mutable instance variable placed in our test class, it can't share updated values (states) in between test runs. Its a good practice to make the tests self-contained and this is done to promote that behaviour.
+For each _@Test_, a new instance of the test class is created. If we have a shared mutable instance variable in our test class, it can't share updated values (states) in between test runs as it will always be re-initialized in between test runs. Its a good practice to make the tests self-contained an avoid shared mutable variables in the test class, and this is done to encourage that practice.
 
 If for some reason, we have to create an instance per class (once), we can do so:
 ```java
