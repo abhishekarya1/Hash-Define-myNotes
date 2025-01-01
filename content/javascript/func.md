@@ -114,3 +114,230 @@ function f() {
   }
 }
 ```
+
+## "var" keyword
+```js
+// works just like "let" but the diff is the scope where variable is available to use 
+var msg = 'hello'
+
+// variables declared with "var" can be accessed outside blocks!
+{
+  var msg = 'hello'
+}
+alert(msg)    // foo
+
+// but not outside a function i.e. they stop at only function scope
+function getMessage(){
+  var msg = 'hello'
+}
+alert(msg)  // undefined
+
+// SUMMARY - var variables have no block scope, their visibility is scoped to current function, or global, if declared outside function.
+
+// var variables can tolerate redeclarations
+let user
+let user // SyntaxError: 'user' has already been declared
+
+var user = "Alice"
+var user = "Bob"    // does nothing; already declared
+alert(user)   // Bob
+
+// Variable Hoisting: var declarations are processed at function start (script start for globals)
+function sayHi() {
+  phrase = "Hello"    // assignment with no declaration, works fine!
+  alert(phrase)
+  var phrase
+}
+sayHi()
+
+// JS "hoists" (moves upward) the variable declarations to the top of the function no matter where it is (even if declaration is inside some level of nested block inside the function), so var variables can be used from the start of the function even when they are declared anywhere down in the function scope!
+
+// only declarations are hoisted, assignments are not
+function sayHi() {
+  alert(phrase)   // undefined; not error
+  var phrase = "Hello"
+}
+sayHi()
+```
+
+An old way is to use Immediately Invoked Function Expression (IIFE) to act as code blocks since `var` doesn't have a block scope but only function scope.
+
+## Global Object, Function Objects, NFE, new Function(), setTimeout/setInterval
+```js
+// every JS environment has a global object - browser has "window", Node.js has "global", spec recommends a "globalThis" object
+
+// this global object stores every function and globla variables declared with "var"
+
+alert("Hello")
+window.alert("Hello")   // equivalent to above
+
+var gVar = 5
+alert(window.gVar)  // equivalent to above
+
+// used for Polyfills as we can check existence using and set method to add on the global object
+
+// functions are objects in JS, so naturally they have properties too!
+
+function sayHi() {
+  alert("Hi")
+}
+alert(sayHi.name)   // sayHi
+
+// smartly infers the name for function expressions too (contextual name)
+let sayHi = function() {
+  alert("Hi")
+}
+alert(sayHi.name)   // sayHi
+
+// the "length" property
+function f1(a) {}
+function f2(a, b) {}
+function many(a, b, ...more) {}
+
+alert(f1.length)    // 1
+alert(f2.length)    // 2
+alert(many.length)  // 2 (rest params are counted as one)
+
+// custom properties
+function sayHi() {
+  alert("Hi")
+  sayHi.counter++
+}
+sayHi.counter = 0   // init value
+sayHi()   // Hi
+sayHi()   // Hi
+alert(`Called ${sayHi.counter} times`)  // called 2 times
+
+// we can change this custom property's value from anywhere in the code, not only from closures, so be careful.
+```
+
+```js
+// Named Function Expression (NFE) - function expression in which function name is specified
+
+let sayHi = function greet(who) {
+  alert(`Hello, ${who}`)
+}
+
+// benefit is that we can recursively call the function with the name even when it is put into another ref variable
+let sayHi = function greet(who) {
+  if (who) {
+    alert(`Hello, ${who}`)
+  } else {
+    greet("Guest")   // use greet to re-call itself
+  }
+}
+sayHi()   // Hello, Guest
+greet()   // Error, greet is not defined (not visible outside of the function)
+```
+
+```js
+// functions are objects so they can be called using "new Function()"
+let func = new Function ([arg1, arg2, ...argN], functionBody)
+
+// arguments are optional, and functionBody is a string 
+let sayHi = new Function('alert("Hello")')
+sayHi()   // Hello
+
+// all of the below declarations are equivalent
+new Function('a', 'b', 'return a + b')  // basic syntax
+new Function('a,b', 'return a + b')     // comma-separated
+new Function('a , b', 'return a + b')   // comma-separated with spaces
+
+// functions created with new Function, have [[Environment]] referencing the global Lexical Environment, not the outer one. Hence, they cannot use outer variables. Its good as it doesn't cause any problems with minifiers (which rename local variables to shorter names and won't modify functionBody string to match the new names).
+```
+```js
+// setTimeout allows us to run a function once after the interval of time
+let timerId = setTimeout(func|code, [delay], [arg1], [arg2], ...)
+// setInterval allows us to run a function repeatedly, starting after the interval of time, then repeating continuously at that interval
+let timerId = setInterval(func|code, [delay], [arg1], [arg2], ...)
+
+// remove timeout to abort function invocation
+clearTimeout(timerId)
+
+// Trick: nested timeouts, setInterval runs function on fixed intervals, but nested timeouts make the interval more flexible
+let delay = 5000
+let timerId = setTimeout(function tick() {
+  alert('tick')
+  delay *= 2
+  timerId = setTimeout(tick, delay)
+}, 2000)
+
+// Trick: zero timeout, setTimeout with 0 timeout run after the whole script!
+setTimeout(() => alert("World"), 0)
+alert("Hello")
+
+// alerts "Hello", then "World"
+```
+
+## Decorators, Forwarding and Borrowing with call/apply, bind
+```js
+// Decorators are wrapper functions that call other functions adding functionalities such as caching, conditional calls, invocation counter, etc.
+
+let user = { 
+  name: "Alice",
+  getName() {
+    alert(this.name);
+  }
+}
+
+// object functions (methods) lose context (this) when called from any way other than on object!
+user.getName(1)   // this = user
+
+let myFunc = user.getName
+myFunc(2)   // this = undefined
+
+// user func.call() to pass context
+let admin = { name: "Bob" }
+
+// pass different objects as "this"
+getName.call( user )  // Alice
+getName.call( admin ) // Bob
+
+// Method Borrowing - use a method from an object and call it by passing another object as context.
+
+// we can also use func.apply(context, args) where args is not spread-syntax and expects an array-like object, this is called "Call Forwarding"
+
+// Trick#1 to solve lost "this" - wrap in another function
+let user = { 
+  name: "Alice",
+  getName() {
+    alert(this.name);
+  }
+}
+
+let myFunc = function() {
+  user.getName()
+}
+myFunc()  // Alice
+
+// Trick#2 is Binding - bind context with function using func.bind(context) and then it can be called from anywhere without context too
+let myFunc = user.getName.bind(user)
+myFunc()    // Alice; context preserved in bounded function ref
+getName()   // Alice; can even call directly now!
+
+// bind functions and methods context and arguments to create Partial/Partially Applied Functions
+let boundFunc = func.bind(context, [arg1], [arg2], ...)
+
+function mul(a, b) {
+  return a * b
+}
+let double = mul.bind(null, 2)
+alert( double(3) )  // = mul(2, 3) = 6
+alert( double(4) )  // = mul(2, 4) = 8
+alert( double(5) )  // = mul(2, 5) = 10
+```
+
+## Arrow Functions
+```js
+// they are supposed to be used as short function without a name that are passed as arguments, mostly used for forwarding
+
+/*
+
+Highlights:
+1. don't have a "this" of their own, and take it from outer Lexical Environment
+2. don't have the "arguments" param
+3. can't be called with "new"
+4. don't have a "super"
+
+*/
+```
