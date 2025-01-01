@@ -334,7 +334,7 @@ assertThat(year).isLessThan(2023);
 
 ## Test Slices
 ###  Controller Tests (WebMvcTest)
-Makes calls to our controller endpoints, service layer to be mocked here.
+Makes web API calls to our controller endpoints, service layer to be mocked here.
 
 Use only `@MockBean` with `@WebMvcTest` to mock service layer.
 
@@ -398,7 +398,6 @@ public class JpaRepositoryTest {
 
 **Testing JDBC Repositories**: in a normal JUnit test, _@Mock_ `jdbcTemplate` and stub it, then _@InjectMocks_ into `repositoryImpl`.
 
----
 ## Integration Tests
 Ups the server and run tests on it when we annotate the test class with _@SpringBootTest_ and use `MockMvc` to hit the controller endpoints.
 
@@ -422,6 +421,24 @@ public class IntegrationTest{
 	}
 }
 ```
+
+## Custom Test Properties
+Use `@TestPropertySource` annotation to specify custom properties to use for a test class.
+
+```java
+@TestPropertySource(locations = "classpath:test.properties")
+public class MyServiceTest {
+    @Value("${test.property}")
+    private String testProperty;
+
+    @Test
+    public void testSomething() {
+        // test logic
+    }
+}
+```
+
+Note that this is diff from the `@PropertySource` annotation and is only to be used for test contexts.
 
 ## References
 - [Java Brains - YouTube](https://www.youtube.com/playlist?list=PLqq-6Pq4lTTa4ad5JISViSb2FVG8Vwa4o)
