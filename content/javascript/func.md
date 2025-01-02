@@ -395,7 +395,7 @@ Object.isFrozen(obj)    // returns true if adding/removing/changing properties i
 ```
 
 ```js
-// apart from data properties, we can have "accessor properties" too
+// apart from data properties, we can have "accessor properties" too which don't have a value
 let obj = {
   get propName() {
     // getter, the code executed on getting obj.propName

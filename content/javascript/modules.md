@@ -4,6 +4,8 @@ date =  2025-01-02T23:24:00+05:30
 weight = 5
 +++
 
+## Intro
+
 ```js
 // modules weren't part of JS language for a long time and people used third party libraries
 // now they are present and part of standard since 2015
@@ -82,6 +84,8 @@ So basically they overwrite every module configuration that we do in lieu of per
 */
 ```
 
+## Export/Import
+
 ```js
 // we can export variables, functions, or classes
 
@@ -150,6 +154,8 @@ export {sayHi} from './say.js' 	// re-export sayHi
 
 // re-exporting the default export needs special considerations
 ```
+
+## Dynamic Import
 
 ```js
 // we can't dynamically generate any parameters of import
