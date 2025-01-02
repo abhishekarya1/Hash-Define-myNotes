@@ -211,7 +211,7 @@ void anotherDemo(){ }
 _Reference_: https://www.baeldung.com/spring-requestmapping
 
 ### Slash terminated URLs in Spring Boot 3.0
-URL pattern matching was changed in Spring Boot version 3.0. 
+URL pattern matching was slightly changed in Spring Boot version 3.0 (Spring 6). It now treats the slash terminated and non-terminated ones as two distinct endpoints and doesn't redirect automatically.
 
 URLs terminated with slash (`localhost:8080/foo/`) no longer redirect to non-terminating with slash (_"normal"_) ones (`localhost:8080/foo`).
 ```java
@@ -232,9 +232,16 @@ void demo(){ }
 void demo(){ }
 ```
 
+**Reason**: This is done to match behavior with Servlet containers (like Tomcat and Jetty) as they also treat the two paths as distinct, and RESTful API practices also suggest using distinct paths for distinct resources which prevents ambiguity.
+
+This is customizable of course and we can revert to old behavior using the property:
+```sh
+spring.mvc.trailing-slash-match=true
+```
+
 _Reference_: https://www.baeldung.com/spring-boot-3-url-matching
 
-## How to do File Uploads and Downloads?
+## File Uploads and Downloads
 **For upload**: HTTP request type is `form-data` with key as `file` and value as the actual file uploaded from file selector. This ensures header `Content-Type = multipart/form-data` is added automatically in Postman.
 
 ```java

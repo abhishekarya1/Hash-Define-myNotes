@@ -7,7 +7,7 @@ weight = 13
 Review: [/microservices](/microservices)
 
 ## Spring Cloud
-Just like Spring Boot is an extension to Spring Framework, Spring Cloud is an extension to Spring Boot which provides tools to build and work with cloud-native applications.
+Spring Cloud are related set of tools for developers to quickly build some of the common patterns in distributed cloud-native systems.
 
 Many tools are provided among which the most popular are from open-source projects like Netflix OSS and HashiCorp's Consul.
 
@@ -55,6 +55,13 @@ Even if the discovery server goes down, the services maintain an ephemeral local
 
 ### Server
 Notice that the `spring-boot-starter-web` dependency is not required to up the Eureka server.
+```xml
+<!-- pom.xml -->
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
+</dependency>
+```
 
 ```java
 // main application class
@@ -72,6 +79,14 @@ eureka:
 ```
 
 ### Client
+```xml
+<!-- pom.xml -->
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
+</dependency>
+```
+
 ```java
 // main application class
 @EnableEurekaClient
@@ -96,13 +111,22 @@ Run multiple instances of the same client and they will all register themselves 
 
 ## OpenFeign Client
 Call another service in the background when current service's controller endpoints are accessed, fetch results and return to the sender as if we (the current service) is serving the request.
+
+```xml
+<!-- pom.xml -->
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-openfeign</artifactId>
+</dependency>
+```
+
 ```java
 // Service-A
 // add feign maven dependency in pom
 
 // add @EnableFeignClients on the main class
 
-// Feign controller class
+// Feign controller interface
 @FeignClient(value = "feigndemo", url="http://localhost:8081/foobar")   // value = arbitrary name; url = service-B's URL
 public interface FeignController{     // notice that its an interface
 
@@ -116,7 +140,7 @@ public interface FeignController{     // notice that its an interface
 public class MyController{
 
   @Autowired
-  private FeignController feignController;
+  private FeignController feignController;    // autowiring an interface; OpenFeign generates a concrete class for this automatically!
 
   @GetMapping("/name")
   public String getName(){
@@ -126,13 +150,21 @@ public class MyController{
 }
 
 // Summary: 
-// when we access "localhost:8080/name" (this service), it will actually access "localhost:8081/foobar/username" (another rservice)
+// when we access "localhost:8080/name" (this service), it will actually access "localhost:8081/foobar/username" (another service)
 ```
 
 _Reference_: https://youtu.be/tlshVRtbS_c
 
 ## API Gateway
 We use **Spring Cloud Gateway** here.
+
+```xml
+<!-- pom.xml -->
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-gateway-mvc</artifactId>
+</dependency>
+```
 
 It routes requests to correct service so that we are not hitting the service URL directly but via this gateway URL, also helps us to monitor and implement resilience (circuit breaking).
 
@@ -160,6 +192,14 @@ spring:
 
 ## Circuit Breaker
 We use **Resilience4j** here. 
+
+```xml
+<!-- pom.xml -->
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
+</dependency>
+```
 
 It provides many ways to make the app resilience such as **Circuit Breaker**, **Retry**, **Rate Limiter**, Bulkhead, Time Limiter, and Cache.
 
@@ -250,6 +290,14 @@ Each individual service can then point to that server and fetch configs during _
 The `bootstrap.yml` files are where this "pointing to server" logic is placed in a service and they're usually loaded even before `application.yml` file during the application context load.
 
 We moved the "Eureka Client properties" common to all services to a GitHub repo. The services need no additional dependencies for this.
+
+```xml
+<!-- pom.xml -->
+<dependency>
+  <groupId>org.springframework.cloud</groupId>
+  <artifactId>spring-cloud-config-server</artifactId>
+</dependency>
+```
 
 ```java
 // in main application class
