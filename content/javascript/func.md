@@ -340,3 +340,99 @@ Highlights:
 
 */
 ```
+
+## Property flags, descriptors, getters/setters
+```js
+/*
+
+each object property not only has a value but 3 other attributes (aka flags):
+
+writable – if true, the value can be changed, otherwise it's read-only.
+enumerable – if true, then listed in loops, otherwise not listed.
+configurable – if true, the property can be deleted and these attributes can be modified, otherwise not.
+
+*/
+
+// get flags for a property
+let descriptorObj = Object.getOwnPropertyDescriptor(obj, 'propertyName')
+
+// change flags
+let descriptorObj = { writable: false }
+Object.defineProperty(obj, 'propertyName', descriptorObj)
+
+let user = {
+  name: "Alice"
+}
+
+Object.defineProperty(user, "name", {
+  writable: false
+})
+
+user.name = "Bob"   // Error
+
+// can create new property
+Object.defineProperty(user, "age", {
+  value: 25
+})
+
+// change multiple property flags at once
+Object.defineProperties(user, {
+  name: { value: "John", writable: false },
+  surname: { value: "Doe", writable: false },
+})
+
+// get all properties' flags at once
+Object.getOwnPropertyDescriptors(obj)
+
+// sealing objects - methods available to change flags based on common usage patterns
+Object.preventExtensions(obj)   // forbids the addition of new properties to the object
+Object.seal(obj)    // forbids adding/removing of properties. Sets configurable: false for all existing properties
+Object.freeze(obj)  // forbids adding/removing/changing of properties. Sets configurable: false, writable: false for all existing properties
+
+Object.isExtensible(obj)  // returns false if adding properties is forbidden, otherwise true
+Object.isSealed(obj)    // returns true if adding/removing properties is forbidden, and all existing properties have configurable: false
+Object.isFrozen(obj)    // returns true if adding/removing/changing properties is forbidden, and all current properties are configurable: false, writable: false
+```
+
+```js
+// apart from data properties, we can have "accessor properties" too
+let obj = {
+  get propName() {
+    // getter, the code executed on getting obj.propName
+  },
+
+  set propName(value) {
+    // setter, the code executed on setting obj.propName = value
+  }
+}
+
+let user = {
+  name: "John",
+  surname: "Doe",
+
+  get fullName() {
+    return `${this.name} ${this.surname}`
+  }
+}
+
+alert(user.fullName)  // John Doe
+
+// accessor properties have the following flags - get(), set(value), enumerable, configurable
+let user = {
+  name: "John",
+  surname: "Doe"
+}
+
+Object.defineProperty(user, 'fullName', {
+  get() {
+    return `${this.name} ${this.surname}`
+  },
+
+  set(value) {
+    [this.name, this.surname] = value.split(" ")
+  }
+})
+
+
+// sometimes we create a new internal property (this._name = value) in setter and return access it via getter, so in that way users of the object are unaware of its existence. 
+```
