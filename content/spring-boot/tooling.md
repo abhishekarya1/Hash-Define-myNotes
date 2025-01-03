@@ -52,10 +52,10 @@ In the order of popularity:
 - [Vert.x](https://vertx.io/) (by Eclipse)
 
 ## Liquibase
-Database schema change management tool. In simple words - a version control for DB schema changes. Vendor-agnostic (since we can write in XML, JSON, YAML) unlike Flyway (which only allows `.sql`).
+Database migration (schema change management) tool. In simple words - a version control for DB schema changes. Vendor-agnostic (since we can write in XML, JSON, YAML) unlike Flyway (which only allows `.sql` files).
 
-- either run file using CLI client
-- or add as Maven dependency to run at application startup
+- either run file using CLI client (specify DB and settings in `liquibase.properties`)
+- or add as Maven dependency to run at application startup (specify DB and settings in `application.properties`)
 
 When we deploy our changes, Liquibase creates two tables in the database: `DATABASECHANGELOG` and `DATABASECHANGELOGLOCK`. The former stores detailed logs (id, author, desc, MD5 hash, changeset file name etc) and the latter ensures that only one instance of Liquibase is updating the database.
 

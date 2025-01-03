@@ -62,7 +62,7 @@ Create a JWT util class that contains all methods related to JWT impl. Also crea
 - **Job** (runs steps)
 - **Step** (runs tasklets)
 - **Tasklet** (has `execute()` method which contains custom logic to run)
-- Listener - `JobListener` and `StepListener`
+- Listener - `JobListener` and `StepListener` (implement custom `beforeStep()` and `afterStep()` methods)
 - `JobLauncher` (launches job using its `run()` method)
 - `JobRepository` (stores execution stats to a database)
 - `ItemReader`
@@ -87,6 +87,38 @@ This comes from a bunch of concepts called "Enterprise Integration Patterns" fro
 
 **Terminology**:
 - Message
-- Channel - `DirectChannel`, `PublishSubscribeChannel`, etc.
+- Channel - `DirectChannel` (point-to-point), `PublishSubscribeChannel`, etc.
 - Router
 - ServiceActivator (based on `MessageHandler` as it handles messages)
+
+## Spring Scheduler
+
+**Enable Annotation**: `@EnableScheduling`
+
+Two rules to follow to annotate a method with `@Scheduled` are:
+- the method should typically have a `void` return type (if not, the returned value will be ignored)
+- the method should not expect any parameters
+
+```java
+@Scheduled(fixedDelay = 1000)		// runs after n millisecond of prev execution finish
+public void scheduleFixedDelayTask() {
+    System.out.println("Fixed delay task");
+}
+
+@Scheduled(fixedRate = 1000)	// runs every n milliseconds regardless of prev execution finish
+
+// scheduled tasks don't run in parallel by default. So even if we used fixedRate, the next task won't be invoked until the previous one finishes. So use @Async for parallel behavior.
+@Async
+@Scheduled(fixedRate = 1000)
+
+@Scheduled(fixedDelay = 1000, initialDelay = 1000)
+
+@Scheduled(cron = "0 15 10 15 * ?")
+```
+
+_Reference_: https://www.baeldung.com/spring-scheduled-tasks
+
+## Official Docs
+- Spring Security - https://spring.io/projects/spring-security
+- Spring Batch - https://spring.io/projects/spring-batch
+- Spring Integration - https://spring.io/projects/spring-integration
