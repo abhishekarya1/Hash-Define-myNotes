@@ -405,10 +405,10 @@ function BigUser() {
 }
 alert( new BigUser().name )  	// Godzilla
 
-// optional chaining (?.) - checks for null and undefined
+// optional chaining (?.) - safe way to access nested object properties, even if an intermediate property doesn't exist. Stops the evaluation if the value before ?. is undefined or null and returns undefined.
 let user = {}
-alert(user.address.street) 	// error; user.address is undefined and we can't use (.) on it
-alert(user?.address?.street)	// no error
+alert(user.address.street) 	// Error; user.address is undefined and we can't use (.) on it
+alert(user.address?.street)	// undefined; no error
 
 // it is short-circuited, this means that it stops as soon as it finds a non-existent property
 

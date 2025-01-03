@@ -55,7 +55,7 @@ Any methods that are called inside an annotated method will be covered in a _sin
 ### Pitfalls
 As discussed in the below section, _@Transactional_ on any method is ignored by Spring if the call isn't coming through the proxy.
 
-All child methods of a method annotated (and called via proxy) will be covered covered under transaction, even non-public ones:
+All child methods of a method annotated (and called via proxy) will be covered under transaction, even non-public ones:
 ```java
 class Foo{
     @Transactional
@@ -116,7 +116,9 @@ class Bar{
 **Summary**: All method calls coming from within the same class ignore _@Transactional_ annotation on that method, no matter if the method is non-public or public.
 
 ### Proxy
-The `@Transactional` annotation uses Spring proxy and transactional logic is injected before and after the running method. It means that **only external calls to methods that come in through the proxy are covered under transactions, any internal method calls are not transactional even if they're annotated!**. We can cover such `private` methods programmatically using `PlatformTransactionManager` and manually commiting or rolling back.
+Spring creates another bean (_proxy_) for the class having `@Transactional` annotation methods (_target object_). It replaces the original bean in the application context and wraps the transactional logic around method invocations.
+
+The proxy intercepts method calls from outside the target object and applies the advice (i.e. transactional logic) before delegating the call to the actual method. This means that **only external calls to methods that come in through the proxy are covered under transactions, any internal method calls bypass the proxy even if annotated because they are direct calls within the same object instance!**. We can cover such `private` methods programmatically using `PlatformTransactionManager` and manually commiting or rolling back.
 
 **Programmative Way** using `PlatformTransactionManager`:
 ```java

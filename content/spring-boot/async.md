@@ -9,7 +9,7 @@ No additional dependencies are required for Async or Events functionality in Spr
 ## Spring Async
 **Enable Annotation**: `@EnableAsync` (no dependency required in Spring Boot)
 
-**Async processing in Spring Boot**: use `@Async` annotation on methods and `@EnableAsync` on any one of the configuration classes. Spring Boot will run this method in a separate thread. Also, the method call must come from outside the class (same concept as the Transactional Spring Proxy Bean interception).
+**Async processing in Spring Boot**: use `@Async` annotation on methods and `@EnableAsync` on any one of the configuration classes. Spring Boot will run this method in a separate thread. Also, the method call must come from outside the class (same concept as the [Transactional Spring Proxy Bean interception](/spring-boot/txn/#proxy)).
 
 An `@Async` method can return `void`, `Future`, or `CompletableFuture` (which is a subtype of Future only).
 
@@ -55,7 +55,7 @@ _Reference_: Spring Async Microservice - [YouTube](https://youtu.be/utMoWx1XcrE)
 ## Spring Events
 No dependency or enable annotation required to use events in Spring Boot.
 
-For intra-app event driven communniication (sync as well as async) we can use events API provided in Spring.
+For intra-app event driven communication (sync as well as async) we can use events API provided in Spring.
 
 We can use events to achieve **loose coupling** among service calls in the application:
 ```java
@@ -112,6 +112,8 @@ class StudentHandler{
 		System.out.println("Student " + cse.getName() + " received.");
 	}
 }
+
+// all listeners for that event are triggered
 ```
 
 {{% notice info %}}

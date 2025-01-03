@@ -97,6 +97,8 @@ public class CustomConfiguration {
 
 **Soft Delete**: mark rows as delted = `true` in a boolean column. On reads, filter out these marked rows from the output.
 
+**Async vs Event-Driven Processing**: 
+
 ## Security
 
 - setup login auth
