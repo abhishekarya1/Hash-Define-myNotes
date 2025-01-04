@@ -7,11 +7,21 @@ weight = 18
 ## Spring
 
 **Spring Application Optimizations**:
-- Service: async processing `@Async`, use WebFlux's WebClient for inter-service REST API calls
-- Database: optimize queries, use proper repository abstraction (e.g. `JpaRepository`, `CrudRepository`), implement caching, connection pooling,
-- Security: enable HTTP response compression, configure stateless sessions in Spring Security
+- **Service**: 
+    - async processing `@Async`
+    - use WebFlux's `WebClient` for async inter-service REST API calls over sync `RestClient`
+- **Database**: 
+    - optimize SQL queries by using efficient clauses and minimizing table locks (transaction isolation levels)
+    - use proper repository abstraction (e.g. `JpaRepository`, `CrudRepository`)
+    - implement caching ([notes](/spring-boot/txn/#caching))
+    - connection pooling (Hikari CP is the default connection pool; fine-tune properties such as connection timeout, idle timeout, and max connections to optimize performance).
+- **Security**: configure stateless sessions in Spring Security
+- **Java**: tune JVM options for Garbage Collector (`-XX:+UseZGC`) and size of the heap (`-Xms512m -Xmx2g`; _initial_ and _max_ size)
+- **Web**: 
+    - enable gzip HTTP response compression
+    - enable HTTP/2 protocol (enabled by default since Spring Boot 3)
 
-If anything goes wrong, debug using Actuator `/metrics` and Prometheus metrics stats.
+If anything goes wrong, debug using Actuator (`/metrics`) and other Micrometer observability stats. Detect deadlocks and concurrency issues by analyzing thread dumps with tools like `jstack`, `jvisualvm`, or IntelliJ Profiler (Ultimate Edition only).
 
 **Async processing in Spring Boot**: we can use `@Async` annotation provided in Spring Boot instead of writing our own CompletableFutures everytime. [notes](/spring-boot/async-events/#spring-async)
 
@@ -80,8 +90,13 @@ public class CustomConfiguration {
 // alternatively if we mark it using the @Primary annotation, it ensures that if there are multiple beans of the same type, Spring will prefer the custom bean even if names are diff
 ```
 
-## Microservices
+### Past issues faced and resolutions
+- **Queries getting timed out**: read queries timing out waiting to acquire lock on a table. Appended `WITH (NOLOCK)` clause to write queries, equivalent to setting `READ_UNCOMMITED` isolation level on transactions.
+- **DB connection not available**: exhausted all pool connections because JDBC code wasn't closing them after executing query (connection leak). Increased max pool size, increased max connection timeout, detected alive connections using Hikari leak-detection-threshold property which logs a warning if a connection is held longer than the threshold time specified.
+- **Periodic lag in application**: changed GC to Shenandoah GC for shorter pauses, and tweaked initial heap size (decreased)
+- **Long response times**: paged API responses, paged DB queries (with `LIMIT` and `OFFSET`) as well, caching at controller level, implemented relevant code as async processing
 
+## Microservices
 **Scaling for high traffic**:
 - break into microservices and scale independently
 - horizontal scaling (add more runners/instances)
@@ -97,10 +112,9 @@ public class CustomConfiguration {
 
 **Soft Delete**: mark rows as delted = `true` in a boolean column. On reads, filter out these marked rows from the output.
 
-**Async vs Event-Driven Processing**: 
+**Async vs Event-Driven Processing**: in async we've direct control over when and by whom tasks are executed (parallel aka non-blocking). In event-driven we decouple and allow reaction to events. Often made parallel too, in which case its called event-driven non-blocking processing (Reactive).
 
 ## Security
-
 - setup login auth
 - always salt and hash passwords
 - enable HTTPS
