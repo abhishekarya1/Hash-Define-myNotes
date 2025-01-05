@@ -4,9 +4,9 @@ date = 2022-12-06T12:56:00+05:30
 weight = 15
 +++
 
-**Declarative** way of programming modern services, deals with **data streams** and **propagation of change** (_event-driven_).
+**Declarative** programming paradigm for building modern responsive services, deals with **data streams** and **propagation of change** (_event-driven_).
 
-Not neccessarily async, but its a core feature; reacting to a change doesn't require async nature of processing, but the way modern reactive system acheive performance is using async processing.
+Not neccessarily async (_non-blocking_), but its a core feature; reacting to a change doesn't require async nature of processing, but the way modern reactive system acheive performance is using async processing.
 
 Outline of reactive systems is in [_Reactive Manifesto_](https://www.reactivemanifesto.org/).
 
@@ -167,7 +167,7 @@ mono.blockOptional();				// returns emitted value (if any)
 // Error handling
 // remember, one way is to use second param of the subscribe() to handle errors
 .doOnError(Consumer)			// do something on error; and then stop and throw error
-.onErrorContinue(err, item)		// continue from next element after doing this
+.onErrorContinue(BiConsumer)	// continue from next element after doing this
 .doFinally(Consumer)			// only accepts SignalType as input, no elements, only complete and failure events
 ```
 
@@ -183,7 +183,7 @@ Flux<T> merged = Flux.concat(mono, flux);
 // methods from flux/mono instance
 // concat waits for mono to finish before emitting flux
 Flux<T> merged = mono.concatWith(flux);
-// merge emts messages as soon as they are available from either source (recommended)
+// merge emits messages as soon as they are available from either source (recommended)
 Flux<T> merged = mono.mergeWith(flux);
 ```
 
