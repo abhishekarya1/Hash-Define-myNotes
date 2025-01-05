@@ -1,7 +1,7 @@
 +++
-title = "OOP"
+title = "Prototypes"
 date =  2025-01-03T16:26:00+05:30
-weight = 6
+weight = 5
 +++
 
 ## Prototypes, Prototypal inheritance, Built-in prototypes
@@ -166,7 +166,7 @@ alert( rabbit.eats ) 	// true
 // the default "prototype" is an object with the only property constructor that points back to the function itself
 
 function Rabbit() {}
-/* default prototype
+/* by default, the prototype property points to the function object itself
 Rabbit.prototype = { constructor: Rabbit }
 */
 ```

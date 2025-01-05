@@ -4,9 +4,7 @@ date =  2024-12-29T20:53:00+05:30
 weight = 4
 +++
 
-## Functions
-
-### Rest Parameters and Spread Syntax
+## Rest Parameters and Spread Syntax
 ```js
 // Rest Parameters and Spread Syntax - both look similar (...arr)
 
@@ -54,7 +52,7 @@ When ... occurs in a function call or alike, it's called a "spread syntax" and i
 */
 ```
 
-### Variable Scopes and Closure
+## Variable Scopes and Closure
 ```js
 // Closure - nested function
 function makeCounter() {
