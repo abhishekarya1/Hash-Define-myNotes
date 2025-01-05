@@ -29,7 +29,7 @@ alert(typeof MyClass)	 // function
 When a class is decalred, the following happens:
 
 1. Creates a function named "MyClass", the function code is taken from the constructor method (assumed empty if we don't write such method).
-2. Stores class methods, such as "method", in a newly created object "MyClass.prototype".
+2. Stores class methods, such as "method", in a newly created object "MyClass.prototype" (created by JS for class).
 3. After "new MyClass" object is created, when we call its method, it's taken from the "MyClass.prototype". So the object has access to class methods.
 4. Class fields are set on individual objects, not "MyClass.prototype", unlike methods.
 
@@ -173,4 +173,4 @@ alert(obj.name)		// John
 ![prototypal_relationship_diagram](https://i.imgur.com/Sf5qKLL.png)
 
 **Class inheritance diagram showing members**:
-![class_inheritance_members_diagram](https://i.imgur.com/bBj4Vjf.png)
+![class_inheritance_members_diagram](https://i.imgur.com/roRkprJ.png)
