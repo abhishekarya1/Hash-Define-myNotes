@@ -1,5 +1,5 @@
 +++
-title = "MSA"
+title = "Architecture"
 date = 2022-06-19T11:41:00+05:30
 weight = 1
 +++
@@ -78,29 +78,33 @@ In SOA, sharing is quintessential to increase reusability; we don't care about d
 _Reference_: https://www.ibm.com/cloud/blog/soa-vs-microservices
 
 ## Scaling
+
+**Horizontal scaling (Scaling out)** - Adding more machines to existing pool of resources. Ex - Cassandra, MongoDB.
+
+**Vertical scaling (Scaling up)** - Adding more power to existing machines. Ex - MySQL, Amazon RDS.
+
+{{% notice info %}}
+The distinction between **Federated database** (FDB) and **Sharded database** is important. The federation is along functional boundaries (domain) i.e. keeping only relevant tables to a service, or relevant columns after normalizing tables. Whereas database sharding means dividing table data (rows) into multiple based on geographic location, locality of reference etc.
+{{% /notice %}}
+
 Scale cube: A 3-D approach to build apps that can scale infinitely.
 
 **X-Axis** (Cloning services, replication of database)
 
-We take a service and clone it along with database. Each clone has its own replica of the database. (aka _Horizontal scaling_)
+We take a service and clone it along with database. Each clone has its own replica of the database. (aka **Horizontal Scaling**)
 
 ![](https://i.imgur.com/AiRvczI.png)
 
 **Y-Axis** (Functional decomposition of services, federated database)
 
-We functionally decompose the service into smaller services. Each smaller service is repsonsible for its own data and its mutation. The data store is often a subset of the original database and stores only the information relevant to its owner service. (aka _Microservices architecture_)
+We functionally decompose the service into smaller services. Each smaller service is repsonsible for its own data and its mutation. The data store is often a subset of the original database and stores only the information relevant to its owner service. (aka **Microservices Architecture**)
 
-![](https://i.imgur.com/sKF4Acn.png)
+![](https://i.imgur.com/xoHFBvs.png)
 
-**Z-Axis** (Cloning services, federated database)
+**Z-Axis** (Cloning services, sharded database)
 
-We take a service and clone it, but each service can access a subset (shard) of the original database. Some component of the system is responsible for routing each request to the appropriate shard. (aka _Sharding_)
+We take a service and clone it, but each service can access a subset (shard) of the original database. Some component of the system is responsible for routing each request to the appropriate shard. (aka **Sharding**)
 
 ![](https://i.imgur.com/JjYsnIr.png)
 
 _Reference_: https://akfpartners.com/growth-blog/scale-cube
-
----
-**Horizontal scaling (Scaling out)** - Adding more machines to existing pool of resources. Ex - Cassandra, MongoDB.
-
-**Vertical scaling (Scaling up)** - Adding more power to existing machines. Ex - MySQL, Amazon RDS.

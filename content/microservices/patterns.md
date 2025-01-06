@@ -26,7 +26,7 @@ We can place this as a Forward Proxy too. One use case for it is API response ag
 Manage traffic before it reaches services:
 - routing, load balancing 
 - perform filtering and transformation of incoming API requests
-- security - verfy API keys
+- security - verify API keys
 - enforce usage quotas and rate limit (throttling)
 - cache API responses (e.g. Varnish Cache)
 - metrics, monitoring, reporting
@@ -43,7 +43,7 @@ Distribute traffic evenly across all service instances, ensuring optimal perform
 Uses an algorithm[^1] like Round-Robin to schedule incoming traffic to services.
 
 Levels of Load Balancing:
-- **Layer-4**: sticky connection, can't understand application layer level protocol data, faster
+- **Layer-4**: sticky connection because LB doesn't know how many segments a HTTP request takes, can't understand application layer level protocol data, faster
 - **Layer-7**: dynamic routing, can understand application layer level protocol data (_Content-based routing_), thus slower
 
 Types of Load Balancing:
@@ -60,14 +60,19 @@ A separate API gateway for each kind of client. An API can be used by many clien
 ![](https://i.imgur.com/9oVQq2B.png)
 
 
-### Retry
-Send request to a service, if we get a _error response_ back, then retry a fixed number of times before falling back to a `fallbackMethod`.
+### Retry and Timeout
+Send request to a service, if we get a _error response_ back (or it times out), then retry a fixed number of times before falling back to a `fallbackMethod`.
 
-If we get a TimeoutException after a certain duration of time then we can Retry, otherwise if the processing is happening in the callee service then we have no option other than to sit and wait.
+```java
+// resilience4j @Retry on a method sending request to another service
+@Retry(name = "fooBarRetry", fallbackMethod = "localCacheLookup")
+```
 
-Use **Timeout** pattern (`@TimeLimiter` in Resilience4j) if we want to specify timeout time and if we _don't get any response_ back for that duration then we trigger `fallbackMethod`.
+It retries for all exceptions by default but we can configure a lost of exceptions too. On a request taking too long to respond, we get back a `TimeoutException` after a certain configured duration of time, we can specify retry for this exception to retry on timeouts.
 
-Ex - [Spring Retry](https://www.baeldung.com/spring-retry), Resilience4j.
+Ex - [Spring Retry](https://www.baeldung.com/spring-retry)'s `@Retryable`, Resilience4j's `@Retry`.
+
+For using only the timeout without retry, use **Timeout** pattern (`@TimeLimiter` in Resilience4j) and if we _don't get any response_ back for that duration then we trigger `fallbackMethod` immediately.
 
 ### Circuit Breaker
 If one service is down, we shouldn't waste time sending it requests continually. Prevents requests from reaching a failing service, giving it time to recover.
@@ -203,6 +208,161 @@ Given below are deployment strategies that have zero downtime:
 **Rolling Deployment**: slowly replace the pods containing old version with the pods containing new version of the code (in k8s). Also known as **Phased Deployment**.
 
 A/B Testing: 50% of users are redirected to `versionA` and the other half to `versionB` to determine which one performs better.
+
+### Code Structure
+
+1. **Layered Architecture (N-Tier Architecture)**- traditional Spring Boot structure; organizing the application code by technical layers (e.g. controller, service, repository, model).
+
+```txt
+com.example.app
+  ├── controller         			 (Presentation Layer)
+  │   └── OrderController.java
+  │   └── UserController.java
+  ├── service           			 (Service Layer)
+  │   └── OrderService.java
+  │   └── UserService.java
+  ├── repository         			 (Persistence Layer)
+  │   └── OrderRepository.java
+  │   └── UserRepository.java
+  ├── model             			 (Model Layer)
+  │   └── OrderEntity.java
+  │   └── UserEntity.java
+  ├── dto               			 (Optional - Data Transfer Objects)
+  │   └── OrderDTO.java
+  │   └── UserDTO.java
+  └── shared						 (Reusable Components)
+      ├── exceptions
+      ├── utils
+      └── config
+```
+
+2. **Domain-Driven Design (DDD)**: group files by business domains or bounded contexts first and then by technical layers inside each domain. Each domain contains everything it needs to function independently.
+```txt
+com.example.app
+  ├── orders
+  │   ├── controller
+  │   ├── service
+  │   ├── repository
+  │   ├── model
+  │   └── dto
+  ├── customers
+  │   ├── controller
+  │   ├── service
+  │   ├── repository
+  │   ├── model
+  │   └── dto
+  └── shared
+      ├── exceptions
+      ├── utils
+      └── config
+```
+
+3. **Vertical Slicing (Feature-Based Organization)**: organize by features/functionality.
+```txt
+com.example.app
+  ├── user-management
+  │   ├── UserController.java
+  │   ├── UserService.java
+  │   ├── UserRepository.java
+  │   └── User.java
+  ├── product-catalog
+  │   ├── ProductController.java
+  │   ├── ProductService.java
+  │   ├── ProductRepository.java
+  │   └── Product.java
+  └── order-processing
+      ├── OrderController.java
+      ├── OrderService.java
+      ├── OrderRepository.java
+      └── Order.java
+```
+
+3. **Modular Monolith**: organize the project into independent modules (but within the same application).
+
+```txt
+com.example.app
+  ├── modules
+  │   ├── user
+  │   │   ├── controller
+  │   │   ├── service
+  │   │   ├── repository
+  │   │   └── model
+  │   ├── product
+  │   │   ├── controller
+  │   │   ├── service
+  │   │   ├── repository
+  │   │   └── model
+  │   └── order
+  │       ├── controller
+  │       ├── service
+  │       ├── repository
+  │       └── model
+  └── shared
+      ├── utils
+      ├── config
+      └── exceptions
+```
+
+4. **Hexagonal Architecture (Ports and Adapters Architecture)**: organize the project into 3 main areas:
+- _Domain_: entities, core business logic
+- _Application_: service layer, business use case workflows (relies on Domain; calls business logic and uses entities)
+- _Adapters_: infrastructure; interact with external systems (e.g. controllers, repositories, external API call)
+
+Highly decoupled architecture and suits very well for complex microservices.
+
+Its also called "Ports and Adapters" because there is a clear separation between business rules and infrastructure code.
+
+```txt
+com.example.app
+  ├── domain
+  │   ├── model
+  │   └── service
+  ├── application
+  │   ├── usecase
+  │   └── dto
+  ├── adapters
+  │   ├── web
+  │   │   └── controller
+  │   ├── persistence
+  │   │   └── repository
+  │   └── messaging
+  │       └── listener
+  └── config
+```
+
+5. **Hybrid Approach**: you can combine multiple strategies, such as domain-based grouping with feature-based modularization.
+
+```txt
+com.example.app
+  ├── users
+  │   ├── api
+  │   │   ├── UserController.java
+  │   │   └── UserDTO.java
+  │   ├── domain
+  │   │   └── User.java
+  │   ├── service
+  │   │   └── UserService.java
+  │   └── repository
+  │       └── UserRepository.java
+  ├── orders
+  │   ├── api
+  │   │   ├── OrderController.java
+  │   │   └── OrderDTO.java
+  │   ├── domain
+  │   │   └── Order.java
+  │   ├── service
+  │   │   └── OrderService.java
+  │   └── repository
+  │       └── OrderRepository.java
+  └── shared
+      ├── config
+      ├── utils
+      └── exceptions
+```
+
+{{% notice tip %}}
+Use Maven or Gradle to create multiple modules. Each module can represent a domain, service, or technical layer.
+{{% /notice %}}
 
 ## References
 - https://levelup.gitconnected.com/12-microservices-pattern-i-wish-i-knew-before-the-system-design-interview-5c35919f16a2

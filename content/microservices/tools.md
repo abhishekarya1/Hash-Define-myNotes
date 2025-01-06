@@ -17,11 +17,11 @@ _Reference_: https://javatechonline.com/microservices-architecture/#Common_Tools
 ## Service Mesh
 Manages everything about microservices in a cluster
 
-**Takes care of** - service registry & discovery, gateway, load balancing, configs, log tracing & metrics, network policies and whitelisting, circuit breaking and retry, etc..
+**Takes care of** - service registry & discovery, gateway, load balancing, configs, log tracing & metrics, network policies and whitelisting, circuit breaking and retry, etc.
 
 Traffic splitting & canary deployment (aka Rolling upgrades) are easier when we have a service mesh
 
-**Motto** - separate all the above responsibilities from microservice to service mesh framework; that's why microservice don't have hefty code doing all the above (_Single Responsibility Principle_)
+**Goal** - separate all the above responsibilities from microservice to service mesh framework; that's why microservice don't have hefty code doing all the above (_Single Responsibility Principle_)
 
 ### Sidecar proxy
 An app is injected and runs alongside our microservice in the same pod, the communication is done between proxy apps. No need for any additional logic in the actual microservice.
