@@ -38,7 +38,7 @@ Ex - Spring Cloud API Gateway and Azure APIM.
 _Reference_: API Gateway - [YouTube](https://youtu.be/xtd5GQl4Dxc)
 
 ### Load Balancing
-Distribute traffic evenly across all service instances, ensuring optimal performance, and preventing service overload.
+Helps scale horizontally by distributing traffic evenly across all service instances ensuring optimal performance, and preventing service overload which ensures high availability.
 
 Uses an algorithm[^1] like Round-Robin to schedule incoming traffic to services.
 
@@ -46,9 +46,15 @@ Levels of Load Balancing:
 - **Layer-4**: sticky connection because LB doesn't know how many segments a HTTP request takes, can't understand application layer level protocol data, faster
 - **Layer-7**: dynamic routing, can understand application layer level protocol data (_Content-based routing_), thus slower
 
+[LB in Networking notes](/networking/notes/#load-balancers)
+
 Types of Load Balancing:
 - **Server-Side Balancing**: load balancer decides which service instance to route request to 
 - **Client-Side Balancing**: client itself decides which service instance to send request to (client doesn't send request to LB in this)
+
+Types of Load Balancing strategies:
+- **Static**: source IP hash (deterministic; same source requests always land at the same server), URL hash, round robin, randomized algorithm etc.
+- **Dynamic** (_rely on current state of each server_): least connection, least response time, etc.
 
 Ex - HAProxy and Nginx. All cloud service providers provide Load Balancers of their own too. We can also implement our own Load Balancing strategy using [Spring Cloud Load Balancer](https://www.baeldung.com/spring-cloud-load-balancer).
 
@@ -59,20 +65,31 @@ A separate API gateway for each kind of client. An API can be used by many clien
 
 ![](https://i.imgur.com/9oVQq2B.png)
 
-
-### Retry and Timeout
-Send request to a service, if we get a _error response_ back (or it times out), then retry a fixed number of times before falling back to a `fallbackMethod`.
+### Rate Limit, Retry, Timeout
+**Rate Limit** - Set a maximum number of requests allowed within a specific time period.
 
 ```java
-// resilience4j @Retry on a method sending request to another service
-@Retry(name = "fooBarRetry", fallbackMethod = "localCacheLookup")
+// resilience4j annotation on a method that sends request to another service
+@RateLimiter(name = "foobarRateLimit", fallbackMethod = "localCacheLookup")
 ```
 
-It retries for all exceptions by default but we can configure a lost of exceptions too. On a request taking too long to respond, we get back a `TimeoutException` after a certain configured duration of time, we can specify retry for this exception to retry on timeouts.
+**Retry** - Send request to a service, if we get a error response back or exception (or it times out), then retry a fixed number of times before falling back to a `fallbackMethod`.
+
+```java
+// resilience4j annotation on a method that sends request to another service
+@Retry(name = "foobarRetry", fallbackMethod = "localCacheLookup")
+```
+
+It retries for all exceptions by default but we can configure a list of exceptions too. On a request taking too long to respond, we get back a `TimeoutException` after a certain configured duration of time, we can specify retry for this exception to retry on timeouts.
 
 Ex - [Spring Retry](https://www.baeldung.com/spring-retry)'s `@Retryable`, Resilience4j's `@Retry`.
 
-For using only the timeout without retry, use **Timeout** pattern (`@TimeLimiter` in Resilience4j) and if we _don't get any response_ back for that duration then we trigger `fallbackMethod` immediately.
+**Timeout** - Don't wait for a response indefinitely, use **Timeout** pattern (`@TimeLimiter` in resilience4j) and if we _don't get any response_ back for a specific duration then trigger `fallbackMethod` immediately.
+
+```java
+// resilience4j annotation on a method that sends request to another service
+@TimeLimiter(name = "foobarTimeout", fallbackMethod = "localCacheLookup")
+```
 
 ### Circuit Breaker
 If one service is down, we shouldn't waste time sending it requests continually. Prevents requests from reaching a failing service, giving it time to recover.
@@ -199,11 +216,15 @@ Given below are deployment strategies that have zero downtime:
 
 **Big Bang Deployment**: replace old application with new (involves downtime), and then after the deployment all traffic is received by the new version. Rollbacks are very expensive here.
 
-**Blue-Green Deployment**: two identical production enviroments, only one is live at a given time and all traffic is routed to it, the other is on standby, helps in upgrading services to newer version with minimal downtime.
+**Blue-Green Deployment**: two identical production enviroments, only one is live at a given time and all traffic is routed to it, the other is on standby, helps in upgrading services to newer version with minimal downtime by gradually moving over traffic to newer version.
 
 ![](https://i.imgur.com/nJP0R8D.jpg)
 
 **Canary Deployment**: rollout features to a subset of users (_early adopters_) before making them available to all; redirect a part of traffic coming from users say 10% of the total users to the newer service (`v1.1`), while the majority of traffic still goes to the stable service (`v1.0`). If anything goes wrong, we can recover faster in this strategy.
+
+{{% notice tip %}}
+Miners would bring canary birds in little cages into the mines because the birds were more sensitive to toxic gases like carbon monoxide. If the canary showed signs of distress, it was a warning to the miners to evacuate.
+{{% /notice %}}
 
 **Rolling Deployment**: slowly replace the pods containing old version with the pods containing new version of the code (in k8s). Also known as **Phased Deployment**.
 
@@ -277,7 +298,7 @@ com.example.app
       └── Order.java
 ```
 
-3. **Modular Monolith**: organize the project into independent modules (but within the same application).
+4. **Modular Monolith**: organize the project into independent modules (but within the same application).
 
 ```txt
 com.example.app
@@ -303,7 +324,7 @@ com.example.app
       └── exceptions
 ```
 
-4. **Hexagonal Architecture (Ports and Adapters Architecture)**: organize the project into 3 main areas:
+5. **Hexagonal Architecture (Ports and Adapters Architecture)**: organize the project into 3 main areas:
 - _Domain_: entities, core business logic
 - _Application_: service layer, business use case workflows (relies on Domain; calls business logic and uses entities)
 - _Adapters_: infrastructure; interact with external systems (e.g. controllers, repositories, external API call)
@@ -330,7 +351,7 @@ com.example.app
   └── config
 ```
 
-5. **Hybrid Approach**: you can combine multiple strategies, such as domain-based grouping with feature-based modularization.
+6. **Hybrid Approach**: you can combine multiple strategies, such as domain-based grouping with feature-based modularization.
 
 ```txt
 com.example.app

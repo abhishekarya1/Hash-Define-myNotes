@@ -72,13 +72,13 @@ Can be used in between web server and service, service and database, etc... know
 
 **Types**: layer-4 and layer-7 [/networking/notes/#load-balancers](/networking/notes/#load-balancers)
 
-**Balancing Algorithms**:
+**Balancing Algorithms**: static and dynamic
 - Round Robin
-- Weighted RR
-- Least connection
-- Least response time
-- Hash source IP, or target IP
-- Random
+- Weighted RR (server with more capacity gets more requests)
+- Least Connection
+- Least Response Time
+- Hash Source IP (deterministic; same source requests always land at the same server)
+- Randomized Algorithm
 
 https://www.enjoyalgorithms.com/blog/types-of-load-balancing-algorithms
 
