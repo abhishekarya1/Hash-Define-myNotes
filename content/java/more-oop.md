@@ -673,12 +673,17 @@ Aquatic waterAnimal = (Aquatic)m;     // compiles fine, even though the interfac
 
 ### instanceof operator
 ```java
-// instanceof operator checks for compatible types and returns boolean; prevents ClassCastException at runtime
+// instanceof operator checks if type of a given instance is compatible with given type and returns a boolean; prevents ClassCastException at runtime
 
 if(obj instanceof Foobar){ }
 
 new Child() instanceof Parent	// true
 new Parent() instanceof Child	// false
+
+// it detects the actual type of the instance and not its ref type
+String str = "foobar";
+Object obj = str;
+System.out.println(obj instanceof String);		// true
 
 // applying it to unrelated types leads to compile-time error
 cat instanceof Dog

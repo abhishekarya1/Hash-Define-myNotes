@@ -167,7 +167,7 @@ alert(obj.name)		// John
 
 // For example, both Array and Date inherit from Object, so their instances have methods from Object.prototype. But Array.[[Prototype]] does not reference Object (coz its built-in, so there's no Array.keys() (or Date.keys()) static method.
 
-// use instanceof to check class types - examines the prototype chain for the check and if any parent matches then "true" boolen is returned
+// use instanceof to check class types - examines the entire prototype chain of "obj" for matches for "Class.prototype", and a boolean is returned
 obj instanceof Class
 
 // Mixins - a class containing methods that can be used by other classes without a need to inherit from it.
