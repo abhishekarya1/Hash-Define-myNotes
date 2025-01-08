@@ -165,7 +165,37 @@ alert(obj.name)		// John
 
 // when one class extends another, both static and non-static methods are inherited. But built-in classes are an exception. They don't inherit statics from each other.
 
-// For example, both Array and Date inherit from Object, so their instances have methods from Object.prototype. But Array.[[Prototype]] does not reference Object, so there's no, for instance, Array.keys() (or Date.keys()) static method.
+// For example, both Array and Date inherit from Object, so their instances have methods from Object.prototype. But Array.[[Prototype]] does not reference Object (coz its built-in, so there's no Array.keys() (or Date.keys()) static method.
+
+// use instanceof to check class types - examines the prototype chain for the check and if any parent matches then "true" boolen is returned
+obj instanceof Class
+
+// Mixins - a class containing methods that can be used by other classes without a need to inherit from it.
+// they are used for multiple inheritance like usage to get methods from another class other than the parent
+
+// simply copy all properties (incl methods) from an object
+
+// mixin object, it can inherit from other objects as well
+let sayHiMixin = {
+  sayHi() {
+    alert(`Hello ${this.name}`)
+  },
+  sayBye() {
+    alert(`Bye ${this.name}`)
+  }
+}
+
+// a typical class
+class User {
+  constructor(name) {
+    this.name = name
+  }
+}
+
+// copy the methods to User.prototype
+Object.assign(User.prototype, sayHiMixin)
+
+// be careful with naming methods of mixins as they can accidentally overwrite existing class methods
 ```
 
 ## Diagrams
@@ -173,4 +203,4 @@ alert(obj.name)		// John
 ![prototypal_relationship_diagram](https://i.imgur.com/Sf5qKLL.png)
 
 **Class inheritance diagram showing members**:
-![class_inheritance_members_diagram](https://i.imgur.com/roRkprJ.png)
+![class_inheritance_members_diagram](https://i.imgur.com/dXlQbSy.png)
