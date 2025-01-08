@@ -1,5 +1,5 @@
 +++
-title = "Classes"
+title = "Classes & Errors"
 date =  2025-01-05T16:03:00+05:30
 weight = 6
 +++
@@ -204,3 +204,56 @@ Object.assign(User.prototype, sayHiMixin)
 
 **Class inheritance diagram showing members**:
 ![class_inheritance_members_diagram](https://i.imgur.com/dXlQbSy.png)
+
+## Error Handling
+```js
+// try ... catch ... finally - catch is optional just like Java
+
+try {
+  // code...
+} catch (err) {
+  // error handling
+}
+
+// catch may omit param
+try {
+} catch {   // without (err)
+}
+
+// JS doesn't have a compile time, so detection of syntactical errors is also caught!
+'use strict'
+try {
+  name = 'foo'
+} catch (err) {
+  console.log(err)
+}
+
+// ReferenceError: name is not defined
+
+// additional error info from error object
+alert( err.name )
+alert( err.message )
+alert( err.stack )    // non-standard but well-supported
+
+// throw errors explicitly
+throw new ReferenceError('Oops! Something went wrong.')
+
+// JS doesn't have types so catching specific errors isn't possible. Solution - catch all and rethrow unexpected ones. Check using instanceof.
+catch(err){
+  if (err instanceof SyntaxError) {
+    alert( "JSON Error: " + err.message )
+  } else {
+    throw err   // rethrow
+  }
+}
+
+// custom errors - inherit from in-built "Error" class
+class ValidationError extends Error {
+  constructor(message) {
+    super(message)
+    this.name = "ValidationError"
+  }
+}
+
+throw new ValidationError("Whoops!")
+```
