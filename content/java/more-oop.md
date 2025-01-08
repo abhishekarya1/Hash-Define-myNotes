@@ -74,7 +74,9 @@ public class MyClass extends Super implements Test {	// subclass doesn't have a 
 // compiler error
 ```
 
-- conflicting explicit modifiers over implicit modifiers are not allowed: we can't make a variable `private` or a method `protected`, etc...
+- conflicting explicit modifiers over implicit modifiers are not allowed: we can't make a variable `private` or a method `protected`, etc.
+
+- an interface's sole purpose is to get implemented so it can't be `final` (`abstract` methods and classes/interfaces can't be `final`)
 
 - the 4 methods to override methods still apply to interfaces too
 
@@ -673,9 +675,17 @@ Aquatic waterAnimal = (Aquatic)m;     // compiles fine, even though the interfac
 ```java
 // instanceof operator checks for compatible types and returns boolean; prevents ClassCastException at runtime
 
-if(obj instanceof FoobarClass){ }
+if(obj instanceof Foobar){ }
+
+new Child() instanceof Parent	// true
+new Parent() instanceof Child	// false
 
 // applying it to unrelated types leads to compile-time error
+cat instanceof Dog
+Integer.valueOf(7) instanceof String
+
+// always true no matter what type "obj" is
+obj instanceof Object
 
 // instanceof on null always returns false
 null instanceof String

@@ -658,14 +658,14 @@ public class abstract X{ }		// invalid
 
 Constructors exists (even `public` ones) and behave the same as in a normal class. But, they are only called via their subclass constructor using `super()` since we can't instantiate abstract classes by using `new` explicitly.
 
-If a class is marked `final abstract`, it doesn't make any sense and is a compiler error.
+If a class is marked `final abstract`, it doesn't make any sense and is a compiler error. Since an abstract class's sole purpose is to get inherited and implement abstract methods.
 
 `static` methods aren't overriden but hidden, so using `static abstract` on methods is also compiler error. We can have normal `static` methods though.
 
 `abstract` methods' sole purpose is to get overridden, so making them `private`, `final`, or `static` is compiler-error.
 
 {{% notice tip %}}
-An `abstract` class is more closer to a Java class than an `interface` in the sense that it can have members, methods, no default modifiers, even public constructors. The only thing is that they can't be instantiated (`new`) and may have `abstract` methods. Also, they don't need to implement `abstract` methods of an `interface` when they `implement` it.
+An `abstract` class is more closer to a Java class than an `interface` in the sense that it can have members, methods, no default modifiers, even public constructors. The only thing is that they can't be explicitly instantiated (using `new`), may have `abstract` methods, don't need to implement `abstract` methods of an interface/another abstract class when they `implement`/`extend` it, and the class can't be `final` (ofc).
 {{% /notice %}}
 
 ### Concrete Class
