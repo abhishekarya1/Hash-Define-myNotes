@@ -1,7 +1,7 @@
 +++
 title = "Modules"
 date =  2025-01-02T23:24:00+05:30
-weight = 10
+weight = 7
 +++
 
 ## Intro
