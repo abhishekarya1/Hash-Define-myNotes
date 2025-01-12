@@ -37,11 +37,20 @@ let promise = new Promise(function(resolve, reject) {
 // "resolve" and "reject" are callbacks provided by JS to call on success and error scenarios respectively
 let promise = new Promise(function(resolve, reject) {
 	resolve("Done")
-	reject(new Error("Oops.."))	// ignored
 })
 // the promise returns "Promise { 'Done' }" immediately
 
+let promise = new Promise(function(resolve, reject) {
+  reject(new Error("Oops.."))  // throws exception immediately
+})
+
 // always pass an Error object to reject() but nothing is really stopping us from passing other objects too
+
+// only one of resolve or reject can exist, whichever is first encountered is considered, others are ignored
+let promise = new Promise(function(resolve, reject) {
+  resolve("Done")
+  reject(new Error("Oops.."))  // ignored
+})
 
 // handlers of promise - then, catch, finally
 promise.then(
@@ -73,15 +82,15 @@ new Promise((resolve, reject) => {
 // Promise Chaining - if a then (or catch/finally, doesn't matter) handler returns a promise, the rest of the chain waits until it settles. When it does, its result (or error) is passed further.
 
 // Error Handling in Promises
-// the code of a promise executor and promise handlers has an "invisible try..catch" around it. If an exception happens, it gets caught and treated as a rejection
 
+// the code of a promise executor and promise handlers has an "invisible try..catch" around it. If an exception happens, it gets caught and treated as a rejection, so the below is equivalent to an explicit rejection
 new Promise((resolve, reject) => {
   throw new Error("Whoops!")
 }).catch(alert)	 // Error: Whoops!
 
-// in chaining, no matter where the error happens, it triggers the next error handler skipping everything in between. So the easiest way to catch all errors is to append .catch to the end of chain, and write only success (first param) for thens in between.
+// in chaining, no matter where the error happens, it triggers the next error handler skipping every non-rejection handler in between. So the easiest way to catch all errors is to append .catch to the end of chain, and write only success (first param) for thens in between.
 
-// rethrowing with .then handler
+// rethrowing with "then" handler
 new Promise((resolve, reject) => {
   throw new Error("Whoops!")
 }).catch(function(error) {
@@ -97,7 +106,7 @@ new Promise((resolve, reject) => {
   alert(`The unknown error has occurred: ${error}`)
 })
 
-// its ok not to use .catch at all, if there's no way to recover from an error. Let JS throw error and we'll know the details of it.
+// its ok not to use .catch at all, if there's no way to recover from an error. Let JS throw error and we'll know the details of the error.
 
 // Promise API - static methods from Promise class
 Promise.all(promises)	 // waits for all promises to resolve and returns an array of their results. If any of the given promises rejects, it becomes the error of Promise.all, and all other results are ignored
@@ -127,6 +136,7 @@ let loadScriptPromise = function(src) {
 // usage: loadScriptPromise('path/script.js').then(...)
 
 // Microtasks
+
 // Promise handling is always async, as all promise actions pass through the internal "promise jobs" queue, also called "Microtask Queue" (V8 term). So then/catch/finally handlers are always called after the current code is finished.
 
 let promise = Promise.resolve()
@@ -155,7 +165,7 @@ console.log(5)
 
 // 5 1 3 2 4
 
-// Expl - promise1 (1) and promise2 (3) are queued, but current global script code executes first and prints 5, then microtask queue execution happens and 1 and 3 are printed, 1 is executed first and its result is sent to its next handler and 2 is enqueued and printed, similar happens for 3 too and 4 is printed.
+// Explanation - promise1 (1) and promise2 (3) are queued, but current global script code executes first and prints 5, then microtask queue execution happens and 1 and 3 are printed, 1 is executed first and its result is sent to its next handler and 2 is enqueued and printed, similar happens for 3 too and 4 is printed.
 ```
 
 ## async/await
