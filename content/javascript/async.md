@@ -21,7 +21,7 @@ loadScript('/my/script.js', function(script) {
   })
 })
 
-// Promise - an object that executes a function asynchronously
+// Promise - an object that executes a function asynchronously; it executes immediately even though we are using "new" to create an object!
 let promise = new Promise(executorFunc)
 
 // pass a function expression instead
