@@ -39,15 +39,14 @@ let promise = new Promise(function(resolve, reject) {
 	resolve("Done")
 	reject(new Error("Oops.."))	// ignored
 })
-
 // the promise returns "Promise { 'Done' }" immediately
 
-// always pass an Error object to reject but nothing is really stopping us from passing other objects too
+// always pass an Error object to reject() but nothing is really stopping us from passing other objects too
 
 // handlers of promise - then, catch, finally
 promise.then(
-	function(result) { /* handle a successful result */ },
-	function(error) { /* handle an error */ }
+	function(result) { /* handle a successful result (on resolve) */ },
+	function(error) { /* handle an error (on reject) */ }
 )
 
 // skip passing the second argument to handle only success
@@ -62,7 +61,7 @@ promise.finally(
 
 // note on finally - it is unknown to the state of the promise, and is only used to perform generic cleanup tasks etc and pass the promise to the next suitable handler
 new Promise((resolve, reject) => {
-  throw new Error("error")
+  reject(new Error("error"))
 })
  .finally(() => alert("Promise ready")) 	// triggers first
  .catch(err => alert(err))  	// catch shows the error
@@ -126,4 +125,92 @@ let loadScriptPromise = function(src) {
 }
 
 // usage: loadScriptPromise('path/script.js').then(...)
+
+// Microtasks
+// Promise handling is always async, as all promise actions pass through the internal "promise jobs" queue, also called "Microtask Queue" (V8 term). So then/catch/finally handlers are always called after the current code is finished.
+
+let promise = Promise.resolve()
+promise.then(() => alert("promise done!"))
+alert("code finished")    // this alert shows first; even though promise is already resolved
+
+// when a promise is ready, its then/catch/finally handlers are put into the queue; they are not executed yet. When the JS engine becomes free from the current script code, it takes a task from the queue and executes it.
+
+// This behavior is unlike Java's CompletableFuture where current code executes independently of async code!
+```
+
+## Trick Question on Promise Handler Order (Microtask Queue)
+```js
+let promise1 = Promise.resolve()
+let promise2 = Promise.resolve()
+
+promise1
+.then(() => console.log(1))
+.then(() => console.log(2))
+
+promise2
+.then(() => console.log(3))
+.then(() => console.log(4))
+
+console.log(5)
+
+// 5 1 3 2 4
+
+// Expl - promise1 (1) and promise2 (3) are queued, but current global script code executes first and prints 5, then microtask queue execution happens and 1 and 3 are printed, 1 is executed first and its result is sent to its next handler and 2 is enqueued and printed, similar happens for 3 too and 4 is printed.
+```
+
+## async/await
+```js
+// "async" ensures that the function returns a promise, so it wraps non-promise values in a promise and returns it
+async function foobar() {
+  return 1
+}
+
+// lets test the implicit promise
+foobar().then(alert)   // 1
+
+// we can return an explicit promise as well (not required at all)
+async function foobar() {
+  return Promise.resolve(1)
+}
+
+foobar().then(alert)  // 1
+
+// "await" suspends the function execution until the promise settles, and then resumes it with the promise result, or throws exception
+// await keyword works only inside async functions, otherwise error!
+let value = await promise
+
+// its just a shorter syntax for promise.then handler
+let promise = Promise.resolve(1)
+let result = await promise    // 1
+
+// there is no CPU resource wastage because JS engine delegates CPU to other tasks and doesn't get blocked
+
+// error handling - if a rejection is there in awaited promise, an exception is generated
+async function f() {
+  await Promise.reject(new Error("Whoops!"))
+}
+
+// below is equivalent to the above
+async function f() {
+  throw new Error("Whoops!")
+}
+
+// we can use try...catch block to handle errors
+async function f() {
+  try {
+    let response = await fetch('http://no-such-url')
+  } catch(err) {
+    alert(err)  // TypeError: failed to fetch
+  }
+}
+f()
+
+// or we can use catch handler on the returned implicit promise from the function
+async function f() {
+  let response = await fetch('http://no-such-url')
+}
+
+// result of f() call becomes a rejected promise
+f().catch(alert)  // TypeError: failed to fetch
+
 ```
