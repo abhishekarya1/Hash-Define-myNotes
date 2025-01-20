@@ -50,7 +50,7 @@ REST expects the server to know "what to do", we can send `POST` or `DELETE` req
 RPCs are much faster than REST APIs.
 
 ## gRPC
-A modern open-source high performance RPC framework created by Google (circa 2016) that uses HTTP/2. It uses its own custom data exchange format called [ProtoBuff](https://developers.google.com/protocol-buffers/) which packs down smaller than JSON after compression.
+A modern open-source high performance RPC framework created by Google (circa 2016) that uses HTTP/2. It uses its own custom data exchange format called [ProtoBuf](https://developers.google.com/protocol-buffers/) which packs down smaller than JSON after compression.
 
 ```go
 message Person {
@@ -91,7 +91,7 @@ GraphQL is an open-source data query and manipulation language for APIs, and a r
 
 It sits between the client and the server and specifies what all fields to return in the response, and we get only those fields back.
 
-There is only a single endpoint and the call is strikingly similar to a RPC.
+There is **only a single endpoint** and the call is similar to RPC.
 
 Query:
 ```foobar

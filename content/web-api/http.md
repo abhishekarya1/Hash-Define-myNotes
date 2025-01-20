@@ -49,17 +49,18 @@ It was created for WWW along with HTML by Tim Berners-Lee at CERN. The first sta
 
 - application layer protocol (layer-7)
 - stateless; not sessionless (cookies implement sessions)
-- communicated over TCP/IP (connection establishment by a 3-way handshake)
-- content negotiation, etc...
-- extensible (custom headers, etc...)
+- communicated over TCP/IP (connection establishment by a 3-way TCP handshake)
+- content-type, encoding, language negotiation
+- compression
+- extensible (custom headers, verbs etc.)
 
 [Reference](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/Evolution_of_HTTP)
 
 **HTTP/1**: every request requires a new TCP connection
 
-**HTTP/1.1**: persistent single TCP connection, suffers from Head-Of-Line blocking (on both HTTP and TCP layers)
+**HTTP/1.1**: persistent single TCP connection (`Connection: Keep-Alive` header is added by default), suffers from Head-Of-Line blocking (on both HTTP and TCP layers)
 
-**HTTP/2**: single connection, multiple multiplexed streams in a single connection (solves HTTP level HOL blocking), but packet loss detection and retransmission over TCP can block all streams i.e. HOL blocking over TCP layer still exists ([reference](/networking/notes/#tcp-hol-blocking))
+**HTTP/2**: single connection, multiple multiplexed streams in a single connection (solves HTTP level HOL blocking), but segment loss detection and retransmission over TCP can block all streams i.e. HOL blocking over TCP layer still exists ([reference](/networking/notes/#tcp-hol-blocking))
 
 **HTTP/3**: multiple streams over UDP, runs packet loss detection and retransmission independently for each stream (no blocking unlike HTTP/2). Combines TLS handshake with QUIC handshake to reduce network latency.
 
@@ -98,6 +99,7 @@ The above is applicable to HTTP/1.1 request and responses. In HTTP/2 messages ar
 _References_: 
 - HTTP Messages - [MDN Docs](https://developer.mozilla.org/en-US/docs/Web/HTTP/Messages)
 - Introduction to HTTP/2 - [web.dev](https://web.dev/performance-http2)
+- https://engineering.cred.club/head-of-line-hol-blocking-in-http-1-and-http-2-50b24e9e3372
 
 ### Status Codes
 We get a status code in the response message along with a short text (e.g. `OK`, `FORBIDDEN`, etc...)
@@ -141,15 +143,15 @@ Utmost care should be taken while designing API to make sure responses have self
 
 #### Idempotence and Safety
 
-- [Idempotent](https://developer.mozilla.org/en-US/docs/Glossary/Idempotent): the server back-end state remains the same no matter how many times we call it with the method 
+- [Idempotent](https://developer.mozilla.org/en-US/docs/Glossary/Idempotent): the server back-end state remains the same no matter how many times we call it with the method.
 
-- [Safe](https://developer.mozilla.org/en-US/docs/Glossary/Safe/HTTP): method doesn't modify the server back-end state (all safe methods are idempotent)
+- [Safe](https://developer.mozilla.org/en-US/docs/Glossary/Safe/HTTP): method doesn't modify the server back-end state (all safe methods are idempotent).
 
-Implemented correctly, `POST` is never idempotent. `PATCH` can be made non-idempotent. Rest all are idempotent. 
+Implemented correctly, `POST` is never idempotent (since primary key keeps on increasing on every new resource creation). `PATCH` can be made non-idempotent. Rest all are idempotent. 
 
 `PATCH` is mostly idempotent unless we have conditions in place in the code that patch different parts of resource each time we call `PATCH` on it. This is contrary to `PUT`, which overwrites the entire resource each time and is therefore inherently idempotent.
 
-While talking about idempotence and safety, only the actual back-end state of the server matters, for example, A `DELETE` may return a `200 OK` on the first call, but successive calls will return `404 NOT FOUND`. It is idempotent because server state remains the same at all times after the first call.
+While talking about idempotence and safety, only the end resultant state of the server matters, for example, A `DELETE` may return a `200 OK` on the first call, but successive calls will return `404 NOT FOUND`. It is idempotent because server state remains the same at all times after the first call.
 
 #### GET vs POST
 - GET is for reading, POST is for creating a new resource
@@ -180,7 +182,7 @@ Status: 200 OK
 ```
 A fun [article](https://carluc.ci/http-headers-you-dont-expect/) on custom headers.
 
-### Content Negotiation
+### Content, Encoding, Language Negotiation
 We can let the other party know what types we accept.
 
 Types:
@@ -194,7 +196,7 @@ Types:
 Content-Type: application/json
 
 # specify client expectation in request
-Accept: application/json, application/xm
+Accept: application/json, application/xml
 
 # multiple options with priority (q param)
 Accept: application/json,application/xml;q=0.9,*/*;q=0.8
@@ -216,7 +218,7 @@ Accept: application/json, application/ogg
 Content-Type: application/json
 ```
 
-**Custom Content-type**: Subject to both client and server underdstanding and knowing how to process them.
+**Custom Content-type**: Subject to both client and server understanding and knowing how to process them.
 ```sh
 # custom content types
 Content-Type: application/vnd+company.category+xml
@@ -226,8 +228,9 @@ Content-Type: application/vnd+company.category+json
 
 The standard for media types is [MIME Types](https://developer.mozilla.org/en-US/docs/Web/HTTP/Basics_of_HTTP/MIME_types) defined by IANA.
 
-### Encoding Negotiation
-Responses are often sent as **compressed** by the server and uncompressed by the client and vice-versa. 
+_Reference_: [Content Negotiation - MDN](https://developer.mozilla.org/en-US/docs/Web/HTTP/Content_negotiation)
+
+**Encoding Negotiation**: responses are often sent as _compressed_ by the server and uncompressed by the client and vice-versa. 
 
 We can let the server know the compression type we accept and it will send us in that format if it could, or directly send the request with a compression type specified and its upto the server to accept or reject it.
 ```sh
@@ -236,12 +239,14 @@ Accept-Encoding: gzip,compress
 # if server doesn't accept the format we accept - 406 (Not Acceptable)
 # if server doesn't understand the type we've sent - 415 (Unsupported Media Type)
 
-# server sends back a response listing thier expectation
+# server sends back a response listing their expectation
 Accept-Encoding: bzip
 
 # otherwise, server sends in the negotiated format
 Content-Encoding: gzip
 ```
+
+**Language Negotiation** is done with `Content-Language` and `Accept-Language` headers. Negotiation flow is the same as encoding and content type negotiation.
 
 ### Cache Control
 [Caching](/rest/caching/)
