@@ -29,6 +29,13 @@ let promise = new Promise(function(resolve, reject) {
   // executor logic
 })
 
+// runs immediately and asynchronously
+let promise = new Promise(function(resolve, reject) {
+  alert("Foo")
+})
+alert('Bar')
+// prints 'Foo' and then 'Bar'
+
 // each promise has two internal properties - "state" and "result"
 // a promise can either be Settled or Unsettled
 // state values - "pending", "fulfilled", or "rejected"
@@ -137,7 +144,9 @@ let loadScriptPromise = function(src) {
 
 // Microtasks
 
-// Promise handling is always async, as all promise actions pass through the internal "promise jobs" queue, also called "Microtask Queue" (V8 term). So then/catch/finally handlers are always called after the current code is finished.
+// Promise executor (body) execution is async, but Promise handlers are ordered and not really async!!!
+
+// All promise handlers pass through the internal "promise jobs" queue, also called "Microtask Queue" (V8 term). So then/catch/finally handlers are always called after the current code is finished.
 
 let promise = Promise.resolve()
 promise.then(() => alert("promise done!"))
@@ -145,11 +154,28 @@ alert("code finished")    // this alert shows first; even though promise is alre
 
 // when a promise is ready, its then/catch/finally handlers are put into the queue; they are not executed yet. When the JS engine becomes free from the current script code, it takes a task from the queue and executes it.
 
-// This behavior is unlike Java's CompletableFuture where current code executes independently of async code!
+// This behavior is unlike Java's CompletableFuture where handler code executes independently of main code flow as the handlers run asap the async code returns!
 ```
 
-## Trick Question on Promise Handler Order (Microtask Queue)
+## Trick Questions on Promise Handler Order (Microtask Queue)
 ```js
+// Question 1
+let promise = new Promise(function(resolve, reject) {
+  console.log("A")
+  resolve('B')
+})
+
+promise.then((e) => console.log(e))
+
+console.log('C')
+
+// A C B
+
+// Explanation - promise executor code runs async-ly (but prints 'A' first because there is no wait), handler is put into microtask queue, main script code is executed (prints 'C'), and only then the microtask queue runs handler code (prints 'B')
+```
+
+```js
+// Question 2
 let promise1 = Promise.resolve()
 let promise2 = Promise.resolve()
 
@@ -189,7 +215,7 @@ foobar().then(alert)  // 1
 // await keyword works only inside async functions, otherwise error!
 let value = await promise
 
-// its just a shorter syntax for promise.then handler
+// its just a more elegant syntax of getting the promise result than promise.then handler
 let promise = Promise.resolve(1)
 let result = await promise    // 1
 

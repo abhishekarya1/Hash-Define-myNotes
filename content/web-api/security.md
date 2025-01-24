@@ -118,7 +118,7 @@ The signature (anti-tampering measure) proves that the token is received as-is (
 - JWT - ByteByteGo - [YouTube](https://youtu.be/P2CPd9ynFLg)
 
 ### OAuth 2.0
-Used to get a token from a third party server in order to access its resources.
+Used to get a token from a third party server in order to access resources.
 
 Our app sends a request to the **authorization server** (often the same as **resource server**) and it decides whether to give access to the requested resources and sends a token back if access is granted. This token can be a JWT Bearer token.
 
@@ -133,7 +133,6 @@ Four types of authorization flows (aka **grant types**) for generating a token:
 4. **Client credential grant flow**: no user interaction (sign-in), app directly requests a token (with client ID and secret), and gets a token back from auth_server
 
 The token we get back has an expiry date-time and accompanied by a refresh token that we use to refresh the main access token when it expires. We simply send the refresh token to auth server and get a new access token back.
-
 
 [Reference](https://roadmap.sh/guides/oauth)
 
