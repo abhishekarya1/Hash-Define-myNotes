@@ -118,13 +118,13 @@ The signature (anti-tampering measure) proves that the token is received as-is (
 - JWT - ByteByteGo - [YouTube](https://youtu.be/P2CPd9ynFLg)
 
 ### OAuth 2.0
-Used to get a token from a third party server in order to access resources.
+Used to get a token from a server in order to access data on another server.
 
-Our app sends a request to the **authorization server** (often the same as **resource server**) and it decides whether to give access to the requested resources and sends a token back if access is granted. This token can be a JWT Bearer token.
+Our app sends a request to the **authorization server** (often the same as **resource server**) and it decides whether to give access to the requested resources and sends a token back if access is granted. This token is often a JWT Bearer token.
 
-Ex - using Google account to sign-in to GitHub - GitHub triggers Google sign-in page and Google authenticates the user (on sign-in) and then asks if we want to share info with GitHub, if we allow we get a token from Google that GitHub uses to talk to Google in order to access user info.
+OAuth is often used for **Third Party Sign-in**: using a Google account to sign-in to GitHub. GitHub redirects to a Google sign-in page and Google authenticates the user (username and password sign-in) and then prompts if we want to share info with GitHub, on allowing GitHub gets an _access token_ from Google that it uses to talk to Google in order to access user info (name, email, etc.). GitHub then creates a session or a token for us, so we don't need to authenticate every time.
 
-In the above example, we have used OAuth to authenticate user for GitHub, but beneath the surface OAuth is always about Authorization. We have authorized GitHub to use our info from Google.
+In the above example, we authenticated user for GitHub using Google sign-in, but beneath the surface OAuth was used for Authorization. We have authorized GitHub to use our info from Google, both Authorization Server and Resource Server is of Google's.
 
 Four types of authorization flows (aka **grant types**) for generating a token:
 1. **Authorization code grant flow**: app gets back authorization_code from auth server. Have to make another request to auth server for token.
@@ -132,7 +132,7 @@ Four types of authorization flows (aka **grant types**) for generating a token:
 3. **Password grant flow**: app sends token request alongwith sign-in credentials to the auth server
 4. **Client credential grant flow**: no user interaction (sign-in), app directly requests a token (with client ID and secret), and gets a token back from auth_server
 
-The token we get back has an expiry date-time and accompanied by a refresh token that we use to refresh the main access token when it expires. We simply send the refresh token to auth server and get a new access token back.
+The token we get back has an expiry date-time and accompanied by a _refresh token_ that we use to refresh the main access token when it expires. We simply send the refresh token to auth server and get a new access token back.
 
 [Reference](https://roadmap.sh/guides/oauth)
 
