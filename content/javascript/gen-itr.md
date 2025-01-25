@@ -1,5 +1,5 @@
 +++
-title = "Generators & Advanced Iteration"
+title = "Generators & Async Iteration"
 date =  2025-01-21T18:10:00+05:30
 weight = 9
 +++
@@ -83,5 +83,26 @@ const generator = gen()
 generator.next()		// { value: 1, done: false }
 generator.return('foo')	// { value: "foo", done: true }
 generator.next()		// { value: undefined, done: true }
+
+```
+
+## Async Iterators and Async Generators
+```js
+// Asynchronous iteration allow us to iterate over data that comes asynchronously, on-demand. Ex - chunk-by-chuk data of a big file, etc.
+
+/*
+
+To make an object iterable asynchronously:
+
+Use Symbol.asyncIterator instead of Symbol.iterator
+The next() method should return a promise (to be fulfilled with the next value) - async next()
+To iterate over such an object, we should use a for await (let item of iterable) loop
+
+*/
+
+// Features that require sync iterators won't work with async iterators. So spread syntax and for...of loop won't work with async iterators
+
+// Async Generators - prepend function* with asyn and then use for await (...) to iterate over it
+// async generators can also replace async iterators just like their sync counterparts
 
 ```

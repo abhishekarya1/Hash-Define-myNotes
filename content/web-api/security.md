@@ -118,13 +118,15 @@ The signature (anti-tampering measure) proves that the token is received as-is (
 - JWT - ByteByteGo - [YouTube](https://youtu.be/P2CPd9ynFLg)
 
 ### OAuth 2.0
-Used to get a token from a server in order to access data on another server.
+It is an authorization standard designed to allow a website or application (client) to access resources hosted by other web apps on behalf of a user.
 
-Our app sends a request to the **authorization server** (often the same as **resource server**) and it decides whether to give access to the requested resources and sends a token back if access is granted. This token is often a JWT Bearer token.
+When we implement OAuth in Spring Boot, we are making our application an OAuth client so that we can authenticate users using Google, Facebook, etc. insead of handling username and password authentication ourselves. [tutorial](https://www.geeksforgeeks.org/spring-boot-oauth2-authentication-and-authorization/)
 
-OAuth is often used for **Third Party Sign-in**: using a Google account to sign-in to GitHub. GitHub redirects to a Google sign-in page and Google authenticates the user (username and password sign-in) and then prompts if we want to share info with GitHub, on allowing GitHub gets an _access token_ from Google that it uses to talk to Google in order to access user info (name, email, etc.). GitHub then creates a session or a token for us, so we don't need to authenticate every time.
+Client app sends a request to the **authorization server** (often the same as **resource server**) and it decides whether to give access to the requested resources and sends a token back if access is granted. This token is often a JWT Bearer token.
 
-In the above example, we authenticated user for GitHub using Google sign-in, but beneath the surface OAuth was used for Authorization. We have authorized GitHub to use our info from Google, both Authorization Server and Resource Server is of Google's.
+OAuth is often used for **Third Party Sign-in**: using a Google account to sign-in to GitHub. GitHub redirects to a Google sign-in page and Google authenticates the user (username and password sign-in) and then prompts if we want to share info with GitHub, on allowing GitHub gets an _access token_ from Google that it uses to talk to Google in order to access user info (name, email, etc.). GitHub then creates a session or a token for this new user, so they don't need to authenticate every time.
+
+In the above example, we authenticated user for GitHub using Google sign-in, but beneath the surface OAuth was used for Authorization. We have authorized GitHub to use our info from Google, both Authorization Server and Resource Server is of Google's. This is also called **OAuth delegated authorization** because a third-party application (GitHub) acts on behalf of the user to access resources (Google).
 
 Four types of authorization flows (aka **grant types**) for generating a token:
 1. **Authorization code grant flow**: app gets back authorization_code from auth server. Have to make another request to auth server for token.
