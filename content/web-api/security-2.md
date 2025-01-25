@@ -38,42 +38,45 @@ We don't use any keys here, just a collision-resistant **one-way** hash function
 
 ![](https://i.imgur.com/7TUsIlL.png)
 
-Ex - `BLAKE2`, `MD5`, `SHA256`, etc...
+Ex - `BLAKE2`, `MD5`, `SHA256`, `Bcrypt`, `Scrypt` etc.
 
 Uses - For verifying file integrity and hashing passwords for storage.
 
-## Symmetric Cryptography
-Also known as _private-key_ or _secret-key_ cryptography. It uses only one key that is used for both encryption and decryption (so its **two-way**) and the key must be transmitted over a trusted channel.
-
-Ex - `HMAC`, `DES`, `AES`, etc...
-
-Uses - For checking file integrity and hashing passwords for storage.
-
-It can be used both for authentication (HMAC) and encryption.
-
 ### Password Hashing
-Always hash passwords when storing them in a database so that they can't be read by anyone dealing with the code or the database.
+Always hash passwords when storing them in a database so that they can't be read by anyone dealing with the code or the database. We check for password validity later by hashing using the same hash function and matching it with hash value stored in database.
 
 Password hashing hash functions like [bcrpyt](https://en.wikipedia.org/wiki/Bcrypt) and [scrypt](https://en.wikipedia.org/wiki/Scrypt) are **designed to be slow** by deliberately making it use large amount of memory. 
 
-We couldn't have used SHA-2 or SHA-3 family for hashing passwords because they are one-way. And other fast two-way algorithms can't be used because we don't want attackers to be fast in performing a Dictionary attack and guessing our password.
+We couldn't have used SHA-2 or SHA-3 family for hashing passwords they are very fast and we don't want attackers to be fast in performing a Dictionary attack and guessing our password.
 
 It also uses a random salt for hashing which is a random string that is appended to the password string and then hash function is applied over the composite string. We can have diff salts for diff users.
 
-scrpyt is in theory _faster_ than bcrypt and is used in some cryptocurrencies. bcrypt, on the other hand is realiable.
+scrpyt is in theory _faster_ than bcrypt and is used in some cryptocurrencies. bcrypt, on the other hand is old reliable.
 
 ### SHA Family
  Secure Hash Algorithms (SHA) are a family of heavily standardized cryptographic hash functions.
 
 - `SHA-0`: published in 1993, withdrawn shortly after due to an undisclosed "significant flaw"
 - `SHA-1`: considered insecure since 2010
-- `SHA-2`: a set of algorithms like SHA-256 and SHA-512. They are is still secure and widely used
+- `SHA-2`: a set of algorithms like SHA-256, SHA-384, SHA-512, etc. They are is still secure and widely used
 - `SHA-3`: a set of algorithms; very secure and fast
 
 ### MD5
 It has been proven to be highly collision prone long back (in 1996) and it is even possible to [come up with collisions in a few seconds](https://en.wikipedia.org/wiki/MD5#:~:text=A%20collision%20attack%20exists%20that%20can%20find%20collisions%20within%20seconds%20on%20a%20computer%20with%20a%202.6%C2%A0GHz%20Pentium%204%20processor%20(complexity%20of%20224.1)).
 
 It still continues to be used widely today. Don't use it anywhere. Period.
+
+### Keyless Two-Way Hash?
+Doesn't make sense lol. It will basically be [encoding](/web-api/security-2/#encoding--compression).
+
+## Symmetric Cryptography
+Also known as _private-key_ or _secret-key_ cryptography. It uses only one key that is used for both encryption and decryption (so its **two-way**) and the key must be transmitted over a trusted channel.
+
+Ex - `HMAC`, `DES`, `AES`, etc.
+
+Uses - For checking file integrity and hashing passwords for storage. It can be used both for authentication (HMAC) and encryption.
+
+**Drawback** - The biggest problem being how to find a secure network to share private key over, because no network can be secure enough tbh.
 
 ## Asymmetric Cryptography
 Also known as _public-key_ cryptography. The sender uses two keys here - one private and one public. The keys are such that the message encrypted by public key can be decoded only by the corresponding private key.
@@ -86,7 +89,7 @@ We can distribute the public key and people can encrypt messages with it and sen
 
 In some systems like RSA, the private key can be used to encrypt and then public key can be used to decrypt. This is often done to check digital signatures (since they're signed by private key).
 
-Ex - `RSA`, `PGP`, etc...
+Ex - `RSA`, `PGP`, `ECDH` etc.
 
 ### Shared Secret Key Agreement (Key Exchange)
 Public-key cryptography is slower than private-key cryptography. To make it better we can generate a single shared key.
