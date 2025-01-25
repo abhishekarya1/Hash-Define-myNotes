@@ -122,9 +122,9 @@ It is an authorization standard designed to allow a website or application (clie
 
 When we implement OAuth in Spring Boot, we are making our application an OAuth client so that we can authenticate users using Google, Facebook, etc. insead of handling username and password authentication ourselves. [tutorial](https://www.geeksforgeeks.org/spring-boot-oauth2-authentication-and-authorization/)
 
-Client app sends a request to the **authorization server** (often the same as **resource server**) and it decides whether to give access to the requested resources and sends a token back if access is granted. This token is often a JWT Bearer token.
+Client app sends a request to the **authorization server** (often the same as **resource server**) and it decides whether to give access to the requested resources and sends a token back if access is granted. This token is often a JWT Bearer token (user info may be included as claims, but not always).
 
-OAuth is often used for **Third Party Sign-in**: using a Google account to sign-in to GitHub. GitHub redirects to a Google sign-in page and Google authenticates the user (username and password sign-in) and then prompts if we want to share info with GitHub, on allowing GitHub gets an _access token_ from Google that it uses to talk to Google in order to access user info (name, email, etc.). GitHub then creates a session or a token for this new user, so they don't need to authenticate every time.
+OAuth is most popularly used for **Third Party Sign-in**: using a Google account to sign-in to GitHub. GitHub redirects to a Google sign-in page and Google authenticates the user (username and password sign-in) and then prompts if we want to share info with GitHub, on allowing GitHub gets an _access token_ from Google that it uses to talk to Google in order to access user info (name, email, etc.). GitHub then creates a session or a token for this new user, so they don't need to authenticate every time.
 
 In the above example, we authenticated user for GitHub using Google sign-in, but beneath the surface OAuth was used for Authorization. We have authorized GitHub to use our info from Google, both Authorization Server and Resource Server is of Google's. This is also called **OAuth delegated authorization** because a third-party application (GitHub) acts on behalf of the user to access resources (Google).
 
