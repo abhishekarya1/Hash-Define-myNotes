@@ -77,7 +77,7 @@ _Reference_: [Kafka Partitions and Consumer Groups - Medium](https://medium.com/
 ### Message Queues vs Kafka
 Messages are deleted from MQ by MQ system after they are consumed in a prod-con model. The message deletion can be turned off in most MQ platforms but the general idea of MQ is remove-on-consume.
 
-This is not the case in Kafka. A separate numeric _offset_ is maintained by Kafka for each consumer based on which message they are reading and its updated after a successful consumption of a message. The messages themselves are not deleted from the partition when they are consumed and successfully finish processing. They are deleted after a retention period has passed, disk quota limit is reached, or consumer has gone down (rebalancing), so Kafka acts as a **"Distributed Commit Log"** or more recently called a "Distributing Streaming Platform".
+This is not the case in Kafka. A separate numeric _offset_ is maintained by Kafka for each consumer per partition based on which message they are reading and its updated after a successful consumption of a message. The messages themselves are not deleted from the partition when they are consumed and successfully finish processing. They are deleted after a retention period has passed, disk quota limit is reached, or consumer has gone down (rebalancing), so Kafka acts as a **"Distributed Commit Log"** or more recently called a "Distributing Streaming Platform".
 
 ## Zookeeper
 Zookeper is the coordinator and the manager, it stores the metadata too.
@@ -193,7 +193,9 @@ _Why do we need retry topics? Didn't we only commit offset when a message is suc
 
 **Consumer Lag**: the diff between the latest offset of the partition and the latest offset which the consumer has consumed.
 
-**Offset Updates**: offset is updated and committed only after successful processing of the message by the consumer, otherwise it will lead to message loss if consumer fails (or goes down) and we already update the offset.
+**Offset Updates**: offset is updated and committed only after successful processing of the message by the consumer, otherwise it will lead to message loss if consumer fails (or goes down) and we already update the offset. This offset has to be commited explicitly by the Consumer to Kafka. Mostly it is set to auto-commit in the consumer app, but it is to be handled by the Consumer itself and not Kafka.
+
+**ACK for Producers**: There is no ack for consumers. But Kafka sends an `ack` to producer to ensure message is written to Kafka!. This is because Kafka is designed to be pull-based so that messages can be consumed at a pace the consumer wants and an ack mechanism would make it sync defeating the purpose and making it slow and decreasing throughput.
 
 ## References
 - Apache Kafka Crash Course - Hussein Nasser - [YouTube](https://youtu.be/R873BlNVUB4)
