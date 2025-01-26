@@ -20,22 +20,30 @@ It is built in Java and Scala so its native to Java environment.
 ## Components
 - **Cluster** - group of kafka servers
 - **Broker** - a single kafka server (replicated for high-availability)
-- **Topic** (aka _Stream_) - logical category; group of partitions, can be spread across multiple brokers; no ordering of incoming messages guaranteed
+- **Topic** (aka _Stream_) - logical entity; group of partitions, can be spread across multiple brokers; no ordered storage of messages is guaranteed on this abstraction level
 - **Partition** - indexed log (array) and hence ordering is guaranteed among messages received by a particular partition; data is replicated for redundancy
 - **Publisher** - writes messages to topics
-- **Consumer** and **Consumer Group** - read messages from topics by taking ownership of specified partitions
+- **Consumer** and **Consumer Group** - reads and writes messages from topics by taking ownership of specified partitions
 - **Zookeeper** - management component; stores cluster metadata, clients information, routes writes exclusively to leader broker and reads to both leader and follower brokers
 
 ![kafka components](https://i.imgur.com/BtLuPCj.png)
 
 ![topic and partitions](https://i.imgur.com/T9NJwAp.png)
 
+## Reads and Writes to a Topic
+
+**Assigning Partitions to Producers** (writes): Kafka tries to uniformly distribute messages from a producer among all partitions of the destination topic using algorithms like round-robin, hash of a key, or custom partitioner. This is called **Partition Strategy**.
+
+**Assigning Partitions to Consumers** (reads): Kafka assigns partition(s) to the consumer from the source topic to read from. It makes sure all consumers are evenly balanced across partitions. Strategy like round-robin, range assignment is often used for this, and it stays so (_sticky_) until rebalancing due to a consumer addition/removal.
+
+{{% notice tip %}}
+To summarise: Producers are not restricted to specific partitions — they can write to any partition within a topic, dynamically or explicitly. But Consumers are restricted to the partitions assigned to them within a consumer group, they cannot read from partitions assigned to other consumers in the same group.
+{{% /notice %}}
+
 ## Features
 **Replication**: it exists at every level. Cluster, Broker, Partitions are configured to be data replicated and have fail-overs in place in a well configured Kafka system.
 
-**Assigning Partitions to Consumers**: a consumer is assigned a partition to read from by Kafka. It makes sure all consumers are evenly balanced across partitions. If we want, we can control this assignment directing messages to specific paritions based on the Message Key (see below).
-
-**Messages** are just bytes of information to Kafka and its agnostic to their meaning. There is a component **Key** (numeric hash) that can be appended to a message which can then be used to manually decide the partition the message goes to using modulo operation i.e. `key_hash % N` where `N` is the number of partitions in the topic the message is destined to. The producer tries to uniformly distribute messages among all partitions.
+**Messages** are just bytes of information to Kafka and its agnostic to their meaning. There is a component **Key** (numeric hash) that can be appended to a message which can then be used to manually decide the partition the message goes to using modulo operation i.e. `key_hash % N` where `N` is the number of partitions in the topic the message is destined to. 
 
 **Schema** is another optional metadata put in the message sometimes. It indicates what kind of data the message contains (i.e.String, JSON, or XML etc). This schema metadata can be stored in Kafka Headers or we can dedicate specific topics for specific message types.
 
@@ -69,7 +77,7 @@ _Reference_: [Kafka Partitions and Consumer Groups - Medium](https://medium.com/
 ### Message Queues vs Kafka
 Messages are deleted from MQ by MQ system after they are consumed in a prod-con model. The message deletion can be turned off in most MQ platforms but the general idea of MQ is remove-on-consume.
 
-This is not the case in Kafka. A separate numeric _offset_ is maintained by Kafka for each consumer based on which message they are reading and its updated after a successful consumption of a message. The messages themselves are not deleted from the partition when they are consumed and successfully finish processing. They are deleted after a retention period has passed or disk quota limit is reached, so Kafka acts as a **"Distributed Commit Log"** or more recently as a "Distributing Streaming Platform".
+This is not the case in Kafka. A separate numeric _offset_ is maintained by Kafka for each consumer based on which message they are reading and its updated after a successful consumption of a message. The messages themselves are not deleted from the partition when they are consumed and successfully finish processing. They are deleted after a retention period has passed, disk quota limit is reached, or consumer has gone down (rebalancing), so Kafka acts as a **"Distributed Commit Log"** or more recently called a "Distributing Streaming Platform".
 
 ## Zookeeper
 Zookeper is the coordinator and the manager, it stores the metadata too.
