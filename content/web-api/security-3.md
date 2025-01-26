@@ -7,13 +7,13 @@ weight = 7
 ## TLS
 Transport Layer Security is an cryptographic protocol used to provide security over a network. It is a successor to the now-deprecated Secure Sockets Layer (SSL).
 
-It serves encryption to higher layers, which is normally the function of the _presentation layer_. However, applications generally use TLS as if it were a _transport layer_. Considered it in the _application layer_ (no strict rules).
+It serves encryption to higher layers, which is normally the function of the _presentation layer_. However, applications generally use TLS as if it were a _transport layer_. Consider it in the _application layer_ (no strict rules).
 
 TLS 1.2 is widely used today and TLS 1.3 is newer, faster and better but supported by lesser number of servers.
 
 TLS uses [Diffie-Hellman key exchange](/web-api/security-2/#shared-secret-key-agreement-key-exchange) to generate a shared private key on both the client and the server. This way we can even exchange keys over an untrusted channel. It does so because asymmetric cryptography is slower than symmetric, and by doing so we use only one key. 
 
-Both the client and the server have to agree on: **a generator** to generate public keys and **a cipher** to encrypt data with.
+Both the client and the server have to agree on: **a generator** to generate public keys and **a cipher** (encryption algorithm) to encrypt data with.
 
 Steps in TLS 1.2 connection establishment:
 1. [TCP 3-way Handshake](/web-api/http/#3-way-handshake)
@@ -36,18 +36,17 @@ The TLS Handshake can fail if certificate validation fails or the client and the
 _Additional Links_: https://tls12.xargs.org https://tls13.xargs.org https://subtls.pages.dev
 
 ### TLS Certificate and CA
-The server sends the client a certificate in _Server hello_.
+The server sends the client a certificate in _Server Hello_.
 
 The server had earlier sent its public key to a third-party called Certificate Authority (CA). The certificate contains a **digital signature** and the **public key of the server**. Digital signature is obtained by encrypting public key of the server with private key of the CA. Also, public keys of all major CAs come pre-installed on all OS generally. 
 
 When the client receives the certificate, it uses public key of the CA to verify the digital signature on the certificate (decrypts digital signature on the certificate and matches it with public key on the certificate and public key of the server it's hoping to talk to).
 
-The trust in the CA should be utmost, since **a certificate is the proof that a server is really who we are accessing and not any MITM**. Its the job of the CA to make sure they're not handing out certificates to everyone with their sign on it.
+The trust in the CA should be utmost, since **a certificate is the proof that a server is really who we're accessing and not any MITM**. Its the job of the CA to make sure they're not handing out certificates to everyone with their sign on it.
 
-One can also self-sign certificates without any CA, but the public key of CA should be stored on computers manually. Be careful with this! 
+One can also self-sign certificates without any CA, but the public key of signer should be stored on computers manually. Be careful with this! 
 
 Nothing is really stopping a malicious person from getting a certificate issued to them if its on their info and not another entity like Amazon or Microsoft. In that case, you'll be establishing a secure connection with the hacker, they can phish you but no MITM. In such cases, the CA must revoke their certificate.
-
 
 MITM Attack:
 - even if a malicious entity can forge a fake certificate then they need to encrypt it with their own private key, we won't be able to decrypt it with any of the pre-installed CA public keys, we will see an "Untrusted site" warning

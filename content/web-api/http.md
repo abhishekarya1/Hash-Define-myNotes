@@ -130,7 +130,7 @@ DELETE - delete
 
 PATCH - update (modify only some part of an existing resource)
 
-OPTIONS - list all available methods for target resource
+OPTIONS - list all available methods and policies for target resource (used for CORS preflight request)
 
 HEAD - send only response headers section back
 ```
