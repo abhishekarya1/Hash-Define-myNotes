@@ -32,9 +32,9 @@ It is built in Java and Scala so its native to Java environment.
 
 ## Reads and Writes to a Topic
 
-**Assigning Partitions to Producers** (writes): Kafka tries to uniformly distribute messages from a producer among all partitions of the destination topic using algorithms like round-robin, hash of a key, or custom partitioner. This is called **Partition Strategy**.
+**Writing to a Topic** (producer): Kafka tries to uniformly distribute messages from a producer among all partitions of the destination topic using algorithms like round-robin, hash of a key, or custom partitioner. This is called **Partition Strategy**.
 
-**Assigning Partitions to Consumers** (reads): Kafka assigns partition(s) to the consumer from the source topic to read from. It makes sure all consumers are evenly balanced across partitions. Strategy like round-robin, range assignment is often used for this, and it stays so (_sticky_) until rebalancing due to a consumer addition/removal.
+**Reading from a Topic** (consumer): Kafka assigns partition(s) to the consumer from the source topic to read from. It makes sure all consumers are evenly balanced across partitions. Strategy like round-robin, range assignment is often used for this, and it stays so (_sticky_) until rebalancing due to a consumer addition/removal.
 
 {{% notice tip %}}
 To summarise: Producers are not restricted to specific partitions — they can write to any partition within a topic, dynamically or explicitly. But Consumers are restricted to the partitions assigned to them within a consumer group, they cannot read from partitions assigned to other consumers in the same group.
