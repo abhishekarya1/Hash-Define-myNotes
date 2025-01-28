@@ -29,16 +29,27 @@ Video: [What is CAP Theorem?](https://youtu.be/_RbsFXWRZ10)
 We do have **CA** in non-distributed systems like RDBMS like MySQL, Postgres, etc... it is called **ACID** there and its a fundamental property of SQL transactions.
 
 ### Availablity and Consistency
-**Availablity insured by**: two servers fail-over (master-master and master-slave)
+**Availablity insured by**: two servers fail-over (master-master standby and master-slave standby)
 
-**Consistency insured by**: replication to multiple servers, one master, others slave (or all masters)
+**Consistency insured by**: data replication to multiple servers, one master, others slave (or all masters)
 
-But how to choose a master/leader?:
+Some techniques for eventual consistency:
 - **Full Mesh**: everyone is connected to everyone so data is shared among everyone, not feasible in large clusters
 - **Coordination Service**: a third party component chooses a leader node, all nodes send their message to leader and leader acts as their representative. Ex - Zookeeper.
 - **Distributed Cache**: a central source of knowledge (a cache) is placed, nodes fetch data periodically from it 
 - **Gossip Protocol**: each node selects another node periodically and shares data with it
 - **Random Leader Selection**: elect a leader using a simple algorithm
+
+## Fallacies of Distributed Systems
+False assumptions that people new to distributed applications make:
+- the network is reliable
+- latency is zero
+- bandwidth is infinite
+- the network is secure
+- topology doesn't change (_impacts bandwidth and latency negatively_)
+- there is one administrator (_existence of conflicting policies_)
+- transport cost is zero (_building and maintaining costs_)
+- the network is homogeneous (_variations in latency and bandwidth across parts of network_)
 
 ## Levels of Consistency
 Max Consistency - all writes are available globally to everyone reading from any part of the system. In simple words, ensures that every node or replica has the same view of data at a given time, irrespective of which client has updated the data.

@@ -92,18 +92,18 @@ _References_:
 ## AOP
 Aspect-oriented Programming (AOP) is a programming (meta-programming) paradigm that complements the OOP paradigm.
 
-We have a separate **Aspect** (similar to class) for each of the common features that our app may need like Transaction, Logging, Security, etc... These features are called **cross-cutting concerns** because all of our main logic classes will need them at some point. Aspects have methods.
+We have a separate **Aspect** (a class) for each of the common features that our app may need like Transaction, Logging, Security, etc. These features are called **cross-cutting concerns** because all of our main logic classes will need them at some point. Aspects have methods (**Advice**).
 
-Traditionally, these common features would usually require a method call to the class containing the feature logic from our main class. But in AOP can "wrap" our main logic with Aspects. We can specify that we want to call aspect methods before or after the main class logic, we can specify all this in **Aspect Configuation**. 
+Traditionally, these common features would usually be called from our main class (with a method call). But with AOP we "wrap" our main logic with Aspects - specify aspect methods to call before or after the main class logic in an **Aspect Configuration** XML file. This way our core business logic (main class) remains clean and independent of cross-cutting concerns, having only a single responsibility.
 
-Spring framework can read the aspect configuration file and call a method from Aspect before executing a method from our main class. After the Aspect method is finished with its execution, the main method can resume. This is how "wrapping" of Aspects is achieved on methods in our main logic.
+Spring framework can read the aspect configuration file and call a method from Aspect before executing a method in our main class. After the Aspect method is finished with its execution, the main method resumes. This is how "wrapping" of Aspects is achieved on methods in our main logic.
 
 Classes are free of any code calls since all the "triggers" are specified in the aspect configuration. This alleviates the need to change code calls in class when we need to change something in future. Single point of change = Aspect configuration.
 
 ### Glossary
 - **Cross-cutting concern**: parts of a program that rely on or must affect many other parts of the program.
 - **Aspect**: a class that implements cross-cutting concerns.
-- **Advice**: actions taken for a particular join point.
+- **Advice**: actions taken for a particular join point. Types - before, after, around.
 - **JoinPoint**: a specific point in the application execution flow.
 - **PointCut**: regex that are matched with joinpoints to determine which advice to execute.
 - **Weaving**: process of linking aspects with other objects to create the advised proxy objects. This can be done at compile time, load time or at runtime. Spring AOP performs weaving at the runtime.
