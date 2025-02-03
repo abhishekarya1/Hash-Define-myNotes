@@ -6,41 +6,9 @@ weight = 3
 
 RSM (Reliability, Scalability, Maintainability) - tradeoff exists between each
 
-Scalability - property of a system to continue to maintain desired performance proportional to the resources added for handling more work
+**Scalability** - property of a system to continue to maintain desired performance proportional to the resources added for handling more work
 
-## Tradeoffs
-- Performance vs Scalability
-- Latency vs Throughput
-- Consistency vs Availibility (_read CAP Theorem_)
-- Latency vs Memory (_caching_)
-- Latency vs Accuracy (_cache freshness_)
-
-### CAP Theorem and PACELC
-In a highly distributed system, choose any two amongst - _Consistency_, _Availibility_, and _Partition Tolerance_ (network breaking up). Networks are always unreliable, so the choice comes down to Consistency vs Availablity.
-- **CP** - all nodes reads the latest writes; recover in case of network failures. Used in systems which require atomic reads and writes, if system can't verify sync across nodes (consistency) it will respond with error, violating availablity. Ex - Redis, MongoDB.
-- **AP** - nodes may not have the latest write data; recover in case of network failures. Used in systems where _eventual consistency_ is allowed, or when the system needs to continue sending data back despite external errors. The node won't wait for sync to happen, it will send whatever data it has. Ex - Cassandra, CouchDB.
-
-> "A data store is available if and only if all get and set requests eventually return a response that's part of their specification. This does not permit error responses, since a system could be trivially available by always returning an error."	― CAP FAQ
-
-Video: [What is CAP Theorem?](https://youtu.be/_RbsFXWRZ10)
-
-**PACELC Theorem**: In case of ("PAC") we need to choose between C or A, (E)lse (even if system is running normally in the absence of partitions), we need to choose between (L)atency and (C)onsistency.
-
-We do have **CA** in non-distributed systems like RDBMS like MySQL, Postgres, etc... it is called **ACID** there and its a fundamental property of SQL transactions.
-
-### Availablity and Consistency
-**Availablity insured by**: two servers fail-over (master-master standby and master-slave standby)
-
-**Consistency insured by**: data replication to multiple servers, one master, others slave (or all masters)
-
-Some techniques for eventual consistency:
-- **Full Mesh**: everyone is connected to everyone so data is shared among everyone, not feasible in large clusters
-- **Coordination Service**: a third party component chooses a leader node, all nodes send their message to leader and leader acts as their representative. Ex - Zookeeper.
-- **Distributed Cache**: a central source of knowledge (a cache) is placed, nodes fetch data periodically from it 
-- **Gossip Protocol**: each node selects another node periodically and shares data with it
-- **Random Leader Selection**: elect a leader using a simple algorithm
-
-## Fallacies of Distributed Systems
+### Fallacies of Distributed Systems
 False assumptions that people new to distributed applications make:
 - the network is reliable
 - latency is zero
@@ -50,6 +18,46 @@ False assumptions that people new to distributed applications make:
 - there is one administrator (_existence of conflicting policies_)
 - transport cost is zero (_building and maintaining costs_)
 - the network is homogeneous (_variations in latency and bandwidth across parts of network_)
+
+## Tradeoffs
+- Performance vs Scalability
+- Latency vs Throughput
+- Consistency vs Availibility (_read CAP Theorem_)
+- Latency vs Memory (_caching_)
+- Latency vs Accuracy (_cache freshness_)
+
+### CAP Theorem and PACELC
+In a highly distributed system, choose any two amongst - _Consistency_, _Availibility_, and _Partition Tolerance_ (network breaking up). Networks are always unreliable, so the choice comes down to Consistency vs Availability in the presence of partitions.
+- **CP** - all nodes reads the latest writes. Used in systems which require atomic reads and writes, if system can't verify sync across nodes (consistency) it will respond with error, violating availability. Ex - Redis, MongoDB.
+- **AP** - nodes may not have the latest write data. Used in systems where _eventual consistency_ is allowed, or when the system needs to continue sending data back despite external errors. The node won't wait for sync to happen, it will send whatever data it has. Ex - Cassandra, CouchDB.
+
+> "A data store is available if and only if all get and set requests eventually return a response that's part of their specification. This does not permit error responses, since a system could be trivially available by always returning an error."	― CAP FAQ
+
+Video: [What is CAP Theorem?](https://youtu.be/_RbsFXWRZ10)
+
+**PACELC Theorem**: In case of ("PAC") we need to choose between C or A, (E)lse (even if system is running normally in the absence of partitions), we need to choose between (L)atency and (C)onsistency.
+
+We do have **CA** in non-distributed systems like RDBMS like MySQL, Postgres, etc... it is called **ACID** there and its a fundamental property of SQL transactions.
+
+### Availability and Consistency
+Availability is insured by: 
+- **fail-over** (master-master standby and master-slave standby)
+- **replication** (maintain multiple copies of the same data to prevent loss in events of catastrophe)
+
+Availability is the percentage of uptime of a system. Overall availability of a system containing multiple components prone to failure depends on:
+- **sequence** (this means _exactly_ all components must be functioning for the system to work properly): `A1 * A2`
+- **parallel** (this means _atleast one_ component must be functioning for the system to work properly): `1 - ((1 - A1) * (1 - A2))` (so basically the system only goes down only if all the components go down)
+
+Ex - if a system has two components each having 99.00% availability, then in sequence the overall system's availablity goes down (98.01%), but in parallel, it goes up (99.99%).
+
+Consistency is insured by: sharing updates between multiple replicas (one master many slaves, or all masters)
+
+Some techniques for achieving consistency:
+- **Full Mesh**: everyone is connected to everyone so data is shared among everyone, not feasible in large clusters
+- **Coordination Service**: a third party component chooses a leader node, all nodes send their message to leader and leader acts as their representative. Ex - Zookeeper.
+- **Distributed Cache**: a central source of knowledge (a cache) is placed, nodes fetch data periodically from it 
+- **Gossip Protocol**: each node selects another node periodically and shares data with it
+- **Random Leader Selection**: elect a leader using a simple algorithm
 
 ## Levels of Consistency
 Max Consistency - all writes are available globally to everyone reading from any part of the system. In simple words, ensures that every node or replica has the same view of data at a given time, irrespective of which client has updated the data.
@@ -70,7 +78,7 @@ Weak consistency (Causal & Eventual) levels are too loose, hence we often pair t
 
 Within a single database node, when we modify a piece of data from multiple transactions, [**isolation levels**](/data/rdbms/concepts/#isolation-levels) come into the picture.
 
-### Summary
+### Diagram & Summary
 
 <img src="https://i.imgur.com/4At8dkV.png" style="max-width: 65%; height: auto;">
 
@@ -204,15 +212,15 @@ Setup CDC or SQL Triggers first, and then transfer data from old to new using ba
 
 After the new DB is populated we want to point clients to the new DB instead of old DB, all read/write should happen on new DB. 
 
-Use `VIEW` tables as proxy created from new DB (transformations can be done to mimic old DB) but name them same as in old DB so that code pointing to old DB still works. Rename old DB to "old_DB_obsolete" (_unpoint_).
+Use `VIEW` tables as proxy created from new DB (transformations can be done to mimic old DB) but name them same as in old DB because the code is still expecting connection to the old DB. Rename old DB to "old_DB_obsolete" (_unpoint_).
 
-Once everything is working fine, refactor service code to point to new DB (some downtime to restart services). We can delete the proxy `VIEW`s after that.
+Once everything is working fine, refactor service code to entirely use new DB (some downtime to restart services). We can delete the proxy `VIEW`s after that.
 
 **Diff Cloud Providers**:
 
 When migrating from Azure to AWS, we can't add a trigger as in simple approach or create a view proxy as in optimized approach.
 
-We use a `DB Proxy` server in such a case. Reads are directed to the old DB, writes to both old and new. Any views needed are present in the proxy server. Rest of the steps remains the same.
+We use a `DB Proxy` server in such a case. Reads are directed to the old DB, writes to both old and new. Any views needed are present in the proxy server. Rest of the steps remain the same.
 
 It requires two restarts though - one to point services to DB Proxy and other is to point services to AWS when we're done with the migration.
 
@@ -220,7 +228,14 @@ It requires two restarts though - one to point services to DB Proxy and other is
 [/networking](/networking/notes)
 
 ## Observability
-**Logs and Metrics**: centralized logs with trace and gather metrics in a timeseries DB
+It is the ability to understand the internal state or condition of a complex system based solely on knowledge of its external outputs, specifically its telemetry.
+
+The 3 pillars of observability:
+- **Logs** - granular, time-stamped, complete and immutable records
+- **Traces** - record the end-to-end “journey” of every user request
+- **Metrics** - measures of application and system health over time
+
+**Treat logs as a continuous stream**: centralized logs with trace and gather metrics in a timeseries DB
 
 **Anomaly Detection**: detecting faults
 - Confidence Intervals - may flag black friday traffic spikes as anomaly
