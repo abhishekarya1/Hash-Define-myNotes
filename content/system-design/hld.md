@@ -206,6 +206,8 @@ If update queries on data yet to be backed up happens with trigger, we can do UP
 
 If we've less data, we can run backup at `x` and add trigger to old at `y`, skipping step 2 above (second iteration of DB_copy). After that, we only need to copy data from backup start uptil trigger was added i.e `x < timestamp < y`.
 
+Adding Triggers early on isn't a good design in large databases as it will cause a lot of misses if read from new DB and stale data if read old DB. So add triggers only after some data is migrated to new DB.
+
 **Optimized Approach**:
 
 Setup CDC or SQL Triggers first, and then transfer data from old to new using backup.

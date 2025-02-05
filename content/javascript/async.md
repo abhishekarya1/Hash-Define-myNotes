@@ -155,9 +155,11 @@ alert("code finished")    // this alert shows first; even though promise is alre
 // when a promise is ready, its then/catch/finally handlers are put into the queue; they are not executed yet. When the JS engine becomes free from the current script code, it takes a task from the queue and executes it.
 
 // This behavior is unlike Java's CompletableFuture where handler code executes independently of main code flow as the handlers run asap the async code returns!
+
+// JS single threaded, so it uses Event Loop to execute code out-of-order (async-ly). So think in terms of queues and not threads unlike Java.
 ```
 
-## Trick Questions on Promise Handler Order (Microtask Queue)
+### Trick Questions on Promise Handler Order (Microtask Queue)
 ```js
 // Question 1
 let promise = new Promise(function(resolve, reject) {
@@ -211,8 +213,8 @@ async function foobar() {
 
 foobar().then(alert)  // 1
 
-// "await" suspends the function execution until the promise settles, and then resumes it with the promise result, or throws exception
-// await keyword works only inside async functions, otherwise error!
+// "await" suspends the current function execution until the promise settles, and then resumes it with the promise result, or throws exception
+// await keyword works only inside async functions (or top-level in newer JS environments), otherwise error!
 let value = await promise
 
 // its just a more elegant syntax of getting the promise result than promise.then handler
@@ -249,4 +251,27 @@ async function f() {
 // result of f() call becomes a rejected promise
 f().catch(alert)  // TypeError: failed to fetch
 
+```
+
+### Trick Question on await (Async Processing)
+```js
+console.log("Script start")
+async function asyncFunction() {
+    console.log("Inside async function")
+    await new Promise(resolve => setTimeout(resolve, 1000))  // simulating another async operation
+    console.log("After await")
+}
+asyncFunction()   // don't "await" here
+console.log("Script end")
+
+/*
+
+Script start
+Inside async function
+Script end
+After await
+
+*/
+
+// Explanation - await stops the current function's (asyncFunction) execution and puts a handler on the Promise inside it in the microtask queue and continues the execution of main script until the inside Promise resolves
 ```

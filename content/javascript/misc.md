@@ -37,6 +37,8 @@ alert( addTen(5) )		// 15
 ```js
 // Event Loop - There's an endless loop, where the JS engine waits for tasks, executes them and then sleeps, waiting for more tasks. It may happen that a task comes while the engine is busy, then it's enqueued. The queue is called a "Macrotask Queue" (v8 term).
 
+// JS single threaded, so it uses Event Loop to execute code out-of-order (async-ly).
+
 // changes to DOM are painted only after the currently running task is completed
 // if a task takes too long, the browser can't do other tasks, such as processing user events. So after some time, it raises an alert like "Page Unresponsive"
 
