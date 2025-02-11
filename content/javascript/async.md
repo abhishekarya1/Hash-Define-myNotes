@@ -273,5 +273,5 @@ After await
 
 */
 
-// Explanation - await stops the current function's (asyncFunction) execution and puts a handler on the Promise inside it in the microtask queue and continues the execution of main script until the inside Promise resolves
+// Explanation - await stops the current function's (asyncFunction) execution and puts an implicit handler on the Promise inside it in the microtask queue and continues the execution of main script until the inside Promise resolves and the handler is run from the microtask queue
 ```

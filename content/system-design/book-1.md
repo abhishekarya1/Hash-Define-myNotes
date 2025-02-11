@@ -5,24 +5,35 @@ weight = 4
 +++
 
 ## Capacity Estimation
-Latency numbers every programmer should know with Humanized Scale: https://gist.github.com/hellerbarde/2843375
+Latency numbers every programmer should know (with Humanized Scale): [Gist](https://gist.github.com/hellerbarde/2843375)
 
 Latency numbers for 2020s: [ByteByteGo Video](https://youtu.be/FqR5vESuKe0)
 
-Traffic (_requests per sec_), Storage, and Bandwidth (_data per sec_) Estimation Example: https://youtu.be/-frNQkRz_IU
+![](https://i.imgur.com/rHifWwO.png)
 
+**Estimation Parameters**:
+- Traffic: read/write requests per sec (DAU, QPS, Read-Write Ratio)
+- Storage: depends upon _data retention period_
+- Bandwidth: data per sec
+
+Example: [Video](https://youtu.be/-frNQkRz_IU)
+
+**Approximation**:
 ```txt
 1 million req/day = 12 req/sec
 ```
 
-## Framework
-1. Understand the problem
-2. High Level Design
-3. Deep Dive
-4. Summary
+## Framework for Interviews
+1. Understand the problem (functional and non-functional requirements)
+2. Capacity Estimation (_optional_; do here on in summary)
+3. High Level Design
+4. Deep Dive into components
+5. Summarize
 
 ## Rate Limiting
-Also known as **Throttling**.
+Also known as **Throttling**. Client-side is susceptible to forging, server-side is preferred with a reverse proxy (rate limiting middleware) before API server.
+
+We often need to implement throttling for each API endpoint depending on the design.
 
 Performed in Networks too as part of _Congestion Control_ (use IPTables on Network Layer to set quota for IP Addresses).
 
@@ -30,7 +41,7 @@ Saves from DOS attack, reduces load, saves costs and bandwidth.
 
 ### Algorithms
 
-1. **Token Bucket** - suitable for burst traffic
+1. **Token Bucket** - suitable for burst traffic, ideal for real-time applications
 2. **Leaky Bucket** - FIFO queue, suitable for fixed rate flow of requests
 3. **Fixed window counter** - spikes on the edges of windows ruins this
 4. **Sliding window log** - overhead of storing logs for requests which were rejected
@@ -40,6 +51,8 @@ Saves from DOS attack, reduces load, saves costs and bandwidth.
 Token Bucket
 
 - instead of refilling buckets of millions of users (write heavy) acc to refill rate, refill only upon the next request for a single user based on the time diff since last request for that user (smart)
+
+- accumulates tokens only upto the bucket size, then reject requests
 
 - bucket size, refill rate
 
@@ -57,9 +70,11 @@ Leaky Bucket
 ```txt
 Fixed window counter
 
-- instead of resetting counter for millions of users (write heavy) at window start, reset upon the next request for a single user (smart)
+- instead of resetting counter for millions of users (write heavy) at window start, reset upon the next request for a single user (if expired) or update existing counter (if within window time)
 
-- discard window ts and counter (key-value) if it has expired, insert new entry for new window
+- calc time diff and discard window ts and counter (key-value) if it has expired, insert new entry for new window
+
+- window size, threshold
 
 "user_1_1490868000": 1
 ```
