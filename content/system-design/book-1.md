@@ -70,11 +70,11 @@ Leaky Bucket
 ```txt
 Fixed window counter
 
-- instead of resetting counter for millions of users (write heavy) at window start, reset upon the next request for a single user (if expired) or update existing counter (if within window time)
+- create a new counter (having current window start time as ts) upon a request for a user, increment it on every subsequent request in the same window or reject requests if they're more than the window size; remove counters at each window end to ensure that stale counters don't stick around forever
 
-- calc time diff and discard window ts and counter (key-value) if it has expired, insert new entry for new window
+- window duration, window size
 
-- window size, threshold
+- we can entirely skip ts in key but we'll need that in Sliding Window Counter approach below
 
 "user_1_1490868000": 1
 ```
@@ -82,13 +82,15 @@ Fixed window counter
 ```txt
 Sliding window log
 
-- store a log (in a sorted set) for every incoming request, discard outdated logs, check if log size is less than our window limit (allowed)
+- store a log (in a sorted set) for every incoming request, discard outdated logs (log_ts < current_ts - window_duration), check if log size is less than our window size limit and reject if requests are more than window size
+
+- window duration, window size
 
 "user_1" : {
-			 1490868000
-			 1490868001
-			 1490868002
-		   }
+	1490868000
+	1490868010
+	1490868020
+}
 ```
 
 **NOTE**: The approach described in most sources including the book has a major caveat. If requests keep coming in, the system won't be able to process any of them after a while since rejected requests will keep filling up log for the rolling window. Store logs only for successful requests to avoid this. [Reference](https://www.reddit.com/r/AskComputerScience/comments/xktn2j/rate_limiting_why_log_rejected_requests/)
@@ -96,20 +98,28 @@ Sliding window log
 ```txt
 Sliding window counter
 
-- store counter as well as logs
+- store counter for each fixed-sized window as well as logs
 
 - discard expired logs, for an incoming request increment counter for the corresponding timestamp, check by adding all counters in the current log, allow if below limit
 
+- remove all fixed-window counters after each window duration
+
+- fixed-window duration (smaller), window duration, window size 
+
 "user_1" : {
-			 1490868000: 1,
-			 1490868001: 2
-		   }
+	1490868000: 1,
+	1490868010: 2
+}
 ```
 
 Reference: https://www.figma.com/blog/an-alternative-approach-to-rate-limiting
 
 ### Enhancements
-Return HTTP response code `429 - Too Many Requests`. Also, return response headers to let the user know they are being throttled, and how much time they need to wait (backoff/cooldown/retry after).
+Return HTTP response code `429 - Too Many Requests`. Also, return response headers (like `X-Ratelimit-RetryAfter`) to let the user know they are being throttled, and how much time they need to wait (backoff/cooldown/retry after).
+
+**Hard Limit**: stop exactly after a given number of requests.
+
+**Soft Limit**: less strict enforcement, continues to process some additional requests even after the threshold has been crossed.
 
 ### Issues
 In a distributed environment, single rate limiter cache (counter, bucket, etc...) can face **Race Condition**. Sorted sets in Redis can resolve this as its operations are atomic.
