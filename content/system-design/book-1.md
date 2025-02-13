@@ -100,7 +100,7 @@ Sliding window counter
 
 - store counter for each fixed-sized window as well as logs
 
-- discard expired logs, for an incoming request increment counter for the corresponding timestamp, check by adding all counters in the current log, allow if below limit
+- discard expired logs, for an incoming request increment counter for the corresponding fixed-window ts, check by adding all counters in the current log, allow if below limit
 
 - remove all fixed-window counters after each window duration
 
