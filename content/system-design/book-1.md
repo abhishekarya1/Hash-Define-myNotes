@@ -33,7 +33,7 @@ Example: [Video](https://youtu.be/-frNQkRz_IU)
 ## Rate Limiting
 Also known as **Throttling**. Client-side is susceptible to forging, server-side is preferred with a reverse proxy (rate limiting middleware) before API server.
 
-We often need to implement throttling for each API endpoint depending on the design.
+We need to implement throttling _per API endpoint per User_ depending on the design.
 
 Performed in Networks too as part of _Congestion Control_ (use IPTables on Network Layer to set quota for IP Addresses).
 
@@ -70,7 +70,7 @@ Leaky Bucket
 ```txt
 Fixed window counter
 
-- create a new counter (having current window start time as ts) upon a request for a user, increment it on every subsequent request in the same window or reject requests if they're more than the window size; remove counters at each window end to ensure that stale counters don't stick around forever
+- create a new counter (having current window start time as ts) upon a request for a user, increment it on every subsequent request in the same window or reject requests if they're more than the window size; remove key-value entries at each window end to ensure that stale ones don't stick around forever
 
 - window duration, window size
 
@@ -100,9 +100,9 @@ Sliding window counter
 
 - store counter for each fixed-sized window as well as logs
 
-- discard expired logs, for an incoming request increment counter for the corresponding fixed-window ts, check by adding all counters in the current log, allow if below limit
+- for an incoming request increment counter for the corresponding fixed-window ts, check by adding all counters in the current log, allow if below limit
 
-- remove all fixed-window counters after each window duration
+- remove all fixed-window counter logs after each window duration
 
 - fixed-window duration (smaller), window duration, window size 
 
@@ -127,9 +127,9 @@ In a distributed environment, single rate limiter cache (counter, bucket, etc...
 If we use multiple rate limiters, we need **Synchronization** so that both the rate limiter know the current value of counter for a given user, to use them interchangeably. Use a shared cache used by both the rate limiters.
 
 ## Consistent Hashing
-Eficiently choosing a server for our request in a distributed and scalable environment. Used for Load Balancing.
+Eficiently choosing a server for our request in a distributed and scalable environment. Used wherever we need to choose a server amongst multiple i.e. choosing partitions, load balancing, etc.
 
-Ex - Amazon DynamoDB, Apache Cassandra, Akamai CDN, Load Balancers, etc...
+Ex - Amazon DynamoDB, Apache Cassandra, Akamai CDN, nearly all Load Balancers, etc.
 
 ### Classic Hashing
 Use a uniformly distributed hash function (`hash`), hash request keys (`key`), and perform modulo on the output with the server pool size (`N`) to route to a server. 
@@ -143,10 +143,10 @@ It can uniformly distribute requests across existing servers but scaling is an i
 ### Consistent Hashing
 In case of addition or removal of servers, we shouldn't need to remap all they keys but only a subset of them - `1/N`th portion of hash space.
 
-**Approach**: Hash requests based on some key and hash servers based on IP using the same hash function (`hash`). This ensures equal hash space for both requests and servers. We don't need to perform modulo operation here. Ex - `SHA-1`, etc. No change in architecture is required here unlike classical hashing which required change to server pool size (`N`) parameter upon removal or addition of servers.
+**Approach**: Hash requests based on some key and hash servers based on IP using the same hash function (`hash`). Ex - use `SHA-1` for `0` to `(2^160)-1` possible hashes. This ensures equal hash space for both requests and servers. And we don't need to perform modulo operation here. No change in architecture is required here unlike classical hashing which required change to server pool size (`N`) parameter upon removal or addition of servers.
 
-- Hash space, Hash ring - should be same for both requests and server, use same hash function for both
-- Partition - hash space between adjacent servers
+- Connect **Hash space** virtually in a circular fashion to form a **Hash ring** - should be same for both requests and server, use same hash function for both
+- **Partition** - hash space between adjacent servers
 
 For each incoming request, if a server is not available for the same hash, probe clockwise (Linear or Binary Search) and use whatever server is encountered first. Each server is now responsible of handling requests of a particular range of hashes from the ring (_partition_).
 
@@ -157,17 +157,26 @@ Find affected keys - if a server is added/removed, move anti-clockwise from that
 [Illustration Video](https://youtu.be/UF9Iqmg94tk)
 
 ### Virtual Nodes
-Non-uniform distribution - some servers may get the majority of the traffic, while others sit idle based on their position on the hash ring.
+**Non-uniform distribution** - some servers may get the majority of the traffic (_hotspots_), while others sit idle based on their position on the hash ring.
 
 If we're probing clockwise, there might be a server that is closer but on the anti-clockwise direction of the hash, we place virtual redundant **Virtual Nodes** or Replicas to resolve this.
 
-Virtual nodes route to an actual server on the ring.
+Virtual nodes route to an actual server on the ring, and they need not be adjacent servers of the virtual node.
 
-Place as many virtual nodes across hash space such that response time of a request is minimized (directly proportional to the nearest node it can connect to).
+Place as many virtual nodes across hash space such that response time of a request is minimized (directly proportional to the nearest node it can connect to). If multiple servers go down in sequence, then we can jump ahead using Virtual Nodes.
+
+### Drawbacks
+**Cascading failures**: subsequent servers crash if one gets swamped with requests.
+
+**Hotspots**: non-uniform distribution of nodes and data.
+
+Memory costs and operational complexity increase in general with Consistent Hashing.
+
+[Comprehensive article on Consistent Hashing](https://systemdesign.one/consistent-hashing-explained/)
 
 ## Key-Value Store
 ```txt
-Data Partition 				- Consistent Hashing
+Data Partition 				- Consistent Hashing (route requests to partitions based on key's hash space they handle)
 Data Replication 			- Consistent Hashing (copy data onto the next three unique servers towards the clockwise direction)
 Consistency 				- Quorum Concensus
 Inconsistency Resolution 	- Versioning (Vector Clock)

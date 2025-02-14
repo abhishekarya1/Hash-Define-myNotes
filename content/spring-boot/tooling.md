@@ -146,6 +146,8 @@ Maven CI Friendly Versions: https://maven.apache.org/maven-ci-friendly.html
 
 **Snyk** - OWASP security vulnerability
 
+**Checkmarx** - static-code security vulnerability, compliance issues, etc. scans
+
 ## Post-Deployment Monitoring
 **AppDynamics** - performance monitoring
 
