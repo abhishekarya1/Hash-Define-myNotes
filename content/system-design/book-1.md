@@ -172,7 +172,7 @@ Place as many virtual nodes across hash space such that response time of a reque
 
 Memory costs and operational complexity increase in general with Consistent Hashing.
 
-[Comprehensive article on Consistent Hashing](https://systemdesign.one/consistent-hashing-explained/)
+[Comprehensive Article](https://systemdesign.one/consistent-hashing-explained/)
 
 ## Key-Value Store
 ```txt
@@ -274,17 +274,26 @@ A Hash tree or Merkle tree is a tree in which every non-leaf node contains a has
 Used in version control systems like `Git` too.
 
 ### Bloom Filter
-Answers the question "Is this item in the set?" with either a **confident "no"** or a **nervous "probably yes"**. False positives are possible, it is probabilistic.
+Bloom filter is a space-efficient probabilistic data structure to check set membership. Often Bit array data structure is used for impl.
+
+Answers the question "Is this item in the set?" with either a **confident "no"** or a **nervous "probably yes"**. False positives are possible, therefore it is probabilistic.
 
 We can check the database (expensive operation though) after bloom filter has answered with a "probably yes".
 
-Can't remove an item from the Bloom Filter, it never forgets. Removal isn't possible since entries to the table for multiple items overlap most of the times.
+Can't remove an item from the Bloom Filter, it never forgets. Removal isn't possible since entries to the table for multiple items may overlap.
 
-Choose all hash functions with equal hash space.
+Choose all hash functions with equal hash space. Or more practically, perform modulo `N` on the resulting hash, where `N` is the filter size (i.e. number of buckets).
 
-The larger the Bloom Filter, the lesser false positives it will give. Memory vs accuracy trade-off.
+- **Add an item**: choose `k` hash functions and perform hashing of item with each, modulo each resultant hash with `N`, and set the corresponding bucket in the filter.
+- **Check an item**: perform hashing of item with the same hash functions, modulo each resultant hash with `N`, and check if the corresponding buckets in the filter are set. If they're all set, then item "may exist", otherwise it "definitely doesn't exist".
+
+The larger the Bloom Filter, the lesser false positives it'll give. Memory vs accuracy trade-off.
+
+**Algorithmic Complexity** - `O(k)` TC and `O(1)` SC (_both constants_).
 
 [Illustration Video](https://youtu.be/V3pzxngeLqw?t=207)
+
+[Comprehensive Article](https://systemdesign.one/bloom-filters-explained/)
 
 ## Distributed Unique ID
 Challenge: generating unique IDs in a distributed environment.
