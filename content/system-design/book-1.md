@@ -189,7 +189,7 @@ Fast Lookup 				- Bloom Filter
 ### Quorum Concensus
 Ensures data read and write consistency across replicas.
 
-**Approach**: Client sends request to a _coordinator node_, all replicas are connected to a coordinator. We need atleast `W` replicas to perform and acknowledge a write operation, and atleast `R` replicas to perform and acknowledge a read operation for it to be declared successful, where `N` is the number of nodes that store replicas of a particular data (and not the total number of replica nodes in the system).
+**Approach**: Client sends request to a _coordinator node_, all replicas are connected to a coordinator. We need atleast `W` replicas to perform and acknowledge a write operation, and atleast `R` replicas to perform and acknowledge a read operation for it to be declared successful, where `N` is the number of nodes that store replicas of a particular data (and **not the total number of replica nodes in the system**).
 
 **Configuration**:
 ```txt
@@ -204,32 +204,35 @@ In case of a read where we get diff values of the same data object from diff rep
 [Illustration Video](https://youtu.be/uNxl3BFcKSA)
 
 ### Vector Clock
-We keep a Vector Clock `D([Si, Vi])` for each data item in the database and by comparing it we can identify if there is a conflict, where `Si` is the server writing data item `D` and updating its version `Vi`.
+We keep a Vector Clock `D([Si, Vi])` for each data item in the database and by comparing two clocks we can identify if a data item's versions precedes, succeeds or in conflict, where `Si` is the server writing data item `D` and updating its version to `Vi` (_always increases with every write_).
 
 ```txt
 Vector Clock = D([Si, Vi])
 
-Example - D([S1, V1], [S2, V2], ..., [Sn, Vn])
+Example - D([S1, V1], [S2, V2], ..., [Sn, Vn]) - this represents servers that've acted upon on a data item (D) and version changes it went through
 ```
 ```txt
-Scenarios: first compare server and then version for both; versions should be less or more across all servers of a clock, not mixed
+Comparing Clocks: first compare server and then version for both; corresponding servers should be same; corresponding versions should be monotonically increasing, or monotonically decreasing, or constant across all servers for both versions of the clock to eastablish a chronology, never mixed
 
-D([Sx, 1])		-- parent
-D([Sx, 2])		-- child
+D([Sx, 1])		-- parent (happened first chronologically)
+D([Sx, 2])		-- child (happened later chronologically, in the next consecutive write)
 
 D([Sx, 1])				-- parent
 D([Sx, 1], [Sy, 1])		-- child
 
 D([Sx, 1], [Sy, 2])
-D([Sx, 2], [Sy, 1])		-- conflict; how can Sx or Sy version decrease?
+D([Sx, 2], [Sy, 1])		-- conflict; how can Sy's version decrease when Sx is clearly indicating succeeding clock
+
+D([Sx, 1], [Sy, 2])
+D([Sx, 1], [Sy, 1])		-- this happend first (parent)
 
 D([Sx, 1], [Sy, 1])
-D([Sx, 1], [Sz, 1])		-- conflict; Sy and Sz both unaware of the other's write
+D([Sx, 1], [Sz, 1])		-- conflict; Sy and Sz both unaware of the other's write (parallel write; siblings)
 
-D([Sx, 1], [Sy, 1], [Sz, 1])	-- resolving above conflict
+D([Sx, 1], [Sy, 1], [Sz, 1])	-- after resolving above conflict
 ```
 
-Storing vector clocks along with data objects is an overhead.
+Storing vector clocks along with data objects is an overhead. If they get too longr, just delete record of old writes (i.e. leftwards clock entries).
 
 ### Gossip Protocol
 Once a server detects that another server is down, it propagates info to other servers and they check their membership list to confirm that it is indeed down. They mark it as down and propagate the info to other servers.
@@ -238,12 +241,12 @@ Once a server detects that another server is down, it propagates info to other s
 node membership list - memberID, heartbeat counter, last received
 ```
 
-If a server's heartbeat counter has not increased for more than predefined periods, the member is considered as offline.
+If a server's heartbeat counter has not increased for more than a predefined period, it is considered as offline.
 
-Used in P2P systems like BitTorrent.
+Used in P2P systems like `BitTorrent` protocol.
 
 ### Sloppy Quorum w/ Hinted Handoff
-Instead of enforcing the quorum requirement of choosing from `N` nodes that store replica of a particular data, the system chooses the first `W` healthy nodes for writes and first `R` healthy nodes for reads on the hash ring. Offline servers are ignored.
+Instead of enforcing the quorum requirement of choosing from `N` nodes that store replica of a particular data (and **not the total number of replica nodes in the system**), the system chooses the first `W` healthy nodes for writes and first `R` healthy nodes for reads on the hash ring. Offline servers are ignored.
 
 When the down server goes up, changes will be pushed back to the replicas which are supposed to store that data to achieve data consistency - **Hinted Handoff**.
 
@@ -256,16 +259,17 @@ Even if W + R > N, strong consistency can't be guaranteed in case of Sloppy Quor
 
 Enabled by default in DynamoDB and Riak.
 
-[Reference](https://jimdowney.net/2012/03/05/be-careful-with-sloppy-quorums/)
+[Reference](https://jimdowney.net/2012/03/05/be-careful-with-sloppy-quorums/) ([Wayback Machine](https://web.archive.org/web/20221101141359/https://jimdowney.net/2012/03/05/be-careful-with-sloppy-quorums/))
 
 ### Anti-Entropy Protocol w/ Merkle Tree
 Keep replicas in sync periodically so that if one of them goes down, others have the data we need.
 
 Anti-entropy involves comparing each piece of data on replicas and updating each replica to the newest version. A Merkle tree is used for inconsistency detection and minimizing the amount of data transferred.
 
-A Hash tree or Merkle tree is a tree in which every non-leaf node is labeled with the hash of the labels or replica contents (in case of leaves) of its child nodes. Hash trees allow efficient and secure verification of the contents of large data structures.
+A Hash tree or Merkle tree is a tree in which every non-leaf node contains a hash of its child nodes' hashes and actual replica contents as leaves. Hash trees allow efficient and secure verification of the contents of large data structures by localizing mismatched part of data.
 
-Build the tree in a bottom-up fashion by comparing file integrity hash of every node at a given level, compare hashes in a top-down fashion and find the mismatch replica.
+- **Build** the tree in a bottom-up fashion by comparing file integrity hash of every node at a given level.
+- **Compare** two Merkle trees by comparing hashes of corresponding nodes in a top-down fashion and find the mismatching part of data.
 
 Used in version control systems like `Git` too.
 
@@ -278,7 +282,7 @@ Can't remove an item from the Bloom Filter, it never forgets. Removal isn't poss
 
 Choose all hash functions with equal hash space.
 
-The larger the Bloom Filter, the lesser false positives it will give. Memory and accuracy is a trade-off.
+The larger the Bloom Filter, the lesser false positives it will give. Memory vs accuracy trade-off.
 
 [Illustration Video](https://youtu.be/V3pzxngeLqw?t=207)
 
