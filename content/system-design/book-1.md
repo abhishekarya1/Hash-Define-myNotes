@@ -212,7 +212,7 @@ Vector Clock = D([Si, Vi])
 Example - D([S1, V1], [S2, V2], ..., [Sn, Vn]) - this represents servers that've acted upon on a data item (D) and version changes it went through
 ```
 ```txt
-Comparing Clocks: first compare server and then version for both; corresponding servers should be same; corresponding versions should be monotonically increasing, or monotonically decreasing, or constant across all servers for both versions of the clock to eastablish a chronology, never mixed
+Comparing Clocks: first compare server and then version for both; corresponding servers should be same; versions should be increasing, or decreasing, or constant across all corresponding servers for both versions of the clock to eastablish a chronology, never mixed
 
 D([Sx, 1])		-- parent (happened first chronologically)
 D([Sx, 2])		-- child (happened later chronologically, in the next consecutive write)
@@ -221,7 +221,7 @@ D([Sx, 1])				-- parent
 D([Sx, 1], [Sy, 1])		-- child
 
 D([Sx, 1], [Sy, 2])
-D([Sx, 2], [Sy, 1])		-- conflict; how can Sy's version decrease when Sx is clearly indicating succeeding clock
+D([Sx, 2], [Sy, 1])		-- conflict; how can Sy's version decrease when Sx is clearly indicating succeeding clock (mixed)
 
 D([Sx, 1], [Sy, 2])
 D([Sx, 1], [Sy, 1])		-- this happend first (parent)
