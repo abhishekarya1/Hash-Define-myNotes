@@ -177,7 +177,7 @@ Memory costs and operational complexity increase in general with Consistent Hash
 ## Key-Value Store
 ```txt
 Data Partition 				- Consistent Hashing (route requests to partitions based on key's hash space they handle)
-Data Replication 			- Consistent Hashing (copy data onto the next three unique servers towards the clockwise direction)
+Data Replication 			- Consistent Hashing (copy data onto the next three unique servers towards the clockwise dir)
 Consistency 				- Quorum Concensus
 Inconsistency Resolution 	- Versioning (Vector Clock)
 Failure Detection 			- Gossip Protocol
