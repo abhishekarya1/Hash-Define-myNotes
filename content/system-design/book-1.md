@@ -300,9 +300,9 @@ Challenge: generating unique IDs in a distributed environment.
 
 ```txt
 Multi-Master Replication 		- use SQL auto_increment on two servers
-UUID 							- generate UUID separately on each app server
+UUID 							- generate UUID anywhere (scales out really well)
 Ticket Server 					- a server that can output unique IDs based on SQL auto_increment, uses single row
-Twitter Snowflake ID 			- a new format for unique IDs
+Twitter Snowflake ID 			- a new format for unique IDs (use generator servers to produce; scales out well)
 Instagram's Approach 			- snowflake like IDs
 ```
 
