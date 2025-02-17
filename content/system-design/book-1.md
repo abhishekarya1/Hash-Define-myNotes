@@ -366,14 +366,32 @@ This Primary ID will be unique across all tables in the application (and as a bo
 [Reference](https://instagram-engineering.com/sharding-ids-at-instagram-1cf5a71e5a5c)
 
 ## URL Shortener
-Specify either `301 - Moved Permanently` (subsequent requests go to new URL) or `302 - Found` (_moved temporarily_, subsequent requests keep going to short URL first, better for analytics) along with a `Location` header. It will redirect you to the URL specified in the location header.
+Specify HTTP response code along with a `Location` header. Either send back `301 - Moved Permanently` (browser caches response and all subsequent requests go to new URL) or `302 - Found` (_moved temporarily_, subsequent requests keep going to short URL first, better for analytics). The client will redirect automatically to the URL specified in the location header.
 
 {{% notice info %}}
-It redirects directly since its standard HTTP! The response with the code 301 doesn't even show up in Postman. Eliminates the need for any redirect logic implementation.
+It redirects automatically since its standard HTTP! The response with the code 301 doesn't even show up in Postman (since it supports redirection by default). Eliminates the need for any redirect logic implementation on the client.
 {{% /notice %}}
 
+```txt
+API Design
+-----------
+
+POST /api/v1/shorten
+Send long URL in JSON Body, get short URL back
+
+GET /api/v1/longUrl
+Send short URL in body or as query param, get long URL back
+
+GET /{short_code}
+Redirects using the HTTP status code and response header
+```
+
+**Design Pointers**:
 1. Use message digest hashing algorithms like `SHA-1`, long fixed size hash but we take only a fragment of it which increases collision probability.
-2. Use `base62` encoding: encodes to `0-9a-zA-Z` (total of 62 character mappings), long variable sized output string but we encode the corresponding unique `id` instead, becomes collision-free and short. The only caveat is that it can be reverse engg to find next `id` (next URL) since it is an encoding (two-way).
+2. Use `base62` encoding: encodes to `0-9a-zA-Z` (total of 62 character mappings), long variable sized output string but we encode the corresponding unique `id` of the long URL entry in data store, becomes collision-free and meaningless to snoopers. The only caveat is that it can be reverse engg to find next `id` (next URL) since it is an encoding (two-way).
+3. Take hash length as 6 or 7 as its enough to store `62^7 ~ 3.5 trillion` URLs.
+4. Store in Redis Hash or SQL DB with schema as `URL_table(id, shortURL, longUrl)`.
+5. Use a cache if DB is large. Use rate limiter and analytics to limit and track users respectively.
 
 ## Web Crawler
 BFS search using queues (FIFO)
