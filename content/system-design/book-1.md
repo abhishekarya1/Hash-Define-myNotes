@@ -380,10 +380,10 @@ POST /api/v1/shorten
 Send long URL in JSON Body, get short URL back
 
 GET /api/v1/longUrl
-Send short URL in body or as query param, get long URL back
+Send short URL in body or as query param, get long URL back (API use case only)
 
 GET /{short_code}
-Redirects using the HTTP status code and response header
+Redirects using the HTTP status code and response header (main use case)
 ```
 
 **Design Pointers**:
