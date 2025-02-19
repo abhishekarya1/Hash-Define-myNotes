@@ -394,10 +394,11 @@ Redirects using the HTTP status code and response header (main use case)
 5. Use a cache if DB is large. Use rate limiter and analytics to limit and track users respectively.
 
 ## Web Crawler
-BFS search using queues (FIFO)
+Crawl in a BFS fashion, because DFS can be infinitely deep.
 
 ![](https://i.imgur.com/dBYR3ge.png)
 
+**URL Frontier Internals**:
 ```txt
 	[Prioritizer]
 		|
@@ -405,7 +406,7 @@ diff queues for diff priority sites (front queues)
 		|
 	[Queue Router]
 		|
-diff queues for each domain (back queues)
+diff queues for each domain (back queues; for politeness)
 		|
 	[Queue Selector]
     |	   |	   |
@@ -413,9 +414,9 @@ worker1  worker2   worker3
 ```
 
 **Optimizations**:
-- use single URL Frontier delegating to multiple worker nodes (distributed architecture), use consistent hashing
+- use single URL Frontier delegating to multiple downloader nodes (distributed architecture), use consistent hashing
 - cache DNS queries
-- short timeout
+- short timeout, respect `robots.txt`, and beware of spider traps by limiting crawl upto certain depth
 - filter spam pages, redundant pages
 - freshness: recrawl if too old
 
@@ -439,7 +440,7 @@ Notification Server (auth, rate limit) + Cache + DB
 Analytics Service (receives events from Notif server the client; to track message delivery and actions by user)
 ```
 
-In a distributed system, it is impossible to ensure _exactly-once delivery_ (**Two Generals Problem**). Since there is no ACK from the Third-Party service that the message has reached the Client or not, it is acceptable to send the same message multiple times. To reduce such duplication, maintain a log (for the Worker) to know if the message has been seen before.
+In a distributed system, it is impossible to ensure _exactly-once delivery_ (**Two Generals Problem**). Since there is no ACK from the Third-Party service that the message has reached the Client or not, it is acceptable to send the same message multiple times. To reduce such duplication, maintain a log (on the Worker) to know if the message has been seen before.
 
 ## News Feed
 For each user, maintain a temporary (_ephemeral_) **News Feed Cache** and we can write to our friend's feed cache, or others can read from our feed cache. Both may use a **Fanout Service** to do so.
