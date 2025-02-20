@@ -443,24 +443,24 @@ Analytics Service (receives events from Notif server the client; to track messag
 In a distributed system, it is impossible to ensure _exactly-once delivery_ (**Two Generals Problem**). Since there is no ACK from the Third-Party service that the message has reached the Client or not, it is acceptable to send the same message multiple times. To reduce such duplication, maintain a log (on the Worker) to know if the message has been seen before.
 
 ## News Feed
-For each user, maintain a temporary (_ephemeral_) **News Feed Cache** and we can write to our friend's feed cache, or others can read from our feed cache. Both may use a **Fanout Service** to do so.
-
-Stages:
-- Store Feed: Store post in Post DB, send info to Notification Service, then call Fanout Service to write `user_id` and `post_id` KV pair to News Feed Cache. Use user details from User DB to filter (user blocklists, etc) before writing to News Feed Cache.
-- Build Feed: On a friend's device when building the feed, primary server contacts News Feed Service to fetch posts, also fetch post and user data corresponding to the `post_id` in the KV pair from respectice DBs.
+For each user, maintain a temporary (_ephemeral_) **News Feed Cache** and we can write to our friends' feed cache, or others can read from our feed cache. Both may use a **Fanout Service** to do so.
 
 **Fanout**: one-to-many spread of data
 
-- Fanout on Write: also called _push_ model. Send post to friend's feed caches as soon as its posted. Faster but what if a user isn't that active? we'll be wasting resources. (_pre-compute_ feed)
-- Fanout on Read: also called _pull_ model. When a friend loads the feed, fetch posts from the feed cache of all its friends. Slower to fetch posts but practical.
+- Fanout on Write: also called _push_ model. Send post to friends' feed caches as soon as its posted. Faster but what if that user's friend isn't much active? we'll be wasting resources. (_pre-compute_ feed)
+- Fanout on Read: also called _pull_ model. When a friend loads the feed, fetch posts from the feed cache of all its friends. Slower to fetch posts on-demand but practical.
 
-Choose a hybrid model. Celebrity posts are delivered via pull model, for normal accounts implement push model (since posts and followers will be far lesser).
+Steps for Push Model:
+- Store Feed: Store post in Post DB, send info to Notification Service, then call **Fanout Service** (which uses Queues followed by Fanout Workers) to write `user_id` and `post_id` pairs to News Feed Caches. Fetch friends list using a Graph DB, and user details from User DB to filter (user blocklists, etc).
+- Build Feed: On a friend's device when building the feed, primary server contacts **News Feed Service** to fetch posts, also fetch post and user data corresponding to the `post_id` and `user_id` in the pair from respectice DBs.
+
+Choose a hybrid model. Celebrity posts are delivered via pull model, for normal accounts implement push model (since posts and followers are far less). 
 
 ```txt
 Post Service
 Post Cache + Post DB
 
-Fanout Service 			(and its worker clones for each user) (filters users and content)
+Fanout Service 			(and its workers) (filters users and content)
 
 Notification Service
 
@@ -468,10 +468,10 @@ User Relation DB 		(graph datastore)
 
 User Cache + UserDB
 
-Message Queues 			(one queue per user)
+Message Queue(s) 
 
 News Feed Service 		(used only during build feed)
-News Feed Cache 		(stores only <user_id> to <post_id> KV pairs)
+News Feed Cache 		(stores only <user_id> to <post_id> pairs to save space; get data from UserDB and PostDB)
 ```
 
 ## Chat System
