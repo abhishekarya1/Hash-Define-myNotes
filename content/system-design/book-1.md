@@ -497,7 +497,9 @@ Storage:
 ```txt
 Service Discovery - to find our API Server a nearest chat server (Apache Zookeper)
 
-Message Sync Queues - One MQ per Receiver: WeChat uses this, can be not so scalable for Group Chat
+Message Sync Queues - One MQ per reciever: WeChat uses this, not so scalable for Group Chat
+
+KV Store - stores messages (especially when user is offline)
 
 Presence Servers - User sends a heartbeat to PS at regular intervals, if timeout happens and we didn't receive it, then user's status changes, fanout status to other users and store last_seen in datastore
 
@@ -515,8 +517,18 @@ search?q=dinne
 search?q=dinner
 ```
 
-Get _k_ most searched queries using Trie data structure for fast re**trie**val. Build tries periodically with query data from the Aggregator Service and store in Trie DB.
+For small data sets, use SQL relation `Query(word, freq)` and get top _k_ matches using `LIKE` clause ordered by freq for each partial search word.
 
+For large data sets, get _k_ most searched queries using Trie data structure for fast re**trie**val. Build tries periodically with query data from the Aggregator Service and store in Trie DB with a Trie Cache in between. Store Trie across multiple shards to scale storage.
+
+### Trie Data Structure
+Trie TC = `O(p) + O(c) + O(c log c)`
+
+Optimization:
+- limit search query prefix length
+- cache top _k_ freq queries among all children at each node (space requirement goes up)
+
+Optimized Trie TC = `O(1)` 
 
 ## YouTube
 ```txt
