@@ -497,7 +497,7 @@ Storage:
 ```txt
 Service Discovery - to find our API Server a nearest chat server (Apache Zookeper)
 
-Message Sync Queues - One MQ per reciever: WeChat uses this, not so scalable for Group Chat
+Message Sync Queues - One MQ per receiver: WeChat uses this, not so scalable for Group Chat
 
 KV Store - stores messages (especially when user is offline)
 
@@ -532,11 +532,12 @@ Optimized Trie TC = `O(1)`
 
 ## YouTube
 ```txt
-CDN - store videos as BLOB (Binary Large OBjects)
+Original Storage - store original quality videos
+CDN - store transcoded videos as BLOB (Binary Large OBjects)
 API Servers - everything else
 ```
 
-**Upload**: transcode video and save metadata (use Completion Queue and Completion Handler), replicate to CDN worldwide
+**Upload**: transcode video with Transcoding servers and parallely save metadata to DB (use Completion Queue and Completion Handler to check if transcoding was successful), send to CDN worldwide (push model).
 ```txt
 Video must be quickly playable on all kinds of devices, with seek (random access). Trancode it, save diff bitrate (for adaptive bitrate), and save diff resolutions.
 
@@ -565,23 +566,27 @@ Enhancements - live streaming (real-time video transcoding) and content filterin
 - Streaming Protocols: https://www.dacast.com/blog/streaming-protocols
 
 ## Google Drive
-Needs sync so strong consistency is expected, use a relational database (ACID out-of-the-box).
+Needs sync, so strong consistency is expected, use a relational database (ACID out-of-the-box) to store file metadata.
 
-Use third-party large storage service like Amazon Simple Storage Service (S3). Provides automatic cross-region replication, sharding, etc.
+Use third-party large storage service like Amazon Simple Storage Service (S3). Provides automatic same-region and cross-region replication, sharding, etc.
+
+**Upload**: start uploading file to block servers and parallely save file metadata to DB. Upon completion of upload, the storage service sends callback request indicating upload completion to API service and it updates file upload status to `completed` and triggers notification to user using Notification service.
+
+**Edit/Download**: notify all online users to pull latest data using Notification server, clients can then fetch fresh metadata and block servers start downloading file blocks, perform delta sync and then send new blocks to the client where they're combined into actual files using data from metadata DB.
 
 Allow resumable uploads `?uploadType=resumable` to recover from network failure during uploads.
 
 ```txt
-Block Server - split files into blocks before uploading to S3, compress (gzip, bzip2) and encrypt each block, store block metadata (block_id, hash, block_order) in Metadata DB to avoid duplicates, etc.
+Block Servers - split files into blocks before uploading to S3, compress (gzip, bzip2) and encrypt each block, store block metadata (block_id, hash, block_order) in Metadata DB to avoid duplicates, etc. Downloads happen to block servers first too instead of directly downloading onto the client for delta sync.
 
-Delta Sync - on file modification, only modified blocks are synced using a sync algorithm e.g. Differential Synchronization
+Delta Sync - on file modification, only modified blocks are synced using a sync algorithm e.g. Differential Synchronization.
 ```
 
-Notification service is used for sync - accessed by other active clients via long polling. If a client is offline, save file changes in cache or offline backup MQ to replay when it becomes active.
+Notification service is used for sync - accessed by other online clients via long polling. Send notifs to online clients upon file edits or new file creation. If a client is offline, save file changes in cache or offline backup MQ to replay when it becomes active.
 
 **Optimizations**:
-- Cold Storage: infrequently accessed data can be moved to another storage service like Amazon S3 Glacier
-- Real-time file modification (Google Docs) using DifDifferential Synchronization Strategies
+- Cold Storage: infrequently accessed data can be moved to another cheaper storage service like Amazon S3 Glacier
+- Real-time collaboration (Google Docs) using Differential Synchronization Strategies
 
 **Links**:
 - Differential Synchronization Strategies - https://neil.fraser.name/writing/sync/
