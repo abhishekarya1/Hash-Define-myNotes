@@ -290,17 +290,17 @@ class Student{
 
 	// inner class can access private memebers of its containing outer class
 	public static class Builder{
-		public Student setId(int id){
+		public Builder setId(int id){
 			this.id = id;
 			return this;
 		}
 
-		public Student setName(String name){
+		public Builder setName(String name){
 			this.name = name;
 			return this;
 		}
 
-		public Student setAge(int age){
+		public Builder setAge(int age){
 			this.age = age;
 			return this;
 		}
