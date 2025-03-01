@@ -53,18 +53,18 @@ O(n!) or O(n^n)		- Factorial or n-power-n
 ```
 [Practice](https://discuss.codechef.com/t/multiple-choice-questions-related-to-testing-knowledge-about-time-and-space-complexity-of-a-program/17976)
 
-Q21: for a HP (reciprocal of AP), `1 + 1/2 + 1/3 + ... + 1/n = O(log n)`
+Q21: `O(n logn)`, because for a HP (reciprocal of AP), `1 + 1/2 + 1/3 + ... + 1/n = O(log n)` ([_proof_](https://stackoverflow.com/q/25905118))
 
-for a GP, `n * (1 + 1/2 + 1/4 + 1/8 ... + 1/2^k) = O(n)` since sum `1 + (1/2 + 1/4 + 1/8 ... + 1/2^k) = 1 + (1) = 2` [_example_](https://stackoverflow.com/questions/43773587/time-complexity-ologn-or-on)
+for a GP, `n * (1 + 1/2 + 1/4 + 1/8 ... + 1/2^k) = O(n)` since sum `1 + (1/2 + 1/4 + 1/8 ... + 1/2^k) = 1 + (1) = 2` ([_example_](https://stackoverflow.com/questions/43773587/time-complexity-ologn-or-on))
 
 Cases:
 - **Best Case**: Element found at index 0 (`O(1)`)
 - **Worst Case**: Element never found (`O(n)`)
-- **Average Case**: Element found at the middle index. (often times average of all the possible inputs isn't so obvious)
+- **Average Case**: Element found at the middle index. (often times average of all the possible inputs isn't so obvious in some algorithms)
 
 **Recurrence Relations** - an equation that recursively defines the total time taken as sum of parts where each part is also performed recursively. Solve them to get growth function (time complexity). A generalization of Master theorem called [Akra-Bazzi Method](https://www.geeksforgeeks.org/akra-bazzi-method-for-finding-the-time-complexities/) and [Practice Problems](https://www.csd.uwo.ca/~mmorenom/CS424/Ressources/master.pdf).
 
-**Amortized Analysis** - to find the _average running time per operation in the worst case_. Each individual instruction's time is added and sum is divided by the total number of instructions. [Tutorial](https://algorithmtutor.com/Analysis-of-Algorithm/Amortized-Analysis-of-Algorithms/)
+**Amortized Analysis** - it is used to find the _average running time per operation_ in the worst case scenario. Each individual instruction's time is added and sum is divided by the total number of instructions. [Tutorial](https://web.archive.org/web/20240819102609/https://algorithmtutor.com/Analysis-of-Algorithm/Amortized-Analysis-of-Algorithms/)
 
 **Stirling's approximation** - `Θ( log(n!) ) = Θ( nlogn )`
 
@@ -75,5 +75,7 @@ Cases:
 - **NP Hard**: Problems that may or may not be NP, and if problems not in NP get solved, other NP problems won't become reducible to L
 
 The big question - **Is P = NP?**: Proving things is also a NP problem itself! Quite easy to verify existing proofs, but coming up with a new one is tough.
+
+![pnp_wikipedia_diagram](https://upload.wikimedia.org/wikipedia/commons/a/a0/P_np_np-complete_np-hard.svg)
 
 [P vs. NP and the Computational Complexity Zoo - YouTube](https://youtu.be/YX40hbAHx3s)

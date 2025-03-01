@@ -251,7 +251,7 @@ int b = (int) a;        // explicit cast from double to int
 1. If two values have different types, Java will convert smaller into larger type
 2. If integral and decimal are being used, integral is converted to decimal type
 3. After the operations, the result value will be of the promoted operands type
-4. **If both variables are of integral type and smaller or equal to int, they are promoted to int first**, even if none of them is `int`; this is to prevent numeric _overflow_
+4. **If both variables are of integral type and smaller or equal to int, they are promoted to int first**, even if none of them is `int`; this is to prevent numeric _overflow_ error.
 ```java
 short x = 5;
 byte y = 5;
@@ -261,6 +261,13 @@ x + y;      // int
 Another example of Integral Promotion:
 ```java
 System.out.println('b' + 'i' + 't');        // prints 319; ASCII addition result
+```
+
+**Wrap around** can happen despite integral promotion if we're not careful:
+```java
+short i = 32767;
+System.out.println( i + 1 );    // 32768, integral promotion happened on addition operator
+System.out.println( ++i );    // -32768, no integral promotion happened so it wrapped around
 ```
 
 ### Bitwise Complement
