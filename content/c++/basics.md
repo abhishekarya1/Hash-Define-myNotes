@@ -74,7 +74,7 @@ string strNum = to_string(num);
 string strPi = to_string(pi);    
 
 int num = stoi(strNum);
-double pi = stod(strDouble);
+double pi = stod(strPi);
 
 // conversions using streamstream
 int num = 42;
