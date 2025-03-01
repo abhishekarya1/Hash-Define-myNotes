@@ -10,7 +10,7 @@ weight = 3
 // STL is provided in the following headers:
 
 // Containers data structures template classes
-<vector>, <list>, <deque>, <queue>, <stack>, <map>, <set>, <bitset>, <forward_list>, <unordered_map>, <unordered_set>, <array>
+<array>, <vector>, <list>, <deque>, <queue>, <stack>, <map>, <set>, <bitset>, <unordered_map>, <unordered_set>, <forward_list>
 
 // Iterator for transversing the elements in a container
 <iterator>
@@ -482,8 +482,28 @@ unordered_set<int> st;
 // than set in most cases, except some when collision happens
 ```
 
+### BitSet
+Sequence of `0` and `1`.
+
+```cpp
+bitset<8> myBits; 	// nit to 00000000
+
+myBits[1] = 1;        // Set the 2nd bit (index 1) to 1 
+myBits.set(3);         // Set the 4th bit (index 3) to 1
+myBits[0] = myBits[1]; // Copy the value of the 2nd bit to the 1st
+
+cout << myBits; 	// 00010010
+
+cout << "Bit at index 3: " << myBits[3]; 		//  1
+cout << "Bit at index 5: " << myBits.test(5); 	//  0
+
+myBits.reset(1);    // Set the 2nd bit to 0
+myBits.flip(0);     // Toggle the 1st bit 
+cout << myBits; 	// 00010001
+```
+
 ## Algorithms & Misc
-- `sort()`
+- sorting with `sort`
 ```cpp
 #include<algorithm>
 
@@ -491,7 +511,7 @@ sort(a, a+n); 	// [first, last)
 sort(a.begin(), a.begin()+5); // using interators
 sort(a+2, a+5); // sort in range
 
-//desc
+// desc
 sort(a, a+n, greater<int>);
 
 // custom sort
@@ -512,7 +532,21 @@ bool comp(pair<int,int>p1, pair<int,int>p2) {
 	}
 	return false; 
 }
+```
 
+- search with `binary_search`
+```cpp
+// Binary Search only works on sorted array
+vector<int> sorted = {1, 3, 5, 7, 9};
+bool found = binary_search(sorted.begin(), sorted.end(), 5); 	// true 
+```
+
+- lower bound and upper bound
+```cpp
+// needs sorted input
+vector<int> v = {10, 20, 30, 40, 50};
+cout << *lower_bound(v.begin(), v.end(), 35);	// 40
+cout << *upper_bound(v.begin(), v.end(), 35);	// 40
 ```
 
 - min/max, reverse, accumulate, count, find
@@ -541,14 +575,22 @@ long long num = 165786578687;
 int cnt = __builtin_popcountll(num);
 ```
 
+- math; most functions have `double` type as args and return type
+```cpp
+double x = sqrt(16.0);		// 4.0
+int y = abs(-10);			// 10
+double z = pow(2.0, 2.0); 	// 4.0
+``` 
+
 ## Lambda Expressions
 ```cpp
 // Syntax
-[](arg1, arg2) { /*body*/ }
+[capture_clause](arg1, arg2) { /*body*/ }
 
 // Definition and call together
 cout << [](int a, int b){ return a+b; }(2, 4);		// 6
 
+// use capture_clause to define what variables can the lambda access and how 
 // we can pass this as comparator in sort(arr, arr+n, [](arg1, arg2) { })
 ```
 
@@ -559,9 +601,8 @@ any_of(v.begin(), v.end(), lambda); 	// returns true if ATLEAST ONE elements in 
 none_of(v.begin(), v.end(), lambda);	// returns true if NONE of the elements in range satisfy lambda
 ```
 
-
-
 ## References
 - [takeUforward - YouTube](https://www.youtube.com/watch?v=zBhVZzi5RdU)
 - [C++ STL - GfG](https://www.geeksforgeeks.org/the-c-standard-template-library-stl/)
 - [Luv - YouTube](https://www.youtube.com/playlist?list=PLauivoElc3gh3RCiQA82MDI-gJfXQQVnn)
+- https://medium.com/@himanshusingh2719/c-stl-essentials-for-leetcode-2b9d97307feb#1c29

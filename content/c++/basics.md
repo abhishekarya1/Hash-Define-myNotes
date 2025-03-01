@@ -66,6 +66,28 @@ str += 'b';
 // append a string
 str += "bc";
 str.append("bc");
+
+// convert numbers to string and vice-versa
+int num = 123;
+double pi = 3.14159;
+string strNum = to_string(num);   
+string strPi = to_string(pi);    
+
+int num = stoi(strNum);
+double pi = stod(strDouble);
+
+// conversions using streamstream
+int num = 42;
+stringstream ss;
+ss << num; 
+string strNum = ss.str(); 
+cout << strNum; 	// 42 (string)
+
+string strNum = "42";
+stringstream ss(strNum);
+int num;
+ss >> num; 
+cout << num; 	// 42 (int)
 ```
 
 - `stringstream`: treating string as an I/O stream

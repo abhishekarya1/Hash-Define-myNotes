@@ -62,7 +62,7 @@ int main()
     return 0;
 }
 ```
-### Useful funtions
+### Useful Functions
 ```cpp
 // <algorithm>
 sort(arr, arr+n, comp);
