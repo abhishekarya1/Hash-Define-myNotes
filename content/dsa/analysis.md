@@ -53,7 +53,9 @@ O(n!) or O(n^n)		- Factorial or n-power-n
 ```
 [Practice](https://discuss.codechef.com/t/multiple-choice-questions-related-to-testing-knowledge-about-time-and-space-complexity-of-a-program/17976)
 
-Q21: `O(n logn)`, because for a HP (reciprocal of AP), `1 + 1/2 + 1/3 + ... + 1/n = O(log n)` ([_proof_](https://stackoverflow.com/q/25905118))
+Trickiest Ques - 4 (Stirling Approx), 20 (`j` doesn't reset), 21 (HP)
+
+Ans 21: `O(n logn)`, because for a HP (reciprocal of AP), `1 + 1/2 + 1/3 + ... + 1/n = O(log n)` ([_proof_](https://stackoverflow.com/q/25905118))
 
 for a GP, `n * (1 + 1/2 + 1/4 + 1/8 ... + 1/2^k) = O(n)` since sum `1 + (1/2 + 1/4 + 1/8 ... + 1/2^k) = 1 + (1) = 2` ([_example_](https://stackoverflow.com/questions/43773587/time-complexity-ologn-or-on))
 
