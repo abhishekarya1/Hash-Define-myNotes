@@ -53,7 +53,7 @@ Ex - if a system has two components each having 99.00% availability, then in seq
 Consistency is insured by: sharing updates between multiple replicas (one master many slaves, or all masters)
 
 Some techniques for achieving consistency:
-- **Full Mesh**: everyone is connected to everyone so data is shared among everyone, not feasible in large clusters
+- **Full Mesh**: everyone is connected to everyone so data is broadcasted to everyone, not feasible in large clusters
 - **Coordination Service**: a third party component chooses a leader node, all nodes send their message to leader and leader acts as their representative. Ex - Zookeeper.
 - **Distributed Cache**: a central source of knowledge (a cache) is placed, nodes fetch data periodically from it 
 - **Gossip Protocol**: each node selects another node periodically and shares data with it
@@ -232,12 +232,18 @@ It requires two restarts though - one to point services to DB Proxy and other is
 ## Observability
 It is the ability to understand the internal state or condition of a complex system based solely on knowledge of its external outputs, specifically its telemetry.
 
-The 3 pillars of observability:
+The 3 pillars of observability (o11y):
 - **Logs** - granular, time-stamped, complete and immutable records
 - **Traces** - record the end-to-end “journey” of every user request
 - **Metrics** - measures of application and system health over time
 
 **Treat logs as a continuous stream**: centralized logs with trace and gather metrics in a timeseries DB
+
+Other aspects of good o11y:
+- **Monitoring**: create context specific dashboards to monitor real-time logs and stats
+- **Alerts**: setup alerts to notify various channels upon anomalies and failures
+
+### o11y applications
 
 **Anomaly Detection**: detecting faults
 - Confidence Intervals - may flag black friday traffic spikes as anomaly
@@ -246,3 +252,18 @@ The 3 pillars of observability:
 **Root Cause Analysis**: finding out cause of faults, correlation in metrics
 - Manual - "Five Whys" Technique (ask five layers of why questions about the fault)
 - Automatic - Principal Component Analysis (PCA) or Spearman's Coefficient (automated, used in large organizations)
+
+## The Inteview
+
+1. list and confirm FR
+2. list and confirm NFR
+3. Capacity Estimation (_optional_)
+4. Design and get buy-in
+5. Zoom in on components
+6. Security, rate-limiting, o11y and alerts, a11y, analytics
+7. Summarize
+
+### Requirements
+**Functional Reqiurements** (FR) - features, components and architecture, API spec, data model
+
+**Non-Functional Reqiurements** (NFR) - consistency, availability, performance (latency and throughput), fault-tolerance, security, privacy, maintainability
