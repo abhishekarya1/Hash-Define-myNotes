@@ -193,8 +193,8 @@ Ensures data read and write consistency across replicas.
 
 **Configuration**:
 ```txt
-If R = 1 and W = N, the system is optimized for a fast read
-If W = 1 and R = N, the system is optimized for fast write
+If R = 1, the system is optimized for a fast read
+If W = 1, the system is optimized for fast write
 If W + R > N, strong consistency is guaranteed (guranteed that there is always atleast one overlapping node in reads and writes)
 If W + R <= N, strong consistency is not guaranteed
 ```

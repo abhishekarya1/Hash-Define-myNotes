@@ -126,11 +126,13 @@ Reference: http://highscalability.com/blog/2010/12/6/what-the-heck-are-you-actua
 - Eventual consistency - the system will become consistent over a period of time, given that the system doesn't receive any input during that period
 
 Types of NoSQL Stores:
-- **Key-Value store**: Redis, Memcached
-- **Document store**: key-value store with documents (XML, JSON, Binary, etc...) stored as values. Ex - MongoDB, Elasticsearch
-- **Wide column store**: for every key, a small table of varying size is stored (columns). Offer high storage capacity, high availability, and high scalability. Ex - Cassandra
-- **Graph store**: stores nodes and their relationship. Ex - Neo4j
-- **Timeseries store**: optimized for storing time and events data. Ex - InfluxDB
+- **Key-Value store**: Redis, Memcached.
+- **Document store**: key-value store with documents (XML, JSON, Binary, etc.) stored as values. Ex - MongoDB, Elasticsearch.
+- **Wide-column store**: for each key, we store a table, and the tables don't need to follow the same schema across keys. Better suited for massive reads. Offers high availability and high scalability. Ex - Cassandra.
+- **Graph store**: stores entities and their relationship. Ex - Neo4j.
+- **Object store**: store large amount of files or unstructured data in a single store and access using HTTP APIs. Ex - Amazon S3, Azure Blob Storage.
+- **Timeseries store**: optimized for storing time and events data. Ex - InfluxDB.
+
 
 Types of Databases - [Fireship YT](https://youtu.be/W2Z7fbCLSTw)
 

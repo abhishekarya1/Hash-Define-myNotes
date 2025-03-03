@@ -10,7 +10,7 @@ weight = 3
 // STL is provided in the following headers:
 
 // Containers data structures template classes
-<array>, <vector>, <list>, <deque>, <queue>, <stack>, <map>, <set>, <bitset>, <unordered_map>, <unordered_set>, <forward_list>
+<array>, <vector>, <list> (DLL), <deque>, <queue>, <stack>, <map>, <set>, <bitset>, <unordered_map>, <unordered_set>, <forward_list> (SLL)
 
 // Iterator for transversing the elements in a container
 <iterator>
@@ -503,6 +503,15 @@ cout << myBits; 	// 00010001
 ```
 
 ## Algorithms & Misc
+- create `set` from `vector`
+```cpp
+vector<int> nums = {1, 2, 2, 3};
+
+set<int> mySet(nums.begin(), nums.end());
+
+cout << mySet.size();	// 3
+```
+
 - sorting with `sort`
 ```cpp
 #include<algorithm>
@@ -565,6 +574,15 @@ long sum = accumulate(v.begin(), v.end(), 0); 	// 0 is initial sum
 int cnt = count(v.begin(), v.end(), 2);			// 2 is element to search in vector
 auto it = find(v.begin(), v.end(), 2);	// return address
 ```
+
+- `for_each` on containers 
+```cpp
+vector<int> nums = {10, 20, 30, 40, 50};
+for_each(nums.begin(), nums.end(), [](int value) {
+	cout << "Value: " << value;
+});
+```
+
 - Counting set bits in binary representation (GCC compilers only)
 ```cpp
 int num = 7; 	// 111 
