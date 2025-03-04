@@ -57,7 +57,7 @@ Some techniques for achieving consistency:
 - **Coordination Service**: a third party component chooses a leader node, all nodes send their message to leader and leader acts as their representative. Ex - Zookeeper.
 - **Distributed Cache**: a central source of knowledge (a cache) is placed, nodes fetch data periodically from it 
 - **Gossip Protocol**: each node selects another node periodically and shares data with it
-- **Random Leader Selection**: elect a leader using a simple algorithm
+- **Random Leader Selection**: elect a leader using a simple algorithm. Ex - Leader election in RAFT Concensus Algorithm [_animations_](https://thesecretlivesofdata.com/raft/)
 
 ## Levels of Consistency
 Max Consistency - all writes are available globally to everyone reading from any part of the system. In simple words, ensures that every node or replica has the same view of data at a given time, irrespective of which client has updated the data.
@@ -144,6 +144,7 @@ Scaling up to your first 10 million users: https://www.youtube.com/watch?v=kKjm4
 [/data/rdbms/concepts/#indexes](/data/rdbms/concepts/#indexes)
 
 ### Partitioning
+Partitioning a database can be done for various reasons ranging from functional decomposition or storage considerations associated with a denormalized (i.e. single large) database.
 - **Horizontal partitioning**: put different rows into different tables (Sharding)
 - **Vertical partitioning**: split columns; divide our data to store tables related to a specific feature in their own server (Federation)
 - **Directory Based Partitioning**: we query the directory server that holds the mapping between each tuple key to its DB server (which is sharded)
@@ -153,7 +154,7 @@ Scaling up to your first 10 million users: https://www.youtube.com/watch?v=kKjm4
 **Sharding**: divide database into multiple ones based on criteria (often non-functional such as geographic proximity to user). 
 
 - Pros: convinient storage scaling, faster access due to parallel processing, low latency due to proximity to end-user
-- Cons: we can't easily add more shards since existing data is already divided and we can't change boundaries, `JOIN` across shards are very expensive. Consistent hashing can help in resolving uneven shard access patterns
+- Cons: we can't easily add more shards since existing data is already divided and we can't change boundaries, `JOIN` across shards are very expensive. Consistent hashing can help in resolving uneven shard access patterns. Needs a layer-7 balancer to read and route read/write requests.
 
 **Federation**: divide database into multiple ones based on functional boundaries
 
@@ -177,6 +178,27 @@ Problems in replication:
 
 - **Write Amplification Problem** (WA): when replicating data from a master to a replica, we've to write `n` times if there are `n` replicas in the system. In such a system, what happens when one of the replicas fails to ack the write? should we wait for it (_indefinite_ wait) or move on (_stale_ data on that replica).
 
+### Reducing DB Writes
+**Sampling**: only a subset of the collected data should be persisted to the database rather than the entire dataset. This approach is suitable when not all data points are critical, helps reduce storage. Used in Time Series Databases.
+
+**Aggregation**: aggregate multiple events into fewer ones using Services and write those to DB. We can have multi-tier aggregation as well to combine multiple data events into fewer and fewer ones in each layer. Requires additional aggregator services which increases complexity.
+
+We can also have a layer-7 Load Balancer to do partitioning and multi-tier aggregation together:
+
+![](https://i.imgur.com/4ml6NcL.png)
+
+### ETL
+It is the copying of data from one or more sources into one destination which represents the data differently from any of the sources.
+
+A typical ETL process is just a ETL _pipeline_ (DAG of tasks), which applies _transformations_ and outputs data that can be queried.
+
+Two types of ETL processings:
+- **Batch**: run jobs at scheduled intervals and process data. Slower but provides highly accurate insights into data. Ex - [Airflow](https://airflow.apache.org/).
+- **Streaming** (aka ELT): do real-time processing of data. Much faster but accuracy takes a hit. Ex - [Kafka](https://kafka.apache.org/) (_more specialized as a message broker_), [Flink](https://flink.apache.org/) (_more specialized as an analytical engine_).
+
+ETL pipeline architectures:
+- **Lambda Architecture**: parallely run a batch layer (batch jobs) and a streaming layer (real-time streaming) and merge results into a "serving" layer which can answer queries on data.
+- **Kappa Architecture**
 
 ### Migration
 Transfer data from an old DB to a new one with minimal downtime.
@@ -227,6 +249,11 @@ When migrating from Azure to AWS, we can't add a trigger as in simple approach o
 We use a `DB Proxy` server in such a case. Reads are directed to the old DB, writes to both old and new. Any views needed are present in the proxy server. Rest of the steps remain the same.
 
 It requires two restarts though - one to point services to DB Proxy and other is to point services to AWS when we're done with the migration.
+
+### Alt Data Storage Options
+Data can be cached on the client side in the browser. Saves server storage space.
+
+Data can be stored on the client as well. Ex - WhatsApp stores backups on any third-party like Google Drive. Analytics can be a problem though with this approach.
 
 ## Networking
 [/networking](/networking/notes)

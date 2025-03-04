@@ -48,6 +48,15 @@ Publisher puts messages in a central system, subscriber(s) consume them. Broadca
 - not for mission critical synchronous systems where ack is required
 - not for non-idempotent tasks like financial transactions; because a single message can be processed multiple times
 
+### Push vs Pull Semantics
+Push is good when we have too many producers.
+
+Push is good when we want producers to send data asap.
+
+Pull is good when we want consumers to control the rate of consumption.
+
+The consumer can make request to the broker (_pull_) with very little additional configurations and firewall issues, than the broker calling a bunch of consumers (_push_).
+
 ## References
 - https://www.gentlydownthe.stream/
 - Prod/Con - sudoCODE - [YouTube](https://youtu.be/J6CBdSCB_fY)
