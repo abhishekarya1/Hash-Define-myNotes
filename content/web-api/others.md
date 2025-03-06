@@ -49,8 +49,8 @@ REST expects the server to know "what to do", we can send `POST` or `DELETE` req
 
 RPCs are much faster than REST APIs.
 
-## gRPC
-A modern open-source high performance RPC framework created by Google (circa 2016) that uses HTTP/2. It uses its own custom data exchange format called [ProtoBuf](https://developers.google.com/protocol-buffers/) which packs down smaller than JSON after compression.
+### gRPC
+[gRPC](https://grpc.io/) is a modern open-source high performance RPC framework created by Google (circa 2016) that uses HTTP/2. It uses its own custom binary data exchange format called [ProtoBuf](https://developers.google.com/protocol-buffers/) which packs down smaller than JSON after compression but isn't human readable when in transit (before unmarshalling).
 
 ```go
 message Person {
@@ -59,6 +59,10 @@ message Person {
   optional string email = 3;
 }
 ```
+
+[Apache Thrift](https://thrift.apache.org/) is an alternative to gRPC and has its own binary message exchange format.
+
+[gRPCurl](https://github.com/fullstorydev/grpcurl) - like cURL, but for gRPC.
 
 ## SOAP
 SOAP is an acronym for Simple Object Access Protocol. It is an **XML-based messaging protocol** for exchanging information among applications which are built with different programming languages. SOAP works over HTTP.
