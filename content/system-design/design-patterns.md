@@ -371,6 +371,8 @@ BasePizza pizzaObj = new MushroomTopping(new JalepenoTopping(new Margherita()));
 pizzaObj.cost();	// return final cost with all the toppings
 ```
 
+![](https://i.imgur.com/C2ENkrX.png)
+
 ### Composite
 Whenever classes' relationship hierarchy is like a Russian Doll (recursive tree), we use this design pattern to model it. Ex - Filesystem.
 
@@ -527,6 +529,8 @@ laptopProxyObj.boot();
 Proxies can be chained too i.e. one proxy calls another, which in turns calls another proxy.
 
 This is similar to the Decorator Pattern but we don't need another interface like `ToppingDecorator` here as we don't need to introduce new behavior (methods) here but only calling the original object's methods via a proxy.
+
+![](https://i.imgur.com/xA5X0nk.png)
 
 ### Bridge
 It decouples an abstraction from its implementation so that the two can vary independently.
