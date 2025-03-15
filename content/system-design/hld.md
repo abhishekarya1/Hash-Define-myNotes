@@ -282,17 +282,24 @@ Other aspects of good o11y:
 - Manual - "Five Whys" Technique (ask five layers of why questions about the fault)
 - Automatic - Principal Component Analysis (PCA) or Spearman's Coefficient (automated, used in large organizations)
 
-## The Inteview
+## The Interview
+### Delivery Framework
+1. `[5 mins]` List and confirm FRs and NFRs (_approx. 3 to 5_) and Capacity Estimation (_optional; preferably do later as and when required_)
+2. `[2 mins]` Identify Core entities
+3. `[5 mins]` Jot API spec and interfaces
+4. `[5 mins]` Track Data flow (_optional_)
+5. `[10 - 15 mins]` High level design - components and architecture (_drawing boxes_)
+6. `[10 mins]` Deep dives - specific technologies, edge cases, identifying and adressing issues and bottlenecks, interviewer's probes
 
-1. list and confirm FR
-2. list and confirm NFR
-3. Capacity Estimation (_optional_)
-4. Design and get buy-in
-5. Zoom in on components
-6. Security, rate-limiting, o11y and alerts, a11y, analytics
-7. Summarize
+Additional stuff - security, o11y and alerts, a11y, analytics.
 
-### Requirements
-**Functional Reqiurements** (FR) - features, components and architecture, API spec, data model
+### Notes
+**Functional Reqiurements** (FR) - business use-cases, features
 
 **Non-Functional Reqiurements** (NFR) - consistency, availability, performance (latency and throughput), fault-tolerance, security, privacy, maintainability
+
+You can use [C4 model](https://c4model.com/) for visualising software architecture.
+
+_Reference_: 
+- https://www.hellointerview.com/learn/system-design/in-a-hurry/delivery
+- Zhiyong Tan's Book - Chapter 2
