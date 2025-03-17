@@ -133,6 +133,7 @@ Types of NoSQL Stores:
 - **Object store**: store large amount of files or unstructured data in a single store and access using HTTP APIs. Ex - Amazon S3, Azure Blob Storage.
 - **Timeseries store**: optimized for storing time and events data. Ex - InfluxDB.
 
+Big Data stores like [HBase](https://hbase.apache.org/) and [Google BigQuery](https://cloud.google.com/bigquery) store column-wise rather than row-wise ([illustration](https://en.wikipedia.org/wiki/Data_orientation)), hence they are called **Columnar Databases**. Cassandra also belongs to the column-family of databases. They are very fast in adding and processing data which requires only a subset of columns rather than fetching the whole row.
 
 Types of Databases - [Fireship YT](https://youtu.be/W2Z7fbCLSTw)
 
