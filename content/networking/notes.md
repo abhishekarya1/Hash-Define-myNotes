@@ -170,11 +170,15 @@ Domain Name = www.example.com = Sub-domain + Domain + Top-level domain
 Uses Port 53 over UDP. The closer the DNS server, the better it is because DNS lookup/probe latency will be lesser i.e. DNS resolution will be faster. Many CDNs like Google and Cloudflare have DNS servers all around the globe that **cache** DNS info (cache entries have a TTL too).
 
 ```txt
-DNS Lookup:
+DNS Lookup: where is google.com? 
 
-(where is google.com?) --> Browser Cache --> DNS Resolver Server (cache) --> ROOT (where is TLD server for .com domains?) 
-											         							|--> TLD (where is ANS of google?) 
-													       	  	  					|--> ANS (returns DNS records (incl. IP address) of google.com)
+Check Browser Cache, else
+
+--> DNS Resolver Server (maintains cache too)  --> ROOT (where is TLD server for .com domains?) 
+											  |--> TLD (where is ANS of google?) 
+								              |--> ANS (returns DNS records (incl. IP address) of google.com)
+
+DNS Resolver is recursive and it contacts ROOT NS, TLD NS, and ANS directly once response is received from the previous one in the sequence.
 ```
 ANS (Authoritative Name Server) is our Domain provider itself.
 
