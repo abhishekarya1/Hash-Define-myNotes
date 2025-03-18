@@ -172,9 +172,9 @@ Uses Port 53 over UDP. The closer the DNS server, the better it is because DNS l
 ```txt
 DNS Lookup:
 
-(where is google.com?) --> DNS Resolver Server (cache) --> ROOT (where is TLD server for .com domains?) 
-											         		|--> TLD (where is ANS of google?) 
-													       	  	  |--> ANS (returns DNS records (incl. IP address) of google.com)
+(where is google.com?) --> Browser Cache --> DNS Resolver Server (cache) --> ROOT (where is TLD server for .com domains?) 
+											         							|--> TLD (where is ANS of google?) 
+													       	  	  					|--> ANS (returns DNS records (incl. IP address) of google.com)
 ```
 ANS (Authoritative Name Server) is our Domain provider itself.
 
