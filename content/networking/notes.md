@@ -177,28 +177,40 @@ Check Browser Cache, else
 --> DNS Resolver Server (maintains cache too)  --> ROOT (where is TLD server for .com domains?) 
 											  |--> TLD (where is ANS of google?) 
 								              |--> ANS (returns DNS records (incl. IP address) of google.com)
-
-DNS Resolver is recursive and it contacts ROOT NS, TLD NS, and ANS directly once response is received from the previous one in the sequence.
 ```
+
 ANS (Authoritative Name Server) is our Domain provider itself.
 
+DNS Lookups can be:
+- **Recursive**: DNS Resolver contacts ROOT NS, ROOT NS contacts TLD NS, and TLD NS contacts ANS. 
+- **Iterative** (_better_): DNS Resolver contacts ROOT NS, TLD NS, and ANS directly.
+
 _Reference#1_: https://aws.amazon.com/route53/what-is-dns/
+
 _Reference#2_: https://news.ycombinator.com/item?id=35870654
 
+_Reference#3_: https://www.cloudflare.com/learning/dns/what-is-recursive-dns/
 
-**DNS Records**: ANS can hold additional info like alias for a domain, sub-domains, etc apart from the IP address info.
+**DNS Records**: ANS holds info like IP address and alias for domains.
 
 ```txt
 A     - stores IPv4 address of the domain (one domain can have many A records each pointing to diff IPs) (provide redundancy and fallbacks; random one is picked)
 
 AAAA  - stores IPv6 address of the domain (same as above)
 
-CNAME - stores alias(es) of the domain (canonical name record); to config sub-domains (points to another hostname, not IP unlike A record)
+CNAME - stores alias(es) of the domain (canonical name record); points to another hostname, not IP unlike A record
 
 MX    - mail exchange record, stores mail server address for the domain
 
 NS    - point to another ANS to query to get IP of the domain
 ```
+
+Example of DNS settings of a domain:
+|  Type | Host  | Data  |  TTL | Note(s)  |
+|---|---|---|---|---|
+| A | @  | 10.98.74.31  | 4 hrs  |  root domain (google.com) |
+| A | maps  | 10.98.78.33  | 4 hrs  |  sub domain (maps.google.com) |
+| CNAME  |  www | google.com  |  4 hrs | aliasing www.google.com  |
 
 **GeoDNS**: Geographical split horizon (different DNS answers based on client's geographical location), setup different `A` records for different regions in the domain provider DNS serttings (Amazon Route 53 is the DNS service for AWS that allows this).
 
