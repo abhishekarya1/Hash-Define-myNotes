@@ -74,7 +74,16 @@ Old way is to use `logback.xml` and Spring will use that if it is present, other
 ### Prometheus and Grafana
 Metrics collection and storage (Prometheus) and metrics and log visualization (Grafana).
 
-**Micrometer is the default facade provided by Spring for metrics**, just like Slf4j for logs. 
+{{% notice note %}}
+**Micrometer is the default facade provided by Spring for metrics**, just like Slf4j for logs. Spring Boot has all the dependencies for it by default and we just need to add dependency of the tool we're exporting to e.g. Prometheus.
+{{% /notice %}}
+
+```xml
+<dependency>
+  <groupId>io.micrometer</groupId>
+  <artifactId>micrometer-registry-prometheus</artifactId>
+</dependency>
+```
 
 1. Expose the micrometer endpoint. `micrometer-registry-prometheus` dependency adds an endpoint `/actuator/prometheus` which lists all metrics for the app in Prometheus format.
 2. The micrometer endpoint is configured in Prometheus running on a diff dedicated server.
@@ -86,30 +95,24 @@ SPRING BOOT APP <--polls-- PROMETHEUS <--polls-- GRAFANA
 
 Config polling interval and other settings in a `Prometheus.yml` file on the Prometheus server. It has its own local time-series database to store metrics history.
 
-We see logs in Grafana but _without_ the distributed tracing.
+We see logs in Grafana by configuring Prometheus as a data source but _without_ the distributed tracing.
 
 We can also configure metrics export to other formats for Datadog, Influx DB, New Relic, etc. using their respective dependencies. As well as configure alerts to Slack etc using web hooks in case an anomaly is detected.
 
 ## Distributed Log Tracing
-### Sleuth and Zipkin
-We used **Zipkin** and **Sleuth** (_deprecated_) here inorder to trace logs for a request going through multiple services.
+### Zipkin
+We used **Zipkin** here inorder to trace logs for a request going through multiple services.
 
-Zipkin server JAR is downloaded and runs separately. We need to include Zipkin client and Micrometer dependencies in services.
+Zipkin server JAR is downloaded and runs separately. We need to include Zipkin client dependencies in service.
 ```xml
+<dependency>
+  <groupId>io.micrometer</groupId>
+  <artifactId>micrometer-tracing-bridge-brave</artifactId>
+</dependency>
+
 <dependency>
   <groupId>io.zipkin.reporter2</groupId>
   <artifactId>zipkin-reporter-brave</artifactId>
-</dependency>
-
-<!-- both of the below are deprecated; in Spring Boot 3.0, use Zipkin and Micrometer dependencies -->
-<dependency>
-  <groupId>org.springframework.cloud</groupId>
-  <artifactId>spring-cloud-sleuth-zipkin</artifactId>
-</dependency>
-
-<dependency>
-  <groupId>org.springframework.cloud</groupId>
-  <artifactId>spring-cloud-starter-sleuth</artifactId>
 </dependency>
 ```
 
@@ -158,5 +161,13 @@ Grafana = UI dashboard to visualize all of the above
 
 _Reference_: https://programmingtechie.com/articles/spring-boot3-observability-grafana-stack
 
+### OpenTelemetry (OTel)
+OpenTelemetry provides a single, open-source standard, and a set of technologies to capture and export metrics, traces, and logs from your cloud-native applications and infrastructure. This makes us tool agnostic.
+
+Industry standard is to setup an [OpenTelemetry Collector](https://opentelemetry.io/docs/collector/) and receive/send data from/to various dashboards for vizualization. 
+
+_Reference_: https://opentelemetry.io/docs/
+
 ### Other tools
-Splunk
+- Splunk for Logs
+- [Jaeger](https://www.jaegertracing.io/) for Distributed Traces

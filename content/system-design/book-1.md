@@ -159,7 +159,7 @@ Find affected keys - if a server is added/removed, move anti-clockwise from that
 ### Virtual Nodes
 **Non-uniform distribution** - some servers may get the majority of the traffic (_hotspots_), while others sit idle based on their position on the hash ring.
 
-If we're probing clockwise, there might be a server that is closer but on the anti-clockwise direction of the hash, we place virtual redundant **Virtual Nodes** or Replicas to resolve this.
+If we're probing clockwise, there might be a server that is closer but on the anti-clockwise direction of the hash, we place virtual redundant **Virtual Nodes** (aka Replicas) to resolve this.
 
 Virtual nodes route to an actual server on the ring, and they need not be adjacent servers of the virtual node.
 
@@ -172,7 +172,9 @@ Place as many virtual nodes across hash space such that response time of a reque
 
 Memory costs and operational complexity increase in general with Consistent Hashing.
 
-[Comprehensive Article](https://systemdesign.one/consistent-hashing-explained/)
+[Comprehensive Article on CH](https://systemdesign.one/consistent-hashing-explained/)
+
+[LLD Implementation of CH](https://tom-e-white.com/2007/11/consistent-hashing.html)
 
 ## Key-Value Store
 ```txt

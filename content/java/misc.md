@@ -423,6 +423,31 @@ A copy of the list is created and modified on writes, it is then used to replace
 
 This has significant processing overhead and memory footprint compared to normal List implementations.
 
+### Types of Map Interfaces
+`NavigableMap` extends `SortedMap` extends `Map`
+
+They provide some additional useful methods to operate on Map. Same are available for `Set` too.
+
+```java
+SortedMap<Integer, String> sortedMap = new TreeMap<>();
+sortedMap.put(1, "One");
+sortedMap.put(2, "Two");
+sortedMap.put(3, "Three");
+
+// using SortedMap methods
+System.out.println("First Key: " + sortedMap.firstKey());   // 1
+System.out.println("Last Key: " + sortedMap.lastKey());     // 3
+
+NavigableMap<Integer, String> navigableMap = new TreeMap<>();
+navigableMap.put(1, "One");
+navigableMap.put(2, "Two");
+navigableMap.put(3, "Three");
+
+// using NavigableMap methods
+System.out.println("Higher Key than 2: " + navigableMap.higherKey(2));  // 3
+System.out.println("Lower Key than 2: " + navigableMap.lowerKey(2));    // 1
+```
+
 ## Java 21 New Features
 
 Java 21 was GA released on Sept, 2023. It is the latest LTS release.
