@@ -12,8 +12,29 @@ weight = 8
 ```
 
 {{% notice info %}}
-Spring Boot is inherently multi-threaded as it works on a **Thread-per-Request model**. The server (Tomcat) creates a new thread for each incoming request and excutes the whole flow's code on it. This is often a bottleneck and needs thread management (configure Tomcat thread max etc).
+Spring Boot is inherently multi-threaded as it works on a **Thread-per-Request model**. The server (Tomcat) creates a new thread for each incoming request (and Spring Boot doesn't create it) and executes the whole flow's code on it. This often becomes a performance bottleneck and needs thread management (configure Tomcat thread max property etc). 
+
+**All beans in the flow aren't necessarily per-thread!** The singleton beans' (like Controller and Service) single instances are still accessed by multiple threads (be careful of thread-safety) whereas the request scoped beans like `@RequestBody` POJOs are per-request (i.e. per-thread). This is why its not a good idea to store state information in global variables in Controller, Service, etc. classes as they're accessed by many threads at once and there maybe race conditions. Use `volatile` if you must use such a global variable in controller to pass data from one API endpoint to another without using an external data store. Methods call stacks are created spearately for every thread so local variables don't require such thread-safety.
 {{% /notice %}}
+
+```java
+@RestController			// singleton; 1 instance for all requests
+@RequestMapping("names")
+class NameController{
+	
+  volatile String name = "";	// doable; but avoid this!
+
+  @PostMapping("/set")
+  void setName(@RequestParam String name){
+    this.name = name;
+  }
+
+  @GetMapping("/get")
+  String getName(){
+    return this.name;
+  }
+}
+```
 
 ## Layers
 ```txt
