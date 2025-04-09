@@ -268,6 +268,12 @@ Other cascade options like `PERSIST` and `DELETE` are also available.
 
 This will fetch all data in `Owner` and `Pet` when `findAll()` is done on `Pet` due to the bi-directional mapping and `FetchType.ALL`.
 
+{{% notice info %}}
+All ORMs suffer from [**N+1 Problem**](https://stackoverflow.com/a/97253) by default because of relationships among entities. The default `FetchType` in Hibernate for One-to-one is `EAGER` and for One-to-many is `LAZY` (_to prevent N+1 selects problem_).  
+{{% /notice %}}
+
+For advanced use cases, we can also use `@EntityGraph` with `@Query` to override fetching behaviour of entities for that specific query only.
+
 #### More on Bi-Directional Mapping
 `Owner` has reference to `Pet` but not the other way round and it is oblivious to existence of `Owner`.
 
