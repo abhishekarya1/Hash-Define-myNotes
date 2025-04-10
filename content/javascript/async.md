@@ -24,7 +24,7 @@ loadScript('/my/script.js', function(script) {
 // Promise - an object that executes a function asynchronously; it executes immediately even though we are using "new" to create an object!
 let promise = new Promise(executorFunc)
 
-// pass a function expression instead
+// pass a function expression/arrow function instead ("resolve" and "reject" functions are provided by the JS engine to fulfill or reject the Promise)
 let promise = new Promise(function(resolve, reject) {
   // executor logic
 })
