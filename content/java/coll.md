@@ -497,7 +497,7 @@ Collections.sort(List<T> list, Comparator<? super T> c)
 
 Other ways to sort:
 ```java
-Collections.reverse(collection);   // reverses whatever current order is there
+Collections.reverse(collection);   // reverses whatever current order is there (in-place)
 
 // sorting a list; List's sort() method also takes in a Comparator<T>
 listObj.sort((d1, d2) -> d1.marks - d2.marks);
