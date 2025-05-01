@@ -511,6 +511,8 @@ listObj.sort(Comparator.naturalOrder());
 ```
 
 ## Iterator
+It is a replacement for the now obsolete [Enumeration](https://docs.oracle.com/javase/8/docs/api/java/util/Iterator.html#:~:text=Iterator%20takes%20the%20place%20of%20Enumeration%20in%20the%20Java%20Collections%20Framework) in Java, with some additional methods and better method names.
+
 An object used to loop (iterate) through collections (based on Iterator design pattern).
 
 ```java
