@@ -556,14 +556,18 @@ Even if used in a single thread, we can have `ConcurrentModificationException` a
 // non-concurrent collection
 Map<String, String> mp = new HashMap<>();
 
-// use a concurrent collection - multiple threads at a time can modify
+// Below are the ways to make it concurrent (thread-safe):
+
+// 1. use a concurrent collection - multiple threads at a time can modify
 Map<String, String> cmp = new ConcurrentHashMap<>();
 
-// or make an existing one synchronized - single thread at a time can modify
-Collections.synchronizedMap(mp);
+// 2. create a synchronized view of an existing map - only a single thread at a time can modify
+Map<String, String> smp = Collections.synchronizedMap(mp);
 
-// or make an existing one immutable - none can modify
-Collections.unmodifiableMap(mp);
+// 3. create an immutable view of an existing map - no one can modify
+Map<String, String> ump = Collections.unmodifiableMap(mp);
+
+// NOTE: modifying the backing data structure directly (i.e. the original map passed to synchronizedMap() or unmodifiableMap()) is not thread-safe, and bypasses synchronization! Never access or modify the original data structure directly once a view is created for it.
 ```
 
 If we have to create a collection, we use concurrent version of collections available. If we have a non-conurrent collection then we can use synchronized methods from `Collections` class to make them compatible to threads using synchronized methods that exists for most collections.
