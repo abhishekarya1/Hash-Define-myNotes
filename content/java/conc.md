@@ -823,3 +823,54 @@ C
 
 Reference: 
 - https://www.baeldung.com/java-completablefuture
+
+## ThreadLocal
+Store isolated data per thread. A copy of `ThreadLocal` variable is made per thread and it can only access that copy.
+
+```java
+public class Example {
+    // create a ThreadLocal variable with an intial value of 0
+    private static ThreadLocal<Integer> threadLocalValue = ThreadLocal.withInitial(() -> 0);
+
+    public static void main(String[] args) {
+        // create a runnable that increments the ThreadLocal variable
+        Runnable task = () -> {
+            for (int i = 0; i < 5; i++) {
+                int value = threadLocalValue.get();
+                threadLocalValue.set(value + 1);
+                System.out.println(Thread.currentThread().getName() + ": " + threadLocalValue.get());
+            }
+        };
+
+        // start two threads
+        Thread thread1 = new Thread(task, "Thread-1");
+        Thread thread2 = new Thread(task, "Thread-2");
+        thread1.start();
+        thread2.start();
+    }
+}
+
+// each thread runs a task that increments its own copy of the ThreadLocal variable five times.
+```
+
+We can store any data in a `ThreadLocal` variable, even collections:
+```java
+// create a ThreadLocal variable to hold a List
+ThreadLocal<List<String>> threadLocalList = ThreadLocal.withInitial(ArrayList::new);
+
+// get it in a thread
+List<String> list = threadLocalList.get();
+```
+
+`ThreadLocal` methods:
+```java
+ThreadLocal<T> threadLocalVariable = ThreadLocal.withInitial(() -> initialValue);
+
+T value = threadLocalVariable.get();
+
+threadLocalVariable.set(value + 1);
+
+threadLocalVariable.remove();   // this resets it to initialValue
+```
+
+Reference: ChatGPT
