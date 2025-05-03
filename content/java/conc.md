@@ -825,7 +825,7 @@ Reference:
 - https://www.baeldung.com/java-completablefuture
 
 ## ThreadLocal
-Store isolated data per thread. A copy of `ThreadLocal` variable is made per thread and it can only access that copy.
+Store isolated data per thread. We just need to declare a `ThreadLocal` variable, and an isolated copy is made per thread which is exclusively accessible to only that thread.
 
 ```java
 public class Example {
