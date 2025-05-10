@@ -372,7 +372,7 @@ stats.getAverage();
 
 ## Advanced Stream Concepts
 - [Spliterator](https://www.baeldung.com/java-spliterator): used to traverse (`tryAdvance()`) and partition streams (`trySplit()`) into two equal halves and process those partitions independently.
-- [Java 9 Stream API Improvements](https://www.baeldung.com/java-8-streams#1-takewhile-and-dropwhile): `takeWhile()` and `dropWhile()` intermediate operations, both take a `Predicate` as input param.
+- [Java 9 Stream API Improvements](https://www.baeldung.com/java-8-streams#1-takewhile-and-dropwhile): `takeWhile()` and `dropWhile()` intermediate operations useful for ordered streams, both take a `Predicate` as input param.
 - [Collectors](https://www.baeldung.com/java-collectors): `groupingBy()` and `partitioningBy()` to store stream elements in a Map.
 - [Java 24 Stream Gatherers](https://docs.oracle.com/en/java/javase/22/core/stream-gatherers-01.html)
 
@@ -401,3 +401,10 @@ List<Integer> list = nums.boxed().collect(Collectors.toList());     // collect i
 - Converting stream to a single `String` - [link](https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent/solutions/4576826/java-8-streams-api-solution/)
 - Dynamic `int` value in stream pipeline based on input `String` - [link](https://leetcode.com/problems/count-items-matching-a-rule/solutions/4577017/java-8-stream-api-solution/)
 - String Splitting - [link](https://leetcode.com/problems/reverse-words-in-a-string/solutions/4581391/java-8-stream-api-solution/)
+- Find employees with maximum salary from each age group:
+```java
+Map<Integer, Employee> highestSalaryByAge = employees.stream()
+                                            .collect(
+                                                Collectors.groupingBy(Employee::getAge, Collectors.maxBy(Comparator.comparing(Employee::getSalary)))
+                                                );
+```
