@@ -401,10 +401,16 @@ List<Integer> list = nums.boxed().collect(Collectors.toList());     // collect i
 - Converting stream to a single `String` - [link](https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent/solutions/4576826/java-8-streams-api-solution/)
 - Dynamic `int` value in stream pipeline based on input `String` - [link](https://leetcode.com/problems/count-items-matching-a-rule/solutions/4577017/java-8-stream-api-solution/)
 - String Splitting - [link](https://leetcode.com/problems/reverse-words-in-a-string/solutions/4581391/java-8-stream-api-solution/)
+- Finding maximum number from a list:
+```java
+list.stream().max(Comparator.naturalOrder());       // using max() terminal operation
+
+list.stream().collect(maxBy(Comparator.naturalOrder()));    // alt, using Collectors.maxBy()
+```
 - Find employees with maximum salary from each age group:
 ```java
 Map<Integer, Employee> highestSalaryByAge = employees.stream()
-                                            .collect(
-                                                Collectors.groupingBy(Employee::getAge, Collectors.maxBy(Comparator.comparing(Employee::getSalary)))
-                                                );
+                                            .collect(Collectors.groupingBy(Employee::getAge, Collectors.maxBy(Comparator.comparing(Employee::getSalary))));
+
+// maxBy (downstream) is applied for each collected group from the groupingBy operation (classifier) 
 ```
