@@ -200,10 +200,11 @@ public int updateData(String name, String email);
 
 Any modifications to be done in transactions so if we use _@Transactional_ on service layer, that'll be fine too.
 
-## Relationships
+## Relationships b/w Entities
 ### One-to-One
 ```java
 // in Onwer entity
+Long ownerId;
 String ownerName;
 String ownerCity;
 
@@ -213,9 +214,24 @@ Pet pet;
 // pet_pet_id column is added to Owner table as a Foreign Key
 ```
 
-**Making it bi-directional**:
+Alternatively, explicitly specify a specific column in the other entity to reference:
+```java
+// in Owner entity
+@OneToOne
+@JoinColumn(				// foreign key to Pet entity
+	name = "pet_id",		// column name in the current entity
+	referencedColumnName = "petId")		// property in referenced entity
+private Pet pet;
+
+// a new column called "pet_id" will be created in Owner's table referencing petId's column in Pet's table
+```
+
+A column (called Join Column) named `pet_id` is created in `Owner` referencing `petId` column from `Pet`.
+
+**Making it bi-directional** i.e. make `Pet` aware about its relationship with `Owner` entity:
 ```java
 // in Pet entity
+Long petId;
 String petName;
 String petType;
 
@@ -224,21 +240,6 @@ Owner owner;
 
 // no new column created in Pet table when we map back to Owner as pet_id is already available into Owner table
 ```
-
-```java
-// explicitly specify column to reference
-
-// in Owner entity
-@OneToOne
-@JoinColumn(				// foreign key to Pet entity
-	name = "pet_id",
-	referencedColumnName = "petId")
-private Pet pet;
-
-// a new column called "pet_id" will be created in Owner's table referencing petId's column in Pet's table
-```
-
-A column (called Join Column) named `pet_id` is created in `Owner` referencing `petId` column from `Pet`.
 
 #### Cascading
 If there is a one-to-one relation between two tables then we often may try to insert into one table when corresponding data isn't available in other table. 
@@ -305,7 +306,11 @@ One owner can own many pets.
 private List<Pet> petList;
 ```
 
-A new table `owner_pet_list` is created having two columns i.e. primary keys (`owner_id` and `pet_id`) of both the tables and they are also foreign keys to original tables. A `UNIQUE` constraint on `pet_id` is there too since one owner has many pets and each pet is unique.
+{{% notice info %}}
+JPA doesn't allow a unidirectional `@OneToMany` without a join table unless you use `@JoinColumn`.
+{{% /notice %}}
+
+Representing this in the `Owner` table isn't possible since `owner_id` is PK in this table, so JPA creates a **new join table** `owner_pet_list` having two columns i.e. `owner_id` and `pet_id` as foreign keys their respective original tables. A `UNIQUE` constraint on `pet_id` is there too since one owner has many pets and each pet can be unique.
 
 ```txt
 owner_id     pet_id (UNIQUE)
@@ -317,7 +322,10 @@ owner_id     pet_id (UNIQUE)
 
 If we make `owner_id` as unique then such mapping won't be possible. The "one" side of OneToMany and ManyToOne always has to be repeated (non-unique) to make sense since we can't represent many pets for one unique owner in the table but can represent owner for each unique pet.
 
-**To avoid making another table use Join Column**:
+**Use Join Column, but its behavior is unusual in One-to-many relationships**:
+
+Creates the FK column in the field's table (on which `@OneToMany` is written), unlike `@OneToOne` where the side that declares the `@JoinColumn` gets the new column.
+
 ```java
 // in Owner entity
 @OneToMany
@@ -328,9 +336,9 @@ If we make `owner_id` as unique then such mapping won't be possible. The "one" s
 private List<Pet> petList;
 ```
 
-A `owner_id` column is created in `Pet` since our reference column was in Owner so it got added to Pet too. We can't make this bi-directional since `mappedBy = ...` isn't supported in _@ManyToOne_.
+An `owner_id` column is created in `Pet` table! since our reference column was in Owner so it got added to Pet too. We can't make this bi-directional since `mappedBy = ...` isn't supported in _@ManyToOne_. So basically, **_@OneToMany_ relations can't be bidirectional in JPA**.
 
-**Can't we add Join Column `pet_id` to Owner (and `referencedColumnName = "petId"`) like we did in OneToOne mapping?** No, it will be runtime error when forming queries. If we do that, one `owner_id` cannot have multiple `pet_id` in Owner table since `owner_id` is PK. We need `owner_id` to be redundant so we add it to Pet table as a non-unique column. For this reason, the Many-to-One side is the owner of relationship as per JPA specification as shown below.
+To summarise - **Can't we add Join Column `pet_id` to Owner (and `referencedColumnName = "petId"`) like we did in OneToOne mapping?** No, it will be runtime error when forming queries. If we do that, one `owner_id` cannot have multiple `pet_id` in Owner table since `owner_id` is PK. We need `owner_id` to be redundant so we add it to Pet table as a non-unique column. For this reason, the Many-to-One side is the owner of relationship as per JPA specification as shown below.
 
 ### Many-to-One
 Better than One-to-Many acc to JPA spec. Many-to-One are (almost) always the owner side (i.e having Join Column) of a bidirectional relationship in the JPA spec, and by convention the One-to-Many association is annotated by `@OneToMany(mappedBy = ...)`. To promote this, JPA doesn't even provide `mappedBy` property on _@ManyToOne_ annotation.
