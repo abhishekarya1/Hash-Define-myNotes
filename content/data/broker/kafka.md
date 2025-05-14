@@ -40,6 +40,8 @@ It is built in Java and Scala so its native to Java environment.
 To summarise: Producers are not restricted to specific partitions — they can write to any partition within a topic, dynamically or explicitly. But Consumers are restricted to the partitions assigned to them within a consumer group, they cannot read from partitions assigned to other consumers in the same group.
 {{% /notice %}}
 
+So if a service is writing two messages (`A` and `B`, in order) to the same Kafka topic, and another service which is the consumer reads from the same topic, then there is no guarantee of ordering. The order will be there during read if the messages gets stored in the same partition (randomly or explicitly), otherwise ordering isn't guaranteed as the partition containing the message `B` maybe read from first.
+
 ## Features
 **Replication**: it exists at every level. Cluster, Broker, Partitions are configured to be data replicated and have fail-overs in place in a well configured Kafka system.
 
@@ -187,6 +189,13 @@ Kafka creates `N-1` retry topics (`foobar-retry-0`, `foobar-retry-1`, etc.) and 
 {{% notice note %}}
 _Why do we need retry topics? Didn't we only commit offset when a message is successfully consumed by the consumer? If we don't update the offset then we will process the failed message again right?_ That is true, but we have retry topics to ensure **exactly once semantics** otherwise consumer doesn't have any idea how many retries it has already done and it will go in an infinite loop. So the consumer does retries once from every retry topic created. Kind of verbose 😅.
 {{% /notice %}}
+
+The `send()` of `KafkaTemplate` is overloaded to specify partition and/or key along with message:
+```java
+send(String topic, Integer partition, K key, V data) 	// send the data to the provided topic with the provided key and partition
+send(String topic, K key, V data)		// send the data to the provided topic with the provided key and no partition
+send(String topic, V data)		// send the data to the provided topic with no key or partition
+```
 
 ## Interview Questions
 **ISR** (In-Sync Replicas): they are replicas which are up-to-date with leader's data.
