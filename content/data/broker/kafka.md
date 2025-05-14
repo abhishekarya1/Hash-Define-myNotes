@@ -32,12 +32,12 @@ It is built in Java and Scala so its native to Java environment.
 
 ## Reads and Writes to a Topic
 
-**Writing to a Topic** (producer): Kafka tries to uniformly distribute messages from a producer among all partitions of the destination topic using algorithms like round-robin, hash of a key, or custom partitioner. This is called **Partition Strategy**.
+**Writing to a Topic** (producer): Kafka tries to uniformly distribute messages from a producer among all partitions of the destination topic using algorithms like round-robin, hash of a key, custom partitioner, or explicitly specifying a specific partition to send the message to. This is called **Partition Strategy**.
 
 **Reading from a Topic** (consumer): Kafka assigns partition(s) to the consumer from the source topic to read from. It makes sure all consumers are evenly balanced across partitions. Strategy like round-robin, range assignment is often used for this, and it stays so (_sticky_) until rebalancing due to a consumer addition/removal.
 
 {{% notice tip %}}
-To summarise: Producers are not restricted to specific partitions — they can write to any partition within a topic, dynamically or explicitly. But Consumers are restricted to the partitions assigned to them within a consumer group, they cannot read from partitions assigned to other consumers in the same group.
+To summarise: Producers are not restricted to specific partitions by default — they can write to any partition within a topic, dynamically or explicitly. But Consumers are restricted to the partitions assigned to them within a consumer group, they cannot read from partitions assigned to other consumers in the same group.
 {{% /notice %}}
 
 So if a service is writing two messages (`A` and `B`, in order) to the same Kafka topic, and another service which is the consumer reads from the same topic, then there is no guarantee of ordering. The order will be there during read if the messages gets stored in the same partition (randomly or explicitly), otherwise ordering isn't guaranteed as the partition containing the message `B` maybe read from first.
