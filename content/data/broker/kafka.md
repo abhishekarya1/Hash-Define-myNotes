@@ -70,6 +70,12 @@ Fig. Kafka Consumer Groups and Partitions (pub/sub)
 
 We can also use a single partition as a directly-mapped FIFO queue! We can route a message to a specific partition based on Key, and then map a specific consumer to that partition manually (in the code for consumer config).
 
+by default, Kafka consumers are not automatically placed in the same consumer group.
+
+{{% notice note %}}
+If we don't explicitly set the `group.id` configuration in a Kafka consumer, the consumer acts as a standalone consumer (i.e. it doesn't join any group), and does not trigger group coordination (no rebalancing, etc). If multiple such consumers subscribe to the same topic, each will receive a copy of all the messages — they do not share the partitions.
+{{% /notice %}}
+
 **Avoiding Redundant Message Processing**: a single message in a partition will be consumed multiple times if its consumers happen to be from diff groups, Kafka has no awareness to prevent it as its just a storage. Hence we need to make sure that we designate groups to consumers in a way that doesn't lead to redundant processing.
 
 **Rebalancing**: Kafka ensures that partitions are evenly distributed among consumers in a group. If a consumer joins or leaves the group, Kafka will rebalance all the partitions among the available consumers within the same group.
