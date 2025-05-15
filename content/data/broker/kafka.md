@@ -70,8 +70,6 @@ Fig. Kafka Consumer Groups and Partitions (pub/sub)
 
 We can also use a single partition as a directly-mapped FIFO queue! We can route a message to a specific partition based on Key, and then map a specific consumer to that partition manually (in the code for consumer config).
 
-by default, Kafka consumers are not automatically placed in the same consumer group.
-
 {{% notice note %}}
 If we don't explicitly specify a consumer group for a Kafka consumer, the consumer acts as a standalone consumer (i.e. it doesn't join any group), and does not trigger group coordination (no rebalancing, etc). If multiple such consumers subscribe to the same topic, each will receive a copy of all the messages — they do not share the partitions.
 {{% /notice %}}
