@@ -21,7 +21,7 @@ It is built in Java and Scala so its native to Java environment.
 - **Cluster** - group of kafka servers
 - **Broker** - a single kafka server (replicated for high-availability)
 - **Topic** (aka _Stream_) - logical entity; group of partitions, can be spread across multiple brokers; no ordered storage of messages is guaranteed on this abstraction level
-- **Partition** - indexed log (array) and hence ordering is guaranteed among messages received by a particular partition; data is replicated for redundancy
+- **Partition** - indexed log (array) and hence ordering is guaranteed among messages received by a particular partition; data is replicated for redundancy producers and consumers often directly interact with this
 - **Publisher** - writes messages to topics
 - **Consumer** and **Consumer Group** - reads and writes messages from topics by taking ownership of specified partitions
 - **Zookeeper** - management component; stores cluster metadata, clients information, routes writes exclusively to leader broker and reads to both leader and follower brokers
@@ -40,7 +40,11 @@ It is built in Java and Scala so its native to Java environment.
 To summarise: Producers are not restricted to specific partitions by default — they can write to any partition within a topic, dynamically or explicitly. But Consumers are restricted to the partitions assigned to them within a consumer group, they cannot read from partitions assigned to other consumers in the same group.
 {{% /notice %}}
 
-So if a service is writing two messages (`A` and `B`, in order) to the same Kafka topic, and another service which is the consumer reads from the same topic, then there is no guarantee of ordering. The order will be there during read if the messages gets stored in the same partition (randomly or explicitly), otherwise ordering isn't guaranteed as the partition containing the message `B` maybe read from first.
+**Note on message delivery**: if there is only 1 producer, 1 consumer, and 1 topic with 3 partitions, then there is no guarantee that the message will be received by the consumer when the producer writes to the topic (which is written to some partition), as there is no guarantee that it will be written to the particular partition which the consumer is listening to.
+
+**Note on ordering**: if a service is writing two messages (`A` and `B`, in order) to the same Kafka topic, and some other services read from the same topic, then there is no guarantee of order of processing. The order will be there during read if all the messages gets stored in the same partition (randomly or explicitly), otherwise ordering isn't guaranteed as the partition containing the message `B` maybe read from first by its consumer.
+
+So we can conclude that the partition is the core component on which things depend a lot during reads and writes, and not topic.
 
 ## Features
 **Replication**: it exists at every level. Cluster, Broker, Partitions are configured to be data replicated and have fail-overs in place in a well configured Kafka system.
@@ -71,7 +75,7 @@ Fig. Kafka Consumer Groups and Partitions (pub/sub)
 We can also use a single partition as a directly-mapped FIFO queue! We can route a message to a specific partition based on Key, and then map a specific consumer to that partition manually (in the code for consumer config).
 
 {{% notice note %}}
-If we don't explicitly specify a consumer group for a Kafka consumer, the consumer acts as a standalone consumer (i.e. it doesn't join any group), and does not trigger group coordination (no rebalancing, etc). If multiple such consumers subscribe to the same topic, each will receive a copy of all the messages — they do not share the partitions.
+If we don't explicitly specify a consumer group for a Kafka consumer, the consumer acts as a standalone consumer (i.e. it doesn't join any group), and does not trigger group coordination (no rebalancing, etc). If multiple such consumers subscribe to the same topic, each will receive a copy of all the messages — consumer reads all partitions independently.
 {{% /notice %}}
 
 **Avoiding Redundant Message Processing**: a single message in a partition will be consumed multiple times if its consumers happen to be from diff groups, Kafka has no awareness to prevent it as its just a storage. Hence we need to make sure that we designate groups to consumers in a way that doesn't lead to redundant processing.
