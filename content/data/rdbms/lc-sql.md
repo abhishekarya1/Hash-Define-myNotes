@@ -100,7 +100,7 @@ Because of the above reason, its [not accurate to represent joins with Venn Diag
 Equi joins are fairly intuitive but non-equi joins are what helps in [problem solving](https://learnsql.com/blog/sql-non-equi-joins-examples/).
 
 Problem solving tips:
-- irl, a single `Employees` table may store lots of data like employee-manager details, `Processes` table can store process start-finish timestamps - do self join to solve
+- a single `Employees` table may store lots of data like employee-manager details, `Processes` table can store process start-finish timestamps, a `Products` table with various products prices - do self-join to correlate data back to the same table. **Tip**: if there are two columns in a single table representing same stuff e.g. `emp_id` and `manager` (which contains `emp_id` of manager) then we use self-joins to find data corresponding to the duplicate column.
 - many problems can be solved with subqueries or CTE too, but solving it with joins can be better for execution time and space constraints 
 
 ### ON vs WHERE clause with Joins
