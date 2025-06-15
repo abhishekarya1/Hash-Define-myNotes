@@ -827,12 +827,15 @@ Reference:
 ## ThreadLocal
 Store isolated data per thread. We just need to declare a `ThreadLocal` variable , and an isolated copy is made per thread which is exclusively accessible to only that thread.
 
-The `ThreadLocal` itself akes minimal space, doesn't actually allocate memory for variable, the variable is actually allocated memory when thread calls `threadLocalValue.get()` inside it.
+The `ThreadLocal` itself takes minimal space, doesn't actually allocate memory for variable, the variable is actually allocated memory when thread calls `threadLocalValue.get()` inside it.
 
 ```java
 public class Example {
     // create a ThreadLocal variable with an intial value of 0
     private static ThreadLocal<Integer> threadLocalValue = ThreadLocal.withInitial(() -> 0);
+
+    // we can also do this:
+    // ThreadLocal<Integer> threadLocalValue = new ThreadLocal<>();
 
     public static void main(String[] args) {
         // create a runnable that increments the ThreadLocal variable
@@ -855,7 +858,7 @@ public class Example {
 // each thread runs a task that increments its own copy of the ThreadLocal variable five times.
 ```
 
-**Internals**: each thread maintains its own `ThreadLocalMap` which holds values associated with each `ThreadLocal` variable that the thread accesses.
+**Internals**: each thread maintains its own `ThreadLocalMap` which holds values associated with each `ThreadLocal` variable that is active in the thread.
 
 We can store any data in a `ThreadLocal` variable, even collections:
 ```java
@@ -877,8 +880,14 @@ threadLocalVariable.set(value + 1);
 threadLocalVariable.remove();   // this resets the the value of the current thread's copy of variable (i.e. removes it from ThreadLocalMap of the thread)
 ```
 
+**Benefits**:
+- acts as a global variable that can be reused across threads; no need of parameter passing.
+- much cleaner code.
+- expensive objects need to be initialized only once e.g. `SimpleDateFormat`.
+- since no two threads access the same data, no locking is needed - faster and simpler than using synchronized blocks for shared resources.
+
 **Advantages**:
 - thread local variables aren't allocated memory if they aren't used in any thread; so they reduce unnecessary memory footprint.
-- no need for synchronization as threads have their own data; thus no blocking; saves time
+- no need for synchronization as threads have their own data; thus no blocking; saves time.
 
 Reference: ChatGPT

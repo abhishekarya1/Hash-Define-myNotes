@@ -221,8 +221,20 @@ var list = List.of(2, "foo");   // List<Serializable & Comparable<...> & Constab
 
 We can't explicitly create intersection types in normal code but can only use them if we use Java Generics (in method params or as a return type).
 
-
 **What is a `WeakHashMap` in Java?** The key in this special kind of `HashMap` has weak references i.e. if a key is no longer strongly referenced elsewhere in the application, it can be garbage collected, and the entry will automatically be removed from the map. This means that merely the presence of that object only in the map can't hold the object as hostage (ineligible for garbage collection). Only key is weak ref, values are alive as long as the key is not GCed. It is not sync and thus not thread safe.
+
+```java
+Map<String, String> map = new WeakHashMap<>();
+
+String key = new String("hello");
+
+map.put(key, "value");
+
+System.out.println("Before GC: " + map);    // should show one entry
+
+key = null;     // remove strong reference
+System.gc();    // suggest GC (not guaranteed)
+```
 
 ## Top Interview Questions on Collections Internals
 
