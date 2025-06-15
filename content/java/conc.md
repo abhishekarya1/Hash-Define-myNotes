@@ -825,7 +825,9 @@ Reference:
 - https://www.baeldung.com/java-completablefuture
 
 ## ThreadLocal
-Store isolated data per thread. We just need to declare a `ThreadLocal` variable, and an isolated copy is made per thread which is exclusively accessible to only that thread.
+Store isolated data per thread. We just need to declare a `ThreadLocal` variable , and an isolated copy is made per thread which is exclusively accessible to only that thread.
+
+The `ThreadLocal` itself akes minimal space, doesn't actually allocate memory for variable, the variable is actually allocated memory when thread calls `threadLocalValue.get()` inside it.
 
 ```java
 public class Example {
@@ -853,6 +855,8 @@ public class Example {
 // each thread runs a task that increments its own copy of the ThreadLocal variable five times.
 ```
 
+**Internals**: each thread maintains its own `ThreadLocalMap` which holds values associated with each `ThreadLocal` variable that the thread accesses.
+
 We can store any data in a `ThreadLocal` variable, even collections:
 ```java
 // create a ThreadLocal variable to hold a List
@@ -862,15 +866,19 @@ ThreadLocal<List<String>> threadLocalList = ThreadLocal.withInitial(ArrayList::n
 List<String> list = threadLocalList.get();
 ```
 
-`ThreadLocal` methods:
+Some `ThreadLocal` methods:
 ```java
+// outside any threads
 ThreadLocal<T> threadLocalVariable = ThreadLocal.withInitial(() -> initialValue);
 
+// inside a thread
 T value = threadLocalVariable.get();
-
 threadLocalVariable.set(value + 1);
-
-threadLocalVariable.remove();   // this resets it to initialValue
+threadLocalVariable.remove();   // this resets the the value of the current thread's copy of variable (i.e. removes it from ThreadLocalMap of the thread)
 ```
+
+**Advantages**:
+- thread local variables aren't allocated memory if they aren't used in any thread; so they reduce unnecessary memory footprint.
+- no need for synchronization as threads have their own data; thus no blocking; saves time
 
 Reference: ChatGPT
