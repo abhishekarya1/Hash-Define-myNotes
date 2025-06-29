@@ -17,6 +17,15 @@ int a;
 auto b = a; 
 decltype(b) c;
 // all a, b, and c are int
+
+```cpp
+// auto can be used as return type too
+auto sum(int a, long b){ 
+	return a+b;
+}
+
+// decltype can be used on expressions too
+decltype(x + y) z;	
 ```
 - data ranges wrap around in some cases: 
 ```cpp
@@ -45,7 +54,9 @@ short i = 32768;	//i = -32768; as we are doing short = int here, int value in sh
 
 - Raw Strings:
 ```cpp
-R"this\n is a\t raw string"
+R"(this\n is a\t raw string)"
+
+// prints "this\n is a\t raw string"
 ```
 
 - `string` object
@@ -68,6 +79,8 @@ str += "bc";
 str.append("bc");
 
 // convert numbers to string and vice-versa
+
+// using in-built functions
 int num = 123;
 double pi = 3.14159;
 string strNum = to_string(num);   
@@ -76,27 +89,38 @@ string strPi = to_string(pi);
 int num = stoi(strNum);
 double pi = stod(strPi);
 
-// conversions using streamstream
+// using stringstream as intermediary
 int num = 42;
+string strNum;
 stringstream ss;
 ss << num; 
-string strNum = ss.str(); 
+ss >> strNum; 
 cout << strNum; 	// 42 (string)
 
 string strNum = "42";
-stringstream ss(strNum);
-int num;
+stringstream ss;
+ss << strNum;
 ss >> num; 
 cout << num; 	// 42 (int)
 ```
 
-- `stringstream`: treating string as an I/O stream
+- `stringstream`: treats a string as an I/O stream.
 ```cpp
 #include <sstream>
 string name = "Abhi";
 string str;
+
+stringstream ss;
+// type to stringstream
+ss << name;
+ss.str(name);	// alt; only if type is string
+
+// stringstream to type
+ss >> str;
+str = ss.str();		// alt; only if type is string
+
+// alternatively, we can also use stringstream constructor if input is of type string
 stringstream(name) >> str;
-stringstream(name) << str;
 ```
 
 - `endl` vs `"/n"`: endl flushes stream everytime it is encountered hence it's slower
@@ -310,7 +334,7 @@ T sum(T a, U b){
 // Function Calling
 // 1. Let compiler decide types
 sum(2, 7)		// (int, int)
-sum(2.0, 6)		// (sdouble, int)
+sum(2.0, 6)		// (double, int)
 
 // 2. Explicitly declare types on call
 sum<int, int>(2, 7)
