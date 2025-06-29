@@ -183,10 +183,10 @@ int foo(int = 3)
 // in definition 
 int foo(int a = 3)
 
-// Default args must be towards the left in the function signature.
+// default args must be towards the right in the function signature
 int foo(int a = 3, int b) 	// compiler-error
 
-// Function can then be called by skipping default arguments in the call too (obviously!)
+// such functions can then be called by skipping default arguments in the call too (obviously!)
 ```
 
 - **Function Overloading**: based on parameter (_**TYPE**_ or _**ARITY**_); a function cannot be overloaded only by its return type only. _Name mangling_ happens in background for overloaded funcitons.
