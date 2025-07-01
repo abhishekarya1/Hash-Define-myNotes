@@ -6,6 +6,8 @@ weight = 15
 
 ## Misc Points
 
+What is **Metaspace** in JVM? Its the non-heap space (Method area) in the runtime memory of JVM which stores metadata related to classes e.g. their members and methods info. This memory region grows automatically by default so JVM faces less `OutOfMemoryError` if its properly tuned. It is the successor of _PermGen_ space that used to be allocated as part of Heap before Java 8.
+
 How to execute code before the `main()` method? Write the code in `static{ }` block of the class containing `main()` method so that it runs during class initialization. Doing it in the instance initializer block won't work since JVM doesn't call this class (and `main()` method) using a class instance.
 
 ```java
