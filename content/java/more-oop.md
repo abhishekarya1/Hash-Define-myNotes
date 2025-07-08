@@ -27,6 +27,13 @@ public abstract interface Demo{
 }
 ```
 
+```java
+public interface Demo{
+	void foo(int n, String s);	// valid
+	void bar(int, String);		// invalid; parameter names are required even though they aren't used! (unlike C)
+}
+```
+
 - An interface can extend from other interfaces, multiple also. But can't extend classes.
 ```java
 public interface Demo extends Foo, Bar {	}		// Foo and Bar are interfaces

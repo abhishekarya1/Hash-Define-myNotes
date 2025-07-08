@@ -28,6 +28,7 @@ a -> !a.canDrink()
 // invalid ones
 String s -> s.toUpperCase()		// no parantheses when type is specified
 x, y -> { return x > y; }		// no parantheses when multiple parameters, also no semicolon to terminate expression
+(int, String) -> { return 1; }  // no parameter names specified for lambda inputs
 ``` 
 
 **What's the return type of Lambdas?** Is it a new "functionType" or something? No, they return (more precisely - implement) a functional interface (interface with a single abstract method). Since a functional interface has a method ready to be overriden, Java associated a lambda expression's return type with that interface type. 
