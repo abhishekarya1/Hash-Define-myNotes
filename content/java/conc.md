@@ -122,11 +122,11 @@ t2.start();
 
 Things to do in the thread go inside the `run()` method. It is the only method present in the `Runnable` interface. The `Thread` class itself implements `Runnable` interface and that's why it has the `run()` method available to it by default.
 
-We can assign a name to a Thread too, comes in handy when debugging using debugging/profiling tools:
+We can assign a name to a Thread too using second param of the `Thread` class's constructor, comes in handy when debugging using debugging/profiling tools:
 ```java
 Thread t1 = new Thread(task, "fooThread");
 
-// current thead's name
+// current thread's name
 System.out.println(Thread.currentThread().getName());
 ```
 
