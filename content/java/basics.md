@@ -625,18 +625,22 @@ public static void increment(Integer n){
 int arr[];
 int [] arr;
 
-int arr[] = new int[5];				//init list not allowed; sets default values
+int arr[] = new int[5];				// init list not allowed; sets default values
 int arr[] = new int[]{1, 2, 3};     // anonymous array
 int arr[] = {1, 2, 3};              // still allocated in heap
 
 int arr[] = new int[3]{1, 2, 3};     // compiler error; both size and initilizer can't be specified
+
+// variable sized arrays are allowed, and size can be determined at runtime; can't change once set ofc
+int n = new Scanner(System.in).nextInt();
+int arr[] = new int[n];
 
 //muti-dimensional arrays
 int arr[][];        // 2D
 int[][][] arr;      // 3D
 int[] arr[];        // 2D
 
-// Range checking is strict unlike C & C++ and often results in RUNTIME Exceptions - 
+// Range checking is strict unlike C & C++ and often results in RUNTIME Exceptions:
 ArrayIndexOutOfBoundsException
 NegativeArraySizeException
 
@@ -655,6 +659,7 @@ int a[], b;      // one array ref variable, one primitive int
 //utility methods
 Arrays.sort()
 Arrays.compare()
+Arrays.stream()
 //etc...
 ```
 

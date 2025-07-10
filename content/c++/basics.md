@@ -159,6 +159,35 @@ char* str = "Abhi";		//Immutable
 char str[] = "Abhi"; 	//Mutable; size = 5 (includes '\0' by default in size)
 ```
 
+### Arrays
+Also called _C-style_, _built-in_, or _raw_ arrays.
+```cpp
+int arr[] = {1,2,3};
+
+cout << sizeof(arr) / sizeof(arr[0]);		// calc size of array
+
+int arr[3] = {1, 2, 3};		// valid
+int arr[5] = {1, 2, 3};		// {1,2,3,0,0}
+int arr[2] = {1, 2, 3};		// error: too many initializers for 'int [2]'
+
+arr[99];		// undefined behavior; mostly returns a garbage value
+arr[99] = 5;	// undefined behavior; mostly causes seg fault
+arr[-2];		// same as above
+
+int arr[5];		// garbage values
+
+int arr[3] = {0};	// quick init all elements to 0
+
+// variable sized arrays are possible and init them is also possible (unlike C), even at runtime
+int n = 3;
+int arr[n] = {1, 2, 3}; 
+
+// for-each loop works on them (only if array isn't pointer decayed i.e. used as function param)
+for(int e : arr){
+	cout << e << " ";
+}
+```
+
 ### I/O Formatting
 ```cpp
 #include <iomanip> // for setpricision, setw

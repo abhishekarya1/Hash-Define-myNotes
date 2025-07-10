@@ -146,8 +146,8 @@ vector<int>::iterator it = v.rbegin();
 
 
 // Accessing 
-v[0]		// first element
-v.at(0)
+v[0]		// first element; no bound-checking, undefined behavior on out of bound access
+v.at(0)		// bound-checked; throws error if index is out of bounds
 g1.front()
 
 v.back() 	// last element
