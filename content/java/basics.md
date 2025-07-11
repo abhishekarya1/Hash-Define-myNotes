@@ -622,45 +622,46 @@ public static void increment(Integer n){
 - values defaults to `0` or `false` or `null`
 
 ```java
-int arr[];
-int [] arr;
+int arr[];      // C-style
+int[] arr;     // Java-style
 
+int arr[];      // uninitialized; declaration only (remember Java allows this with non-final variables)
 int arr[] = new int[5];				// init list not allowed; sets default values
 int arr[] = new int[]{1, 2, 3};     // anonymous array
 int arr[] = {1, 2, 3};              // still allocated in heap
 
 int arr[] = new int[3]{1, 2, 3};     // compiler error; both size and initilizer can't be specified
 
-// variable sized arrays are allowed, and size can be determined at runtime; can't change once set ofc
+// variable sized arrays are allowed with "new" syntax, and size can be determined at runtime; can't change once set ofc
 int n = new Scanner(System.in).nextInt();
-int arr[] = new int[n];
+int arr[] = new int[n];     // valid!
+int arr[n];     // invalid!
 
-//muti-dimensional arrays
+// muti-dimensional arrays
 int arr[][];        // 2D
 int[][][] arr;      // 3D
 int[] arr[];        // 2D
 
-// Range checking is strict unlike C & C++ and often results in RUNTIME Exceptions:
+// range checking is strict unlike C & C++ and often results in RUNTIME Exceptions:
 ArrayIndexOutOfBoundsException
 NegativeArraySizeException
 
 // in method parameters
 void foobar(int[] arr){ }
+void foobar(int arr[]){ }
 
 // length of an array
 arr.length      // and not arr.length()
-
 
 // multiple-declarations
 int [] a, b;     // two array ref variables
 int a[], b;      // one array ref variable, one primitive int    
 
-
-//utility methods
+// utility methods
 Arrays.sort()
 Arrays.compare()
 Arrays.stream()
-//etc...
+...
 ```
 
 ## Math & Date/Time
