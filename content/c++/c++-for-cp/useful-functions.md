@@ -82,4 +82,8 @@ swap(a, b);
 
 min(a, b);
 max(a, b);
+
+// min and max can also take in a list enclosed in {}
+min({1,2,-1});
+max({-3,5,0});
 ```

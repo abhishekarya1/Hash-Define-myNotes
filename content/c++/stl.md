@@ -517,7 +517,7 @@ cout << mySet.size();	// 3
 #include<algorithm>
 
 sort(a, a+n); 	// [first, last)
-sort(a.begin(), a.begin()+5); // using interators
+sort(a.begin(), a.begin()+5); // using iterators
 sort(a+2, a+5); // sort in range
 
 // desc
@@ -573,9 +573,15 @@ reverse(v.begin(), v.end());
 long sum = accumulate(v.begin(), v.end(), 0); 	// 0 is initial sum
 int cnt = count(v.begin(), v.end(), 2);			// 2 is element to search in vector
 auto it = find(v.begin(), v.end(), 2);	// return address
+
+min(1, 3);
+min({1, 3, 0, -2});		// multiple values
+
+max(1, 3);
+max({1, 3, 0, -2});
 ```
 
-- `for_each` on containers 
+- `for_each` on containers
 ```cpp
 vector<int> nums = {10, 20, 30, 40, 50};
 for_each(nums.begin(), nums.end(), [](int value) {
