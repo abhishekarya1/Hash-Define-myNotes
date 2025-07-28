@@ -1,108 +1,59 @@
 +++
 title = "GitHub Actions"
-date =  2024-07-26T12:00:00+05:30
+date =  2025-07-28T19:19:00+05:30
 weight = 6
 pre = "<i class=\"devicon-githubactions-plain colored\"></i> "
 +++
 
-## Intro
-A CI/CD pipeline solution much closely integrated with the GitHub platform (can see status in "Actions" tab, configure secrets in Repo settings or organization wide etc). 
+## GHA Code Tricks
+Inspiration - https://yossarian.net/til/category/github-actions/ (HN Post - https://news.ycombinator.com/item?id=43617493)
+- conditional using || in runs-on
+- secrets to env vars
+- github-script@v7 action
+- dynamic step name with ${{ }} 
+- matrix "include" trick
+- workflow_dispatch without default branch with on push trigger once
+- raw github content URL
+- all actions get checked out even if we use only one from a repo!
+- dynamically create matrix with a JSON
+- rerunning wf runs doesn't fetches and runs updated wf code!, but takes updated actions (and callable wf code; if ref remains same), can't change action amidst a workflow run (even if we push code before that action is called), we can also see frozen wf code for a run but it redirects to current code on clicking "Edit"
+- no "shell" required for "run" in wf but required in action!
+- fromJSON() - converts a JSON string to object (equiv to JSON.parse() in JS) | toJSON() - converts a JSON object to pretty-printed string (equiv to JSON.stringify() in JS)
+- fromJSON() - only one time needed, then access from JSON using dots (https://github.com/UKGEPIC/devx-quality-gha-lib-poc/blob/6233b970fb0240f8c78dcdae0d1ef4ff90f7a48c/.github/workflows/hello-world.yml)
+- env context (you set it in wf) vs vars context (OS and GHA Context variables)
+- Lesser used contructs - defaults:, concurrency:
+- progress bar and link at end trick
+- cancelling workflows - depends on last job results (https://docs.github.com/en/actions/managing-workflow-runs-and-deployments/managing-workflow-runs/canceling-a-workflow) and thus may not always work. Marked with always() don't cancel!
+- workflow_dispatch can only have a max of 10 input params, pass some of them as JSON to bypass (bad practice), workflow_call can have infinite input params
+- scheduled workflow expects hardcoded inputs apparently (doesn't even take default from inputs params; use || upon use to specify defaults)
+- dynamic matrix with 2 values (aka matrix on array of JSON objects) - https://github.com/UKGEPIC/engx-quality-platform/actions/runs/14573676935
+https://github.com/UKGEPIC/GHA-Observability-2/blob/cee9c2b4254e40e8639c0b1102d519e472b3466e/.github/workflows/collect-results.yml
+- strategy.job-index and strategy.job-total (strategy context)
+- core.setOutput() works in Node action without declaring outputs in action.yml but not in composite action. (https://stackoverflow.com/questions/74448200/how-to-set-dynamically-outputs-variables-in-a-composite-action)
+- required: true is not enforced in action.yml, but enforced in workflows!  (no warns either; silent!) (https://stackoverflow.com/questions/68804484/why-are-required-inputs-to-github-actions-not-enforced)
+warn in annotations for additional inputs not in action.yml
+error for required inputs not present and on additional inputs in wf!
+- workflow_dispatch payload says invalid input on numbers passed without quotes, its valid JSON but apparently not allowed in JSON payload for wf_dispatch, put in "" to resolve
+- workflow commands and summary annotations - https://docs.github.com/en/actions/writing-workflows/choosing-what-your-workflow-does/workflow-commands-for-github-actions#about-workflow-commands
+- booleans are wonky (https://github.com/actions/runner/issues/1483). Work as expected in wf_call, idk in action or wf_dispatch.
+- jobs dependent on other jobs (needs) gets skipped if parent skips! (use "&& always()" in condition to avoid) (https://stackoverflow.com/questions/69354003/github-action-job-fire-when-previous-job-skipped)
+- continue-on-error on job level vs step level behaves diff when setting red/green icons - https://stackoverflow.com/questions/62045967/is-there-a-way-to-continue-on-error-while-still-getting-correct-feedback
+- when using a job with matrix strategy, the matrix value(s) are auto appended to the job name in GH browser view... use matrix values explicitly in the job name to avoid this auto append (https://futurestud.io/tutorials/github-actions-customize-the-job-name)
+- event based wf triggers like workflow_run don't have inputs
+- read JSONSCHEMA for action.yml or workflow.yml to know more about possibilites
+- Dump Context into JSON for inputs (https://stackoverflow.com/a/62805013)
+- Workflows can't be segregated into directories, they have to live in .github/workflows
 
-## Components
-**Workflows**: configurable automated process. Specified as Infrastructure-as-code YAML files stored in code repo path `.github/workflows`.
+## OSS contribs
+- https://www.npmjs.com/package/nightwatch-extended-junit-reporter
+- https://github.com/SamhammerAG/TrxToHtml
+- https://github.com/corentinmusard/otel-cicd-action
+- GitHub Actions Docs
+- Nightwatch.js Docs
+- https://github.com/refined-github/refined-github
+- Publish some useful GH Actions to Marketplace
 
-**Jobs**: a workflow is composed of multiple jobs that run on runners.
-
-**Steps**: a job is composed of multiple steps (ex - a shell command).
-
-**Events**: workflows can be triggered on an event (ex - push, issue), scheduled, calling REST API (call GitHub webhook), or manually.
-
-**Runners**: they are server instances on which the workflow runs. Each runner can run a single job at a time. They can be GitHub hosted, self-hosted (_default_), or Large Runners (hosted and managed by GitHub as premium offering).
-
-**Actions**: they are reusable application for GitHub Actions platform that performs a complex but frequently repeated task. We can write our own actions and publish them publically too.
-
-## Features
-
-### Parallel & Dependent Jobs
-Jobs run in parallel independently by default and we can use `needs: another-job-name` in a job to specify dependency.
-
-### Debugging & Skipping
-Detailed debug logs are disabled by default. When we manually run jobs, we can enable it by ticking debug logging enabled, or we can set special variables (`ACTIONS_RUNNER_DEBUG`, `ACTIONS_STEP_DEBUG`) in "Settings -> Secret and Variables -> Actions" so that debug logs are shown for every run.
-
-If we want to skip the workflow for a push completely, we can write `[no ci]` or `[skip ci]` in any commit message of that push and workflow won't be triggered if its configured for a push event.
-
-### Secrets & Variables
-Store secrets and variables in "Settings -> Secret and Variables" and we can access them in workflow YAML files using `${{ vars.FOOBAR }}` or `${{ secrets.MY_SECRET }}`.
-
-Secrets are masked (hidden with Asterisks) if we try to echo them in the workflow.
-
-### Workflow Commands
-Send commands like error messages to runner.
-
-```yaml
-run: echo "::error:: This message will be displayed in logs."
-
-# error message with params
-run: echo "::error title=foobar, file=app.js, line=2 :: This message will be displayed in logs."
-# debug message (shows up only when debugging is enabled)
-run: echo "::debug title=foobar, file=app.js, line=2 :: This message will be displayed in logs."
-
-# grouping (shows up as a group in logs)
-run: |
-  echo "::group:: My group title"
-  echo "Inside group"
-  echo "::endgroup::"
-```
-
-### Shells and Working Directories
-Ubuntu runner will use `bash` but Windows will use Powershell (`pwsh`).
-
-We can add this at any level - workflow, job or step. Also optionally specify a working dir for the shell.
-```yaml
-default:
-  run:
-    shell: bash
-    working-directory: /home/foo
-```
-
-We can also add `python` as shell and run python commands.
-
-### GitHub Repo Contents
-
-{{% notice info %}}
-Repository contents are not copied over to the runner automatically! We've to setup cloned local repo manually using `git` commands, or use Actions.
-{{% /notice %}}
-
-## Actions
-Actions are used as steps, and their output can be referenced in other steps as well.
-
-```yaml
-steps:
-  - name: A step that runs an action
-    uses: username/reponame@branch		# branch, commit_hash, or version
-    id: greet						# custom unique id (optional)
-    with:
-  	  who-to-greet: Heisenberg		# action params (documented by action provider)
-
-  - name: Another step that uses above action's output
-  	run: echo "${{ steps.greet.outputs.time }}"		# output name (time) is documented by action provider
-```
-
-Therefore inorder to checkout to our repo code on the runner filesystem using Action we create a step as follows, notice that `name` for action steps is optional:
-
-```yaml
-steps:
-  - name: List Files Before
-    run: ls -a
-  
-  - uses: actions/checkout@v4
-
-  - name: List Files After
-    run: ls -a
-```
-
-## References
-- https://github.com/abhishekarya1/gha-test/
-- [Udemy Course](https://www.udemy.com/course/github-actions/)
-- https://www.actionsbyexample.com/
-- https://learnxinyminutes.com/docs/yaml/
+## Vulnerabilities
+- https://yossarian.net/til/post/actions-checkout-can-leak-github-credentials/
+- https://snyk.io/blog/reconstructing-tj-actions-changed-files-github-actions-compromise/
+- https://snyk.io/blog/exploring-vulnerabilities-github-actions/
