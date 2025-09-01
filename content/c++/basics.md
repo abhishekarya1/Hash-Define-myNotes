@@ -17,6 +17,7 @@ int a;
 auto b = a; 
 decltype(b) c;
 // all a, b, and c are int
+```
 
 ```cpp
 // auto can be used as return type too

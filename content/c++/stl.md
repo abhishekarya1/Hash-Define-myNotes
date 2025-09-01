@@ -338,6 +338,9 @@ map<int, int> mpp;
 // map<int, pair<int, int>> mpp;
 // map< pair<int, int>, int> mpp;
 
+// if key doesn't exist previously, then 0 is default value
+cout << mpp[999]; 	// 0
+
 // key values can be anything
 
 mpp[1] = 2;			// mpp[key] = value
@@ -354,6 +357,8 @@ mpp[{2,3}] = 10;
 }
 */
 
+
+// iterating on a map
 for(auto it : mpp) {
 	cout << it.first << " " << it.second << endl; 
 }
@@ -397,7 +402,6 @@ No guaranteed ordering but `O(1)` average operations. Uses Hash Table internally
 
 // same as set and unordered_set
 ```
-
 
 ## Set
 ```cpp
@@ -475,11 +479,8 @@ ms.erase(ms.find(1), ms.find(1)+2);
 #include<unordered_set>
 unordered_set<int> st;
 
-// lower_bound and upper_bound function
-// does not work, rest all functions are same
-// as above, it does not stores in any
-// particular order it has a better complexity
-// than set in most cases, except some when collision happens
+// lower_bound and upper_bound function does not work, rest all functions are same as above, 
+// it does not stores in any particular order it has a better complexity than set in most cases, except some when collision happens
 ```
 
 ### BitSet
@@ -510,6 +511,18 @@ vector<int> nums = {1, 2, 2, 3};
 set<int> mySet(nums.begin(), nums.end());
 
 cout << mySet.size();	// 3
+```
+
+- searching:
+```cpp
+// in a set
+auto it = s.find(key);
+
+if (it != s.end()) {
+	cout << "Found: " << *(it) << endl;
+} else {
+	cout << "Not found" << endl;
+}
 ```
 
 - sorting with `sort`
