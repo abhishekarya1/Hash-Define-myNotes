@@ -330,7 +330,7 @@ public enum Seasons{
 ```
 
 ### Inheritance and Meta Properties
-- Enums can't be `extend`ed or inherit from another class (since they already implicitly extend `java.lang.Enum` class). We also can't create an Enum object with `new` like a normal class.
+- Enums can't be `extend`ed or inherit from another `class` or `enum` (since they already implicitly extend `java.lang.Enum` class). We also can't create an Enum object with `new` like a normal class.
 - Enums can `implement` interfaces and they have to define abstract methods of those interfaces.
 - In an Enum, only a single object exists for each constant (Singleton) as there is only one constructor call only on first access to a constant.
 - The complex enum constructor is always implicitly `private` (can't be made `public` or `protected`) otherwise the programmer can call the constructor and create instances on the fly which defeats the purpose of fixed constants in enum.
