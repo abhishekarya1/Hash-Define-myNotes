@@ -392,8 +392,11 @@ Arrays.stream(arr)
 
 // primitive stream to wrapper class stream
 IntStream nums = IntStream.of(1, 2, 3);
-Stream<Integer> list = nums.boxed();        // returns a Stream<Integer>
+Stream<Integer> stream = nums.boxed();        // returns a Stream<Integer>
 List<Integer> list = nums.boxed().collect(Collectors.toList());     // collect into to list as usual
+
+// wrapper class stream to primitive type stream
+stream.mapToInt(Integer::intValue) 		// returns a IntStream
 ```
 
 ### Excercises
@@ -401,6 +404,17 @@ List<Integer> list = nums.boxed().collect(Collectors.toList());     // collect i
 - Converting stream to a single `String` - [link](https://leetcode.com/problems/check-if-two-string-arrays-are-equivalent/solutions/4576826/java-8-streams-api-solution/)
 - Dynamic `int` value in stream pipeline based on input `String` - [link](https://leetcode.com/problems/count-items-matching-a-rule/solutions/4577017/java-8-stream-api-solution/)
 - String Splitting - [link](https://leetcode.com/problems/reverse-words-in-a-string/solutions/4581391/java-8-stream-api-solution/)
+- Sum all elements of a stream:
+```java
+List<Integer> numbers = List.of(1, 2, 3);
+
+int sum = numbers.stream().mapToInt(Integer::intValue).sum();	// using mapToInt()
+
+int sum = numbers.stream().reduce(0, (a, b) -> a + b);	// using reduce()
+int sum = numbers.stream().reduce(0, Integer::sum);	// alt of above using method ref
+
+int sum = numbers.stream().collect(Collectors.summingInt(Integer::intValue));	// using collect()
+```
 - Finding maximum number from a list:
 ```java
 list.stream().max(Comparator.naturalOrder());       // using max() terminal operation
@@ -414,3 +428,8 @@ Map<Integer, Employee> highestSalaryByAge = employees.stream()
 
 // maxBy (downstream) is applied for each collected group from the groupingBy operation (classifier) 
 ```
+
+## Functional Programming Concepts in Java
+All concepts don't have accurate analogue in Java but comes close.
+
+_Ref_: https://www.baeldung.com/java-functional-programming
