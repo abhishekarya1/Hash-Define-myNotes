@@ -416,9 +416,23 @@ We can also pull only a bare version of a non-bare repo, or push a non-bare one'
 
 ```
 
-`git bundle` - share all data that we push typically, as a binary file (even offline) with another person, who can then "unbundle" that binary file in their repo
+`git bundle` - share all data that we push typically, as a binary file (even offline) with another person, who can then "unbundle" that binary file in their repo.
 
-**Handling large files**: We can clone a _shallow_ version of the repo and clone only a single branch to save network and time overhead.
+**Handling large files**: 
+- **Shallow Clone** (aka Partial Clone): we can clone a _shallow_ version of the repo and fetch only some past commits upto a certain depth, or only a single branch to save network and time overhead.
+- **Sparse Checkout**: we can checkout only some files we intend to work on by entering a `sparse-checkout` mode after cloning and selecting only those files for tracking, changes outside your sparse paths are not visible in your working directory.
+
+```sh
+# Shallow clone a single branch
+git clone --single-branch --branch foo <repo_url>
+# Shallow clone upto a certain commit depth
+git clone --depth <number_of_commits> <repo_url>
+
+# Sparse Checkout mode
+git clone --sparse https://github.com/user/repo.git
+cd repo
+git sparse-checkout set path/to/folder path/to/file
+```
 
 `git diff` - shows difference between files
 ```sh
@@ -442,6 +456,15 @@ $ git diff origin/foo foo file.txt
 # between two commits
 $ git diff <commit_hash1> <commit_hash2>
 ```
+
+`git worktree` - create multiple copies of the same repo but on diff branches to work on them simultaneously. Better than doing `git clone` and then `git checkout` multiple times or `git stash` changes on current branch to create a new hotfix branch. All worktrees use the same `.git` folder so its efficient too.
+
+`git bisect` - find last bad commit (or commit where a certain feature was added) using binary search between the commit where things worked fine and where they're broken.
+
+## Git Hooks
+Scripts that Git automatically executes before or after certain events, such as committing, pushing, or merging. They allow for the automation of tasks and the enforcement of specific conditions within a Git workflow.
+
+Add named scripts to `.git/hooks` directory e.g. `pre-commit`, `post-checkout`, etc. Just beware of committing in `post-commit` hook creating a infinite commit loop lol.
 
 ## References
 [Pro Git - Book](https://git-scm.com/book/en/v2) 
