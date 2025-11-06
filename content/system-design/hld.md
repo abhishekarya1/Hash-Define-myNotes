@@ -188,18 +188,24 @@ We can also have a layer-7 Load Balancer to do partitioning and multi-tier aggre
 
 ![](https://i.imgur.com/4ml6NcL.png)
 
-### ETL
+### ETL and ELT
 It is the copying of data from one or more sources into one destination which represents the data differently from any of the sources.
 
 A typical ETL process is just a ETL _pipeline_ (DAG of tasks), which applies _transformations_ and outputs data that can be queried.
 
 Two types of ETL processings:
-- **Batch**: run jobs at scheduled intervals and process data. Slower but provides highly accurate insights into data. Ex - [Airflow](https://airflow.apache.org/).
-- **Streaming** (aka ELT): do real-time processing of data. Much faster but accuracy takes a hit. Ex - [Kafka](https://kafka.apache.org/) (_more specialized as a message broker_), [Flink](https://flink.apache.org/) (_more specialized as an analytical engine_).
+- **Batch**: run jobs at scheduled intervals and process data. Slower but provides highly accurate insights into data. Ex - [Apache Airflow](https://airflow.apache.org/).
+- **Streaming**: do real-time processing of data. Much faster but accuracy takes a hit. Ex - [Apache Kafka](https://kafka.apache.org/) (_more specialized as a message broker_), [Apache Flink](https://flink.apache.org/) (_more specialized as an analytical engine_).
 
 ETL pipeline architectures:
 - **Lambda Architecture**: parallely run a batch layer (batch jobs) and a streaming layer (real-time streaming) and merge results into a "serving" layer which can answer queries on data.
 - **Kappa Architecture**
+
+**ELT**: data is extracted and loaded into the target system (such as a data lake or cloud warehouse) in its raw form, after which transformations are applied as needed. This approach offers faster loading than ETL and greater flexibility, as raw data is preserved and can be transformed on demand for different analyses. However, it requires stronger data governance, since storing raw data in the target system may expose sensitive information that would typically be removed or transformed during the ETL process.
+
+**Why ELT?** ETL was originally used when data storage was expensive, requiring only a subset of the source data to be stored. The transformation step ensured that this subset maintained the highest possible data quality. In contrast, ELT is much faster in the initial stages and is therefore better suited for handling large volumes of data.
+
+Most tools that do ETL can also do ELT nowadays: [Apache Airflow](https://airflow.apache.org/), [Apache NiFi](https://nifi.apache.org/), [Apache Spark](https://spark.apache.org/), etc.
 
 ### Migration
 Transfer data from an old DB to a new one with minimal downtime.
