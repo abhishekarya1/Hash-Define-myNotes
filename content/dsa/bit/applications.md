@@ -62,11 +62,15 @@ Assume `0`-based indexing, we can shift `n` too instead of `1` in the following 
 Everything we do on a binary representation of a number is `log n` time, since a number's binary representation can contain atmost `n` bits.
 
 ### XOR Linked Lists
-[XOR Linked List](https://www.baeldung.com/cs/xor-linked-lists) is a memory efficient data structure that's basically a DLL but only one address is stored per node rather than two i.e. `prev` and `next`.
+[XOR Linked List](https://www.baeldung.com/cs/xor-linked-lists) is a memory efficient probabilistic data structure that's basically like a DLL but only one address is stored per node rather than two i.e. `prev` and `next`.
 
 The address that is stored on a given node is the XOR of prev and next: `prev ^ next`. We can store address of the `prev` visited node and do `prev ^ (prev ^ next)` to get the address of the next node (`next`).
 
 For storing address in the first and last node, XOR its prev/next with `0`. We'll know when we've reached the last node when we get next node address as `0`, or we can also maintain a `tail` pointer and compare with current node.
+
+Multiple `next` pointers are present per node (in a "tower") depending on its level: https://chatgpt.com/share/69104dae-6a28-800e-a07e-6029ca231fd4
+
+They're _probabilistic_ because their structure (the "tower heights" of nodes) is determined randomly using probability, not fixed rules like in trees (binary, N-ary, etc).
 
 **Advantages**:
 - space efficient as we just store one address per node
@@ -75,4 +79,10 @@ For storing address in the first and last node, XOR its prev/next with `0`. We'l
 **Disadvantages**:
 - traversal from only one direction is possible in one go, we can't switch in between
 - given a pointer to a random node, we can't traverse anywhere; this is why we use DLL often and can't be done with XOR LL
-- cognitive complexity of code implementation it is high
+- cognitive complexity of code implementation is high
+
+**Usage**: 
+- Java's `ConcurrentSkipListMap` and `ConcurrentSkipListSet`
+- Redis sorted set
+- LRU/LFU cache design
+- alt to B-Trees in DB indexing
