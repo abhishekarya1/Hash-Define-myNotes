@@ -68,10 +68,6 @@ The address that is stored on a given node is the XOR of prev and next: `prev ^ 
 
 For storing address in the first and last node, XOR its prev/next with `0`. We'll know when we've reached the last node when we get next node address as `0`, or we can also maintain a `tail` pointer and compare with current node.
 
-Multiple `next` pointers are present per node (in a "tower") depending on its level: https://chatgpt.com/share/69104dae-6a28-800e-a07e-6029ca231fd4
-
-They're _probabilistic_ because their structure (the "tower heights" of nodes) is determined randomly using probability, not fixed rules like in trees (binary, N-ary, etc).
-
 **Advantages**:
 - space efficient as we just store one address per node
 - we use XOR as overflow is impossible unlike addition; we can use same sized variable since XOR can't produce a resultant number of bigger size than the original numbers
@@ -81,8 +77,4 @@ They're _probabilistic_ because their structure (the "tower heights" of nodes) i
 - given a pointer to a random node, we can't traverse anywhere; this is why we use DLL often and can't be done with XOR LL
 - cognitive complexity of code implementation is high
 
-**Usage**: 
-- Java's `ConcurrentSkipListMap` and `ConcurrentSkipListSet`
-- Redis sorted set
-- LRU/LFU cache design
-- alt to B-Trees in DB indexing
+**Usage**: XOR linked lists are a cool theoretical data structure, but practically obsolete due to safety, maintainability, and compatibility concerns.
