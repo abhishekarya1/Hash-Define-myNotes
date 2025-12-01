@@ -141,23 +141,27 @@ cin >> a;
 cin.ignore(numeric_limits<streamsize>::max(),'\n');
 ```
 
-- `while (cin >> input)`: `cin` returns false when a non-numeric value is entered; this trick applicable to numeric types only
+- for reading multi-line input, use `while (cin >> input)`, the condition fails only when the extracted type cannot be parsed. Alt use `while(getline(cin, input))`.
 
-- Strings: `C-style` or using `string` object
-String object also uses c-style strings internally.
+### Strings 
+`C-style` or using `string` object. String object also uses c-style strings internally.
 ```cpp
 #include<string>
 string str = "Ball";
 str[0] = 'C';		// mutable!
 
-str.length() == str.size() //true; both are equivalent
-str.substr(begin, end)
-str.compare(str1, str2) //lexicographic comparison
+str.length() == str.size()	// true; both are equivalent
 
+str.substr(pos, len)	// length of substring, not end index!
+str.substr(pos)	// from index till end
+
+str.compare(str1, str2)	// lexicographic comparison
+
+str.find("this is a big foo!");	// position of "foo" in str
 
 // C-style strings
-char* str = "Abhi";		//Immutable
-char str[] = "Abhi"; 	//Mutable; size = 5 (includes '\0' by default in size)
+char* str = "Abhi";		// Immutable
+char str[] = "Abhi"; 	// Mutable; size = 5 (includes '\0' by default in size)
 ```
 
 ### Arrays
