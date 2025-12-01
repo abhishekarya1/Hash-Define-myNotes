@@ -60,7 +60,8 @@ print(y, y.imag, y.real)	#(3+6j) 6.0 3.0
 
 # Modulo operation
 7 % 3   # => 1
-# i % j have the same sign as j, unlike C (where i's sign matters)
+# modulo wraps around, unlike C/C++
+-3 % 100 # => 97 
 -7 % 3  # => 2
 
 # Exponentiation (x**y, x to the yth power)
