@@ -93,7 +93,9 @@ Write-around (write to DB directly bypassing the cache)
 Refresh-ahead
 ```
 
-_Cache-aside_ requires a separate expensive operation of storing data from the database to the cache in case of a miss, the application code has to take care of this operation (lazy because it does it later on). One advantage of cache-aside over write-through is that only the data that is read is cached saving cache space. 
+Standard practice with _Cache-aside_ requires that in case of a miss we should store result to cache and then return response to user, the application code has to take care of this operation. Biggest advantage of cache-aside over write-through is that only the data that is read is cached saving cache space, this is why its called "lazy" because cache is populated on demand. 
+
+CDNs are a form of _Read-through_ cache. In case of a miss, cache has to take care of reading from database unlike cache-aside where application code does that.
 
 _Refresh-ahead_ validates frequently/recently accessed cache entries that are about to expire before they are accessed again (_smart prediction_).
 
