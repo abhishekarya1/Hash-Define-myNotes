@@ -114,6 +114,36 @@ Result:
 }
 ```
 
+It was built by Facebook to solve the problem of under-fetching and over-fetching of data in mobile app and web app.
+
+> GraphQL is the right choice when you have diverse clients with different data needs. If your interviewer mentions scenarios like "the mobile app needs different data than the web app" or asks about "avoiding over-fetching and under-fetching," they're likely looking for you to bring up GraphQL. It's also a good choice when frontend teams need to iterate quickly without backend changes. With REST, adding a new field to a mobile screen often requires backend changes and API deployments. With GraphQL, the frontend team can request additional fields as long as they exist in the schema.
+
+`.graphql` schema file:
+```
+type Event {
+  id: ID!
+  name: String!
+  date: DateTime!
+  venue: Venue!
+  tickets: [Ticket!]!
+}
+
+type Venue {
+  id: ID!
+  name: String!
+  address: String!
+}
+
+type Query {
+  event(id: ID!): Event
+  events(limit: Int, after: String): [Event!]!
+}
+```
+
+Highly susceptible to `N+1` problem, and redundancy in data across responses e.g. when fetching a channel's posts the author name is repeated for every post entry in JSON.
+
+GraphQL also handles authorization differently. Instead of securing entire endpoints like REST, you secure individual fields. A user might see an event's name and date but not the venue data. You can control this at the field level in your schema resolvers.
+
 Tutorial: [howtographql.com](https://www.howtographql.com/basics/1-graphql-is-the-better-rest/)
 
 ## References
