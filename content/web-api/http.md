@@ -147,9 +147,9 @@ Utmost care should be taken while designing API to make sure responses have self
 
 - [Safe](https://developer.mozilla.org/en-US/docs/Glossary/Safe/HTTP): method doesn't modify the server back-end state (all safe methods are idempotent).
 
-Implemented correctly, `POST` is never idempotent (since primary key keeps on increasing on every new resource creation). `PATCH` can be made non-idempotent. Rest all are idempotent. 
+Implemented correctly, `POST` is neither idempotent (since primary key keeps on increasing on every new resource creation) nor safe. `PATCH` can be made non-idempotent. Rest all are idempotent. 
 
-`PATCH` is mostly idempotent unless we have conditions in place in the code that patch different parts of resource each time we call `PATCH` on it. This is contrary to `PUT`, which overwrites the entire resource each time and is therefore inherently idempotent.
+`PATCH` is not guaranteed to be idempotent because we can have conditions in the code that patch different parts of resource each time we call `PATCH` on it, like appending to a list. This is contrary to `PUT`, which overwrites the entire resource each time and is therefore inherently idempotent.
 
 While talking about idempotence and safety, only the end resultant state of the server matters, for example, A `DELETE` may return a `200 OK` on the first call, but successive calls will return `404 NOT FOUND`. It is idempotent because server state remains the same at all times after the first call.
 
@@ -160,6 +160,8 @@ While talking about idempotence and safety, only the end resultant state of the 
 - GET responses can be cached, POST creates a new resource so caching doesn't make sense
 
 The above differences show up in a typical well designed API, we can obviously send payload with GET too (_very bad practice_).
+
+GET doesn't support a payload (body) by spec and developers have been using query params in URL to execute complex queries making URLs long and cryptic, so IETF introduced a new `QUERY` method that supports a body, and idempotence and safety is same as GET. ([link](https://www.reddit.com/r/webdev/comments/1ummfyr/rfc_10008_is_official_the_http_query_method_is/))
 
 ### Headers
 Used to exchange meta-information between the client and the server. But, we can send anything in them.

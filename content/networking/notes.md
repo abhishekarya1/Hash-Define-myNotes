@@ -214,6 +214,10 @@ Example of DNS settings of a domain:
 
 **GeoDNS**: Geographical split horizon (different DNS answers based on client's geographical location), setup different `A` records for different regions in the domain provider DNS serttings (Amazon Route 53 is the DNS service for AWS that allows this).
 
+Use in Load Balancing and Failover:
+- DNS resolver returning rotated lists and client can choose the topmost element. Well suited for small number of clients, or when update time doesn't matter (DNS is pull-based so updates can't be faster than TTL).
+- DNS Failover mechanism for switching over to replicas of a SPOF component (e.g. LB)
+
 **Attacks**: DNS poisoning
 
 **Uses**: Site blocking, DNS is unencrypted and sent over UDP. The ISP can see what websites we are visiting but not its contents because of HTTPS/TLS.
@@ -298,6 +302,9 @@ Segments can totally arrive out-of-order but none one of them can be skipped, th
 **Use Cases**: Load Balancing (API Gateway), Logging (Envoy Sidecar Proxy in Service Mesh), CDN (Edge and Origin servers)
 
 ### Load Balancers
+
+DNS Load Balancers (see DNS section above)
+
 **At Layer-4**:
 - _faster_, since we're not reading contents with higher protocols
 - _secure_, since we can't read the contents

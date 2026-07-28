@@ -43,14 +43,15 @@ Helps scale horizontally by distributing traffic evenly across all service insta
 Uses an algorithm[^1] like Round-Robin to schedule incoming traffic to services.
 
 Levels of Load Balancing:
-- **Layer-4**: sticky connection because LB doesn't know how many segments a HTTP request takes, can't understand application layer level protocol data, faster
-- **Layer-7**: dynamic routing, can understand application layer level protocol data (_Content-based routing_), thus slower
+- **DNS**: very crude way but works for small clients or less freq changing servers.
+- **Layer-4**: sticky connection because LB doesn't know how many segments a HTTP request takes, can't understand application layer level protocol data, faster. Used for WebSockets.
+- **Layer-7**: dynamic routing, can understand application layer level protocol data (_Content-based routing_), thus slower.
 
 [LB in Networking notes](/networking/notes/#load-balancers)
 
 Types of Load Balancing:
 - **Server-Side Balancing**: load balancer decides which service instance to route request to 
-- **Client-Side Balancing**: client itself decides which service instance to send request to (client doesn't send request to LB in this)
+- **Client-Side Balancing**: client itself decides which service instance to send request to (client doesn't send request to LB in this saving a network hop)
 
 Types of Load Balancing strategies:
 - **Static**: source IP hash (deterministic; same source requests always land at the same server), URL hash, round robin, randomized algorithm etc.
