@@ -113,6 +113,14 @@ The signature (anti-tampering measure) proves that the token is received as-is (
 - we can have asymmetric encryption of JWT signatures rather than a symmetric one in which a private (SECRET) has to be shared between the token creator server and the token verifier server (if they are separate).
 - on a user logout, the JWT token doesn't expire automatically immediately. We need to impl JWT forced expiration logic in the application such that it does and its not easy since JWT tokens are not traceable by the server.
 
+**JWT Modes** (Symmetric vs Asymmetric):
+- store a shared secret (`SECRET`) on server generating JWTs and every server that will verify it will have to store that same secret to verify signature (symmetric mode; _bad practice_)
+- alt, use a private key on server generating JWTs and every server that will verify can be shared the public key to verify signature (asymmetric mode; _recommended_)
+
+Usually in a microservices architecture, an auth server typically handles token generation, while individual microservices handle verification locally using public keys.
+
+[Ref](https://master-spring-ter.medium.com/spring-security-understanding-symmetric-and-asymmetric-jwt-8b72286885e0)
+
 **References**:
 - https://roadmap.sh/guides/jwt-authentication
 - JWT - ByteByteGo - [YouTube](https://youtu.be/P2CPd9ynFLg)

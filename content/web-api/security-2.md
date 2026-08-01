@@ -111,7 +111,11 @@ A digital signature is calculated by encrypting a message (often the public key 
 
 Ex - `EdDSA`
 
-Uses - [TLS Certificates](/web-api/security-3/#certificates-and-ca)
+Uses - [TLS Certificates](/web-api/security-3/#certificates-and-ca), Pre-signed URLs in S3 and CDN, etc.
+
+{{% notice info %}}
+It isn't exactly encryption and decryption in Digital Signatures but a mathematical operation that can verify using public key that the item was signed using private key. 
+{{% /notice %}}
 
 ## Encoding & Compression
 Often keyless and always designed to be reversible by nature and not cryptographic as the output doesn't need to be hidden from a third party.
