@@ -105,16 +105,29 @@ Ex - `Diffie-Hellman` key exchange. Two variants - DH and ECDH (Elliptic-curve D
 [Reference](https://crypto.stackexchange.com/questions/6307/why-is-diffie-hellman-considered-in-the-context-of-public-key-cryptography)
 
 ### Digital Signatures
-Encrypted using private key, decrypt using public key.
+Sign using private key, decrypt using public key.
 
-A digital signature is calculated by encrypting a message (often the public key itself) with a private key. Anyone else with a copy of the public key can verify that a particular message was signed by private key. By using that public key to decrypt the digital signature and the output will be a public key, and we can check if they match.
+We often share items (aka message) we want to sign unencrypted (plain-text or base64) and include digital signature with it for verification by others.
 
-Ex - `EdDSA`
+We create a canononical string of all items we want to sign, then we calc its hash and sign with private key to generate a digital signature.
 
-Uses - [TLS Certificates](/web-api/security-3/#certificates-and-ca), Pre-signed URLs in S3 and CDN, etc.
+Send over this `message + signature` and a receivers who already have a copy of the public key can verify that the message was signed by its corresponding private key. It does so by hashing the message again and then verify using public key.
+
+```
+hash = SHA256(canonicalString)
+signature = ECDSA_sign(privateKey, hash)
+
+---
+
+Verify(publicKey, hash, signature)
+```
+
+Ex - `RSA`, EdDSA`
+
+Uses - Asymmetric JWT, [TLS Certificates](/web-api/security-3/#certificates-and-ca), Pre-signed URLs in S3 and CDN, etc.
 
 {{% notice info %}}
-It isn't exactly encryption and decryption in Digital Signatures but a mathematical operation that can verify using public key that the item was signed using private key. 
+Be aware that it isn't exactly encryption and decryption in digital signatures but rather a mathematical operation that can sign and verify without actually encryption/decryption.
 {{% /notice %}}
 
 ## Encoding & Compression
