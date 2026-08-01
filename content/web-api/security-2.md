@@ -105,13 +105,13 @@ Ex - `Diffie-Hellman` key exchange. Two variants - DH and ECDH (Elliptic-curve D
 [Reference](https://crypto.stackexchange.com/questions/6307/why-is-diffie-hellman-considered-in-the-context-of-public-key-cryptography)
 
 ### Digital Signatures
-Sign using private key, decrypt using public key.
+Sign using private key, verify using public key.
 
 We often share items (aka message) we want to sign unencrypted (plain-text or base64) and include digital signature with it for verification by others.
 
-We create a canononical string of all items we want to sign, then we calc its hash and sign with private key to generate a digital signature.
+We create a canonical string of all items we want to sign, then we calc its hash and sign with private key to generate a digital signature.
 
-Send over this `message + signature` and a receivers who already have a copy of the public key can verify that the message was signed by its corresponding private key. It does so by hashing the message again and then verify using public key.
+Send over `message + signature` and a receivers who already have a copy of the public key can verify that the message was signed by its corresponding private key by hashing the message again and then verify using public key. If the message has been tampered with, the hash won't calc the exact same again.
 
 ```
 hash = SHA256(canonicalString)
@@ -122,7 +122,7 @@ signature = ECDSA_sign(privateKey, hash)
 Verify(publicKey, hash, signature)
 ```
 
-Ex - `RSA`, EdDSA`
+Ex - `RSA`, `EdDSA`
 
 Uses - Asymmetric JWT, [TLS Certificates](/web-api/security-3/#certificates-and-ca), Pre-signed URLs in S3 and CDN, etc.
 
