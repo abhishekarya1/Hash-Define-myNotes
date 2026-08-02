@@ -151,6 +151,23 @@ transactionManager.commit(status);
 ```
 _Explanations_: [Isolation Notes](/db/rdbms/concepts/#issues)
 
+### A Case for Distributed Transactions
+The below code uses two data sources in a single microservice:
+```java
+@Transactional
+public void placeOrder() {
+    ordersRepository.save(...);      // Orders DB
+    inventoryRepository.reserve(...);// Inventory DB
+}
+```
+
+The problem is that if `save` in `OrdersDB` succeeds and commits and then `reserve` in `InventoryDB` fails, there is no way to rollback `save` in `OrdersDB` as it was already committed. Making atomicity in this transaction we're trying to do.
+
+To perform such distributed transactions, we can use:
+- 2PC with JTA and XA
+- Saga Pattern
+- Consolidate databases to avoid such complexity (if possible ofc)
+
 ---
 ## Caching
 By default `spring-boot-starter-cache` will include support for EhCache. To be able to use Redis we need to add custom config class (1) or add `spring-boot-starter-data-redis` and then use properties file to customize it (2). For Ignite we can [create a custom config](https://medium.com/swlh/spring-cache-with-apache-ignite-def103cae35).
