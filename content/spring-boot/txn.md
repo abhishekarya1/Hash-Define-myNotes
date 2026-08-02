@@ -156,17 +156,17 @@ The below code uses two data sources in a single microservice:
 ```java
 @Transactional
 public void placeOrder() {
-    inventoryRepository.reserve(...);// Inventory DB
-    ordersRepository.save(...);      // Orders DB
+    inventoryRepository.reserve(...); // Inventory DB
+    ordersRepository.save(...);      // Order DB
 }
 ```
 
-The problem is that if `reserve` in `InventoryDB` succeeds and commits and then `save` in `OrdersDB` fails, there is no way to rollback `reserve` in `InventoryDB` as it was already committed. Violating atomicity in this transaction we're trying to do.
+The problem is that if `reserve` in `InventoryDB` succeeds and commits and then `save` in `OrderDB` fails, there is no way to rollback `reserve` in `InventoryDB` as it was already committed. Violating atomicity in this transaction we're trying to do.
 
-Spring's `@Transactional` binds to one `PlatformTransactionManager` linked to one database connection. It cannot coordinate a distributed commit across separate database servers or instances.
+Spring's `@Transactional` binds to one `PlatformTransactionManager` linked to one database connection. It cannot coordinate a distributed commit across separate database servers or instances. In this example, if `InventoryDB`'s tranaction manager is handling `@Transactional` then `OrderDB` will act as if its not under the annotation which means it will auto-commit instantly (i.e. single statement = single transaction without any `BEGIN`/`COMMIT` block).
 
 To guarantee atomicity in such distributed transactions, we can use:
-- 2PC with JTA and XA
+- 2PC with JTA and XA (a Distributed Transaction Manager)
 - Saga Pattern
 - Consolidate databases to avoid such complexity (if possible ofc)
 
