@@ -6,7 +6,7 @@ pre = "<i class='devicon-apachekafka-plain'></i> "
 +++
 
 ## Intro
-Apache Kafka is a distributed event streaming platform used to handle large amounts of realtime data.
+Apache Kafka is an open-source distributed event streaming platform used to handle large amounts of realtime data.
 
 - extremely **high throughput** but **low on storage** (hence not a replacement of a DB)
 - highly **distributed** and therefore extremely **fault-tolerant**
@@ -15,50 +15,62 @@ It is used in applications as an async intermediary (events), and for streaming 
 
 It is built in Java and Scala so its native to Java environment.
 
-**Usage**: async messaging between services, metrics and logging, commit log (Saga pattern), stream processing (taking action on a series of data in realtime).
+**Usage**: async messaging between services (MQ), metrics and logging, commit log (Saga pattern), stream processing (taking action on a series of data in realtime).
 
 ## Components
 - **Cluster** - group of kafka servers
 - **Broker** - a single kafka server (replicated for high-availability)
 - **Topic** (aka _Stream_) - logical entity; group of partitions, can be spread across multiple brokers; no ordered storage of messages is guaranteed on this abstraction level
-- **Partition** - indexed log (array) and hence ordering is guaranteed among messages received by a particular partition; data is replicated for redundancy producers and consumers often directly interact with this
-- **Publisher** - writes messages to topics
+- **Partition** - append-only indexed log (array); messages are appended at the end and hence ordering is guaranteed among messages received by a particular partition; data is replicated in a Leader-Follower hierarchy across mulitple brokers and producers and consumers often directly interact with the leader partition
+- **Producer** - writes messages to topics
 - **Consumer** and **Consumer Group** - reads and writes messages from topics by taking ownership of specified partitions
-- **Zookeeper** - management component; stores cluster metadata, clients information, routes writes exclusively to leader broker and reads to both leader and follower brokers
+- **Controller** - a broker responsible for cluster-wide management, such as leader election, partition reassignment, detecting broker failures, and storing cluster metadata
+- **Group Coordinator** - a broker responsible for managing a specific consumer group (membership, rebalancing, heartbeats, offsets)
+- **Zookeeper** - manages Kafka cluster; stores metadata, clients information, routes writes exclusively to leader broker and reads to both leader and follower brokers, etc. (not needed if using Modern Kafka - KRaft mode)
+
+Topics are just a way to organize your data, while partitions are a way to scale your data.
 
 ![kafka components](https://i.imgur.com/BtLuPCj.png)
 
 ![topic and partitions](https://i.imgur.com/T9NJwAp.png)
 
-## Reads and Writes to a Topic
+## Producing and Consuming
 
-**Writing to a Topic** (producer): Kafka tries to uniformly distribute messages from a producer among all partitions of the destination topic using algorithms like round-robin, hash of a key, custom partitioner, or explicitly specifying a specific partition to send the message to. This is called **Partition Strategy**.
+**Writing to a Topic** (producer): When a message is published to a Kafka topic, Kafka first determines the appropriate partition for the message and then broker where that partition lives (given by Kafka cluster metadata maintained by Kafka Controller broker). Kafka tries to uniformly distribute messages from a producer among all partitions of the destination topic using algorithms like round-robin, hash of a key, custom partitioner, or explicitly specifying a specific partition to send the message to. This is called **Partition Strategy**. 
 
-**Reading from a Topic** (consumer): Kafka assigns partition(s) to the consumer from the source topic to read from. It makes sure all consumers are evenly balanced across partitions. Strategy like round-robin, range assignment is often used for this, and it stays so (_sticky_) until rebalancing due to a consumer addition/removal.
+**Reading from a Topic** (consumer): Kafka assigns partitions from a subscribed topic to consumers within the same consumer group. The group coordinator ensures that each partition is assigned to exactly one consumer in the group, aiming for a balanced distribution. Partition assignment strategies such as Range, RoundRobin, Sticky, and Cooperative Sticky determine how partitions are distributed. Assignments remain unchanged until a rebalance occurs (e.g. a consumer joins or leaves the group, or the topic's partition count changes).
+
+Kafka consumers actively poll the broker for new messages at intervals they control i.e. pull-based model. This pull approach was a deliberate design choice that provides several advantages: it lets consumers control their consumption rate, simplifies failure handling, prevents overwhelming slow consumers, and enables efficient batching. A Kafka consumer's poll can return records from multiple partitions in a single call!
 
 {{% notice tip %}}
-To summarise: Producers are not restricted to specific partitions by default — they can write to any partition within a topic, dynamically or explicitly. But Consumers are restricted to the partitions assigned to them within a consumer group, they cannot read from partitions assigned to other consumers in the same group.
+Producers are not restricted to specific partitions by default - they can publish to any partition in a topic, either by explicitly specifying the partition or by letting the partitioner choose one dynamically. Consumers, however, can only read from the partitions assigned to them within their consumer group; they do not read from partitions assigned to other consumers in the same group.
 {{% /notice %}}
 
-**Note on message delivery**: if there is only 1 producer, 1 consumer, and 1 topic with 3 partitions, then there is no guarantee that the message will be received by the consumer when the producer writes to the topic (which is written to some partition), as there is no guarantee that it will be written to the particular partition which the consumer is listening to.
+Each partition in Kafka functions essentially as an append-only log file. Messages are sequentially added to the end of this log, which is why Kafka is commonly described as a _distributed commit log_. Provides immutability, efficiency, and scalability.
 
-**Note on ordering**: if a service is writing two messages (`A` and `B`, in order) to the same Kafka topic, and some other services read from the same topic, then there is no guarantee of order of processing. The order will be there during read if all the messages gets stored in the same partition (randomly or explicitly), otherwise ordering isn't guaranteed as the partition containing the message `B` maybe read from first by its consumer.
+**Partitions' consumption**: if there is 1 producer, 1 consumer, and 1 topic with 3 partitions, and the consumer subscribes to the topic normally, the consumer will be assigned all 3 partitions and will receive every message regardless of which partition the producer writes to.
 
-So we can conclude that the partition is the core component on which things depend a lot during reads and writes, and not topic.
+**No global ordering**: Kafka does not guarantee global ordering across multiple partitions; it only preserves strict message ordering within a single partition. Ex - if a producer writes two messages (`A` then `B`) to the same topic, Kafka guarantees that consumers will read them in order only if both messages are written to the same partition. If they are written to different partitions, Kafka provides no ordering guarantee between them, because the partitions are consumed independently and may be processed at different rates. Thus in this case, even if we've a single consumer it might see either `AB` or `BA` if they both goto and are read from different partitions.
 
 ## Features
-**Replication**: it exists at every level. Cluster, Broker, Partitions are configured to be data replicated and have fail-overs in place in a well configured Kafka system.
+**Replication**: done at every level. Cluster, Broker, Partitions are configured to be data replicated and have fail-overs in place in a well-configured Kafka cluster. 
 
-**Messages** are just bytes of information to Kafka and its agnostic to their meaning. There is a component **Key** (numeric hash) that can be appended to a message which can then be used to manually decide the partition the message goes to using modulo operation i.e. `key_hash % N` where `N` is the number of partitions in the topic the message is destined to. 
+Once a message is published to the designated partition, Kafka ensures its durability and availability through a robust replication mechanism. Leader-follower replication is done where each partition has a designated leader replica on a broker which handles all writes and reads (by default), several follower replicas exist for each partition, residing on different brokers (no direct client requests; passive replicas). They sync with leader and when the leader replica fails, the controller reassigns the leader role to one of the in-sync follower replicas to ensure continued availability of the partition, minimizing downtime and data loss.
+
+**Messages** are just raw bytes of information to Kafka and its agnostic to their meaning. A message in Kafka has four components (all optional): a value/payload, a key, a timestamp, and headers (K-V pairs). The **Key** routes messages to partitions and if not specified Kafka uses a default round-robin strategy.
 
 **Schema** is another optional metadata put in the message sometimes. It indicates what kind of data the message contains (i.e.String, JSON, or XML etc). This schema metadata can be stored in Kafka Headers or we can dedicate specific topics for specific message types.
 
-**Offset**: for each consumer Kafka tracks messages already processed by it using an integral number called _offset_ and it maintain its current count so that it can resume from that point in the future if processing fails.
+**Offset**: each message in a Kafka partition is assigned a unique offset, which is a sequential identifier indicating the message's position in the partition. This offset is used by consumers to track their progress in reading messages from the topic. As consumers read messages, they maintain their current offset and **periodically commit this offset back to Kafka**. This way, they can resume reading from where they left off in case of failure or restart.
 
-**Retention**: there is a temp storage threshold (1GB per partition) or message TTL (7 days) after which they are deleted.
+**Retention**: there is a temporary storage threshold (1 GB per partition) or message TTL (7 days) after which they are deleted.
 
 ## Both Consumption Modes
-Kafka does pub/sub model well, but we can also do prod/con (MQ) using consumer groups.
+Kafka does pub/sub model as its just a log, but we can also do prod/con (MQ) using consumer groups.
+
+**Summary**: 
+- when used as a MQ, each message is processed by one consumer in a group and then effectively "consumed" (though Kafka still retains it based on retention policy). 
+- when used as a Stream, consumers continuously process messages as they arrive in real-time, and the same data can be read by multiple independent consumer groups or replayed from any point in the log.
 
 ### Consumer Group
 Each partition must be consumed by **only a single consumer in one group** but the inverse isn't true! One consumer is free to consume from multiple partitions.
@@ -195,7 +207,7 @@ Kafka creates `N-1` retry topics (`foobar-retry-0`, `foobar-retry-1`, etc.) and 
 ```
 
 {{% notice note %}}
-_Why do we need retry topics? Didn't we only commit offset when a message is successfully consumed by the consumer? If we don't update the offset then we will process the failed message again right?_ That is true, but we have retry topics to ensure **exactly once semantics** otherwise consumer doesn't have any idea how many retries it has already done and it will go in an infinite loop. So the consumer does retries once from every retry topic created. Kind of verbose 😅.
+_Why do we need retry topics? Didn't we only commit offset when a message is successfully consumed by the consumer? If we don't update the offset then we will process the failed message again right?_ That is true, but we have retry topics to ensure **exactly-once semantics** otherwise consumer doesn't have any idea how many retries it has already done and it will go in an infinite loop. So the consumer does retries once from every retry topic created. Kind of verbose 😅.
 {{% /notice %}}
 
 The `send()` of `KafkaTemplate` is overloaded to specify partition and/or key along with message:
@@ -219,3 +231,5 @@ send(String topic, V data)		// send the data to the provided topic with no key o
 - Spring Boot: Event Driven Architecture using Kafka - Programming Techie - [YouTube](https://youtu.be/-ebTPcHANnI)
 - Spring Boot 3 Apache Kafka Tutorial - Java Techie - [YouTube](https://youtu.be/c7LPlWvxZcQ)
 - https://learning.oreilly.com/library/view/kafka-the-definitive/9781492043072/
+- (2026) https://learning.oreilly.com/library/view/designing-data-intensive-applications/9781098119058/ch12.html (Chapter 12: Stream Processing)
+- (2026) https://www.hellointerview.com/learn/system-design/deep-dives/kafka
