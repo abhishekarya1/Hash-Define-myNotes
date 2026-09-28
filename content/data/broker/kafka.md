@@ -36,14 +36,14 @@ Topics are just a way to organize your data, while partitions are a way to scale
 
 ## Producing and Consuming
 
-**Writing to a Topic** (producer): When a message is published to a Kafka topic, Kafka first determines the appropriate partition for the message and then broker where that partition lives (given by Kafka cluster metadata maintained by Kafka Controller broker). Kafka tries to uniformly distribute messages from a producer among all partitions of the destination topic using algorithms like round-robin, hash of a key, custom partitioner, or explicitly specifying a specific partition to send the message to. This is called **Partition Strategy**. 
+**Writing to a Topic** (producer): When a message is published to a Kafka topic, Kafka first determines the appropriate partition for the message and then broker where that partition lives (given by Kafka cluster metadata maintained by Kafka Controller broker). Kafka tries to uniformly distribute messages from a producer among all partitions of the destination topic using algorithms like round-robin, hash of a key, custom partitioner, or explicitly specifying a specific partition to send the message to. This is called **Partitioning Strategy**. 
 
 **Reading from a Topic** (consumer): Kafka assigns partitions from a subscribed topic to consumers within the same consumer group. The group coordinator ensures that each partition is assigned to exactly one consumer in the group, aiming for a balanced distribution. Partition assignment strategies such as Range, RoundRobin, Sticky, and Cooperative Sticky determine how partitions are distributed. Assignments remain unchanged until a rebalance occurs (e.g. a consumer joins or leaves the group, or the topic's partition count changes).
 
 Kafka consumers actively poll the broker for new messages at intervals they control i.e. pull-based model. This pull approach was a deliberate design choice that provides several advantages: it lets consumers control their consumption rate, simplifies failure handling, prevents overwhelming slow consumers, and enables efficient batching. A Kafka consumer's poll can return records from multiple partitions in a single call!
 
 {{% notice tip %}}
-Producers are not restricted to specific partitions by default - they can publish to any partition in a topic, either by explicitly specifying the partition or by letting the partitioner choose one dynamically. Consumers, however, can only read from the partitions assigned to them within their consumer group; they do not read from partitions assigned to other consumers in the same group.
+Producers are not restricted to specific partitions by default - they can publish to any partition in a topic, either by explicitly specifying the partition (direct partition assignment) or by letting the partitioner choose one dynamically (key-based routing). However Consumers can only read from the partitions assigned to them within their consumer group; they do not read from partitions assigned to other consumers in the same group.
 {{% /notice %}}
 
 Each partition in Kafka functions essentially as an append-only log file. Messages are sequentially added to the end of this log, which is why Kafka is commonly described as a _distributed commit log_. Provides immutability, efficiency, and scalability.
@@ -55,20 +55,32 @@ Each partition in Kafka functions essentially as an append-only log file. Messag
 ## Features
 **Replication**: done at every level. Cluster, Broker, Partitions are configured to be data replicated and have fail-overs in place in a well-configured Kafka cluster. 
 
-Once a message is published to the designated partition, Kafka ensures its durability and availability through a robust replication mechanism. Leader-follower replication is done where each partition has a designated leader replica on a broker which handles all writes and reads (by default), several follower replicas exist for each partition, residing on different brokers (no direct client requests; passive replicas). They sync with leader and when the leader replica fails, the controller reassigns the leader role to one of the in-sync follower replicas to ensure continued availability of the partition, minimizing downtime and data loss.
+Once a message is published to the designated partition, Kafka ensures its durability and availability through a robust replication mechanism. Leader-follower replication is done where each partition has a designated leader replica on a broker which handles all writes and reads (by default), several follower replicas exist for each partition, residing on different brokers (no direct client requests; passive replicas). They sync with leader regularly and when the leader replica fails, the controller reassigns the leader role to one of the in-sync follower replicas (ISR) to ensure continued availability of the partition, minimizing downtime and data loss.
 
-**Messages** are just raw bytes of information to Kafka and its agnostic to their meaning. A message in Kafka has four components (all optional): a value/payload, a key, a timestamp, and headers (K-V pairs). The **Key** routes messages to partitions and if not specified Kafka uses a default round-robin strategy.
+We can set **replication factor** which is a topic-level setting that determines the total number of copies of each partition stored across different brokers in a cluster, typically 3 (1 leader, 2 followers). Also, changing producer setting `acks=all` ensures that the message is acknowledged only when all in-sync replicas (ISR) have received it, providing the strongest durability guarantee available.
+
+**Scalability**: ; a single broker on a decent hardware can store 1TB of data and handle 1M messages/sec. Scale horizontally by adding more brokers, and we need a robust partitioning strategy (using key) to avoid hot partitions.
+
+**Messages** are just raw bytes of information to Kafka and its agnostic to their meaning. A message in Kafka has four components (all optional): a value/payload, a key, a timestamp, and headers (K-V pairs). The **Key** routes messages to partitions (`hash(key) % numPartitions`) and if not specified Kafka uses a default round-robin like strategy (Sticky Partitioner). Maximum message size has no limit but typically configured to be 1MB.
 
 **Schema** is another optional metadata put in the message sometimes. It indicates what kind of data the message contains (i.e.String, JSON, or XML etc). This schema metadata can be stored in Kafka Headers or we can dedicate specific topics for specific message types.
 
-**Offset**: each message in a Kafka partition is assigned a unique offset, which is a sequential identifier indicating the message's position in the partition. This offset is used by consumers to track their progress in reading messages from the topic. As consumers read messages, they maintain their current offset and **periodically commit this offset back to Kafka**. This way, they can resume reading from where they left off in case of failure or restart.
+**Offset**: each message in a Kafka partition is assigned a unique offset, which is a sequential identifier indicating the message's position in the partition. This offset is used by consumers to track their progress in reading messages from the topic. As consumers read messages, they maintain their current offset and **periodically commit this offset back to Kafka**. This way, Kafka ensures fault tolerance by resuming reading from where they left off in case of failure or restart. This can cause reprocessing if we received the message, processed it, but crashed before committing back (i.e. atleast-once delivery; the default semantics of Kafka). Hence keeping the work of the consumer as small as possible is a good strategy.
 
 **Retention**: there is a temporary storage threshold (1 GB per partition) or message TTL (7 days) after which they are deleted.
 
-## Both Consumption Modes
-Kafka does pub/sub model as its just a log, but we can also do prod/con (MQ) using consumer groups.
+**Performance Optimizations**: Kafka producers naturally batch messages before sending them over the network to reduce overhead, we can also enable compression for messages in Kafka with various compression algorithms (`gzip`, `lz4`, etc.) supported out-of-the-box.
 
-**Summary**: 
+**Handling Retries and Errors**: Kafka producers support automatic retries. Kafka does not actually support retries for consumers so we need to implement our own retry logic with DLQ and Retry topics. Discussed further [below](#error-handling).
+
+Managed Kafka services like [Confluent Cloud](https://www.confluent.io/confluent-cloud/) or [AWS MSK](https://aws.amazon.com/msk/) can handle various aspects like scaling, optimizations, etc. automatically.
+
+## Both Consumption Modes
+Kafka does pub/sub model as its just log, but we can also do prod/con (MQ) using consumer groups.
+
+**Kafka vs MQ**: Messages are deleted from MQ by MQ system after they are consumed in a prod-con model. The message deletion can be turned off in most MQ platforms but the general idea of MQ is remove-on-consume. This is not the case in Kafka. A separate numeric _offset_ is maintained by Kafka for each consumer per partition based on which message they are reading and its updated by consumer after a successful consumption of a message. The messages themselves are not deleted from the partition when they are consumed and successfully finish processing. They are deleted after a retention period has passed, disk quota limit is reached, or consumer has gone down (rebalancing), so Kafka acts as a **"Distributed Commit Log"** or more recently called a "Distributing Streaming Platform".
+
+**Summary**:
 - when used as a MQ, each message is processed by one consumer in a group and then effectively "consumed" (though Kafka still retains it based on retention policy). 
 - when used as a Stream, consumers continuously process messages as they arrive in real-time, and the same data can be read by multiple independent consumer groups or replayed from any point in the log.
 
@@ -95,11 +107,6 @@ If we don't explicitly specify a consumer group for a Kafka consumer, the consum
 **Rebalancing**: Kafka ensures that partitions are evenly distributed among consumers in a group. If a consumer joins or leaves the group, Kafka will rebalance all the partitions among the available consumers within the same group.
 
 _Reference_: [Kafka Partitions and Consumer Groups - Medium](https://medium.com/javarevisited/kafka-partitions-and-consumer-groups-in-6-mins-9e0e336c6c00)
-
-### Message Queues vs Kafka
-Messages are deleted from MQ by MQ system after they are consumed in a prod-con model. The message deletion can be turned off in most MQ platforms but the general idea of MQ is remove-on-consume.
-
-This is not the case in Kafka. A separate numeric _offset_ is maintained by Kafka for each consumer per partition based on which message they are reading and its updated after a successful consumption of a message. The messages themselves are not deleted from the partition when they are consumed and successfully finish processing. They are deleted after a retention period has passed, disk quota limit is reached, or consumer has gone down (rebalancing), so Kafka acts as a **"Distributed Commit Log"** or more recently called a "Distributing Streaming Platform".
 
 ## Zookeeper
 Zookeper is the coordinator and the manager, it stores the metadata too.
@@ -192,6 +199,8 @@ spring.kafka.consumer.value-deserializer=org.apache.kafka.common.serialization.S
 ```
 
 ### Error Handling
+Kafka handles retries for producers automatically but not for consumers, we need to implement it ourselves.
+
 For handling errors that happen during the consumption of the messages, we can specify the number of retry attempts to perform before sending them over to the Dead Letter Topic (DLT).
 
 Kafka creates `N-1` retry topics (`foobar-retry-0`, `foobar-retry-1`, etc.) and puts failed messages in them if retry is needed. Since default retry attempts are 3 therefore Kafka creates 2 retry topics for each of our main topic.
@@ -218,13 +227,17 @@ send(String topic, V data)		// send the data to the provided topic with no key o
 ```
 
 ## Interview Questions
-**ISR** (In-Sync Replicas): they are replicas which are up-to-date with leader's data.
+**ISR** (In-Sync Replica): it is a replica which is up-to-date with leader's data. ISRs are leader-eligible candidates in leader election in case the current leader goes down.
 
-**Consumer Lag**: the diff between the latest offset of the partition and the latest offset which the consumer has consumed.
+**Consumer Lag**: the difference between the latest message offset produced to a partition and the last committed offset read by a consumer group.
 
 **Offset Updates**: offset is updated and committed only after successful processing of the message by the consumer, otherwise it will lead to message loss if consumer fails (or goes down) and we already update the offset. This offset has to be commited explicitly by the Consumer to Kafka. Mostly it is set to auto-commit in the consumer app, but it is to be handled by the Consumer itself and not Kafka.
 
 **ACK for Producers**: There is no ack for consumers. But Kafka sends an `ack` to producer to ensure message is written to Kafka!. This is because Kafka is designed to be pull-based so that messages can be consumed at a pace the consumer wants and an ack mechanism would make it sync defeating the purpose and making it slow and decreasing throughput.
+
+**Preventing Hot Partitions**: a good partitioning strategy has to be adopted to ensure effective distribution of partitions among consumers. Avoiding hot partitions can be done by: randomly salted keys, compound keys (`userId + regionId`), backpressure (by having the producer check the lag on the partition and slow down if it's too high).
+
+**Kafka's Scalability**: distributed nature of a topic (into partitions) ensures that we can horizontally scale the consumers independently by adding more of them without changing anything on the producers or partitions, Kafka automatically rebalances partitions accordingly. Additionally, we can add more brokers to scale as well which compounds the scalability Kafka offers.
 
 ## References
 - Apache Kafka Crash Course - Hussein Nasser - [YouTube](https://youtu.be/R873BlNVUB4)
