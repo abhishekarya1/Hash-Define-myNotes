@@ -7,10 +7,10 @@ weight = 4
 ## Concepts
 1. Classes - logical entity only, blueprint
 2. Object - instance of a class, has a **state, behaviour, and identity**
-3. Abstraction - separate "how" from "what" i.e. concrete impl from declaration (`interface` and `abstract class`) 
-4. Encapsulation - clubbing data and methods that act on that data together (Getters and Setters, `animal.speak()` method call)
-5. Polymorphism - same name, many forms
-6. Inheritance - IS-A relationship
+3. Abstraction - hiding implementation details, separate "how" from "what" i.e. concrete implementation (`class`) from declaration (`interface` and `abstract class`) 
+4. Encapsulation - bundling data (attributes) and logic (methods) that act on that data together, restricting direct access to the internal state (getters and setters)
+5. Polymorphism - same name, many forms; provides flexibility to add new behaviors without modifying existing code
+6. Inheritance - IS-A relationship, allows a class (subclass) to inherit properties and behaviors from another class (superclass), creates a hierarchical relationship between classes
 7. Association - HAS-A relationship (Aggregation and Composition (`final`))
 8. Data Hiding - hiding data among components from each other in code (access modifiers)
 
@@ -221,6 +221,7 @@ class Num{
 - a class can have multiple constructors as long as each constructor's method signature is distinct (**Constructor Overloading**)
 - constructor is called during when using `new` and the object is allocated memory after setting the default values acc to constructor
 - constructors are not like normal methods in the sense that they can't be called from other constructors and methods without `new`, when we use `new` though, a new object is created in memory
+- its syntactically valid to call a method inside a constructor. However, doing so can introduce severe bugs if the method is overridable so make it `final` or `private`. Very bad design choice though. [ref](https://stackoverflow.com/a/3404369)
 
 ### Default Constructor
 Every Java class has a default constructor wheather we code it or not. 
@@ -487,6 +488,8 @@ public class Main{			// no inheritance
 ```
 
 ### Overriding Methods
+Overriding methods is how **runtime polymorphism** is implemented in Java. The process of choosing which method gets called is called **dynamic dispatch**.
+
 When method is a child class have the same signature as in the parent class. (Signature = name + parameter list)
 
 ```txt

@@ -62,7 +62,7 @@ JVM has to be written for the system for which it is to run on, so its **not pla
 Must Read - https://www.freecodecamp.org/news/jvm-tutorial-java-virtual-machine-architecture-explained-for-beginners/
 
 ### JIT Compiler
-**Interpreter ❤️ JIT Compiler** - The interpreter always interprets/runs the bytecode, and simultaneously the JIT compiler compiles some methods based on their invocation count threshold to _native machine code_ to be called directly by the interpreter. These methods are also called hotspots and are identified by the profiler inside the JIT compiler. 
+**Interpreter + JIT Compiler** - The interpreter always interprets/runs the bytecode, and simultaneously the JIT compiler compiles some methods based on their invocation count threshold to _native machine code_ to be called directly by the interpreter. These methods are also called hotspots and are identified by the profiler inside the JIT compiler. 
 
 _Reference_: [Highlight Link](https://www.eclipse.org/openj9/docs/jit/#:~:text=The%20JIT%20compiler%20doesn%27t,rather%20than%20interpreting%20it.)
 
@@ -123,12 +123,15 @@ It is basically another hot and popular JDK project created by Oracle. It has th
 - create native platform executable eliminating the need for JVM (_AOT (Native Image)_)
 - run Javascript, Python, Ruby, R, WASM, etc... on JVM! (_Truffle Language Implementation Framework_)
 
+Using Native image we can generate executables and build Webservers, CLI apps, LLM inference engines, etc. ([article](https://www.javaadvent.com/2024/12/5-cool-applications-you-can-build-with-java-and-graalvm.html))
+
 _Architecture_: https://www.graalvm.org/22.1/docs/introduction/
 
 _Graal JIT Compiler_: https://www.baeldung.com/graal-java-jit-compiler
 
 _Java Benchmarks_: https://www.phoronix.com/scan.php?page=article&item=java-openjdk-mid22
 
+Many other VMs for different purposes have come up like [TornadoVM](https://www.tornadovm.org) which JIT-compiles JVM bytecode to CUDA, OpenCL and Metal allowing Java code to run on GPUs.
 
 ### JVM Languages
 Many other languages can prodcue Bytecode that is runnable on JVM.
