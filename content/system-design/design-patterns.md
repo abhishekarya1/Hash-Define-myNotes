@@ -5,20 +5,14 @@ weight = 2
 +++
 
 ## Introduction
-**Design Patterns**: guidelines providing solutions to recurring problems and good practices in software.
+**Design Patterns**: reusable building blocks for solving common design problems. They're names for structures you naturally create when you follow SOLID design principles.
 
-Design patterns are often called **GoF** (Gang of Four) design patterns because of [the book](https://g.co/kgs/RzdfZ2) that first outlined these design patterns 20 years ago, named so because of its 4 authors. 
+Design patterns are often called **GoF** (Gang of Four) design patterns because of [the book](https://g.co/kgs/RzdfZ2) that first outlined these design patterns in 1994, named so because of its four authors.
 
-3 types of Design Patterns:
-1. **Creational** (_how to create objects or a group of related objects_) - **5**
-2. **Structural** (_how objects use each other, their composition_) - **7**
-3. **Behavioral** (_assignment of responsibilities between the objects_)
-
-_Reference#1_: https://www.programcreek.com/java-design-patterns-in-stories
-
-_Reference#2_: https://java-design-patterns.com
-
-_Reference#3_: Concept && Coding - Udemy
+Types of design patterns:
+1. **Creational**: how to create objects or a group of related objects (**5**)
+2. **Structural**: how objects use each other, their composition (**7**)
+3. **Behavioral**: assignment of responsibilities between the objects (**9**)
 
 ## Creational Patterns
 
@@ -44,19 +38,20 @@ class Student implements Prototype{
 	}
 
 	@Override
-	public Prototype clone(){
+	public Student clone(){
 		return new Student(name, age);
 	}
 }
 
 // in main()
-Student obj = new Student();
-Student cloneObj = (Student) obj.clone();
+Student st = new Student();
+Student stClone = st.clone();
 ```
 
+When implementing the Prototype pattern, determine how each reference-type field should be cloned. Mutable objects (e.g. `List`) often require a _deep copy_, while immutable or intentionally shared objects may use a _shallow copy_. 
 
 ### Singleton
-Only 1 instance of this class should exist at runtime.
+Singleton ensures only one instance of a class exists at runtime. Use it when you need exactly one shared resource like a configuration manager, connection pool, or logger.
 
 Ways of implementing this pattern:
 1. **Eager**: initializing the field inline at class init and returning it everytime in the future
@@ -65,9 +60,11 @@ Ways of implementing this pattern:
 4. **Double checked locking (synchronized block)**: optimization of the previous approach. Avoid locking everytime with `synchronized` method, instead put `synchronized` block around the object creation code.
 	- first check makes sure that if object isn't `null` (already exists) then we don't have to acquire lock
 	- second check is there to make sure that object wasn't created by another parallel thread in the duration in which we were waiting to acquire the lock
-5. **Enum**: `enum` in Java have only a single object per constant in the entire runtime. Define an `enum` with a single constant and use it as Singleton object.
+5. **Enum**: `enum` in Java have only a single object per constant in the entire runtime. Define an `enum` with a single constant and use it as Singleton object - it has private constructor by default and we can define instance members and methods as well. 
 
-Make the constructor private (no instance can be made using `new` then).
+Also, don't forget to make the constructor `private` (no instance can be made using `new` then).
+
+**Drawback**: since they're created with just a `getInstance()` call, they hide dependencies and thus make testing harder.
 
 ```java
 // 1. Eager
@@ -135,16 +132,14 @@ public class DBConnection{
 // 5. Enum
 public enum DBConnection{
 	INSTANCE;
-
-	private DBConnection(){ }
 }
 
-// in main() create/access the single object
+// in main()
 DBConnection obj = DBConnection.INSTANCE;
 ```
 
 ### Factory
-Create objects on-the-go by keeping all the object creation logic at one place.
+Create objects on-the-go by keeping all the object creation logic at one place, hidden from user.
 
 If a change is required in the creation logic in future, then we just need to modify the factory class. Ex - adding a `Rectangle` shape to the below example.
 
@@ -152,12 +147,12 @@ If a change is required in the creation logic in future, then we just need to mo
 
 ```java
 public class ShapeFactory{
-	public static Shape getShape(String name){		// can be non-static too
-		if(name.equals("Circle")){
+	public static Shape create(String name){		// can be non-static too
+		if(name.equals("circle")){
 			return new Circle();
 		} 
-		else if(name.equals("Square")){
-			return new Square;
+		else if(name.equals("square")){
+			return new Square();
 		} 
 		else {
 			return null;
@@ -166,7 +161,7 @@ public class ShapeFactory{
 }
 
 // in main()
-Shape obj = Shape.getShape("Square");
+Shape obj = Shape.create("square");
 ```
 
 ### Abstract Factory
@@ -225,13 +220,13 @@ CPU obj = factory.getInstance(7);								// get object from factory
 ```
 
 ### Builder
-Useful in creating objects in a step-by-step manner. Helps skip initialization of optional fields.
+Useful in building out objects in a step-by-step manner (incrementally), skipping initialization of optional fields upon creation of object.
 
-Issues with existing approaches: 
-- make a huge constructor with all members as param; not ideal
-- create multiple smaller constructors, but here we will face a challenge of constructor redefinitions. Ex - constructor `Foobar(int id, String name)` clashes with overloaded constructor `Foobar(int age, String name)` because of parameter data types and `Foobar` class has all the four members.
+This pattern is relevant when a class has lots of members and a lot of them are optional at creation time. Some approaches to tackle that include:
+- make a huge constructor with all members as parameters (not ideal)
+- create multiple smaller constructors, but here we will face a challenge of constructor redefinitions. Ex - constructor `Foobar(int id, String name)` clashes with overloaded constructor `Foobar(int age, String name)` because of parameter data types when `Foobar` class has all four members.
 
-A `static` method `builder()` and a non-static method `build()`, every setter method returns `this` object itself.
+A `static` method `builder()` and a non-static method `build()`, every setter method returns `this`, to facilitate chaining of setter calls.
 
 ```java
 class Student{
@@ -263,15 +258,13 @@ class Student{
 	public Student build(){
 		return this;
 	}
-
-	// define getters to access private members
 }
 
 // in main()
-Student obj = Student.builder().setId(1).setName("Pinkman").setAge(26).build();
+Student st = Student.builder().setId(1).setName("Pinkman").setAge(26).build();
 ```
 
-A more thread-safe way is to create a separate `abstract class` or an inner `static class` for Builder (some code duplication is present as members are defined again in the Builder class if not inner class).
+A more thread-safe way is to create a separate `abstract class` or an inner `static class` for `Builder`. Some code duplication is present as members are defined again in the `Builder` class.
 
 ```java
 // Builder Pattern using inner static class
@@ -285,8 +278,6 @@ class Student{
 		this.name = builder.name;
 		this.age = builder.age;
 	}
-
-	// define getters here
 
 	// inner class can access private memebers of its containing outer class
 	public static class Builder{
@@ -314,6 +305,9 @@ class Student{
 // in main()
 Student obj = new Student.Builder().setId(1).setName("Pinkman").setAge(26).build();
 ```
+
+This pattern shows up when designing things like HTTP requests, database queries, or configuration objects.
+
 
 ## Structural Patterns
 They all are based on **HAS-A** relationship i.e. aggregation (and composition). Some make use of **IS-A** relationship too.
@@ -1281,3 +1275,9 @@ static void printDetails(Vehicle v){
 
 ## Anti-Patterns
 _Reference_: https://sourcemaking.com/antipatterns
+
+
+## References
+- [Concepts && Coding - LLD Playlist](https://www.youtube.com/playlist?list=PL6W8uoQQ2c61X_9e6Net0WdYZidm7zooW)
+- https://www.programcreek.com/java-design-patterns-in-stories
+- https://java-design-patterns.com

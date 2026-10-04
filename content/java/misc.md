@@ -238,6 +238,13 @@ key = null;     // remove strong reference
 System.gc();    // suggest GC (not guaranteed)
 ```
 
+Write **Yoda Conditions** with String literal comparisons to avoid `NullPointerException`, if not checking for `null` beforehand. Often considered a bad practice as it makes the line of code less comprehensible.
+```java
+if("foobar".equals(name)){ }    // Yoda condition; cleaner
+
+if(name != null && name.equals("foobar")){ }    // null check
+```
+
 ## Top Interview Questions on Collections Internals
 
 ### Importance of hashCode() and equals()

@@ -298,12 +298,12 @@ public class BluetoothMouse implements Mouse { }
 ```
 
 #### Other Important Principles
-**Program against abstractions**: program by keeping interfaces and their relations and interactions in mind. Don't take concrete classes into consideration while designing.
+**Program against abstractions**: program by keeping interfaces and their relations and interactions in mind. Don't take concrete classes into consideration while designing. Beware of [Premature Abstraction](https://x.com/arpit_bhayani/status/2019263170117058593) though.
 
-**Prefer Composition over Inheritance**: prefer composition over inheritance, it has none of the issues that come with inheritance: 
+**Composition over Inheritance**: prefer composition over inheritance, it has none of the issues that come with inheritance: 
 - tight coupling betweeen derived and superclass
 - locks in relationships at design time (rigid hierarchies)
-- the **Fragile base class problem** is a fundamental architectural issue in OOP where seemingly safe modifications to a base class (superclass) can unintentionally alter or break the behavior of its derived classes (subclasses). Avoid long inheritance chains to minimize chances of mishap.
+- the **Fragile base class problem** is a fundamental architectural issue in OOP where seemingly safe modifications to a base class (superclass) can unintentionally alter or break the behavior of its derived classes (subclasses), breaking the Liskov Substitution Principle. Avoid long inheritance chains to minimize chances of mishap.
 - multiple inheritance isn't allowed in Java with concrete classes (**Diamond problem**).
 
 ```java
@@ -434,7 +434,7 @@ if (pet.type() == dog) {
 // encapsulate the varying behavior behind a stable interface
 pet.speak();
 
-// if we add Cow in the future, the speak() call remains unchanged as its on interface ref var
+// if we add Cow in the future, the speak() call remains unchanged as its on interface ref var now
 ```
 
 Isolate each animal call's logic in their respective class and create a common stable interface `Pet`. This is how it looks like after refactor in Java:
