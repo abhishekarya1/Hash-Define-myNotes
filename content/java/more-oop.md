@@ -217,9 +217,13 @@ interface X{
 - For super, we need to use `InterfaceName.super` since multiple inheritance is allowed in interfaces and we need to know which parent super to call.
 
 ## Enums
-Enumerations: Defines a set of **constants having values** that must be known at compile-time. 
+An enum (short for enumeration) is a special data type used to define a fixed, predefined collection of constants.
 
 Internally represented as `class` only, so we can't have a `public class` and a `public enum` together in the same `.java` file.
+
+{{% notice info %}}
+Java enums are much more powerful than enums in other programming languages because they behave like full-fledged classes. See complex enums section below for details.
+{{% /notice %}}
 
 ```java
 enum Days{ MON, TUE, WED, THURS FRI, SAT, SUN; }		// semi-colon is optional for simple enums
@@ -249,15 +253,18 @@ WED 2
 ```
 
 ### valueOf()
+Used to convert a String into its corresponding enum constant.
 ```java
 Days d = Days.valueOf("TUE");	// TUE
 ```
 
-### Constructor, Fields, and Methods (Complex Enums)
+### Complex Enums - Constructor, Fields, and Methods
 
 Simple enums have: name, ordinal
 
 Complex enums have: name, value, ordinal
+
+Enums are Java classes under the hood, hence their objects can be created (instantiated) and they have constructor, methods, and members. Each enum constant is an instance of that enum type.
 
 ```java
 // bare-minimum complex enum

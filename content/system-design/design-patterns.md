@@ -10,9 +10,9 @@ weight = 2
 Design patterns are often called **GoF** (Gang of Four) design patterns because of [the book](https://g.co/kgs/RzdfZ2) that first outlined these design patterns in 1994, named so because of its four authors.
 
 Types of design patterns:
-1. **Creational**: how to create objects or a group of related objects (**5**)
-2. **Structural**: how objects use each other, their composition (**7**)
-3. **Behavioral**: assignment of responsibilities between the objects (**9**)
+1. **Creational**: how objects get created, or a group of related objects (**5**)
+2. **Structural**: how objects connect to each other, their composition (**7**)
+3. **Behavioral**: how objects interact and distribute responsibilities, flow of control and communication (**9**)
 
 ## Creational Patterns
 
@@ -310,10 +310,12 @@ This pattern shows up when designing things like HTTP requests, database queries
 
 
 ## Structural Patterns
-They all are based on **HAS-A** relationship i.e. aggregation (and composition). Some make use of **IS-A** relationship too.
+They all use **HAS-A** relationship i.e. composition, and thus may look similar but they acheive very distinct design goals. 
+
+**Useful tip for understanding**: its helpful to think in abstractions (`interface`) first e.g. both object and its Proxy share a common interface, but Decorator needs a separate interface for further concrete decorator class impl as the goal there is to introduce new behaviour and we do it in that new interface.
 
 ### Decorator
-Add features layer-by-layer on an existing object without modifying the code for it. The modified decorator object is also an object of a common interface and it is thus decoratable recursively any number of times (i.e. both **HAS-A** and **IS-A** relationships).
+Add behaviour one-by-one at runtime on an existing object. The modified decorator object is also an object of a common interface and it is thus decoratable recursively any number of times (i.e. both **HAS-A** and **IS-A** relationships).
 
 Ex - used in `Collections.synchronizedXXX()` and `Collections.unmodifiableXXX()`.
 
