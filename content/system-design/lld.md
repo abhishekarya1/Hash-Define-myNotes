@@ -619,7 +619,6 @@ PHP		    - dynamic, weak
 Shell 		- dynamic, weak
 ```
 
-
 #### Duck Typing
 > "If it looks like a duck and quacks like a duck, it's a duck"
 
@@ -645,3 +644,26 @@ def make_it_talk(entity):
 make_it_talk(Duck())    # Output: Quack!
 make_it_talk(Person())  # Output: Hello!
 ```
+
+## Concurrency
+
+Threads in the same process share memory.
+
+Other jargon [here](/java/conc/).
+
+Concurrency Toolbox:
+- Atomics - `AtomicInteger`
+- Lock (Mutex) - `synchronized`, `ReentrantLock`
+- Semaphores - `Semaphore`
+- Condition Variables - `Object.wait() / notify()`
+- Blocking Queue - `LinkedBlockingQueue`
+
+Problems with concurrency:
+- **Correctness** - happen when shared state gets corrupted (Locks, atomics, thread confinement)
+- **Coordination** - happen when threads need to hand off work or wait for each other (Blocking queues, actors, event loops)
+- **Scarcity** - happen when resources are limited (Semaphores, resource pools)
+
+### Misc. Notes
+**Concurrency in Python**: Python's Global Interpreter Lock (GIL) is a mutex lock that allows only one thread to execute Python bytecode at a given time, thus CPU-bound code doesn't benefit from threads, but I/O-bound code does. Use `multiprocessing` module for CPU parallelism which creates distinct OS process (each with its own independent Python interpreter and its own GIL).
+
+_Reference_: https://www.hellointerview.com/learn/low-level-design/concurrency/intro

@@ -8,11 +8,11 @@ weight = 12
 
 Max number of threads that can run parallely at a given point in time = Number of CPU cores, other threads are blocked.
 
-**Process**: Group of associated threads. It comprises of multiple threads and a shared memory. Single unit of functionality. A program in execution.
+**Process**: Single unit of functionality. Group of associated threads. A program in execution - comprises of multiple threads and a shared memory.
 
 **Task**: Single unit of work performed by a thread.
 
-**Concurrency**: Multiple tasks being executed at the same time. The CPU time is divided between each via **Scheduling**. (Not to be confused with Parallel processing)
+**Concurrency**: Multiple tasks being able to progress at the same time. On single-core CPU, they share CPU time (Scheduling) and on multi-core they can execute paralllely (_Parallelism_). All threads in the same process share memory.
 
 **Context switch**: Storing state of a thread and later restoring it. Lesser the total context switches, the better.
 
@@ -20,11 +20,9 @@ Analogy - Google Chrome browser is a process, each Tab is a thread and context s
 
 **Thread priority**: It is a number associated with a thread that the scheduler uses to schedule. In Java, it can be either of these three integer values - `MIN_PRIORITY` (1), `NORM_PRIORITY` (5), `MAX_PRIORITY` (10).
 
-
 {{% notice info %}}
 Everything in Java runs on a single thread (hence synchronously) called `main` unless we use concurrency features like Thread, Concurrency API, `CompletableFuture`, etc.
 {{% /notice %}}
-
 
 ## Thread class
 Tasks are defined using the `Runnable` functional interface, it takes no arguments and returns nothing. To create a thread use `Thread` class instance. 
